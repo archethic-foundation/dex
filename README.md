@@ -1,4 +1,4 @@
-[![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)](https://flutter.dev) [![CodeFactor](https://www.codefactor.io/repository/github/archethic-foundation/aedex/badge?s=810cd469a6616c8595c8691096e21af5d1238a85)](https://www.codefactor.io/repository/github/archethic-foundation/aedex)
+[![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)](https://flutter.dev) [![CodeFactor](https://www.codefactor.io/repository/github/archethic-foundation/dex/badge?s=1cec48d77d18b2abdaffe9a4073be925ec527ba6)](https://www.codefactor.io/repository/github/archethic-foundation/dex)
 
 # AE DEX
 
