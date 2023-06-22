@@ -39,10 +39,20 @@
   "swapFormTitle": "Swap",
   "btn_selectToken": "Select a token",
   "btn_swap": "Swap",
+  "btn_confirm_swap": "Confirm swap",
   "btn_swap_insufficient_balance": "Insufficient %1 balance",
   "btn_max": "MAX",
   "token_selection_search_bar_hint": "Search name or paste address",
   "token_selection_common_bases_title": "Common bases",
+  "swap_pool_address": "Pool address:",
   "swap_settings_slippage_tolerance": "Slippage tolerance",
-  "swap_settings_expert_mode": "Expert mode"
+  "swap_settings_expert_mode": "Expert mode",
+  "swap_confirmation_you_pay": "You pay",
+  "swap_confirmation_you_receive": "You receive",
+  "swap_confirmation_exchange_rate": "Exchange rate",
+  "swap_confirmation_network_fee": "Network fee",
+  "swap_confirmation_swap_fee": "Swap fee",
+  "swap_confirmation_minimum_received": "Minimum received",
+  "swap_confirmation_price_impact": "Price impact",
+  "swap_confirmation_estimated_received": "Estimated received"
 }

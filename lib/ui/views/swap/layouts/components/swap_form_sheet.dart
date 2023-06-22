@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_balance_max_btn.dart
 import 'package:aedex/ui/views/swap/layouts/components/swap_conversion_info.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_icon_direction.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_icon_settings.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_pool_address.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swapped_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_amount_fiat.dart';
@@ -49,7 +50,7 @@ class SwapFormSheet extends ConsumerWidget {
         ),
         Container(
           width: 500,
-          height: 450,
+          height: 500,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -185,6 +186,10 @@ class SwapFormSheet extends ConsumerWidget {
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: SwapConversionInfo(),
+                    ),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: SwapPoolAddress(),
                     ),
                     const SizedBox(
                       height: 30,

@@ -33,6 +33,9 @@ mixin _$SwapFormState {
   double get swapFeesFiat => throw _privateConstructorUsedError;
   double get slippageTolerance => throw _privateConstructorUsedError;
   bool get expertMode => throw _privateConstructorUsedError;
+  double get minimumReceived => throw _privateConstructorUsedError;
+  double get priceImpact => throw _privateConstructorUsedError;
+  double get estimatedReceived => throw _privateConstructorUsedError;
   bool? get controlInProgress => throw _privateConstructorUsedError;
   String get errorText => throw _privateConstructorUsedError;
 
@@ -65,6 +68,9 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double swapFeesFiat,
       double slippageTolerance,
       bool expertMode,
+      double minimumReceived,
+      double priceImpact,
+      double estimatedReceived,
       bool? controlInProgress,
       String errorText});
 }
@@ -99,6 +105,9 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? swapFeesFiat = null,
     Object? slippageTolerance = null,
     Object? expertMode = null,
+    Object? minimumReceived = null,
+    Object? priceImpact = null,
+    Object? estimatedReceived = null,
     Object? controlInProgress = freezed,
     Object? errorText = null,
   }) {
@@ -171,6 +180,18 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.expertMode
           : expertMode // ignore: cast_nullable_to_non_nullable
               as bool,
+      minimumReceived: null == minimumReceived
+          ? _value.minimumReceived
+          : minimumReceived // ignore: cast_nullable_to_non_nullable
+              as double,
+      priceImpact: null == priceImpact
+          ? _value.priceImpact
+          : priceImpact // ignore: cast_nullable_to_non_nullable
+              as double,
+      estimatedReceived: null == estimatedReceived
+          ? _value.estimatedReceived
+          : estimatedReceived // ignore: cast_nullable_to_non_nullable
+              as double,
       controlInProgress: freezed == controlInProgress
           ? _value.controlInProgress
           : controlInProgress // ignore: cast_nullable_to_non_nullable
@@ -209,6 +230,9 @@ abstract class _$$_SwapFormStateCopyWith<$Res>
       double swapFeesFiat,
       double slippageTolerance,
       bool expertMode,
+      double minimumReceived,
+      double priceImpact,
+      double estimatedReceived,
       bool? controlInProgress,
       String errorText});
 }
@@ -241,6 +265,9 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
     Object? swapFeesFiat = null,
     Object? slippageTolerance = null,
     Object? expertMode = null,
+    Object? minimumReceived = null,
+    Object? priceImpact = null,
+    Object? estimatedReceived = null,
     Object? controlInProgress = freezed,
     Object? errorText = null,
   }) {
@@ -313,6 +340,18 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
           ? _value.expertMode
           : expertMode // ignore: cast_nullable_to_non_nullable
               as bool,
+      minimumReceived: null == minimumReceived
+          ? _value.minimumReceived
+          : minimumReceived // ignore: cast_nullable_to_non_nullable
+              as double,
+      priceImpact: null == priceImpact
+          ? _value.priceImpact
+          : priceImpact // ignore: cast_nullable_to_non_nullable
+              as double,
+      estimatedReceived: null == estimatedReceived
+          ? _value.estimatedReceived
+          : estimatedReceived // ignore: cast_nullable_to_non_nullable
+              as double,
       controlInProgress: freezed == controlInProgress
           ? _value.controlInProgress
           : controlInProgress // ignore: cast_nullable_to_non_nullable
@@ -339,13 +378,17 @@ class _$_SwapFormState extends _SwapFormState {
       this.tokenSwappedBalance = 0,
       this.tokenSwappedAmount = 0,
       this.tokenSwappedAmountFiat = 0,
-      this.poolAddress = '',
+      this.poolAddress =
+          '0000BD123724608AFB6B52B193585A9EB8DA9680315DC2C55621AFAE8C65796CF3C8',
       this.networkFees = 0.0,
       this.networkFeesFiat = 0.0,
       this.swapFees = 0.0,
       this.swapFeesFiat = 0.0,
       this.slippageTolerance = 0.5,
       this.expertMode = false,
+      this.minimumReceived = 0.0,
+      this.priceImpact = 0.0,
+      this.estimatedReceived = 0.0,
       this.controlInProgress = false,
       this.errorText = ''})
       : super._();
@@ -403,6 +446,15 @@ class _$_SwapFormState extends _SwapFormState {
   final bool expertMode;
   @override
   @JsonKey()
+  final double minimumReceived;
+  @override
+  @JsonKey()
+  final double priceImpact;
+  @override
+  @JsonKey()
+  final double estimatedReceived;
+  @override
+  @JsonKey()
   final bool? controlInProgress;
   @override
   @JsonKey()
@@ -410,7 +462,7 @@ class _$_SwapFormState extends _SwapFormState {
 
   @override
   String toString() {
-    return 'SwapFormState(step: $step, stepError: $stepError, tokenToSwap: $tokenToSwap, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenToSwapAmountFiat: $tokenToSwapAmountFiat, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, tokenSwappedAmountFiat: $tokenSwappedAmountFiat, poolAddress: $poolAddress, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, swapFees: $swapFees, swapFeesFiat: $swapFeesFiat, slippageTolerance: $slippageTolerance, expertMode: $expertMode, controlInProgress: $controlInProgress, errorText: $errorText)';
+    return 'SwapFormState(step: $step, stepError: $stepError, tokenToSwap: $tokenToSwap, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenToSwapAmountFiat: $tokenToSwapAmountFiat, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, tokenSwappedAmountFiat: $tokenSwappedAmountFiat, poolAddress: $poolAddress, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, swapFees: $swapFees, swapFeesFiat: $swapFeesFiat, slippageTolerance: $slippageTolerance, expertMode: $expertMode, minimumReceived: $minimumReceived, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, controlInProgress: $controlInProgress, errorText: $errorText)';
   }
 
   @override
@@ -451,6 +503,12 @@ class _$_SwapFormState extends _SwapFormState {
                 other.slippageTolerance == slippageTolerance) &&
             (identical(other.expertMode, expertMode) ||
                 other.expertMode == expertMode) &&
+            (identical(other.minimumReceived, minimumReceived) ||
+                other.minimumReceived == minimumReceived) &&
+            (identical(other.priceImpact, priceImpact) ||
+                other.priceImpact == priceImpact) &&
+            (identical(other.estimatedReceived, estimatedReceived) ||
+                other.estimatedReceived == estimatedReceived) &&
             (identical(other.controlInProgress, controlInProgress) ||
                 other.controlInProgress == controlInProgress) &&
             (identical(other.errorText, errorText) ||
@@ -477,6 +535,9 @@ class _$_SwapFormState extends _SwapFormState {
         swapFeesFiat,
         slippageTolerance,
         expertMode,
+        minimumReceived,
+        priceImpact,
+        estimatedReceived,
         controlInProgress,
         errorText
       ]);
@@ -507,6 +568,9 @@ abstract class _SwapFormState extends SwapFormState {
       final double swapFeesFiat,
       final double slippageTolerance,
       final bool expertMode,
+      final double minimumReceived,
+      final double priceImpact,
+      final double estimatedReceived,
       final bool? controlInProgress,
       final String errorText}) = _$_SwapFormState;
   const _SwapFormState._() : super._();
@@ -545,6 +609,12 @@ abstract class _SwapFormState extends SwapFormState {
   double get slippageTolerance;
   @override
   bool get expertMode;
+  @override
+  double get minimumReceived;
+  @override
+  double get priceImpact;
+  @override
+  double get estimatedReceived;
   @override
   bool? get controlInProgress;
   @override

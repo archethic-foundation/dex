@@ -125,6 +125,30 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
+  void setMinimumReceived(
+    double minimumReceived,
+  ) {
+    state = state.copyWith(
+      minimumReceived: minimumReceived,
+    );
+  }
+
+  void setPriceImpact(
+    double priceImpact,
+  ) {
+    state = state.copyWith(
+      priceImpact: priceImpact,
+    );
+  }
+
+  void setEstimatedReceived(
+    double estimatedReceived,
+  ) {
+    state = state.copyWith(
+      estimatedReceived: estimatedReceived,
+    );
+  }
+
   Future<void> swap(BuildContext context, WidgetRef ref) async {
     //
   }

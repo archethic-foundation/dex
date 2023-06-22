@@ -13,17 +13,6 @@ class SwapSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const SwapSheetBody();
-  }
-}
-
-class SwapSheetBody extends ConsumerWidget {
-  const SwapSheetBody({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<SwapFormState>(
       SwapFormProvider.swapForm,
       (_, addWebsite) {
