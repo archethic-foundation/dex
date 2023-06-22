@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -94,6 +95,7 @@ class _SwapTokenSwappedAmountState
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.text,
                         inputFormatters: <TextInputFormatter>[
+                          AmountTextInputFormatter(precision: 8),
                           LengthLimitingTextInputFormatter(10),
                         ],
                         decoration: const InputDecoration(

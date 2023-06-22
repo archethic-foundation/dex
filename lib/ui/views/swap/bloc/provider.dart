@@ -120,6 +120,22 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
+  void setSlippageTolerance(
+    double slippageTolerance,
+  ) {
+    state = state.copyWith(
+      slippageTolerance: slippageTolerance,
+    );
+  }
+
+  void setExpertMode(
+    bool expertMode,
+  ) {
+    state = state.copyWith(
+      expertMode: expertMode,
+    );
+  }
+
   Future<void> swap(BuildContext context, WidgetRef ref) async {
     //
   }

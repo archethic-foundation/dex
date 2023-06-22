@@ -31,6 +31,8 @@ mixin _$SwapFormState {
   double get networkFeesFiat => throw _privateConstructorUsedError;
   double get swapFees => throw _privateConstructorUsedError;
   double get swapFeesFiat => throw _privateConstructorUsedError;
+  double get slippageTolerance => throw _privateConstructorUsedError;
+  bool get expertMode => throw _privateConstructorUsedError;
   bool? get controlInProgress => throw _privateConstructorUsedError;
   String get errorText => throw _privateConstructorUsedError;
 
@@ -61,6 +63,8 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double networkFeesFiat,
       double swapFees,
       double swapFeesFiat,
+      double slippageTolerance,
+      bool expertMode,
       bool? controlInProgress,
       String errorText});
 }
@@ -93,6 +97,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? networkFeesFiat = null,
     Object? swapFees = null,
     Object? swapFeesFiat = null,
+    Object? slippageTolerance = null,
+    Object? expertMode = null,
     Object? controlInProgress = freezed,
     Object? errorText = null,
   }) {
@@ -157,6 +163,14 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.swapFeesFiat
           : swapFeesFiat // ignore: cast_nullable_to_non_nullable
               as double,
+      slippageTolerance: null == slippageTolerance
+          ? _value.slippageTolerance
+          : slippageTolerance // ignore: cast_nullable_to_non_nullable
+              as double,
+      expertMode: null == expertMode
+          ? _value.expertMode
+          : expertMode // ignore: cast_nullable_to_non_nullable
+              as bool,
       controlInProgress: freezed == controlInProgress
           ? _value.controlInProgress
           : controlInProgress // ignore: cast_nullable_to_non_nullable
@@ -193,6 +207,8 @@ abstract class _$$_SwapFormStateCopyWith<$Res>
       double networkFeesFiat,
       double swapFees,
       double swapFeesFiat,
+      double slippageTolerance,
+      bool expertMode,
       bool? controlInProgress,
       String errorText});
 }
@@ -223,6 +239,8 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
     Object? networkFeesFiat = null,
     Object? swapFees = null,
     Object? swapFeesFiat = null,
+    Object? slippageTolerance = null,
+    Object? expertMode = null,
     Object? controlInProgress = freezed,
     Object? errorText = null,
   }) {
@@ -287,6 +305,14 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
           ? _value.swapFeesFiat
           : swapFeesFiat // ignore: cast_nullable_to_non_nullable
               as double,
+      slippageTolerance: null == slippageTolerance
+          ? _value.slippageTolerance
+          : slippageTolerance // ignore: cast_nullable_to_non_nullable
+              as double,
+      expertMode: null == expertMode
+          ? _value.expertMode
+          : expertMode // ignore: cast_nullable_to_non_nullable
+              as bool,
       controlInProgress: freezed == controlInProgress
           ? _value.controlInProgress
           : controlInProgress // ignore: cast_nullable_to_non_nullable
@@ -318,6 +344,8 @@ class _$_SwapFormState extends _SwapFormState {
       this.networkFeesFiat = 0.0,
       this.swapFees = 0.0,
       this.swapFeesFiat = 0.0,
+      this.slippageTolerance = 0.5,
+      this.expertMode = false,
       this.controlInProgress = false,
       this.errorText = ''})
       : super._();
@@ -369,6 +397,12 @@ class _$_SwapFormState extends _SwapFormState {
   final double swapFeesFiat;
   @override
   @JsonKey()
+  final double slippageTolerance;
+  @override
+  @JsonKey()
+  final bool expertMode;
+  @override
+  @JsonKey()
   final bool? controlInProgress;
   @override
   @JsonKey()
@@ -376,7 +410,7 @@ class _$_SwapFormState extends _SwapFormState {
 
   @override
   String toString() {
-    return 'SwapFormState(step: $step, stepError: $stepError, tokenToSwap: $tokenToSwap, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenToSwapAmountFiat: $tokenToSwapAmountFiat, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, tokenSwappedAmountFiat: $tokenSwappedAmountFiat, poolAddress: $poolAddress, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, swapFees: $swapFees, swapFeesFiat: $swapFeesFiat, controlInProgress: $controlInProgress, errorText: $errorText)';
+    return 'SwapFormState(step: $step, stepError: $stepError, tokenToSwap: $tokenToSwap, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenToSwapAmountFiat: $tokenToSwapAmountFiat, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, tokenSwappedAmountFiat: $tokenSwappedAmountFiat, poolAddress: $poolAddress, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, swapFees: $swapFees, swapFeesFiat: $swapFeesFiat, slippageTolerance: $slippageTolerance, expertMode: $expertMode, controlInProgress: $controlInProgress, errorText: $errorText)';
   }
 
   @override
@@ -413,6 +447,10 @@ class _$_SwapFormState extends _SwapFormState {
                 other.swapFees == swapFees) &&
             (identical(other.swapFeesFiat, swapFeesFiat) ||
                 other.swapFeesFiat == swapFeesFiat) &&
+            (identical(other.slippageTolerance, slippageTolerance) ||
+                other.slippageTolerance == slippageTolerance) &&
+            (identical(other.expertMode, expertMode) ||
+                other.expertMode == expertMode) &&
             (identical(other.controlInProgress, controlInProgress) ||
                 other.controlInProgress == controlInProgress) &&
             (identical(other.errorText, errorText) ||
@@ -420,25 +458,28 @@ class _$_SwapFormState extends _SwapFormState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      step,
-      stepError,
-      tokenToSwap,
-      tokenToSwapBalance,
-      tokenToSwapAmount,
-      tokenToSwapAmountFiat,
-      tokenSwapped,
-      tokenSwappedBalance,
-      tokenSwappedAmount,
-      tokenSwappedAmountFiat,
-      poolAddress,
-      networkFees,
-      networkFeesFiat,
-      swapFees,
-      swapFeesFiat,
-      controlInProgress,
-      errorText);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        step,
+        stepError,
+        tokenToSwap,
+        tokenToSwapBalance,
+        tokenToSwapAmount,
+        tokenToSwapAmountFiat,
+        tokenSwapped,
+        tokenSwappedBalance,
+        tokenSwappedAmount,
+        tokenSwappedAmountFiat,
+        poolAddress,
+        networkFees,
+        networkFeesFiat,
+        swapFees,
+        swapFeesFiat,
+        slippageTolerance,
+        expertMode,
+        controlInProgress,
+        errorText
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -464,6 +505,8 @@ abstract class _SwapFormState extends SwapFormState {
       final double networkFeesFiat,
       final double swapFees,
       final double swapFeesFiat,
+      final double slippageTolerance,
+      final bool expertMode,
       final bool? controlInProgress,
       final String errorText}) = _$_SwapFormState;
   const _SwapFormState._() : super._();
@@ -498,6 +541,10 @@ abstract class _SwapFormState extends SwapFormState {
   double get swapFees;
   @override
   double get swapFeesFiat;
+  @override
+  double get slippageTolerance;
+  @override
+  bool get expertMode;
   @override
   bool? get controlInProgress;
   @override

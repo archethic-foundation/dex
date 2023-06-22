@@ -22,6 +22,8 @@ class SwapFormState with _$SwapFormState {
     @Default(0.0) double networkFeesFiat,
     @Default(0.0) double swapFees,
     @Default(0.0) double swapFeesFiat,
+    @Default(0.5) double slippageTolerance,
+    @Default(false) bool expertMode,
     @Default(false) bool? controlInProgress,
     @Default('') String errorText,
   }) = _SwapFormState;

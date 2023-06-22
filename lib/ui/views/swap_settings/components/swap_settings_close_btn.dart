@@ -4,8 +4,8 @@ import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
-class TokenSelectionCloseBtn extends StatelessWidget {
-  const TokenSelectionCloseBtn({
+class SwapSettingsCloseBtn extends StatelessWidget {
+  const SwapSettingsCloseBtn({
     super.key,
   });
 

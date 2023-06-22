@@ -80,7 +80,7 @@ class TokenSelectionPopup {
                                 width: 400,
                                 height: 20,
                               ),
-                              const TokenSelectCloseBtn(),
+                              const TokenSelectionCloseBtn(),
                             ],
                           ),
                         ),

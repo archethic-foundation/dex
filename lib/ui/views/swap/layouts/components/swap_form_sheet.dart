@@ -1,6 +1,8 @@
+import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_balance_max_btn.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_conversion_info.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_icon_direction.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_icon_settings.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swapped_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_amount_fiat.dart';
@@ -20,6 +22,7 @@ class SwapFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final swap = ref.read(SwapFormProvider.swapForm);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -50,16 +53,16 @@ class SwapFormSheet extends ConsumerWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Theme.of(context).colorScheme.background.withOpacity(0.4),
-                Theme.of(context).colorScheme.background.withOpacity(0.1),
+                Theme.of(context).colorScheme.background.withOpacity(0.9),
+                Theme.of(context).colorScheme.background.withOpacity(0.2),
               ],
               stops: const [0, 1],
             ),
             border: GradientBoxBorder(
               gradient: LinearGradient(
                 colors: [
-                  Theme.of(context).colorScheme.background.withOpacity(0.4),
-                  Theme.of(context).colorScheme.background.withOpacity(0.9),
+                  Theme.of(context).colorScheme.background.withOpacity(0.7),
+                  Theme.of(context).colorScheme.background.withOpacity(1),
                 ],
                 stops: const [0, 1],
               ),
@@ -103,14 +106,23 @@ class SwapFormSheet extends ConsumerWidget {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 50, left: 50, right: 50),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 50, right: 50),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 20,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          '${AppLocalizations.of(context)!.swap_settings_slippage_tolerance} ${swap.slippageTolerance}%',
+                        ),
+                        const Align(
+                          alignment: Alignment.centerRight,
+                          child: SwapTokenIconSettings(),
+                        ),
+                      ],
                     ),
-                    Stack(
+                    const Stack(
                       alignment: Alignment.centerRight,
                       children: [
                         SwapTokenToSwapAmount(),
@@ -122,10 +134,10 @@ class SwapFormSheet extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SwapTokenToSwapAmountFiat(),
@@ -141,8 +153,11 @@ class SwapFormSheet extends ConsumerWidget {
                         )
                       ],
                     ),
-                    SwapTokenIconDirection(),
-                    Stack(
+                    const SwapTokenIconDirection(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Stack(
                       alignment: Alignment.centerRight,
                       children: [
                         SwapTokenSwappedAmount(),
@@ -154,27 +169,27 @@ class SwapFormSheet extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SwapTokenSwappedAmountFiat(),
                         SwapTokenSwappedBalance(),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: SwapConversionInfo(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
-                    SwapValidationButton(),
+                    const SwapValidationButton(),
                   ],
                 ),
               ),
