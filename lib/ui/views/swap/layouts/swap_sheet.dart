@@ -13,14 +13,7 @@ class SwapSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ProviderScope(
-      overrides: [
-        SwapFormProvider.initialSwapForm.overrideWithValue(
-          const SwapFormState(),
-        ),
-      ],
-      child: const SwapSheetBody(),
-    );
+    return const SwapSheetBody();
   }
 }
 

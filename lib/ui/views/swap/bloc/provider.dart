@@ -4,29 +4,18 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final _initialSwapFormProvider = Provider<SwapFormState>(
-  (ref) {
-    throw UnimplementedError();
-  },
-);
-
 final _swapFormProvider =
     NotifierProvider.autoDispose<SwapFormNotifier, SwapFormState>(
   () {
     return SwapFormNotifier();
   },
-  dependencies: [
-    SwapFormProvider.initialSwapForm,
-  ],
 );
 
 class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   SwapFormNotifier();
 
   @override
-  SwapFormState build() => ref.watch(
-        SwapFormProvider.initialSwapForm,
-      );
+  SwapFormState build() => const SwapFormState();
 
   void setTokenToSwap(
     String tokenToSwap,
@@ -142,6 +131,5 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 }
 
 abstract class SwapFormProvider {
-  static final initialSwapForm = _initialSwapFormProvider;
   static final swapForm = _swapFormProvider;
 }
