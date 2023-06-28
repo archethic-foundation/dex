@@ -11,9 +11,11 @@ class SwapConversionInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final swap = ref.watch(SwapFormProvider.swapForm);
-
+    if (swap.tokenToSwap == null || swap.tokenSwapped == null) {
+      return const SizedBox();
+    }
     return Text(
-      '1 ${swap.tokenToSwap} = ???? ${swap.tokenSwapped}',
+      '1 ${swap.tokenToSwap!.symbol} = ???? ${swap.tokenSwapped!.symbol}',
     );
   }
 }

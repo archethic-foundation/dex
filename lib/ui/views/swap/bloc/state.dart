@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:aedex/model/dex_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
@@ -9,11 +10,11 @@ class SwapFormState with _$SwapFormState {
   const factory SwapFormState({
     @Default(0) int step,
     @Default('') String stepError,
-    @Default('') String tokenToSwap,
+    DexToken? tokenToSwap,
     @Default(0) double tokenToSwapBalance,
     @Default(0) double tokenToSwapAmount,
     @Default(0) double tokenToSwapAmountFiat,
-    @Default('') String tokenSwapped,
+    DexToken? tokenSwapped,
     @Default(0) double tokenSwappedBalance,
     @Default(0) double tokenSwappedAmount,
     @Default(0) double tokenSwappedAmountFiat,

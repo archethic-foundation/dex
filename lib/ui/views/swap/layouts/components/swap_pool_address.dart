@@ -13,6 +13,10 @@ class SwapPoolAddress extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final swap = ref.watch(SwapFormProvider.swapForm);
 
+    if (swap.tokenSwapped == null || swap.tokenToSwap == null) {
+      return const SizedBox();
+    }
+
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(

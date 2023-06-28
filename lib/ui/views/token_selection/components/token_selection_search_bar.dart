@@ -1,4 +1,4 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -84,20 +84,27 @@ class TokenSelectionSearchBarState
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 40),
+                            padding: const EdgeInsets.only(left: 40, right: 10),
                             child: TextField(
                               style: const TextStyle(
                                 fontFamily: 'Roboto',
                               ),
                               autocorrect: false,
                               controller: searchController,
-                              onChanged: (text) async {},
+                              onChanged: (text) {
+                                ref
+                                    .read(
+                                      TokenSelectionFormProvider
+                                          .tokenSelectionForm.notifier,
+                                    )
+                                    .setSearchText(text);
+                              },
                               focusNode: searchFocus,
                               textAlign: TextAlign.left,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.text,
                               inputFormatters: <TextInputFormatter>[
-                                LengthLimitingTextInputFormatter(40),
+                                LengthLimitingTextInputFormatter(68),
                               ],
                               decoration: InputDecoration(
                                 border: InputBorder.none,

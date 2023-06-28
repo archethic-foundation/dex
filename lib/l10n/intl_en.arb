@@ -44,6 +44,8 @@
   "btn_max": "MAX",
   "token_selection_search_bar_hint": "Search name or paste address",
   "token_selection_common_bases_title": "Common bases",
+  "token_selection_your_tokens_title": "Your tokens",
+  "token_selection_get_tokens_from_wallet": "Retrieving tokens from your current account in your wallet...",
   "swap_pool_address": "Pool address:",
   "swap_settings_slippage_tolerance": "Slippage tolerance",
   "swap_settings_expert_mode": "Expert mode",

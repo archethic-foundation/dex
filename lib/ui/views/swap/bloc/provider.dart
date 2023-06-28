@@ -1,3 +1,4 @@
+import 'package:aedex/model/dex_token.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -18,7 +19,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   SwapFormState build() => const SwapFormState();
 
   void setTokenToSwap(
-    String tokenToSwap,
+    DexToken tokenToSwap,
   ) {
     state = state.copyWith(
       tokenToSwap: tokenToSwap,
@@ -52,7 +53,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   }
 
   void setTokenSwapped(
-    String tokenSwapped,
+    DexToken tokenSwapped,
   ) {
     state = state.copyWith(
       tokenSwapped: tokenSwapped,

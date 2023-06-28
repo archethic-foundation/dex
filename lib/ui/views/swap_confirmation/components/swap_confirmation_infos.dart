@@ -23,7 +23,7 @@ class SwapConfirmationInfos extends ConsumerWidget {
           AppLocalizations.of(context)!.swap_confirmation_you_pay,
         ),
         Text(
-          '${swap.tokenToSwapAmount} ${swap.tokenToSwap}',
+          '${swap.tokenToSwapAmount} ${swap.tokenToSwap!.symbol}',
           style: textTheme.titleLarge,
         ),
         const SizedBox(
@@ -33,7 +33,7 @@ class SwapConfirmationInfos extends ConsumerWidget {
           AppLocalizations.of(context)!.swap_confirmation_you_receive,
         ),
         Text(
-          '${swap.tokenSwappedAmount} ${swap.tokenSwapped}',
+          '${swap.tokenSwappedAmount} ${swap.tokenSwapped!.symbol}',
           style: textTheme.titleLarge,
         ),
         const Divider(),
@@ -44,7 +44,7 @@ class SwapConfirmationInfos extends ConsumerWidget {
               AppLocalizations.of(context)!.swap_confirmation_exchange_rate,
             ),
             Text(
-              '1 ${swap.tokenToSwap} = ???? ${swap.tokenSwapped}',
+              '1 ${swap.tokenToSwap!.symbol} = ???? ${swap.tokenSwapped!.symbol}',
             ),
           ],
         ),

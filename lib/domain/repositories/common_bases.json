@@ -1,0 +1,40 @@
+{
+    "tokens": {
+        "local": [
+            {
+                "name": "Universal Coin",
+                "symbol": "UCO",
+                "address": ""
+            },
+            {
+                "name": "Wrapped Ether",
+                "symbol": "WETH",
+                "address": "00003DB6A19C9AFA1B888DC84A7171C073FEB9C1DF3D7C0DCE092851C81C5DD08866"
+            }
+        ],
+        "testnet": [
+            {
+                "name": "Universal Coin",
+                "symbol": "UCO",
+                "address": ""
+            },
+            {
+                "name": "Wrapped Ether",
+                "symbol": "WETH",
+                "address": "00003DB6A19C9AFA1B888DC84A7171C073FEB9C1DF3D7C0DCE092851C81C5DD08866"
+            }
+        ],
+        "mainnet": [
+            {
+                "name": "Universal Coin",
+                "symbol": "UCO",
+                "address": ""
+            },
+            {
+                "name": "Wrapped Ether",
+                "symbol": "WETH",
+                "address": "00003DB6A19C9AFA1B888DC84A7171C073FEB9C1DF3D7C0DCE092851C81C5DD08866"
+            }
+        ]
+    }
+}

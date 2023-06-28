@@ -18,11 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SwapFormState {
   int get step => throw _privateConstructorUsedError;
   String get stepError => throw _privateConstructorUsedError;
-  String get tokenToSwap => throw _privateConstructorUsedError;
+  DexToken? get tokenToSwap => throw _privateConstructorUsedError;
   double get tokenToSwapBalance => throw _privateConstructorUsedError;
   double get tokenToSwapAmount => throw _privateConstructorUsedError;
   double get tokenToSwapAmountFiat => throw _privateConstructorUsedError;
-  String get tokenSwapped => throw _privateConstructorUsedError;
+  DexToken? get tokenSwapped => throw _privateConstructorUsedError;
   double get tokenSwappedBalance => throw _privateConstructorUsedError;
   double get tokenSwappedAmount => throw _privateConstructorUsedError;
   double get tokenSwappedAmountFiat => throw _privateConstructorUsedError;
@@ -53,11 +53,11 @@ abstract class $SwapFormStateCopyWith<$Res> {
   $Res call(
       {int step,
       String stepError,
-      String tokenToSwap,
+      DexToken? tokenToSwap,
       double tokenToSwapBalance,
       double tokenToSwapAmount,
       double tokenToSwapAmountFiat,
-      String tokenSwapped,
+      DexToken? tokenSwapped,
       double tokenSwappedBalance,
       double tokenSwappedAmount,
       double tokenSwappedAmountFiat,
@@ -73,6 +73,9 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double estimatedReceived,
       bool? controlInProgress,
       String errorText});
+
+  $DexTokenCopyWith<$Res>? get tokenToSwap;
+  $DexTokenCopyWith<$Res>? get tokenSwapped;
 }
 
 /// @nodoc
@@ -90,11 +93,11 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
   $Res call({
     Object? step = null,
     Object? stepError = null,
-    Object? tokenToSwap = null,
+    Object? tokenToSwap = freezed,
     Object? tokenToSwapBalance = null,
     Object? tokenToSwapAmount = null,
     Object? tokenToSwapAmountFiat = null,
-    Object? tokenSwapped = null,
+    Object? tokenSwapped = freezed,
     Object? tokenSwappedBalance = null,
     Object? tokenSwappedAmount = null,
     Object? tokenSwappedAmountFiat = null,
@@ -120,10 +123,10 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.stepError
           : stepError // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenToSwap: null == tokenToSwap
+      tokenToSwap: freezed == tokenToSwap
           ? _value.tokenToSwap
           : tokenToSwap // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DexToken?,
       tokenToSwapBalance: null == tokenToSwapBalance
           ? _value.tokenToSwapBalance
           : tokenToSwapBalance // ignore: cast_nullable_to_non_nullable
@@ -136,10 +139,10 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.tokenToSwapAmountFiat
           : tokenToSwapAmountFiat // ignore: cast_nullable_to_non_nullable
               as double,
-      tokenSwapped: null == tokenSwapped
+      tokenSwapped: freezed == tokenSwapped
           ? _value.tokenSwapped
           : tokenSwapped // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DexToken?,
       tokenSwappedBalance: null == tokenSwappedBalance
           ? _value.tokenSwappedBalance
           : tokenSwappedBalance // ignore: cast_nullable_to_non_nullable
@@ -202,6 +205,30 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
               as String,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get tokenToSwap {
+    if (_value.tokenToSwap == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.tokenToSwap!, (value) {
+      return _then(_value.copyWith(tokenToSwap: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get tokenSwapped {
+    if (_value.tokenSwapped == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.tokenSwapped!, (value) {
+      return _then(_value.copyWith(tokenSwapped: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -215,11 +242,11 @@ abstract class _$$_SwapFormStateCopyWith<$Res>
   $Res call(
       {int step,
       String stepError,
-      String tokenToSwap,
+      DexToken? tokenToSwap,
       double tokenToSwapBalance,
       double tokenToSwapAmount,
       double tokenToSwapAmountFiat,
-      String tokenSwapped,
+      DexToken? tokenSwapped,
       double tokenSwappedBalance,
       double tokenSwappedAmount,
       double tokenSwappedAmountFiat,
@@ -235,6 +262,11 @@ abstract class _$$_SwapFormStateCopyWith<$Res>
       double estimatedReceived,
       bool? controlInProgress,
       String errorText});
+
+  @override
+  $DexTokenCopyWith<$Res>? get tokenToSwap;
+  @override
+  $DexTokenCopyWith<$Res>? get tokenSwapped;
 }
 
 /// @nodoc
@@ -250,11 +282,11 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
   $Res call({
     Object? step = null,
     Object? stepError = null,
-    Object? tokenToSwap = null,
+    Object? tokenToSwap = freezed,
     Object? tokenToSwapBalance = null,
     Object? tokenToSwapAmount = null,
     Object? tokenToSwapAmountFiat = null,
-    Object? tokenSwapped = null,
+    Object? tokenSwapped = freezed,
     Object? tokenSwappedBalance = null,
     Object? tokenSwappedAmount = null,
     Object? tokenSwappedAmountFiat = null,
@@ -280,10 +312,10 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
           ? _value.stepError
           : stepError // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenToSwap: null == tokenToSwap
+      tokenToSwap: freezed == tokenToSwap
           ? _value.tokenToSwap
           : tokenToSwap // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DexToken?,
       tokenToSwapBalance: null == tokenToSwapBalance
           ? _value.tokenToSwapBalance
           : tokenToSwapBalance // ignore: cast_nullable_to_non_nullable
@@ -296,10 +328,10 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
           ? _value.tokenToSwapAmountFiat
           : tokenToSwapAmountFiat // ignore: cast_nullable_to_non_nullable
               as double,
-      tokenSwapped: null == tokenSwapped
+      tokenSwapped: freezed == tokenSwapped
           ? _value.tokenSwapped
           : tokenSwapped // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DexToken?,
       tokenSwappedBalance: null == tokenSwappedBalance
           ? _value.tokenSwappedBalance
           : tokenSwappedBalance // ignore: cast_nullable_to_non_nullable
@@ -370,11 +402,11 @@ class _$_SwapFormState extends _SwapFormState {
   const _$_SwapFormState(
       {this.step = 0,
       this.stepError = '',
-      this.tokenToSwap = '',
+      this.tokenToSwap,
       this.tokenToSwapBalance = 0,
       this.tokenToSwapAmount = 0,
       this.tokenToSwapAmountFiat = 0,
-      this.tokenSwapped = '',
+      this.tokenSwapped,
       this.tokenSwappedBalance = 0,
       this.tokenSwappedAmount = 0,
       this.tokenSwappedAmountFiat = 0,
@@ -400,8 +432,7 @@ class _$_SwapFormState extends _SwapFormState {
   @JsonKey()
   final String stepError;
   @override
-  @JsonKey()
-  final String tokenToSwap;
+  final DexToken? tokenToSwap;
   @override
   @JsonKey()
   final double tokenToSwapBalance;
@@ -412,8 +443,7 @@ class _$_SwapFormState extends _SwapFormState {
   @JsonKey()
   final double tokenToSwapAmountFiat;
   @override
-  @JsonKey()
-  final String tokenSwapped;
+  final DexToken? tokenSwapped;
   @override
   @JsonKey()
   final double tokenSwappedBalance;
@@ -553,11 +583,11 @@ abstract class _SwapFormState extends SwapFormState {
   const factory _SwapFormState(
       {final int step,
       final String stepError,
-      final String tokenToSwap,
+      final DexToken? tokenToSwap,
       final double tokenToSwapBalance,
       final double tokenToSwapAmount,
       final double tokenToSwapAmountFiat,
-      final String tokenSwapped,
+      final DexToken? tokenSwapped,
       final double tokenSwappedBalance,
       final double tokenSwappedAmount,
       final double tokenSwappedAmountFiat,
@@ -580,7 +610,7 @@ abstract class _SwapFormState extends SwapFormState {
   @override
   String get stepError;
   @override
-  String get tokenToSwap;
+  DexToken? get tokenToSwap;
   @override
   double get tokenToSwapBalance;
   @override
@@ -588,7 +618,7 @@ abstract class _SwapFormState extends SwapFormState {
   @override
   double get tokenToSwapAmountFiat;
   @override
-  String get tokenSwapped;
+  DexToken? get tokenSwapped;
   @override
   double get tokenSwappedBalance;
   @override

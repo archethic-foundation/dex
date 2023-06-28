@@ -2,7 +2,6 @@
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/token_selection_popup.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
-import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,37 +39,32 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: InkWell(
-        onTap: () {
-          TokenSelectionPopup.getDialog(
+        onTap: () async {
+          final token = await TokenSelectionPopup.getDialog(
             context,
           );
+          if (token == null) return;
+          ref.watch(SwapFormProvider.swapForm.notifier).setTokenSwapped(token);
         },
-        child: swap.tokenSwapped.isNotEmpty
-            ? const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(
-                    children: [
-                      Icon(CryptoFontIcons.ETH),
-                      Text('WETH'),
-                    ],
-                  ),
-                  Icon(
-                    Iconsax.search_normal,
-                    size: 12,
-                  ),
-                ],
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(AppLocalizations.of(context)!.btn_selectToken),
-                  const Icon(
-                    Iconsax.search_normal,
-                    size: 12,
-                  ),
-                ],
-              ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Row(
+              children: [
+                if (swap.tokenSwapped == null)
+                  Text(
+                    AppLocalizations.of(context)!.btn_selectToken,
+                  )
+                else
+                  Text(swap.tokenSwapped!.name)
+              ],
+            ),
+            const Icon(
+              Iconsax.search_normal,
+              size: 12,
+            ),
+          ],
+        ),
       ),
     );
   }

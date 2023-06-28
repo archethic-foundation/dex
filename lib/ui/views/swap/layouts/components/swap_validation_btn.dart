@@ -21,7 +21,7 @@ class SwapValidationButton extends ConsumerWidget {
       return AppButton(
         labelBtn: AppLocalizations.of(context)!
             .btn_swap_insufficient_balance
-            .replaceAll('%1', swap.tokenToSwap),
+            .replaceAll('%1', swap.tokenToSwap!.name),
         icon: Iconsax.empty_wallet,
         disabled: true,
       );

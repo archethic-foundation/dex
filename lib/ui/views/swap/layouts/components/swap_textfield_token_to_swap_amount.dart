@@ -43,7 +43,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
-    final addWebsiteNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
+    final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
 
     return SizedBox(
       width: 400,
@@ -85,7 +85,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         autocorrect: false,
                         controller: tokenToSwapAmountController,
                         onChanged: (text) async {
-                          addWebsiteNotifier.setTokenToSwapAmount(
+                          swapNotifier.setTokenToSwapAmount(
                             double.tryParse(text) ?? 0,
                           );
                         },
