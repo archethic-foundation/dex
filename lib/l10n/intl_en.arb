@@ -56,5 +56,6 @@
   "swap_confirmation_swap_fee": "Swap fee",
   "swap_confirmation_minimum_received": "Minimum received",
   "swap_confirmation_price_impact": "Price impact",
-  "swap_confirmation_estimated_received": "Estimated received"
+  "swap_confirmation_estimated_received": "Estimated received",
+  "liquidityListTitle": "Your liquidity pools"
 }

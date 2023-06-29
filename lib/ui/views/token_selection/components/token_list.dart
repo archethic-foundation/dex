@@ -140,7 +140,7 @@ class _TokensList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 180,
+      width: 300,
       height: 200,
       child: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(
@@ -170,7 +170,7 @@ class _SingleToken extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
+      height: 35,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -219,7 +219,28 @@ class _SingleToken extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Text(token.name),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      '${token.name} ',
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                    if (token.balance > 0)
+                      Text(
+                        '(${token.balance.toStringAsFixed(2)} ${token.symbol})',
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                  ],
+                ),
+                Text(
+                  token.symbol,
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ],
+            ),
           ],
         ),
       ),

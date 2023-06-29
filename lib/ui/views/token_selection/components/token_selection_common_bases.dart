@@ -59,7 +59,7 @@ class TokenSelectionCommonBases extends StatelessWidget {
                 );
                 return Container(
                   width: 150,
-                  height: 30,
+                  height: 35,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -84,8 +84,10 @@ class TokenSelectionCommonBases extends StatelessWidget {
                       Navigator.pop(context, token);
                     },
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
                         Container(
                           width: 20,
                           height: 20,
@@ -103,7 +105,22 @@ class TokenSelectionCommonBases extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(token.name),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              token.name,
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                            Text(
+                              token.symbol,
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

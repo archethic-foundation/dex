@@ -60,15 +60,25 @@ class DexTokensRepository with ModelParser {
       tokenAddressList.add(token.address!);
     }
 
+    final dexTokenUCO =
+        ucoToken.copyWith(balance: fromBigInt(balance.uco).toDouble());
+    dexTokens.add(dexTokenUCO);
+
     final tokenMap = await sl.get<ApiService>().getToken(
           tokenAddressList,
           request: 'genesis, name, id, supply, symbol, type',
         );
     tokenMap.forEach((key, value) {
+      final dexToken = tokenSDKToModel(value);
+
       dexTokens.add(
-        tokenSDKToModel(value),
+        dexToken,
       );
     });
+
+    dexTokens.sort(
+      (a, b) => a.name.compareTo(b.name),
+    );
 
     return dexTokens;
   }

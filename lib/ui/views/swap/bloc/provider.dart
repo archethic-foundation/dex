@@ -36,7 +36,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       tokenToSwapAmount: tokenToSwapAmount,
       tokenToSwapAmountFiat: tokenToSwapAmount * (oracleUcoPrice.uco?.usd ?? 0),
     );
-    return;
   }
 
   Future<void> setTokenSwappedAmount(
@@ -49,7 +48,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       tokenSwappedAmountFiat:
           tokenSwappedAmount * (oracleUcoPrice.uco?.usd ?? 0),
     );
-    return;
   }
 
   void setTokenSwapped(

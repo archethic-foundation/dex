@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/model/hive/db_helper.dart';
 import 'package:aedex/ui/views/main_screen.dart';
@@ -43,7 +44,10 @@ class MyApp extends ConsumerWidget {
             final session = ref.read(SessionProviders.session);
 
             if (session.isConnected) {
-              return const MainScreen();
+              return ref.read(
+                MainScreenWidgetDiplayedProviders
+                    .mainScreenWidgetDiplayedProvider,
+              );
             }
 
             return const WelcomeScreen();

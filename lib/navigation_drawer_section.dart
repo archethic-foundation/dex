@@ -1,5 +1,8 @@
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/version.dart';
+import 'package:aedex/ui/views/liquidity_list/liquidity_list_sheet.dart';
+import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/header.dart';
@@ -8,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MenuDestination {
@@ -268,41 +270,53 @@ class _NavigationDrawerSectionState
 
   void _manageLink(int selectedIndex) {
     switch (selectedIndex) {
+      case 0:
+        ref
+            .read(
+              MainScreenWidgetDiplayedProviders
+                  .mainScreenWidgetDiplayedProvider.notifier,
+            )
+            .setWidget(const SwapSheet());
+
+        break;
       case 1:
-        context.go('/swap');
+        ref
+            .read(
+              MainScreenWidgetDiplayedProviders
+                  .mainScreenWidgetDiplayedProvider.notifier,
+            )
+            .setWidget(const LiquidityListSheet());
+
         break;
       case 2:
-        context.go('/liquidity');
-        break;
-      case 3:
         launchUrl(
           Uri.parse(
             'https://bridge.archethic.net',
           ),
         );
         break;
-      case 4:
+      case 3:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net',
           ),
         );
         break;
-      case 5:
+      case 4:
         launchUrl(
           Uri.parse(
             'https://github.com/archethic-foundation/dex',
           ),
         );
         break;
-      case 6:
+      case 5:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net/FAQ',
           ),
         );
         break;
-      case 7:
+      case 6:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net/',

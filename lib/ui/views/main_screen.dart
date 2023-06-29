@@ -1,5 +1,5 @@
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/navigation_drawer_section.dart';
-import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -39,20 +39,26 @@ class MainScreenState extends ConsumerState<MainScreen> {
             ),
             Expanded(
               flex: 4,
-              child: const Padding(
-                padding: EdgeInsets.only(
+              child: Padding(
+                padding: const EdgeInsets.only(
                   top: 30,
                   bottom: 30,
                   left: 10,
                   right: 10,
                 ),
-                child: SwapSheet(),
-              )
-                  .animate()
-                  .fade(duration: const Duration(milliseconds: 250))
-                  .scale(
-                    duration: const Duration(milliseconds: 250),
-                  ),
+                child: ref
+                    .watch(
+                      MainScreenWidgetDiplayedProviders
+                          .mainScreenWidgetDiplayedProvider,
+                    )
+                    .animate()
+                    .fade(
+                      duration: const Duration(milliseconds: 200),
+                    )
+                    .scale(
+                      duration: const Duration(milliseconds: 200),
+                    ),
+              ),
             ),
           ],
         ),

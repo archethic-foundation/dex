@@ -39,4 +39,6 @@ class SwapFormState with _$SwapFormState {
   bool get isControlsOk => errorText == '';
 
   bool get canSwap => isControlsOk;
+
+  double get tokenToSwapBalance => tokenToSwap!.balance;
 }

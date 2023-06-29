@@ -17,8 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DexToken {
   String get name => throw _privateConstructorUsedError;
-  String get genesisAddress => throw _privateConstructorUsedError;
+  String? get genesisAddress => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
+  double get balance => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexTokenCopyWith<DexToken> get copyWith =>
@@ -30,7 +31,8 @@ abstract class $DexTokenCopyWith<$Res> {
   factory $DexTokenCopyWith(DexToken value, $Res Function(DexToken) then) =
       _$DexTokenCopyWithImpl<$Res, DexToken>;
   @useResult
-  $Res call({String name, String genesisAddress, String symbol});
+  $Res call(
+      {String name, String? genesisAddress, String symbol, double balance});
 }
 
 /// @nodoc
@@ -47,22 +49,27 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
   @override
   $Res call({
     Object? name = null,
-    Object? genesisAddress = null,
+    Object? genesisAddress = freezed,
     Object? symbol = null,
+    Object? balance = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      genesisAddress: null == genesisAddress
+      genesisAddress: freezed == genesisAddress
           ? _value.genesisAddress
           : genesisAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      balance: null == balance
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -74,7 +81,8 @@ abstract class _$$_DexTokenCopyWith<$Res> implements $DexTokenCopyWith<$Res> {
       __$$_DexTokenCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String genesisAddress, String symbol});
+  $Res call(
+      {String name, String? genesisAddress, String symbol, double balance});
 }
 
 /// @nodoc
@@ -89,22 +97,27 @@ class __$$_DexTokenCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
-    Object? genesisAddress = null,
+    Object? genesisAddress = freezed,
     Object? symbol = null,
+    Object? balance = null,
   }) {
     return _then(_$_DexToken(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      genesisAddress: null == genesisAddress
+      genesisAddress: freezed == genesisAddress
           ? _value.genesisAddress
           : genesisAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      balance: null == balance
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -113,18 +126,26 @@ class __$$_DexTokenCopyWithImpl<$Res>
 
 class _$_DexToken implements _DexToken {
   const _$_DexToken(
-      {required this.name, required this.genesisAddress, required this.symbol});
+      {this.name = '',
+      this.genesisAddress,
+      this.symbol = '',
+      this.balance = 0.0});
 
   @override
+  @JsonKey()
   final String name;
   @override
-  final String genesisAddress;
+  final String? genesisAddress;
   @override
+  @JsonKey()
   final String symbol;
+  @override
+  @JsonKey()
+  final double balance;
 
   @override
   String toString() {
-    return 'DexToken(name: $name, genesisAddress: $genesisAddress, symbol: $symbol)';
+    return 'DexToken(name: $name, genesisAddress: $genesisAddress, symbol: $symbol, balance: $balance)';
   }
 
   @override
@@ -135,11 +156,13 @@ class _$_DexToken implements _DexToken {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.genesisAddress, genesisAddress) ||
                 other.genesisAddress == genesisAddress) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol));
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.balance, balance) || other.balance == balance));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, genesisAddress, symbol);
+  int get hashCode =>
+      Object.hash(runtimeType, name, genesisAddress, symbol, balance);
 
   @JsonKey(ignore: true)
   @override
@@ -150,16 +173,19 @@ class _$_DexToken implements _DexToken {
 
 abstract class _DexToken implements DexToken {
   const factory _DexToken(
-      {required final String name,
-      required final String genesisAddress,
-      required final String symbol}) = _$_DexToken;
+      {final String name,
+      final String? genesisAddress,
+      final String symbol,
+      final double balance}) = _$_DexToken;
 
   @override
   String get name;
   @override
-  String get genesisAddress;
+  String? get genesisAddress;
   @override
   String get symbol;
+  @override
+  double get balance;
   @override
   @JsonKey(ignore: true)
   _$$_DexTokenCopyWith<_$_DexToken> get copyWith =>
