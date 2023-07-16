@@ -1,5 +1,6 @@
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/navigation_drawer_section.dart';
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -16,7 +17,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: ThemeBase.backgroundColor,
       body: Responsive(
         mobile: const SizedBox(),
         tablet: const SizedBox(),

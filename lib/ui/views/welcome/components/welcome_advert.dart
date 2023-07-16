@@ -1,3 +1,4 @@
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
@@ -27,14 +28,8 @@ class WelcomeAdvert extends StatelessWidget {
           begin: Alignment.centerRight,
           end: Alignment.centerLeft,
         ),
-        border: const GradientBoxBorder(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFFCC00FF),
-              Color(0x003C89B9),
-            ],
-            stops: [0, 1],
-          ),
+        border: GradientBoxBorder(
+          gradient: ThemeBase.gradientMainScreen,
         ),
         borderRadius: BorderRadius.circular(16),
       ),

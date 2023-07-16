@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:math';
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -80,13 +80,7 @@ class AppButtonState extends State<AppButton> {
       height: widget.height,
       padding: const EdgeInsets.only(left: 20, right: 20),
       decoration: ShapeDecoration(
-        gradient: const LinearGradient(
-          colors: <Color>[
-            Color(0xFF00A4DB),
-            Color(0xFFCC00FF),
-          ],
-          transform: GradientRotation(pi / 9),
-        ),
+        gradient: ThemeBase.gradientBtn,
         shape: const StadiumBorder(),
         shadows: [
           BoxShadow(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aedex/model/dex_token.dart';
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/token_selection/components/token_list.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_close_btn.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_common_bases.dart';
@@ -30,6 +31,7 @@ class TokenSelectionPopup {
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
+                  backgroundColor: ThemeBase.backgroundPopupColor,
                   content: Container(
                     width: 600,
                     color: Colors.transparent,
@@ -44,7 +46,18 @@ class TokenSelectionPopup {
                       children: <Widget>[
                         const TokenSelectionSearchBar(),
                         TokenSelectionCommonBases(tokens: tokens),
-                        const Divider(),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: SizedBox(
+                            width: 600,
+                            height: 1,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: ThemeBase.gradient,
+                              ),
+                            ),
+                          ),
+                        ),
                         const TokenList(),
                         const TokenSelectionCloseBtn(),
                       ],

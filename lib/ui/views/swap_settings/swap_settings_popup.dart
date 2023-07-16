@@ -1,3 +1,4 @@
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/swap_settings/components/swap_settings_close_btn.dart';
 import 'package:aedex/ui/views/swap_settings/components/swap_settings_expert_mode.dart';
 import 'package:aedex/ui/views/swap_settings/components/swap_settings_slippage_tolerance.dart';
@@ -17,6 +18,7 @@ class SwapSettingsPopup {
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
+                  backgroundColor: ThemeBase.backgroundPopupColor,
                   content: Container(
                     color: Colors.transparent,
                     padding: const EdgeInsets.only(
@@ -24,19 +26,41 @@ class SwapSettingsPopup {
                       left: 30,
                       right: 30,
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        SwapSettingsSlippageTolerance(),
-                        Divider(),
-                        SwapSettingsExpertMode(),
-                        Divider(),
-                        SizedBox(
+                        const SwapSettingsSlippageTolerance(),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: SizedBox(
+                            width: 400,
+                            height: 1,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: ThemeBase.gradient,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SwapSettingsExpertMode(),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: SizedBox(
+                            width: 400,
+                            height: 1,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: ThemeBase.gradient,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
                           width: 400,
                           height: 20,
                         ),
-                        SwapSettingsCloseBtn(),
+                        const SwapSettingsCloseBtn(),
                       ],
                     ),
                   ),

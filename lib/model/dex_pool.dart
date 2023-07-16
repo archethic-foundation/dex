@@ -9,7 +9,7 @@ class DexPool with _$DexPool {
   const factory DexPool({
     @Default('') String poolAddress,
     @Default(0) int ranking,
-    @Default('') DexPair pair,
+    DexPair? pair,
     @Default(0.0) double token1Pooled,
     @Default(0.0) double token2Pooled,
     @Default(0.0) double amountOfLiquidity,

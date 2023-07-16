@@ -1,6 +1,7 @@
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/version.dart';
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/liquidity_list/liquidity_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/connection_to_wallet_status.dart';
@@ -114,16 +115,8 @@ class _NavigationDrawerSectionState
                       Container(
                         width: 50,
                         height: 1,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0x003C89B9),
-                              Color(0xFFCC00FF),
-                            ],
-                            stops: [0, 1],
-                            begin: AlignmentDirectional.centerEnd,
-                            end: AlignmentDirectional.centerStart,
-                          ),
+                        decoration: BoxDecoration(
+                          gradient: ThemeBase.gradient,
                         ),
                       ),
                       const SizedBox(

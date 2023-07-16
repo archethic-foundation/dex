@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -73,13 +72,7 @@ class WelcomeConnectWalletBtnState
                   alignment: Alignment.center,
                   height: 50,
                   decoration: ShapeDecoration(
-                    gradient: const LinearGradient(
-                      colors: <Color>[
-                        Color(0xFF00A4DB),
-                        Color(0xFFCC00FF),
-                      ],
-                      transform: GradientRotation(pi / 9),
-                    ),
+                    gradient: ThemeBase.gradientBtn,
                     shape: const StadiumBorder(),
                     shadows: [
                       BoxShadow(

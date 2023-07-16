@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/components/icon_close_connection.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
@@ -58,19 +59,7 @@ class _ConnectionToWalletStatusState
                     stops: const [0, 1],
                   ),
                   border: GradientBoxBorder(
-                    gradient: LinearGradient(
-                      colors: [
-                        Theme.of(context)
-                            .colorScheme
-                            .background
-                            .withOpacity(0.5),
-                        Theme.of(context)
-                            .colorScheme
-                            .background
-                            .withOpacity(0.7),
-                      ],
-                      stops: const [0, 1],
-                    ),
+                    gradient: ThemeBase.gradientSheetBorder,
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),

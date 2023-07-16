@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -27,8 +28,8 @@ class SwapPoolAddress extends ConsumerWidget {
           ),
           SelectableText(
             swap.poolAddress,
-            style: const TextStyle(
-              fontFamily: 'Roboto',
+            style: TextStyle(
+              fontFamily: ThemeBase.adddressFont,
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_balance_max_btn.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_conversion_info.dart';
@@ -36,14 +37,8 @@ class SwapFormSheet extends ConsumerWidget {
             right: 5,
           ),
           decoration: BoxDecoration(
-            border: const GradientBoxBorder(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0x003C89B9),
-                  Color(0xFFCC00FF),
-                ],
-                stops: [0, 1],
-              ),
+            border: GradientBoxBorder(
+              gradient: ThemeBase.gradientMainScreen,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -52,21 +47,9 @@ class SwapFormSheet extends ConsumerWidget {
           width: 500,
           height: 500,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.background.withOpacity(0.9),
-                Theme.of(context).colorScheme.background.withOpacity(0.2),
-              ],
-              stops: const [0, 1],
-            ),
+            gradient: ThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.background.withOpacity(0.7),
-                  Theme.of(context).colorScheme.background.withOpacity(1),
-                ],
-                stops: const [0, 1],
-              ),
+              gradient: ThemeBase.gradientSheetBorder,
             ),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -91,16 +74,8 @@ class SwapFormSheet extends ConsumerWidget {
                       child: Container(
                         width: 50,
                         height: 1,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0x003C89B9),
-                              Color(0xFFCC00FF),
-                            ],
-                            stops: [0, 1],
-                            begin: AlignmentDirectional.centerEnd,
-                            end: AlignmentDirectional.centerStart,
-                          ),
+                        decoration: BoxDecoration(
+                          gradient: ThemeBase.gradient,
                         ),
                       ),
                     ),

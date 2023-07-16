@@ -1,3 +1,4 @@
+import 'package:aedex/ui/themes/theme_base.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -86,8 +87,8 @@ class TokenSelectionSearchBarState
                           Padding(
                             padding: const EdgeInsets.only(left: 40, right: 10),
                             child: TextField(
-                              style: const TextStyle(
-                                fontFamily: 'Roboto',
+                              style: TextStyle(
+                                fontFamily: ThemeBase.adddressFont,
                               ),
                               autocorrect: false,
                               controller: searchController,
