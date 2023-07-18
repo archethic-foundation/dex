@@ -26,7 +26,7 @@ packages:
     source: hosted
     version: "5.13.0"
   archethic_lib_dart:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: archethic_lib_dart
       sha256: c5ca74a94135fd443b512961669f950e30848010036bdd31c538e28c97b7b4b3
