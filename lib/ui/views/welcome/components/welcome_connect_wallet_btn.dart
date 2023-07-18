@@ -96,7 +96,6 @@ class WelcomeConnectWalletBtnState
                         AppLocalizations.of(context)!.connectionWalletConnect,
                         style: TextStyle(
                           color: Theme.of(context).textTheme.labelMedium!.color,
-                          fontFamily: 'Equinox',
                           fontSize: 15,
                         ),
                       ),

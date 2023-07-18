@@ -117,7 +117,6 @@ class AppButtonState extends State<AppButton> {
                       .color!
                       .withOpacity(0.3)
                   : Theme.of(context).textTheme.labelMedium!.color,
-              fontFamily: 'Equinox',
               fontSize: 12,
               fontWeight: FontWeight.w400,
             ),
