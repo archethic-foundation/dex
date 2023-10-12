@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/theme_base.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -80,7 +80,7 @@ class AppButtonState extends State<AppButton> {
       height: widget.height,
       padding: const EdgeInsets.only(left: 20, right: 20),
       decoration: ShapeDecoration(
-        gradient: ThemeBase.gradientBtn,
+        gradient: DexThemeBase.gradientBtn,
         shape: const StadiumBorder(),
         shadows: [
           BoxShadow(

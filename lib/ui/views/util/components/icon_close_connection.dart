@@ -1,5 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/themes/theme_base.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class IconCloseConnection extends ConsumerWidget {
               child: Builder(
                 builder: (context) {
                   return AlertDialog(
-                    backgroundColor: ThemeBase.backgroundPopupColor,
+                    backgroundColor: DexThemeBase.backgroundPopupColor,
                     contentPadding: const EdgeInsets.only(
                       top: 10,
                     ),

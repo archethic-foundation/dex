@@ -1,4 +1,4 @@
-import 'package:aedex/ui/themes/theme_base.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_balance_max_btn.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_conversion_info.dart';
@@ -38,7 +38,7 @@ class SwapFormSheet extends ConsumerWidget {
           ),
           decoration: BoxDecoration(
             border: GradientBoxBorder(
-              gradient: ThemeBase.gradientMainScreen,
+              gradient: DexThemeBase.gradientMainScreen,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -47,9 +47,9 @@ class SwapFormSheet extends ConsumerWidget {
           width: 500,
           height: 500,
           decoration: BoxDecoration(
-            gradient: ThemeBase.gradientSheetBackground,
+            gradient: DexThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
-              gradient: ThemeBase.gradientSheetBorder,
+              gradient: DexThemeBase.gradientSheetBorder,
             ),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -75,7 +75,7 @@ class SwapFormSheet extends ConsumerWidget {
                         width: 50,
                         height: 1,
                         decoration: BoxDecoration(
-                          gradient: ThemeBase.gradient,
+                          gradient: DexThemeBase.gradient,
                         ),
                       ),
                     ),

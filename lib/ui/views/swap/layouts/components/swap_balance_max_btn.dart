@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/theme_base.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -24,7 +24,7 @@ class SwapBalanceMaxButton extends ConsumerWidget {
       onTap: () {},
       child: Text(
         AppLocalizations.of(context)!.btn_max,
-        style: TextStyle(color: ThemeBase.maxButtonColor),
+        style: TextStyle(color: DexThemeBase.maxButtonColor),
       )
           .animate()
           .fade(

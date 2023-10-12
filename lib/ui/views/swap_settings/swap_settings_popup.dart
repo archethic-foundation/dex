@@ -1,4 +1,4 @@
-import 'package:aedex/ui/themes/theme_base.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap_settings/components/swap_settings_close_btn.dart';
 import 'package:aedex/ui/views/swap_settings/components/swap_settings_expert_mode.dart';
 import 'package:aedex/ui/views/swap_settings/components/swap_settings_slippage_tolerance.dart';
@@ -18,7 +18,7 @@ class SwapSettingsPopup {
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
-                  backgroundColor: ThemeBase.backgroundPopupColor,
+                  backgroundColor: DexThemeBase.backgroundPopupColor,
                   content: Container(
                     color: Colors.transparent,
                     padding: const EdgeInsets.only(
@@ -38,7 +38,7 @@ class SwapSettingsPopup {
                             height: 1,
                             child: Container(
                               decoration: BoxDecoration(
-                                gradient: ThemeBase.gradient,
+                                gradient: DexThemeBase.gradient,
                               ),
                             ),
                           ),
@@ -51,7 +51,7 @@ class SwapSettingsPopup {
                             height: 1,
                             child: Container(
                               decoration: BoxDecoration(
-                                gradient: ThemeBase.gradient,
+                                gradient: DexThemeBase.gradient,
                               ),
                             ),
                           ),

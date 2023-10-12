@@ -1,7 +1,7 @@
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/version.dart';
-import 'package:aedex/ui/themes/theme_base.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_list/liquidity_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/connection_to_wallet_status.dart';
@@ -116,7 +116,7 @@ class _NavigationDrawerSectionState
                         width: 50,
                         height: 1,
                         decoration: BoxDecoration(
-                          gradient: ThemeBase.gradient,
+                          gradient: DexThemeBase.gradient,
                         ),
                       ),
                       const SizedBox(

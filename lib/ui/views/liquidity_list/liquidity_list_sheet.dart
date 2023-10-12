@@ -1,7 +1,7 @@
 import 'package:aedex/model/dex_pair.dart';
 import 'package:aedex/model/dex_pool.dart';
 import 'package:aedex/model/dex_token.dart';
-import 'package:aedex/ui/themes/theme_base.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +25,7 @@ class LiquidityListSheet extends ConsumerWidget {
           ),
           decoration: BoxDecoration(
             border: GradientBoxBorder(
-              gradient: ThemeBase.gradientMainScreen,
+              gradient: DexThemeBase.gradientMainScreen,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -34,9 +34,9 @@ class LiquidityListSheet extends ConsumerWidget {
           width: 500,
           height: 500,
           decoration: BoxDecoration(
-            gradient: ThemeBase.gradientSheetBackground,
+            gradient: DexThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
-              gradient: ThemeBase.gradientSheetBorder,
+              gradient: DexThemeBase.gradientSheetBorder,
             ),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -62,7 +62,7 @@ class LiquidityListSheet extends ConsumerWidget {
                         width: 50,
                         height: 1,
                         decoration: BoxDecoration(
-                          gradient: ThemeBase.gradient,
+                          gradient: DexThemeBase.gradient,
                         ),
                       ),
                     ),
@@ -113,7 +113,7 @@ Widget _buildWebsiteCard(BuildContext context, WidgetRef ref, DexPool pool) {
       height: 60,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: ThemeBase.gradientSheetBorder,
+          gradient: DexThemeBase.gradientSheetBorder,
           border: GradientBoxBorder(
             gradient: LinearGradient(
               colors: [

@@ -1,4 +1,4 @@
-import 'package:aedex/ui/themes/theme_base.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
@@ -29,7 +29,7 @@ class WelcomeAdvert extends StatelessWidget {
           end: Alignment.centerLeft,
         ),
         border: GradientBoxBorder(
-          gradient: ThemeBase.gradientMainScreen,
+          gradient: DexThemeBase.gradientMainScreen,
         ),
         borderRadius: BorderRadius.circular(16),
       ),
