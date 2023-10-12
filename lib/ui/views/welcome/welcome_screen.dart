@@ -1,9 +1,11 @@
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
+import 'package:aedex/ui/views/welcome/bloc/providers.dart';
 import 'package:aedex/ui/views/welcome/components/welcome_connect_wallet_btn.dart';
 import 'package:aedex/ui/views/welcome/components/welcome_info_version.dart';
 import 'package:aedex/ui/views/welcome/components/welcome_infos.dart';
 import 'package:aedex/ui/views/welcome/header_welcome_screen.dart';
+import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,33 +33,36 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/background-welcome.png',
+    return BusyScaffold(
+      isBusy: ref.watch(isLoadingWelcomeScreenProvider),
+      scaffold: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    'assets/images/background-welcome.png',
+                  ),
+                  fit: BoxFit.cover,
                 ),
-                fit: BoxFit.cover,
               ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  const Color(0x00000000),
-                  const Color(0xFFCC00FF).withOpacity(0.1),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0x00000000),
+                    const Color(0xFFCC00FF).withOpacity(0.1),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
               ),
             ),
-          ),
-          _WelcomeScreenResponsiveWidget(),
-        ],
+            _WelcomeScreenResponsiveWidget(),
+          ],
+        ),
       ),
     );
   }
