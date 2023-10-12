@@ -11,12 +11,12 @@ class MainScreenWidgetDiplayed extends StateNotifier<Widget> {
   }
 }
 
-final _mainScreenWidgetDiplayedProvider =
+final _mainScreenWidgetDisplayedProvider =
     StateNotifierProvider<MainScreenWidgetDiplayed, Widget>(
   (ref) => MainScreenWidgetDiplayed(),
 );
 
-abstract class MainScreenWidgetDiplayedProviders {
-  static final mainScreenWidgetDiplayedProvider =
-      _mainScreenWidgetDiplayedProvider;
+abstract class MainScreenWidgetDisplayedProviders {
+  static final mainScreenWidgetDisplayedProvider =
+      _mainScreenWidgetDisplayedProvider;
 }

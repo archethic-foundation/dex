@@ -2,7 +2,7 @@
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/model/hive/db_helper.dart';
-import 'package:aedex/ui/views/main_screen.dart';
+import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
 import 'package:aedex/ui/views/welcome/welcome_screen.dart';
 import 'package:aedex/util/generic/providers_observer.dart';
 import 'package:aedex/util/service_locator.dart';
@@ -45,8 +45,8 @@ class MyApp extends ConsumerWidget {
 
             if (session.isConnected) {
               return ref.read(
-                MainScreenWidgetDiplayedProviders
-                    .mainScreenWidgetDiplayedProvider,
+                MainScreenWidgetDisplayedProviders
+                    .mainScreenWidgetDisplayedProvider,
               );
             }
 

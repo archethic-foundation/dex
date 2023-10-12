@@ -57,5 +57,12 @@
   "swap_confirmation_minimum_received": "Minimum received",
   "swap_confirmation_price_impact": "Price impact",
   "swap_confirmation_estimated_received": "Estimated received",
-  "liquidityListTitle": "Your liquidity pools"
+  "liquidityListTitle": "Your liquidity pools",
+  "archethicDashboardMenuBridgeItem": "Bridge 2 ways",
+  "archethicDashboardMenuBridgeDesc": "The portal allowing seamless assets deposits & withdrawals",
+  "archethicDashboardMenuAEWebItem": "AEWeb",
+  "archethicDashboardMenuAEWebDesc": "The decentralized alternative to web hosting",
+  "archethicDashboardMenuWalletOnWayItem": "AEWallet",
+  "archethicDashboardMenuWalletOnWayDesc": "Send, Receive and Exchange UCO and Tokens",
+  "logout": "Logout"
 }
