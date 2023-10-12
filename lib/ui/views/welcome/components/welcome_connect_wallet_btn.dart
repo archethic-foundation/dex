@@ -1,3 +1,4 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -23,7 +24,7 @@ class WelcomeConnectWalletBtnState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -104,6 +105,9 @@ class WelcomeConnectWalletBtnState
                 ).animate(target: _over ? 0 : 1).fade(end: 0.8),
               ),
             ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           InkWell(
             onTap: () {
