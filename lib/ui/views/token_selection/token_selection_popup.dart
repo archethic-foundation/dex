@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:aedex/model/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/token_selection/components/token_list.dart';
-import 'package:aedex/ui/views/token_selection/components/token_selection_close_btn.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_common_bases.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_search_bar.dart';
+import 'package:aedex/ui/views/util/components/popup_template.dart';
+import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:aedex/util/endpoint_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,21 +26,13 @@ class TokenSelectionPopup {
     return showDialog<DexToken>(
       context: context,
       builder: (context) {
-        return ScaffoldMessenger(
-          child: Builder(
-            builder: (context) {
-              return Scaffold(
-                backgroundColor: Colors.transparent,
-                body: AlertDialog(
-                  backgroundColor: DexThemeBase.backgroundPopupColor,
-                  content: Container(
-                    width: 600,
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      left: 30,
-                      right: 30,
-                    ),
+        return PopupTemplate(
+          popupContent: LayoutBuilder(
+            builder: (context, constraint) {
+              return ArchethicScrollbar(
+                child: Container(
+                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                  child: IntrinsicHeight(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -59,7 +52,6 @@ class TokenSelectionPopup {
                           ),
                         ),
                         const TokenList(),
-                        const TokenSelectionCloseBtn(),
                       ],
                     ),
                   ),
@@ -67,6 +59,8 @@ class TokenSelectionPopup {
               );
             },
           ),
+          popupTitle: '',
+          popupHeight: 500,
         );
       },
     );

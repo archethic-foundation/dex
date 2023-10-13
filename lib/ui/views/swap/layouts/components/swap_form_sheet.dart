@@ -140,9 +140,12 @@ class SwapFormSheet extends ConsumerWidget {
                   child: SwapPoolAddress(),
                 ),
                 const Spacer(),
-                const SwapValidationButton(),
                 const SizedBox(
                   height: 10,
+                ),
+                const SwapValidationButton(),
+                const SizedBox(
+                  height: 20,
                 ),
               ],
             ),

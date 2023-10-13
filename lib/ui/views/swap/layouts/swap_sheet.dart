@@ -51,7 +51,7 @@ class SwapSheet extends ConsumerWidget {
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        constraints: const BoxConstraints(minHeight: 400, maxHeight: 600),
+        constraints: const BoxConstraints(minHeight: 450, maxHeight: 500),
         width: 500,
         child: LayoutBuilder(
           builder: (context, constraint) {

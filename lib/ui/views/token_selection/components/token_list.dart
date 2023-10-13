@@ -140,7 +140,6 @@ class _TokensList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 300,
       height: 200,
       child: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(

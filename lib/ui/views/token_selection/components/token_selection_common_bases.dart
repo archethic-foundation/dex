@@ -47,87 +47,84 @@ class TokenSelectionCommonBases extends StatelessWidget {
             ),
           ],
         ),
-        Row(
-          children: [
-            Wrap(
-              spacing: 10,
-              children: tokens.map((dynamic entry) {
-                final token = DexToken(
-                  name: entry['name'] ?? '',
-                  symbol: entry['symbol'] ?? '',
-                  genesisAddress: entry['genesisAddress'] ?? '',
-                );
-                return Container(
-                  width: 150,
-                  height: 35,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.white.withOpacity(0.4),
-                        Colors.white.withOpacity(0.1),
-                      ],
-                      stops: const [0, 1],
+        Wrap(
+          spacing: 10,
+          children: tokens.map((dynamic entry) {
+            final token = DexToken(
+              name: entry['name'] ?? '',
+              symbol: entry['symbol'] ?? '',
+              genesisAddress: entry['genesisAddress'] ?? '',
+            );
+            return Container(
+              margin: const EdgeInsets.symmetric(vertical: 5),
+              width: 150,
+              height: 35,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withOpacity(0.4),
+                    Colors.white.withOpacity(0.1),
+                  ],
+                  stops: const [0, 1],
+                ),
+                border: GradientBoxBorder(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withOpacity(0.4),
+                      Colors.white.withOpacity(0.1),
+                    ],
+                    stops: const [0, 1],
+                  ),
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context, token);
+                },
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 10,
                     ),
-                    border: GradientBoxBorder(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.white.withOpacity(0.4),
-                          Colors.white.withOpacity(0.1),
-                        ],
-                        stops: const [0, 1],
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.2),
+                      ),
+                      child: Center(
+                        child: Text(
+                          token.symbol,
+                          style: const TextStyle(
+                            fontSize: 6,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context, token);
-                    },
-                    child: Row(
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          width: 10,
+                        Text(
+                          token.name,
+                          style: Theme.of(context).textTheme.labelSmall,
                         ),
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.2),
-                          ),
-                          child: Center(
-                            child: Text(
-                              token.symbol,
-                              style: const TextStyle(
-                                fontSize: 6,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              token.name,
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                            Text(
-                              token.symbol,
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
+                        Text(
+                          token.symbol,
+                          style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ],
                     ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
         ),
       ],
     );

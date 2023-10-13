@@ -117,13 +117,6 @@ class _ConnectionToWalletStatusState
                   const SizedBox(
                     width: 4,
                   ),
-                  const Icon(
-                    Iconsax.arrow_right_1,
-                    size: 10,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
                   Flexible(
                     child: Text(
                       overflow: TextOverflow.ellipsis,
