@@ -3,6 +3,7 @@ import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/utils/components/main_screen_background.dart';
 import 'package:aedex/ui/views/liquidity_list/liquidity_list_sheet.dart';
+import 'package:aedex/ui/views/lp_staking/lp_staking_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/body.dart';
@@ -34,6 +35,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
     listNavigationLabelIcon = [
       (AppLocalizations.of(context)!.menu_swap, Iconsax.arrange_circle_2),
       (AppLocalizations.of(context)!.menu_liquidity, Iconsax.wallet_money),
+      (AppLocalizations.of(context)!.menu_lpStaking, Iconsax.coin5),
     ];
   }
 
@@ -73,6 +75,16 @@ class MainScreenState extends ConsumerState<MainScreen> {
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
             .setWidget(const LiquidityListSheet());
+
+        break;
+
+      case 2:
+        ref
+            .read(
+              MainScreenWidgetDisplayedProviders
+                  .mainScreenWidgetDisplayedProvider.notifier,
+            )
+            .setWidget(const LpStakingSheet());
 
         break;
 
