@@ -16,21 +16,6 @@ class LiquidityListSheet extends ConsumerWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 5,
-            right: 5,
-          ),
-          decoration: BoxDecoration(
-            border: GradientBoxBorder(
-              gradient: DexThemeBase.gradientMainScreen,
-            ),
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-        Container(
           width: 500,
           height: 500,
           decoration: BoxDecoration(

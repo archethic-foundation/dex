@@ -1,10 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_form_sheet.dart';
+import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gradient_borders/gradient_borders.dart';
 
 class SwapSheet extends ConsumerWidget {
   const SwapSheet({
@@ -39,6 +42,34 @@ class SwapSheet extends ConsumerWidget {
       },
     );
 
-    return const SwapFormSheet();
+    return Align(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: DexThemeBase.gradientSheetBackground,
+          border: GradientBoxBorder(
+            gradient: DexThemeBase.gradientSheetBorder,
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        constraints: const BoxConstraints(minHeight: 400, maxHeight: 600),
+        width: 500,
+        child: LayoutBuilder(
+          builder: (context, constraint) {
+            return ArchethicScrollbar(
+              child: Container(
+                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                child: const IntrinsicHeight(
+                  child: Column(
+                    children: [
+                      Expanded(child: SwapFormSheet()),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

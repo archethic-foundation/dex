@@ -75,70 +75,46 @@ class SwapSettingsSlippageToleranceState
             ),
           ),
         ),
-        Expanded(
+        Container(
+          constraints: const BoxConstraints(maxWidth: 75),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                width: 0.5,
+              ),
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.background.withOpacity(1),
+                  Theme.of(context).colorScheme.background.withOpacity(0.3),
+                ],
+                stops: const [0, 1],
+              ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        width: 0.5,
-                      ),
-                      gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context)
-                              .colorScheme
-                              .background
-                              .withOpacity(1),
-                          Theme.of(context)
-                              .colorScheme
-                              .background
-                              .withOpacity(0.3),
-                        ],
-                        stops: const [0, 1],
-                      ),
-                    ),
-                    child: Stack(
-                      alignment: AlignmentDirectional.centerStart,
-                      children: [
-                        TextField(
-                          autocorrect: false,
-                          controller: slippageToleranceController,
-                          onChanged: (text) {
-                            swapNotifier.setSlippageTolerance(
-                              double.tryParse(text) ?? 0,
-                            );
-                          },
-                          focusNode: slippageToleranceFocusNode,
-                          textAlign: TextAlign.right,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.text,
-                          inputFormatters: <TextInputFormatter>[
-                            LengthLimitingTextInputFormatter(10),
-                          ],
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: AppLocalizations.of(context)!
-                                .token_selection_search_bar_hint,
-                            hintStyle: textTheme.labelMedium!
-                                .copyWith(fontWeight: FontWeight.w300),
-                            contentPadding:
-                                const EdgeInsets.only(right: 5, top: -3),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+            child: TextField(
+              autocorrect: false,
+              controller: slippageToleranceController,
+              onChanged: (text) {
+                swapNotifier.setSlippageTolerance(
+                  double.tryParse(text) ?? 0,
+                );
+              },
+              focusNode: slippageToleranceFocusNode,
+              textAlign: TextAlign.right,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.text,
+              inputFormatters: <TextInputFormatter>[
+                LengthLimitingTextInputFormatter(10),
               ],
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: AppLocalizations.of(context)!
+                    .token_selection_search_bar_hint,
+                hintStyle: textTheme.labelMedium!
+                    .copyWith(fontWeight: FontWeight.w300),
+                contentPadding: const EdgeInsets.only(right: 5, top: -3),
+              ),
             ),
           ),
         ),
