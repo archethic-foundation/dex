@@ -23,7 +23,13 @@ class SwapConfirmationPopup {
                     left: 30,
                     right: 30,
                   ),
-                  child: const IntrinsicHeight(child: SwapConfirmationInfos()),
+                  child: const IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        SwapConfirmationInfos(),
+                      ],
+                    ),
+                  ),
                 ),
               );
             },
