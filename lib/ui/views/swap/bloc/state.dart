@@ -40,5 +40,6 @@ class SwapFormState with _$SwapFormState {
 
   bool get canSwap => isControlsOk;
 
+  @override
   double get tokenToSwapBalance => tokenToSwap!.balance;
 }

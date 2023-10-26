@@ -269,7 +269,8 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                                         Navigator.of(context).pop();
                                       },
                                       child: Text(
-                                          AppLocalizations.of(context)!.no),
+                                        AppLocalizations.of(context)!.no,
+                                      ),
                                     ),
                                     AppButton(
                                       labelBtn:

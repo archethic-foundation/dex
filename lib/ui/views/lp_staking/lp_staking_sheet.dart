@@ -6,8 +6,8 @@ class LpStakingSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: Text("Coming soon"),
+    return const Center(
+      child: Text('Coming soon'),
     );
   }
 }

@@ -56,7 +56,7 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                     AppLocalizations.of(context)!.btn_selectToken,
                   )
                 else
-                  Text(swap.tokenSwapped!.name)
+                  Text(swap.tokenSwapped!.name),
               ],
             ),
             const Icon(
