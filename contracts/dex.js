@@ -3,6 +3,9 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
+import init_keychain from './commands/contract_management/init_keychain.js'
+import deploy_factory from './commands/contract_management/deploy_factory.js'
+
 import create_tokens from './commands/test/create_tokens.js'
 import deploy_pool from './commands/test/deploy_pool.js'
 import add_liquidity from './commands/test/add_liquidity.js'
@@ -10,6 +13,9 @@ import remove_liquidity from './commands/test/remove_liquidity.js'
 import swap from './commands/test/swap.js'
 
 const y = yargs(hideBin(process.argv))
+
+y.command(init_keychain).help()
+y.command(deploy_factory).help()
 
 y.command(create_tokens).help()
 y.command(deploy_pool).help()

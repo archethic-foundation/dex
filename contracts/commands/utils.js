@@ -10,6 +10,7 @@ const CONFIRMATION_THRESHOLD = 50
 
 const poolContractPath = path.resolve(__dirname, "../contracts/pool.exs")
 const stateContractPath = path.resolve(__dirname, "../contracts/state.exs")
+const factoryContractPath = path.resolve(__dirname, "../contracts/factory.exs")
 
 export function getGenesisAddress(seed) {
   return Utils.uint8ArrayToHex(Crypto.deriveAddress(seed, 0))
@@ -33,30 +34,6 @@ export function encryptSecret(secret, publicKey) {
   const encryptedAesKey = Crypto.ecEncrypt(aesKey, publicKey)
   const authorizedKeys = [{ encryptedSecretKey: encryptedAesKey, publicKey: publicKey }]
   return { encryptedSecret, authorizedKeys }
-}
-
-export async function updateKeychain(keychain, archethic) {
-  return new Promise(async (resolve, reject) => {
-    const keychainGenesisAddress = Crypto.deriveAddress(keychain.seed, 0)
-    const transactionChainIndex = await archethic.transaction.getTransactionIndex(keychainGenesisAddress)
-
-    const keychainTx = archethic.account.newKeychainTransaction(keychain, transactionChainIndex)
-      .originSign(Utils.originPrivateKey)
-
-    keychainTx.on("requiredConfirmation", async (_confirmations) => {
-      const txAddress = Utils.uint8ArrayToHex(keychainTx.address)
-      console.log("Keychain transaction validated !")
-      console.log("Address:", txAddress)
-      console.log(archethic.endpoint.origin + "/explorer/transaction/" + txAddress)
-      console.log("=======================")
-      resolve()
-    }).on("error", (context, reason) => {
-      console.log("Error while sending Keychain transaction")
-      console.log("Contest:", context)
-      console.log("Reason:", reason)
-      reject()
-    }).send(CONFIRMATION_THRESHOLD)
-  })
 }
 
 export async function sendTransactionWithFunding(tx, keychain, archethic, fundSeedFrom = undefined) {
@@ -108,48 +85,27 @@ export async function sendTransactionWithFunding(tx, keychain, archethic, fundSe
   })
 }
 
-export function getTokenDefinition(token) {
-  return JSON.stringify({
-    aeip: [2, 8, 18, 19],
-    supply: 10,
-    type: "fungible",
-    symbol: token,
-    name: token,
-    allow_mint: true,
-    properties: {},
-    recipients: [
-      {
-        to: "00000000000000000000000000000000000000000000000000000000000000000000",
-        amount: 10
-      }
-    ]
-  })
-}
-
 export function getStateCode(poolAddress) {
   const code = fs.readFileSync(stateContractPath, "utf8")
 
   return code.replaceAll("@POOL_ADDRESS", "0x" + poolAddress)
 }
 
-export function getPoolCode(token1, token2) {
-  // Sort token by address
-  const [token1Address, token2Address] = [getTokenAddress(token1), getTokenAddress(token2)].sort()
-
-  const seed = getPoolSeed(token1, token2)
-  const poolGenesisAddress = getGenesisAddress(seed)
-  const lpTokenAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(seed, 1))
-  const stateContractAddress = getGenesisAddress(seed + "_state")
-
+export function getFactoryCode() {
   let poolCode = fs.readFileSync(poolContractPath, "utf8")
   // Replace pool address
-  poolCode = poolCode.replaceAll("@POOL_ADDRESS", "0x" + poolGenesisAddress)
+  poolCode = poolCode.replaceAll("@POOL_ADDRESS", "0x#{pool_address}")
   // Replace state address
-  poolCode = poolCode.replaceAll("@STATE_ADDRESS", "0x" + stateContractAddress)
+  poolCode = poolCode.replaceAll("@STATE_ADDRESS", "0x#{state_address}")
   // Replace token1 address
-  poolCode = poolCode.replaceAll("@TOKEN1", "0x" + token1Address)
+  poolCode = poolCode.replaceAll("@TOKEN1", "0x#{token1_address}")
   // Replace token2 address
-  poolCode = poolCode.replaceAll("@TOKEN2", "0x" + token2Address)
+  poolCode = poolCode.replaceAll("@TOKEN2", "0x#{token2_address}")
   // Replace lp token address
-  return poolCode = poolCode.replaceAll("@LP_TOKEN", "0x" + lpTokenAddress)
+  poolCode = poolCode.replaceAll("@LP_TOKEN", "0x#{lp_token_address}")
+
+  let factoryCode = fs.readFileSync(factoryContractPath, "utf8")
+
+  // Replace pool code
+  return factoryCode.replaceAll("@POOL_CODE", poolCode)
 }
