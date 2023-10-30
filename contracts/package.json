@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@archethicjs/sdk": "^1.20.1",
+    "yargs": "^17.7.2"
+  },
+  "type": "module"
+}
