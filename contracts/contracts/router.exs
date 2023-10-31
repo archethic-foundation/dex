@@ -19,12 +19,7 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
       token2_symbol = get_token_symbol(token2_tx)
 
       if token1_symbol != nil && token2_symbol do
-        expected_content = 
-          Contract.call_function(
-            @FACTORY_ADDRESS,
-            "get_lp_token_definition",
-            [token1_symbol, token2_symbol]
-          )
+        expected_content = get_lp_token_definition(token1_symbol, token2_symbol)
 
         valid? = Json.parse(transaction.content) == Json.parse(expected_content)
       end
@@ -45,7 +40,7 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
 
       params = [token1_address, token2_address, pool_genesis_address, transaction.address, state_address]
 
-      expected_code = Contract.call_function(@FACTORY_ADDRESS, "get_pool_code", params)
+      expected_code = get_pool_code(token1_address, token2_address, pool_genesis_address, transaction.address, state_address)
 
       valid? = Code.is_same?(transaction.code, expected_code)
     end
@@ -103,6 +98,31 @@ actions triggered_by: transaction, on: update_code(new_code) do
   Contract.set_code(new_code)
 end
 
+fun get_pool_id(token1_address, token2_address) do
+  if token1_address > token2_address do
+    temp = token1_address
+    token1_address = token2_address
+    token2_address = temp
+  end
+
+  "#{token1_address}/#{token2_address}"
+end
+
+fun get_token_symbol(tx) do
+  # Transaction must have type token
+  # Token must by fungible
+  symbol = nil
+
+  if tx != nil && tx.type == "token" do
+    token_definition = Json.parse(tx.content)
+    if token_definition.type == "fungible" do
+      symbol = Map.get(token_definition, "symbol", nil)
+    end
+  end
+
+  symbol
+end
+
 export fun get_pool_infos(token1_address, token2_address) do
   token1_address = String.to_uppercase(token1_address)
   token2_address = String.to_uppercase(token2_address)
@@ -121,27 +141,59 @@ export fun get_pool_infos(token1_address, token2_address) do
   Map.get(pools, pool_id, nil)
 end
 
-fun get_pool_id(token1_address, token2_address) do
-  if token1_address > token2_address do
-    temp = token1_address
-    token1_address = token2_address
-    token2_address = temp
-  end
+export fun get_pool_code(token1_address, token2_address, pool_address, lp_token_address, state_address) do
+  token1_address = String.to_uppercase(token1_address)
+  token2_address = String.to_uppercase(token2_address)
 
-  "#{token1_address}/#{token2_address}"
-end
+  code = nil
 
-fun get_token_symbol(tx) do
-  # Transaction must have type token
-  # Token must by fungible
-  symbol = nil
+  if token1_address != token2_address do
+    if token1_address > token2_address do
+      temp = token1_address
+      token1_address = token2_address
+      token2_address = temp
+    end
 
-  if tx.type == "token" do
-    token_definition = Json.parse(tx.content)
-    if token_definition.type == "fungible" do
-      symbol = Map.get(token_definition, "symbol", nil)
+    pool_id = "#{token1_address}/#{token2_address}"
+
+    contract_state = Json.parse(contract.content)
+    pools = Map.get(contract_state, "pools", Map.new())
+
+    if Map.get(pools, pool_id, nil) == nil do
+      code = 
+"""
+@POOL_CODE
+"""
     end
   end
 
-  symbol
+  code
+end
+
+export fun get_lp_token_definition(token1_symbol, token2_symbol) do
+  if token1_symbol > token2_symbol do
+    temp = token1_symbol
+    token1_symbol = token2_symbol
+    token2_symbol = temp
+  end
+
+  lp_token = "lp_#{token1_symbol}_#{token2_symbol}"
+
+  Json.to_string([
+    aeip: [2, 8, 18, 19],
+    supply: 10,
+    type: "fungible",
+    symbol: lp_token,
+    name: lp_token,
+    allow_mint: true,
+    properties: [
+      description: "LP token of AESwap"
+    ],
+    recipients: [
+      [
+        to: Chain.get_burn_address(),
+        amount: 10
+      ]
+    ]
+  ])
 end

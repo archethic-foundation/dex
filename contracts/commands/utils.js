@@ -88,7 +88,7 @@ export function getStateCode(poolAddress) {
   return code.replaceAll("@POOL_ADDRESS", "0x" + poolAddress)
 }
 
-export function getFactoryCode() {
+export function getRouterCode(keychain) {
   let poolCode = fs.readFileSync(poolContractPath, "utf8")
   // Replace pool address
   poolCode = poolCode.replaceAll("@POOL_ADDRESS", "0x#{pool_address}")
@@ -101,19 +101,11 @@ export function getFactoryCode() {
   // Replace lp token address
   poolCode = poolCode.replaceAll("@LP_TOKEN", "0x#{lp_token_address}")
 
-  let factoryCode = fs.readFileSync(factoryContractPath, "utf8")
-
-  // Replace pool code
-  return factoryCode.replaceAll("@POOL_CODE", poolCode)
-}
-
-export function getRouterCode(keychain) {
-  const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
   const masterAddress = getServiceGenesisAddress(keychain, "Master")
 
   let routerCode = fs.readFileSync(routerContractPath, "utf8")
-  // Replace factory address
-  routerCode = routerCode.replaceAll("@FACTORY_ADDRESS", "0x" + factoryAddress)
   // Replace master address
-  return routerCode.replaceAll("@MASTER_ADDRESS", "0x" + masterAddress)
+  routerCode = routerCode.replaceAll("@MASTER_ADDRESS", "0x" + masterAddress)
+  // Replace pool code
+  return routerCode.replaceAll("@POOL_CODE", poolCode)
 }

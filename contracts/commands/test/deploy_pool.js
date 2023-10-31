@@ -57,13 +57,18 @@ const handler = async function(argv) {
   const poolGenesisAddress = getGenesisAddress(poolSeed)
   console.log("Pool genesis address:", poolGenesisAddress)
 
-  const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
   const stateContractAddress = getGenesisAddress(poolSeed + "_state")
 
   // We could batch those requests but archehic sdk do not allow batch request for now
-  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, factoryAddress, stateContractAddress)
-  const tokenDefinition = await archethic.network.callFunction(factoryAddress, "get_lp_token_definition", [token1, token2])
+  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress, stateContractAddress)
+
+  if (poolCode == null) {
+    console.log("Pool already exists for these tokens")
+    process.exit(1)
+  }
+
+  const tokenDefinition = await archethic.network.callFunction(routerAddress, "get_lp_token_definition", [token1, token2])
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
   const { encryptedSecret, authorizedKeys } = encryptSecret(poolSeed, storageNonce)
@@ -83,13 +88,13 @@ const handler = async function(argv) {
     .catch(() => process.exit(1))
 }
 
-async function getPoolCode(archethic, token1Address, token2Address, poolSeed, factoryAddress, stateContractAddress) {
+async function getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress, stateContractAddress) {
   const poolGenesisAddress = getGenesisAddress(poolSeed)
   const lpTokenAddress = getTokenAddress(poolSeed)
 
   const params = [token1Address, token2Address, poolGenesisAddress, lpTokenAddress, stateContractAddress]
 
-  return archethic.network.callFunction(factoryAddress, "get_pool_code", params)
+  return archethic.network.callFunction(routerAddress, "get_pool_code", params)
 }
 
 async function deployState(archethic, poolGenesisAddress, poolSeed, userSeed, storageNonce) {
