@@ -89,6 +89,9 @@ export function getStateCode(poolAddress) {
 }
 
 export function getRouterCode(keychain) {
+  const masterAddress = getServiceGenesisAddress(keychain, "Master")
+  const routerAddress = getServiceGenesisAddress(keychain, "Router")
+
   let poolCode = fs.readFileSync(poolContractPath, "utf8")
   // Replace pool address
   poolCode = poolCode.replaceAll("@POOL_ADDRESS", "0x#{pool_address}")
@@ -100,8 +103,8 @@ export function getRouterCode(keychain) {
   poolCode = poolCode.replaceAll("@TOKEN2", "0x#{token2_address}")
   // Replace lp token address
   poolCode = poolCode.replaceAll("@LP_TOKEN", "0x#{lp_token_address}")
-
-  const masterAddress = getServiceGenesisAddress(keychain, "Master")
+  // Replace router address
+  poolCode = poolCode.replaceAll("@ROUTER_ADDRESS", "0x" + routerAddress)
 
   let routerCode = fs.readFileSync(routerContractPath, "utf8")
   // Replace master address

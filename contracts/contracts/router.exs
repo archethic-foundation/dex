@@ -79,15 +79,14 @@ actions triggered_by: transaction, on: add_pool(token1_address, token2_address, 
 end
 
 condition triggered_by: transaction, on: update_code(new_code), as: [
-  previous_public_key:
-    (
-      # Pool code can only be updated from the master chain of the dex
+  previous_public_key: (
+    # Router code can only be updated from the master chain of the dex
 
-      # Transaction is not yet validated so we need to use previous address
-      # to get the genesis address
-      previous_address = Chain.get_previous_address()
-      Chain.get_genesis_address(previous_address) == @MASTER_ADDRESS
-    ),
+    # Transaction is not yet validated so we need to use previous address
+    # to get the genesis address
+    previous_address = Chain.get_previous_address()
+    Chain.get_genesis_address(previous_address) == @MASTER_ADDRESS
+  ),
   code: Code.is_valid?(new_code)
 ]
 
@@ -96,6 +95,32 @@ actions triggered_by: transaction, on: update_code(new_code) do
   # Keep contract state
   Contract.set_content(contract.content)
   Contract.set_code(new_code)
+end
+
+condition triggered_by: transaction, on: update_pools_code(), as: [
+  previous_public_key: (
+    # Pool code update can only be requested from the master chain of the dex
+
+    # Transaction is not yet validated so we need to use previous address
+    # to get the genesis address
+    previous_address = Chain.get_previous_address()
+    Chain.get_genesis_address(previous_address) == @MASTER_ADDRESS
+  )
+]
+
+actions triggered_by: transaction, on: update_pools_code() do
+  contract_state = Json.parse(contract.content)
+  pools = Map.get(contract_state, "pools", Map.new())
+
+  if Map.size(pools) > 0 do
+    for pool_info in Map.values(pools) do
+      Contract.add_recipient address: pool_info.address, action: "update_code", args: []
+    end
+
+    Contract.set_type("transfer")
+    # Keep contract state
+    Contract.set_content(contract.content)
+  end
 end
 
 fun get_pool_id(token1_address, token2_address) do
@@ -142,10 +167,7 @@ export fun get_pool_infos(token1_address, token2_address) do
 end
 
 export fun get_pool_code(token1_address, token2_address, pool_address, lp_token_address, state_address) do
-  token1_address = String.to_uppercase(token1_address)
-  token2_address = String.to_uppercase(token2_address)
-
-  code = nil
+  code = ""
 
   if token1_address != token2_address do
     if token1_address > token2_address do
@@ -154,17 +176,10 @@ export fun get_pool_code(token1_address, token2_address, pool_address, lp_token_
       token2_address = temp
     end
 
-    pool_id = "#{token1_address}/#{token2_address}"
-
-    contract_state = Json.parse(contract.content)
-    pools = Map.get(contract_state, "pools", Map.new())
-
-    if Map.get(pools, pool_id, nil) == nil do
-      code = 
+    code = 
 """
 @POOL_CODE
 """
-    end
   end
 
   code

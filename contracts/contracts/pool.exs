@@ -201,6 +201,34 @@ actions triggered_by: transaction, on: swap(_min_to_receive) do
   Contract.add_token_transfer(to: transaction.address, amount: output_amount, token_address: token_to_send)
 end
 
+condition triggered_by: transaction, on: update_code(), as: [
+  previous_public_key: (
+    # Pool code can only be updated from the router contract of the dex
+
+    # Transaction is not yet validated so we need to use previous address
+    # to get the genesis address
+    previous_address = Chain.get_previous_address()
+    Chain.get_genesis_address(previous_address) == @ROUTER_ADDRESS
+  )
+]
+
+actions triggered_by: transaction, on: update_code() do
+  params = [
+    @TOKEN1,
+    @TOKEN2,
+    @POOL_ADDRESS,
+    @LP_TOKEN,
+    @STATE_ADDRESS
+  ]
+
+  new_code = Contract.call_function(@ROUTER_ADDRESS, "get_pool_code", params)
+
+  if Code.is_valid?(new_code) && !Code.is_same?(new_code, contract.code) do
+    Contract.set_type("contract")
+    Contract.set_code(new_code)
+  end
+end
+
 export fun get_pair_tokens() do
   [@TOKEN1, @TOKEN2]
 end
