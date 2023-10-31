@@ -1,6 +1,6 @@
 import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
-import { getGenesisAddress, getPoolSeed, getTokenAddress } from "../utils.js"
+import { getGenesisAddress, getServiceGenesisAddress, getTokenAddress } from "../utils.js"
 
 const command = "swap"
 const describe = "Swap exact token for token"
@@ -28,34 +28,55 @@ const builder = {
 }
 
 const handler = async function(argv) {
-  const envName = "local"
+  const envName = argv["env"] ? argv["env"] : "local"
   const env = config.environments[envName]
+
+  const keychainAccessSeed = argv["access_seed"] ? argv["access_seed"] : env.keychainAccessSeed
+
+  if (keychainAccessSeed == undefined) {
+    console.log("Keychain access seed not defined")
+    process.exit(1)
+  }
 
   const archethic = new Archethic(env.endpoint)
   await archethic.connect()
+
+  let keychain
+  try {
+    keychain = await archethic.account.getKeychain(keychainAccessSeed)
+  } catch (err) {
+    console.log(err)
+    process.exit(1)
+  }
 
   const token1Name = argv["token1"]
   const token2Name = argv["token2"]
   const token1Amount = argv["token1_amount"]
   const slippage = argv["slippage"] ? argv["slippage"] : 2
 
-  const poolSeed = getPoolSeed(token1Name, token2Name)
-  const poolGenesisAddress = getGenesisAddress(poolSeed)
-
   const token1Address = getTokenAddress(token1Name)
   const token2Address = getTokenAddress(token2Name)
+
+  const routerAddress = getServiceGenesisAddress(keychain, "Router")
+
+  const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_infos", [token1Address, token2Address])
+
+  if (poolInfos == null) {
+    console.log("No pool exist for these tokens")
+    process.exit(1)
+  }
 
   const userAddress = getGenesisAddress(env.userSeed)
   const index = await archethic.transaction.getTransactionIndex(userAddress)
   console.log("User genesis address:", userAddress)
 
-  const outputAmount = await getOutputAmount(archethic, token1Address, token2Address, token1Amount, poolGenesisAddress)
+  const outputAmount = await getOutputAmount(archethic, token1Address, token2Address, token1Amount, poolInfos.address)
   const minToReceive = outputAmount * ((100 - slippage) / 100)
 
   const tx = archethic.transaction.new()
     .setType("transfer")
-    .addRecipient(poolGenesisAddress, "swap", [minToReceive])
-    .addTokenTransfer(poolGenesisAddress, Utils.toBigInt(token1Amount), token1Address)
+    .addRecipient(poolInfos.address, "swap", [minToReceive])
+    .addTokenTransfer(poolInfos.address, Utils.toBigInt(token1Amount), token1Address)
     .build(env.userSeed, index)
     .originSign(Utils.originPrivateKey)
 

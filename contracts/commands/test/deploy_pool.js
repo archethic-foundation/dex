@@ -4,7 +4,6 @@ import {
   sendTransactionWithFunding,
   getGenesisAddress,
   encryptSecret,
-  getPoolSeed,
   getStateCode,
   getTokenAddress,
   getServiceGenesisAddress
@@ -50,15 +49,20 @@ const handler = async function(argv) {
   const token1 = argv["token1"]
   const token2 = argv["token2"]
 
-  const poolSeed = getPoolSeed(token1, token2)
+  const token1Address = getTokenAddress(token1)
+  const token2Address = getTokenAddress(token2)
+
+  const poolSeed = token1 + token2
 
   const poolGenesisAddress = getGenesisAddress(poolSeed)
   console.log("Pool genesis address:", poolGenesisAddress)
 
   const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
+  const routerAddress = getServiceGenesisAddress(keychain, "Router")
+  const stateContractAddress = getGenesisAddress(poolSeed + "_state")
 
   // We could batch those requests but archehic sdk do not allow batch request for now
-  const poolCode = await getPoolCode(archethic, token1, token2, poolSeed, factoryAddress)
+  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, factoryAddress, stateContractAddress)
   const tokenDefinition = await archethic.network.callFunction(factoryAddress, "get_lp_token_definition", [token1, token2])
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
@@ -69,6 +73,7 @@ const handler = async function(argv) {
     .setContent(tokenDefinition)
     .setCode(poolCode)
     .addOwnership(encryptedSecret, authorizedKeys)
+    .addRecipient(routerAddress, "add_pool", [token1Address, token2Address, stateContractAddress])
     .build(poolSeed, 0)
     .originSign(Utils.originPrivateKey)
 
@@ -78,12 +83,9 @@ const handler = async function(argv) {
     .catch(() => process.exit(1))
 }
 
-async function getPoolCode(archethic, token1, token2, poolSeed, factoryAddress) {
-  const token1Address = getTokenAddress(token1)
-  const token2Address = getTokenAddress(token2)
+async function getPoolCode(archethic, token1Address, token2Address, poolSeed, factoryAddress, stateContractAddress) {
   const poolGenesisAddress = getGenesisAddress(poolSeed)
   const lpTokenAddress = getTokenAddress(poolSeed)
-  const stateContractAddress = getGenesisAddress(poolSeed + "_state")
 
   const params = [token1Address, token2Address, poolGenesisAddress, lpTokenAddress, stateContractAddress]
 

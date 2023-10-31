@@ -11,6 +11,7 @@ const CONFIRMATION_THRESHOLD = 50
 const poolContractPath = path.resolve(__dirname, "../contracts/pool.exs")
 const stateContractPath = path.resolve(__dirname, "../contracts/state.exs")
 const factoryContractPath = path.resolve(__dirname, "../contracts/factory.exs")
+const routerContractPath = path.resolve(__dirname, "../contracts/router.exs")
 
 export function getGenesisAddress(seed) {
   return Utils.uint8ArrayToHex(Crypto.deriveAddress(seed, 0))
@@ -22,10 +23,6 @@ export function getServiceGenesisAddress(keychain, service, suffix = "") {
 
 export function getTokenAddress(tokenSeed) {
   return Utils.uint8ArrayToHex(Crypto.deriveAddress(tokenSeed, 1))
-}
-
-export function getPoolSeed(token1, token2) {
-  return [token1, token2].sort().join("")
 }
 
 export function encryptSecret(secret, publicKey) {
@@ -108,4 +105,15 @@ export function getFactoryCode() {
 
   // Replace pool code
   return factoryCode.replaceAll("@POOL_CODE", poolCode)
+}
+
+export function getRouterCode(keychain) {
+  const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
+  const masterAddress = getServiceGenesisAddress(keychain, "Master")
+
+  let routerCode = fs.readFileSync(routerContractPath, "utf8")
+  // Replace factory address
+  routerCode = routerCode.replaceAll("@FACTORY_ADDRESS", "0x" + factoryAddress)
+  // Replace master address
+  return routerCode.replaceAll("@MASTER_ADDRESS", "0x" + masterAddress)
 }

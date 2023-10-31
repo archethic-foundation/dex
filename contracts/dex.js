@@ -5,6 +5,8 @@ import { hideBin } from 'yargs/helpers'
 
 import init_keychain from './commands/contract_management/init_keychain.js'
 import deploy_factory from './commands/contract_management/deploy_factory.js'
+import deploy_router from './commands/contract_management/deploy_router.js'
+import update_router from './commands/contract_management/update_router.js'
 
 import create_tokens from './commands/test/create_tokens.js'
 import deploy_pool from './commands/test/deploy_pool.js'
@@ -16,6 +18,8 @@ const y = yargs(hideBin(process.argv))
 
 y.command(init_keychain).help()
 y.command(deploy_factory).help()
+y.command(deploy_router).help()
+y.command(update_router).help()
 
 y.command(create_tokens).help()
 y.command(deploy_pool).help()
