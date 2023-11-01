@@ -66,10 +66,14 @@ Return a the lp token definition to use when creating a pool. Returns a JSON str
 ```elixir
 get_pool_infos(token1_address, token2_address)
 ```
-Returns the info of the pool for the 2 tokens address. Pool infos is a map with `address` as the genesis address of the pool `lp_token_address` as the lp token address of the pool. (`{"address": "00001234...", "lp_token_address": "00005678..."}`)
+Returns the info of the pool for the 2 tokens address. Pool infos is a map with `address` as the genesis address of the pool, `lp_token_address` as the lp token address of the pool. (`{"address": "00001234...", "lp_token_address": "00005678..."}`)
   - `token1_address` is the address of the first token
   - `token2_address` is the address of the second token
 
+```elixir
+get_pool_list()
+```
+Return the infos of all the pools. Pool infos is a map with `address` as the genesis address of the pool, `lp_token_address` as the lp token address of the pool, `tokens` as the address of both token concatenated and separated by a slash. `[{"address": "00001234...", "lp_token_address": "00005678...", "tokens": "0000456.../000789..."}]`
 #### Actions triggered by transaction:
 
 ```elixir
