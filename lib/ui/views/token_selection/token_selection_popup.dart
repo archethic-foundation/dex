@@ -22,7 +22,7 @@ class TokenSelectionPopup {
 
     final currentEnvironment = EndpointUtil.getEnvironnement();
     final tokens = jsonData['tokens'][currentEnvironment] as List<dynamic>;
-
+    if (!context.mounted) return null;
     return showDialog<DexToken>(
       context: context,
       builder: (context) {

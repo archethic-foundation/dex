@@ -57,6 +57,7 @@ class WelcomeConnectWalletBtnState
 
                       final session = ref.read(SessionProviders.session);
                       if (session.error.isNotEmpty) {
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor:
@@ -71,6 +72,7 @@ class WelcomeConnectWalletBtnState
                           ),
                         );
                       } else {
+                        if (!context.mounted) return;
                         context.go('/main');
                       }
                     },

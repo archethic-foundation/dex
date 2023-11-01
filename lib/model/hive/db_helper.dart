@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 class DBHelper {
   static Future<void> setupDatabase() async {
     if (kIsWeb) {
-      Hive.initFlutter();
+      await Hive.initFlutter();
     } else {
       final suppDir = await getApplicationSupportDirectory();
       Hive.init(suppDir.path);

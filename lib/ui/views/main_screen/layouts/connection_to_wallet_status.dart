@@ -53,6 +53,7 @@ class _ConnectionToWalletStatusState
                   ref.watch(SessionProviders.session.notifier);
               await sessionNotifier.connectToWallet();
               if (ref.read(SessionProviders.session).error.isNotEmpty) {
+                if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor:
@@ -278,6 +279,7 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                                       onPressed: () async {
                                         await sessionNotifier
                                             .cancelConnection();
+                                        if (!context.mounted) return;
                                         context.go('/welcome');
                                       },
                                     ),

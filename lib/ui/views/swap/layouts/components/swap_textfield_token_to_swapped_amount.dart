@@ -86,7 +86,7 @@ class _SwapTokenSwappedAmountState
                         autocorrect: false,
                         controller: tokenSwappedAmountController,
                         onChanged: (text) async {
-                          addWebsiteNotifier.setTokenSwappedAmount(
+                          await addWebsiteNotifier.setTokenSwappedAmount(
                             double.tryParse(text) ?? 0,
                           );
                         },
