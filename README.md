@@ -128,6 +128,8 @@ To deploy the main dex contract you have to init the keychain and deploy the rou
 node dex init_keychain
 node dex deploy_router
 ```
+NB: Don't forget to faucet the Master genesis address before executing `node dex deploy_router`
+
 To test the dex you first have to create some tokens, it will create tokens with 1 million supply
 ```bash
 node dex create_tokens --number 6
