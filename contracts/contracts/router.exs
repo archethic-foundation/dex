@@ -166,6 +166,19 @@ export fun get_pool_infos(token1_address, token2_address) do
   Map.get(pools, pool_id, nil)
 end
 
+export fun get_pool_list() do
+  contract_state = Json.parse(contract.content)
+  pools = Map.get(contract_state, "pools", Map.new())
+
+  list = []
+  for pool_id in Map.keys(pools) do
+    pool = Map.get(pools, pool_id)
+    pool = Map.set(pool, "tokens", pool_id)
+    list = List.prepend(list, pool)
+  end
+  list
+end
+
 export fun get_pool_code(token1_address, token2_address, pool_address, lp_token_address, state_address) do
   code = ""
 

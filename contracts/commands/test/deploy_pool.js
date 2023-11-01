@@ -60,14 +60,14 @@ const handler = async function(argv) {
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
   const stateContractAddress = getGenesisAddress(poolSeed + "_state")
 
-  // We could batch those requests but archehic sdk do not allow batch request for now
-  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress, stateContractAddress)
-
-  if (poolCode == null) {
+  const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_infos", [token1Address, token2Address])
+  if (poolInfos != null) {
     console.log("Pool already exists for these tokens")
     process.exit(1)
   }
 
+  // We could batch those requests but archehic sdk do not allow batch request for now
+  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress, stateContractAddress)
   const tokenDefinition = await archethic.network.callFunction(routerAddress, "get_lp_token_definition", [token1, token2])
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
