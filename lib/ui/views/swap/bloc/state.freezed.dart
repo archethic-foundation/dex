@@ -232,11 +232,11 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
 }
 
 /// @nodoc
-abstract class _$$_SwapFormStateCopyWith<$Res>
+abstract class _$$SwapFormStateImplCopyWith<$Res>
     implements $SwapFormStateCopyWith<$Res> {
-  factory _$$_SwapFormStateCopyWith(
-          _$_SwapFormState value, $Res Function(_$_SwapFormState) then) =
-      __$$_SwapFormStateCopyWithImpl<$Res>;
+  factory _$$SwapFormStateImplCopyWith(
+          _$SwapFormStateImpl value, $Res Function(_$SwapFormStateImpl) then) =
+      __$$SwapFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -270,11 +270,11 @@ abstract class _$$_SwapFormStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SwapFormStateCopyWithImpl<$Res>
-    extends _$SwapFormStateCopyWithImpl<$Res, _$_SwapFormState>
-    implements _$$_SwapFormStateCopyWith<$Res> {
-  __$$_SwapFormStateCopyWithImpl(
-      _$_SwapFormState _value, $Res Function(_$_SwapFormState) _then)
+class __$$SwapFormStateImplCopyWithImpl<$Res>
+    extends _$SwapFormStateCopyWithImpl<$Res, _$SwapFormStateImpl>
+    implements _$$SwapFormStateImplCopyWith<$Res> {
+  __$$SwapFormStateImplCopyWithImpl(
+      _$SwapFormStateImpl _value, $Res Function(_$SwapFormStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -303,7 +303,7 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
     Object? controlInProgress = freezed,
     Object? errorText = null,
   }) {
-    return _then(_$_SwapFormState(
+    return _then(_$SwapFormStateImpl(
       step: null == step
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
@@ -398,8 +398,8 @@ class __$$_SwapFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SwapFormState extends _SwapFormState {
-  const _$_SwapFormState(
+class _$SwapFormStateImpl extends _SwapFormState {
+  const _$SwapFormStateImpl(
       {this.step = 0,
       this.stepError = '',
       this.tokenToSwap,
@@ -499,7 +499,7 @@ class _$_SwapFormState extends _SwapFormState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SwapFormState &&
+            other is _$SwapFormStateImpl &&
             (identical(other.step, step) || other.step == step) &&
             (identical(other.stepError, stepError) ||
                 other.stepError == stepError) &&
@@ -575,8 +575,8 @@ class _$_SwapFormState extends _SwapFormState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SwapFormStateCopyWith<_$_SwapFormState> get copyWith =>
-      __$$_SwapFormStateCopyWithImpl<_$_SwapFormState>(this, _$identity);
+  _$$SwapFormStateImplCopyWith<_$SwapFormStateImpl> get copyWith =>
+      __$$SwapFormStateImplCopyWithImpl<_$SwapFormStateImpl>(this, _$identity);
 }
 
 abstract class _SwapFormState extends SwapFormState {
@@ -602,7 +602,7 @@ abstract class _SwapFormState extends SwapFormState {
       final double priceImpact,
       final double estimatedReceived,
       final bool? controlInProgress,
-      final String errorText}) = _$_SwapFormState;
+      final String errorText}) = _$SwapFormStateImpl;
   const _SwapFormState._() : super._();
 
   @override
@@ -651,6 +651,6 @@ abstract class _SwapFormState extends SwapFormState {
   String get errorText;
   @override
   @JsonKey(ignore: true)
-  _$$_SwapFormStateCopyWith<_$_SwapFormState> get copyWith =>
+  _$$SwapFormStateImplCopyWith<_$SwapFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

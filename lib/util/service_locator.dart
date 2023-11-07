@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:aedex/model/hive/db_helper.dart';
+import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 

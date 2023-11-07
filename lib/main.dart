@@ -1,9 +1,5 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/main_screen_widget_displayed.dart';
-import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/model/hive/db_helper.dart';
-import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
-import 'package:aedex/ui/views/welcome/welcome_screen.dart';
+import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
+import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/util/generic/providers_observer.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -37,31 +33,7 @@ class MyApp extends ConsumerWidget {
 
     // GoRouter configuration
     final _router = GoRouter(
-      routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) {
-            final session = ref.read(SessionProviders.session);
-
-            if (session.isConnected) {
-              return ref.read(
-                MainScreenWidgetDisplayedProviders
-                    .mainScreenWidgetDisplayedProvider,
-              );
-            }
-
-            return const WelcomeScreen();
-          },
-        ),
-        GoRoute(
-          path: '/main',
-          builder: (context, state) => const MainScreen(),
-        ),
-        GoRoute(
-          path: '/welcome',
-          builder: (context, state) => const WelcomeScreen(),
-        ),
-      ],
+      routes: RoutesPath().aeDexRoutes(ref),
     );
 
     return MaterialApp.router(

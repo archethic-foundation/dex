@@ -61,7 +61,11 @@
   "archethicDashboardMenuBridgeDesc": "The portal allowing seamless assets deposits & withdrawals",
   "archethicDashboardMenuAEWebItem": "AEWeb",
   "archethicDashboardMenuAEWebDesc": "The decentralized alternative to web hosting",
-  "archethicDashboardMenuWalletOnWayItem": "AEWallet",
-  "archethicDashboardMenuWalletOnWayDesc": "Send, Receive and Exchange UCO and Tokens",
-  "logout": "Logout"
+  "archethicDashboardMenuWalletOnWayItem": "Archethic Wallet",
+  "archethicDashboardMenuWalletOnWayDesc": "Securely store, transfer and swap tokens and collectibles",
+  "logout": "Logout",
+  "poolListTitle": "List of pools",
+  "addressCopied": "Address copied",
+  "addPool": "Add a pool",
+  "addLiquidity": "Add liquidity"
 }

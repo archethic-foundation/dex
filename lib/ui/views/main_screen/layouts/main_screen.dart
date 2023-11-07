@@ -2,12 +2,12 @@
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/utils/components/main_screen_background.dart';
-import 'package:aedex/ui/views/liquidity_list/liquidity_list_sheet.dart';
 import 'package:aedex/ui/views/lp_staking/lp_staking_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/body.dart';
 import 'package:aedex/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -74,7 +74,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const LiquidityListSheet());
+            .setWidget(const PoolListSheet());
 
         break;
 
@@ -151,7 +151,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
                             .archethicDashboardMenuWalletOnWayItem,
                         AppLocalizations.of(context)!
                             .archethicDashboardMenuWalletOnWayDesc,
-                        'https://www.archethic.net/aewallet.html',
+                        'https://www.archethic.net/wallet.html',
                       )
                           .animate(delay: 400.ms)
                           .fadeIn(duration: 400.ms, delay: 200.ms)

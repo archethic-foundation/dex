@@ -2,6 +2,7 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/ui/views/welcome/bloc/providers.dart';
 import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,9 @@ class WelcomeConnectWalletBtnState
                         );
                       } else {
                         if (!context.mounted) return;
-                        context.go('/main');
+                        context.go(
+                          RoutesPath().main(),
+                        );
                       }
                     },
                     isBusyValueChanged: (isBusy) {
@@ -126,7 +129,7 @@ class WelcomeConnectWalletBtnState
             onTap: () {
               launchUrl(
                 Uri.parse(
-                  'https://www.archethic.net/aewallet.html',
+                  'https://www.archethic.net/wallet.html',
                 ),
               );
             },

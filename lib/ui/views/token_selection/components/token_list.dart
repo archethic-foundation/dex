@@ -1,6 +1,6 @@
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/model/dex_token.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
 import 'package:flutter/material.dart';

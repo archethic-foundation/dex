@@ -6,7 +6,25 @@ part of 'dex_token.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
+String _$dexTokensRepositoryHash() =>
+    r'fdeab2034c1b6b173c4a8929ba49ed9804cdfcee';
+
+/// See also [_dexTokensRepository].
+@ProviderFor(_dexTokensRepository)
+final _dexTokensRepositoryProvider =
+    AutoDisposeProvider<DexTokensRepository>.internal(
+  _dexTokensRepository,
+  name: r'_dexTokensRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$dexTokensRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _DexTokensRepositoryRef = AutoDisposeProviderRef<DexTokensRepository>;
+String _$getTokenFromAddressHash() =>
+    r'0a9a9e99d1b70300a25a0e1f9f68eea02079254d';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,29 +47,57 @@ class _SystemHash {
   }
 }
 
-String $_dexTokensRepositoryHash() =>
-    r'fdeab2034c1b6b173c4a8929ba49ed9804cdfcee';
+/// See also [_getTokenFromAddress].
+@ProviderFor(_getTokenFromAddress)
+const _getTokenFromAddressProvider = _GetTokenFromAddressFamily();
 
-/// See also [_dexTokensRepository].
-final _dexTokensRepositoryProvider = AutoDisposeProvider<DexTokensRepository>(
-  _dexTokensRepository,
-  name: r'_dexTokensRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : $_dexTokensRepositoryHash,
-);
-typedef _DexTokensRepositoryRef = AutoDisposeProviderRef<DexTokensRepository>;
-String $_getTokenFromAddressHash() =>
-    r'0a9a9e99d1b70300a25a0e1f9f68eea02079254d';
+/// See also [_getTokenFromAddress].
+class _GetTokenFromAddressFamily extends Family<AsyncValue<List<DexToken>>> {
+  /// See also [_getTokenFromAddress].
+  const _GetTokenFromAddressFamily();
+
+  /// See also [_getTokenFromAddress].
+  _GetTokenFromAddressProvider call(
+    dynamic address,
+  ) {
+    return _GetTokenFromAddressProvider(
+      address,
+    );
+  }
+
+  @override
+  _GetTokenFromAddressProvider getProviderOverride(
+    covariant _GetTokenFromAddressProvider provider,
+  ) {
+    return call(
+      provider.address,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getTokenFromAddressProvider';
+}
 
 /// See also [_getTokenFromAddress].
 class _GetTokenFromAddressProvider
     extends AutoDisposeFutureProvider<List<DexToken>> {
+  /// See also [_getTokenFromAddress].
   _GetTokenFromAddressProvider(
-    this.address,
-  ) : super(
+    dynamic address,
+  ) : this._internal(
           (ref) => _getTokenFromAddress(
-            ref,
+            ref as _GetTokenFromAddressRef,
             address,
           ),
           from: _getTokenFromAddressProvider,
@@ -59,10 +105,47 @@ class _GetTokenFromAddressProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $_getTokenFromAddressHash,
+                  : _$getTokenFromAddressHash,
+          dependencies: _GetTokenFromAddressFamily._dependencies,
+          allTransitiveDependencies:
+              _GetTokenFromAddressFamily._allTransitiveDependencies,
+          address: address,
         );
 
+  _GetTokenFromAddressProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.address,
+  }) : super.internal();
+
   final dynamic address;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<DexToken>> Function(_GetTokenFromAddressRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetTokenFromAddressProvider._internal(
+        (ref) => create(ref as _GetTokenFromAddressRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        address: address,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<DexToken>> createElement() {
+    return _GetTokenFromAddressProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -78,52 +161,74 @@ class _GetTokenFromAddressProvider
   }
 }
 
-typedef _GetTokenFromAddressRef = AutoDisposeFutureProviderRef<List<DexToken>>;
+mixin _GetTokenFromAddressRef on AutoDisposeFutureProviderRef<List<DexToken>> {
+  /// The parameter `address` of this provider.
+  dynamic get address;
+}
 
-/// See also [_getTokenFromAddress].
-final _getTokenFromAddressProvider = _GetTokenFromAddressFamily();
+class _GetTokenFromAddressProviderElement
+    extends AutoDisposeFutureProviderElement<List<DexToken>>
+    with _GetTokenFromAddressRef {
+  _GetTokenFromAddressProviderElement(super.provider);
 
-class _GetTokenFromAddressFamily extends Family<AsyncValue<List<DexToken>>> {
-  _GetTokenFromAddressFamily();
+  @override
+  dynamic get address => (origin as _GetTokenFromAddressProvider).address;
+}
 
-  _GetTokenFromAddressProvider call(
+String _$getTokenFromAccountHash() =>
+    r'6f6dc2e149e9fadf7fafe64e53a04a65177ad5a7';
+
+/// See also [_getTokenFromAccount].
+@ProviderFor(_getTokenFromAccount)
+const _getTokenFromAccountProvider = _GetTokenFromAccountFamily();
+
+/// See also [_getTokenFromAccount].
+class _GetTokenFromAccountFamily extends Family<AsyncValue<List<DexToken>>> {
+  /// See also [_getTokenFromAccount].
+  const _GetTokenFromAccountFamily();
+
+  /// See also [_getTokenFromAccount].
+  _GetTokenFromAccountProvider call(
     dynamic address,
   ) {
-    return _GetTokenFromAddressProvider(
+    return _GetTokenFromAccountProvider(
       address,
     );
   }
 
   @override
-  AutoDisposeFutureProvider<List<DexToken>> getProviderOverride(
-    covariant _GetTokenFromAddressProvider provider,
+  _GetTokenFromAccountProvider getProviderOverride(
+    covariant _GetTokenFromAccountProvider provider,
   ) {
     return call(
       provider.address,
     );
   }
 
-  @override
-  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
-  List<ProviderOrFamily>? get dependencies => null;
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  String? get name => r'_getTokenFromAddressProvider';
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getTokenFromAccountProvider';
 }
-
-String $_getTokenFromAccountHash() =>
-    r'212790a4193776f65c3c6f5aa0807247fa98f320';
 
 /// See also [_getTokenFromAccount].
 class _GetTokenFromAccountProvider
     extends AutoDisposeFutureProvider<List<DexToken>> {
+  /// See also [_getTokenFromAccount].
   _GetTokenFromAccountProvider(
-    this.address,
-  ) : super(
+    dynamic address,
+  ) : this._internal(
           (ref) => _getTokenFromAccount(
-            ref,
+            ref as _GetTokenFromAccountRef,
             address,
           ),
           from: _getTokenFromAccountProvider,
@@ -131,10 +236,47 @@ class _GetTokenFromAccountProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $_getTokenFromAccountHash,
+                  : _$getTokenFromAccountHash,
+          dependencies: _GetTokenFromAccountFamily._dependencies,
+          allTransitiveDependencies:
+              _GetTokenFromAccountFamily._allTransitiveDependencies,
+          address: address,
         );
 
+  _GetTokenFromAccountProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.address,
+  }) : super.internal();
+
   final dynamic address;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<DexToken>> Function(_GetTokenFromAccountRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetTokenFromAccountProvider._internal(
+        (ref) => create(ref as _GetTokenFromAccountRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        address: address,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<DexToken>> createElement() {
+    return _GetTokenFromAccountProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -150,37 +292,18 @@ class _GetTokenFromAccountProvider
   }
 }
 
-typedef _GetTokenFromAccountRef = AutoDisposeFutureProviderRef<List<DexToken>>;
-
-/// See also [_getTokenFromAccount].
-final _getTokenFromAccountProvider = _GetTokenFromAccountFamily();
-
-class _GetTokenFromAccountFamily extends Family<AsyncValue<List<DexToken>>> {
-  _GetTokenFromAccountFamily();
-
-  _GetTokenFromAccountProvider call(
-    dynamic address,
-  ) {
-    return _GetTokenFromAccountProvider(
-      address,
-    );
-  }
-
-  @override
-  AutoDisposeFutureProvider<List<DexToken>> getProviderOverride(
-    covariant _GetTokenFromAccountProvider provider,
-  ) {
-    return call(
-      provider.address,
-    );
-  }
-
-  @override
-  List<ProviderOrFamily>? get allTransitiveDependencies => null;
-
-  @override
-  List<ProviderOrFamily>? get dependencies => null;
-
-  @override
-  String? get name => r'_getTokenFromAccountProvider';
+mixin _GetTokenFromAccountRef on AutoDisposeFutureProviderRef<List<DexToken>> {
+  /// The parameter `address` of this provider.
+  dynamic get address;
 }
+
+class _GetTokenFromAccountProviderElement
+    extends AutoDisposeFutureProviderElement<List<DexToken>>
+    with _GetTokenFromAccountRef {
+  _GetTokenFromAccountProviderElement(super.provider);
+
+  @override
+  dynamic get address => (origin as _GetTokenFromAccountProvider).address;
+}
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

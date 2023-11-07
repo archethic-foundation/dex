@@ -64,23 +64,25 @@ class _$TokenSelectionFormStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TokenSelectionFormStateCopyWith<$Res>
+abstract class _$$TokenSelectionFormStateImplCopyWith<$Res>
     implements $TokenSelectionFormStateCopyWith<$Res> {
-  factory _$$_TokenSelectionFormStateCopyWith(_$_TokenSelectionFormState value,
-          $Res Function(_$_TokenSelectionFormState) then) =
-      __$$_TokenSelectionFormStateCopyWithImpl<$Res>;
+  factory _$$TokenSelectionFormStateImplCopyWith(
+          _$TokenSelectionFormStateImpl value,
+          $Res Function(_$TokenSelectionFormStateImpl) then) =
+      __$$TokenSelectionFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String searchText, List<DexToken>? result});
 }
 
 /// @nodoc
-class __$$_TokenSelectionFormStateCopyWithImpl<$Res>
+class __$$TokenSelectionFormStateImplCopyWithImpl<$Res>
     extends _$TokenSelectionFormStateCopyWithImpl<$Res,
-        _$_TokenSelectionFormState>
-    implements _$$_TokenSelectionFormStateCopyWith<$Res> {
-  __$$_TokenSelectionFormStateCopyWithImpl(_$_TokenSelectionFormState _value,
-      $Res Function(_$_TokenSelectionFormState) _then)
+        _$TokenSelectionFormStateImpl>
+    implements _$$TokenSelectionFormStateImplCopyWith<$Res> {
+  __$$TokenSelectionFormStateImplCopyWithImpl(
+      _$TokenSelectionFormStateImpl _value,
+      $Res Function(_$TokenSelectionFormStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -89,7 +91,7 @@ class __$$_TokenSelectionFormStateCopyWithImpl<$Res>
     Object? searchText = null,
     Object? result = freezed,
   }) {
-    return _then(_$_TokenSelectionFormState(
+    return _then(_$TokenSelectionFormStateImpl(
       searchText: null == searchText
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
@@ -104,8 +106,8 @@ class __$$_TokenSelectionFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TokenSelectionFormState extends _TokenSelectionFormState {
-  const _$_TokenSelectionFormState(
+class _$TokenSelectionFormStateImpl extends _TokenSelectionFormState {
+  const _$TokenSelectionFormStateImpl(
       {this.searchText = '', final List<DexToken>? result})
       : _result = result,
         super._();
@@ -132,7 +134,7 @@ class _$_TokenSelectionFormState extends _TokenSelectionFormState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TokenSelectionFormState &&
+            other is _$TokenSelectionFormStateImpl &&
             (identical(other.searchText, searchText) ||
                 other.searchText == searchText) &&
             const DeepCollectionEquality().equals(other._result, _result));
@@ -145,16 +147,15 @@ class _$_TokenSelectionFormState extends _TokenSelectionFormState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TokenSelectionFormStateCopyWith<_$_TokenSelectionFormState>
-      get copyWith =>
-          __$$_TokenSelectionFormStateCopyWithImpl<_$_TokenSelectionFormState>(
-              this, _$identity);
+  _$$TokenSelectionFormStateImplCopyWith<_$TokenSelectionFormStateImpl>
+      get copyWith => __$$TokenSelectionFormStateImplCopyWithImpl<
+          _$TokenSelectionFormStateImpl>(this, _$identity);
 }
 
 abstract class _TokenSelectionFormState extends TokenSelectionFormState {
   const factory _TokenSelectionFormState(
       {final String searchText,
-      final List<DexToken>? result}) = _$_TokenSelectionFormState;
+      final List<DexToken>? result}) = _$TokenSelectionFormStateImpl;
   const _TokenSelectionFormState._() : super._();
 
   @override
@@ -163,6 +164,6 @@ abstract class _TokenSelectionFormState extends TokenSelectionFormState {
   List<DexToken>? get result;
   @override
   @JsonKey(ignore: true)
-  _$$_TokenSelectionFormStateCopyWith<_$_TokenSelectionFormState>
+  _$$TokenSelectionFormStateImplCopyWith<_$TokenSelectionFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

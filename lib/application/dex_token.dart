@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/model/dex_token.dart';
-import 'package:aedex/model/util/model_parser.dart';
+import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,7 +21,7 @@ Future<List<DexToken>> _getTokenFromAddress(
 
 @riverpod
 Future<List<DexToken>> _getTokenFromAccount(
-  _GetTokenFromAddressRef ref,
+  _GetTokenFromAccountRef ref,
   address,
 ) async {
   return ref.watch(_dexTokensRepositoryProvider).getTokensFromAccount(address);
@@ -85,6 +85,6 @@ class DexTokensRepository with ModelParser {
 }
 
 abstract class DexTokensProviders {
-  static final getTokenFromAddress = _getTokenFromAddressProvider;
-  static final getTokenFromAccount = _getTokenFromAccountProvider;
+  static const getTokenFromAddress = _getTokenFromAddressProvider;
+  static const getTokenFromAccount = _getTokenFromAccountProvider;
 }

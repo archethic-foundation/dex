@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aedex/model/dex_token.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/token_selection/components/token_list.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_common_bases.dart';

@@ -26,11 +26,6 @@ class AppButtonState extends State<AppButton> {
   bool _over = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) {
@@ -78,7 +73,9 @@ class AppButtonState extends State<AppButton> {
     return Container(
       alignment: Alignment.center,
       height: widget.height,
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
       decoration: ShapeDecoration(
         gradient: DexThemeBase.gradientBtn,
         shape: const StadiumBorder(),
@@ -98,12 +95,8 @@ class AppButtonState extends State<AppButton> {
             Icon(
               widget.icon,
               color: widget.disabled
-                  ? Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .color!
-                      .withOpacity(0.3)
-                  : Theme.of(context).textTheme.labelMedium!.color,
+                  ? Colors.white.withOpacity(0.5)
+                  : Colors.white,
               size: 12,
             ),
           if (widget.icon != null) const SizedBox(width: 5),
@@ -111,12 +104,8 @@ class AppButtonState extends State<AppButton> {
             widget.labelBtn,
             style: TextStyle(
               color: widget.disabled
-                  ? Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .color!
-                      .withOpacity(0.3)
-                  : Theme.of(context).textTheme.labelMedium!.color,
+                  ? Colors.white.withOpacity(0.5)
+                  : Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.w400,
             ),

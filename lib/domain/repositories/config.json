@@ -1,0 +1,16 @@
+{
+    "environment": [
+        {
+            "name": "local",
+            "routerGenesisAddress": "00004910da0cd96b847006960b14b48735cd9e31aca02da3d323f2dd3c516eee5ab4"
+        },
+        {
+            "name": "testnet",
+            "routerGenesisAddress": ""
+        },
+        {
+            "name": "mainnet",
+            "routerGenesisAddress": ""
+        }
+    ]
+}

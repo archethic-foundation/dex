@@ -1,12 +1,14 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer';
+import 'dart:developer' as dev;
+
 import 'package:aedex/application/session/state.dart';
+import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/repositories/features_flags.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_wallet_client/archethic_wallet_client.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -18,7 +20,7 @@ class _SessionNotifier extends Notifier<Session> {
   @override
   Session build() {
     ref.onDispose(() {
-      log('dispose SessionNotifier');
+      dev.log('dispose SessionNotifier');
       connectionStatusSubscription?.cancel();
     });
     return const Session();
@@ -30,14 +32,18 @@ class _SessionNotifier extends Notifier<Session> {
         isConnected: false,
         error: '',
       );
-
-      final archethicDAppClient = ArchethicDAppClient.auto(
-        origin: const RequestOrigin(
-          name: 'AEDex',
-        ),
-        replyBaseUrl: 'aedex://archethic.tech',
-      );
-
+      awc.ArchethicDAppClient? archethicDAppClient;
+      try {
+        archethicDAppClient = awc.ArchethicDAppClient.auto(
+          origin: const awc.RequestOrigin(
+            name: 'AEDex',
+          ),
+          replyBaseUrl: 'aedex://archethic.tech',
+        );
+      } catch (e, stackTrace) {
+        dev.log('$e', stackTrace: stackTrace);
+        throw const Failure.connectivityArchethic();
+      }
       final endpointResponse = await archethicDAppClient.getEndpoint();
       await endpointResponse.when(
         failure: (failure) {
@@ -49,15 +55,16 @@ class _SessionNotifier extends Notifier<Session> {
               );
               break;
             default:
-              log(failure.message ?? 'Connection failed');
+              dev.log(failure.message ?? 'Connection failed');
               state = state.copyWith(
                 isConnected: false,
                 error: 'Please, open your Archethic Wallet.',
               );
+              throw const Failure.connectivityArchethic();
           }
         },
         success: (result) async {
-          log('DApp is connected to archethic wallet.');
+          dev.log('DApp is connected to archethic wallet.');
 
           if (FeatureFlags.mainnetActive == false &&
               result.endpointUrl == 'https://mainnet.archethic.net') {
@@ -66,15 +73,15 @@ class _SessionNotifier extends Notifier<Session> {
               error:
                   'AEDex is not currently available on the Archethic mainnet.',
             );
-            return;
+            throw Failure.other(cause: state.error);
           }
 
           state = state.copyWith(endpoint: result.endpointUrl);
           connectionStatusSubscription =
-              archethicDAppClient.connectionStateStream.listen((event) {
+              archethicDAppClient!.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
-                log('Disconnected', name: 'Wallet connection');
+                dev.log('Disconnected', name: 'Wallet connection');
                 state = state.copyWith(
                   endpoint: '',
                   error: '',
@@ -85,14 +92,14 @@ class _SessionNotifier extends Notifier<Session> {
                 );
               },
               connected: () async {
-                log('Connected', name: 'Wallet connection');
+                dev.log('Connected', name: 'Wallet connection');
                 state = state.copyWith(
                   isConnected: true,
                   error: '',
                 );
               },
               connecting: () {
-                log('Connecting', name: 'Wallet connection');
+                dev.log('Connecting', name: 'Wallet connection');
                 state = state.copyWith(
                   endpoint: '',
                   error: '',
@@ -107,14 +114,11 @@ class _SessionNotifier extends Notifier<Session> {
           if (sl.isRegistered<ApiService>()) {
             sl.unregister<ApiService>();
           }
-          if (sl.isRegistered<OracleService>()) {
-            sl.unregister<OracleService>();
+          if (sl.isRegistered<awc.ArchethicDAppClient>()) {
+            sl.unregister<awc.ArchethicDAppClient>();
           }
-          if (sl.isRegistered<ArchethicDAppClient>()) {
-            sl.unregister<ArchethicDAppClient>();
-          }
-          sl.registerLazySingleton<ArchethicDAppClient>(
-            () => archethicDAppClient,
+          sl.registerLazySingleton<awc.ArchethicDAppClient>(
+            () => archethicDAppClient!,
           );
           setupServiceLocatorApiService(result.endpointUrl);
           final subscription =
@@ -155,7 +159,7 @@ class _SessionNotifier extends Notifier<Session> {
         },
       );
     } catch (e) {
-      log(e.toString());
+      dev.log(e.toString());
       state = state.copyWith(
         isConnected: false,
         error: 'Please, open your Archethic Wallet.',
@@ -168,10 +172,13 @@ class _SessionNotifier extends Notifier<Session> {
   }
 
   Future<void> cancelConnection() async {
-    await sl.get<ArchethicDAppClient>().close();
-    log('Unregister', name: 'ApiService');
+    if (sl.isRegistered<awc.ArchethicDAppClient>()) {
+      await sl.get<awc.ArchethicDAppClient>().close();
+      await sl.unregister<awc.ArchethicDAppClient>();
+    }
+
     if (sl.isRegistered<ApiService>()) {
-      sl.unregister<ApiService>();
+      await sl.unregister<ApiService>();
     }
 
     state = state.copyWith(

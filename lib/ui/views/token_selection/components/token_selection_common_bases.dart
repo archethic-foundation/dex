@@ -1,4 +1,4 @@
-import 'package:aedex/model/dex_token.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';

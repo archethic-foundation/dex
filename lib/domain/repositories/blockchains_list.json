@@ -1,0 +1,28 @@
+{
+    "blockchains": [
+        {
+            "name": "Archethic",
+            "env": "mainnet",
+            "icon": "Archethic.svg",
+            "urlExplorerAddress": "https://mainnet.archethic.net/explorer/transaction/",
+            "urlExplorerTransaction": "https://mainnet.archethic.net/explorer/transaction/",
+            "nativeCurrency": "UCO"
+        },
+        {
+            "name": "Archethic Testnet",
+            "env": "testnet",
+            "icon": "Archethic.svg",
+            "urlExplorerAddress": "https://testnet.archethic.net/explorer/transaction/",
+            "urlExplorerTransaction": "https://testnet.archethic.net/explorer/transaction/",
+            "nativeCurrency": "UCO"
+        },
+        {
+            "name": "Archethic Devnet",
+            "env": "devnet",
+            "icon": "Archethic.svg",
+            "urlExplorerAddress": "http://localhost:4000/explorer/transaction/",
+            "urlExplorerTransaction": "http://localhost:4000/explorer/transaction/",
+            "nativeCurrency": "UCO"
+        }
+    ]
+}
