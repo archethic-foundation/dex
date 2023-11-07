@@ -1,5 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
+import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/welcome/welcome_screen.dart';
@@ -22,7 +23,7 @@ class RoutesPath {
   }
 
   String main() {
-    return '/aedex/websites';
+    return '/';
   }
 
   String welcome() {
@@ -38,11 +39,19 @@ class RoutesPath {
   }
 
   String poolList() {
-    return '${main()}/poolList';
+    return '${main()}poolList';
+  }
+
+  String poolAdd() {
+    return '${main()}poolList/poolAdd';
   }
 
   String _poolList() {
     return 'poolList';
+  }
+
+  String _poolAdd() {
+    return 'poolAdd';
   }
 
   List<RouteBase> aeDexRoutes(WidgetRef ref) {
@@ -78,11 +87,18 @@ class RoutesPath {
             },
           ),
           GoRoute(
-            path: _poolList(),
-            builder: (context, state) {
-              return const PoolListSheet();
-            },
-          ),
+              path: _poolList(),
+              builder: (context, state) {
+                return const PoolListSheet();
+              },
+              routes: [
+                GoRoute(
+                  path: _poolAdd(),
+                  builder: (context, state) {
+                    return const PoolAddSheet();
+                  },
+                ),
+              ]),
         ],
       ),
     ];

@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -28,7 +29,7 @@ class PoolAddCircularStepProgressIndicator extends ConsumerWidget {
               height: 35,
               stepSize: 2,
               roundedCap: (_, isSelected) => isSelected,
-              gradientColor: poolAdd.poolAddInProgress == false
+              gradientColor: poolAdd.isProcessInProgress == false
                   ? poolAdd.failure == null
                       ? DexThemeBase
                           .gradientCircularStepProgressIndicatorFinished
@@ -41,7 +42,7 @@ class PoolAddCircularStepProgressIndicator extends ConsumerWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                if (poolAdd.poolAddInProgress)
+                if (poolAdd.isProcessInProgress)
                   SizedBox(
                     width: 25,
                     height: 25,

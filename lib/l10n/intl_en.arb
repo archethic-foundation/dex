@@ -67,5 +67,18 @@
   "poolListTitle": "List of pools",
   "addressCopied": "Address copied",
   "addPool": "Add a pool",
-  "addLiquidity": "Add liquidity"
+  "btn_pool_add": "Create a new pool",
+  "btn_confirm_pool_add": "Confirm the creation",
+  "poolAddConfirmTitle": "Confirmation",
+  "poolAddFormTitle": "Create a new pool",
+  "poolAddProcessInterruptionWarning": "Are you sure you want to stop the creation process?",
+  "poolAddSuccessInfo": "The creation of the pool has been performed successfully",
+  "poolAddInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet",
+  "poolAddProcessInProgress": "Creation in progress. Please wait.",
+  "addLiquidity": "Add liquidity",
+  "btn_back": "Back",
+  "failureUserRejected": "The request has been declined.",
+  "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
+  "failureInsufficientFunds": "Funds are not sufficient.",
+  "failureTimeout": "Timeout occurred."
 }

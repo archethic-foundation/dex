@@ -16,12 +16,18 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PoolAddFormState {
-  String get token1Address => throw _privateConstructorUsedError;
-  String get token2Address => throw _privateConstructorUsedError;
-  dynamic get processInProgress => throw _privateConstructorUsedError;
-  bool? get token1AddressOk => throw _privateConstructorUsedError;
-  bool? get token2AddressOk => throw _privateConstructorUsedError;
-  double get fee => throw _privateConstructorUsedError;
+  PoolAddProcessStep get poolAddProcessStep =>
+      throw _privateConstructorUsedError;
+  bool get isProcessInProgress => throw _privateConstructorUsedError;
+  bool get poolAddOk => throw _privateConstructorUsedError;
+  bool get walletConfirmation => throw _privateConstructorUsedError;
+  DexToken? get token1 => throw _privateConstructorUsedError;
+  DexToken? get token2 => throw _privateConstructorUsedError;
+  double get token1Balance => throw _privateConstructorUsedError;
+  double get token1Amount => throw _privateConstructorUsedError;
+  double get token2Balance => throw _privateConstructorUsedError;
+  double get token2Amount => throw _privateConstructorUsedError;
+  double get networkFees => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -36,14 +42,21 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
       _$PoolAddFormStateCopyWithImpl<$Res, PoolAddFormState>;
   @useResult
   $Res call(
-      {String token1Address,
-      String token2Address,
-      dynamic processInProgress,
-      bool? token1AddressOk,
-      bool? token2AddressOk,
-      double fee,
+      {PoolAddProcessStep poolAddProcessStep,
+      bool isProcessInProgress,
+      bool poolAddOk,
+      bool walletConfirmation,
+      DexToken? token1,
+      DexToken? token2,
+      double token1Balance,
+      double token1Amount,
+      double token2Balance,
+      double token2Amount,
+      double networkFees,
       Failure? failure});
 
+  $DexTokenCopyWith<$Res>? get token1;
+  $DexTokenCopyWith<$Res>? get token2;
   $FailureCopyWith<$Res>? get failure;
 }
 
@@ -60,44 +73,93 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token1Address = null,
-    Object? token2Address = null,
-    Object? processInProgress = freezed,
-    Object? token1AddressOk = freezed,
-    Object? token2AddressOk = freezed,
-    Object? fee = null,
+    Object? poolAddProcessStep = null,
+    Object? isProcessInProgress = null,
+    Object? poolAddOk = null,
+    Object? walletConfirmation = null,
+    Object? token1 = freezed,
+    Object? token2 = freezed,
+    Object? token1Balance = null,
+    Object? token1Amount = null,
+    Object? token2Balance = null,
+    Object? token2Amount = null,
+    Object? networkFees = null,
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
-      token1Address: null == token1Address
-          ? _value.token1Address
-          : token1Address // ignore: cast_nullable_to_non_nullable
-              as String,
-      token2Address: null == token2Address
-          ? _value.token2Address
-          : token2Address // ignore: cast_nullable_to_non_nullable
-              as String,
-      processInProgress: freezed == processInProgress
-          ? _value.processInProgress
-          : processInProgress // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      token1AddressOk: freezed == token1AddressOk
-          ? _value.token1AddressOk
-          : token1AddressOk // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      token2AddressOk: freezed == token2AddressOk
-          ? _value.token2AddressOk
-          : token2AddressOk // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      fee: null == fee
-          ? _value.fee
-          : fee // ignore: cast_nullable_to_non_nullable
+      poolAddProcessStep: null == poolAddProcessStep
+          ? _value.poolAddProcessStep
+          : poolAddProcessStep // ignore: cast_nullable_to_non_nullable
+              as PoolAddProcessStep,
+      isProcessInProgress: null == isProcessInProgress
+          ? _value.isProcessInProgress
+          : isProcessInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
+      poolAddOk: null == poolAddOk
+          ? _value.poolAddOk
+          : poolAddOk // ignore: cast_nullable_to_non_nullable
+              as bool,
+      walletConfirmation: null == walletConfirmation
+          ? _value.walletConfirmation
+          : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as bool,
+      token1: freezed == token1
+          ? _value.token1
+          : token1 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token2: freezed == token2
+          ? _value.token2
+          : token2 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token1Balance: null == token1Balance
+          ? _value.token1Balance
+          : token1Balance // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1Amount: null == token1Amount
+          ? _value.token1Amount
+          : token1Amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2Balance: null == token2Balance
+          ? _value.token2Balance
+          : token2Balance // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2Amount: null == token2Amount
+          ? _value.token2Amount
+          : token2Amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      networkFees: null == networkFees
+          ? _value.networkFees
+          : networkFees // ignore: cast_nullable_to_non_nullable
               as double,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get token1 {
+    if (_value.token1 == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.token1!, (value) {
+      return _then(_value.copyWith(token1: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get token2 {
+    if (_value.token2 == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.token2!, (value) {
+      return _then(_value.copyWith(token2: value) as $Val);
+    });
   }
 
   @override
@@ -122,14 +184,23 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String token1Address,
-      String token2Address,
-      dynamic processInProgress,
-      bool? token1AddressOk,
-      bool? token2AddressOk,
-      double fee,
+      {PoolAddProcessStep poolAddProcessStep,
+      bool isProcessInProgress,
+      bool poolAddOk,
+      bool walletConfirmation,
+      DexToken? token1,
+      DexToken? token2,
+      double token1Balance,
+      double token1Amount,
+      double token2Balance,
+      double token2Amount,
+      double networkFees,
       Failure? failure});
 
+  @override
+  $DexTokenCopyWith<$Res>? get token1;
+  @override
+  $DexTokenCopyWith<$Res>? get token2;
   @override
   $FailureCopyWith<$Res>? get failure;
 }
@@ -145,37 +216,63 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token1Address = null,
-    Object? token2Address = null,
-    Object? processInProgress = freezed,
-    Object? token1AddressOk = freezed,
-    Object? token2AddressOk = freezed,
-    Object? fee = null,
+    Object? poolAddProcessStep = null,
+    Object? isProcessInProgress = null,
+    Object? poolAddOk = null,
+    Object? walletConfirmation = null,
+    Object? token1 = freezed,
+    Object? token2 = freezed,
+    Object? token1Balance = null,
+    Object? token1Amount = null,
+    Object? token2Balance = null,
+    Object? token2Amount = null,
+    Object? networkFees = null,
     Object? failure = freezed,
   }) {
     return _then(_$PoolAddFormStateImpl(
-      token1Address: null == token1Address
-          ? _value.token1Address
-          : token1Address // ignore: cast_nullable_to_non_nullable
-              as String,
-      token2Address: null == token2Address
-          ? _value.token2Address
-          : token2Address // ignore: cast_nullable_to_non_nullable
-              as String,
-      processInProgress: freezed == processInProgress
-          ? _value.processInProgress!
-          : processInProgress,
-      token1AddressOk: freezed == token1AddressOk
-          ? _value.token1AddressOk
-          : token1AddressOk // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      token2AddressOk: freezed == token2AddressOk
-          ? _value.token2AddressOk
-          : token2AddressOk // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      fee: null == fee
-          ? _value.fee
-          : fee // ignore: cast_nullable_to_non_nullable
+      poolAddProcessStep: null == poolAddProcessStep
+          ? _value.poolAddProcessStep
+          : poolAddProcessStep // ignore: cast_nullable_to_non_nullable
+              as PoolAddProcessStep,
+      isProcessInProgress: null == isProcessInProgress
+          ? _value.isProcessInProgress
+          : isProcessInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
+      poolAddOk: null == poolAddOk
+          ? _value.poolAddOk
+          : poolAddOk // ignore: cast_nullable_to_non_nullable
+              as bool,
+      walletConfirmation: null == walletConfirmation
+          ? _value.walletConfirmation
+          : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as bool,
+      token1: freezed == token1
+          ? _value.token1
+          : token1 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token2: freezed == token2
+          ? _value.token2
+          : token2 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token1Balance: null == token1Balance
+          ? _value.token1Balance
+          : token1Balance // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1Amount: null == token1Amount
+          ? _value.token1Amount
+          : token1Amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2Balance: null == token2Balance
+          ? _value.token2Balance
+          : token2Balance // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2Amount: null == token2Amount
+          ? _value.token2Amount
+          : token2Amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      networkFees: null == networkFees
+          ? _value.networkFees
+          : networkFees // ignore: cast_nullable_to_non_nullable
               as double,
       failure: freezed == failure
           ? _value.failure
@@ -189,37 +286,57 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
 
 class _$PoolAddFormStateImpl extends _PoolAddFormState {
   const _$PoolAddFormStateImpl(
-      {this.token1Address = '',
-      this.token2Address = '',
-      this.processInProgress = false,
-      this.token1AddressOk,
-      this.token2AddressOk,
-      this.fee = 0,
+      {this.poolAddProcessStep = PoolAddProcessStep.form,
+      this.isProcessInProgress = false,
+      this.poolAddOk = false,
+      this.walletConfirmation = false,
+      this.token1,
+      this.token2,
+      this.token1Balance = 0.0,
+      this.token1Amount = 0.0,
+      this.token2Balance = 0.0,
+      this.token2Amount = 0.0,
+      this.networkFees = 0.0,
       this.failure})
       : super._();
 
   @override
   @JsonKey()
-  final String token1Address;
+  final PoolAddProcessStep poolAddProcessStep;
   @override
   @JsonKey()
-  final String token2Address;
+  final bool isProcessInProgress;
   @override
   @JsonKey()
-  final dynamic processInProgress;
-  @override
-  final bool? token1AddressOk;
-  @override
-  final bool? token2AddressOk;
+  final bool poolAddOk;
   @override
   @JsonKey()
-  final double fee;
+  final bool walletConfirmation;
+  @override
+  final DexToken? token1;
+  @override
+  final DexToken? token2;
+  @override
+  @JsonKey()
+  final double token1Balance;
+  @override
+  @JsonKey()
+  final double token1Amount;
+  @override
+  @JsonKey()
+  final double token2Balance;
+  @override
+  @JsonKey()
+  final double token2Amount;
+  @override
+  @JsonKey()
+  final double networkFees;
   @override
   final Failure? failure;
 
   @override
   String toString() {
-    return 'PoolAddFormState(token1Address: $token1Address, token2Address: $token2Address, processInProgress: $processInProgress, token1AddressOk: $token1AddressOk, token2AddressOk: $token2AddressOk, fee: $fee, failure: $failure)';
+    return 'PoolAddFormState(poolAddProcessStep: $poolAddProcessStep, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, failure: $failure)';
   }
 
   @override
@@ -227,29 +344,43 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PoolAddFormStateImpl &&
-            (identical(other.token1Address, token1Address) ||
-                other.token1Address == token1Address) &&
-            (identical(other.token2Address, token2Address) ||
-                other.token2Address == token2Address) &&
-            const DeepCollectionEquality()
-                .equals(other.processInProgress, processInProgress) &&
-            (identical(other.token1AddressOk, token1AddressOk) ||
-                other.token1AddressOk == token1AddressOk) &&
-            (identical(other.token2AddressOk, token2AddressOk) ||
-                other.token2AddressOk == token2AddressOk) &&
-            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.poolAddProcessStep, poolAddProcessStep) ||
+                other.poolAddProcessStep == poolAddProcessStep) &&
+            (identical(other.isProcessInProgress, isProcessInProgress) ||
+                other.isProcessInProgress == isProcessInProgress) &&
+            (identical(other.poolAddOk, poolAddOk) ||
+                other.poolAddOk == poolAddOk) &&
+            (identical(other.walletConfirmation, walletConfirmation) ||
+                other.walletConfirmation == walletConfirmation) &&
+            (identical(other.token1, token1) || other.token1 == token1) &&
+            (identical(other.token2, token2) || other.token2 == token2) &&
+            (identical(other.token1Balance, token1Balance) ||
+                other.token1Balance == token1Balance) &&
+            (identical(other.token1Amount, token1Amount) ||
+                other.token1Amount == token1Amount) &&
+            (identical(other.token2Balance, token2Balance) ||
+                other.token2Balance == token2Balance) &&
+            (identical(other.token2Amount, token2Amount) ||
+                other.token2Amount == token2Amount) &&
+            (identical(other.networkFees, networkFees) ||
+                other.networkFees == networkFees) &&
             (identical(other.failure, failure) || other.failure == failure));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      token1Address,
-      token2Address,
-      const DeepCollectionEquality().hash(processInProgress),
-      token1AddressOk,
-      token2AddressOk,
-      fee,
+      poolAddProcessStep,
+      isProcessInProgress,
+      poolAddOk,
+      walletConfirmation,
+      token1,
+      token2,
+      token1Balance,
+      token1Amount,
+      token2Balance,
+      token2Amount,
+      networkFees,
       failure);
 
   @JsonKey(ignore: true)
@@ -262,27 +393,42 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
 
 abstract class _PoolAddFormState extends PoolAddFormState {
   const factory _PoolAddFormState(
-      {final String token1Address,
-      final String token2Address,
-      final dynamic processInProgress,
-      final bool? token1AddressOk,
-      final bool? token2AddressOk,
-      final double fee,
+      {final PoolAddProcessStep poolAddProcessStep,
+      final bool isProcessInProgress,
+      final bool poolAddOk,
+      final bool walletConfirmation,
+      final DexToken? token1,
+      final DexToken? token2,
+      final double token1Balance,
+      final double token1Amount,
+      final double token2Balance,
+      final double token2Amount,
+      final double networkFees,
       final Failure? failure}) = _$PoolAddFormStateImpl;
   const _PoolAddFormState._() : super._();
 
   @override
-  String get token1Address;
+  PoolAddProcessStep get poolAddProcessStep;
   @override
-  String get token2Address;
+  bool get isProcessInProgress;
   @override
-  dynamic get processInProgress;
+  bool get poolAddOk;
   @override
-  bool? get token1AddressOk;
+  bool get walletConfirmation;
   @override
-  bool? get token2AddressOk;
+  DexToken? get token1;
   @override
-  double get fee;
+  DexToken? get token2;
+  @override
+  double get token1Balance;
+  @override
+  double get token1Amount;
+  @override
+  double get token2Balance;
+  @override
+  double get token2Amount;
+  @override
+  double get networkFees;
   @override
   Failure? get failure;
   @override

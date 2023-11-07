@@ -1,3 +1,4 @@
+import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/util/generic/providers_observer.dart';
@@ -28,8 +29,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO(reddwarf03): use LanguageProviders
-    //const language = AvailableLanguage.english;
+    ref.read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier).init();
 
     // GoRouter configuration
     final _router = GoRouter(

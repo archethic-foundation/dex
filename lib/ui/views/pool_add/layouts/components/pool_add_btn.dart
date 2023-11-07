@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:async';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -14,33 +15,30 @@ class PoolAddButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
-    if (refund.evmWallet == null ||
-        refund.evmWallet!.isConnected == false ||
-        refund.htlcAddress.isEmpty ||
-        refund.refundTxAddress != null ||
-        (refund.isAlreadyRefunded != null &&
-            refund.isAlreadyRefunded == true)) {
-      return const SizedBox.shrink();
+
+    if (poolAdd.isControlsOk == false) {
+      return AppButton(
+        labelBtn: AppLocalizations.of(context)!.btn_pool_add,
+        icon: Iconsax.wallet_money,
+        disabled: true,
+      );
     }
 
-    return poolAdd.htlcCanRefund == false
-        ? AppButton(
-            labelBtn: AppLocalizations.of(context)!.btn_pool_add,
-            icon: Iconsax.empty_wallet_change,
-            disabled: true,
-          )
-        : AppButton(
-            labelBtn: AppLocalizations.of(context)!.btn_pool_add,
-            icon: Iconsax.empty_wallet_change,
-            onPressed: () async {
-              final refundNotifier =
-                  ref.read(RefundFormProvider.refundForm.notifier);
-              unawaited(refundNotifier.refund(context, ref));
-              await RefundInProgressPopup.getDialog(
-                context,
-                ref,
-              );
-            },
-          );
+    final session = ref.watch(SessionProviders.session);
+    if (session.isConnected == false) {
+      return AppButton(
+        labelBtn: AppLocalizations.of(context)!.btn_pool_add,
+        icon: Iconsax.wallet_money,
+        disabled: true,
+      );
+    }
+
+    return AppButton(
+      labelBtn: AppLocalizations.of(context)!.btn_pool_add,
+      icon: Iconsax.wallet_money,
+      onPressed: () {
+        ref.read(PoolAddFormProvider.poolAddForm.notifier).validateForm();
+      },
+    );
   }
 }

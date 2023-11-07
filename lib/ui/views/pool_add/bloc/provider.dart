@@ -1,7 +1,12 @@
+import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/failures.dart';
+import 'package:aedex/domain/usecases/add_pool.dart';
+import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final _poolAddFormNotifierProvider =
+final _poolAddFormProvider =
     NotifierProvider.autoDispose<PoolAddFormNotifier, PoolAddFormState>(
   () {
     return PoolAddFormNotifier();
@@ -9,274 +14,160 @@ final _poolAddFormNotifierProvider =
 );
 
 class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
+  PoolAddFormNotifier();
+
   @override
-  PoolAddFormState build() {
-    if (sl.isRegistered<EVMWalletProvider>()) {
-      sl.unregister<EVMWalletProvider>();
-    }
-    ref.read(SessionProviders.session.notifier).cancelAllWalletsConnection();
+  PoolAddFormState build() => const PoolAddFormState();
 
-    return const PoolAddFormState();
-  }
-
-  Future<void> setContractAddress(String htlcAddress) async {
-    state = state.copyWith(htlcAddress: htlcAddress);
-    await setStatus();
-  }
-
-  Future<void> setStatus() async {
-    if (state.evmWallet == null || state.evmWallet!.isConnected == false) {
-      return;
-    }
-
-    state = state.copyWith(
-      poolAddTxAddress: null,
-      isAlreadyPoolAdded: false,
-      isAlreadyWithdrawn: false,
-    );
-
-    final chainId = sl.get<EVMWalletProvider>().currentChain ?? 0;
-
-    if (await control()) {
-      final evmHTLC = EVMHTLC(
-        state.evmWallet!.providerEndpoint,
-        state.htlcAddress,
-        chainId,
-      );
-
-      int? status;
-      try {
-        status = await evmHTLC.getStatus();
-      } catch (e) {
-        setFailure(const Failure.notHTLC());
-        throw const Failure.notHTLC();
-      }
-      if (status == 2) {
-        final poolAddTxAddress = await evmHTLC.getTxPoolAdd();
-
-        state = state.copyWith(
-          poolAddTxAddress: poolAddTxAddress,
-          isAlreadyPoolAdded: true,
-        );
-        return;
-      }
-      if (status == 1) {
-        state = state.copyWith(
-          isAlreadyWithdrawn: true,
-        );
-      }
-
-      final resultLockTime = await evmHTLC.getHTLCLockTimeAndPoolAddState();
-      resultLockTime.map(
-        success: (locktime) {
-          state = state.copyWith(
-            htlcDateLock: locktime.dateLockTime,
-            htlcCanPoolAdd: locktime.canPoolAdd,
-          );
-        },
-        failure: setFailure,
-      );
-
-      final resultAmount = await evmHTLC.getAmount();
-      resultAmount.map(
-        success: (amount) {
-          setAmount(amount);
-        },
-        failure: setFailure,
-      );
-
-      final blockchain = await ref.read(
-        BridgeBlockchainsProviders.getBlockchainFromChainId(chainId).future,
-      );
-
-      final resultAmountCurrency =
-          await evmHTLC.getAmountCurrency(blockchain!.nativeCurrency);
-      resultAmountCurrency.map(
-        success: (currency) {
-          setAmountCurrency(currency);
-        },
-        failure: setFailure,
-      );
-
-      if (state.amountCurrency == 'UCO') {
-        final evmHTLCERC = EVMHTLCERC(
-          state.evmWallet!.providerEndpoint!,
-          state.htlcAddress,
-          chainId,
-        );
-        final resultFee = await evmHTLCERC.getFee();
-        resultFee.map(
-          success: (fee) {
-            setFee(fee);
-          },
-          failure: setFailure,
-        );
-      } else {
-        final evmHTLCNative = EVMHTLCNative(
-          state.evmWallet!.providerEndpoint!,
-          state.htlcAddress,
-          chainId,
-        );
-        final resultFee = await evmHTLCNative.getFee();
-        resultFee.map(
-          success: (fee) {
-            setFee(fee);
-          },
-          failure: setFailure,
-        );
-      }
-    }
-  }
-
-  void setWalletConfirmation(
-    WalletConfirmationPoolAdd? walletConfirmation,
+  void setToken1(
+    DexToken token,
   ) {
     state = state.copyWith(
-      walletConfirmation: walletConfirmation,
+      token1: token,
     );
   }
 
-  void setFailure(
-    Failure? failure,
+  void setToken2(
+    DexToken token,
   ) {
+    state = state.copyWith(
+      token2: token,
+    );
+  }
+
+  void setToken1Balance(
+    double balance,
+  ) {
+    state = state.copyWith(
+      token1Balance: balance,
+    );
+  }
+
+  void setToken2Balance(
+    double balance,
+  ) {
+    state = state.copyWith(
+      token2Balance: balance,
+    );
+  }
+
+  void setToken1Amount(
+    double amount,
+  ) {
+    state = state.copyWith(
+      token1Amount: amount,
+    );
+  }
+
+  void setToken2Amount(
+    double amount,
+  ) {
+    state = state.copyWith(
+      token2Amount: amount,
+    );
+  }
+
+  void estimateNetworkFees() {
+    state = state.copyWith(
+      networkFees: 0,
+    );
+  }
+
+  void setFailure(Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
   }
 
-  void setPoolAddInProgress(bool poolAddInProgress) {
-    state = state.copyWith(poolAddInProgress: poolAddInProgress);
-  }
-
-  void setAmount(double amount) {
-    state = state.copyWith(amount: amount);
-  }
-
-  void setAmountCurrency(String amountCurrency) {
-    state = state.copyWith(amountCurrency: amountCurrency);
-  }
-
-  void setFee(double fee) {
-    state = state.copyWith(fee: fee);
+  void setWalletConfirmation(bool walletConfirmation) {
+    state = state.copyWith(
+      walletConfirmation: walletConfirmation,
+    );
   }
 
   void setPoolAddOk(bool poolAddOk) {
-    state = state.copyWith(poolAddOk: poolAddOk);
-  }
-
-  void setPoolAddTxAddress(String? poolAddTxAddress) {
-    state = state.copyWith(poolAddTxAddress: poolAddTxAddress);
-  }
-
-  ({bool result, Failure? failure}) _controlAddress() {
-    if (state.htlcAddress.isEmpty) {
-      return (
-        result: false,
-        failure: const Failure.other(cause: 'Please enter a contract address.'),
-      );
-    }
-
-    try {
-      webthree.EthereumAddress.fromHex(state.htlcAddress);
-    } catch (e) {
-      return (
-        result: false,
-        failure: const Failure.other(cause: 'Malformated address.'),
-      );
-    }
-
-    return (result: true, failure: null);
-  }
-
-  Future<bool> control() async {
     state = state.copyWith(
-      poolAddOk: false,
-      poolAddTxAddress: null,
-      isAlreadyPoolAdded: false,
-      htlcDateLock: null,
-      htlcCanPoolAdd: false,
-      amount: 0,
-      failure: null,
-      addressOk: null,
+      poolAddOk: poolAddOk,
     );
-
-    final controlAddress = _controlAddress();
-    if (controlAddress.failure != null) {
-      state = state.copyWith(
-        failure: controlAddress.failure,
-      );
-    } else {
-      state = state.copyWith(
-        addressOk: true,
-      );
-    }
-
-    return controlAddress.result;
   }
 
-  Future<void> poolAdd(BuildContext context, WidgetRef ref) async {
-    //
-    if (state.chainId == null) {
+  void setProcessInProgress(bool isProcessInProgress) {
+    state = state.copyWith(isProcessInProgress: isProcessInProgress);
+  }
+
+  void setPoolAddProcessStep(
+    PoolAddProcessStep poolAddProcessStep,
+  ) {
+    state = state.copyWith(
+      poolAddProcessStep: poolAddProcessStep,
+    );
+  }
+
+  Future<void> validateForm() async {
+    if (control() == false) {
       return;
     }
 
-    await RefunEVMCase().run(
-      ref,
-      state.evmWallet!.providerEndpoint!,
-      state.htlcAddress,
-      state.chainId!,
+    setPoolAddProcessStep(
+      PoolAddProcessStep.confirmation,
     );
   }
 
-  Future<Result<void, Failure>> connectToEVMWallet() async {
-    return Result.guard(
-      () async {
-        var evmWallet = const BridgeWallet();
-        evmWallet = evmWallet.copyWith(
-          isConnected: false,
-          error: '',
-        );
-        state = state.copyWith(evmWallet: evmWallet);
-        final evmWalletProvider = EVMWalletProvider();
+  bool control() {
+    setFailure(null);
 
-        try {
-          final currentChainId = await evmWalletProvider.getChainId();
-          final bridgeBlockchain = await ref.read(
-            BridgeBlockchainsProviders.getBlockchainFromChainId(
-              currentChainId,
-            ).future,
-          );
-          await evmWalletProvider.connect(currentChainId);
-          if (evmWalletProvider.walletConnected) {
-            evmWallet = evmWallet.copyWith(
-              wallet: 'evmWallet',
-              isConnected: true,
-              error: '',
-              nameAccount: evmWalletProvider.accountName!,
-              genesisAddress: evmWalletProvider.currentAddress!,
-              endpoint: bridgeBlockchain!.name,
-              providerEndpoint: bridgeBlockchain.providerEndpoint,
-            );
-            state = state.copyWith(
-              evmWallet: evmWallet,
-              chainId: currentChainId,
-            );
-            if (sl.isRegistered<EVMWalletProvider>()) {
-              await sl.unregister<EVMWalletProvider>();
-            }
-            sl.registerLazySingleton<EVMWalletProvider>(
-              () => evmWalletProvider,
-            );
-            await setStatus();
-          }
-        } catch (e) {
-          throw const Failure.connectivityEVM();
-        }
-      },
+    if (state.token1 == null) {
+      setFailure(
+        const Failure.other(cause: 'Please enter the token 1'),
+      );
+      return false;
+    }
+
+    if (state.token2 == null) {
+      setFailure(
+        const Failure.other(cause: 'Please enter the token 2'),
+      );
+      return false;
+    }
+
+    if (state.token1Amount <= 0) {
+      setFailure(
+        const Failure.other(cause: 'Please enter the amount of token 1'),
+      );
+      return false;
+    }
+
+    if (state.token2Amount <= 0) {
+      setFailure(
+        const Failure.other(cause: 'Please enter the amount of token 1'),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<void> add(BuildContext context, WidgetRef ref) async {
+    if (control() == false) {
+      return;
+    }
+    setProcessInProgress(true);
+
+    final dexConfig = await ref
+        .read(DexConfigProviders.dexConfigRepository)
+        .getDexConfig('local');
+
+    await AddPoolCase().run(
+      ref,
+      state.token1!.genesisAddress!,
+      state.token2!.genesisAddress!,
+      dexConfig.routerGenesisAddress,
     );
+
+    setProcessInProgress(false);
   }
 }
 
 abstract class PoolAddFormProvider {
-  static final poolAddForm = _poolAddFormNotifierProvider;
+  static final poolAddForm = _poolAddFormProvider;
 }

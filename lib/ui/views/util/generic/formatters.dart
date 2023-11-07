@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 /// Input formatter that ensures text starts with @
 class ContactInputFormatter extends TextInputFormatter {
@@ -136,7 +137,32 @@ class AmountTextInputFormatter extends TextInputFormatter {
   }
 }
 
-extension _StringNumberExt on String {
+extension DoubleNumberExt on double {
+  String formatNumber({
+    int? precision,
+  }) {
+    if (precision != null) {
+      if (precision <= 2) {
+        final f = NumberFormat('#,##0.${''.padRight(precision, '0')}', 'en_US');
+        return f.format(this);
+      } else {
+        final f = NumberFormat(
+          '#,##0.00${''.padRight(precision - 2, '#')}',
+          'en_US',
+        );
+        return f.format(this);
+      }
+    }
+    if (this > 1) {
+      final f = NumberFormat('#,##0.00', 'en_US');
+      return f.format(this);
+    }
+    final f = NumberFormat('#,##0.00######', 'en_US');
+    return f.format(this);
+  }
+}
+
+extension StringNumberExt on String {
   static final illegalCharacters = RegExp('[^0-9.]');
   String removeIllegalNumberCharacters() => replaceAll(illegalCharacters, '');
 

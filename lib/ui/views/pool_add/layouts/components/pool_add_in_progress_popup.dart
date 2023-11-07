@@ -1,16 +1,17 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/ui/views/refund/bloc/provider.dart';
-import 'package:aebridge/ui/views/refund/layouts/components/refund_circular_step_progress_indicator.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/components/in_progress_banner.dart';
-import 'package:aebridge/ui/views/util/components/popup_close_button.dart';
-import 'package:aebridge/ui/views/util/components/scrollbar.dart';
-import 'package:aebridge/ui/views/util/failure_message.dart';
+
+import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_circular_step_progress_indicator.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
+import 'package:aedex/ui/views/util/components/in_progress_banner.dart';
+import 'package:aedex/ui/views/util/components/popup_close_button.dart';
+import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RefundInProgressPopup {
+class PoolAddInProgressPopup {
   static Future<void> getDialog(
     BuildContext context,
     WidgetRef ref,
@@ -23,7 +24,7 @@ class RefundInProgressPopup {
             builder: (context) {
               return Consumer(
                 builder: (context, ref, _) {
-                  final refund = ref.watch(RefundFormProvider.refundForm);
+                  final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
                   return Scaffold(
                     backgroundColor: Colors.transparent.withAlpha(120),
                     body: AlertDialog(
@@ -40,9 +41,9 @@ class RefundInProgressPopup {
                               ),
                               padding: const EdgeInsets.all(20),
                               height: 300,
-                              width: BridgeThemeBase.sizeBoxComponentWidth,
+                              width: DexThemeBase.sizeBoxComponentWidth,
                               decoration: BoxDecoration(
-                                color: BridgeThemeBase.backgroundPopupColor,
+                                color: DexThemeBase.backgroundPopupColor,
                                 borderRadius: BorderRadius.circular(16),
                                 boxShadow: const <BoxShadow>[
                                   BoxShadow(
@@ -54,24 +55,24 @@ class RefundInProgressPopup {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  const RefundCircularStepProgressIndicator(),
+                                  const PoolAddCircularStepProgressIndicator(),
                                   InProgressBanner(
-                                    stepLabel: refund.refundInProgress
+                                    stepLabel: poolAdd.isProcessInProgress
                                         ? AppLocalizations.of(context)!
-                                            .refundProcessInProgress
+                                            .poolAddProcessInProgress
                                         : '',
-                                    infoMessage: refund.walletConfirmation !=
-                                            null
+                                    infoMessage: poolAdd.walletConfirmation ==
+                                            true
                                         ? AppLocalizations.of(context)!
-                                            .refundInProgressConfirmEVMWallet
-                                        : refund.refundOk == true
+                                            .poolAddInProgressConfirmAEWallet
+                                        : poolAdd.poolAddOk == true
                                             ? AppLocalizations.of(context)!
-                                                .refundSuccessInfo
+                                                .poolAddSuccessInfo
                                             : '',
-                                    errorMessage: refund.failure != null
+                                    errorMessage: poolAdd.failure != null
                                         ? FailureMessage(
                                             context: context,
-                                            failure: refund.failure,
+                                            failure: poolAdd.failure,
                                           ).getMessage()
                                         : '',
                                   ),
@@ -82,18 +83,20 @@ class RefundInProgressPopup {
                           Positioned(
                             right: 0,
                             child: PopupCloseButton(
-                              warningCloseWarning: refund.refundInProgress,
-                              warningCloseLabel: refund.refundInProgress == true
-                                  ? AppLocalizations.of(context)!
-                                      .refundProcessInterruptionWarning
-                                  : '',
+                              warningCloseWarning: poolAdd.isProcessInProgress,
+                              warningCloseLabel:
+                                  poolAdd.isProcessInProgress == true
+                                      ? AppLocalizations.of(context)!
+                                          .poolAddProcessInterruptionWarning
+                                      : '',
                               warningCloseFunction: () {
-                                ref.read(RefundFormProvider.refundForm.notifier)
-                                  ..setRefundTxAddress(null)
-                                  ..setRefundInProgress(false)
+                                ref.read(
+                                  PoolAddFormProvider.poolAddForm.notifier,
+                                )
+                                  ..setProcessInProgress(false)
                                   ..setFailure(null)
-                                  ..setRefundOk(false)
-                                  ..setWalletConfirmation(null);
+                                  ..setPoolAddOk(false)
+                                  ..setWalletConfirmation(false);
                               },
                             ),
                           ),

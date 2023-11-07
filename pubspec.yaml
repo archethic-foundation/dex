@@ -18,6 +18,9 @@ dependencies:
   # Centralized loading widget management
   busy: ^1.0.3
 
+  # Dart package that provides simple access to the CoinGecko API (Version 3)
+  coingecko_api: ^1.1.1+1
+
   # Collections and utilities functions and classes related to collections.
   collection: ^1.17.0
 

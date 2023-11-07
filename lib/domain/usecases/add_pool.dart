@@ -54,7 +54,7 @@ class AddPoolCase with TransactionDexMixin {
           lpTokenAddress,
           stateContractAddress,
         ),
-        routerFactory.getLPTokenDefinition(token1Address, token2Address)
+        routerFactory.getLPTokenDefinition(token1Address, token2Address),
       ],
     );
 

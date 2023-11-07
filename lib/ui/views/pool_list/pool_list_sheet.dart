@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/dex_pool.dart';
-import 'package:aedex/domain/usecases/add_pool.dart';
+import 'package:aedex/application/main_screen_widget_displayed.dart';
+import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_card.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,14 @@ class PoolListSheet extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(20),
           child: FloatingActionButton.extended(
-            onPressed: () {},
+            onPressed: () {
+              ref
+                  .read(
+                    MainScreenWidgetDisplayedProviders
+                        .mainScreenWidgetDisplayedProvider.notifier,
+                  )
+                  .setWidget(const PoolAddSheet());
+            },
             icon: const Icon(Icons.add),
             label: Text(
               AppLocalizations.of(context)!.addPool,
