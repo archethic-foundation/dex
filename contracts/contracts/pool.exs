@@ -8,9 +8,8 @@ condition triggered_by: transaction, on: add_liquidity(token1_min_amount, token2
     user_amounts = get_user_transfers_amount(transaction.token_transfers)
 
     if user_transfers.token1 > 0 && user_transfers.token2 > 0 do
-      contract_state = Contract.call_function(@STATE_ADDRESS, "get_state", [])
-      lp_token_supply = Map.get(contract_state, "lp_token_supply", 0)
-      reserves = Map.get(contract_state, "reserves", [token1: 0, token2: 0])
+      lp_token_supply = State.get("lp_token_supply", 0)
+      reserves = State.get("reserves", [token1: 0, token2: 0])
 
       final_amounts = nil
       if lp_token_supply != 0 do
@@ -28,7 +27,7 @@ condition triggered_by: transaction, on: add_liquidity(token1_min_amount, token2
         token1_amount = final_amounts.token1 + (pool_balances.token1 - reserves.token1)
         token2_amount = final_amounts.token2 + (pool_balances.token2 - reserves.token2)
 
-        lp_token_to_mint = get_lp_token_to_mint(lp_token_supply, token1_amount, token2_amount, reserves)
+        lp_token_to_mint = get_lp_token_to_mint(token1_amount, token2_amount)
 
         valid_liquidity? = lp_token_to_mint != 0
       end
@@ -42,9 +41,8 @@ actions triggered_by: transaction, on: add_liquidity(token1_min_amount, token2_m
   pool_balances = get_pool_balances()
   user_amounts = get_user_transfers_amount(transaction.token_transfers)
 
-  contract_state = Contract.call_function(@STATE_ADDRESS, "get_state", [])
-  lp_token_supply = Map.get(contract_state, "lp_token_supply", 0)
-  reserves = Map.get(contract_state, "reserves", [token1: 0, token2: 0])
+  lp_token_supply = State.get("lp_token_supply", 0)
+  reserves = State.get("reserves", [token1: 0, token2: 0])
 
   final_amounts = get_final_amounts(user_amounts, reserves, token1_min_amount, token2_min_amount)
   token1_to_refund = user_amounts.token1 - final_amounts.token1
@@ -53,7 +51,7 @@ actions triggered_by: transaction, on: add_liquidity(token1_min_amount, token2_m
   token1_amount = pool_balances.token1 - reserves.token1 - token1_to_refund
   token2_amount = pool_balances.token2 - reserves.token2 - token2_to_refund
 
-  lp_token_to_mint = get_lp_token_to_mint(lp_token_supply, token1_amount, token2_amount, reserves)
+  lp_token_to_mint = get_lp_token_to_mint(token1_amount, token2_amount)
   lp_token_to_mint_bigint = Math.trunc(lp_token_to_mint * 100_000_000)
 
   # Remove minimum liquidity if this is the first liquidity if the pool
@@ -74,14 +72,8 @@ actions triggered_by: transaction, on: add_liquidity(token1_min_amount, token2_m
   new_token1_reserve = pool_balances.token1 - token1_to_refund
   new_token2_reserve = pool_balances.token2 - token2_to_refund
 
-  contract_state = Map.set(contract_state, "lp_token_supply", lp_token_supply + lp_token_to_mint)
-  contract_state = Map.set(contract_state, "reserves", [token1: new_token1_reserve, token2: new_token2_reserve])
-  
-  Contract.add_recipient(
-    address: @STATE_ADDRESS,
-    action: "update_state",
-    args: [contract_state]
-  )
+  State.set("lp_token_supply", lp_token_supply + lp_token_to_mint)
+  State.set("reserves", [token1: new_token1_reserve, token2: new_token2_reserve])
 
   if token1_to_refund > 0 do
     Contract.add_token_transfer(to: transaction.address, amount: token1_to_refund, token_address: @TOKEN1)
@@ -100,11 +92,10 @@ condition triggered_by: transaction, on: remove_liquidity(), as: [
     valid? = false
 
     user_amount = get_user_lp_amount(transaction.token_transfers)
-    if user_amount > 0 do
-      pool_balances = get_pool_balances()
+    lp_token_supply = State.get("lp_token_supply", 0)
 
-      contract_state = Contract.call_function(@STATE_ADDRESS, "get_state", [])
-      lp_token_supply = Map.get(contract_state, "lp_token_supply", 0)
+    if user_amount > 0 && lp_token_supply > 0 do
+      pool_balances = get_pool_balances()
 
       token1_to_remove = (user_amount * pool_balances.token1) / lp_token_supply
       token2_to_remove = (user_amount * pool_balances.token2) / lp_token_supply
@@ -120,9 +111,7 @@ actions triggered_by: transaction, on: remove_liquidity() do
   user_amount = get_user_lp_amount(transaction.token_transfers)
   pool_balances = get_pool_balances()
 
-  contract_state = Contract.call_function(@STATE_ADDRESS, "get_state", [])
-  lp_token_supply = Map.get(contract_state, "lp_token_supply")
-  reserves = Map.get(contract_state, "reserves")
+  lp_token_supply = State.get("lp_token_supply")
 
   token1_to_remove = (user_amount * pool_balances.token1) / lp_token_supply
   token2_to_remove = (user_amount * pool_balances.token2) / lp_token_supply
@@ -130,14 +119,8 @@ actions triggered_by: transaction, on: remove_liquidity() do
   new_token1_reserve = pool_balances.token1 - token1_to_remove
   new_token2_reserve = pool_balances.token2 - token2_to_remove
 
-  contract_state = Map.set(contract_state, "lp_token_supply", lp_token_supply - user_amount)
-  contract_state = Map.set(contract_state, "reserves", [token1: new_token1_reserve, token2: new_token2_reserve])
-  
-  Contract.add_recipient(
-    address: @STATE_ADDRESS,
-    action: "update_state",
-    args: [contract_state]
-  )
+  State.set("lp_token_supply", lp_token_supply - user_amount)
+  State.set("reserves", [token1: new_token1_reserve, token2: new_token2_reserve])
 
   Contract.set_type("transfer")
   Contract.add_token_transfer(to: transaction.address, amount: token1_to_remove, token_address: @TOKEN1)
@@ -150,21 +133,8 @@ condition triggered_by: transaction, on: swap(min_to_receive), as: [
 
     transfer = get_user_transfer(transaction.token_transfers)
     if transfer != nil do
-      contract_state = Contract.call_function(@STATE_ADDRESS, "get_state", [])
-      reserves = Map.get(contract_state, "reserves")
-
-      if reserves.token1 > 0 && reserves.token2 > 0 do
-        output_amount = get_output_amount(transfer.token_address, transfer.amount, reserves)
-
-        reserve_amount = 0
-        if transfer.token_address == @TOKEN1 do
-          reserve_amount = reserves.token2
-        else
-          reserve_amount = reserves.token1
-        end
-
-        valid? = output_amount > 0 && output_amount >= min_to_receive && output_amount < reserve_amount
-      end
+        output_amount = get_output_amount(transfer.token_address, transfer.amount)
+        valid? = output_amount > 0 && output_amount >= min_to_receive
     end
 
     valid? 
@@ -174,10 +144,7 @@ condition triggered_by: transaction, on: swap(min_to_receive), as: [
 actions triggered_by: transaction, on: swap(_min_to_receive) do
   transfer = get_user_transfer(transaction.token_transfers)
 
-  contract_state = Contract.call_function(@STATE_ADDRESS, "get_state", [])
-  reserves = Map.get(contract_state, "reserves")
-
-  output_amount = get_output_amount(transfer.token_address, transfer.amount, reserves)
+  output_amount = get_output_amount(transfer.token_address, transfer.amount)
 
   pool_balances = get_pool_balances()
   token_to_send = nil
@@ -189,13 +156,7 @@ actions triggered_by: transaction, on: swap(_min_to_receive) do
     token_to_send = @TOKEN1
   end
 
-  contract_state = Map.set(contract_state, "reserves", [token1: pool_balances.token1, token2: pool_balances.token2])
-
-  Contract.add_recipient(
-    address: @STATE_ADDRESS,
-    action: "update_state",
-    args: [contract_state]
-  )
+  State.set("reserves", [token1: pool_balances.token1, token2: pool_balances.token2])
 
   Contract.set_type("transfer")
   Contract.add_token_transfer(to: transaction.address, amount: output_amount, token_address: token_to_send)
@@ -217,8 +178,7 @@ actions triggered_by: transaction, on: update_code() do
     @TOKEN1,
     @TOKEN2,
     @POOL_ADDRESS,
-    @LP_TOKEN,
-    @STATE_ADDRESS
+    @LP_TOKEN
   ]
 
   new_code = Contract.call_function(@ROUTER_ADDRESS, "get_pool_code", params)
@@ -233,15 +193,38 @@ export fun get_pair_tokens() do
   [@TOKEN1, @TOKEN2]
 end
 
-fun get_equivalent_amount(token_address, amount, reserves) do
+export fun get_equivalent_amount(token_address, amount) do
+  reserves = State.get("reserves", [token1: 0, token2: 0])
   ratio = 0
-  if token_address = @TOKEN1 do
-    ratio = reserves.token2 / reserves.token1
-  else
-    ratio = reserves.token1 / reserves.token2
+
+  if reserves.token1 > 0 && reserves.token2 > 0 do
+    if token_address = @TOKEN1 do
+      ratio = reserves.token2 / reserves.token1
+    else
+      ratio = reserves.token1 / reserves.token2
+    end
   end
 
   amount * ratio
+end
+
+export fun get_lp_token_to_mint(token1_amount, token2_amount) do
+  lp_token_supply = State.get("lp_token_supply", 0)
+  reserves = State.get("reserves", [token1: 0, token2: 0])
+
+  if lp_token_supply == 0 || reserves.token1 == 0 || reserves.token2 == 0 do
+    # First liquidity
+    Math.sqrt(token1_amount * token2_amount)
+  else
+    mint_amount1 = (token1_amount * lp_token_supply) / reserves.token1
+    mint_amount2 = (token2_amount * lp_token_supply) / reserves.token2
+
+    if mint_amount1 < mint_amount2 do
+      mint_amount1
+    else
+      mint_amount2
+    end
+  end
 end
 
 fun get_final_amounts(user_amounts, reserves, token1_min_amount, token2_min_amount) do
@@ -249,16 +232,16 @@ fun get_final_amounts(user_amounts, reserves, token1_min_amount, token2_min_amou
   final_token2_amount = 0
 
   if reserves.token1 > 0 && reserves.token2 > 0 do
-    token1_ratio = reserves.token1 / reserves.token2
     token2_ratio = reserves.token2 / reserves.token1
-    
-    token1_equivalent_amount = user_amounts.token2 * token1_ratio
     token2_equivalent_amount = user_amounts.token1 * token2_ratio
 
     if token2_equivalent_amount <= user_amounts.token2 && token2_equivalent_amount >= token2_min_amount do
       final_token1_amount = user_amounts.token1
       final_token2_amount = token2_equivalent_amount
     else
+      token1_ratio = reserves.token1 / reserves.token2
+      token1_equivalent_amount = user_amounts.token2 * token1_ratio
+
       if token1_equivalent_amount <= user_amounts.token1 && token1_equivalent_amount >= token1_min_amount do
         final_token1_amount = token1_equivalent_amount
         final_token2_amount = user_amounts.token2
@@ -324,34 +307,25 @@ fun get_user_lp_amount(token_transfers) do
   lp_amount
 end
 
-fun get_lp_token_to_mint(lp_token_supply, token1_amount, token2_amount, reserves) do
-  if lp_token_supply == 0 || reserves.token1 == 0 || reserves.token2 == 0 do
-    # First liquidity
-    Math.sqrt(token1_amount * token2_amount)
-  else
-    mint_amount1 = (token1_amount * lp_token_supply) / reserves.token1
-    mint_amount2 = (token2_amount * lp_token_supply) / reserves.token2
+export fun get_output_amount(token_address, amount) do
+  output_amount = 0
+  reserves = State.get("reserves", [token1: 0, token2: 0])
+  if reserves.token1 > 0 && reserves.token2 > 0 do
+    amount_with_fee = amount * 0.997
 
-    if mint_amount1 < mint_amount2 do
-      mint_amount1
+    if token_address == @TOKEN1 do
+      amount = (amount_with_fee * reserves.token2) / (amount_with_fee + reserves.token1)
+      if amount > reserves.token2 do
+        output_amount = amount
+      end
     else
-      mint_amount2
+      amount = (amount_with_fee * reserves.token1) / (amount_with_fee + reserves.token2)
+      if amount > reserves.token1 do
+        output_amount = amount
+      end
     end
   end
-end
-
-fun get_lp_share(amount, lp_token_supply) do
-  amount / lp_token_supply
-end
-
-fun get_output_amount(token_address, amount, reserves) do
-  amount_with_fee = amount * 0.997
-
-  if token_address == @TOKEN1 do
-    (amount_with_fee * reserves.token2) / (amount_with_fee + reserves.token1)
-  else
-    (amount_with_fee * reserves.token1) / (amount_with_fee + reserves.token2)
-  end
+  output_amount
 end
 
 fun get_pool_balances() do

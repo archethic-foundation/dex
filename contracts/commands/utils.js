@@ -95,8 +95,6 @@ export function getRouterCode(keychain) {
   let poolCode = fs.readFileSync(poolContractPath, "utf8")
   // Replace pool address
   poolCode = poolCode.replaceAll("@POOL_ADDRESS", "0x#{pool_address}")
-  // Replace state address
-  poolCode = poolCode.replaceAll("@STATE_ADDRESS", "0x#{state_address}")
   // Replace token1 address
   poolCode = poolCode.replaceAll("@TOKEN1", "0x#{token1_address}")
   // Replace token2 address

@@ -1,6 +1,6 @@
 @version 1
 
-condition triggered_by: transaction, on: add_pool(token1_address, token2_address, state_address), as: [
+condition triggered_by: transaction, on: add_pool(token1_address, token2_address), as: [
   type: "token",
   content: (
     valid? = false
@@ -38,9 +38,7 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
       pool_previous_address = Chain.get_previous_address(transaction)
       pool_genesis_address = Chain.get_genesis_address(pool_previous_address)
 
-      params = [token1_address, token2_address, pool_genesis_address, transaction.address, state_address]
-
-      expected_code = get_pool_code(token1_address, token2_address, pool_genesis_address, transaction.address, state_address)
+      expected_code = get_pool_code(token1_address, token2_address, pool_genesis_address, transaction.address)
 
       valid? = Code.is_same?(transaction.code, expected_code)
     end
@@ -49,7 +47,7 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
   )
 ]
 
-actions triggered_by: transaction, on: add_pool(token1_address, token2_address, _state_address) do
+actions triggered_by: transaction, on: add_pool(token1_address, token2_address) do
   token1_address = String.to_uppercase(token1_address)
   token2_address = String.to_uppercase(token2_address)
 
@@ -64,8 +62,7 @@ actions triggered_by: transaction, on: add_pool(token1_address, token2_address, 
 
   pool_id = get_pool_id(token1_address, token2_address)
 
-  contract_state = Json.parse(contract.content)
-  pools = Map.get(contract_state, "pools", Map.new())
+  pools = State.get("pools", Map.new())
 
   pool_data = [
     address: pool_genesis_address,
@@ -73,9 +70,8 @@ actions triggered_by: transaction, on: add_pool(token1_address, token2_address, 
   ]
 
   pools = Map.set(pools, pool_id, pool_data)
-  contract_state = Map.set(contract_state, "pools", pools)
 
-  Contract.set_content(Json.to_string(contract_state))
+  State.set("pools", pools)
 end
 
 condition triggered_by: transaction, on: update_code(new_code), as: [
@@ -92,8 +88,6 @@ condition triggered_by: transaction, on: update_code(new_code), as: [
 
 actions triggered_by: transaction, on: update_code(new_code) do
   Contract.set_type("contract")
-  # Keep contract state
-  Contract.set_content(contract.content)
   Contract.set_code(new_code)
 end
 
@@ -109,8 +103,7 @@ condition triggered_by: transaction, on: update_pools_code(), as: [
 ]
 
 actions triggered_by: transaction, on: update_pools_code() do
-  contract_state = Json.parse(contract.content)
-  pools = Map.get(contract_state, "pools", Map.new())
+  pools = State.get("pools", Map.new())
 
   if Map.size(pools) > 0 do
     for pool_info in Map.values(pools) do
@@ -118,8 +111,6 @@ actions triggered_by: transaction, on: update_pools_code() do
     end
 
     Contract.set_type("transfer")
-    # Keep contract state
-    Contract.set_content(contract.content)
   end
 end
 
@@ -160,15 +151,13 @@ export fun get_pool_infos(token1_address, token2_address) do
 
   pool_id = "#{token1_address}/#{token2_address}"
 
-  contract_state = Json.parse(contract.content)
-  pools = Map.get(contract_state, "pools", Map.new())
+  pools = State.get("pools", Map.new())
 
   Map.get(pools, pool_id, nil)
 end
 
 export fun get_pool_list() do
-  contract_state = Json.parse(contract.content)
-  pools = Map.get(contract_state, "pools", Map.new())
+  pools = State.get("pools", Map.new())
 
   list = []
   for pool_id in Map.keys(pools) do
@@ -179,8 +168,13 @@ export fun get_pool_list() do
   list
 end
 
-export fun get_pool_code(token1_address, token2_address, pool_address, lp_token_address, state_address) do
+export fun get_pool_code(token1_address, token2_address, pool_address, lp_token_address) do
   code = ""
+
+  token1_address = String.to_uppercase(token1_address)
+  token2_address = String.to_uppercase(token2_address)
+  pool_address = String.to_uppercase(pool_address)
+  lp_token_address = String.to_uppercase(lp_token_address)
 
   if token1_address != token2_address do
     if token1_address > token2_address do

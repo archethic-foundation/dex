@@ -58,7 +58,6 @@ const handler = async function(argv) {
   console.log("Pool genesis address:", poolGenesisAddress)
 
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
-  const stateContractAddress = getGenesisAddress(poolSeed + "_state")
 
   const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_infos", [token1Address, token2Address])
   if (poolInfos != null) {
@@ -67,7 +66,7 @@ const handler = async function(argv) {
   }
 
   // We could batch those requests but archehic sdk do not allow batch request for now
-  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress, stateContractAddress)
+  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress)
   const tokenDefinition = await archethic.network.callFunction(routerAddress, "get_lp_token_definition", [token1, token2])
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
@@ -78,40 +77,22 @@ const handler = async function(argv) {
     .setContent(tokenDefinition)
     .setCode(poolCode)
     .addOwnership(encryptedSecret, authorizedKeys)
-    .addRecipient(routerAddress, "add_pool", [token1Address, token2Address, stateContractAddress])
+    .addRecipient(routerAddress, "add_pool", [token1Address, token2Address])
     .build(poolSeed, 0)
     .originSign(Utils.originPrivateKey)
 
   sendTransactionWithFunding(tx, null, archethic, env.userSeed)
-    .then(() => deployState(archethic, poolGenesisAddress, poolSeed, env.userSeed, storageNonce))
     .then(() => process.exit(0))
     .catch(() => process.exit(1))
 }
 
-async function getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress, stateContractAddress) {
+async function getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress) {
   const poolGenesisAddress = getGenesisAddress(poolSeed)
   const lpTokenAddress = getTokenAddress(poolSeed)
 
-  const params = [token1Address, token2Address, poolGenesisAddress, lpTokenAddress, stateContractAddress]
+  const params = [token1Address, token2Address, poolGenesisAddress, lpTokenAddress]
 
   return archethic.network.callFunction(routerAddress, "get_pool_code", params)
-}
-
-async function deployState(archethic, poolGenesisAddress, poolSeed, userSeed, storageNonce) {
-  console.log("=======================")
-  console.log("Deploying contract state")
-  const stateSeed = poolSeed + "_state"
-  const code = getStateCode(poolGenesisAddress)
-  const { encryptedSecret, authorizedKeys } = encryptSecret(stateSeed, storageNonce)
-  const tx = archethic.transaction.new()
-    .setType("contract")
-    .setCode(code)
-    .setContent("{}")
-    .addOwnership(encryptedSecret, authorizedKeys)
-    .build(stateSeed, 0)
-    .originSign(Utils.originPrivateKey)
-
-  return sendTransactionWithFunding(tx, null, archethic, userSeed)
 }
 
 export default {

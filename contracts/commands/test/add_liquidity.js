@@ -22,7 +22,7 @@ const builder = {
   },
   token2_amount: {
     describe: "Second token amount",
-    demandOption: true,
+    demandOption: false,
     type: "integer"
   },
   slippage: {
@@ -57,7 +57,7 @@ const handler = async function(argv) {
   const token1Name = argv["token1"]
   const token2Name = argv["token2"]
   const token1Amount = argv["token1_amount"]
-  const token2Amount = argv["token2_amount"]
+  let token2Amount = argv["token2_amount"]
   const slippage = argv["slippage"] ? argv["slippage"] : 2
 
   const token1Address = getTokenAddress(token1Name)
@@ -69,6 +69,28 @@ const handler = async function(argv) {
 
   if (poolInfos == null) {
     console.log("No pool exist for these tokens")
+    process.exit(1)
+  }
+
+  if (!token2Amount) {
+    token2Amount = await archethic.network.callFunction(poolInfos.address, "get_equivalent_amount", [token1Address, token1Amount])
+  }
+
+  if (token2Address < token1Address) {
+    let temp = token1Address
+    token1Address = token2Address
+    token2Address = temp
+    temp = token1Amount
+    token1Amount = token2Amount
+    token2Amount = temp
+  }
+
+  const expectedTokenLP = await archethic.network.callFunction(poolInfos.address, "get_lp_token_to_mint", [token1Amount, token2Amount])
+
+  console.log("Expected LP token to receive:", expectedTokenLP)
+
+  if (expectedTokenLP == 0) {
+    console.log("Pool doesn't have liquidity, please fill both token amount")
     process.exit(1)
   }
 
