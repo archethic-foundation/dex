@@ -5,6 +5,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:aedex/application/router_factory.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
@@ -14,21 +15,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AddPoolCase with TransactionDexMixin {
   Future<void> run(
     WidgetRef ref,
-    String token1Address,
-    String token2Address,
+    DexToken token1,
+    DexToken token2,
     String routerAddress,
   ) async {
-    // Generate seed's pool
+    dev.log('Token1 address: ${token1.address}', name: 'AddPoolCase');
+    dev.log('Token2 address: ${token2.address}', name: 'AddPoolCase');
+
     final poolSeed = archethic.generateRandomSeed();
     final stateSeed = archethic.generateRandomSeed();
-    final poolGenesisAddress = archethic.deriveAddress(poolSeed, 0);
-    final lpTokenAddress = archethic.deriveAddress(poolSeed, 1);
-    final stateContractAddress = archethic.deriveAddress(stateSeed, 0);
+    final poolGenesisAddress =
+        archethic.deriveAddress(poolSeed, 0).toUpperCase();
+    final lpTokenAddress = archethic.deriveAddress(poolSeed, 1).toUpperCase();
+    final stateContractAddress =
+        archethic.deriveAddress(stateSeed, 0).toUpperCase();
     final apiService = sl.get<archethic.ApiService>();
     final routerFactory = RouterFactory(routerAddress, apiService);
+    dev.log('Router address: $routerAddress', name: 'AddPoolCase');
+
+    dev.log('poolGenesisAddress : $poolGenesisAddress', name: 'AddPoolCase');
+    dev.log('lpTokenAddress: $lpTokenAddress', name: 'AddPoolCase');
+    dev.log('stateContractAddress: $stateContractAddress', name: 'AddPoolCase');
 
     final poolInfosResult =
-        await routerFactory.getPoolInfos(token1Address, token2Address);
+        await routerFactory.getPoolInfos(token1.address!, token2.address!);
     poolInfosResult.map(
       success: (success) {
         if (success == null) {
@@ -43,31 +53,29 @@ class AddPoolCase with TransactionDexMixin {
     );
 
     String? poolCode;
-    String? tokenDefinition;
-
-    final resultsFuture = await Future.wait(
-      [
-        routerFactory.getPoolCode(
-          token1Address,
-          token2Address,
-          poolGenesisAddress,
-          lpTokenAddress,
-          stateContractAddress,
-        ),
-        routerFactory.getLPTokenDefinition(token1Address, token2Address),
-      ],
+    final resultPoolCode = await routerFactory.getPoolCode(
+      token1.address!,
+      token2.address!,
+      poolGenesisAddress,
+      lpTokenAddress,
+      stateContractAddress,
     );
-
-    resultsFuture[0].map(
+    resultPoolCode.map(
       success: (success) {
+        if (success.isEmpty) {
+          throw const Failure.other(cause: 'pb poolCode');
+        }
         poolCode = success;
       },
       failure: (failure) {
-        return;
+        throw const Failure.other(cause: 'pb poolCode');
       },
     );
 
-    resultsFuture[1].map(
+    String? tokenDefinition;
+    final resultLPTokenDefinition =
+        await routerFactory.getLPTokenDefinition(token1.symbol, token2.symbol);
+    resultLPTokenDefinition.map(
       success: (success) {
         tokenDefinition = success;
       },
@@ -110,8 +118,8 @@ class AddPoolCase with TransactionDexMixin {
           routerAddress,
           action: 'add_pool',
           args: [
-            token1Address,
-            token2Address,
+            token1.address!,
+            token2.address!,
             stateContractAddress,
           ],
         )
@@ -120,15 +128,13 @@ class AddPoolCase with TransactionDexMixin {
         .originSign(originPrivateKey);
 
     final fees = await calculateFees(transactionToken);
-
-    final txPreviousAddress =
-        '00${archethic.uint8ListToHex(archethic.hash(transactionToken.previousPublicKey))}';
+    dev.log('fees: $fees', name: 'AddPoolCase');
 
     var transactionTransfer = archethic.Transaction(
       type: 'transfer',
       version: blockchainTxVersion,
       data: archethic.Transaction.initData(),
-    ).addUCOTransfer(txPreviousAddress, archethic.toBigInt(fees));
+    ).addUCOTransfer(poolGenesisAddress, archethic.toBigInt(fees));
     try {
       final currentNameAccount = await getCurrentAccount();
       transactionTransfer = (await signTx(

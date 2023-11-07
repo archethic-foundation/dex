@@ -53,7 +53,7 @@ class TokenSelectionCommonBases extends StatelessWidget {
             final token = DexToken(
               name: entry['name'] ?? '',
               symbol: entry['symbol'] ?? '',
-              genesisAddress: entry['genesisAddress'] ?? '',
+              address: entry['address'] ?? '',
             );
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 5),

@@ -7,7 +7,7 @@ part 'dex_token.freezed.dart';
 class DexToken with _$DexToken {
   const factory DexToken({
     @Default('') String name,
-    String? genesisAddress,
+    String? address,
     @Default('') String symbol,
     @Default(0.0) double balance,
   }) = _DexToken;

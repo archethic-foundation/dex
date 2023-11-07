@@ -159,8 +159,8 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     await AddPoolCase().run(
       ref,
-      state.token1!.genesisAddress!,
-      state.token2!.genesisAddress!,
+      state.token1!,
+      state.token2!,
       dexConfig.routerGenesisAddress,
     );
 

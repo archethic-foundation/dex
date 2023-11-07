@@ -41,16 +41,9 @@ class DexTokensRepository with ModelParser {
     String accountAddress,
   ) async {
     final dexTokens = <DexToken>[];
-    var lastAddress = accountAddress;
-    final lastAddressMap =
-        await sl.get<ApiService>().getLastTransaction([accountAddress]);
-    if (lastAddressMap[accountAddress] != null &&
-        lastAddressMap[accountAddress]!.address != null) {
-      lastAddress = lastAddressMap[accountAddress]!.address!.address!;
-    }
-
-    final balanceMap = await sl.get<ApiService>().fetchBalance([lastAddress]);
-    final balance = balanceMap[lastAddress];
+    final balanceMap =
+        await sl.get<ApiService>().fetchBalance([accountAddress]);
+    final balance = balanceMap[accountAddress];
     if (balance == null) {
       return [];
     }
@@ -66,10 +59,11 @@ class DexTokensRepository with ModelParser {
 
     final tokenMap = await sl.get<ApiService>().getToken(
           tokenAddressList,
-          request: 'genesis, name, id, supply, symbol, type',
+          request: 'name, id, supply, symbol, type',
         );
     tokenMap.forEach((key, value) {
-      final dexToken = tokenSDKToModel(value);
+      final _token = value.copyWith(address: key);
+      final dexToken = tokenSDKToModel(_token);
 
       dexTokens.add(
         dexToken,

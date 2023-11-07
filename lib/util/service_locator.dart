@@ -11,7 +11,7 @@ void setupServiceLocator() {
     ..registerLazySingleton<CoinGeckoApi>(CoinGeckoApi.new)
     ..registerLazySingleton<OracleService>(
       () =>
-          OracleService('https://mainnet.archethic.net', logsActivation: false),
+          OracleService('https://mainnet.archethic.net', logsActivation: true),
     );
   log('Register', name: 'OracleService');
 }

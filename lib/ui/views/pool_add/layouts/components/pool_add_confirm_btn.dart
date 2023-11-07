@@ -17,7 +17,7 @@ class PoolAddConfirmBtn extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      labelBtn: AppLocalizations.of(context)!.btn_confirm_swap,
+      labelBtn: AppLocalizations.of(context)!.btn_confirm_pool_add,
       icon: Iconsax.tick_square,
       onPressed: () async {
         final poolAddNotifier =

@@ -10,7 +10,7 @@ mixin ModelParser {
   ) {
     return Token(
       name: token.name,
-      genesis: token.genesisAddress,
+      genesis: token.address,
       symbol: token.symbol,
     );
   }
@@ -20,7 +20,7 @@ mixin ModelParser {
   ) {
     return DexToken(
       name: token.name ?? '',
-      genesisAddress: token.genesis ?? '',
+      address: token.address ?? '',
       symbol: token.symbol ?? '',
     );
   }
@@ -31,8 +31,8 @@ mixin ModelParser {
     final tokens = getPoolListResponse.tokens.split('/');
 
     final dexPair = DexPair(
-      token1: DexToken(genesisAddress: tokens[0]),
-      token2: DexToken(genesisAddress: tokens[1]),
+      token1: DexToken(address: tokens[0]),
+      token2: DexToken(address: tokens[1]),
     );
     return DexPool(
       poolAddress: getPoolListResponse.address,

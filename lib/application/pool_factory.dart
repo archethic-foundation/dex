@@ -29,8 +29,8 @@ class PoolFactory {
         ) as List<dynamic>;
 
         return DexPair(
-          token1: DexToken(genesisAddress: result[0]),
-          token2: DexToken(genesisAddress: result[1]),
+          token1: DexToken(address: result[0]),
+          token2: DexToken(address: result[1]),
         );
       },
     );

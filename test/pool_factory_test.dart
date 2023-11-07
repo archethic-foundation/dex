@@ -20,8 +20,8 @@ void main() {
         final result = await poolFactory.getPairTokens();
         result.map(
           success: (dexPair) {
-            token1Address = dexPair.token1.genesisAddress!;
-            token2Address = dexPair.token2.genesisAddress!;
+            token1Address = dexPair.token1.address!;
+            token2Address = dexPair.token2.address!;
 
             return;
           },

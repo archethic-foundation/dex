@@ -63,7 +63,7 @@ class PoolCard extends StatelessWidget {
                         children: [
                           const Text('Pair: '),
                           FormatAddressLinkCopy(
-                            address: pool.pair!.token1.genesisAddress!,
+                            address: pool.pair!.token1.address!,
                             reduceAddress: true,
                           ),
                           const SizedBox(
@@ -74,7 +74,7 @@ class PoolCard extends StatelessWidget {
                             width: 5,
                           ),
                           FormatAddressLinkCopy(
-                            address: pool.pair!.token2.genesisAddress!,
+                            address: pool.pair!.token2.address!,
                             reduceAddress: true,
                           ),
                         ],

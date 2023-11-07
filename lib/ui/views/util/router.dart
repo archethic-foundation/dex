@@ -87,18 +87,19 @@ class RoutesPath {
             },
           ),
           GoRoute(
-              path: _poolList(),
-              builder: (context, state) {
-                return const PoolListSheet();
-              },
-              routes: [
-                GoRoute(
-                  path: _poolAdd(),
-                  builder: (context, state) {
-                    return const PoolAddSheet();
-                  },
-                ),
-              ]),
+            path: _poolList(),
+            builder: (context, state) {
+              return const PoolListSheet();
+            },
+            routes: [
+              GoRoute(
+                path: _poolAdd(),
+                builder: (context, state) {
+                  return const PoolAddSheet();
+                },
+              ),
+            ],
+          ),
         ],
       ),
     ];
