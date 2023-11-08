@@ -64,7 +64,7 @@ Return a the lp token definition to use when creating a pool. Returns a JSON str
   - `token2_symbol` is the symbol of the second token
 
 ```elixir
-get_pool_infos(token1_address, token2_address)
+get_pool_addresses(token1_address, token2_address)
 ```
 Returns the info of the pool for the 2 tokens address. Pool infos is a map with `address` as the genesis address of the pool, `lp_token_address` as the lp token address of the pool. (`{"address": "00001234...", "lp_token_address": "00005678..."}`)
   - `token1_address` is the address of the first token

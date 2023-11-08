@@ -90,7 +90,7 @@ class RouterFactory with ModelParser {
             method: 'contract_fun',
             params: SCCallFunctionParams(
               contract: factoryAddress.toUpperCase(),
-              function: 'get_pool_infos',
+              function: 'get_pool_addresses',
               args: [
                 token1Address,
                 token2Address,

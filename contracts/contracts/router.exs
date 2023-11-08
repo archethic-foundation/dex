@@ -139,7 +139,7 @@ fun get_token_symbol(tx) do
   symbol
 end
 
-export fun get_pool_infos(token1_address, token2_address) do
+export fun get_pool_addresses(token1_address, token2_address) do
   token1_address = String.to_uppercase(token1_address)
   token2_address = String.to_uppercase(token2_address)
 

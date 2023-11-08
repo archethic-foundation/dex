@@ -59,7 +59,7 @@ const handler = async function(argv) {
 
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
 
-  const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_infos", [token1Address, token2Address])
+  const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
   if (poolInfos != null) {
     console.log("Pool already exists for these tokens")
     process.exit(1)
