@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
@@ -10,13 +11,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
-class LiquidityAddSheet extends ConsumerWidget {
+class LiquidityAddSheet extends ConsumerStatefulWidget {
   const LiquidityAddSheet({
+    required this.pair,
     super.key,
   });
 
+  final DexPair pair;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LiquidityAddSheet> createState() => _LiquidityAddSheetState();
+}
+
+class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      ref
+          .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+          .setToken1(widget.pair.token1);
+      ref
+          .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+          .setToken2(widget.pair.token2);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
     return Align(
       child: Container(

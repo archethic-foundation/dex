@@ -117,20 +117,6 @@ class LiquidityAddFormNotifier
   bool control() {
     setFailure(null);
 
-    if (state.token1 == null) {
-      setFailure(
-        const Failure.other(cause: 'Please enter the token 1'),
-      );
-      return false;
-    }
-
-    if (state.token2 == null) {
-      setFailure(
-        const Failure.other(cause: 'Please enter the token 2'),
-      );
-      return false;
-    }
-
     if (state.token1Amount <= 0) {
       setFailure(
         const Failure.other(cause: 'Please enter the amount of token 1'),

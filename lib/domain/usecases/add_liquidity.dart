@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 
+import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -27,20 +28,36 @@ class AddLiquidityCase with TransactionDexMixin {
     final routerFactory = RouterFactory(routerAddress, apiService);
     dev.log('Router address: $routerAddress', name: 'AddLiquidityCase');
 
-    String? liquidityGenesisAddress;
+    String? poolGenesisAddress;
     final liquidityInfosResult =
         await routerFactory.getPoolInfos(token1.address!, token2.address!);
     liquidityInfosResult.map(
       success: (success) {
-        liquidityGenesisAddress = success.toString();
+        if (success!['address'] != null) {
+          poolGenesisAddress = success['address'];
+        }
       },
       failure: (failure) {
         return;
       },
     );
 
+    dev.log(
+      'liquidityGenesisAddress: $poolGenesisAddress',
+      name: 'AddLiquidityCase',
+    );
+
     final blockchainTxVersion = int.parse(
       (await apiService.getBlockchainVersion()).version.transaction,
+    );
+
+    final lpTokenToMintResult = await PoolFactory(
+      poolGenesisAddress!,
+      apiService,
+    ).getLPTokenToMint(token1Amount, token2Amount);
+    lpTokenToMintResult.map(
+      success: (success) {},
+      failure: (failure) {},
     );
 
     final token1minAmount = token1Amount * ((100 - slippage) / 100);
@@ -52,7 +69,7 @@ class AddLiquidityCase with TransactionDexMixin {
       data: archethic.Transaction.initData(),
     )
         .addRecipient(
-          liquidityGenesisAddress!,
+          poolGenesisAddress!,
           action: 'add_liquidity',
           args: [
             token1minAmount,
@@ -60,12 +77,12 @@ class AddLiquidityCase with TransactionDexMixin {
           ],
         )
         .addTokenTransfer(
-          liquidityGenesisAddress!,
+          poolGenesisAddress!,
           archethic.toBigInt(token1minAmount),
           token1.address!,
         )
         .addTokenTransfer(
-          liquidityGenesisAddress!,
+          poolGenesisAddress!,
           archethic.toBigInt(token2minAmount),
           token2.address!,
         );

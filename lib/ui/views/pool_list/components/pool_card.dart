@@ -1,11 +1,16 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
+import 'package:aedex/ui/views/util/components/icon_animated.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
-class PoolCard extends StatelessWidget {
+class PoolCard extends ConsumerWidget {
   const PoolCard({
     required this.pool,
     super.key,
@@ -13,7 +18,7 @@ class PoolCard extends StatelessWidget {
 
   final DexPool pool;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 50),
       child: DecoratedBox(
@@ -91,6 +96,23 @@ class PoolCard extends StatelessWidget {
                           reduceAddress: true,
                         ),
                       ],
+                    ),
+                    InkWell(
+                      onTap: () {
+                        ref
+                            .read(
+                              MainScreenWidgetDisplayedProviders
+                                  .mainScreenWidgetDisplayedProvider.notifier,
+                            )
+                            .setWidget(
+                              LiquidityAddSheet(pair: pool.pair!),
+                              ref,
+                            );
+                      },
+                      child: const IconAnimated(
+                        icon: Iconsax.add,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),

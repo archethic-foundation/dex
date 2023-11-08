@@ -65,7 +65,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const SwapSheet());
+            .setWidget(const SwapSheet(), ref);
 
         break;
       case 1:
@@ -74,7 +74,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const PoolListSheet());
+            .setWidget(const PoolListSheet(), ref);
 
         break;
 
@@ -84,7 +84,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const LpStakingSheet());
+            .setWidget(const LpStakingSheet(), ref);
 
         break;
 

@@ -79,7 +79,7 @@ class RouterFactory with ModelParser {
   /// ({"address": "00001234...", "lp_token_address": "00005678..."})
   /// [token1Address] is the address of the first token
   /// [token2Address] is the address of the second token
-  Future<Result<Object?, Failure>> getPoolInfos(
+  Future<Result<Map<String, dynamic>?, Failure>> getPoolInfos(
     String token1Address,
     String token2Address,
   ) async {
@@ -97,7 +97,9 @@ class RouterFactory with ModelParser {
               ],
             ),
           ),
-        );
+          resultMap: true,
+        ) as Map<String, dynamic>?;
+
         return result;
       },
     );

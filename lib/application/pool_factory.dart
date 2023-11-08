@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -108,6 +109,31 @@ class PoolFactory {
             ),
           ),
         );
+      },
+    );
+  }
+
+  Future<Result<double, Failure>> getLPTokenToMint(
+    double token1Amount,
+    double token2Amount,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_lp_token_to_mint',
+              args: [
+                token1Amount,
+                token2Amount,
+              ],
+            ),
+          ),
+        );
+        dev.log('getLPTokenToMint: $result');
+        return result as double;
       },
     );
   }

@@ -87,7 +87,7 @@ class PoolListSheet extends ConsumerWidget {
                     MainScreenWidgetDisplayedProviders
                         .mainScreenWidgetDisplayedProvider.notifier,
                   )
-                  .setWidget(const PoolAddSheet());
+                  .setWidget(const PoolAddSheet(), ref);
             },
             icon: const Icon(Icons.add),
             label: Text(
