@@ -19,13 +19,11 @@ class RouterFactory with ModelParser {
   /// [token2Address] is the second token address of the pair
   /// [poolAddress] is the genesis address of the pool chain
   /// [lpTokenAddress] is the address of the lp token (it should be the creation address of the pool)
-  /// [stateAddress] is the address holding the state of a pool (will be soon removed)
   Future<Result<String, Failure>> getPoolCode(
     String token1Address,
     String token2Address,
     String poolAddress,
     String lpTokenAddress,
-    String stateAddress,
   ) async {
     return Result.guard(
       () async {
@@ -40,7 +38,6 @@ class RouterFactory with ModelParser {
                 token2Address,
                 poolAddress,
                 lpTokenAddress,
-                stateAddress,
               ],
             ),
           ),

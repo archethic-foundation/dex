@@ -26,19 +26,15 @@ class AddPoolCase with TransactionDexMixin {
     dev.log('Token2 address: ${token2.address}', name: 'AddPoolCase');
 
     final poolSeed = archethic.generateRandomSeed();
-    final stateSeed = archethic.generateRandomSeed();
     final poolGenesisAddress =
         archethic.deriveAddress(poolSeed, 0).toUpperCase();
     final lpTokenAddress = archethic.deriveAddress(poolSeed, 1).toUpperCase();
-    final stateContractAddress =
-        archethic.deriveAddress(stateSeed, 0).toUpperCase();
     final apiService = sl.get<archethic.ApiService>();
     final routerFactory = RouterFactory(routerAddress, apiService);
     dev.log('Router address: $routerAddress', name: 'AddPoolCase');
 
     dev.log('poolGenesisAddress : $poolGenesisAddress', name: 'AddPoolCase');
     dev.log('lpTokenAddress: $lpTokenAddress', name: 'AddPoolCase');
-    dev.log('stateContractAddress: $stateContractAddress', name: 'AddPoolCase');
 
     final poolInfosResult =
         await routerFactory.getPoolInfos(token1.address!, token2.address!);
@@ -61,7 +57,6 @@ class AddPoolCase with TransactionDexMixin {
       token2.address!,
       poolGenesisAddress,
       lpTokenAddress,
-      stateContractAddress,
     );
     resultPoolCode.map(
       success: (success) {
@@ -123,7 +118,6 @@ class AddPoolCase with TransactionDexMixin {
           args: [
             token1.address!,
             token2.address!,
-            stateContractAddress,
           ],
         )
         .build(poolSeed, 0)
@@ -137,53 +131,6 @@ class AddPoolCase with TransactionDexMixin {
 
     final feesToken = await calculateFees(transactionToken);
     dev.log('feesToken: $feesToken', name: 'AddPoolCase');
-
-    final codeState = '''
-    @version 1
-
-    condition triggered_by: transaction, on: update_state(_state), as: [
-      previous_public_key:
-        (
-          # Transaction is not yet validated so we need to use previous address
-          # to get the genesis address
-          previous_address = Chain.get_previous_address()
-          Chain.get_genesis_address(previous_address) == 0x$poolGenesisAddress
-        )
-    ]
-
-    actions triggered_by: transaction, on: update_state(state) do
-      Contract.set_content(Json.to_string(state))
-    end
-
-    export fun(get_state()) do
-      Json.parse(contract.content)
-    end    
-      ''';
-
-    final transactionState = archethic.Transaction(
-      type: 'contract',
-      version: blockchainTxVersion,
-      data: archethic.Transaction.initData(),
-    )
-        .setContent(tokenDefinition!)
-        .setCode(codeState)
-        .addOwnership(
-          archethic.uint8ListToHex(
-            archethic.aesEncrypt(stateSeed, aesKey),
-          ),
-          [authorizedKey],
-        )
-        .build(stateSeed, 0)
-        .transaction
-        .originSign(originPrivateKey);
-
-    dev.log(
-      'transactionState address ${transactionState.address!.address}',
-      name: 'AddPoolCase',
-    );
-
-    final feeState = await calculateFees(transactionState);
-    dev.log('feeState: $feeState', name: 'AddPoolCase');
 
     final token1minAmount = token1Amount * ((100 - slippage) / 100);
     final token2minAmount = token2Amount * ((100 - slippage) / 100);
@@ -212,24 +159,18 @@ class AddPoolCase with TransactionDexMixin {
           token2.address!,
         );
 
-    var transactionTransfer1 = archethic.Transaction(
+    var transactionTransfer = archethic.Transaction(
       type: 'transfer',
       version: blockchainTxVersion,
       data: archethic.Transaction.initData(),
     ).addUCOTransfer(poolGenesisAddress, archethic.toBigInt(feesToken));
 
-    var transactionTransfer2 = archethic.Transaction(
-      type: 'transfer',
-      version: blockchainTxVersion,
-      data: archethic.Transaction.initData(),
-    ).addUCOTransfer(poolGenesisAddress, archethic.toBigInt(feeState));
-
     try {
       final currentNameAccount = await getCurrentAccount();
-      transactionTransfer1 = (await signTx(
+      transactionTransfer = (await signTx(
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
-        [transactionTransfer1],
+        [transactionTransfer],
       ))
           .first;
     } catch (e) {
@@ -237,19 +178,7 @@ class AddPoolCase with TransactionDexMixin {
       throw const Failure.userRejected();
     }
 
-    try {
-      final currentNameAccount = await getCurrentAccount();
-      transactionTransfer2 = (await signTx(
-        Uri.encodeFull('archethic-wallet-$currentNameAccount'),
-        '',
-        [transactionTransfer2],
-      ))
-          .first;
-    } catch (e) {
-      dev.log('Signature failed', name: 'AddPoolCase');
-      throw const Failure.userRejected();
-    }
-
+    // TODO(reddwarf03): Only one signature
     try {
       final currentNameAccount = await getCurrentAccount();
       transactionLiquidity = (await signTx(
@@ -265,10 +194,8 @@ class AddPoolCase with TransactionDexMixin {
 
     await sendTransactions(
       <archethic.Transaction>[
-        transactionTransfer1,
-        transactionTransfer2,
+        transactionTransfer,
         transactionToken,
-        transactionState,
         transactionLiquidity,
       ],
     );
