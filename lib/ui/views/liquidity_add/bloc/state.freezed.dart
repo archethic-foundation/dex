@@ -15,11 +15,11 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$PoolAddFormState {
-  PoolAddProcessStep get poolAddProcessStep =>
+mixin _$LiquidityAddFormState {
+  LiquidityAddProcessStep get liquidityAddProcessStep =>
       throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
-  bool get poolAddOk => throw _privateConstructorUsedError;
+  bool get liquidityAddOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
   DexToken? get token1 => throw _privateConstructorUsedError;
   DexToken? get token2 => throw _privateConstructorUsedError;
@@ -32,20 +32,20 @@ mixin _$PoolAddFormState {
   Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $PoolAddFormStateCopyWith<PoolAddFormState> get copyWith =>
+  $LiquidityAddFormStateCopyWith<LiquidityAddFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PoolAddFormStateCopyWith<$Res> {
-  factory $PoolAddFormStateCopyWith(
-          PoolAddFormState value, $Res Function(PoolAddFormState) then) =
-      _$PoolAddFormStateCopyWithImpl<$Res, PoolAddFormState>;
+abstract class $LiquidityAddFormStateCopyWith<$Res> {
+  factory $LiquidityAddFormStateCopyWith(LiquidityAddFormState value,
+          $Res Function(LiquidityAddFormState) then) =
+      _$LiquidityAddFormStateCopyWithImpl<$Res, LiquidityAddFormState>;
   @useResult
   $Res call(
-      {PoolAddProcessStep poolAddProcessStep,
+      {LiquidityAddProcessStep liquidityAddProcessStep,
       bool isProcessInProgress,
-      bool poolAddOk,
+      bool liquidityAddOk,
       bool walletConfirmation,
       DexToken? token1,
       DexToken? token2,
@@ -63,9 +63,10 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
-    implements $PoolAddFormStateCopyWith<$Res> {
-  _$PoolAddFormStateCopyWithImpl(this._value, this._then);
+class _$LiquidityAddFormStateCopyWithImpl<$Res,
+        $Val extends LiquidityAddFormState>
+    implements $LiquidityAddFormStateCopyWith<$Res> {
+  _$LiquidityAddFormStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -75,9 +76,9 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? poolAddProcessStep = null,
+    Object? liquidityAddProcessStep = null,
     Object? isProcessInProgress = null,
-    Object? poolAddOk = null,
+    Object? liquidityAddOk = null,
     Object? walletConfirmation = null,
     Object? token1 = freezed,
     Object? token2 = freezed,
@@ -90,17 +91,17 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
-      poolAddProcessStep: null == poolAddProcessStep
-          ? _value.poolAddProcessStep
-          : poolAddProcessStep // ignore: cast_nullable_to_non_nullable
-              as PoolAddProcessStep,
+      liquidityAddProcessStep: null == liquidityAddProcessStep
+          ? _value.liquidityAddProcessStep
+          : liquidityAddProcessStep // ignore: cast_nullable_to_non_nullable
+              as LiquidityAddProcessStep,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
-      poolAddOk: null == poolAddOk
-          ? _value.poolAddOk
-          : poolAddOk // ignore: cast_nullable_to_non_nullable
+      liquidityAddOk: null == liquidityAddOk
+          ? _value.liquidityAddOk
+          : liquidityAddOk // ignore: cast_nullable_to_non_nullable
               as bool,
       walletConfirmation: null == walletConfirmation
           ? _value.walletConfirmation
@@ -183,17 +184,18 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
 }
 
 /// @nodoc
-abstract class _$$PoolAddFormStateImplCopyWith<$Res>
-    implements $PoolAddFormStateCopyWith<$Res> {
-  factory _$$PoolAddFormStateImplCopyWith(_$PoolAddFormStateImpl value,
-          $Res Function(_$PoolAddFormStateImpl) then) =
-      __$$PoolAddFormStateImplCopyWithImpl<$Res>;
+abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
+    implements $LiquidityAddFormStateCopyWith<$Res> {
+  factory _$$LiquidityAddFormStateImplCopyWith(
+          _$LiquidityAddFormStateImpl value,
+          $Res Function(_$LiquidityAddFormStateImpl) then) =
+      __$$LiquidityAddFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {PoolAddProcessStep poolAddProcessStep,
+      {LiquidityAddProcessStep liquidityAddProcessStep,
       bool isProcessInProgress,
-      bool poolAddOk,
+      bool liquidityAddOk,
       bool walletConfirmation,
       DexToken? token1,
       DexToken? token2,
@@ -214,19 +216,20 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$PoolAddFormStateImplCopyWithImpl<$Res>
-    extends _$PoolAddFormStateCopyWithImpl<$Res, _$PoolAddFormStateImpl>
-    implements _$$PoolAddFormStateImplCopyWith<$Res> {
-  __$$PoolAddFormStateImplCopyWithImpl(_$PoolAddFormStateImpl _value,
-      $Res Function(_$PoolAddFormStateImpl) _then)
+class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
+    extends _$LiquidityAddFormStateCopyWithImpl<$Res,
+        _$LiquidityAddFormStateImpl>
+    implements _$$LiquidityAddFormStateImplCopyWith<$Res> {
+  __$$LiquidityAddFormStateImplCopyWithImpl(_$LiquidityAddFormStateImpl _value,
+      $Res Function(_$LiquidityAddFormStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? poolAddProcessStep = null,
+    Object? liquidityAddProcessStep = null,
     Object? isProcessInProgress = null,
-    Object? poolAddOk = null,
+    Object? liquidityAddOk = null,
     Object? walletConfirmation = null,
     Object? token1 = freezed,
     Object? token2 = freezed,
@@ -238,18 +241,18 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
     Object? networkFees = null,
     Object? failure = freezed,
   }) {
-    return _then(_$PoolAddFormStateImpl(
-      poolAddProcessStep: null == poolAddProcessStep
-          ? _value.poolAddProcessStep
-          : poolAddProcessStep // ignore: cast_nullable_to_non_nullable
-              as PoolAddProcessStep,
+    return _then(_$LiquidityAddFormStateImpl(
+      liquidityAddProcessStep: null == liquidityAddProcessStep
+          ? _value.liquidityAddProcessStep
+          : liquidityAddProcessStep // ignore: cast_nullable_to_non_nullable
+              as LiquidityAddProcessStep,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
-      poolAddOk: null == poolAddOk
-          ? _value.poolAddOk
-          : poolAddOk // ignore: cast_nullable_to_non_nullable
+      liquidityAddOk: null == liquidityAddOk
+          ? _value.liquidityAddOk
+          : liquidityAddOk // ignore: cast_nullable_to_non_nullable
               as bool,
       walletConfirmation: null == walletConfirmation
           ? _value.walletConfirmation
@@ -297,11 +300,11 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PoolAddFormStateImpl extends _PoolAddFormState {
-  const _$PoolAddFormStateImpl(
-      {this.poolAddProcessStep = PoolAddProcessStep.form,
+class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
+  const _$LiquidityAddFormStateImpl(
+      {this.liquidityAddProcessStep = LiquidityAddProcessStep.form,
       this.isProcessInProgress = false,
-      this.poolAddOk = false,
+      this.liquidityAddOk = false,
       this.walletConfirmation = false,
       this.token1,
       this.token2,
@@ -316,13 +319,13 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
 
   @override
   @JsonKey()
-  final PoolAddProcessStep poolAddProcessStep;
+  final LiquidityAddProcessStep liquidityAddProcessStep;
   @override
   @JsonKey()
   final bool isProcessInProgress;
   @override
   @JsonKey()
-  final bool poolAddOk;
+  final bool liquidityAddOk;
   @override
   @JsonKey()
   final bool walletConfirmation;
@@ -353,20 +356,21 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
 
   @override
   String toString() {
-    return 'PoolAddFormState(poolAddProcessStep: $poolAddProcessStep, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, failure: $failure)';
+    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, failure: $failure)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PoolAddFormStateImpl &&
-            (identical(other.poolAddProcessStep, poolAddProcessStep) ||
-                other.poolAddProcessStep == poolAddProcessStep) &&
+            other is _$LiquidityAddFormStateImpl &&
+            (identical(
+                    other.liquidityAddProcessStep, liquidityAddProcessStep) ||
+                other.liquidityAddProcessStep == liquidityAddProcessStep) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
                 other.isProcessInProgress == isProcessInProgress) &&
-            (identical(other.poolAddOk, poolAddOk) ||
-                other.poolAddOk == poolAddOk) &&
+            (identical(other.liquidityAddOk, liquidityAddOk) ||
+                other.liquidityAddOk == liquidityAddOk) &&
             (identical(other.walletConfirmation, walletConfirmation) ||
                 other.walletConfirmation == walletConfirmation) &&
             (identical(other.token1, token1) || other.token1 == token1) &&
@@ -389,9 +393,9 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      poolAddProcessStep,
+      liquidityAddProcessStep,
       isProcessInProgress,
-      poolAddOk,
+      liquidityAddOk,
       walletConfirmation,
       token1,
       token2,
@@ -406,16 +410,16 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PoolAddFormStateImplCopyWith<_$PoolAddFormStateImpl> get copyWith =>
-      __$$PoolAddFormStateImplCopyWithImpl<_$PoolAddFormStateImpl>(
-          this, _$identity);
+  _$$LiquidityAddFormStateImplCopyWith<_$LiquidityAddFormStateImpl>
+      get copyWith => __$$LiquidityAddFormStateImplCopyWithImpl<
+          _$LiquidityAddFormStateImpl>(this, _$identity);
 }
 
-abstract class _PoolAddFormState extends PoolAddFormState {
-  const factory _PoolAddFormState(
-      {final PoolAddProcessStep poolAddProcessStep,
+abstract class _LiquidityAddFormState extends LiquidityAddFormState {
+  const factory _LiquidityAddFormState(
+      {final LiquidityAddProcessStep liquidityAddProcessStep,
       final bool isProcessInProgress,
-      final bool poolAddOk,
+      final bool liquidityAddOk,
       final bool walletConfirmation,
       final DexToken? token1,
       final DexToken? token2,
@@ -425,15 +429,15 @@ abstract class _PoolAddFormState extends PoolAddFormState {
       final double token2Balance,
       final double token2Amount,
       final double networkFees,
-      final Failure? failure}) = _$PoolAddFormStateImpl;
-  const _PoolAddFormState._() : super._();
+      final Failure? failure}) = _$LiquidityAddFormStateImpl;
+  const _LiquidityAddFormState._() : super._();
 
   @override
-  PoolAddProcessStep get poolAddProcessStep;
+  LiquidityAddProcessStep get liquidityAddProcessStep;
   @override
   bool get isProcessInProgress;
   @override
-  bool get poolAddOk;
+  bool get liquidityAddOk;
   @override
   bool get walletConfirmation;
   @override
@@ -456,6 +460,6 @@ abstract class _PoolAddFormState extends PoolAddFormState {
   Failure? get failure;
   @override
   @JsonKey(ignore: true)
-  _$$PoolAddFormStateImplCopyWith<_$PoolAddFormStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LiquidityAddFormStateImplCopyWith<_$LiquidityAddFormStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

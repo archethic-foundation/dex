@@ -6,14 +6,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 
-enum PoolAddProcessStep { form, confirmation }
+enum LiquidityAddProcessStep { form, confirmation }
 
 @freezed
-class PoolAddFormState with _$PoolAddFormState {
-  const factory PoolAddFormState({
-    @Default(PoolAddProcessStep.form) PoolAddProcessStep poolAddProcessStep,
+class LiquidityAddFormState with _$LiquidityAddFormState {
+  const factory LiquidityAddFormState({
+    @Default(LiquidityAddProcessStep.form)
+    LiquidityAddProcessStep liquidityAddProcessStep,
     @Default(false) bool isProcessInProgress,
-    @Default(false) bool poolAddOk,
+    @Default(false) bool liquidityAddOk,
     @Default(false) bool walletConfirmation,
     DexToken? token1,
     DexToken? token2,
@@ -24,8 +25,8 @@ class PoolAddFormState with _$PoolAddFormState {
     @Default(0.0) double token2Amount,
     @Default(0.0) double networkFees,
     Failure? failure,
-  }) = _PoolAddFormState;
-  const PoolAddFormState._();
+  }) = _LiquidityAddFormState;
+  const LiquidityAddFormState._();
 
   bool get isControlsOk => failure == null;
 }

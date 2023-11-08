@@ -59,9 +59,13 @@ class PoolCard extends StatelessWidget {
                       ],
                     ),
                     if (pool.pair != null)
+                      Text(
+                        'Pair: ${pool.pair!.token1.symbol}-${pool.pair!.token2.symbol}',
+                      ),
+                    if (pool.pair != null)
                       Row(
                         children: [
-                          const Text('Pair: '),
+                          const Text('Pair addresses: '),
                           FormatAddressLinkCopy(
                             address: pool.pair!.token1.address!,
                             reduceAddress: true,

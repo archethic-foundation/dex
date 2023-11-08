@@ -1,23 +1,24 @@
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/usecases/add_pool.dart';
-import 'package:aedex/ui/views/pool_add/bloc/state.dart';
+import 'package:aedex/domain/usecases/add_liquidity.dart';
+import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final _poolAddFormProvider =
-    NotifierProvider.autoDispose<PoolAddFormNotifier, PoolAddFormState>(
+final _liquidityAddFormProvider = NotifierProvider.autoDispose<
+    LiquidityAddFormNotifier, LiquidityAddFormState>(
   () {
-    return PoolAddFormNotifier();
+    return LiquidityAddFormNotifier();
   },
 );
 
-class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
-  PoolAddFormNotifier();
+class LiquidityAddFormNotifier
+    extends AutoDisposeNotifier<LiquidityAddFormState> {
+  LiquidityAddFormNotifier();
 
   @override
-  PoolAddFormState build() => const PoolAddFormState();
+  LiquidityAddFormState build() => const LiquidityAddFormState();
 
   void setToken1(
     DexToken token,
@@ -85,9 +86,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  void setPoolAddOk(bool poolAddOk) {
+  void setLiquidityAddOk(bool liquidityAddOk) {
     state = state.copyWith(
-      poolAddOk: poolAddOk,
+      liquidityAddOk: liquidityAddOk,
     );
   }
 
@@ -95,11 +96,11 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     state = state.copyWith(isProcessInProgress: isProcessInProgress);
   }
 
-  void setPoolAddProcessStep(
-    PoolAddProcessStep poolAddProcessStep,
+  void setLiquidityAddProcessStep(
+    LiquidityAddProcessStep liquidityAddProcessStep,
   ) {
     state = state.copyWith(
-      poolAddProcessStep: poolAddProcessStep,
+      liquidityAddProcessStep: liquidityAddProcessStep,
     );
   }
 
@@ -108,8 +109,8 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return;
     }
 
-    setPoolAddProcessStep(
-      PoolAddProcessStep.confirmation,
+    setLiquidityAddProcessStep(
+      LiquidityAddProcessStep.confirmation,
     );
   }
 
@@ -157,7 +158,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         .read(DexConfigProviders.dexConfigRepository)
         .getDexConfig('local');
 
-    await AddPoolCase().run(
+    await AddLiquidityCase().run(
       ref,
       state.token1!,
       state.token1Amount,
@@ -171,6 +172,6 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 }
 
-abstract class PoolAddFormProvider {
-  static final poolAddForm = _poolAddFormProvider;
+abstract class LiquidityAddFormProvider {
+  static final liquidityAddForm = _liquidityAddFormProvider;
 }

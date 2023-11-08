@@ -160,7 +160,7 @@ class RouterFactory with ModelParser {
           dev.log('$result');
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
-            poolListToModel(getPoolListResponse),
+            await poolListToModel(getPoolListResponse),
           );
         }
 
