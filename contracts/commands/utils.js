@@ -9,8 +9,6 @@ const __dirname = path.dirname(__filename)
 const CONFIRMATION_THRESHOLD = 50
 
 const poolContractPath = path.resolve(__dirname, "../contracts/pool.exs")
-const stateContractPath = path.resolve(__dirname, "../contracts/state.exs")
-const factoryContractPath = path.resolve(__dirname, "../contracts/factory.exs")
 const routerContractPath = path.resolve(__dirname, "../contracts/router.exs")
 
 export function getGenesisAddress(seed) {
@@ -80,12 +78,6 @@ export async function sendTransactionWithFunding(tx, keychain, archethic, fundSe
       reject()
     }).send(CONFIRMATION_THRESHOLD)
   })
-}
-
-export function getStateCode(poolAddress) {
-  const code = fs.readFileSync(stateContractPath, "utf8")
-
-  return code.replaceAll("@POOL_ADDRESS", "0x" + poolAddress)
 }
 
 export function getRouterCode(keychain) {

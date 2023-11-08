@@ -13,7 +13,7 @@ const builder = {
   token1_amount: {
     describe: "First token amount",
     demandOption: true,
-    type: "integer"
+    type: "number"
   },
   token2: {
     describe: "Second token name",
@@ -23,12 +23,12 @@ const builder = {
   token2_amount: {
     describe: "Second token amount",
     demandOption: false,
-    type: "integer"
+    type: "number"
   },
   slippage: {
     describe: "Slippage in percentage (2 = 2%) to apply. Default 2",
     demandOption: false,
-    type: "integer"
+    type: "number"
   }
 }
 
@@ -57,7 +57,7 @@ const handler = async function(argv) {
   const token1Name = argv["token1"]
   const token2Name = argv["token2"]
   const token1Amount = argv["token1_amount"]
-  let token2Amount = argv["token2_amount"]
+  const token2Amount = argv["token2_amount"]
   const slippage = argv["slippage"] ? argv["slippage"] : 2
 
   const token1Address = getTokenAddress(token1Name)
@@ -76,24 +76,6 @@ const handler = async function(argv) {
     token2Amount = await archethic.network.callFunction(poolInfos.address, "get_equivalent_amount", [token1Address, token1Amount])
   }
 
-  if (token2Address < token1Address) {
-    let temp = token1Address
-    token1Address = token2Address
-    token2Address = temp
-    temp = token1Amount
-    token1Amount = token2Amount
-    token2Amount = temp
-  }
-
-  const expectedTokenLP = await archethic.network.callFunction(poolInfos.address, "get_lp_token_to_mint", [token1Amount, token2Amount])
-
-  console.log("Expected LP token to receive:", expectedTokenLP)
-
-  if (expectedTokenLP == 0) {
-    console.log("Pool doesn't have liquidity, please fill both token amount")
-    process.exit(1)
-  }
-
   const poolTokens = await archethic.network.callFunction(poolInfos.address, "get_pair_tokens")
 
   // Sort token to match pool order
@@ -105,6 +87,20 @@ const handler = async function(argv) {
     token1 = { address: token2Address, amount: token2Amount }
     token2 = { address: token1Address, amount: token1Amount }
   }
+
+  const expectedTokenLP = await archethic.network.callFunction(
+    poolInfos.address,
+    "get_lp_token_to_mint",
+    [token1.amount, token2.amount]
+  )
+
+  console.log("Expected LP token to receive:", expectedTokenLP)
+
+  if (expectedTokenLP == 0) {
+    console.log("Pool doesn't have liquidity, please fill both token amount")
+    process.exit(1)
+  }
+
 
   const userAddress = getGenesisAddress(env.userSeed)
   const index = await archethic.transaction.getTransactionIndex(userAddress)

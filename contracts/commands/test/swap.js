@@ -18,12 +18,12 @@ const builder = {
   token1_amount: {
     describe: "Amount of token to send",
     demandOption: true,
-    type: "integer"
+    type: "number"
   },
   slippage: {
     describe: "Slippage in percentage (2 = 2%) to apply. Default 2",
     demandOption: false,
-    type: "integer"
+    type: "number"
   }
 }
 

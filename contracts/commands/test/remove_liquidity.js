@@ -18,7 +18,7 @@ const builder = {
   lp_token_amount: {
     describe: "Lp token to remove",
     demandOption: true,
-    type: "integer"
+    type: "number"
   }
 }
 

@@ -8,7 +8,7 @@ const builder = {
   number: {
     describe: "Number of token to create",
     demandOption: false,
-    type: "integer"
+    type: "number"
   },
 }
 

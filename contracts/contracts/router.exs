@@ -1,53 +1,53 @@
 @version 1
 
-condition triggered_by: transaction, on: add_pool(token1_address, token2_address), as: [
-  type: "token",
+condition triggered_by: transaction, on: add_pool(token1_address, token2_address, pool_creation_address), as: [
+  type: "transfer",
   content: (
     valid? = false
 
     token1_address = String.to_uppercase(token1_address)
     token2_address = String.to_uppercase(token2_address)
 
-    pool_exists? = get_pool_infos(token1_address, token2_address) != nil
+    pool_exists? = get_pool_addresses(token1_address, token2_address) != nil
 
     if token1_address != token2_address && !pool_exists? do
-      # Ensure tokens exists and lp token definition is good
+      # Could create a new function Chain.get_transactions(list_of_address)
+      pool_transaction = Chain.get_transaction(pool_creation_address)
       token1_tx = Chain.get_transaction(token1_address)
       token2_tx = Chain.get_transaction(token2_address)
 
+      # Ensure tokens exists and lp token definition is good
       token1_symbol = get_token_symbol(token1_tx)
       token2_symbol = get_token_symbol(token2_tx)
 
-      if token1_symbol != nil && token2_symbol do
+      valid_definition? = false
+      if token1_symbol != nil && token2_symbol != nil && pool_transaction != nil && pool_transaction.type == "token" do
         expected_content = get_lp_token_definition(token1_symbol, token2_symbol)
 
-        valid? = Json.parse(transaction.content) == Json.parse(expected_content)
+        valid_definition? = Json.parse(pool_transaction.content) == Json.parse(expected_content)
       end
-    end
 
-    valid?
-  ),
-  code: (
-    valid? = false
+      valid_code? = false
+      pool_genesis_address = nil
+      if valid_definition? do
+        # Ensure code is valid
+        pool_genesis_address = Chain.get_genesis_address(pool_creation_address)
+        expected_code = get_pool_code(token1_address, token2_address, pool_genesis_address, pool_creation_address)
 
-    token1_address = String.to_uppercase(token1_address)
-    token2_address = String.to_uppercase(token2_address)
+        valid_code? = Code.is_same?(pool_transaction.code, expected_code)
+      end
 
-    if transaction.code != "" do
-      # Ensure pool code is a valid one
-      pool_previous_address = Chain.get_previous_address(transaction)
-      pool_genesis_address = Chain.get_genesis_address(pool_previous_address)
-
-      expected_code = get_pool_code(token1_address, token2_address, pool_genesis_address, transaction.address)
-
-      valid? = Code.is_same?(transaction.code, expected_code)
+      if valid_code? do
+        # Ensure liquidity is provided to the pool
+        valid? = List.in?(transaction.recipients, pool_genesis_address)
+      end
     end
 
     valid?
   )
 ]
 
-actions triggered_by: transaction, on: add_pool(token1_address, token2_address) do
+actions triggered_by: transaction, on: add_pool(token1_address, token2_address, pool_creation_address) do
   token1_address = String.to_uppercase(token1_address)
   token2_address = String.to_uppercase(token2_address)
 
@@ -57,16 +57,13 @@ actions triggered_by: transaction, on: add_pool(token1_address, token2_address) 
     token2_address = temp
   end
 
-  pool_previous_address = Chain.get_previous_address(transaction)
-  pool_genesis_address = Chain.get_genesis_address(pool_previous_address)
-
+  pool_genesis_address = Chain.get_genesis_address(pool_creation_address)
   pool_id = get_pool_id(token1_address, token2_address)
-
   pools = State.get("pools", Map.new())
 
   pool_data = [
     address: pool_genesis_address,
-    lp_token_address: transaction.address
+    lp_token_address: pool_creation_address
   ]
 
   pools = Map.set(pools, pool_id, pool_data)

@@ -134,6 +134,7 @@ condition triggered_by: transaction, on: swap(min_to_receive), as: [
     transfer = get_user_transfer(transaction.token_transfers)
     if transfer != nil do
         output_amount = get_output_amount(transfer.token_address, transfer.amount)
+
         valid? = output_amount > 0 && output_amount >= min_to_receive
     end
 
@@ -227,6 +228,27 @@ export fun get_lp_token_to_mint(token1_amount, token2_amount) do
   end
 end
 
+export fun get_output_amount(token_address, amount) do
+  output_amount = 0
+  reserves = State.get("reserves", [token1: 0, token2: 0])
+  if reserves.token1 > 0 && reserves.token2 > 0 do
+    amount_with_fee = amount * 0.997
+
+    if token_address == @TOKEN1 do
+      amount = (amount_with_fee * reserves.token2) / (amount_with_fee + reserves.token1)
+      if amount < reserves.token2 do
+        output_amount = amount
+      end
+    else
+      amount = (amount_with_fee * reserves.token1) / (amount_with_fee + reserves.token2)
+      if amount < reserves.token1 do
+        output_amount = amount
+      end
+    end
+  end
+  output_amount
+end
+
 fun get_final_amounts(user_amounts, reserves, token1_min_amount, token2_min_amount) do
   final_token1_amount = 0
   final_token2_amount = 0
@@ -305,27 +327,6 @@ fun get_user_lp_amount(token_transfers) do
   end
 
   lp_amount
-end
-
-export fun get_output_amount(token_address, amount) do
-  output_amount = 0
-  reserves = State.get("reserves", [token1: 0, token2: 0])
-  if reserves.token1 > 0 && reserves.token2 > 0 do
-    amount_with_fee = amount * 0.997
-
-    if token_address == @TOKEN1 do
-      amount = (amount_with_fee * reserves.token2) / (amount_with_fee + reserves.token1)
-      if amount > reserves.token2 do
-        output_amount = amount
-      end
-    else
-      amount = (amount_with_fee * reserves.token1) / (amount_with_fee + reserves.token2)
-      if amount > reserves.token1 do
-        output_amount = amount
-      end
-    end
-  end
-  output_amount
 end
 
 fun get_pool_balances() do
