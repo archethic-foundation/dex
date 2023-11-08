@@ -15,14 +15,33 @@ get_pair_tokens()
 ```
 Returns a list with the token's address `["00001234...", "00005678..."]`
 
+```elixir
+get_fee()
+```
+Returns the fee amount in percentage
+
+```elixir
+get_equivalent_amount(token_address, amount)
+```
+Returns the equivalent amount of the other token of the pool. This should be used in the process of adding liquidity
+- `token_address` is the token you want to provide (result amount will be the other token)
+- `amount` is the amount of token_address you want to provide
+
+```elixir
+get_lp_token_to_mint(token1_amount, token2_amount)
+```
+Returns the amount of LP token that will be minted if the amount of tokens are provided
+- `token1_amount` Amount of token1 to provide (token1 is the first token returned by `get_pair_tokens`)
+- `token2_amount` Amount of token2 to provide (token2 is the second token returned by `get_pair_tokens`)
+
 #### Actions triggered by transaction:
 
 ```elixir
 add_liquidity(token1_min_amount, token2_min_amount)
 ```
 This action allow user to add liquidity to the pool. User must send tokens to the pool's genesis address. The amounts sent should be equivalent to the pool ratio. User can specify a slippage tolerence by providing the minimum amount by token that the pool can use. If there is more fund sent by the user than the needed liquidity, the excedent is returned to the user. In exchange of the liquidity, the user will receive some LP token.
-  - `token1_min_amount` is the minimum amount of token1 to add in liquidity (token1 is the first token returned by the function `get_pair_tokens()`)
-  - `token2_min_amount` is the minimum amount of token2 to add in liquidity (token2 is the second token returned by the function `get_pair_tokens()`)
+- `token1_min_amount` is the minimum amount of token1 to add in liquidity (token1 is the first token returned by the function `get_pair_tokens()`)
+- `token2_min_amount` is the minimum amount of token2 to add in liquidity (token2 is the second token returned by the function `get_pair_tokens()`)
 
 ```elixir
 remove_liquidity()
@@ -33,7 +52,7 @@ This action allow user to remove the liquidity he previously provided. User must
 swap(min_to_receive)
 ```
 This action allow user to swap a token of the pool against the other token. User must send the input token to the pool's genesis address. The pool will calculate the output amount and send it to the user. User can specify a slippage tolerence by providing the minimum amount of the output token to receive.
-  - `min_to_receive` is the minimum amount of the output token to receive
+- `min_to_receive` is the minimum amount of the output token to receive
 
 ```elixir
 update_code()
@@ -50,25 +69,25 @@ Router is a helper contract for user to easily retrieve existing pools and creat
 get_pool_code(token1_address, token2_address, pool_address, lp_token_address, state_address)
 ```
 Return the code to create a pool for a pair of tokens.
-  - `token1_address` is the first token address of the pair
-  - `token2_address` is the second token address of the pair
-  - `pool_address` is the genesis address of the pool chain
-  - `lp_token_address` is the address of the lp token (it should be the creation address of the pool)
-  - `state_address` is the address holding the state of a pool (will be soon removed)
+- `token1_address` is the first token address of the pair
+- `token2_address` is the second token address of the pair
+- `pool_address` is the genesis address of the pool chain
+- `lp_token_address` is the address of the lp token (it should be the creation address of the pool)
+- `state_address` is the address holding the state of a pool (will be soon removed)
 
 ```elixir
 get_lp_token_definition(token1_symbol, token2_symbol)
 ```
 Return a the lp token definition to use when creating a pool. Returns a JSON stringified
-  - `token1_symbol` is the symbol of the first token
-  - `token2_symbol` is the symbol of the second token
+- `token1_symbol` is the symbol of the first token
+- `token2_symbol` is the symbol of the second token
 
 ```elixir
 get_pool_addresses(token1_address, token2_address)
 ```
 Returns the info of the pool for the 2 tokens address. Pool infos is a map with `address` as the genesis address of the pool, `lp_token_address` as the lp token address of the pool. (`{"address": "00001234...", "lp_token_address": "00005678..."}`)
-  - `token1_address` is the address of the first token
-  - `token2_address` is the address of the second token
+- `token1_address` is the address of the first token
+- `token2_address` is the address of the second token
 
 ```elixir
 get_pool_list()
@@ -77,9 +96,9 @@ Return the infos of all the pools. Pool infos is a map with `address` as the gen
 #### Actions triggered by transaction:
 
 ```elixir
-add_pool(token1_address, token2_address, state_address)
+add_pool(token1_address, token2_address, pool_creation_address)
 ```
-This actions allow users to add a new pool in the router. The transaction triggering this action should be the transaction that create the pool. The transaction should be a token transaction with the token definition returned by the function `get_lp_token_definition`. It should also have the code returned by the function `get_pool_code`.
+This actions allow users to add a new pool in the router. The transaction triggering this action should also add the first liquidity to a previously created pool. The transaction that created the pool should be a token transaction with the token definition returned by the function `get_lp_token_definition`. It should also have the code returned by the function `get_pool_code`.
 
 ```elixir
 update_code(new_code)
@@ -142,12 +161,12 @@ This will create multiple tokens with the name token0, token1, token2 ...
 
 Then you can deploy a pool:
 ```bash
-node dex deploy_pool --token1 token3 --token2 token4
+node dex deploy_pool --token1 token3 --token2 token4 --token1_amount 100 --token2_amount 200
 ```
 
 Then you can use script to add / remove liquidity or swap:
 ```bash
-node dex add_liquidity --token1 token2 --token1_amount 750 --token2 token3 --token2_amount 1020
+node dex add_liquidity --token1 token2 --token1_amount 750 --token2 token3
 node dex swap --token1 token2 --token1_amount 50 --token2 token3
 node dex remove_liquidity --token1 token2 --token2 token3 --lp_token_amount 72
 ```
