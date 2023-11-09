@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_rem
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_close_btn.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_token_balance.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_token_max_btn.dart';
+import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_token_infos.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,10 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                       LiquidityRemoveLPTokenMaxButton(),
                     ],
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const LiquidityRemoveTokensGetBack(),
                   const SizedBox(
                     height: 10,
                   ),

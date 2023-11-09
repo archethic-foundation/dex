@@ -130,11 +130,11 @@ class LiquidityAddFormNotifier
           _calculateEquivalentAmountTask = CancelableTask<double?>(
             task: () async {
               var _equivalentAmount = 0.0;
-              final equivalentAmounResult =
+              final equivalentAmountResult =
                   await PoolFactory(state.poolGenesisAddress, apiService)
                       .getEquivalentAmount(tokenAddress, amount);
 
-              equivalentAmounResult.map(
+              equivalentAmountResult.map(
                 success: (success) {
                   if (success != null) {
                     _equivalentAmount = success;

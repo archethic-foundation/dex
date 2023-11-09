@@ -22,9 +22,13 @@ mixin _$LiquidityRemoveFormState {
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get liquidityRemoveOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
+  DexToken? get token1 => throw _privateConstructorUsedError;
+  DexToken? get token2 => throw _privateConstructorUsedError;
   DexToken? get lpToken => throw _privateConstructorUsedError;
   double get lpTokenBalance => throw _privateConstructorUsedError;
   double get lpTokenAmount => throw _privateConstructorUsedError;
+  double get token1AmountGetBack => throw _privateConstructorUsedError;
+  double get token2AmountGetBack => throw _privateConstructorUsedError;
   double get networkFees => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
 
@@ -45,12 +49,18 @@ abstract class $LiquidityRemoveFormStateCopyWith<$Res> {
       bool isProcessInProgress,
       bool liquidityRemoveOk,
       bool walletConfirmation,
+      DexToken? token1,
+      DexToken? token2,
       DexToken? lpToken,
       double lpTokenBalance,
       double lpTokenAmount,
+      double token1AmountGetBack,
+      double token2AmountGetBack,
       double networkFees,
       Failure? failure});
 
+  $DexTokenCopyWith<$Res>? get token1;
+  $DexTokenCopyWith<$Res>? get token2;
   $DexTokenCopyWith<$Res>? get lpToken;
   $FailureCopyWith<$Res>? get failure;
 }
@@ -74,9 +84,13 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
     Object? isProcessInProgress = null,
     Object? liquidityRemoveOk = null,
     Object? walletConfirmation = null,
+    Object? token1 = freezed,
+    Object? token2 = freezed,
     Object? lpToken = freezed,
     Object? lpTokenBalance = null,
     Object? lpTokenAmount = null,
+    Object? token1AmountGetBack = null,
+    Object? token2AmountGetBack = null,
     Object? networkFees = null,
     Object? failure = freezed,
   }) {
@@ -101,6 +115,14 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
               as bool,
+      token1: freezed == token1
+          ? _value.token1
+          : token1 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token2: freezed == token2
+          ? _value.token2
+          : token2 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
       lpToken: freezed == lpToken
           ? _value.lpToken
           : lpToken // ignore: cast_nullable_to_non_nullable
@@ -113,6 +135,14 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
           ? _value.lpTokenAmount
           : lpTokenAmount // ignore: cast_nullable_to_non_nullable
               as double,
+      token1AmountGetBack: null == token1AmountGetBack
+          ? _value.token1AmountGetBack
+          : token1AmountGetBack // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2AmountGetBack: null == token2AmountGetBack
+          ? _value.token2AmountGetBack
+          : token2AmountGetBack // ignore: cast_nullable_to_non_nullable
+              as double,
       networkFees: null == networkFees
           ? _value.networkFees
           : networkFees // ignore: cast_nullable_to_non_nullable
@@ -122,6 +152,30 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get token1 {
+    if (_value.token1 == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.token1!, (value) {
+      return _then(_value.copyWith(token1: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get token2 {
+    if (_value.token2 == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.token2!, (value) {
+      return _then(_value.copyWith(token2: value) as $Val);
+    });
   }
 
   @override
@@ -164,12 +218,20 @@ abstract class _$$LiquidityRemoveFormStateImplCopyWith<$Res>
       bool isProcessInProgress,
       bool liquidityRemoveOk,
       bool walletConfirmation,
+      DexToken? token1,
+      DexToken? token2,
       DexToken? lpToken,
       double lpTokenBalance,
       double lpTokenAmount,
+      double token1AmountGetBack,
+      double token2AmountGetBack,
       double networkFees,
       Failure? failure});
 
+  @override
+  $DexTokenCopyWith<$Res>? get token1;
+  @override
+  $DexTokenCopyWith<$Res>? get token2;
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
   @override
@@ -194,9 +256,13 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
     Object? isProcessInProgress = null,
     Object? liquidityRemoveOk = null,
     Object? walletConfirmation = null,
+    Object? token1 = freezed,
+    Object? token2 = freezed,
     Object? lpToken = freezed,
     Object? lpTokenBalance = null,
     Object? lpTokenAmount = null,
+    Object? token1AmountGetBack = null,
+    Object? token2AmountGetBack = null,
     Object? networkFees = null,
     Object? failure = freezed,
   }) {
@@ -221,6 +287,14 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
               as bool,
+      token1: freezed == token1
+          ? _value.token1
+          : token1 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token2: freezed == token2
+          ? _value.token2
+          : token2 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
       lpToken: freezed == lpToken
           ? _value.lpToken
           : lpToken // ignore: cast_nullable_to_non_nullable
@@ -232,6 +306,14 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
       lpTokenAmount: null == lpTokenAmount
           ? _value.lpTokenAmount
           : lpTokenAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1AmountGetBack: null == token1AmountGetBack
+          ? _value.token1AmountGetBack
+          : token1AmountGetBack // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2AmountGetBack: null == token2AmountGetBack
+          ? _value.token2AmountGetBack
+          : token2AmountGetBack // ignore: cast_nullable_to_non_nullable
               as double,
       networkFees: null == networkFees
           ? _value.networkFees
@@ -254,9 +336,13 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
       this.isProcessInProgress = false,
       this.liquidityRemoveOk = false,
       this.walletConfirmation = false,
+      this.token1,
+      this.token2,
       this.lpToken,
       this.lpTokenBalance = 0.0,
       this.lpTokenAmount = 0.0,
+      this.token1AmountGetBack = 0.0,
+      this.token2AmountGetBack = 0.0,
       this.networkFees = 0.0,
       this.failure})
       : super._();
@@ -277,6 +363,10 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   @JsonKey()
   final bool walletConfirmation;
   @override
+  final DexToken? token1;
+  @override
+  final DexToken? token2;
+  @override
   final DexToken? lpToken;
   @override
   @JsonKey()
@@ -286,13 +376,19 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   final double lpTokenAmount;
   @override
   @JsonKey()
+  final double token1AmountGetBack;
+  @override
+  @JsonKey()
+  final double token2AmountGetBack;
+  @override
+  @JsonKey()
   final double networkFees;
   @override
   final Failure? failure;
 
   @override
   String toString() {
-    return 'LiquidityRemoveFormState(liquidityRemoveProcessStep: $liquidityRemoveProcessStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, networkFees: $networkFees, failure: $failure)';
+    return 'LiquidityRemoveFormState(liquidityRemoveProcessStep: $liquidityRemoveProcessStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, failure: $failure)';
   }
 
   @override
@@ -312,11 +408,17 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
                 other.liquidityRemoveOk == liquidityRemoveOk) &&
             (identical(other.walletConfirmation, walletConfirmation) ||
                 other.walletConfirmation == walletConfirmation) &&
+            (identical(other.token1, token1) || other.token1 == token1) &&
+            (identical(other.token2, token2) || other.token2 == token2) &&
             (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
             (identical(other.lpTokenBalance, lpTokenBalance) ||
                 other.lpTokenBalance == lpTokenBalance) &&
             (identical(other.lpTokenAmount, lpTokenAmount) ||
                 other.lpTokenAmount == lpTokenAmount) &&
+            (identical(other.token1AmountGetBack, token1AmountGetBack) ||
+                other.token1AmountGetBack == token1AmountGetBack) &&
+            (identical(other.token2AmountGetBack, token2AmountGetBack) ||
+                other.token2AmountGetBack == token2AmountGetBack) &&
             (identical(other.networkFees, networkFees) ||
                 other.networkFees == networkFees) &&
             (identical(other.failure, failure) || other.failure == failure));
@@ -330,9 +432,13 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
       isProcessInProgress,
       liquidityRemoveOk,
       walletConfirmation,
+      token1,
+      token2,
       lpToken,
       lpTokenBalance,
       lpTokenAmount,
+      token1AmountGetBack,
+      token2AmountGetBack,
       networkFees,
       failure);
 
@@ -351,9 +457,13 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
       final bool isProcessInProgress,
       final bool liquidityRemoveOk,
       final bool walletConfirmation,
+      final DexToken? token1,
+      final DexToken? token2,
       final DexToken? lpToken,
       final double lpTokenBalance,
       final double lpTokenAmount,
+      final double token1AmountGetBack,
+      final double token2AmountGetBack,
       final double networkFees,
       final Failure? failure}) = _$LiquidityRemoveFormStateImpl;
   const _LiquidityRemoveFormState._() : super._();
@@ -369,11 +479,19 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
   @override
   bool get walletConfirmation;
   @override
+  DexToken? get token1;
+  @override
+  DexToken? get token2;
+  @override
   DexToken? get lpToken;
   @override
   double get lpTokenBalance;
   @override
   double get lpTokenAmount;
+  @override
+  double get token1AmountGetBack;
+  @override
+  double get token2AmountGetBack;
   @override
   double get networkFees;
   @override

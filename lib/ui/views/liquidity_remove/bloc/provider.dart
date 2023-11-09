@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/remove_liquidity.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
+import 'package:aedex/ui/views/util/delayed_task.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,8 +27,67 @@ class LiquidityRemoveFormNotifier
   @override
   LiquidityRemoveFormState build() => const LiquidityRemoveFormState();
 
+  CancelableTask<Map<String, dynamic>>? _calculateRemoveAmountsTask;
+
   void setPoolGenesisAddress(String poolGenesisAddress) {
     state = state.copyWith(poolGenesisAddress: poolGenesisAddress);
+  }
+
+  Future<({double removeAmountToken1, double removeAmountToken2})>
+      _calculateRemoveAmounts(
+    double lpTokenAmount, {
+    Duration delay = const Duration(milliseconds: 800),
+  }) async {
+    final apiService = sl.get<ApiService>();
+    late final Map<String, dynamic> removeAmounts;
+    try {
+      removeAmounts = await Future<Map<String, dynamic>>(
+        () async {
+          if (lpTokenAmount <= 0) {
+            return {};
+          }
+
+          _calculateRemoveAmountsTask?.cancel();
+          _calculateRemoveAmountsTask = CancelableTask<Map<String, dynamic>>(
+            task: () async {
+              var _removeAmounts = <String, dynamic>{};
+              final removeAmountsResult =
+                  await PoolFactory(state.poolGenesisAddress, apiService)
+                      .getRemoveAmounts(lpTokenAmount);
+
+              removeAmountsResult.map(
+                success: (success) {
+                  if (success != null) {
+                    _removeAmounts = success;
+                  }
+                },
+                failure: (failure) {
+                  setFailure(
+                    Failure.other(cause: 'getRemoveAmountss error $failure'),
+                  );
+                },
+              );
+              return _removeAmounts;
+            },
+          );
+
+          final _removeAmounts =
+              await _calculateRemoveAmountsTask?.schedule(delay);
+
+          return _removeAmounts ?? {};
+        },
+      );
+    } on CanceledTask {
+      return (removeAmountToken1: 0.0, removeAmountToken2: 0.0);
+    }
+
+    log("removeAmounts token1 ${removeAmounts['token1']})");
+    log("removeAmounts token2 ${removeAmounts['token2']})");
+
+    return (
+      removeAmountToken1: removeAmounts['token1'] as double,
+      removeAmountToken2: removeAmounts['token2'] as double,
+    );
   }
 
   Future<void> initBalance() async {
@@ -35,6 +100,22 @@ class LiquidityRemoveFormNotifier
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
+  }
+
+  void setToken1(
+    DexToken token,
+  ) {
+    state = state.copyWith(
+      token1: token,
+    );
+  }
+
+  void setToken2(
+    DexToken token,
+  ) {
+    state = state.copyWith(
+      token2: token,
+    );
   }
 
   void setLpToken(
@@ -58,6 +139,12 @@ class LiquidityRemoveFormNotifier
   ) async {
     state = state.copyWith(
       lpTokenAmount: amount,
+    );
+
+    final calculateRemoveAmountsResult = await _calculateRemoveAmounts(amount);
+    state = state.copyWith(
+      token1AmountGetBack: calculateRemoveAmountsResult.removeAmountToken1,
+      token2AmountGetBack: calculateRemoveAmountsResult.removeAmountToken2,
     );
   }
 

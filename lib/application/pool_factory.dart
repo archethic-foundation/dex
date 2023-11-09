@@ -12,7 +12,22 @@ class PoolFactory {
   final String factoryAddress;
   final ApiService apiService;
 
-  /// Returns pool's info (tokens address, reserve, fee)
+  /// Returns infos of the pool as:
+  /// {
+  ///   "token1": {
+  ///     "address": "00001234...",
+  ///     "reserve": 1021.45
+  ///   },
+  ///   "token2": {
+  ///     "address": "00005678...",
+  ///     "reserve": 894.565
+  ///   },
+  ///   "lp_token": {
+  ///     "address": "0000ABCD...",
+  ///     "supply": 950.45645
+  ///   },
+  ///   "fee": 0.3
+  /// }
   Future<Result<DexPool, Failure>> getPoolInfos() async {
     return Result.guard(
       () async {
@@ -161,6 +176,29 @@ class PoolFactory {
           ),
         );
         return double.tryParse(result.toString());
+      },
+    );
+  }
+
+  /// Returns amounts of token to get back when removing liquidity
+  /// [lpTokenAmount] Number of lp token to remove
+  Future<Result<Map<String, dynamic>?, Failure>> getRemoveAmounts(
+    double lpTokenAmount,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_remove_amounts',
+              args: [lpTokenAmount],
+            ),
+          ),
+          resultMap: true,
+        ) as Map<String, dynamic>?;
+        return result;
       },
     );
   }

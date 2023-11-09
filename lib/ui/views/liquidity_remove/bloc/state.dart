@@ -17,9 +17,13 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
     @Default(false) bool isProcessInProgress,
     @Default(false) bool liquidityRemoveOk,
     @Default(false) bool walletConfirmation,
+    DexToken? token1,
+    DexToken? token2,
     DexToken? lpToken,
     @Default(0.0) double lpTokenBalance,
     @Default(0.0) double lpTokenAmount,
+    @Default(0.0) double token1AmountGetBack,
+    @Default(0.0) double token2AmountGetBack,
     @Default(0.0) double networkFees,
     Failure? failure,
   }) = _LiquidityRemoveFormState;

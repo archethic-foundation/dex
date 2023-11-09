@@ -133,6 +133,7 @@ class PoolCard extends ConsumerWidget {
                                   LiquidityRemoveSheet(
                                     poolGenesisAddress: pool.poolAddress,
                                     lpToken: pool.lpToken!,
+                                    pair: pool.pair!,
                                   ),
                                   ref,
                                 );
