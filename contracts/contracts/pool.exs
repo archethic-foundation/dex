@@ -266,6 +266,21 @@ export fun get_swap_infos(token_address, amount) do
   ]
 end
 
+export fun get_remove_amounts(lp_token_amount) do
+  reserves = State.get("reserves", [token1: 0, token2: 0])
+  lp_token_supply = State.get("lp_token_supply", 0)
+
+  token1_to_remove = 0
+  token2_to_remove = 0
+  
+  if lp_token_supply > 0 && lp_token_amount < lp_token_supply do
+    token1_to_remove = (lp_token_amount * reserves.token1) / lp_token_supply
+    token2_to_remove = (lp_token_amount * reserves.token2) / lp_token_supply
+  end
+
+  [token1: token1_to_remove, token2: token2_to_remove]
+end
+
 export fun get_pool_infos() do
   reserves = State.get("reserves", [token1: 0, token2: 0])
 

@@ -59,6 +59,16 @@ Returns the info about a swap: expected output_amount, fee and price impact
 { "fee": 0.006, "output_amount": 1.48073705, "price_impact": 0.997 }
 ```
 
+```elixir
+get_remove_amounts(lp_token_amount)
+```
+Returns amounts of token to get back when removing liquidity
+- `lp_token_amount` Number of lp token to remove
+
+```json
+{ "token1": 11.662465, "token2": 8.54834787 }
+```
+
 #### Actions triggered by transaction:
 
 ```elixir

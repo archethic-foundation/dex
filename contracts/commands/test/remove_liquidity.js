@@ -66,6 +66,10 @@ const handler = async function(argv) {
 
   const burnAddress = "00000000000000000000000000000000000000000000000000000000000000000000"
 
+  const removeAmounts = await archethic.network.callFunction(poolAddresses.address, "get_remove_amounts", [lpTokenAmount])
+  console.log("token1 amount to receive:", removeAmounts.token1)
+  console.log("token2 amount to receive:", removeAmounts.token2)
+
   const tx = archethic.transaction.new()
     .setType("transfer")
     .addRecipient(poolAddresses.address, "remove_liquidity")
