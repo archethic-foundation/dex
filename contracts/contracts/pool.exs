@@ -198,8 +198,10 @@ export fun get_equivalent_amount(token_address, amount) do
   reserves = State.get("reserves", [token1: 0, token2: 0])
   ratio = 0
 
+  token_address = String.to_uppercase(token_address)
+
   if reserves.token1 > 0 && reserves.token2 > 0 do
-    if token_address = @TOKEN1 do
+    if token_address == @TOKEN1 do
       ratio = reserves.token2 / reserves.token1
     else
       ratio = reserves.token1 / reserves.token2
