@@ -11,14 +11,28 @@ Pool is the main contract of the AMM model. It hold the liquidity of a pair of t
 #### Public functions:
 
 ```elixir
-get_pair_tokens()
+get_pool_infos()
 ```
-Returns a list with the token's address `["00001234...", "00005678..."]`
+Returns infos of the pool as:
 
-```elixir
-get_fee()
+```json
+{
+  "token1": {
+    "address": "00001234...",
+    "reserve": 1021.45
+  },
+  "token2": {
+    "address": "00005678...",
+    "reserve": 894.565
+  },
+  "lp_token": {
+    "address": "0000ABCD...",
+    "supply": 950.45645
+  },
+  "fee": 0.3
+}
 ```
-Returns the fee amount in percentage
+In next function, token1 and token2 represent the one returned by this function
 
 ```elixir
 get_equivalent_amount(token_address, amount)
@@ -31,8 +45,8 @@ Returns the equivalent amount of the other token of the pool. This should be use
 get_lp_token_to_mint(token1_amount, token2_amount)
 ```
 Returns the amount of LP token that will be minted if the amount of tokens are provided
-- `token1_amount` Amount of token1 to provide (token1 is the first token returned by `get_pair_tokens`)
-- `token2_amount` Amount of token2 to provide (token2 is the second token returned by `get_pair_tokens`)
+- `token1_amount` Amount of token1 to provide
+- `token2_amount` Amount of token2 to provide
 
 #### Actions triggered by transaction:
 
@@ -40,8 +54,8 @@ Returns the amount of LP token that will be minted if the amount of tokens are p
 add_liquidity(token1_min_amount, token2_min_amount)
 ```
 This action allow user to add liquidity to the pool. User must send tokens to the pool's genesis address. The amounts sent should be equivalent to the pool ratio. User can specify a slippage tolerence by providing the minimum amount by token that the pool can use. If there is more fund sent by the user than the needed liquidity, the excedent is returned to the user. In exchange of the liquidity, the user will receive some LP token.
-- `token1_min_amount` is the minimum amount of token1 to add in liquidity (token1 is the first token returned by the function `get_pair_tokens()`)
-- `token2_min_amount` is the minimum amount of token2 to add in liquidity (token2 is the second token returned by the function `get_pair_tokens()`)
+- `token1_min_amount` is the minimum amount of token1 to add in liquidity
+- `token2_min_amount` is the minimum amount of token2 to add in liquidity
 
 ```elixir
 remove_liquidity()
