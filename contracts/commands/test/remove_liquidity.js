@@ -53,9 +53,9 @@ const handler = async function(argv) {
 
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
 
-  const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
+  const poolAddresses = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
 
-  if (poolInfos == null) {
+  if (poolAddresses == null) {
     console.log("No pool exist for these tokens")
     process.exit(1)
   }
@@ -68,8 +68,8 @@ const handler = async function(argv) {
 
   const tx = archethic.transaction.new()
     .setType("transfer")
-    .addRecipient(poolInfos.address, "remove_liquidity")
-    .addTokenTransfer(burnAddress, Utils.toBigInt(lpTokenAmount), poolInfos.lp_token_address)
+    .addRecipient(poolAddresses.address, "remove_liquidity")
+    .addTokenTransfer(burnAddress, Utils.toBigInt(lpTokenAmount), poolAddresses.lp_token_address)
     .build(env.userSeed, index)
     .originSign(Utils.originPrivateKey)
 

@@ -70,8 +70,8 @@ const handler = async function(argv) {
 
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
 
-  const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
-  if (poolInfos != null) {
+  const poolAddresses = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
+  if (poolAddresses != null) {
     console.log("Pool already exists for these tokens")
     process.exit(1)
   }
@@ -94,11 +94,11 @@ const handler = async function(argv) {
   // Deploy pool
   await sendTransactionWithFunding(poolTx, null, archethic, env.userSeed)
 
-  const poolTokens = await archethic.network.callFunction(poolGenesisAddress, "get_pair_tokens")
+  const poolInfos = await archethic.network.callFunction(poolGenesisAddress, "get_pool_infos")
 
   // Sort token to match pool order
   let token1, token2
-  if (poolTokens[0] == token1Address.toUpperCase()) {
+  if (poolInfos.token1.address == token1Address.toUpperCase()) {
     token1 = { address: token1Address, amount: token1Amount }
     token2 = { address: token2Address, amount: token2Amount }
   } else {

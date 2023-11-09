@@ -59,9 +59,9 @@ const handler = async function(argv) {
 
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
 
-  const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
+  const poolAddresses = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
 
-  if (poolInfos == null) {
+  if (poolAddresses == null) {
     console.log("No pool exist for these tokens")
     process.exit(1)
   }
@@ -70,13 +70,13 @@ const handler = async function(argv) {
   const index = await archethic.transaction.getTransactionIndex(userAddress)
   console.log("User genesis address:", userAddress)
 
-  const outputAmount = await getOutputAmount(archethic, token1Address, token2Address, token1Amount, poolInfos.address)
+  const outputAmount = await getOutputAmount(archethic, token1Address, token2Address, token1Amount, poolAddresses.address)
   const minToReceive = outputAmount * ((100 - slippage) / 100)
 
   const tx = archethic.transaction.new()
     .setType("transfer")
-    .addRecipient(poolInfos.address, "swap", [minToReceive])
-    .addTokenTransfer(poolInfos.address, Utils.toBigInt(token1Amount), token1Address)
+    .addRecipient(poolAddresses.address, "swap", [minToReceive])
+    .addTokenTransfer(poolAddresses.address, Utils.toBigInt(token1Amount), token1Address)
     .build(env.userSeed, index)
     .originSign(Utils.originPrivateKey)
 

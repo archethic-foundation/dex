@@ -57,7 +57,7 @@ const handler = async function(argv) {
   const token1Name = argv["token1"]
   const token2Name = argv["token2"]
   const token1Amount = argv["token1_amount"]
-  const token2Amount = argv["token2_amount"]
+  let token2Amount = argv["token2_amount"]
   const slippage = argv["slippage"] ? argv["slippage"] : 2
 
   const token1Address = getTokenAddress(token1Name)
@@ -65,22 +65,23 @@ const handler = async function(argv) {
 
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
 
-  const poolInfos = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
+  const poolAddresses = await archethic.network.callFunction(routerAddress, "get_pool_addresses", [token1Address, token2Address])
 
-  if (poolInfos == null) {
+  if (poolAddresses == null) {
     console.log("No pool exist for these tokens")
     process.exit(1)
   }
 
   if (!token2Amount) {
-    token2Amount = await archethic.network.callFunction(poolInfos.address, "get_equivalent_amount", [token1Address, token1Amount])
+    token2Amount = await archethic.network.callFunction(poolAddresses.address, "get_equivalent_amount", [token1Address, token1Amount])
+    console.log(token2Amount)
   }
 
-  const poolTokens = await archethic.network.callFunction(poolInfos.address, "get_pair_tokens")
+  const poolInfos = await archethic.network.callFunction(poolAddresses.address, "get_pool_infos")
 
   // Sort token to match pool order
   let token1, token2
-  if (poolTokens[0] == token1Address.toUpperCase()) {
+  if (poolInfos.token1.address == token1Address.toUpperCase()) {
     token1 = { address: token1Address, amount: token1Amount }
     token2 = { address: token2Address, amount: token2Amount }
   } else {
@@ -89,7 +90,7 @@ const handler = async function(argv) {
   }
 
   const expectedTokenLP = await archethic.network.callFunction(
-    poolInfos.address,
+    poolAddresses.address,
     "get_lp_token_to_mint",
     [token1.amount, token2.amount]
   )
@@ -111,9 +112,9 @@ const handler = async function(argv) {
 
   const tx = archethic.transaction.new()
     .setType("transfer")
-    .addRecipient(poolInfos.address, "add_liquidity", [minToken1Amount, minToken2Amount])
-    .addTokenTransfer(poolInfos.address, Utils.toBigInt(token1.amount), token1.address)
-    .addTokenTransfer(poolInfos.address, Utils.toBigInt(token2.amount), token2.address)
+    .addRecipient(poolAddresses.address, "add_liquidity", [minToken1Amount, minToken2Amount])
+    .addTokenTransfer(poolAddresses.address, Utils.toBigInt(token1.amount), token1.address)
+    .addTokenTransfer(poolAddresses.address, Utils.toBigInt(token2.amount), token2.address)
     .build(env.userSeed, index)
     .originSign(Utils.originPrivateKey)
 

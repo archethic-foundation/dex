@@ -190,10 +190,6 @@ actions triggered_by: transaction, on: update_code() do
   end
 end
 
-export fun get_pair_tokens() do
-  [@TOKEN1, @TOKEN2]
-end
-
 export fun get_equivalent_amount(token_address, amount) do
   reserves = State.get("reserves", [token1: 0, token2: 0])
   ratio = 0
@@ -233,6 +229,9 @@ end
 export fun get_output_amount(token_address, amount) do
   output_amount = 0
   reserves = State.get("reserves", [token1: 0, token2: 0])
+
+  token_address = String.to_uppercase(token_address)
+
   if reserves.token1 > 0 && reserves.token2 > 0 do
     amount_with_fee = amount * 0.997
 
@@ -249,6 +248,26 @@ export fun get_output_amount(token_address, amount) do
     end
   end
   output_amount
+end
+
+export fun get_pool_infos() do
+  reserves = State.get("reserves", [token1: 0, token2: 0])
+
+  [
+    token1: [
+      address: @TOKEN1,
+      reserve: reserves.token1
+    ],
+    token2: [
+      address: @TOKEN2,
+      reserve: reserves.token2
+    ],
+    lp_token: [
+      address: @LP_TOKEN,
+      supply: State.get("lp_token_supply", 0)
+    ],
+    fee: 0.3
+  ]
 end
 
 fun get_final_amounts(user_amounts, reserves, token1_min_amount, token2_min_amount) do
@@ -309,7 +328,12 @@ fun get_user_transfer(token_transfers) do
   
   transfer = List.at(transfers, 0)
 
-  if List.size(transfers) == 1 && List.in?(get_pair_tokens(), transfer.token_address) do
+  tokens = [
+    @TOKEN1,
+    @TOKEN2
+  ]
+
+  if List.size(transfers) == 1 && List.in?(tokens, transfer.token_address) do
     token_transfer = transfer
   end
 
@@ -341,12 +365,4 @@ fun get_pool_balances() do
     token1: Map.get(balances, token1_id, 0),
     token2: Map.get(balances, token2_id, 0),
   ]
-end
-
-export fun get_token_lp_address() do
-  @LP_TOKEN
-end
-
-export fun get_fee() do
-  0.3
 end
