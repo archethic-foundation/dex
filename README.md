@@ -48,6 +48,17 @@ Returns the amount of LP token that will be minted if the amount of tokens are p
 - `token1_amount` Amount of token1 to provide
 - `token2_amount` Amount of token2 to provide
 
+```elixir
+get_swap_infos(token_address, amount)
+```
+Returns the info about a swap: expected output_amount, fee and price impact
+- `token_address` One of the 2 tokens of the pool
+- `amount` Amount of of this token you want to swap
+
+```json
+{ "fee": 0.006, "output_amount": 1.48073705, "price_impact": 0.997 }
+```
+
 #### Actions triggered by transaction:
 
 ```elixir

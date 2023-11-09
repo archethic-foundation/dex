@@ -133,9 +133,9 @@ condition triggered_by: transaction, on: swap(min_to_receive), as: [
 
     transfer = get_user_transfer(transaction.token_transfers)
     if transfer != nil do
-        output_amount = get_output_amount(transfer.token_address, transfer.amount)
+        swap = get_swap_infos(transfer.token_address, transfer.amount)
 
-        valid? = output_amount > 0 && output_amount >= min_to_receive
+        valid? = swap.output_amount > 0 && swap.output_amount >= min_to_receive
     end
 
     valid? 
@@ -145,22 +145,22 @@ condition triggered_by: transaction, on: swap(min_to_receive), as: [
 actions triggered_by: transaction, on: swap(_min_to_receive) do
   transfer = get_user_transfer(transaction.token_transfers)
 
-  output_amount = get_output_amount(transfer.token_address, transfer.amount)
+  swap = get_swap_infos(transfer.token_address, transfer.amount)
 
   pool_balances = get_pool_balances()
   token_to_send = nil
   if transfer.token_address == @TOKEN1 do
-    pool_balances = Map.set(pool_balances, "token2", pool_balances.token2 - output_amount)
+    pool_balances = Map.set(pool_balances, "token2", pool_balances.token2 - swap.output_amount)
     token_to_send = @TOKEN2 
   else
-    pool_balances = Map.set(pool_balances, "token1", pool_balances.token1 - output_amount)
+    pool_balances = Map.set(pool_balances, "token1", pool_balances.token1 - swap.output_amount)
     token_to_send = @TOKEN1
   end
 
   State.set("reserves", [token1: pool_balances.token1, token2: pool_balances.token2])
 
   Contract.set_type("transfer")
-  Contract.add_token_transfer(to: transaction.address, amount: output_amount, token_address: token_to_send)
+  Contract.add_token_transfer(to: transaction.address, amount: swap.output_amount, token_address: token_to_send)
 end
 
 condition triggered_by: transaction, on: update_code(), as: [
@@ -226,28 +226,44 @@ export fun get_lp_token_to_mint(token1_amount, token2_amount) do
   end
 end
 
-export fun get_output_amount(token_address, amount) do
+export fun get_swap_infos(token_address, amount) do
   output_amount = 0
-  reserves = State.get("reserves", [token1: 0, token2: 0])
+  fee = 0
+  price_impact = 0
 
+  reserves = State.get("reserves", [token1: 0, token2: 0])
   token_address = String.to_uppercase(token_address)
 
   if reserves.token1 > 0 && reserves.token2 > 0 do
-    amount_with_fee = amount * 0.997
+    fee = amount * 0.003
+    amount_with_fee = amount - fee
+
+    market_price = 0
 
     if token_address == @TOKEN1 do
+      market_price = amount_with_fee * (reserves.token2 / reserves.token1)
       amount = (amount_with_fee * reserves.token2) / (amount_with_fee + reserves.token1)
       if amount < reserves.token2 do
         output_amount = amount
       end
     else
+      market_price = amount_with_fee * (reserves.token1 / reserves.token2)
       amount = (amount_with_fee * reserves.token1) / (amount_with_fee + reserves.token2)
       if amount < reserves.token1 do
         output_amount = amount
       end
     end
+
+    if output_amount > 0 do
+      price_impact = ((market_price / output_amount) - 1) * 100
+    end
   end
-  output_amount
+
+  [
+    output_amount: output_amount,
+    fee: fee,
+    price_impact: price_impact
+  ]
 end
 
 export fun get_pool_infos() do

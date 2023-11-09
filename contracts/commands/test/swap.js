@@ -70,8 +70,13 @@ const handler = async function(argv) {
   const index = await archethic.transaction.getTransactionIndex(userAddress)
   console.log("User genesis address:", userAddress)
 
-  const outputAmount = await getOutputAmount(archethic, token1Address, token2Address, token1Amount, poolAddresses.address)
-  const minToReceive = outputAmount * ((100 - slippage) / 100)
+  const swapInfos = await archethic.network.callFunction(poolAddresses.address, "get_swap_infos", [token1Address, token1Amount])
+  const minToReceive = swapInfos.output_amount * ((100 - slippage) / 100)
+
+  console.log("Expected output amount:", swapInfos.output_amount)
+  console.log("Minimum to receive:", minToReceive)
+  console.log("Fee:", swapInfos.fee)
+  console.log("Price impact", swapInfos.price_impact)
 
   const tx = archethic.transaction.new()
     .setType("transfer")
@@ -92,17 +97,6 @@ const handler = async function(argv) {
     console.log("Reason:", reason)
     process.exit(1)
   }).send(50)
-}
-
-async function getOutputAmount(archethic, token1Address, token2Address, amount, poolAddress) {
-  const { token: tokens } = await archethic.network.getBalance(poolAddress)
-
-  const token1 = tokens.find(token => token.address == token1Address.toUpperCase())
-  const token2 = tokens.find(token => token.address == token2Address.toUpperCase())
-
-  const amountWithFee = Utils.toBigInt(amount * 0.997)
-
-  return Utils.fromBigInt((amountWithFee * token2.amount) / (amountWithFee + token1.amount))
 }
 
 export default {
