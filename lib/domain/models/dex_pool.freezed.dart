@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DexPool {
   String get poolAddress => throw _privateConstructorUsedError;
-  String get lpTokenAddress => throw _privateConstructorUsedError;
+  DexToken? get lpToken => throw _privateConstructorUsedError;
   int get ranking => throw _privateConstructorUsedError;
   DexPair? get pair => throw _privateConstructorUsedError;
   double get token1Pooled => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $DexPoolCopyWith<$Res> {
   @useResult
   $Res call(
       {String poolAddress,
-      String lpTokenAddress,
+      DexToken? lpToken,
       int ranking,
       DexPair? pair,
       double token1Pooled,
@@ -50,6 +50,7 @@ abstract class $DexPoolCopyWith<$Res> {
       double volume7d,
       double fees24h});
 
+  $DexTokenCopyWith<$Res>? get lpToken;
   $DexPairCopyWith<$Res>? get pair;
 }
 
@@ -67,7 +68,7 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
   @override
   $Res call({
     Object? poolAddress = null,
-    Object? lpTokenAddress = null,
+    Object? lpToken = freezed,
     Object? ranking = null,
     Object? pair = freezed,
     Object? token1Pooled = null,
@@ -83,10 +84,10 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
           ? _value.poolAddress
           : poolAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      lpTokenAddress: null == lpTokenAddress
-          ? _value.lpTokenAddress
-          : lpTokenAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+      lpToken: freezed == lpToken
+          ? _value.lpToken
+          : lpToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
       ranking: null == ranking
           ? _value.ranking
           : ranking // ignore: cast_nullable_to_non_nullable
@@ -128,6 +129,18 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
 
   @override
   @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get lpToken {
+    if (_value.lpToken == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.lpToken!, (value) {
+      return _then(_value.copyWith(lpToken: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $DexPairCopyWith<$Res>? get pair {
     if (_value.pair == null) {
       return null;
@@ -148,7 +161,7 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
   @useResult
   $Res call(
       {String poolAddress,
-      String lpTokenAddress,
+      DexToken? lpToken,
       int ranking,
       DexPair? pair,
       double token1Pooled,
@@ -159,6 +172,8 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
       double volume7d,
       double fees24h});
 
+  @override
+  $DexTokenCopyWith<$Res>? get lpToken;
   @override
   $DexPairCopyWith<$Res>? get pair;
 }
@@ -175,7 +190,7 @@ class __$$DexPoolImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? poolAddress = null,
-    Object? lpTokenAddress = null,
+    Object? lpToken = freezed,
     Object? ranking = null,
     Object? pair = freezed,
     Object? token1Pooled = null,
@@ -191,10 +206,10 @@ class __$$DexPoolImplCopyWithImpl<$Res>
           ? _value.poolAddress
           : poolAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      lpTokenAddress: null == lpTokenAddress
-          ? _value.lpTokenAddress
-          : lpTokenAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+      lpToken: freezed == lpToken
+          ? _value.lpToken
+          : lpToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
       ranking: null == ranking
           ? _value.ranking
           : ranking // ignore: cast_nullable_to_non_nullable
@@ -240,7 +255,7 @@ class __$$DexPoolImplCopyWithImpl<$Res>
 class _$DexPoolImpl implements _DexPool {
   const _$DexPoolImpl(
       {this.poolAddress = '',
-      this.lpTokenAddress = '',
+      this.lpToken,
       this.ranking = 0,
       this.pair,
       this.token1Pooled = 0.0,
@@ -255,8 +270,7 @@ class _$DexPoolImpl implements _DexPool {
   @JsonKey()
   final String poolAddress;
   @override
-  @JsonKey()
-  final String lpTokenAddress;
+  final DexToken? lpToken;
   @override
   @JsonKey()
   final int ranking;
@@ -286,7 +300,7 @@ class _$DexPoolImpl implements _DexPool {
 
   @override
   String toString() {
-    return 'DexPool(poolAddress: $poolAddress, lpTokenAddress: $lpTokenAddress, ranking: $ranking, pair: $pair, token1Pooled: $token1Pooled, token2Pooled: $token2Pooled, amountOfLiquidity: $amountOfLiquidity, apr: $apr, volume24h: $volume24h, volume7d: $volume7d, fees24h: $fees24h)';
+    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, ranking: $ranking, pair: $pair, token1Pooled: $token1Pooled, token2Pooled: $token2Pooled, amountOfLiquidity: $amountOfLiquidity, apr: $apr, volume24h: $volume24h, volume7d: $volume7d, fees24h: $fees24h)';
   }
 
   @override
@@ -296,8 +310,7 @@ class _$DexPoolImpl implements _DexPool {
             other is _$DexPoolImpl &&
             (identical(other.poolAddress, poolAddress) ||
                 other.poolAddress == poolAddress) &&
-            (identical(other.lpTokenAddress, lpTokenAddress) ||
-                other.lpTokenAddress == lpTokenAddress) &&
+            (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
             (identical(other.ranking, ranking) || other.ranking == ranking) &&
             (identical(other.pair, pair) || other.pair == pair) &&
             (identical(other.token1Pooled, token1Pooled) ||
@@ -318,7 +331,7 @@ class _$DexPoolImpl implements _DexPool {
   int get hashCode => Object.hash(
       runtimeType,
       poolAddress,
-      lpTokenAddress,
+      lpToken,
       ranking,
       pair,
       token1Pooled,
@@ -339,7 +352,7 @@ class _$DexPoolImpl implements _DexPool {
 abstract class _DexPool implements DexPool {
   const factory _DexPool(
       {final String poolAddress,
-      final String lpTokenAddress,
+      final DexToken? lpToken,
       final int ranking,
       final DexPair? pair,
       final double token1Pooled,
@@ -353,7 +366,7 @@ abstract class _DexPool implements DexPool {
   @override
   String get poolAddress;
   @override
-  String get lpTokenAddress;
+  DexToken? get lpToken;
   @override
   int get ranking;
   @override

@@ -1,46 +1,46 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/domain/models/dex_pair.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_archethic_oracle_uco.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_confirm_sheet.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_form_sheet.dart';
+import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
+import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
+import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_archethic_oracle_uco.dart';
+import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_sheet.dart';
+import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_form_sheet.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
-class LiquidityAddSheet extends ConsumerStatefulWidget {
-  const LiquidityAddSheet({
+class LiquidityRemoveSheet extends ConsumerStatefulWidget {
+  const LiquidityRemoveSheet({
     required this.poolGenesisAddress,
-    required this.pair,
+    required this.lpToken,
     super.key,
   });
 
   final String poolGenesisAddress;
-  final DexPair pair;
+  final DexToken lpToken;
   @override
-  ConsumerState<LiquidityAddSheet> createState() => _LiquidityAddSheetState();
+  ConsumerState<LiquidityRemoveSheet> createState() =>
+      _LiquidityRemoveSheetState();
 }
 
-class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
+class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+      ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
         ..setPoolGenesisAddress(widget.poolGenesisAddress)
-        ..setToken1(widget.pair.token1)
-        ..setToken2(widget.pair.token2)
-        ..initBalances()
-        ..initRatio();
+        ..setLpToken(widget.lpToken)
+        ..initBalance();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityRemove =
+        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
     return Align(
       child: Container(
         width: 650,
@@ -81,12 +81,12 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
                   child: IntrinsicHeight(
                     child: Column(
                       children: [
-                        if (liquidityAdd.liquidityAddProcessStep ==
-                            LiquidityAddProcessStep.form)
-                          const LiquidityAddFormSheet()
+                        if (liquidityRemove.liquidityRemoveProcessStep ==
+                            LiquidityRemoveProcessStep.form)
+                          const LiquidityRemoveFormSheet()
                         else
-                          const LiquidityAddConfirmSheet(),
-                        const LiquidityAddArchethicOracleUco(),
+                          const LiquidityRemoveConfirmSheet(),
+                        const LiquidityRemoveArchethicOracleUco(),
                       ],
                     ),
                   ),

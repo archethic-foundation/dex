@@ -1,6 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_btn.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_ratio.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_token_1_balance.dart';
@@ -75,16 +76,8 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          LiquidityAddToken1Balance(),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          LiquidityAddToken1MaxButton(),
-                        ],
-                      ),
+                      LiquidityAddToken1Balance(),
+                      LiquidityAddToken1MaxButton(),
                     ],
                   ),
                   const SizedBox(
@@ -109,17 +102,16 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          LiquidityAddToken2Balance(),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          LiquidityAddToken2MaxButton(),
-                        ],
-                      ),
+                      LiquidityAddToken2Balance(),
+                      LiquidityAddToken2MaxButton(),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Align(
+                    alignment: Alignment.centerRight,
+                    child: LiquidityAddRatio(),
                   ),
                   const SizedBox(
                     height: 10,

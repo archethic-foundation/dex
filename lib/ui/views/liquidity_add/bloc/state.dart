@@ -13,11 +13,13 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
   const factory LiquidityAddFormState({
     @Default(LiquidityAddProcessStep.form)
     LiquidityAddProcessStep liquidityAddProcessStep,
+    @Default('') String poolGenesisAddress,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool liquidityAddOk,
     @Default(false) bool walletConfirmation,
     DexToken? token1,
     DexToken? token2,
+    @Default(0.0) double ratio,
     @Default(2.0) double slippage,
     @Default(0.0) double token1Balance,
     @Default(0.0) double token1Amount,

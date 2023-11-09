@@ -10,7 +10,7 @@ class EndpointUtil {
       case 'https://mainnet.archethic.net':
         return 'mainnet';
       default:
-        return 'local';
+        return 'devnet';
     }
   }
 }

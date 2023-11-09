@@ -155,7 +155,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     final dexConfig = await ref
         .read(DexConfigProviders.dexConfigRepository)
-        .getDexConfig('local');
+        .getDexConfig('devnet');
 
     await AddPoolCase().run(
       ref,

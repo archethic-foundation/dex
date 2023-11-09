@@ -1,24 +1,26 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:developer';
+
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
+import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
+import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LiquidityAddToken2Amount extends ConsumerStatefulWidget {
-  const LiquidityAddToken2Amount({
+class LiquidityRemoveLPTokenAmount extends ConsumerStatefulWidget {
+  const LiquidityRemoveLPTokenAmount({
     super.key,
   });
 
   @override
-  ConsumerState<LiquidityAddToken2Amount> createState() =>
-      _LiquidityAddToken2AmountState();
+  ConsumerState<LiquidityRemoveLPTokenAmount> createState() =>
+      _LiquidityRemoveLPTokenAmountState();
 }
 
-class _LiquidityAddToken2AmountState
-    extends ConsumerState<LiquidityAddToken2Amount> {
+class _LiquidityRemoveLPTokenAmountState
+    extends ConsumerState<LiquidityRemoveLPTokenAmount> {
   late TextEditingController tokenAmountController;
   late FocusNode tokenAmountFocusNode;
 
@@ -30,15 +32,16 @@ class _LiquidityAddToken2AmountState
   }
 
   void _updateAmountTextController() {
-    final liquidityAdd = ref.read(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityRemove =
+        ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
         AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
-        text: liquidityAdd.token1Amount == 0
+        text: liquidityRemove.lpTokenAmount == 0
             ? ''
-            : liquidityAdd.token1Amount.toString(),
+            : liquidityRemove.lpTokenAmount.toString(),
       ),
     );
   }
@@ -58,23 +61,25 @@ class _LiquidityAddToken2AmountState
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
-    final liquidityAddNotifier =
-        ref.watch(LiquidityAddFormProvider.liquidityAddForm.notifier);
+    final liquidityRemoveNotifier =
+        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier);
 
-    final liquidityAdd = ref.read(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityRemove =
+        ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm);
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(liquidityAdd.token1Amount != 0.0 ||
+    if (!(liquidityRemove.lpTokenAmount != 0.0 ||
         tokenAmountController.text == '' ||
         (textNum != null && textNum == 0))) {
       _updateAmountTextController();
     }
 
-    ref.listen<LiquidityAddFormState>(
-      LiquidityAddFormProvider.liquidityAddForm,
-      (_, liquidityAdd) {
-        if (liquidityAdd.token2Amount.toString() !=
+    ref.listen<LiquidityRemoveFormState>(
+      LiquidityRemoveFormProvider.liquidityRemoveForm,
+      (_, liquidityRemove) {
+        log('liquidityRemove.lpToken.toString() ${liquidityRemove.lpToken} - tokenAmountController.text ${tokenAmountController.text}');
+        if (liquidityRemove.lpTokenAmount.toString() !=
             tokenAmountController.text) {
-          tokenAmountController.text = liquidityAdd.token2Amount.toString();
+          tokenAmountController.text = liquidityRemove.lpTokenAmount.toString();
         }
       },
     );
@@ -119,7 +124,7 @@ class _LiquidityAddToken2AmountState
                         autocorrect: false,
                         controller: tokenAmountController,
                         onChanged: (text) async {
-                          await liquidityAddNotifier.setToken2Amount(
+                          await liquidityRemoveNotifier.setLPTokenAmount(
                             double.tryParse(text) ?? 0,
                           );
                         },

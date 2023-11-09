@@ -1,8 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
-import 'package:aedex/domain/models/dex_pair.dart';
-import 'package:aedex/domain/models/dex_token.dart';
+import 'dart:developer';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -13,8 +12,8 @@ class PoolFactory {
   final String factoryAddress;
   final ApiService apiService;
 
-  /// Returns a list with the token's address ["00001234...", "00005678..."]
-  Future<Result<DexPair, Failure>> getPairTokens() async {
+  /// Returns pool's info (tokens address, reserve, fee)
+  Future<Result<DexPool, Failure>> getPoolInfos() async {
     return Result.guard(
       () async {
         final result = await apiService.callSCFunction(
@@ -29,10 +28,9 @@ class PoolFactory {
           resultMap: true,
         ) as List<dynamic>;
 
-        return DexPair(
-          token1: DexToken(address: result[0]),
-          token2: DexToken(address: result[1]),
-        );
+        log('$result');
+
+        return DexPool();
       },
     );
   }
@@ -113,7 +111,10 @@ class PoolFactory {
     );
   }
 
-  Future<Result<double, Failure>> getLPTokenToMint(
+  /// Returns the amount of LP token that will be minted if the amount of tokens are provided
+  /// [token1Amount] Amount of token1 to provide (token1 is the first token returned by get_pair_tokens)
+  /// [token1Amount] Amount of token2 to provide (token2 is the second token returned by get_pair_tokens)
+  Future<Result<double?, Failure>> getLPTokenToMint(
     double token1Amount,
     double token2Amount,
   ) async {
@@ -132,8 +133,34 @@ class PoolFactory {
             ),
           ),
         );
-        dev.log('getLPTokenToMint: $result');
-        return result as double;
+        return double.tryParse(result.toString());
+      },
+    );
+  }
+
+  /// Returns the equivalent amount of the other token of the pool. This should be used in the process of adding liquidity
+  /// [tokenAddress] is the token you want to provide (result amount will be the other token)
+  /// [tokenAmount] is the amount of token_address you want to provide
+  Future<Result<double?, Failure>> getEquivalentAmount(
+    String tokenAddress,
+    double tokenAmount,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_equivalent_amount',
+              args: [
+                tokenAddress,
+                tokenAmount,
+              ],
+            ),
+          ),
+        );
+        return double.tryParse(result.toString());
       },
     );
   }

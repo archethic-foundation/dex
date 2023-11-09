@@ -88,5 +88,14 @@
   "failureUserRejected": "The request has been declined.",
   "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
   "failureInsufficientFunds": "Funds are not sufficient.",
-  "failureTimeout": "Timeout occurred."
+  "failureTimeout": "Timeout occurred.",
+  "removeLiquidity": "Remove liquidity",
+  "btn_liquidity_remove": "Remove liquidity",
+  "btn_confirm_liquidity_remove": "Confirm",
+  "liquidityRemoveConfirmTitle": "Confirmation",
+  "liquidityRemoveFormTitle": "Remove liquidity",
+  "liquidityRemoveProcessInterruptionWarning": "Are you sure you want to stop the process?",
+  "liquidityRemoveSuccessInfo": "The process has been performed successfully",
+  "liquidityRemoveInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet",
+  "liquidityRemoveProcessInProgress": "Creation in progress. Please wait."
 }

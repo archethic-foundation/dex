@@ -3,6 +3,7 @@ import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
+import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/icon_animated.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -92,27 +93,56 @@ class PoolCard extends ConsumerWidget {
                       children: [
                         const Text('LP Token: '),
                         FormatAddressLinkCopy(
-                          address: pool.lpTokenAddress,
+                          address: pool.lpToken!.address!,
                           reduceAddress: true,
                         ),
                       ],
                     ),
-                    InkWell(
-                      onTap: () {
-                        ref
-                            .read(
-                              MainScreenWidgetDisplayedProviders
-                                  .mainScreenWidgetDisplayedProvider.notifier,
-                            )
-                            .setWidget(
-                              LiquidityAddSheet(pair: pool.pair!),
-                              ref,
-                            );
-                      },
-                      child: const IconAnimated(
-                        icon: Iconsax.add,
-                        color: Colors.white,
-                      ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            ref
+                                .read(
+                                  MainScreenWidgetDisplayedProviders
+                                      .mainScreenWidgetDisplayedProvider
+                                      .notifier,
+                                )
+                                .setWidget(
+                                  LiquidityAddSheet(
+                                    poolGenesisAddress: pool.poolAddress,
+                                    pair: pool.pair!,
+                                  ),
+                                  ref,
+                                );
+                          },
+                          child: const IconAnimated(
+                            icon: Iconsax.add,
+                            color: Colors.white,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            ref
+                                .read(
+                                  MainScreenWidgetDisplayedProviders
+                                      .mainScreenWidgetDisplayedProvider
+                                      .notifier,
+                                )
+                                .setWidget(
+                                  LiquidityRemoveSheet(
+                                    poolGenesisAddress: pool.poolAddress,
+                                    lpToken: pool.lpToken!,
+                                  ),
+                                  ref,
+                                );
+                          },
+                          child: const IconAnimated(
+                            icon: Iconsax.box_remove,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

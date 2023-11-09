@@ -18,7 +18,7 @@ Future<List<DexPool>> _getPoolList(
 ) async {
   final dexConf = await ref
       .watch(DexConfigProviders.dexConfigRepository)
-      .getDexConfig('local');
+      .getDexConfig('devnet');
   final apiService = sl.get<ApiService>();
   return ref
       .watch(_dexPoolsRepositoryProvider)

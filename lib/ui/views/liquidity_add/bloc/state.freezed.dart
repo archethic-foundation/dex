@@ -18,11 +18,13 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LiquidityAddFormState {
   LiquidityAddProcessStep get liquidityAddProcessStep =>
       throw _privateConstructorUsedError;
+  String get poolGenesisAddress => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get liquidityAddOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
   DexToken? get token1 => throw _privateConstructorUsedError;
   DexToken? get token2 => throw _privateConstructorUsedError;
+  double get ratio => throw _privateConstructorUsedError;
   double get slippage => throw _privateConstructorUsedError;
   double get token1Balance => throw _privateConstructorUsedError;
   double get token1Amount => throw _privateConstructorUsedError;
@@ -44,11 +46,13 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
   @useResult
   $Res call(
       {LiquidityAddProcessStep liquidityAddProcessStep,
+      String poolGenesisAddress,
       bool isProcessInProgress,
       bool liquidityAddOk,
       bool walletConfirmation,
       DexToken? token1,
       DexToken? token2,
+      double ratio,
       double slippage,
       double token1Balance,
       double token1Amount,
@@ -77,11 +81,13 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? liquidityAddProcessStep = null,
+    Object? poolGenesisAddress = null,
     Object? isProcessInProgress = null,
     Object? liquidityAddOk = null,
     Object? walletConfirmation = null,
     Object? token1 = freezed,
     Object? token2 = freezed,
+    Object? ratio = null,
     Object? slippage = null,
     Object? token1Balance = null,
     Object? token1Amount = null,
@@ -95,6 +101,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
           ? _value.liquidityAddProcessStep
           : liquidityAddProcessStep // ignore: cast_nullable_to_non_nullable
               as LiquidityAddProcessStep,
+      poolGenesisAddress: null == poolGenesisAddress
+          ? _value.poolGenesisAddress
+          : poolGenesisAddress // ignore: cast_nullable_to_non_nullable
+              as String,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -115,6 +125,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
           ? _value.token2
           : token2 // ignore: cast_nullable_to_non_nullable
               as DexToken?,
+      ratio: null == ratio
+          ? _value.ratio
+          : ratio // ignore: cast_nullable_to_non_nullable
+              as double,
       slippage: null == slippage
           ? _value.slippage
           : slippage // ignore: cast_nullable_to_non_nullable
@@ -194,11 +208,13 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {LiquidityAddProcessStep liquidityAddProcessStep,
+      String poolGenesisAddress,
       bool isProcessInProgress,
       bool liquidityAddOk,
       bool walletConfirmation,
       DexToken? token1,
       DexToken? token2,
+      double ratio,
       double slippage,
       double token1Balance,
       double token1Amount,
@@ -228,11 +244,13 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? liquidityAddProcessStep = null,
+    Object? poolGenesisAddress = null,
     Object? isProcessInProgress = null,
     Object? liquidityAddOk = null,
     Object? walletConfirmation = null,
     Object? token1 = freezed,
     Object? token2 = freezed,
+    Object? ratio = null,
     Object? slippage = null,
     Object? token1Balance = null,
     Object? token1Amount = null,
@@ -246,6 +264,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
           ? _value.liquidityAddProcessStep
           : liquidityAddProcessStep // ignore: cast_nullable_to_non_nullable
               as LiquidityAddProcessStep,
+      poolGenesisAddress: null == poolGenesisAddress
+          ? _value.poolGenesisAddress
+          : poolGenesisAddress // ignore: cast_nullable_to_non_nullable
+              as String,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -266,6 +288,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
           ? _value.token2
           : token2 // ignore: cast_nullable_to_non_nullable
               as DexToken?,
+      ratio: null == ratio
+          ? _value.ratio
+          : ratio // ignore: cast_nullable_to_non_nullable
+              as double,
       slippage: null == slippage
           ? _value.slippage
           : slippage // ignore: cast_nullable_to_non_nullable
@@ -303,11 +329,13 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
 class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   const _$LiquidityAddFormStateImpl(
       {this.liquidityAddProcessStep = LiquidityAddProcessStep.form,
+      this.poolGenesisAddress = '',
       this.isProcessInProgress = false,
       this.liquidityAddOk = false,
       this.walletConfirmation = false,
       this.token1,
       this.token2,
+      this.ratio = 0.0,
       this.slippage = 2.0,
       this.token1Balance = 0.0,
       this.token1Amount = 0.0,
@@ -322,6 +350,9 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   final LiquidityAddProcessStep liquidityAddProcessStep;
   @override
   @JsonKey()
+  final String poolGenesisAddress;
+  @override
+  @JsonKey()
   final bool isProcessInProgress;
   @override
   @JsonKey()
@@ -333,6 +364,9 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   final DexToken? token1;
   @override
   final DexToken? token2;
+  @override
+  @JsonKey()
+  final double ratio;
   @override
   @JsonKey()
   final double slippage;
@@ -356,7 +390,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, failure: $failure)';
+    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, ratio: $ratio, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, failure: $failure)';
   }
 
   @override
@@ -367,6 +401,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
             (identical(
                     other.liquidityAddProcessStep, liquidityAddProcessStep) ||
                 other.liquidityAddProcessStep == liquidityAddProcessStep) &&
+            (identical(other.poolGenesisAddress, poolGenesisAddress) ||
+                other.poolGenesisAddress == poolGenesisAddress) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
                 other.isProcessInProgress == isProcessInProgress) &&
             (identical(other.liquidityAddOk, liquidityAddOk) ||
@@ -375,6 +411,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
                 other.walletConfirmation == walletConfirmation) &&
             (identical(other.token1, token1) || other.token1 == token1) &&
             (identical(other.token2, token2) || other.token2 == token2) &&
+            (identical(other.ratio, ratio) || other.ratio == ratio) &&
             (identical(other.slippage, slippage) ||
                 other.slippage == slippage) &&
             (identical(other.token1Balance, token1Balance) ||
@@ -394,11 +431,13 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   int get hashCode => Object.hash(
       runtimeType,
       liquidityAddProcessStep,
+      poolGenesisAddress,
       isProcessInProgress,
       liquidityAddOk,
       walletConfirmation,
       token1,
       token2,
+      ratio,
       slippage,
       token1Balance,
       token1Amount,
@@ -418,11 +457,13 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
 abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   const factory _LiquidityAddFormState(
       {final LiquidityAddProcessStep liquidityAddProcessStep,
+      final String poolGenesisAddress,
       final bool isProcessInProgress,
       final bool liquidityAddOk,
       final bool walletConfirmation,
       final DexToken? token1,
       final DexToken? token2,
+      final double ratio,
       final double slippage,
       final double token1Balance,
       final double token1Amount,
@@ -435,6 +476,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   @override
   LiquidityAddProcessStep get liquidityAddProcessStep;
   @override
+  String get poolGenesisAddress;
+  @override
   bool get isProcessInProgress;
   @override
   bool get liquidityAddOk;
@@ -444,6 +487,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   DexToken? get token1;
   @override
   DexToken? get token2;
+  @override
+  double get ratio;
   @override
   double get slippage;
   @override

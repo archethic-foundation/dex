@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:developer' as dev;
 
 import 'package:aedex/application/pool_factory.dart';
-import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
@@ -11,53 +10,50 @@ import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+const logName = 'AddLiquidityCase';
+
 class AddLiquidityCase with TransactionDexMixin {
   Future<void> run(
     WidgetRef ref,
+    String poolGenesisAddress,
     DexToken token1,
     double token1Amount,
     DexToken token2,
     double token2Amount,
-    String routerAddress,
     double slippage,
   ) async {
-    dev.log('Token1 address: ${token1.address}', name: 'AddLiquidityCase');
-    dev.log('Token2 address: ${token2.address}', name: 'AddLiquidityCase');
+    dev.log('Token1 address: ${token1.address}', name: logName);
+    dev.log('Token2 address: ${token2.address}', name: logName);
 
     final apiService = sl.get<archethic.ApiService>();
-    final routerFactory = RouterFactory(routerAddress, apiService);
-    dev.log('Router address: $routerAddress', name: 'AddLiquidityCase');
 
-    String? poolGenesisAddress;
-    final liquidityInfosResult =
-        await routerFactory.getPoolInfos(token1.address!, token2.address!);
-    liquidityInfosResult.map(
+    var expectedTokenLP = 0.0;
+    final expectedTokenLPResult = await PoolFactory(
+      poolGenesisAddress,
+      apiService,
+    ).getLPTokenToMint(token1Amount, token2Amount);
+    expectedTokenLPResult.map(
       success: (success) {
-        if (success!['address'] != null) {
-          poolGenesisAddress = success['address'];
+        if (success != null) {
+          expectedTokenLP = success;
+          dev.log('expectedTokenLP: $expectedTokenLP', name: logName);
+        } else {
+          dev.log('expectedTokenLP: null', name: logName);
         }
       },
       failure: (failure) {
-        return;
+        dev.log('expectedTokenLP failure: $failure', name: logName);
       },
     );
 
-    dev.log(
-      'liquidityGenesisAddress: $poolGenesisAddress',
-      name: 'AddLiquidityCase',
-    );
+    if (expectedTokenLP == 0) {
+      throw const Failure.other(
+        cause: "Pool doesn't have liquidity, please fill both token amount",
+      );
+    }
 
     final blockchainTxVersion = int.parse(
       (await apiService.getBlockchainVersion()).version.transaction,
-    );
-
-    final lpTokenToMintResult = await PoolFactory(
-      poolGenesisAddress!,
-      apiService,
-    ).getLPTokenToMint(token1Amount, token2Amount);
-    lpTokenToMintResult.map(
-      success: (success) {},
-      failure: (failure) {},
     );
 
     final token1minAmount = token1Amount * ((100 - slippage) / 100);
@@ -69,7 +65,7 @@ class AddLiquidityCase with TransactionDexMixin {
       data: archethic.Transaction.initData(),
     )
         .addRecipient(
-          poolGenesisAddress!,
+          poolGenesisAddress,
           action: 'add_liquidity',
           args: [
             token1minAmount,
@@ -77,12 +73,12 @@ class AddLiquidityCase with TransactionDexMixin {
           ],
         )
         .addTokenTransfer(
-          poolGenesisAddress!,
+          poolGenesisAddress,
           archethic.toBigInt(token1minAmount),
           token1.address!,
         )
         .addTokenTransfer(
-          poolGenesisAddress!,
+          poolGenesisAddress,
           archethic.toBigInt(token2minAmount),
           token2.address!,
         );
@@ -96,7 +92,7 @@ class AddLiquidityCase with TransactionDexMixin {
       ))
           .first;
     } catch (e) {
-      dev.log('Signature failed', name: 'AddLiquidityCase');
+      dev.log('Signature failed', name: logName);
       throw const Failure.userRejected();
     }
 

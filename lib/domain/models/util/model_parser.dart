@@ -33,8 +33,9 @@ mixin ModelParser {
 
     // TODO(reddwarf03): Check cache
 
-    final tokenResultMap =
-        await sl.get<ApiService>().getToken([tokens[0], tokens[1]]);
+    final tokenResultMap = await sl
+        .get<ApiService>()
+        .getToken([tokens[0], tokens[1], getPoolListResponse.lpTokenAddress]);
     var token1Name = '';
     var token1Symbol = '';
     if (tokenResultMap[tokens[0]] != null) {
@@ -47,6 +48,13 @@ mixin ModelParser {
       token2Name = tokenResultMap[tokens[1]]!.name!;
       token2Symbol = tokenResultMap[tokens[1]]!.symbol!;
     }
+    var lpTokenName = '';
+    var lpTokenSymbol = '';
+    if (tokenResultMap[getPoolListResponse.lpTokenAddress] != null) {
+      lpTokenName = tokenResultMap[getPoolListResponse.lpTokenAddress]!.name!;
+      lpTokenSymbol =
+          tokenResultMap[getPoolListResponse.lpTokenAddress]!.symbol!;
+    }
 
     final dexPair = DexPair(
       token1:
@@ -54,10 +62,17 @@ mixin ModelParser {
       token2:
           DexToken(address: tokens[1], name: token2Name, symbol: token2Symbol),
     );
+
+    final lpToken = DexToken(
+      address: getPoolListResponse.lpTokenAddress,
+      name: lpTokenName,
+      symbol: lpTokenSymbol,
+    );
+
     return DexPool(
       poolAddress: getPoolListResponse.address,
       pair: dexPair,
-      lpTokenAddress: getPoolListResponse.lpTokenAddress,
+      lpToken: lpToken,
     );
   }
 }
