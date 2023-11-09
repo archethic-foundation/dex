@@ -1,5 +1,6 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_btn.dart';
+import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_close_btn.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_1_balance.dart';
@@ -119,6 +120,10 @@ class PoolAddFormSheet extends ConsumerWidget {
                     height: 10,
                   ),
                   PoolAddButton(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  PoolAddCloseButton(),
                   SizedBox(
                     height: 20,
                   ),

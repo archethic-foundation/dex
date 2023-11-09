@@ -1,6 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_btn.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_close_btn.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_ratio.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
@@ -117,6 +118,10 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                     height: 10,
                   ),
                   const LiquidityAddButton(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const LiquidityAddCloseButton(),
                   const SizedBox(
                     height: 20,
                   ),

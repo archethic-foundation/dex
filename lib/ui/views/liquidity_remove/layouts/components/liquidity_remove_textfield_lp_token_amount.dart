@@ -125,7 +125,7 @@ class _LiquidityRemoveLPTokenAmountState
                         controller: tokenAmountController,
                         onChanged: (text) async {
                           await liquidityRemoveNotifier.setLPTokenAmount(
-                            double.tryParse(text) ?? 0,
+                            double.tryParse(text.replaceAll(' ', '')) ?? 0,
                           );
                         },
                         focusNode: tokenAmountFocusNode,

@@ -19,7 +19,7 @@ class LiquidityRemoveButton extends ConsumerWidget {
 
     if (liquidityRemove.isControlsOk == false) {
       return AppButton(
-        labelBtn: AppLocalizations.of(context)!.btn_liquidity_add,
+        labelBtn: AppLocalizations.of(context)!.btn_liquidity_remove,
         icon: Iconsax.wallet_money,
         disabled: true,
       );
@@ -28,14 +28,14 @@ class LiquidityRemoveButton extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
     if (session.isConnected == false) {
       return AppButton(
-        labelBtn: AppLocalizations.of(context)!.btn_liquidity_add,
+        labelBtn: AppLocalizations.of(context)!.btn_liquidity_remove,
         icon: Iconsax.wallet_money,
         disabled: true,
       );
     }
 
     return AppButton(
-      labelBtn: AppLocalizations.of(context)!.btn_liquidity_add,
+      labelBtn: AppLocalizations.of(context)!.btn_liquidity_remove,
       icon: Iconsax.wallet_money,
       onPressed: () {
         ref

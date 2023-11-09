@@ -25,5 +25,5 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
   }) = _LiquidityRemoveFormState;
   const LiquidityRemoveFormState._();
 
-  bool get isControlsOk => failure == null;
+  bool get isControlsOk => failure == null && lpTokenBalance > 0;
 }

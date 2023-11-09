@@ -104,6 +104,14 @@ class LiquidityAddFormNotifier
     );
   }
 
+  void setToken1AmountMax() {
+    setToken1Amount(state.token1Balance);
+  }
+
+  void setToken2AmountMax() {
+    setToken1Amount(state.token2Balance);
+  }
+
   Future<double> _calculateEquivalentAmount(
     String tokenAddress,
     double amount, {

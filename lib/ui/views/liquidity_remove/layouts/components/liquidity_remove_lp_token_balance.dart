@@ -16,7 +16,7 @@ class LiquidityRemoveLPTokenBalance extends ConsumerWidget {
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
 
     return Text(
-      '${AppLocalizations.of(context)!.balance_title_infos} ${liquidityRemove.lpTokenAmount.formatNumber()}',
+      '${AppLocalizations.of(context)!.balance_title_infos} ${liquidityRemove.lpTokenBalance.formatNumber()}',
       overflow: TextOverflow.visible,
       textAlign: TextAlign.end,
     );

@@ -120,7 +120,7 @@ class _LiquidityAddToken2AmountState
                         controller: tokenAmountController,
                         onChanged: (text) async {
                           await liquidityAddNotifier.setToken2Amount(
-                            double.tryParse(text) ?? 0,
+                            double.tryParse(text.replaceAll(' ', '')) ?? 0,
                           );
                         },
                         focusNode: tokenAmountFocusNode,

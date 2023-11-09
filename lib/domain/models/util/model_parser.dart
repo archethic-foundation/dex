@@ -57,14 +57,20 @@ mixin ModelParser {
     }
 
     final dexPair = DexPair(
-      token1:
-          DexToken(address: tokens[0], name: token1Name, symbol: token1Symbol),
-      token2:
-          DexToken(address: tokens[1], name: token2Name, symbol: token2Symbol),
+      token1: DexToken(
+        address: tokens[0].toUpperCase(),
+        name: token1Name,
+        symbol: token1Symbol,
+      ),
+      token2: DexToken(
+        address: tokens[1].toUpperCase(),
+        name: token2Name,
+        symbol: token2Symbol,
+      ),
     );
 
     final lpToken = DexToken(
-      address: getPoolListResponse.lpTokenAddress,
+      address: getPoolListResponse.lpTokenAddress.toUpperCase(),
       name: lpTokenName,
       symbol: lpTokenSymbol,
     );

@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
     final poolAddNotifier = ref.watch(PoolAddFormProvider.poolAddForm.notifier);
 
     return SizedBox(
-      width: 400,
+      width: DexThemeBase.sizeBoxComponentWidth,
       child: Row(
         children: [
           Expanded(

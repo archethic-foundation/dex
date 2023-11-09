@@ -85,6 +85,10 @@ class LiquidityRemoveFormNotifier
     );
   }
 
+  void setLpTokenAmountMax() {
+    state = state.copyWith(lpTokenAmount: state.lpTokenBalance);
+  }
+
   void setProcessInProgress(bool isProcessInProgress) {
     state = state.copyWith(isProcessInProgress: isProcessInProgress);
   }
