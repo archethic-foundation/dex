@@ -1,5 +1,4 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/swap_settings/components/swap_settings_expert_mode.dart';
 import 'package:aedex/ui/views/swap_settings/components/swap_settings_slippage_tolerance.dart';
 import 'package:aedex/ui/views/util/components/popup_template.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +39,6 @@ class SwapSettingsPopup {
                     ],
                   ),
                 ),
-                const SwapSettingsExpertMode(),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Row(

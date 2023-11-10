@@ -1,4 +1,11 @@
+import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/pool_factory.dart';
+import 'package:aedex/application/router_factory.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/failures.dart';
+import 'package:aedex/domain/usecases/swap.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -18,71 +25,140 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   @override
   SwapFormState build() => const SwapFormState();
 
-  void setTokenToSwap(
+  Future<void> setTokenToSwap(
     DexToken tokenToSwap,
-  ) {
+  ) async {
     state = state.copyWith(
       tokenToSwap: tokenToSwap,
     );
+
+    final session = ref.read(SessionProviders.session);
+    final balance = await ref.read(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        state.tokenToSwap!.address!,
+      ).future,
+    );
+    state = state.copyWith(tokenToSwapBalance: balance);
+
+    if (state.tokenSwapped != null) {
+      final dexConfig = await ref
+          .read(DexConfigProviders.dexConfigRepository)
+          .getDexConfig('devnet');
+      final apiService = sl.get<ApiService>();
+      if (state.tokenToSwap != null) {
+        final routerFactory =
+            RouterFactory(dexConfig.routerGenesisAddress, apiService);
+        final poolInfosResult = await routerFactory.getPoolAddresses(
+          state.tokenToSwap!.address!,
+          state.tokenSwapped!.address!,
+        );
+        poolInfosResult.map(
+          success: (success) {
+            if (success != null && success['address'] != null) {
+              state = state.copyWith(poolGenesisAddress: success['address']);
+            }
+          },
+          failure: (failure) {},
+        );
+      }
+      await getRatio();
+    }
     return;
   }
 
-  Future<void> setTokenToSwapAmount(
+  void setTokenToSwapAmount(
     double tokenToSwapAmount,
-  ) async {
-    final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
-
+  ) {
     state = state.copyWith(
       tokenToSwapAmount: tokenToSwapAmount,
-      tokenToSwapAmountFiat: tokenToSwapAmount * (oracleUcoPrice.uco?.usd ?? 0),
     );
   }
 
-  Future<void> setTokenSwappedAmount(
+  void setTokenSwappedAmount(
     double tokenSwappedAmount,
-  ) async {
-    final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
-
+  ) {
     state = state.copyWith(
       tokenSwappedAmount: tokenSwappedAmount,
-      tokenSwappedAmountFiat:
-          tokenSwappedAmount * (oracleUcoPrice.uco?.usd ?? 0),
     );
   }
 
-  void setTokenSwapped(
+  void setWalletConfirmation(bool walletConfirmation) {
+    state = state.copyWith(
+      walletConfirmation: walletConfirmation,
+    );
+  }
+
+  void setSwapOk(bool swapOk) {
+    state = state.copyWith(
+      swapOk: swapOk,
+    );
+  }
+
+  Future<void> setTokenSwapped(
     DexToken tokenSwapped,
-  ) {
+  ) async {
     state = state.copyWith(
       tokenSwapped: tokenSwapped,
     );
+
+    final session = ref.read(SessionProviders.session);
+    final balance = await ref.read(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        state.tokenSwapped!.address!,
+      ).future,
+    );
+    state = state.copyWith(tokenSwappedBalance: balance);
+
+    final dexConfig = await ref
+        .read(DexConfigProviders.dexConfigRepository)
+        .getDexConfig('devnet');
+    final apiService = sl.get<ApiService>();
+    if (state.tokenToSwap != null) {
+      final routerFactory =
+          RouterFactory(dexConfig.routerGenesisAddress, apiService);
+      final poolInfosResult = await routerFactory.getPoolAddresses(
+        state.tokenToSwap!.address!,
+        state.tokenSwapped!.address!,
+      );
+      poolInfosResult.map(
+        success: (success) {
+          if (success != null && success['address'] != null) {
+            state = state.copyWith(poolGenesisAddress: success['address']);
+          }
+        },
+        failure: (failure) {},
+      );
+
+      await getRatio();
+    }
+  }
+
+  Future<void> getRatio() async {
+    final apiService = sl.get<ApiService>();
+    final equivalentAmounResult =
+        await PoolFactory(state.poolGenesisAddress, apiService)
+            .getEquivalentAmount(state.tokenToSwap!.address!, 1);
+    var ratio = 0.0;
+    equivalentAmounResult.map(
+      success: (success) {
+        if (success != null) {
+          ratio = success;
+        }
+      },
+      failure: (failure) {
+        setFailure(Failure.other(cause: 'getEquivalentAmount error $failure'));
+      },
+    );
+    state = state.copyWith(ratio: ratio);
   }
 
   void setPoolAddress(
     String poolAddress,
   ) {
     state = state.copyWith(
-      poolAddress: poolAddress,
-    );
-  }
-
-  void setError(
-    String errorText,
-  ) {
-    state = state.copyWith(
-      errorText: errorText,
-    );
-  }
-
-  void setStep(int step) {
-    state = state.copyWith(
-      step: step,
-    );
-  }
-
-  void setStepError(String stepError) {
-    state = state.copyWith(
-      stepError: stepError,
+      poolGenesisAddress: poolAddress,
     );
   }
 
@@ -92,19 +168,15 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
-  Future<void> setNetworkFees(double networkFees) async {
-    final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
+  void setNetworkFees(double networkFees) {
     state = state.copyWith(
       networkFees: networkFees,
-      networkFeesFiat: networkFees * (oracleUcoPrice.uco?.usd ?? 0),
     );
   }
 
-  Future<void> setSwapFees(double swapFees) async {
-    final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
+  void setSwapFees(double swapFees) {
     state = state.copyWith(
       swapFees: swapFees,
-      swapFeesFiat: swapFees * (oracleUcoPrice.uco?.usd ?? 0),
     );
   }
 
@@ -113,14 +185,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   ) {
     state = state.copyWith(
       slippageTolerance: slippageTolerance,
-    );
-  }
-
-  void setExpertMode(
-    bool expertMode,
-  ) {
-    state = state.copyWith(
-      expertMode: expertMode,
     );
   }
 
@@ -148,8 +212,55 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
+  void setFailure(Failure? failure) {
+    state = state.copyWith(
+      failure: failure,
+    );
+  }
+
+  void setProcessInProgress(bool isProcessInProgress) {
+    state = state.copyWith(isProcessInProgress: isProcessInProgress);
+  }
+
+  void setSwapProcessStep(
+    SwapProcessStep swapProcessStep,
+  ) {
+    state = state.copyWith(
+      swapProcessStep: swapProcessStep,
+    );
+  }
+
+  Future<void> validateForm() async {
+    if (control() == false) {
+      return;
+    }
+
+    setSwapProcessStep(
+      SwapProcessStep.confirmation,
+    );
+  }
+
+  bool control() {
+    setFailure(null);
+
+    return true;
+  }
+
   Future<void> swap(BuildContext context, WidgetRef ref) async {
-    //
+    if (control() == false) {
+      return;
+    }
+    setProcessInProgress(true);
+
+    await SwapCase().run(
+      ref,
+      state.poolGenesisAddress,
+      state.tokenToSwap!,
+      state.tokenToSwapAmount,
+      state.slippageTolerance,
+    );
+
+    setProcessInProgress(false);
   }
 }
 

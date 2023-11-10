@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _SwapTokenSwappedAmountState
     final addWebsiteNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
 
     return SizedBox(
-      width: 400,
+      width: DexThemeBase.sizeBoxComponentWidth,
       child: Row(
         children: [
           Expanded(
@@ -86,8 +87,8 @@ class _SwapTokenSwappedAmountState
                         autocorrect: false,
                         controller: tokenSwappedAmountController,
                         onChanged: (text) async {
-                          await addWebsiteNotifier.setTokenSwappedAmount(
-                            double.tryParse(text) ?? 0,
+                          addWebsiteNotifier.setTokenSwappedAmount(
+                            double.tryParse(text.replaceAll(' ', '')) ?? 0,
                           );
                         },
                         focusNode: tokenSwappedAmountFocusNode,

@@ -1,9 +1,5 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:developer';
-
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -65,24 +61,13 @@ class _LiquidityRemoveLPTokenAmountState
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier);
 
     final liquidityRemove =
-        ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm);
+        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
     final textNum = double.tryParse(tokenAmountController.text);
     if (!(liquidityRemove.lpTokenAmount != 0.0 ||
         tokenAmountController.text == '' ||
         (textNum != null && textNum == 0))) {
       _updateAmountTextController();
     }
-
-    ref.listen<LiquidityRemoveFormState>(
-      LiquidityRemoveFormProvider.liquidityRemoveForm,
-      (_, liquidityRemove) {
-        log('liquidityRemove.lpToken.toString() ${liquidityRemove.lpToken} - tokenAmountController.text ${tokenAmountController.text}');
-        if (liquidityRemove.lpTokenAmount.toString() !=
-            tokenAmountController.text) {
-          tokenAmountController.text = liquidityRemove.lpTokenAmount.toString();
-        }
-      },
-    );
 
     return SizedBox(
       width: DexThemeBase.sizeBoxComponentWidth,

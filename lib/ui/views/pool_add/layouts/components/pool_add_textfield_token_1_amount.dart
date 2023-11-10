@@ -1,9 +1,14 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_1_balance.dart';
+import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_1_selection.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddToken1Amount extends ConsumerStatefulWidget {
@@ -23,10 +28,20 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
   @override
   void initState() {
     super.initState();
-    final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
     tokenAmountFocusNode = FocusNode();
-    tokenAmountController =
-        TextEditingController(text: poolAdd.token1Amount.toString());
+    _updateAmountTextController();
+  }
+
+  void _updateAmountTextController() {
+    final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
+    tokenAmountController = TextEditingController();
+    tokenAmountController.value =
+        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+      TextEditingValue.empty,
+      TextEditingValue(
+        text: poolAdd.token1Amount == 0 ? '' : poolAdd.token1Amount.toString(),
+      ),
+    );
   }
 
   @override
@@ -46,71 +61,128 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
 
     final poolAddNotifier = ref.watch(PoolAddFormProvider.poolAddForm.notifier);
 
-    return SizedBox(
-      width: DexThemeBase.sizeBoxComponentWidth,
-      child: Row(
-        children: [
-          Expanded(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
+    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final textNum = double.tryParse(tokenAmountController.text);
+    if (!(poolAdd.token1Amount != 0.0 ||
+        tokenAmountController.text == '' ||
+        (textNum != null && textNum == 0))) {
+      _updateAmountTextController();
+    }
+
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.centerRight,
+          children: [
+            SizedBox(
+              width: DexThemeBase.sizeBoxComponentWidth,
               child: Row(
                 children: [
                   Expanded(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          10,
-                        ),
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          width: 0.5,
-                        ),
-                        gradient: LinearGradient(
-                          colors: [
-                            Theme.of(context)
-                                .colorScheme
-                                .background
-                                .withOpacity(1),
-                            Theme.of(context)
-                                .colorScheme
-                                .background
-                                .withOpacity(0.3),
-                          ],
-                          stops: const [0, 1],
-                        ),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      child: TextField(
-                        style: textTheme.titleLarge,
-                        autocorrect: false,
-                        controller: tokenAmountController,
-                        onChanged: (text) async {
-                          poolAddNotifier.setToken1Amount(
-                            double.tryParse(text) ?? 0,
-                          );
-                        },
-                        focusNode: tokenAmountFocusNode,
-                        textAlign: TextAlign.left,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.text,
-                        inputFormatters: <TextInputFormatter>[
-                          AmountTextInputFormatter(precision: 8),
-                          LengthLimitingTextInputFormatter(10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  10,
+                                ),
+                                border: Border.all(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  width: 0.5,
+                                ),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .background
+                                        .withOpacity(1),
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .background
+                                        .withOpacity(0.3),
+                                  ],
+                                  stops: const [0, 1],
+                                ),
+                              ),
+                              child: TextField(
+                                style: textTheme.titleMedium,
+                                autocorrect: false,
+                                controller: tokenAmountController,
+                                onChanged: (text) async {
+                                  poolAddNotifier.setToken1Amount(
+                                    double.tryParse(text.replaceAll(' ', '')) ??
+                                        0,
+                                  );
+                                },
+                                focusNode: tokenAmountFocusNode,
+                                textAlign: TextAlign.left,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.text,
+                                inputFormatters: <TextInputFormatter>[
+                                  AmountTextInputFormatter(precision: 8),
+                                ],
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(left: 10),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(left: 10),
-                        ),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
-      ),
+            const Padding(
+              padding: EdgeInsets.only(
+                right: 10,
+              ),
+              child: PoolAddToken1Selection(),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const PoolAddToken1Balance(),
+            if (poolAdd.token1Balance > 0)
+              SizedBox(
+                height: 30,
+                child: InkWell(
+                  onTap: () {
+                    ref
+                        .read(PoolAddFormProvider.poolAddForm.notifier)
+                        .setToken1AmountMax();
+                    _updateAmountTextController();
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.btn_max,
+                    style: TextStyle(color: DexThemeBase.maxButtonColor),
+                  )
+                      .animate()
+                      .fade(
+                        duration: const Duration(milliseconds: 500),
+                      )
+                      .scale(
+                        duration: const Duration(milliseconds: 500),
+                      ),
+                ),
+              ),
+          ],
+        ),
+      ],
     );
   }
 }

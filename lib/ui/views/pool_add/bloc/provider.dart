@@ -1,9 +1,12 @@
+import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_pool.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _poolAddFormProvider =
@@ -19,20 +22,46 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   @override
   PoolAddFormState build() => const PoolAddFormState();
 
-  void setToken1(
+  Future<void> setToken1(
     DexToken token,
-  ) {
+  ) async {
     state = state.copyWith(
       token1: token,
     );
+
+    final session = ref.read(SessionProviders.session);
+    final balance = await ref.read(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        token.address!,
+      ).future,
+    );
+    state = state.copyWith(token1Balance: balance);
   }
 
-  void setToken2(
+  Future<void> setToken2(
     DexToken token,
-  ) {
+  ) async {
     state = state.copyWith(
       token2: token,
     );
+
+    final session = ref.read(SessionProviders.session);
+    final balance = await ref.read(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        token.address!,
+      ).future,
+    );
+    state = state.copyWith(token2Balance: balance);
+  }
+
+  void setToken1AmountMax() {
+    setToken1Amount(state.token1Balance);
+  }
+
+  void setToken2AmountMax() {
+    setToken2Amount(state.token2Balance);
   }
 
   void setToken1Balance(
@@ -103,8 +132,8 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  Future<void> validateForm() async {
-    if (control() == false) {
+  Future<void> validateForm(BuildContext context) async {
+    if (control(context) == false) {
       return;
     }
 
@@ -113,33 +142,61 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  bool control() {
+  bool control(BuildContext context) {
     setFailure(null);
 
     if (state.token1 == null) {
       setFailure(
-        const Failure.other(cause: 'Please enter the token 1'),
+        Failure.other(
+          cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
+        ),
       );
       return false;
     }
 
     if (state.token2 == null) {
       setFailure(
-        const Failure.other(cause: 'Please enter the token 2'),
+        Failure.other(
+          cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
+        ),
       );
       return false;
     }
 
     if (state.token1Amount <= 0) {
       setFailure(
-        const Failure.other(cause: 'Please enter the amount of token 1'),
+        Failure.other(
+          cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
+        ),
       );
       return false;
     }
 
     if (state.token2Amount <= 0) {
       setFailure(
-        const Failure.other(cause: 'Please enter the amount of token 1'),
+        Failure.other(
+          cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.token1Amount > state.token1Balance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .poolAddControlToken1AmountExceedBalance,
+        ),
+      );
+      return false;
+    }
+
+    if (state.token2Amount > state.token2Balance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .poolAddControlToken1AmountExceedBalance,
+        ),
       );
       return false;
     }
@@ -148,7 +205,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   Future<void> add(BuildContext context, WidgetRef ref) async {
-    if (control() == false) {
+    if (control(context) == false) {
       return;
     }
     setProcessInProgress(true);

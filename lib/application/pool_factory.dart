@@ -202,4 +202,32 @@ class PoolFactory {
       },
     );
   }
+
+  /// Returns the info about a swap: expected output_amount, fee and price impact
+  /// [tokenAddress] One of the 2 tokens of the pool
+  /// [amount] Amount of of this token you want to swap
+  Future<Result<Map<String, dynamic>?, Failure>> getSwapInfos(
+    String tokenAddress,
+    double amount,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_swap_infos',
+              args: [
+                tokenAddress,
+                amount,
+              ],
+            ),
+          ),
+          resultMap: true,
+        ) as Map<String, dynamic>?;
+        return result;
+      },
+    );
+  }
 }

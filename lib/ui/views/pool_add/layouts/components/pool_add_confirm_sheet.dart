@@ -15,16 +15,69 @@ class PoolAddConfirmSheet extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return const Expanded(
+    return Expanded(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          PoolAddConfirmBackButton(),
-          SizedBox(height: 15),
-          Spacer(),
-          PoolAddConfirmBtn(),
-          SizedBox(
-            height: 10,
+          const Padding(
+            padding: EdgeInsets.only(
+              top: 10,
+            ),
+            child: PoolAddConfirmBackButton(),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(poolAdd.token1!.name),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${poolAdd.token1Amount} ${poolAdd.token1!.symbol}',
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(poolAdd.token2!.name),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${poolAdd.token2Amount} ${poolAdd.token2!.symbol}',
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Network Fees'),
+                          const SizedBox(width: 8),
+                          Text('${poolAdd.networkFees}'),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                    ],
+                  ),
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      PoolAddConfirmBtn(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

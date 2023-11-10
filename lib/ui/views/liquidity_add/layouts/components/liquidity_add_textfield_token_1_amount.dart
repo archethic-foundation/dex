@@ -1,9 +1,5 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:developer';
-
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,24 +59,13 @@ class _LiquidityAddToken1AmountState
     final liquidityAddNotifier =
         ref.watch(LiquidityAddFormProvider.liquidityAddForm.notifier);
 
-    final liquidityAdd = ref.read(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
     final textNum = double.tryParse(tokenAmountController.text);
     if (!(liquidityAdd.token1Amount != 0.0 ||
         tokenAmountController.text == '' ||
         (textNum != null && textNum == 0))) {
       _updateAmountTextController();
     }
-
-    ref.listen<LiquidityAddFormState>(
-      LiquidityAddFormProvider.liquidityAddForm,
-      (_, liquidityAdd) {
-        log('liquidityAdd.token1Amount.toString() ${liquidityAdd.token1Amount} - tokenAmountController.text ${tokenAmountController.text}');
-        if (liquidityAdd.token1Amount.toString() !=
-            tokenAmountController.text) {
-          tokenAmountController.text = liquidityAdd.token1Amount.toString();
-        }
-      },
-    );
 
     return SizedBox(
       width: DexThemeBase.sizeBoxComponentWidth,

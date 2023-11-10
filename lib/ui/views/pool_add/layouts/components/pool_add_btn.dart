@@ -37,7 +37,9 @@ class PoolAddButton extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.btn_pool_add,
       icon: Iconsax.wallet_money,
       onPressed: () {
-        ref.read(PoolAddFormProvider.poolAddForm.notifier).validateForm();
+        ref
+            .read(PoolAddFormProvider.poolAddForm.notifier)
+            .validateForm(context);
       },
     );
   }

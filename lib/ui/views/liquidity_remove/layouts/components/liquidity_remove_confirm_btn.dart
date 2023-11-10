@@ -17,7 +17,7 @@ class LiquidityRemoveConfirmBtn extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      labelBtn: AppLocalizations.of(context)!.btn_confirm_liquidity_add,
+      labelBtn: AppLocalizations.of(context)!.btn_confirm_liquidity_remove,
       icon: Iconsax.tick_square,
       onPressed: () async {
         final liquidityRemoveNotifier =

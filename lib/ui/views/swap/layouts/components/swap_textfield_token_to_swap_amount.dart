@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
     final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
 
     return SizedBox(
-      width: 400,
+      width: DexThemeBase.sizeBoxComponentWidth,
       child: Row(
         children: [
           Expanded(
@@ -85,8 +86,8 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         autocorrect: false,
                         controller: tokenToSwapAmountController,
                         onChanged: (text) async {
-                          await swapNotifier.setTokenToSwapAmount(
-                            double.tryParse(text) ?? 0,
+                          swapNotifier.setTokenToSwapAmount(
+                            double.tryParse(text.replaceAll(' ', '')) ?? 0,
                           );
                         },
                         focusNode: tokenToSwapAmountFocusNode,

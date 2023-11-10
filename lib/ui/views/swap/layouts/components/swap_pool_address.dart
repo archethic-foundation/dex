@@ -27,7 +27,7 @@ class SwapPoolAddress extends ConsumerWidget {
             AppLocalizations.of(context)!.swap_pool_address,
           ),
           SelectableText(
-            swap.poolAddress,
+            swap.poolGenesisAddress,
             style: TextStyle(
               fontFamily: DexThemeBase.addressFont,
             ),

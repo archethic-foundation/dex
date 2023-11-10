@@ -97,5 +97,22 @@
   "liquidityRemoveProcessInterruptionWarning": "Are you sure you want to stop the process?",
   "liquidityRemoveSuccessInfo": "The process has been performed successfully",
   "liquidityRemoveInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet",
-  "liquidityRemoveProcessInProgress": "Creation in progress. Please wait."
+  "liquidityRemoveProcessInProgress": "Creation in progress. Please wait.",
+  "swapConfirmTitle": "Confirmation",
+  "swapProcessInterruptionWarning": "Are you sure you want to stop the process?",
+  "swapSuccessInfo": "The process has been performed successfully",
+  "swapInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet",
+  "swapProcessInProgress": "Swap in progress. Please wait.",
+  "poolListHeaderName": "Name",
+  "poolListHeaderPoolAddress": "Pool Address",
+  "poolListHeaderTokensAddress": "Tokens address",
+  "poolListHeaderLPTokenAddress": "LP Token address",
+  "poolAddControlToken1Empty": "Please enter the token 1",
+  "poolAddControlToken2Empty": "Please enter the token 2",
+  "poolAddControlToken1AmountEmpty": "Please enter the amount of token 1",
+  "poolAddControlToken2AmountEmpty": "Please enter the amount of token 2",
+  "poolAddControlToken1AmountExceedBalance": "The amount entered for token 1 exceeds your balance.",
+  "poolAddControlToken2AmountExceedBalance": "The amount entered for token 12exceeds your balance.",
+  "poolAddConfirmToken1Lbl": "Token 1",
+  "poolAddConfirmToken2Lbl": "Token 2"
 }

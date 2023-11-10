@@ -44,7 +44,9 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
             context,
           );
           if (token == null) return;
-          ref.watch(SwapFormProvider.swapForm.notifier).setTokenSwapped(token);
+          await ref
+              .read(SwapFormProvider.swapForm.notifier)
+              .setTokenSwapped(token);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

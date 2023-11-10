@@ -27,5 +27,12 @@ class PoolAddFormState with _$PoolAddFormState {
   }) = _PoolAddFormState;
   const PoolAddFormState._();
 
-  bool get isControlsOk => failure == null;
+  bool get isControlsOk =>
+      token1 != null &&
+      token2 != null &&
+      token1Balance > 0 &&
+      token2Balance > 0 &&
+      token1Amount > 0 &&
+      token2Amount > 0 &&
+      token1!.address != token2!.address;
 }

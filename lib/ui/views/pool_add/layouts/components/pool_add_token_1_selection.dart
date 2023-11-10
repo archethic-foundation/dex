@@ -44,7 +44,9 @@ class PoolAddToken1Selection extends ConsumerWidget {
             context,
           );
           if (token == null) return;
-          ref.read(PoolAddFormProvider.poolAddForm.notifier).setToken1(token);
+          await ref
+              .read(PoolAddFormProvider.poolAddForm.notifier)
+              .setToken1(token);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

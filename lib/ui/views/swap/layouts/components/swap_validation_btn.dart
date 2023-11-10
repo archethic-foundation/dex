@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap_confirmation/swap_confirmation_popup.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -39,9 +38,7 @@ class SwapValidationButton extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.btn_swap,
       icon: Iconsax.arrange_circle_2,
       onPressed: () {
-        SwapConfirmationPopup.getDialog(
-          context,
-        );
+        ref.read(SwapFormProvider.swapForm.notifier).validateForm();
       },
     );
   }
