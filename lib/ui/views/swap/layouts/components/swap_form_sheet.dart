@@ -35,7 +35,7 @@ class SwapFormSheet extends ConsumerWidget {
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: Text(
                       AppLocalizations.of(context)!.swapFormTitle,
@@ -57,7 +57,7 @@ class SwapFormSheet extends ConsumerWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, left: 50, right: 50),
+              padding: const EdgeInsets.only(top: 20),
               child: Column(
                 children: [
                   Row(

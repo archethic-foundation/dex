@@ -10,6 +10,8 @@ class DexToken with _$DexToken {
     String? address,
     @Default('') String symbol,
     @Default(0.0) double balance,
+    @Default(0.0) double reserve,
+    @Default(0.0) double supply,
   }) = _DexToken;
 }
 

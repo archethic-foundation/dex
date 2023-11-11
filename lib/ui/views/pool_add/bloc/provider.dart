@@ -195,7 +195,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       setFailure(
         Failure.other(
           cause: AppLocalizations.of(context)!
-              .poolAddControlToken1AmountExceedBalance,
+              .poolAddControlToken2AmountExceedBalance,
         ),
       );
       return false;

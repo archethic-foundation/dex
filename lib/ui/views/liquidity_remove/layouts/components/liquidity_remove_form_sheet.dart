@@ -31,7 +31,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: Text(
                       AppLocalizations.of(context)!.liquidityRemoveFormTitle,
@@ -53,47 +53,55 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, left: 50, right: 50),
+              padding: const EdgeInsets.only(top: 20),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Stack(
-                    alignment: Alignment.centerRight,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const LiquidityRemoveLPTokenAmount(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: LiquidityRemoveTokenInfos(
-                          token: liquidityRemove.lpToken,
-                        ),
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          const LiquidityRemoveLPTokenAmount(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 10,
+                            ),
+                            child: LiquidityRemoveTokenInfos(
+                              token: liquidityRemove.lpToken,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          LiquidityRemoveLPTokenBalance(),
+                          LiquidityRemoveLPTokenMaxButton(),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const LiquidityRemoveTokensGetBack(),
+                    ],
+                  ),
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LiquidityRemoveButton(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      LiquidityRemoveCloseButton(),
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      LiquidityRemoveLPTokenBalance(),
-                      LiquidityRemoveLPTokenMaxButton(),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const LiquidityRemoveTokensGetBack(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const LiquidityRemoveButton(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const LiquidityRemoveCloseButton(),
-                  const SizedBox(
-                    height: 20,
                   ),
                 ],
               ),

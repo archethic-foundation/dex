@@ -33,7 +33,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: Text(
                       AppLocalizations.of(context)!.liquidityAddFormTitle,
@@ -55,75 +55,84 @@ class LiquidityAddFormSheet extends ConsumerWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, left: 50, right: 50),
+              padding: const EdgeInsets.only(top: 20),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Stack(
-                    alignment: Alignment.centerRight,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const LiquidityAddToken1Amount(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child:
-                            LiquidityAddTokenInfos(token: liquidityAdd.token1),
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          const LiquidityAddToken1Amount(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 10,
+                            ),
+                            child: LiquidityAddTokenInfos(
+                              token: liquidityAdd.token1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          LiquidityAddToken1Balance(),
+                          LiquidityAddToken1MaxButton(),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          const LiquidityAddToken2Amount(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 10,
+                            ),
+                            child: LiquidityAddTokenInfos(
+                                token: liquidityAdd.token2),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          LiquidityAddToken2Balance(),
+                          LiquidityAddToken2MaxButton(),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Align(
+                        alignment: Alignment.centerRight,
+                        child: LiquidityAddRatio(),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      LiquidityAddToken1Balance(),
-                      LiquidityAddToken1MaxButton(),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      const LiquidityAddToken2Amount(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child:
-                            LiquidityAddTokenInfos(token: liquidityAdd.token2),
+                      LiquidityAddButton(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      LiquidityAddCloseButton(),
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      LiquidityAddToken2Balance(),
-                      LiquidityAddToken2MaxButton(),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Align(
-                    alignment: Alignment.centerRight,
-                    child: LiquidityAddRatio(),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const LiquidityAddButton(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const LiquidityAddCloseButton(),
-                  const SizedBox(
-                    height: 20,
                   ),
                 ],
               ),

@@ -20,13 +20,7 @@ mixin _$DexPool {
   DexToken? get lpToken => throw _privateConstructorUsedError;
   int get ranking => throw _privateConstructorUsedError;
   DexPair? get pair => throw _privateConstructorUsedError;
-  double get token1Pooled => throw _privateConstructorUsedError;
-  double get token2Pooled => throw _privateConstructorUsedError;
-  double get amountOfLiquidity => throw _privateConstructorUsedError;
-  double get apr => throw _privateConstructorUsedError;
-  double get volume24h => throw _privateConstructorUsedError;
-  double get volume7d => throw _privateConstructorUsedError;
-  double get fees24h => throw _privateConstructorUsedError;
+  double get fees => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexPoolCopyWith<DexPool> get copyWith => throw _privateConstructorUsedError;
@@ -42,13 +36,7 @@ abstract class $DexPoolCopyWith<$Res> {
       DexToken? lpToken,
       int ranking,
       DexPair? pair,
-      double token1Pooled,
-      double token2Pooled,
-      double amountOfLiquidity,
-      double apr,
-      double volume24h,
-      double volume7d,
-      double fees24h});
+      double fees});
 
   $DexTokenCopyWith<$Res>? get lpToken;
   $DexPairCopyWith<$Res>? get pair;
@@ -71,13 +59,7 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
     Object? lpToken = freezed,
     Object? ranking = null,
     Object? pair = freezed,
-    Object? token1Pooled = null,
-    Object? token2Pooled = null,
-    Object? amountOfLiquidity = null,
-    Object? apr = null,
-    Object? volume24h = null,
-    Object? volume7d = null,
-    Object? fees24h = null,
+    Object? fees = null,
   }) {
     return _then(_value.copyWith(
       poolAddress: null == poolAddress
@@ -96,33 +78,9 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
           ? _value.pair
           : pair // ignore: cast_nullable_to_non_nullable
               as DexPair?,
-      token1Pooled: null == token1Pooled
-          ? _value.token1Pooled
-          : token1Pooled // ignore: cast_nullable_to_non_nullable
-              as double,
-      token2Pooled: null == token2Pooled
-          ? _value.token2Pooled
-          : token2Pooled // ignore: cast_nullable_to_non_nullable
-              as double,
-      amountOfLiquidity: null == amountOfLiquidity
-          ? _value.amountOfLiquidity
-          : amountOfLiquidity // ignore: cast_nullable_to_non_nullable
-              as double,
-      apr: null == apr
-          ? _value.apr
-          : apr // ignore: cast_nullable_to_non_nullable
-              as double,
-      volume24h: null == volume24h
-          ? _value.volume24h
-          : volume24h // ignore: cast_nullable_to_non_nullable
-              as double,
-      volume7d: null == volume7d
-          ? _value.volume7d
-          : volume7d // ignore: cast_nullable_to_non_nullable
-              as double,
-      fees24h: null == fees24h
-          ? _value.fees24h
-          : fees24h // ignore: cast_nullable_to_non_nullable
+      fees: null == fees
+          ? _value.fees
+          : fees // ignore: cast_nullable_to_non_nullable
               as double,
     ) as $Val);
   }
@@ -164,13 +122,7 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
       DexToken? lpToken,
       int ranking,
       DexPair? pair,
-      double token1Pooled,
-      double token2Pooled,
-      double amountOfLiquidity,
-      double apr,
-      double volume24h,
-      double volume7d,
-      double fees24h});
+      double fees});
 
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -193,13 +145,7 @@ class __$$DexPoolImplCopyWithImpl<$Res>
     Object? lpToken = freezed,
     Object? ranking = null,
     Object? pair = freezed,
-    Object? token1Pooled = null,
-    Object? token2Pooled = null,
-    Object? amountOfLiquidity = null,
-    Object? apr = null,
-    Object? volume24h = null,
-    Object? volume7d = null,
-    Object? fees24h = null,
+    Object? fees = null,
   }) {
     return _then(_$DexPoolImpl(
       poolAddress: null == poolAddress
@@ -218,33 +164,9 @@ class __$$DexPoolImplCopyWithImpl<$Res>
           ? _value.pair
           : pair // ignore: cast_nullable_to_non_nullable
               as DexPair?,
-      token1Pooled: null == token1Pooled
-          ? _value.token1Pooled
-          : token1Pooled // ignore: cast_nullable_to_non_nullable
-              as double,
-      token2Pooled: null == token2Pooled
-          ? _value.token2Pooled
-          : token2Pooled // ignore: cast_nullable_to_non_nullable
-              as double,
-      amountOfLiquidity: null == amountOfLiquidity
-          ? _value.amountOfLiquidity
-          : amountOfLiquidity // ignore: cast_nullable_to_non_nullable
-              as double,
-      apr: null == apr
-          ? _value.apr
-          : apr // ignore: cast_nullable_to_non_nullable
-              as double,
-      volume24h: null == volume24h
-          ? _value.volume24h
-          : volume24h // ignore: cast_nullable_to_non_nullable
-              as double,
-      volume7d: null == volume7d
-          ? _value.volume7d
-          : volume7d // ignore: cast_nullable_to_non_nullable
-              as double,
-      fees24h: null == fees24h
-          ? _value.fees24h
-          : fees24h // ignore: cast_nullable_to_non_nullable
+      fees: null == fees
+          ? _value.fees
+          : fees // ignore: cast_nullable_to_non_nullable
               as double,
     ));
   }
@@ -258,13 +180,7 @@ class _$DexPoolImpl implements _DexPool {
       this.lpToken,
       this.ranking = 0,
       this.pair,
-      this.token1Pooled = 0.0,
-      this.token2Pooled = 0.0,
-      this.amountOfLiquidity = 0.0,
-      this.apr = 0.0,
-      this.volume24h = 0.0,
-      this.volume7d = 0.0,
-      this.fees24h = 0.0});
+      this.fees = 0.0});
 
   @override
   @JsonKey()
@@ -278,29 +194,11 @@ class _$DexPoolImpl implements _DexPool {
   final DexPair? pair;
   @override
   @JsonKey()
-  final double token1Pooled;
-  @override
-  @JsonKey()
-  final double token2Pooled;
-  @override
-  @JsonKey()
-  final double amountOfLiquidity;
-  @override
-  @JsonKey()
-  final double apr;
-  @override
-  @JsonKey()
-  final double volume24h;
-  @override
-  @JsonKey()
-  final double volume7d;
-  @override
-  @JsonKey()
-  final double fees24h;
+  final double fees;
 
   @override
   String toString() {
-    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, ranking: $ranking, pair: $pair, token1Pooled: $token1Pooled, token2Pooled: $token2Pooled, amountOfLiquidity: $amountOfLiquidity, apr: $apr, volume24h: $volume24h, volume7d: $volume7d, fees24h: $fees24h)';
+    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, ranking: $ranking, pair: $pair, fees: $fees)';
   }
 
   @override
@@ -313,34 +211,12 @@ class _$DexPoolImpl implements _DexPool {
             (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
             (identical(other.ranking, ranking) || other.ranking == ranking) &&
             (identical(other.pair, pair) || other.pair == pair) &&
-            (identical(other.token1Pooled, token1Pooled) ||
-                other.token1Pooled == token1Pooled) &&
-            (identical(other.token2Pooled, token2Pooled) ||
-                other.token2Pooled == token2Pooled) &&
-            (identical(other.amountOfLiquidity, amountOfLiquidity) ||
-                other.amountOfLiquidity == amountOfLiquidity) &&
-            (identical(other.apr, apr) || other.apr == apr) &&
-            (identical(other.volume24h, volume24h) ||
-                other.volume24h == volume24h) &&
-            (identical(other.volume7d, volume7d) ||
-                other.volume7d == volume7d) &&
-            (identical(other.fees24h, fees24h) || other.fees24h == fees24h));
+            (identical(other.fees, fees) || other.fees == fees));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      poolAddress,
-      lpToken,
-      ranking,
-      pair,
-      token1Pooled,
-      token2Pooled,
-      amountOfLiquidity,
-      apr,
-      volume24h,
-      volume7d,
-      fees24h);
+  int get hashCode =>
+      Object.hash(runtimeType, poolAddress, lpToken, ranking, pair, fees);
 
   @JsonKey(ignore: true)
   @override
@@ -355,13 +231,7 @@ abstract class _DexPool implements DexPool {
       final DexToken? lpToken,
       final int ranking,
       final DexPair? pair,
-      final double token1Pooled,
-      final double token2Pooled,
-      final double amountOfLiquidity,
-      final double apr,
-      final double volume24h,
-      final double volume7d,
-      final double fees24h}) = _$DexPoolImpl;
+      final double fees}) = _$DexPoolImpl;
 
   @override
   String get poolAddress;
@@ -372,19 +242,7 @@ abstract class _DexPool implements DexPool {
   @override
   DexPair? get pair;
   @override
-  double get token1Pooled;
-  @override
-  double get token2Pooled;
-  @override
-  double get amountOfLiquidity;
-  @override
-  double get apr;
-  @override
-  double get volume24h;
-  @override
-  double get volume7d;
-  @override
-  double get fees24h;
+  double get fees;
   @override
   @JsonKey(ignore: true)
   _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>

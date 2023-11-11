@@ -1,15 +1,16 @@
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 
 mixin ModelParser {
-  Token tokenModelToSDK(
+  archethic.Token tokenModelToSDK(
     DexToken token,
   ) {
-    return Token(
+    return archethic.Token(
       name: token.name,
       genesis: token.address,
       symbol: token.symbol,
@@ -17,12 +18,77 @@ mixin ModelParser {
   }
 
   DexToken tokenSDKToModel(
-    Token token,
+    archethic.Token token,
   ) {
     return DexToken(
       name: token.name ?? '',
       address: token.address ?? '',
       symbol: token.symbol ?? '',
+    );
+  }
+
+  Future<DexPool> poolInfoToModel(
+    String poolAddress,
+    GetPoolInfosResponse getPoolInfosResponse,
+  ) async {
+    final tokenResultMap = await sl.get<archethic.ApiService>().getToken(
+      [
+        getPoolInfosResponse.token1.address,
+        getPoolInfosResponse.token2.address,
+        getPoolInfosResponse.lpToken.address,
+      ],
+    );
+
+    // TODO(reddwarf03): Check cache
+
+    var token1Name = '';
+    var token1Symbol = '';
+    if (tokenResultMap[getPoolInfosResponse.token1.address] != null) {
+      token1Name = tokenResultMap[getPoolInfosResponse.token1.address]!.name!;
+      token1Symbol =
+          tokenResultMap[getPoolInfosResponse.token1.address]!.symbol!;
+    }
+    var token2Name = '';
+    var token2Symbol = '';
+    if (tokenResultMap[getPoolInfosResponse.token2.address] != null) {
+      token2Name = tokenResultMap[getPoolInfosResponse.token2.address]!.name!;
+      token2Symbol =
+          tokenResultMap[getPoolInfosResponse.token2.address]!.symbol!;
+    }
+    var lpTokenName = '';
+    var lpTokenSymbol = '';
+    if (tokenResultMap[getPoolInfosResponse.lpToken.address] != null) {
+      lpTokenName = tokenResultMap[getPoolInfosResponse.lpToken.address]!.name!;
+      lpTokenSymbol =
+          tokenResultMap[getPoolInfosResponse.lpToken.address]!.symbol!;
+    }
+
+    final dexPair = DexPair(
+      token1: DexToken(
+        address: getPoolInfosResponse.token1.address.toUpperCase(),
+        name: token1Name,
+        symbol: token1Symbol,
+        reserve: getPoolInfosResponse.token1.reserve,
+      ),
+      token2: DexToken(
+        address: getPoolInfosResponse.token2.address.toUpperCase(),
+        name: token2Name,
+        symbol: token2Symbol,
+        reserve: getPoolInfosResponse.token2.reserve,
+      ),
+    );
+
+    final lpToken = DexToken(
+      address: getPoolInfosResponse.lpToken.address.toUpperCase(),
+      name: lpTokenName,
+      symbol: lpTokenSymbol,
+      supply: getPoolInfosResponse.lpToken.supply,
+    );
+
+    return DexPool(
+      poolAddress: poolAddress,
+      pair: dexPair,
+      lpToken: lpToken,
     );
   }
 
@@ -34,7 +100,7 @@ mixin ModelParser {
     // TODO(reddwarf03): Check cache
 
     final tokenResultMap = await sl
-        .get<ApiService>()
+        .get<archethic.ApiService>()
         .getToken([tokens[0], tokens[1], getPoolListResponse.lpTokenAddress]);
     var token1Name = '';
     var token1Symbol = '';

@@ -1,8 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_circular_step_progress_indicator.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/in_progress_banner.dart';
 import 'package:aedex/ui/views/util/components/popup_close_button.dart';
@@ -97,6 +99,13 @@ class PoolAddInProgressPopup {
                                   ..setFailure(null)
                                   ..setPoolAddOk(false)
                                   ..setWalletConfirmation(false);
+                                ref
+                                    .read(
+                                      MainScreenWidgetDisplayedProviders
+                                          .mainScreenWidgetDisplayedProvider
+                                          .notifier,
+                                    )
+                                    .setWidget(const PoolListSheet(), ref);
                               },
                             ),
                           ),

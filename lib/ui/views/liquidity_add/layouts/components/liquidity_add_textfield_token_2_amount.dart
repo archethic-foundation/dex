@@ -104,7 +104,7 @@ class _LiquidityAddToken2AmountState
                         ),
                       ),
                       child: TextField(
-                        style: textTheme.titleLarge,
+                        style: textTheme.titleMedium,
                         autocorrect: false,
                         controller: tokenAmountController,
                         onChanged: (text) async {

@@ -20,6 +20,8 @@ mixin _$DexToken {
   String? get address => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
   double get balance => throw _privateConstructorUsedError;
+  double get reserve => throw _privateConstructorUsedError;
+  double get supply => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexTokenCopyWith<DexToken> get copyWith =>
@@ -31,7 +33,13 @@ abstract class $DexTokenCopyWith<$Res> {
   factory $DexTokenCopyWith(DexToken value, $Res Function(DexToken) then) =
       _$DexTokenCopyWithImpl<$Res, DexToken>;
   @useResult
-  $Res call({String name, String? address, String symbol, double balance});
+  $Res call(
+      {String name,
+      String? address,
+      String symbol,
+      double balance,
+      double reserve,
+      double supply});
 }
 
 /// @nodoc
@@ -51,6 +59,8 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
     Object? address = freezed,
     Object? symbol = null,
     Object? balance = null,
+    Object? reserve = null,
+    Object? supply = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -69,6 +79,14 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as double,
+      reserve: null == reserve
+          ? _value.reserve
+          : reserve // ignore: cast_nullable_to_non_nullable
+              as double,
+      supply: null == supply
+          ? _value.supply
+          : supply // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -81,7 +99,13 @@ abstract class _$$DexTokenImplCopyWith<$Res>
       __$$DexTokenImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String? address, String symbol, double balance});
+  $Res call(
+      {String name,
+      String? address,
+      String symbol,
+      double balance,
+      double reserve,
+      double supply});
 }
 
 /// @nodoc
@@ -99,6 +123,8 @@ class __$$DexTokenImplCopyWithImpl<$Res>
     Object? address = freezed,
     Object? symbol = null,
     Object? balance = null,
+    Object? reserve = null,
+    Object? supply = null,
   }) {
     return _then(_$DexTokenImpl(
       name: null == name
@@ -117,6 +143,14 @@ class __$$DexTokenImplCopyWithImpl<$Res>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as double,
+      reserve: null == reserve
+          ? _value.reserve
+          : reserve // ignore: cast_nullable_to_non_nullable
+              as double,
+      supply: null == supply
+          ? _value.supply
+          : supply // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -125,7 +159,12 @@ class __$$DexTokenImplCopyWithImpl<$Res>
 
 class _$DexTokenImpl implements _DexToken {
   const _$DexTokenImpl(
-      {this.name = '', this.address, this.symbol = '', this.balance = 0.0});
+      {this.name = '',
+      this.address,
+      this.symbol = '',
+      this.balance = 0.0,
+      this.reserve = 0.0,
+      this.supply = 0.0});
 
   @override
   @JsonKey()
@@ -138,10 +177,16 @@ class _$DexTokenImpl implements _DexToken {
   @override
   @JsonKey()
   final double balance;
+  @override
+  @JsonKey()
+  final double reserve;
+  @override
+  @JsonKey()
+  final double supply;
 
   @override
   String toString() {
-    return 'DexToken(name: $name, address: $address, symbol: $symbol, balance: $balance)';
+    return 'DexToken(name: $name, address: $address, symbol: $symbol, balance: $balance, reserve: $reserve, supply: $supply)';
   }
 
   @override
@@ -152,11 +197,14 @@ class _$DexTokenImpl implements _DexToken {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
-            (identical(other.balance, balance) || other.balance == balance));
+            (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.reserve, reserve) || other.reserve == reserve) &&
+            (identical(other.supply, supply) || other.supply == supply));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, address, symbol, balance);
+  int get hashCode =>
+      Object.hash(runtimeType, name, address, symbol, balance, reserve, supply);
 
   @JsonKey(ignore: true)
   @override
@@ -170,7 +218,9 @@ abstract class _DexToken implements DexToken {
       {final String name,
       final String? address,
       final String symbol,
-      final double balance}) = _$DexTokenImpl;
+      final double balance,
+      final double reserve,
+      final double supply}) = _$DexTokenImpl;
 
   @override
   String get name;
@@ -180,6 +230,10 @@ abstract class _DexToken implements DexToken {
   String get symbol;
   @override
   double get balance;
+  @override
+  double get reserve;
+  @override
+  double get supply;
   @override
   @JsonKey(ignore: true)
   _$$DexTokenImplCopyWith<_$DexTokenImpl> get copyWith =>

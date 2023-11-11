@@ -9,7 +9,9 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddFormSheet extends ConsumerWidget {
-  const PoolAddFormSheet({super.key});
+  const PoolAddFormSheet({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +25,7 @@ class PoolAddFormSheet extends ConsumerWidget {
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: Text(
                       AppLocalizations.of(context)!.poolAddFormTitle,

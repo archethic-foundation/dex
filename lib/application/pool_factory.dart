@@ -4,9 +4,11 @@ import 'dart:developer';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
+import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
+import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-class PoolFactory {
+class PoolFactory with ModelParser {
   PoolFactory(this.factoryAddress, this.apiService);
 
   final String factoryAddress;
@@ -36,16 +38,17 @@ class PoolFactory {
             method: 'contract_fun',
             params: SCCallFunctionParams(
               contract: factoryAddress.toUpperCase(),
-              function: 'get_pair_tokens',
+              function: 'get_pool_infos',
               args: [],
             ),
           ),
           resultMap: true,
-        ) as List<dynamic>;
+        ) as Map<String, dynamic>;
 
-        log('$result');
+        log('result: $result');
 
-        return DexPool();
+        final getPoolInfosResponse = GetPoolInfosResponse.fromJson(result);
+        return poolInfoToModel(factoryAddress, getPoolInfosResponse);
       },
     );
   }

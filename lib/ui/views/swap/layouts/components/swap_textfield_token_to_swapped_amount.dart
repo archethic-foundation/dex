@@ -83,7 +83,7 @@ class _SwapTokenSwappedAmountState
                         ),
                       ),
                       child: TextField(
-                        style: textTheme.titleLarge,
+                        style: textTheme.titleMedium,
                         autocorrect: false,
                         controller: tokenSwappedAmountController,
                         onChanged: (text) async {

@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/icon_animated.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -30,7 +31,7 @@ class PoolListSheet extends ConsumerWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: SizedBox(
-                width: 1000,
+                width: 1600,
                 height: MediaQuery.of(context).size.height - 100,
                 child: ArchethicScrollbar(
                   child: dexPools.when(
@@ -48,6 +49,42 @@ class PoolListSheet extends ConsumerWidget {
                               child: Text(
                                 AppLocalizations.of(context)!
                                     .poolListHeaderName,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .poolListHeaderTokensPooled,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .poolListHeaderLPTokenName,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .poolListHeaderLPTokenSupply,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .poolListHeaderLiquidity,
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -80,20 +117,6 @@ class PoolListSheet extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                '',
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                '',
-                              ),
-                            ),
-                          ),
                         ],
                         rows: pools
                             .asMap()
@@ -111,11 +134,147 @@ class PoolListSheet extends ConsumerWidget {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${pool.pair!.token1.symbol}-${pool.pair!.token2.symbol}',
+                                                '${pool.pair!.token1.name}-${pool.pair!.token2.name}',
                                               ),
                                             ],
                                           ),
                                         ),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 20),
+                                        child: SizedBox(
+                                          width: 150,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                              ),
+                                              Text(
+                                                '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Align(
+                                        child: SizedBox(
+                                          width: 150,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                pool.lpToken!.name,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 20),
+                                        child: SizedBox(
+                                          width: 150,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                pool.lpToken!.supply
+                                                    .formatNumber(),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Row(
+                                        children: [
+                                          Align(
+                                            child: SizedBox(
+                                              width: 50,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      ref
+                                                          .read(
+                                                            MainScreenWidgetDisplayedProviders
+                                                                .mainScreenWidgetDisplayedProvider
+                                                                .notifier,
+                                                          )
+                                                          .setWidget(
+                                                            LiquidityAddSheet(
+                                                              poolGenesisAddress:
+                                                                  pool.poolAddress,
+                                                              pair: pool.pair!,
+                                                            ),
+                                                            ref,
+                                                          );
+                                                    },
+                                                    child: const IconAnimated(
+                                                      icon:
+                                                          Iconsax.wallet_add_1,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Align(
+                                            child: SizedBox(
+                                              width: 50,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      ref
+                                                          .read(
+                                                            MainScreenWidgetDisplayedProviders
+                                                                .mainScreenWidgetDisplayedProvider
+                                                                .notifier,
+                                                          )
+                                                          .setWidget(
+                                                            LiquidityRemoveSheet(
+                                                              poolGenesisAddress:
+                                                                  pool.poolAddress,
+                                                              lpToken:
+                                                                  pool.lpToken!,
+                                                              pair: pool.pair!,
+                                                            ),
+                                                            ref,
+                                                          );
+                                                    },
+                                                    child: const IconAnimated(
+                                                      icon:
+                                                          Iconsax.wallet_minus,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     DataCell(
@@ -167,78 +326,6 @@ class PoolListSheet extends ConsumerWidget {
                                               FormatAddressLinkCopy(
                                                 address: pool.lpToken!.address!,
                                                 reduceAddress: true,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Align(
-                                        child: SizedBox(
-                                          width: 50,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  ref
-                                                      .read(
-                                                        MainScreenWidgetDisplayedProviders
-                                                            .mainScreenWidgetDisplayedProvider
-                                                            .notifier,
-                                                      )
-                                                      .setWidget(
-                                                        LiquidityAddSheet(
-                                                          poolGenesisAddress:
-                                                              pool.poolAddress,
-                                                          pair: pool.pair!,
-                                                        ),
-                                                        ref,
-                                                      );
-                                                },
-                                                child: const IconAnimated(
-                                                  icon: Iconsax.wallet_add_1,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Align(
-                                        child: SizedBox(
-                                          width: 50,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  ref
-                                                      .read(
-                                                        MainScreenWidgetDisplayedProviders
-                                                            .mainScreenWidgetDisplayedProvider
-                                                            .notifier,
-                                                      )
-                                                      .setWidget(
-                                                        LiquidityRemoveSheet(
-                                                          poolGenesisAddress:
-                                                              pool.poolAddress,
-                                                          lpToken:
-                                                              pool.lpToken!,
-                                                          pair: pool.pair!,
-                                                        ),
-                                                        ref,
-                                                      );
-                                                },
-                                                child: const IconAnimated(
-                                                  icon: Iconsax.wallet_minus,
-                                                  color: Colors.white,
-                                                ),
                                               ),
                                             ],
                                           ),

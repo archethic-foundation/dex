@@ -82,7 +82,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         ),
                       ),
                       child: TextField(
-                        style: textTheme.titleLarge,
+                        style: textTheme.titleMedium,
                         autocorrect: false,
                         controller: tokenToSwapAmountController,
                         onChanged: (text) async {

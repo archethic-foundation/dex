@@ -12,12 +12,6 @@ class DexPool with _$DexPool {
     DexToken? lpToken,
     @Default(0) int ranking,
     DexPair? pair,
-    @Default(0.0) double token1Pooled,
-    @Default(0.0) double token2Pooled,
-    @Default(0.0) double amountOfLiquidity,
-    @Default(0.0) double apr,
-    @Default(0.0) double volume24h,
-    @Default(0.0) double volume7d,
-    @Default(0.0) double fees24h,
+    @Default(0.0) double fees,
   }) = _DexPool;
 }
