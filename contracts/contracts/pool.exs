@@ -5,7 +5,7 @@ condition triggered_by: transaction, on: add_liquidity(token1_min_amount, token2
     valid_amounts? = false
     valid_liquidity? = false
 
-    user_amounts = get_user_transfers_amount(transaction.token_transfers)
+    user_amounts = get_user_transfers_amount(transaction)
 
     if user_transfers.token1 > 0 && user_transfers.token2 > 0 do
       lp_token_supply = State.get("lp_token_supply", 0)
@@ -33,13 +33,16 @@ condition triggered_by: transaction, on: add_liquidity(token1_min_amount, token2
       end
     end
 
+    log("valid_amounts? #{valid_amounts?}")
+    log("valid_liquidity? #{valid_liquidity?}")
+
     valid_amounts? && valid_liquidity?
   )
 ]
 
 actions triggered_by: transaction, on: add_liquidity(token1_min_amount, token2_min_amount) do
   pool_balances = get_pool_balances()
-  user_amounts = get_user_transfers_amount(transaction.token_transfers)
+  user_amounts = get_user_transfers_amount(transaction)
 
   lp_token_supply = State.get("lp_token_supply", 0)
   reserves = State.get("reserves", [token1: 0, token2: 0])
@@ -80,7 +83,11 @@ actions triggered_by: transaction, on: add_liquidity(token1_min_amount, token2_m
   end
 
   if token2_to_refund > 0 do
-    Contract.add_token_transfer(to: transaction.address, amount: token2_to_refund, token_address: @TOKEN2)
+    if @TOKEN2 == "UCO" do
+      Contract.add_uco_transfer(to: transaction.address, amount: token2_to_refund)
+    else
+      Contract.add_token_transfer(to: transaction.address, amount: token2_to_refund, token_address: @TOKEN2)
+    end
   end
 
   Contract.set_type("token")
@@ -124,14 +131,18 @@ actions triggered_by: transaction, on: remove_liquidity() do
 
   Contract.set_type("transfer")
   Contract.add_token_transfer(to: transaction.address, amount: token1_to_remove, token_address: @TOKEN1)
-  Contract.add_token_transfer(to: transaction.address, amount: token2_to_remove, token_address: @TOKEN2)
+  if @TOKEN2 == "UCO" do
+    Contract.add_uco_transfer(to: transaction.address, amount: token2_to_remove)
+  else
+    Contract.add_token_transfer(to: transaction.address, amount: token2_to_remove, token_address: @TOKEN2)
+  end
 end
 
 condition triggered_by: transaction, on: swap(min_to_receive), as: [
   token_transfers: (
     valid? = false
 
-    transfer = get_user_transfer(transaction.token_transfers)
+    transfer = get_user_transfer(transaction)
     if transfer != nil do
         swap = get_swap_infos(transfer.token_address, transfer.amount)
 
@@ -143,7 +154,7 @@ condition triggered_by: transaction, on: swap(min_to_receive), as: [
 ]
 
 actions triggered_by: transaction, on: swap(_min_to_receive) do
-  transfer = get_user_transfer(transaction.token_transfers)
+  transfer = get_user_transfer(transaction)
 
   swap = get_swap_infos(transfer.token_address, transfer.amount)
 
@@ -160,7 +171,11 @@ actions triggered_by: transaction, on: swap(_min_to_receive) do
   State.set("reserves", [token1: pool_balances.token1, token2: pool_balances.token2])
 
   Contract.set_type("transfer")
-  Contract.add_token_transfer(to: transaction.address, amount: swap.output_amount, token_address: token_to_send)
+  if token_to_send == "UCO" do
+    Contract.add_uco_transfer(to: transaction.address, amount: swap.output_amount)
+  else
+    Contract.add_token_transfer(to: transaction.address, amount: swap.output_amount, token_address: token_to_send)
+  end
 end
 
 condition triggered_by: transaction, on: update_code(), as: [
@@ -330,12 +345,17 @@ fun get_final_amounts(user_amounts, reserves, token1_min_amount, token2_min_amou
   [token1: final_token1_amount, token2: final_token2_amount]
 end
 
-fun get_user_transfers_amount(token_transfers) do
+fun get_user_transfers_amount(tx) do
   contract_address = @POOL_ADDRESS
 
   token1_amount = 0
   token2_amount = 0
-  transfers = Map.get(token_transfers, contract_address)
+  transfers = Map.get(tx.token_transfers, contract_address)
+
+  uco_amount = Map.get(tx.uco_transfers, contract_address)
+  if uco_amount != nil do
+    transfers = List.prepend(transfers, [token_address: "UCO", amount: uco_amount])
+  end
 
   if List.size(transfers) == 2 do
     for transfer in transfers do
@@ -351,11 +371,16 @@ fun get_user_transfers_amount(token_transfers) do
   [token1: token1_amount, token2: token2_amount]
 end
 
-fun get_user_transfer(token_transfers) do
+fun get_user_transfer(tx) do
   contract_address = @POOL_ADDRESS
 
   token_transfer = nil
-  transfers = Map.get(token_transfers, contract_address)
+  transfers = Map.get(tx.token_transfers, contract_address, [])
+
+  uco_amount = Map.get(tx.uco_transfers, contract_address)
+  if uco_amount != nil do
+    transfers = List.prepend(transfers, [token_address: "UCO", amount: uco_amount])
+  end
   
   transfer = List.at(transfers, 0)
 
@@ -387,13 +412,20 @@ fun get_user_lp_amount(token_transfers) do
 end
 
 fun get_pool_balances() do
+
+  balances = Chain.get_balance(contract.address)
+
+  token2_balance = 0
+  if @TOKEN2 == "UCO" do
+    token2_balance = balances.uco
+  else
+    token2_id = [token_address: @TOKEN2, token_id: 0]
+    token2_balance = Map.get(balances, token2_id, 0)
+  end
+
   token1_id = [token_address: @TOKEN1, token_id: 0]
-  token2_id = [token_address: @TOKEN2, token_id: 0]
-
-  balances = Chain.get_tokens_balance(contract.address, [token1_id, token2_id])
-
   [
-    token1: Map.get(balances, token1_id, 0),
-    token2: Map.get(balances, token2_id, 0),
+    token1: Map.get(balances.tokens, token1_id, 0),
+    token2: token2_balance
   ]
 end

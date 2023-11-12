@@ -20,7 +20,7 @@ export function getServiceGenesisAddress(keychain, service, suffix = "") {
 }
 
 export function getTokenAddress(tokenSeed) {
-  return Utils.uint8ArrayToHex(Crypto.deriveAddress(tokenSeed, 1))
+  return tokenSeed == "UCO" ? "UCO" : Utils.uint8ArrayToHex(Crypto.deriveAddress(tokenSeed, 1))
 }
 
 export function encryptSecret(secret, publicKey) {
@@ -88,9 +88,9 @@ export function getRouterCode(keychain) {
   // Replace pool address
   poolCode = poolCode.replaceAll("@POOL_ADDRESS", "0x#{pool_address}")
   // Replace token1 address
-  poolCode = poolCode.replaceAll("@TOKEN1", "0x#{token1_address}")
+  poolCode = poolCode.replaceAll("@TOKEN1", '"#{token1_address}"')
   // Replace token2 address
-  poolCode = poolCode.replaceAll("@TOKEN2", "0x#{token2_address}")
+  poolCode = poolCode.replaceAll("@TOKEN2", '"#{token2_address}"')
   // Replace lp token address
   poolCode = poolCode.replaceAll("@LP_TOKEN", "0x#{lp_token_address}")
   // Replace router address

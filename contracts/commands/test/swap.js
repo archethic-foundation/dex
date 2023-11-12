@@ -79,9 +79,15 @@ const handler = async function(argv) {
   console.log("Price impact", swapInfos.price_impact)
 
   const tx = archethic.transaction.new()
-    .setType("transfer")
+
+  if (token1Address == "UCO") {
+    tx.addUCOTransfer(poolAddresses.address, Utils.toBigInt(token1Amount))
+  } else {
+    tx.addTokenTransfer(poolAddresses.address, Utils.toBigInt(token1Amount), token1Address)
+  }
+
+  tx.setType("transfer")
     .addRecipient(poolAddresses.address, "swap", [minToReceive])
-    .addTokenTransfer(poolAddresses.address, Utils.toBigInt(token1Amount), token1Address)
     .build(env.userSeed, index)
     .originSign(Utils.originPrivateKey)
 

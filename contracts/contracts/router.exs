@@ -13,12 +13,10 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
     if token1_address != token2_address && !pool_exists? do
       # Could create a new function Chain.get_transactions(list_of_address)
       pool_transaction = Chain.get_transaction(pool_creation_address)
-      token1_tx = Chain.get_transaction(token1_address)
-      token2_tx = Chain.get_transaction(token2_address)
 
       # Ensure tokens exists and lp token definition is good
-      token1_symbol = get_token_symbol(token1_tx)
-      token2_symbol = get_token_symbol(token2_tx)
+      token1_symbol = get_token_symbol(token1_address)
+      token2_symbol = get_token_symbol(token2_address)
 
       valid_definition? = false
       if token1_symbol != nil && token2_symbol != nil && pool_transaction != nil && pool_transaction.type == "token" do
@@ -41,6 +39,11 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
         # Ensure liquidity is provided to the pool
         valid? = List.in?(transaction.recipients, pool_genesis_address)
       end
+      
+      log("valid_definition? #{valid_definition?}")
+      log("valid_code? #{valid_code?}")
+      log("valid? #{valid?}")
+
     end
 
     valid?
@@ -50,12 +53,6 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
 actions triggered_by: transaction, on: add_pool(token1_address, token2_address, pool_creation_address) do
   token1_address = String.to_uppercase(token1_address)
   token2_address = String.to_uppercase(token2_address)
-
-  if token1_address > token2_address do
-    temp = token1_address
-    token1_address = token2_address
-    token2_address = temp
-  end
 
   pool_genesis_address = Chain.get_genesis_address(pool_creation_address)
   pool_id = get_pool_id(token1_address, token2_address)
@@ -121,19 +118,22 @@ fun get_pool_id(token1_address, token2_address) do
   "#{token1_address}/#{token2_address}"
 end
 
-fun get_token_symbol(tx) do
-  # Transaction must have type token
-  # Token must by fungible
-  symbol = nil
-
-  if tx != nil && tx.type == "token" do
-    token_definition = Json.parse(tx.content)
-    if token_definition.type == "fungible" do
-      symbol = Map.get(token_definition, "symbol", nil)
+fun get_token_symbol(token_address) do
+  if token_address == "UCO" do
+    "UCO"
+  else
+    tx = Chain.get_transaction(token_address)
+    # Transaction must have type token
+    # Token must by fungible
+    symbol = nil
+    if tx != nil && tx.type == "token" do
+      token_definition = Json.parse(tx.content)
+      if token_definition.type == "fungible" do
+        symbol = Map.get(token_definition, "symbol", nil)
+      end
     end
+    symbol
   end
-
-  symbol
 end
 
 export fun get_pool_addresses(token1_address, token2_address) do

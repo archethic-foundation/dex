@@ -120,11 +120,22 @@ const handler = async function(argv) {
   console.log("User genesis address:", userAddress)
 
   const tx = archethic.transaction.new()
-    .setType("transfer")
+
+  if (token1.address == "UCO") {
+    tx.addUCOTransfer(poolGenesisAddress, Utils.toBigInt(token1.amount))
+  } else {
+    tx.addTokenTransfer(poolGenesisAddress, Utils.toBigInt(token1.amount), token1.address)
+  }
+
+  if (token2.address == "UCO") {
+    tx.addUCOTransfer(poolGenesisAddress, Utils.toBigInt(token2.amount))
+  } else {
+    tx.addTokenTransfer(poolGenesisAddress, Utils.toBigInt(token2.amount), token2.address)
+  }
+
+  tx.setType("transfer")
     .addRecipient(poolGenesisAddress, "add_liquidity", [token1.amount, token2.amount])
     .addRecipient(routerAddress, "add_pool", [token1.address, token2.address, Utils.uint8ArrayToHex(poolTx.address)])
-    .addTokenTransfer(poolGenesisAddress, Utils.toBigInt(token1.amount), token1.address)
-    .addTokenTransfer(poolGenesisAddress, Utils.toBigInt(token2.amount), token2.address)
     .build(env.userSeed, index)
     .originSign(Utils.originPrivateKey)
 

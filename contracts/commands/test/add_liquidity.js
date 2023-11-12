@@ -74,7 +74,7 @@ const handler = async function(argv) {
 
   if (!token2Amount) {
     token2Amount = await archethic.network.callFunction(poolAddresses.address, "get_equivalent_amount", [token1Address, token1Amount])
-    console.log(token2Amount)
+    console.log("Calculated token1 amount:", token2Amount)
   }
 
   const poolInfos = await archethic.network.callFunction(poolAddresses.address, "get_pool_infos")
@@ -111,10 +111,21 @@ const handler = async function(argv) {
   const minToken2Amount = token2.amount * ((100 - slippage) / 100)
 
   const tx = archethic.transaction.new()
-    .setType("transfer")
+
+  if (token1.address == "UCO") {
+    tx.addUCOTransfer(poolAddresses.address, Utils.toBigInt(token1.amount))
+  } else {
+    tx.addTokenTransfer(poolAddresses.address, Utils.toBigInt(token1.amount), token1.address)
+  }
+
+  if (token2.address == "UCO") {
+    tx.addUCOTransfer(poolAddresses.address, Utils.toBigInt(token2.amount))
+  } else {
+    tx.addTokenTransfer(poolAddresses.address, Utils.toBigInt(token2.amount), token2.address)
+  }
+
+  tx.setType("transfer")
     .addRecipient(poolAddresses.address, "add_liquidity", [minToken1Amount, minToken2Amount])
-    .addTokenTransfer(poolAddresses.address, Utils.toBigInt(token1.amount), token1.address)
-    .addTokenTransfer(poolAddresses.address, Utils.toBigInt(token2.amount), token2.address)
     .build(env.userSeed, index)
     .originSign(Utils.originPrivateKey)
 
