@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HeaderWelcomeScreen extends StatelessWidget {
   const HeaderWelcomeScreen({super.key});
@@ -10,12 +11,17 @@ class HeaderWelcomeScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          'assets/images/AELogo.png',
-          width: 60,
+        SvgPicture.asset(
+          'assets/images/AELogo.svg',
+          semanticsLabel: 'AE Logo',
+          height: 40,
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+        ),
+        const SizedBox(
+          width: 10,
         ),
         Text(
-          'Dex',
+          'DEX',
           style: TextStyle(
             fontSize: 45,
             color: ArchethicThemeBase.blue200,
@@ -27,7 +33,7 @@ class HeaderWelcomeScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 30),
           child: Text(
-            'Beta',
+            'Alpha',
             style: Theme.of(context).textTheme.labelMedium,
           ),
         ),

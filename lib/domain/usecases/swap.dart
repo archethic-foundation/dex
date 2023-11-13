@@ -64,11 +64,20 @@ class SwapCase with TransactionDexMixin {
       args: [
         minToReceive,
       ],
-    ).addTokenTransfer(
-      poolGenesisAddress,
-      archethic.toBigInt(token1Amount),
-      token1.address!,
     );
+
+    if (token1.address == 'UCO') {
+      transactionLiquidity.addUCOTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token1Amount),
+      );
+    } else {
+      transactionLiquidity.addTokenTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token1Amount),
+        token1.address!,
+      );
+    }
 
     try {
       final currentNameAccount = await getCurrentAccount();

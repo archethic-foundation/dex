@@ -3,6 +3,7 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -20,15 +21,17 @@ class Header extends StatelessWidget {
         const SizedBox(
           width: 16,
         ),
-        Image.asset(
-          'assets/images/AELogo.png',
-          width: 30,
+        SvgPicture.asset(
+          'assets/images/AELogo.svg',
+          semanticsLabel: 'AE Logo',
+          height: 20,
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
         ),
         const SizedBox(
           width: 8,
         ),
         Text(
-          'Dex',
+          'DEX',
           style: TextStyle(
             fontSize: 20,
             color: ArchethicThemeBase.blue200,
@@ -37,7 +40,7 @@ class Header extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 30),
           child: Text(
-            'Beta',
+            'Alpha',
             style: Theme.of(context).textTheme.labelMedium,
           ),
         ),

@@ -63,25 +63,40 @@ class AddLiquidityCase with TransactionDexMixin {
       type: 'transfer',
       version: blockchainTxVersion,
       data: archethic.Transaction.initData(),
-    )
-        .addRecipient(
-          poolGenesisAddress,
-          action: 'add_liquidity',
-          args: [
-            token1minAmount,
-            token2minAmount,
-          ],
-        )
-        .addTokenTransfer(
-          poolGenesisAddress,
-          archethic.toBigInt(token1minAmount),
-          token1.address!,
-        )
-        .addTokenTransfer(
-          poolGenesisAddress,
-          archethic.toBigInt(token2minAmount),
-          token2.address!,
-        );
+    ).addRecipient(
+      poolGenesisAddress,
+      action: 'add_liquidity',
+      args: [
+        token1minAmount,
+        token2minAmount,
+      ],
+    );
+
+    if (token1.address == 'UCO') {
+      transactionLiquidity.addUCOTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token1minAmount),
+      );
+    } else {
+      transactionLiquidity.addTokenTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token1minAmount),
+        token1.address!,
+      );
+    }
+
+    if (token2.address == 'UCO') {
+      transactionLiquidity.addUCOTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token2minAmount),
+      );
+    } else {
+      transactionLiquidity.addTokenTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token2minAmount),
+        token2.address!,
+      );
+    }
 
     try {
       final currentNameAccount = await getCurrentAccount();

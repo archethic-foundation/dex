@@ -31,30 +31,45 @@ mixin ModelParser {
     String poolAddress,
     GetPoolInfosResponse getPoolInfosResponse,
   ) async {
+    final adressesToSearch = <String>[getPoolInfosResponse.lpToken.address];
+    if (getPoolInfosResponse.token1.address != 'UCO') {
+      adressesToSearch.add(getPoolInfosResponse.token1.address);
+    }
+    if (getPoolInfosResponse.token2.address != 'UCO') {
+      adressesToSearch.add(getPoolInfosResponse.token2.address);
+    }
+
     final tokenResultMap = await sl.get<archethic.ApiService>().getToken(
-      [
-        getPoolInfosResponse.token1.address,
-        getPoolInfosResponse.token2.address,
-        getPoolInfosResponse.lpToken.address,
-      ],
-    );
+          adressesToSearch,
+        );
 
     // TODO(reddwarf03): Check cache
-
     var token1Name = '';
     var token1Symbol = '';
-    if (tokenResultMap[getPoolInfosResponse.token1.address] != null) {
-      token1Name = tokenResultMap[getPoolInfosResponse.token1.address]!.name!;
-      token1Symbol =
-          tokenResultMap[getPoolInfosResponse.token1.address]!.symbol!;
+    if (getPoolInfosResponse.token1.address == 'UCO') {
+      token1Name = 'Universal Coin';
+      token1Symbol = 'UCO';
+    } else {
+      if (tokenResultMap[getPoolInfosResponse.token1.address] != null) {
+        token1Name = tokenResultMap[getPoolInfosResponse.token1.address]!.name!;
+        token1Symbol =
+            tokenResultMap[getPoolInfosResponse.token1.address]!.symbol!;
+      }
     }
+
     var token2Name = '';
     var token2Symbol = '';
-    if (tokenResultMap[getPoolInfosResponse.token2.address] != null) {
-      token2Name = tokenResultMap[getPoolInfosResponse.token2.address]!.name!;
-      token2Symbol =
-          tokenResultMap[getPoolInfosResponse.token2.address]!.symbol!;
+    if (getPoolInfosResponse.token2.address == 'UCO') {
+      token2Name = 'Universal Coin';
+      token2Symbol = 'UCO';
+    } else {
+      if (tokenResultMap[getPoolInfosResponse.token2.address] != null) {
+        token2Name = tokenResultMap[getPoolInfosResponse.token2.address]!.name!;
+        token2Symbol =
+            tokenResultMap[getPoolInfosResponse.token2.address]!.symbol!;
+      }
     }
+
     var lpTokenName = '';
     var lpTokenSymbol = '';
     if (tokenResultMap[getPoolInfosResponse.lpToken.address] != null) {
@@ -97,23 +112,43 @@ mixin ModelParser {
   ) async {
     final tokens = getPoolListResponse.tokens.split('/');
 
+    final adressesToSearch = <String>[getPoolListResponse.lpTokenAddress];
+    if (tokens[0] != 'UCO') {
+      adressesToSearch.add(tokens[0]);
+    }
+    if (tokens[1] != 'UCO') {
+      adressesToSearch.add(tokens[1]);
+    }
+
     // TODO(reddwarf03): Check cache
 
-    final tokenResultMap = await sl
-        .get<archethic.ApiService>()
-        .getToken([tokens[0], tokens[1], getPoolListResponse.lpTokenAddress]);
+    final tokenResultMap =
+        await sl.get<archethic.ApiService>().getToken(adressesToSearch);
     var token1Name = '';
     var token1Symbol = '';
-    if (tokenResultMap[tokens[0]] != null) {
-      token1Name = tokenResultMap[tokens[0]]!.name!;
-      token1Symbol = tokenResultMap[tokens[0]]!.symbol!;
+
+    if (tokens[0] == 'UCO') {
+      token1Name = 'Universal Coin';
+      token1Symbol = 'UCO';
+    } else {
+      if (tokenResultMap[tokens[0]] != null) {
+        token1Name = tokenResultMap[tokens[0]]!.name!;
+        token1Symbol = tokenResultMap[tokens[0]]!.symbol!;
+      }
     }
+
     var token2Name = '';
     var token2Symbol = '';
-    if (tokenResultMap[tokens[1]] != null) {
-      token2Name = tokenResultMap[tokens[1]]!.name!;
-      token2Symbol = tokenResultMap[tokens[1]]!.symbol!;
+    if (tokens[1] == 'UCO') {
+      token2Name = 'Universal Coin';
+      token2Symbol = 'UCO';
+    } else {
+      if (tokenResultMap[tokens[1]] != null) {
+        token2Name = tokenResultMap[tokens[1]]!.name!;
+        token2Symbol = tokenResultMap[tokens[1]]!.symbol!;
+      }
     }
+
     var lpTokenName = '';
     var lpTokenSymbol = '';
     if (tokenResultMap[getPoolListResponse.lpTokenAddress] != null) {

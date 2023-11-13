@@ -1,10 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/main_screen_widget_displayed.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
-import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
+import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/icon_animated.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
@@ -13,14 +14,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PoolListSheet extends ConsumerWidget {
+class PoolListSheet extends ConsumerStatefulWidget {
   const PoolListSheet({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  PoolListSheetState createState() => PoolListSheetState();
+}
+
+class PoolListSheetState extends ConsumerState<PoolListSheet> {
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
     final dexPools = ref.watch(DexPoolProviders.getPoolList);
+
+    var _sortColumnIndex = 0;
+    var _isAscending = true;
+
+    void _sort<T>(
+      Comparable<T> Function(DexPool d) getField,
+      int columnIndex,
+    ) {
+      final ascending = _sortColumnIndex != columnIndex || !_isAscending;
+
+      dexPools.map(
+        data: (data) {
+          data.value.sort((a, b) {
+            final aValue = getField(a);
+            final bValue = getField(b);
+            return ascending
+                ? Comparable.compare(aValue, bValue)
+                : Comparable.compare(bValue, aValue);
+          });
+        },
+        error: (error) {},
+        loading: (loading) {},
+      );
+
+      setState(() {
+        _sortColumnIndex = columnIndex;
+        _isAscending = ascending;
+      });
+    }
 
     return Stack(
       alignment: Alignment.bottomRight,
@@ -31,7 +68,7 @@ class PoolListSheet extends ConsumerWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: SizedBox(
-                width: 1600,
+                width: 800,
                 height: MediaQuery.of(context).size.height - 100,
                 child: ArchethicScrollbar(
                   child: dexPools.when(
@@ -40,6 +77,8 @@ class PoolListSheet extends ConsumerWidget {
                         return const SizedBox.shrink();
                       }
                       return DataTable(
+                        sortColumnIndex: _sortColumnIndex,
+                        sortAscending: _isAscending,
                         columnSpacing: 0,
                         horizontalMargin: 0,
                         dividerThickness: 1,
@@ -52,6 +91,10 @@ class PoolListSheet extends ConsumerWidget {
                                 textAlign: TextAlign.center,
                               ),
                             ),
+                            onSort: (columnIndex, ascending) => _sort(
+                              (DexPool pool) => pool.pair!.token1.name,
+                              columnIndex,
+                            ),
                           ),
                           DataColumn(
                             label: Expanded(
@@ -61,6 +104,7 @@ class PoolListSheet extends ConsumerWidget {
                                 textAlign: TextAlign.center,
                               ),
                             ),
+                            numeric: true,
                           ),
                           DataColumn(
                             label: Expanded(
@@ -69,6 +113,10 @@ class PoolListSheet extends ConsumerWidget {
                                     .poolListHeaderLPTokenName,
                                 textAlign: TextAlign.center,
                               ),
+                            ),
+                            onSort: (columnIndex, ascending) => _sort(
+                              (DexPool pool) => pool.lpToken!.name,
+                              columnIndex,
                             ),
                           ),
                           DataColumn(
@@ -79,40 +127,17 @@ class PoolListSheet extends ConsumerWidget {
                                 textAlign: TextAlign.center,
                               ),
                             ),
+                            numeric: true,
+                            onSort: (columnIndex, ascending) => _sort(
+                              (DexPool pool) => pool.lpToken!.supply,
+                              columnIndex,
+                            ),
                           ),
                           DataColumn(
                             label: Expanded(
                               child: Text(
                                 AppLocalizations.of(context)!
                                     .poolListHeaderLiquidity,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .poolListHeaderPoolAddress,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            numeric: true,
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .poolListHeaderTokensAddress,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .poolListHeaderLPTokenAddress,
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -128,14 +153,34 @@ class PoolListSheet extends ConsumerWidget {
                                     DataCell(
                                       Align(
                                         child: SizedBox(
-                                          width: 150,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                          width: 250,
+                                          child: Row(
                                             children: [
                                               Text(
-                                                '${pool.pair!.token1.name}-${pool.pair!.token2.name}',
+                                                pool.pair!.token1.name,
                                               ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              if (pool.pair!.token1.address !=
+                                                  'UCO')
+                                                FormatAddressLink(
+                                                  address: pool
+                                                      .pair!.token1.address!,
+                                                ),
+                                              const Text(' / '),
+                                              Text(
+                                                pool.pair!.token2.name,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              if (pool.pair!.token2.address !=
+                                                  'UCO')
+                                                FormatAddressLink(
+                                                  address: pool
+                                                      .pair!.token2.address!,
+                                                ),
                                             ],
                                           ),
                                         ),
@@ -168,12 +213,18 @@ class PoolListSheet extends ConsumerWidget {
                                       Align(
                                         child: SizedBox(
                                           width: 150,
-                                          child: Column(
+                                          child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 pool.lpToken!.name,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              FormatAddressLink(
+                                                address: pool.lpToken!.address!,
                                               ),
                                             ],
                                           ),
@@ -275,61 +326,6 @@ class PoolListSheet extends ConsumerWidget {
                                             ),
                                           ),
                                         ],
-                                      ),
-                                    ),
-                                    DataCell(
-                                      SizedBox(
-                                        width: 250,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            FormatAddressLinkCopy(
-                                              address: pool.poolAddress,
-                                              reduceAddress: true,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Align(
-                                        child: SizedBox(
-                                          width: 250,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              FormatAddressLinkCopy(
-                                                address:
-                                                    pool.pair!.token1.address!,
-                                                reduceAddress: true,
-                                              ),
-                                              FormatAddressLinkCopy(
-                                                address:
-                                                    pool.pair!.token2.address!,
-                                                reduceAddress: true,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Align(
-                                        child: SizedBox(
-                                          width: 250,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              FormatAddressLinkCopy(
-                                                address: pool.lpToken!.address!,
-                                                reduceAddress: true,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
                                       ),
                                     ),
                                   ],

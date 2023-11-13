@@ -179,34 +179,48 @@ class AddPoolCase with TransactionDexMixin {
       type: 'transfer',
       version: blockchainTxVersion,
       data: archethic.Transaction.initData(),
-    )
-        .addRecipient(
-          poolGenesisAddress,
-          action: 'add_liquidity',
-          args: [
-            token1minAmount,
-            token2minAmount,
-          ],
-        )
-        .addRecipient(
-          routerAddress,
-          action: 'add_pool',
-          args: [
-            token1.address!,
-            token2.address!,
-            transactionPool.address!.address!,
-          ],
-        )
-        .addTokenTransfer(
-          poolGenesisAddress,
-          archethic.toBigInt(token1minAmount),
-          token1.address!,
-        )
-        .addTokenTransfer(
-          poolGenesisAddress,
-          archethic.toBigInt(token2minAmount),
-          token2.address!,
-        );
+    ).addRecipient(
+      poolGenesisAddress,
+      action: 'add_liquidity',
+      args: [
+        token1minAmount,
+        token2minAmount,
+      ],
+    ).addRecipient(
+      routerAddress,
+      action: 'add_pool',
+      args: [
+        token1.address!,
+        token2.address!,
+        transactionPool.address!.address!,
+      ],
+    );
+
+    if (token1.address == 'UCO') {
+      transactionAdd.addUCOTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token1minAmount),
+      );
+    } else {
+      transactionAdd.addTokenTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token1minAmount),
+        token1.address!,
+      );
+    }
+
+    if (token2.address == 'UCO') {
+      transactionAdd.addUCOTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token2minAmount),
+      );
+    } else {
+      transactionAdd.addTokenTransfer(
+        poolGenesisAddress,
+        archethic.toBigInt(token2minAmount),
+        token2.address!,
+      );
+    }
 
     try {
       final currentNameAccount = await getCurrentAccount();

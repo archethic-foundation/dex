@@ -14,6 +14,10 @@ class BalanceRepositoryImpl implements BalanceRepository {
       return 0.0;
     }
     final balanceGetResponse = balanceGetResponseMap[address];
+
+    if (tokenAddress == 'UCO') {
+      return fromBigInt(balanceGetResponse!.uco).toDouble();
+    }
     for (final balanceToken in balanceGetResponse!.token) {
       if (balanceToken.address!.toUpperCase() == tokenAddress.toUpperCase()) {
         return fromBigInt(balanceToken.amount).toDouble();
