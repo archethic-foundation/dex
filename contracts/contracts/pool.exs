@@ -29,7 +29,7 @@ condition triggered_by: transaction, on: add_liquidity(token1_min_amount, token2
 
         lp_token_to_mint = get_lp_token_to_mint(token1_amount, token2_amount)
 
-        valid_liquidity? = lp_token_to_mint != 0
+        valid_liquidity? = lp_token_to_mint > 0
       end
     end
 
@@ -56,6 +56,15 @@ actions triggered_by: transaction, on: add_liquidity(token1_min_amount, token2_m
 
   lp_token_to_mint = get_lp_token_to_mint(token1_amount, token2_amount)
   lp_token_to_mint_bigint = Math.trunc(lp_token_to_mint * 100_000_000)
+
+  log "final_amounts"
+  log final_amounts
+  log "pool_balances"
+  log(pool_balances)
+  log "lp_token_to_mint"
+  log(lp_token_to_mint)
+  log "lp_token_to_mint_bigint"
+  log lp_token_to_mint_bigint
 
   # Remove minimum liquidity if this is the first liquidity if the pool
   # First liquidity minted and burned on pool creation
@@ -412,7 +421,6 @@ fun get_user_lp_amount(token_transfers) do
 end
 
 fun get_pool_balances() do
-
   balances = Chain.get_balance(contract.address)
 
   token2_balance = 0
@@ -420,7 +428,7 @@ fun get_pool_balances() do
     token2_balance = balances.uco
   else
     token2_id = [token_address: @TOKEN2, token_id: 0]
-    token2_balance = Map.get(balances, token2_id, 0)
+    token2_balance = Map.get(balances.tokens, token2_id, 0)
   end
 
   token1_id = [token_address: @TOKEN1, token_id: 0]
