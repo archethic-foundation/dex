@@ -90,7 +90,8 @@ class SwapFormSheet extends ConsumerWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SwapTokenToSwapAmountFiat(),
+                      SizedBox.shrink(),
+                      //SwapTokenToSwapAmountFiat(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -125,7 +126,8 @@ class SwapFormSheet extends ConsumerWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SwapTokenSwappedAmountFiat(),
+                      SizedBox.shrink(),
+                      //  SwapTokenSwappedAmountFiat(),
                       SwapTokenSwappedBalance(),
                     ],
                   ),

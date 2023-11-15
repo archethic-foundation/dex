@@ -24,10 +24,8 @@ class _SwapTokenSwappedAmountState
   @override
   void initState() {
     super.initState();
-    final swap = ref.read(SwapFormProvider.swapForm);
     tokenSwappedAmountFocusNode = FocusNode();
-    tokenSwappedAmountController =
-        TextEditingController(text: swap.tokenSwappedAmount.toString());
+    _updateAmountTextController();
   }
 
   @override
@@ -35,6 +33,20 @@ class _SwapTokenSwappedAmountState
     tokenSwappedAmountFocusNode.dispose();
     tokenSwappedAmountController.dispose();
     super.dispose();
+  }
+
+  void _updateAmountTextController() {
+    final swap = ref.read(SwapFormProvider.swapForm);
+    tokenSwappedAmountController = TextEditingController();
+    tokenSwappedAmountController.value =
+        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+      TextEditingValue.empty,
+      TextEditingValue(
+        text: swap.tokenSwappedAmount == 0
+            ? ''
+            : swap.tokenSwappedAmount.toString(),
+      ),
+    );
   }
 
   @override
@@ -45,7 +57,17 @@ class _SwapTokenSwappedAmountState
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
-    final addWebsiteNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
+    final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
+
+    final swap = ref.watch(SwapFormProvider.swapForm);
+    final textNum = double.tryParse(tokenSwappedAmountController.text);
+    if (textNum == null && swap.tokenSwappedAmount != 0.0) {
+      _updateAmountTextController();
+    } else {
+      if (textNum != null && swap.tokenSwappedAmount != textNum) {
+        _updateAmountTextController();
+      }
+    }
 
     return SizedBox(
       width: DexThemeBase.sizeBoxComponentWidth,
@@ -87,7 +109,7 @@ class _SwapTokenSwappedAmountState
                         autocorrect: false,
                         controller: tokenSwappedAmountController,
                         onChanged: (text) async {
-                          addWebsiteNotifier.setTokenSwappedAmount(
+                          swapNotifier.setTokenSwappedAmount(
                             double.tryParse(text.replaceAll(' ', '')) ?? 0,
                           );
                         },
@@ -97,7 +119,13 @@ class _SwapTokenSwappedAmountState
                         keyboardType: TextInputType.text,
                         inputFormatters: <TextInputFormatter>[
                           AmountTextInputFormatter(precision: 8),
-                          LengthLimitingTextInputFormatter(10),
+                          LengthLimitingTextInputFormatter(
+                            swap.tokenSwappedBalance
+                                    .formatNumber(precision: 0)
+                                    .length +
+                                8 +
+                                1,
+                          ),
                         ],
                         decoration: const InputDecoration(
                           border: InputBorder.none,

@@ -35,9 +35,9 @@ class _LiquidityAddToken2AmountState
         AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
-        text: liquidityAdd.token1Amount == 0
+        text: liquidityAdd.token2Amount == 0
             ? ''
-            : liquidityAdd.token1Amount.toString(),
+            : liquidityAdd.token2Amount.toString(),
       ),
     );
   }
@@ -62,10 +62,12 @@ class _LiquidityAddToken2AmountState
 
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(liquidityAdd.token1Amount != 0.0 ||
-        tokenAmountController.text == '' ||
-        (textNum != null && textNum == 0))) {
+    if (textNum == null && liquidityAdd.token2Amount != 0.0) {
       _updateAmountTextController();
+    } else {
+      if (textNum != null && liquidityAdd.token2Amount != textNum) {
+        _updateAmountTextController();
+      }
     }
 
     return SizedBox(

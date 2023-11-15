@@ -25,11 +25,11 @@ class SwapCase with TransactionDexMixin {
     final apiService = sl.get<archethic.ApiService>();
 
     var outputAmount = 0.0;
-    final expectedTokenLPResult = await PoolFactory(
+    final getSwapInfosResult = await PoolFactory(
       poolGenesisAddress,
       apiService,
     ).getSwapInfos(token1.address!, token1Amount);
-    expectedTokenLPResult.map(
+    getSwapInfosResult.map(
       success: (success) {
         if (success != null) {
           outputAmount = success['output_amount'];

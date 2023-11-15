@@ -192,19 +192,19 @@ class AddPoolCase with TransactionDexMixin {
       args: [
         token1.address!,
         token2.address!,
-        transactionPool.address!.address!,
+        transactionPool.address!.address!.toUpperCase(),
       ],
     );
 
     if (token1.address == 'UCO') {
       transactionAdd.addUCOTransfer(
         poolGenesisAddress,
-        archethic.toBigInt(token1minAmount),
+        archethic.toBigInt(token1Amount),
       );
     } else {
       transactionAdd.addTokenTransfer(
         poolGenesisAddress,
-        archethic.toBigInt(token1minAmount),
+        archethic.toBigInt(token1Amount),
         token1.address!,
       );
     }
@@ -212,12 +212,12 @@ class AddPoolCase with TransactionDexMixin {
     if (token2.address == 'UCO') {
       transactionAdd.addUCOTransfer(
         poolGenesisAddress,
-        archethic.toBigInt(token2minAmount),
+        archethic.toBigInt(token2Amount),
       );
     } else {
       transactionAdd.addTokenTransfer(
         poolGenesisAddress,
-        archethic.toBigInt(token2minAmount),
+        archethic.toBigInt(token2Amount),
         token2.address!,
       );
     }

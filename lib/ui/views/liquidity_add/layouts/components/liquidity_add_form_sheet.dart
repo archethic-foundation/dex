@@ -98,7 +98,8 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                               right: 10,
                             ),
                             child: LiquidityAddTokenInfos(
-                                token: liquidityAdd.token2),
+                              token: liquidityAdd.token2,
+                            ),
                           ),
                         ],
                       ),

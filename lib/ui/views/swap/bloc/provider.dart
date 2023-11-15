@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/pool_factory.dart';
@@ -7,6 +9,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/swap.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
+import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +27,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
   @override
   SwapFormState build() => const SwapFormState();
+
+  CancelableTask<double?>? _calculateOutputAmountTask;
 
   Future<void> setTokenToSwap(
     DexToken tokenToSwap,
@@ -67,19 +72,89 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     return;
   }
 
-  void setTokenToSwapAmount(
+  Future<double> _calculateOutputAmount(
+    String tokenAddress,
+    double amount, {
+    Duration delay = const Duration(milliseconds: 800),
+  }) async {
+    final apiService = sl.get<ApiService>();
+    late final double outputAmount;
+    try {
+      outputAmount = await Future<double>(
+        () async {
+          if (amount <= 0) {
+            return 0;
+          }
+
+          _calculateOutputAmountTask?.cancel();
+          _calculateOutputAmountTask = CancelableTask<double?>(
+            task: () async {
+              var _outputAmount = 0.0;
+              final getSwapInfosResult = await PoolFactory(
+                state.poolGenesisAddress,
+                apiService,
+              ).getSwapInfos(tokenAddress, amount);
+
+              getSwapInfosResult.map(
+                success: (success) {
+                  if (success != null) {
+                    _outputAmount = success['output_amount'];
+                    log('calculateOutputAmount: address $tokenAddress $amount -> outputAmount $_outputAmount');
+                  }
+                },
+                failure: (failure) {
+                  setFailure(
+                    Failure.other(
+                      cause: 'calculateOutputAmount error $failure',
+                    ),
+                  );
+                },
+              );
+              return _outputAmount;
+            },
+          );
+
+          final __outputAmount =
+              await _calculateOutputAmountTask?.schedule(delay);
+
+          return __outputAmount ?? 0;
+        },
+      );
+    } on CanceledTask {
+      return 0;
+    }
+    return outputAmount;
+  }
+
+  Future<void> setTokenToSwapAmount(
     double tokenToSwapAmount,
-  ) {
+  ) async {
     state = state.copyWith(
       tokenToSwapAmount: tokenToSwapAmount,
     );
+
+    final equivalentAmount = await _calculateOutputAmount(
+      state.tokenToSwap!.address!,
+      tokenToSwapAmount,
+    );
+    state = state.copyWith(
+      tokenSwappedAmount: equivalentAmount,
+    );
   }
 
-  void setTokenSwappedAmount(
+  Future<void> setTokenSwappedAmount(
     double tokenSwappedAmount,
-  ) {
+  ) async {
     state = state.copyWith(
       tokenSwappedAmount: tokenSwappedAmount,
+    );
+
+    final equivalentAmount = await _calculateOutputAmount(
+      state.tokenSwapped!.address!,
+      tokenSwappedAmount,
+    );
+    state = state.copyWith(
+      tokenToSwapAmount: equivalentAmount,
     );
   }
 

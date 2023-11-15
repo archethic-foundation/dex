@@ -23,10 +23,22 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
   @override
   void initState() {
     super.initState();
-    final swap = ref.read(SwapFormProvider.swapForm);
     tokenToSwapAmountFocusNode = FocusNode();
-    tokenToSwapAmountController =
-        TextEditingController(text: swap.tokenToSwapAmount.toString());
+    _updateAmountTextController();
+  }
+
+  void _updateAmountTextController() {
+    final swap = ref.read(SwapFormProvider.swapForm);
+    tokenToSwapAmountController = TextEditingController();
+    tokenToSwapAmountController.value =
+        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+      TextEditingValue.empty,
+      TextEditingValue(
+        text: swap.tokenToSwapAmount == 0
+            ? ''
+            : swap.tokenToSwapAmount.toString(),
+      ),
+    );
   }
 
   @override
@@ -45,6 +57,16 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
     final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
+
+    final swap = ref.watch(SwapFormProvider.swapForm);
+    final textNum = double.tryParse(tokenToSwapAmountController.text);
+    if (textNum == null && swap.tokenToSwapAmount != 0.0) {
+      _updateAmountTextController();
+    } else {
+      if (textNum != null && swap.tokenToSwapAmount != textNum) {
+        _updateAmountTextController();
+      }
+    }
 
     return SizedBox(
       width: DexThemeBase.sizeBoxComponentWidth,
@@ -96,7 +118,13 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         keyboardType: TextInputType.text,
                         inputFormatters: <TextInputFormatter>[
                           AmountTextInputFormatter(precision: 8),
-                          LengthLimitingTextInputFormatter(10),
+                          LengthLimitingTextInputFormatter(
+                            swap.tokenToSwapBalance
+                                    .formatNumber(precision: 0)
+                                    .length +
+                                8 +
+                                1,
+                          ),
                         ],
                         decoration: const InputDecoration(
                           border: InputBorder.none,

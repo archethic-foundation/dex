@@ -9,7 +9,7 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 mixin TransactionDexMixin {
   Future<double> calculateFees(
     Transaction transaction, {
-    double slippage = 2.01,
+    double slippage = 1.01,
   }) async {
     final transactionFee =
         await sl.get<ApiService>().getTransactionFee(transaction);

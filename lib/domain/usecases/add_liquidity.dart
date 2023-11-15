@@ -75,12 +75,12 @@ class AddLiquidityCase with TransactionDexMixin {
     if (token1.address == 'UCO') {
       transactionLiquidity.addUCOTransfer(
         poolGenesisAddress,
-        archethic.toBigInt(token1minAmount),
+        archethic.toBigInt(token1Amount),
       );
     } else {
       transactionLiquidity.addTokenTransfer(
         poolGenesisAddress,
-        archethic.toBigInt(token1minAmount),
+        archethic.toBigInt(token1Amount),
         token1.address!,
       );
     }
@@ -88,12 +88,12 @@ class AddLiquidityCase with TransactionDexMixin {
     if (token2.address == 'UCO') {
       transactionLiquidity.addUCOTransfer(
         poolGenesisAddress,
-        archethic.toBigInt(token2minAmount),
+        archethic.toBigInt(token2Amount),
       );
     } else {
       transactionLiquidity.addTokenTransfer(
         poolGenesisAddress,
-        archethic.toBigInt(token2minAmount),
+        archethic.toBigInt(token2Amount),
         token2.address!,
       );
     }
