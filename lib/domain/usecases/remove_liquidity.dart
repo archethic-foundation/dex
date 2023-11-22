@@ -51,28 +51,31 @@ class RemoveLiquidityCase with TransactionDexMixin {
       }
     }
 
-    try {
-      final currentNameAccount = await getCurrentAccount();
-      liquidityRemoveAddNotifier.setWalletConfirmation(true);
-      transactionRemoveLiquidity = (await signTx(
-        Uri.encodeFull('archethic-wallet-$currentNameAccount'),
-        '',
-        [transactionRemoveLiquidity!],
-      ))
-          .first;
-      liquidityRemoveAddNotifier.setWalletConfirmation(false);
-    } catch (e) {
-      if (e is Failure) {
+    if (recoveryStep <= 1) {
+      liquidityRemoveAddNotifier.setCurrentStep(2);
+      try {
+        final currentNameAccount = await getCurrentAccount();
+        liquidityRemoveAddNotifier.setWalletConfirmation(true);
+        transactionRemoveLiquidity = (await signTx(
+          Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+          '',
+          [transactionRemoveLiquidity!],
+        ))
+            .first;
+        liquidityRemoveAddNotifier.setWalletConfirmation(false);
+      } catch (e) {
+        if (e is Failure) {
+          ref
+              .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
+              .setFailure(e);
+          return;
+        }
         ref
             .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
-            .setFailure(e);
+            .setFailure(Failure.other(cause: e.toString()));
+
         return;
       }
-      ref
-          .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
-          .setFailure(Failure.other(cause: e.toString()));
-
-      return;
     }
 
     await sendTransactions(
@@ -80,6 +83,8 @@ class RemoveLiquidityCase with TransactionDexMixin {
         transactionRemoveLiquidity!,
       ],
     );
+
+    liquidityRemoveAddNotifier.setCurrentStep(3);
   }
 
   String getAEStepLabel(

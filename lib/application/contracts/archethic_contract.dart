@@ -320,8 +320,8 @@ class ArchethicContract with TransactionDexMixin {
         poolGenesisAddress,
         action: 'add_liquidity',
         args: [
-          token1minAmount,
-          token2minAmount,
+          token1minAmount.toDouble(),
+          token2minAmount.toDouble(),
         ],
       );
 

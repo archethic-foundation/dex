@@ -25,7 +25,7 @@ class LiquidityRemoveInProgressCircularStepProgressIndicator
           alignment: Alignment.center,
           children: [
             CircularStepProgressIndicator(
-              totalSteps: 6,
+              totalSteps: 3,
               currentStep: liquidityRemove.currentStep,
               width: 35,
               height: 35,
