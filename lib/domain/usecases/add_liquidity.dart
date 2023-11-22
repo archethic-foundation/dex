@@ -2,12 +2,14 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 
-import 'package:aedex/application/pool_factory.dart';
+import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'AddLiquidityCase';
@@ -20,101 +22,93 @@ class AddLiquidityCase with TransactionDexMixin {
     double token1Amount,
     DexToken token2,
     double token2Amount,
-    double slippage,
-  ) async {
-    dev.log('Token1 address: ${token1.address}', name: logName);
-    dev.log('Token2 address: ${token2.address}', name: logName);
+    double slippage, {
+    int recoveryStep = 0,
+  }) async {
+    final archethicContract = ArchethicContract();
+    final poolAddNotifier =
+        ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier);
 
-    final apiService = sl.get<archethic.ApiService>();
+    archethic.Transaction? transactionAddLiquidity;
+    if (recoveryStep <= 1) {
+      poolAddNotifier.setCurrentStep(1);
+      try {
+        final transactionAddLiquiditylMap =
+            await archethicContract.getAddLiquidityTx(
+          token1,
+          token1Amount,
+          token2,
+          token2Amount,
+          poolGenesisAddress,
+          slippage,
+        );
 
-    var expectedTokenLP = 0.0;
-    final expectedTokenLPResult = await PoolFactory(
-      poolGenesisAddress,
-      apiService,
-    ).getLPTokenToMint(token1Amount, token2Amount);
-    expectedTokenLPResult.map(
-      success: (success) {
-        if (success != null) {
-          expectedTokenLP = success;
-          dev.log('expectedTokenLP: $expectedTokenLP', name: logName);
-        } else {
-          dev.log('expectedTokenLP: null', name: logName);
+        transactionAddLiquiditylMap.map(
+          success: (success) {
+            transactionAddLiquidity = success;
+          },
+          failure: (failure) {
+            poolAddNotifier
+              ..setFailure(failure)
+              ..setProcessInProgress(false);
+            throw failure;
+          },
+        );
+      } catch (e) {
+        return;
+      }
+    }
+
+    if (recoveryStep <= 1) {
+      poolAddNotifier.setCurrentStep(2);
+      try {
+        final currentNameAccount = await getCurrentAccount();
+        poolAddNotifier.setWalletConfirmation(true);
+        transactionAddLiquidity = (await signTx(
+          Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+          '',
+          [transactionAddLiquidity!],
+        ))
+            .first;
+        poolAddNotifier.setWalletConfirmation(false);
+      } catch (e) {
+        dev.log('Signature failed', name: logName);
+        if (e is Failure) {
+          ref
+              .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+              .setFailure(e);
+          return;
         }
-      },
-      failure: (failure) {
-        dev.log('expectedTokenLP failure: $failure', name: logName);
-      },
-    );
+        ref
+            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+            .setFailure(Failure.other(cause: e.toString()));
 
-    if (expectedTokenLP == 0) {
-      throw const Failure.other(
-        cause: "Pool doesn't have liquidity, please fill both token amount",
-      );
-    }
-
-    final blockchainTxVersion = int.parse(
-      (await apiService.getBlockchainVersion()).version.transaction,
-    );
-
-    final token1minAmount = token1Amount * ((100 - slippage) / 100);
-    final token2minAmount = token2Amount * ((100 - slippage) / 100);
-
-    var transactionLiquidity = archethic.Transaction(
-      type: 'transfer',
-      version: blockchainTxVersion,
-      data: archethic.Transaction.initData(),
-    ).addRecipient(
-      poolGenesisAddress,
-      action: 'add_liquidity',
-      args: [
-        token1minAmount,
-        token2minAmount,
-      ],
-    );
-
-    if (token1.address == 'UCO') {
-      transactionLiquidity.addUCOTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token1Amount),
-      );
-    } else {
-      transactionLiquidity.addTokenTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token1Amount),
-        token1.address!,
-      );
-    }
-
-    if (token2.address == 'UCO') {
-      transactionLiquidity.addUCOTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token2Amount),
-      );
-    } else {
-      transactionLiquidity.addTokenTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token2Amount),
-        token2.address!,
-      );
-    }
-
-    try {
-      final currentNameAccount = await getCurrentAccount();
-      transactionLiquidity = (await signTx(
-        Uri.encodeFull('archethic-wallet-$currentNameAccount'),
-        '',
-        [transactionLiquidity],
-      ))
-          .first;
-    } catch (e) {
-      dev.log('Signature failed', name: logName);
-      throw const Failure.userRejected();
+        return;
+      }
     }
 
     await sendTransactions(
       <archethic.Transaction>[
-        transactionLiquidity,
+        transactionAddLiquidity!,
       ],
     );
+
+    poolAddNotifier.setCurrentStep(3);
+  }
+
+  String getAEStepLabel(
+    BuildContext context,
+    int step,
+  ) {
+    switch (step) {
+      case 1:
+        return AppLocalizations.of(context)!.addLiquidityProcessStep1;
+      case 2:
+        return AppLocalizations.of(context)!.addLiquidityProcessStep2;
+      case 3:
+        return AppLocalizations.of(context)!.addLiquidityProcessStep3;
+      default:
+        return AppLocalizations.of(context)!.addLiquidityProcessStep0;
+    }
   }
 }

@@ -162,8 +162,8 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                               const SizedBox(
                                                 width: 5,
                                               ),
-                                              if (pool.pair!.token1.address !=
-                                                  'UCO')
+                                              if (pool.pair!.token1.isUCO ==
+                                                  false)
                                                 FormatAddressLink(
                                                   address: pool
                                                       .pair!.token1.address!,
@@ -175,8 +175,8 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                               const SizedBox(
                                                 width: 5,
                                               ),
-                                              if (pool.pair!.token2.address !=
-                                                  'UCO')
+                                              if (pool.pair!.token2.isUCO ==
+                                                  false)
                                                 FormatAddressLink(
                                                   address: pool
                                                       .pair!.token2.address!,
@@ -192,17 +192,30 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                             const EdgeInsets.only(right: 20),
                                         child: SizedBox(
                                           width: 150,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
+                                          child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                                MainAxisAlignment.end,
                                             children: [
-                                              Text(
-                                                '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                                  ),
+                                                  Text(
+                                                    '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                                  ),
+                                                ],
                                               ),
-                                              Text(
-                                                '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              FormatAddressLink(
+                                                address: pool.poolAddress,
+                                                typeAddress: TypeAddress.chain,
                                               ),
                                             ],
                                           ),

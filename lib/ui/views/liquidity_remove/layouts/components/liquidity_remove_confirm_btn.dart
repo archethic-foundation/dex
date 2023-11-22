@@ -22,7 +22,7 @@ class LiquidityRemoveConfirmBtn extends ConsumerWidget {
       onPressed: () async {
         final liquidityRemoveNotifier =
             ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier);
-        unawaited(liquidityRemoveNotifier.add(context, ref));
+        unawaited(liquidityRemoveNotifier.remove(context, ref));
         await LiquidityRemoveInProgressPopup.getDialog(
           context,
           ref,

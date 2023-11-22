@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum TypeAddress { address, transaction }
+enum TypeAddress { address, transaction, chain }
 
 class FormatAddressLink extends ConsumerWidget {
   const FormatAddressLink({
@@ -35,11 +35,19 @@ class FormatAddressLink extends ConsumerWidget {
             ),
           );
         } else {
-          await launchUrl(
-            Uri.parse(
-              '${blockchain!.urlExplorerAddress}$address',
-            ),
-          );
+          if (typeAddress == TypeAddress.address) {
+            await launchUrl(
+              Uri.parse(
+                '${blockchain!.urlExplorerAddress}$address',
+              ),
+            );
+          } else {
+            await launchUrl(
+              Uri.parse(
+                '${blockchain!.urlExplorerChain}$address',
+              ),
+            );
+          }
         }
       },
       child: Padding(

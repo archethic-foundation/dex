@@ -173,7 +173,7 @@ class ArchethicContract with TransactionDexMixin {
     double slippage,
   ) async {
     return Result.guard(() async {
-      const logName = 'ArchethicContract.getAddLiquidityTx';
+      const logName = 'ArchethicContract.getAddPoolPlusLiquidityTx';
       final apiService = sl.get<archethic.ApiService>();
 
       final tokensAmmountMult =
@@ -257,6 +257,133 @@ class ArchethicContract with TransactionDexMixin {
         );
       }
       return transactionAdd;
+    });
+  }
+
+  Future<Result<archethic.Transaction, Failure>> getAddLiquidityTx(
+    DexToken token1,
+    double token1Amount,
+    DexToken token2,
+    double token2Amount,
+    String poolGenesisAddress,
+    double slippage,
+  ) async {
+    return Result.guard(() async {
+      const logName = 'ArchethicContract.getAddLiquidityTx';
+      dev.log('Token1 address: ${token1.address}', name: logName);
+      dev.log('Token2 address: ${token2.address}', name: logName);
+
+      final apiService = sl.get<archethic.ApiService>();
+
+      var expectedTokenLP = 0.0;
+      final expectedTokenLPResult = await PoolFactory(
+        poolGenesisAddress,
+        apiService,
+      ).getLPTokenToMint(token1Amount, token2Amount);
+      expectedTokenLPResult.map(
+        success: (success) {
+          if (success != null) {
+            expectedTokenLP = success;
+            dev.log('expectedTokenLP: $expectedTokenLP', name: logName);
+          } else {
+            dev.log('expectedTokenLP: null', name: logName);
+          }
+        },
+        failure: (failure) {
+          dev.log('expectedTokenLP failure: $failure', name: logName);
+        },
+      );
+
+      if (expectedTokenLP == 0) {
+        throw const Failure.other(
+          cause: "Pool doesn't have liquidity, please fill both token amount",
+        );
+      }
+
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final slippagePourcent =
+          (Decimal.parse('100') - Decimal.parse('$slippage')) /
+              Decimal.parse('100');
+      final token1minAmount =
+          Decimal.parse('$token1Amount') * slippagePourcent.toDecimal();
+      final token2minAmount =
+          Decimal.parse('$token2Amount') * slippagePourcent.toDecimal();
+
+      final transactionLiquidity = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        poolGenesisAddress,
+        action: 'add_liquidity',
+        args: [
+          token1minAmount,
+          token2minAmount,
+        ],
+      );
+
+      if (token1.address == 'UCO') {
+        transactionLiquidity.addUCOTransfer(
+          poolGenesisAddress,
+          archethic.toBigInt(token1Amount),
+        );
+      } else {
+        transactionLiquidity.addTokenTransfer(
+          poolGenesisAddress,
+          archethic.toBigInt(token1Amount),
+          token1.address!,
+        );
+      }
+
+      if (token2.address == 'UCO') {
+        transactionLiquidity.addUCOTransfer(
+          poolGenesisAddress,
+          archethic.toBigInt(token2Amount),
+        );
+      } else {
+        transactionLiquidity.addTokenTransfer(
+          poolGenesisAddress,
+          archethic.toBigInt(token2Amount),
+          token2.address!,
+        );
+      }
+      return transactionLiquidity;
+    });
+  }
+
+  Future<Result<archethic.Transaction, Failure>> getRemoveLiquidityTx(
+    String lpTokenAddress,
+    double lpTokenAmount,
+    String poolGenesisAddress,
+  ) async {
+    return Result.guard(() async {
+      const burnAddress =
+          '00000000000000000000000000000000000000000000000000000000000000000000';
+      const logName = 'ArchethicContract.getRemoveLiquidityTx';
+      dev.log('LP Token address: $lpTokenAddress', name: logName);
+
+      final apiService = sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transactionLiquidity = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        poolGenesisAddress,
+        action: 'remove_liquidity',
+        args: [],
+      ).addTokenTransfer(
+        burnAddress,
+        archethic.toBigInt(lpTokenAmount),
+        lpTokenAddress,
+      );
+      return transactionLiquidity;
     });
   }
 }

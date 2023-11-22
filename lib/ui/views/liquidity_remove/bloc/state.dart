@@ -13,6 +13,8 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
   const factory LiquidityRemoveFormState({
     @Default(LiquidityRemoveProcessStep.form)
     LiquidityRemoveProcessStep liquidityRemoveProcessStep,
+    @Default(false) bool resumeProcess,
+    @Default(0) int currentStep,
     @Default('') String poolGenesisAddress,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool liquidityRemoveOk,

@@ -13,6 +13,8 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
   const factory LiquidityAddFormState({
     @Default(LiquidityAddProcessStep.form)
     LiquidityAddProcessStep liquidityAddProcessStep,
+    @Default(false) bool resumeProcess,
+    @Default(0) int currentStep,
     @Default('') String poolGenesisAddress,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool liquidityAddOk,

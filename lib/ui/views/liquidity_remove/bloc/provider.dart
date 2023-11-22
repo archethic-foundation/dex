@@ -180,6 +180,14 @@ class LiquidityRemoveFormNotifier
     state = state.copyWith(isProcessInProgress: isProcessInProgress);
   }
 
+  void setCurrentStep(int currentStep) {
+    state = state.copyWith(currentStep: currentStep);
+  }
+
+  void setResumeProcess(bool resumeProcess) {
+    state = state.copyWith(resumeProcess: resumeProcess);
+  }
+
   void setLiquidityRemoveProcessStep(
     LiquidityRemoveProcessStep liquidityRemoveProcessStep,
   ) {
@@ -211,7 +219,9 @@ class LiquidityRemoveFormNotifier
     return true;
   }
 
-  Future<void> add(BuildContext context, WidgetRef ref) async {
+  Future<void> remove(BuildContext context, WidgetRef ref) async {
+    setLiquidityRemoveOk(false);
+
     if (control() == false) {
       return;
     }
@@ -222,9 +232,11 @@ class LiquidityRemoveFormNotifier
       ref,
       state.lpToken!.address!,
       state.lpTokenAmount,
+      recoveryStep: state.currentStep,
     );
-
+    setResumeProcess(false);
     setProcessInProgress(false);
+    setLiquidityRemoveOk(true);
   }
 }
 

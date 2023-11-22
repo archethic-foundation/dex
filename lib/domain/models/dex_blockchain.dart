@@ -12,6 +12,7 @@ class DexBlockchain with _$DexBlockchain {
     @Default('') String icon,
     @Default('') String urlExplorerAddress,
     @Default('') String urlExplorerTransaction,
+    @Default('') String urlExplorerChain,
     @Default('') String nativeCurrency,
   }) = _DexBlockchain;
 

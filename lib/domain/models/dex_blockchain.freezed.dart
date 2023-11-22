@@ -25,6 +25,7 @@ mixin _$DexBlockchain {
   String get icon => throw _privateConstructorUsedError;
   String get urlExplorerAddress => throw _privateConstructorUsedError;
   String get urlExplorerTransaction => throw _privateConstructorUsedError;
+  String get urlExplorerChain => throw _privateConstructorUsedError;
   String get nativeCurrency => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $DexBlockchainCopyWith<$Res> {
       String icon,
       String urlExplorerAddress,
       String urlExplorerTransaction,
+      String urlExplorerChain,
       String nativeCurrency});
 }
 
@@ -66,6 +68,7 @@ class _$DexBlockchainCopyWithImpl<$Res, $Val extends DexBlockchain>
     Object? icon = null,
     Object? urlExplorerAddress = null,
     Object? urlExplorerTransaction = null,
+    Object? urlExplorerChain = null,
     Object? nativeCurrency = null,
   }) {
     return _then(_value.copyWith(
@@ -89,6 +92,10 @@ class _$DexBlockchainCopyWithImpl<$Res, $Val extends DexBlockchain>
           ? _value.urlExplorerTransaction
           : urlExplorerTransaction // ignore: cast_nullable_to_non_nullable
               as String,
+      urlExplorerChain: null == urlExplorerChain
+          ? _value.urlExplorerChain
+          : urlExplorerChain // ignore: cast_nullable_to_non_nullable
+              as String,
       nativeCurrency: null == nativeCurrency
           ? _value.nativeCurrency
           : nativeCurrency // ignore: cast_nullable_to_non_nullable
@@ -111,6 +118,7 @@ abstract class _$$DexBlockchainImplCopyWith<$Res>
       String icon,
       String urlExplorerAddress,
       String urlExplorerTransaction,
+      String urlExplorerChain,
       String nativeCurrency});
 }
 
@@ -130,6 +138,7 @@ class __$$DexBlockchainImplCopyWithImpl<$Res>
     Object? icon = null,
     Object? urlExplorerAddress = null,
     Object? urlExplorerTransaction = null,
+    Object? urlExplorerChain = null,
     Object? nativeCurrency = null,
   }) {
     return _then(_$DexBlockchainImpl(
@@ -153,6 +162,10 @@ class __$$DexBlockchainImplCopyWithImpl<$Res>
           ? _value.urlExplorerTransaction
           : urlExplorerTransaction // ignore: cast_nullable_to_non_nullable
               as String,
+      urlExplorerChain: null == urlExplorerChain
+          ? _value.urlExplorerChain
+          : urlExplorerChain // ignore: cast_nullable_to_non_nullable
+              as String,
       nativeCurrency: null == nativeCurrency
           ? _value.nativeCurrency
           : nativeCurrency // ignore: cast_nullable_to_non_nullable
@@ -170,6 +183,7 @@ class _$DexBlockchainImpl extends _DexBlockchain {
       this.icon = '',
       this.urlExplorerAddress = '',
       this.urlExplorerTransaction = '',
+      this.urlExplorerChain = '',
       this.nativeCurrency = ''})
       : super._();
 
@@ -193,11 +207,14 @@ class _$DexBlockchainImpl extends _DexBlockchain {
   final String urlExplorerTransaction;
   @override
   @JsonKey()
+  final String urlExplorerChain;
+  @override
+  @JsonKey()
   final String nativeCurrency;
 
   @override
   String toString() {
-    return 'DexBlockchain(name: $name, env: $env, icon: $icon, urlExplorerAddress: $urlExplorerAddress, urlExplorerTransaction: $urlExplorerTransaction, nativeCurrency: $nativeCurrency)';
+    return 'DexBlockchain(name: $name, env: $env, icon: $icon, urlExplorerAddress: $urlExplorerAddress, urlExplorerTransaction: $urlExplorerTransaction, urlExplorerChain: $urlExplorerChain, nativeCurrency: $nativeCurrency)';
   }
 
   @override
@@ -212,14 +229,23 @@ class _$DexBlockchainImpl extends _DexBlockchain {
                 other.urlExplorerAddress == urlExplorerAddress) &&
             (identical(other.urlExplorerTransaction, urlExplorerTransaction) ||
                 other.urlExplorerTransaction == urlExplorerTransaction) &&
+            (identical(other.urlExplorerChain, urlExplorerChain) ||
+                other.urlExplorerChain == urlExplorerChain) &&
             (identical(other.nativeCurrency, nativeCurrency) ||
                 other.nativeCurrency == nativeCurrency));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, env, icon,
-      urlExplorerAddress, urlExplorerTransaction, nativeCurrency);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      env,
+      icon,
+      urlExplorerAddress,
+      urlExplorerTransaction,
+      urlExplorerChain,
+      nativeCurrency);
 
   @JsonKey(ignore: true)
   @override
@@ -242,6 +268,7 @@ abstract class _DexBlockchain extends DexBlockchain {
       final String icon,
       final String urlExplorerAddress,
       final String urlExplorerTransaction,
+      final String urlExplorerChain,
       final String nativeCurrency}) = _$DexBlockchainImpl;
   const _DexBlockchain._() : super._();
 
@@ -258,6 +285,8 @@ abstract class _DexBlockchain extends DexBlockchain {
   String get urlExplorerAddress;
   @override
   String get urlExplorerTransaction;
+  @override
+  String get urlExplorerChain;
   @override
   String get nativeCurrency;
   @override

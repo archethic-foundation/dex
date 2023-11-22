@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LiquidityRemoveFormState {
   LiquidityRemoveProcessStep get liquidityRemoveProcessStep =>
       throw _privateConstructorUsedError;
+  bool get resumeProcess => throw _privateConstructorUsedError;
+  int get currentStep => throw _privateConstructorUsedError;
   String get poolGenesisAddress => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get liquidityRemoveOk => throw _privateConstructorUsedError;
@@ -45,6 +47,8 @@ abstract class $LiquidityRemoveFormStateCopyWith<$Res> {
   @useResult
   $Res call(
       {LiquidityRemoveProcessStep liquidityRemoveProcessStep,
+      bool resumeProcess,
+      int currentStep,
       String poolGenesisAddress,
       bool isProcessInProgress,
       bool liquidityRemoveOk,
@@ -80,6 +84,8 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? liquidityRemoveProcessStep = null,
+    Object? resumeProcess = null,
+    Object? currentStep = null,
     Object? poolGenesisAddress = null,
     Object? isProcessInProgress = null,
     Object? liquidityRemoveOk = null,
@@ -99,6 +105,14 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
           ? _value.liquidityRemoveProcessStep
           : liquidityRemoveProcessStep // ignore: cast_nullable_to_non_nullable
               as LiquidityRemoveProcessStep,
+      resumeProcess: null == resumeProcess
+          ? _value.resumeProcess
+          : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentStep: null == currentStep
+          ? _value.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
       poolGenesisAddress: null == poolGenesisAddress
           ? _value.poolGenesisAddress
           : poolGenesisAddress // ignore: cast_nullable_to_non_nullable
@@ -214,6 +228,8 @@ abstract class _$$LiquidityRemoveFormStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {LiquidityRemoveProcessStep liquidityRemoveProcessStep,
+      bool resumeProcess,
+      int currentStep,
       String poolGenesisAddress,
       bool isProcessInProgress,
       bool liquidityRemoveOk,
@@ -252,6 +268,8 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? liquidityRemoveProcessStep = null,
+    Object? resumeProcess = null,
+    Object? currentStep = null,
     Object? poolGenesisAddress = null,
     Object? isProcessInProgress = null,
     Object? liquidityRemoveOk = null,
@@ -271,6 +289,14 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
           ? _value.liquidityRemoveProcessStep
           : liquidityRemoveProcessStep // ignore: cast_nullable_to_non_nullable
               as LiquidityRemoveProcessStep,
+      resumeProcess: null == resumeProcess
+          ? _value.resumeProcess
+          : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentStep: null == currentStep
+          ? _value.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
       poolGenesisAddress: null == poolGenesisAddress
           ? _value.poolGenesisAddress
           : poolGenesisAddress // ignore: cast_nullable_to_non_nullable
@@ -332,6 +358,8 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
 class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   const _$LiquidityRemoveFormStateImpl(
       {this.liquidityRemoveProcessStep = LiquidityRemoveProcessStep.form,
+      this.resumeProcess = false,
+      this.currentStep = 0,
       this.poolGenesisAddress = '',
       this.isProcessInProgress = false,
       this.liquidityRemoveOk = false,
@@ -350,6 +378,12 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   @override
   @JsonKey()
   final LiquidityRemoveProcessStep liquidityRemoveProcessStep;
+  @override
+  @JsonKey()
+  final bool resumeProcess;
+  @override
+  @JsonKey()
+  final int currentStep;
   @override
   @JsonKey()
   final String poolGenesisAddress;
@@ -388,7 +422,7 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
 
   @override
   String toString() {
-    return 'LiquidityRemoveFormState(liquidityRemoveProcessStep: $liquidityRemoveProcessStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, failure: $failure)';
+    return 'LiquidityRemoveFormState(liquidityRemoveProcessStep: $liquidityRemoveProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, failure: $failure)';
   }
 
   @override
@@ -400,6 +434,10 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
                     liquidityRemoveProcessStep) ||
                 other.liquidityRemoveProcessStep ==
                     liquidityRemoveProcessStep) &&
+            (identical(other.resumeProcess, resumeProcess) ||
+                other.resumeProcess == resumeProcess) &&
+            (identical(other.currentStep, currentStep) ||
+                other.currentStep == currentStep) &&
             (identical(other.poolGenesisAddress, poolGenesisAddress) ||
                 other.poolGenesisAddress == poolGenesisAddress) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
@@ -428,6 +466,8 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   int get hashCode => Object.hash(
       runtimeType,
       liquidityRemoveProcessStep,
+      resumeProcess,
+      currentStep,
       poolGenesisAddress,
       isProcessInProgress,
       liquidityRemoveOk,
@@ -453,6 +493,8 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
 abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
   const factory _LiquidityRemoveFormState(
       {final LiquidityRemoveProcessStep liquidityRemoveProcessStep,
+      final bool resumeProcess,
+      final int currentStep,
       final String poolGenesisAddress,
       final bool isProcessInProgress,
       final bool liquidityRemoveOk,
@@ -470,6 +512,10 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
 
   @override
   LiquidityRemoveProcessStep get liquidityRemoveProcessStep;
+  @override
+  bool get resumeProcess;
+  @override
+  int get currentStep;
   @override
   String get poolGenesisAddress;
   @override

@@ -13,6 +13,7 @@ _$DexBlockchainImpl _$$DexBlockchainImplFromJson(Map<String, dynamic> json) =>
       icon: json['icon'] as String? ?? '',
       urlExplorerAddress: json['urlExplorerAddress'] as String? ?? '',
       urlExplorerTransaction: json['urlExplorerTransaction'] as String? ?? '',
+      urlExplorerChain: json['urlExplorerChain'] as String? ?? '',
       nativeCurrency: json['nativeCurrency'] as String? ?? '',
     );
 
@@ -23,5 +24,6 @@ Map<String, dynamic> _$$DexBlockchainImplToJson(_$DexBlockchainImpl instance) =>
       'icon': instance.icon,
       'urlExplorerAddress': instance.urlExplorerAddress,
       'urlExplorerTransaction': instance.urlExplorerTransaction,
+      'urlExplorerChain': instance.urlExplorerChain,
       'nativeCurrency': instance.nativeCurrency,
     };

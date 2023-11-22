@@ -214,6 +214,14 @@ class LiquidityAddFormNotifier
     );
   }
 
+  void setCurrentStep(int currentStep) {
+    state = state.copyWith(currentStep: currentStep);
+  }
+
+  void setResumeProcess(bool resumeProcess) {
+    state = state.copyWith(resumeProcess: resumeProcess);
+  }
+
   void setProcessInProgress(bool isProcessInProgress) {
     state = state.copyWith(isProcessInProgress: isProcessInProgress);
   }
@@ -257,6 +265,8 @@ class LiquidityAddFormNotifier
   }
 
   Future<void> add(BuildContext context, WidgetRef ref) async {
+    setLiquidityAddOk(false);
+
     if (control() == false) {
       return;
     }
@@ -270,9 +280,12 @@ class LiquidityAddFormNotifier
       state.token2!,
       state.token2Amount,
       state.slippage,
+      recoveryStep: state.currentStep,
     );
 
+    setResumeProcess(false);
     setProcessInProgress(false);
+    setLiquidityAddOk(true);
   }
 }
 
