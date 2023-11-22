@@ -44,8 +44,8 @@ class ArchethicContract with TransactionDexMixin {
       dev.log('lpTokenAddress: $lpTokenAddress', name: logName);
 
       final poolInfosResult = await routerFactory.getPoolAddresses(
-        token1.address!,
-        token2.address!,
+        token1.isUCO ? 'UCO' : token1.address!,
+        token2.isUCO ? 'UCO' : token2.address!,
       );
       poolInfosResult.map(
         success: (success) {

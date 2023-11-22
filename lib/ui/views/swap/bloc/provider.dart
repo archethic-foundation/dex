@@ -41,7 +41,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     final balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
-        state.tokenToSwap!.address!,
+        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       ).future,
     );
     state = state.copyWith(tokenToSwapBalance: balance);
@@ -55,8 +55,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         final routerFactory =
             RouterFactory(dexConfig.routerGenesisAddress, apiService);
         final poolInfosResult = await routerFactory.getPoolAddresses(
-          state.tokenToSwap!.address!,
-          state.tokenSwapped!.address!,
+          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+          state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
         );
         poolInfosResult.map(
           success: (success) {
@@ -181,7 +181,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     final balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
-        state.tokenSwapped!.address!,
+        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
       ).future,
     );
     state = state.copyWith(tokenSwappedBalance: balance);
@@ -194,8 +194,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       final routerFactory =
           RouterFactory(dexConfig.routerGenesisAddress, apiService);
       final poolInfosResult = await routerFactory.getPoolAddresses(
-        state.tokenToSwap!.address!,
-        state.tokenSwapped!.address!,
+        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
       );
       poolInfosResult.map(
         success: (success) {

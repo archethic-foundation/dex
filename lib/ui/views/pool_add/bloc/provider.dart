@@ -29,6 +29,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     DexToken token,
   ) async {
     state = state.copyWith(
+      failure: null,
       token1: token,
     );
 
@@ -36,7 +37,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     final balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
-        token.address!,
+        token.isUCO ? 'UCO' : token.address!,
       ).future,
     );
     state = state.copyWith(token1Balance: balance);
@@ -46,6 +47,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     DexToken token,
   ) async {
     state = state.copyWith(
+      failure: null,
       token2: token,
     );
 
@@ -53,7 +55,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     final balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
-        token.address!,
+        token.isUCO ? 'UCO' : token.address!,
       ).future,
     );
     state = state.copyWith(token2Balance: balance);
@@ -87,6 +89,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     double amount,
   ) {
     state = state.copyWith(
+      failure: null,
       token1Amount: amount,
     );
   }
@@ -95,6 +98,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     double amount,
   ) {
     state = state.copyWith(
+      failure: null,
       token2Amount: amount,
     );
   }
@@ -119,6 +123,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
   void setPoolAddOk(bool poolAddOk) {
     state = state.copyWith(
+      failure: null,
       poolAddOk: poolAddOk,
     );
   }
@@ -144,7 +149,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   void setTokenFormSelected(int tokenFormSelected) {
-    state = state.copyWith(tokenFormSelected: tokenFormSelected);
+    state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
   }
 
   void setRecoveryTransactionAddPool(Transaction? recoveryTransactionAddPool) {
@@ -252,8 +257,8 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     final routerFactory =
         RouterFactory(dexConfig.routerGenesisAddress, apiService);
     final poolInfosResult = await routerFactory.getPoolAddresses(
-      state.token1!.address!,
-      state.token2!.address!,
+      state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+      state.token2!.isUCO ? 'UCO' : state.token2!.address!,
     );
     poolInfosResult.map(
       success: (success) {
@@ -261,9 +266,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
           setFailure(const PoolAlreadyExists());
         }
       },
-      failure: (failure) {
-        setFailure(failure);
-      },
+      failure: (failure) {},
     );
 
     if (state.failure != null) {

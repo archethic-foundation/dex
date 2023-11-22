@@ -157,14 +157,15 @@ class __$$DexTokenImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DexTokenImpl implements _DexToken {
+class _$DexTokenImpl extends _DexToken {
   const _$DexTokenImpl(
       {this.name = '',
       this.address,
       this.symbol = '',
       this.balance = 0.0,
       this.reserve = 0.0,
-      this.supply = 0.0});
+      this.supply = 0.0})
+      : super._();
 
   @override
   @JsonKey()
@@ -213,7 +214,7 @@ class _$DexTokenImpl implements _DexToken {
       __$$DexTokenImplCopyWithImpl<_$DexTokenImpl>(this, _$identity);
 }
 
-abstract class _DexToken implements DexToken {
+abstract class _DexToken extends DexToken {
   const factory _DexToken(
       {final String name,
       final String? address,
@@ -221,6 +222,7 @@ abstract class _DexToken implements DexToken {
       final double balance,
       final double reserve,
       final double supply}) = _$DexTokenImpl;
+  const _DexToken._() : super._();
 
   @override
   String get name;

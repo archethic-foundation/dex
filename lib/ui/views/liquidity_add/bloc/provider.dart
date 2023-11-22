@@ -39,7 +39,7 @@ class LiquidityAddFormNotifier
     final token1Balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
-        state.token1!.address!,
+        state.token1!.isUCO ? 'UCO' : state.token1!.address!,
       ).future,
     );
     state = state.copyWith(token1Balance: token1Balance);
@@ -47,7 +47,7 @@ class LiquidityAddFormNotifier
     final token2Balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
-        state.token2!.address!,
+        state.token2!.isUCO ? 'UCO' : state.token2!.address!,
       ).future,
     );
     state = state.copyWith(token2Balance: token2Balance);
