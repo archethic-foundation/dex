@@ -1,10 +1,13 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_pool.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -132,8 +135,48 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
+  void setCurrentStep(int currentStep) {
+    state = state.copyWith(currentStep: currentStep);
+  }
+
+  void setResumeProcess(bool resumeProcess) {
+    state = state.copyWith(resumeProcess: resumeProcess);
+  }
+
+  void setTokenFormSelected(int tokenFormSelected) {
+    state = state.copyWith(tokenFormSelected: tokenFormSelected);
+  }
+
+  void setRecoveryTransactionAddPool(Transaction? recoveryTransactionAddPool) {
+    state =
+        state.copyWith(recoveryTransactionAddPool: recoveryTransactionAddPool);
+  }
+
+  void setRecoveryTransactionAddPoolTransfer(
+    Transaction? recoveryTransactionAddPoolTransfer,
+  ) {
+    state = state.copyWith(
+      recoveryTransactionAddPoolTransfer: recoveryTransactionAddPoolTransfer,
+    );
+  }
+
+  void setRecoveryTransactionAddPoolLiquidity(
+    Transaction? recoveryTransactionAddPoolLiquidity,
+  ) {
+    state = state.copyWith(
+      recoveryTransactionAddPoolLiquidity: recoveryTransactionAddPoolLiquidity,
+    );
+  }
+
+  void setRecoveryPoolGenesisAddress(String? recoveryPoolGenesisAddress) {
+    state = state.copyWith(
+      recoveryPoolGenesisAddress: recoveryPoolGenesisAddress,
+    );
+  }
+
   Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+    final _control = await control(context);
+    if (_control == false) {
       return;
     }
 
@@ -142,7 +185,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  bool control(BuildContext context) {
+  Future<bool> control(BuildContext context) async {
     setFailure(null);
 
     if (state.token1 == null) {
@@ -201,15 +244,44 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return false;
     }
 
+    final dexConfig = await ref
+        .read(DexConfigProviders.dexConfigRepository)
+        .getDexConfig('devnet');
+
+    final apiService = sl.get<ApiService>();
+    final routerFactory =
+        RouterFactory(dexConfig.routerGenesisAddress, apiService);
+    final poolInfosResult = await routerFactory.getPoolAddresses(
+      state.token1!.address!,
+      state.token2!.address!,
+    );
+    poolInfosResult.map(
+      success: (success) {
+        if (success != null && success['address'] != null) {
+          setFailure(const PoolAlreadyExists());
+        }
+      },
+      failure: (failure) {
+        setFailure(failure);
+      },
+    );
+
+    if (state.failure != null) {
+      return false;
+    }
+
     return true;
   }
 
   Future<void> add(BuildContext context, WidgetRef ref) async {
-    if (control(context) == false) {
+    setPoolAddOk(false);
+    final _control = await control(context);
+    if (_control == false) {
       return;
     }
     setProcessInProgress(true);
 
+    // TODO(reddwarf03): get Env from Wallet
     final dexConfig = await ref
         .read(DexConfigProviders.dexConfigRepository)
         .getDexConfig('devnet');
@@ -222,9 +294,16 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       state.token2Amount,
       dexConfig.routerGenesisAddress,
       state.slippage,
+      recoveryStep: state.currentStep,
+      recoveryTransactionAddPool: state.recoveryTransactionAddPool,
+      recoveryTransactionAddPoolTransfer:
+          state.recoveryTransactionAddPoolTransfer,
+      recoveryTransactionAddPoolLiquidity:
+          state.recoveryTransactionAddPoolLiquidity,
     );
-
+    setResumeProcess(false);
     setProcessInProgress(false);
+    setPoolAddOk(true);
   }
 }
 

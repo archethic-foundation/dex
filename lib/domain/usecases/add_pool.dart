@@ -1,16 +1,15 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:developer' as dev;
-import 'dart:math';
-import 'dart:typed_data';
 
-import 'package:aedex/application/pool_factory.dart';
-import 'package:aedex/application/router_factory.dart';
+import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'AddPoolCase';
@@ -23,222 +22,228 @@ class AddPoolCase with TransactionDexMixin {
     DexToken token2,
     double token2Amount,
     String routerAddress,
-    double slippage,
-  ) async {
-    dev.log('Token1 address: ${token1.address}', name: logName);
-    dev.log('Token2 address: ${token2.address}', name: logName);
+    double slippage, {
+    int recoveryStep = 0,
+    archethic.Transaction? recoveryTransactionAddPool,
+    archethic.Transaction? recoveryTransactionAddPoolTransfer,
+    archethic.Transaction? recoveryTransactionAddPoolLiquidity,
+    String? recoveryPoolGenesisAddress,
+  }) async {
+    final archethicContract = ArchethicContract();
+    final poolAddNotifier = ref.read(PoolAddFormProvider.poolAddForm.notifier);
 
-    final poolSeed = archethic.generateRandomSeed();
-    final poolGenesisAddress =
-        archethic.deriveAddress(poolSeed, 0).toUpperCase();
-    final lpTokenAddress = archethic.deriveAddress(poolSeed, 1).toUpperCase();
-    final apiService = sl.get<archethic.ApiService>();
-    final routerFactory = RouterFactory(routerAddress, apiService);
-    dev.log('Router address: $routerAddress', name: logName);
+    archethic.Transaction? transactionAddPool;
+    archethic.Transaction? transactionAddPoolTransfer;
+    archethic.Transaction? transactionAddPoolLiquidity;
+    String? poolGenesisAddress;
+    if (recoveryTransactionAddPool != null) {
+      transactionAddPool = recoveryTransactionAddPool;
+    }
+    if (recoveryTransactionAddPoolTransfer != null) {
+      transactionAddPoolTransfer = recoveryTransactionAddPoolTransfer;
+    }
+    if (recoveryTransactionAddPoolLiquidity != null) {
+      transactionAddPoolLiquidity = recoveryTransactionAddPoolLiquidity;
+    }
+    if (recoveryPoolGenesisAddress != null) {
+      poolGenesisAddress = recoveryPoolGenesisAddress;
+    }
+    if (recoveryStep <= 1) {
+      poolAddNotifier.setCurrentStep(1);
+      try {
+        final poolSeed = archethic.generateRandomSeed();
+        poolGenesisAddress = archethic.deriveAddress(poolSeed, 0).toUpperCase();
+        poolAddNotifier.setRecoveryPoolGenesisAddress(poolGenesisAddress);
 
-    dev.log('poolGenesisAddress : $poolGenesisAddress', name: logName);
-    dev.log('lpTokenAddress: $lpTokenAddress', name: logName);
+        final lpTokenAddress =
+            archethic.deriveAddress(poolSeed, 1).toUpperCase();
+        final transactionAddPoolMap = await archethicContract.getAddPoolTx(
+          routerAddress,
+          token1,
+          token2,
+          poolSeed,
+          poolGenesisAddress,
+          lpTokenAddress,
+        );
 
-    final poolInfosResult =
-        await routerFactory.getPoolAddresses(token1.address!, token2.address!);
-    poolInfosResult.map(
-      success: (success) {
-        if (success == null) {
-          throw const Failure.other(
-            cause: 'Pool already exists for these tokens',
-          );
-        }
-      },
-      failure: (failure) {
+        transactionAddPoolMap.map(
+          success: (success) {
+            transactionAddPool = success;
+            poolAddNotifier
+                .setRecoveryTransactionAddPool(recoveryTransactionAddPool);
+          },
+          failure: (failure) {
+            poolAddNotifier
+              ..setFailure(failure)
+              ..setProcessInProgress(false);
+            throw failure;
+          },
+        );
+      } catch (e) {
         return;
-      },
-    );
+      }
+    }
 
-    String? poolCode;
-    final resultPoolCode = await routerFactory.getPoolCode(
-      token1.address!,
-      token2.address!,
-      poolGenesisAddress,
-      lpTokenAddress,
-    );
-    resultPoolCode.map(
-      success: (success) {
-        if (success.isEmpty) {
-          throw const Failure.other(cause: 'pb poolCode');
-        }
-        poolCode = success;
-      },
-      failure: (failure) {
-        throw const Failure.other(cause: 'pb poolCode');
-      },
-    );
+    if (recoveryStep <= 2) {
+      poolAddNotifier.setCurrentStep(2);
+      try {
+        final transactionAddPoolTransferMap =
+            await archethicContract.getAddPoolTxTransfer(
+          transactionAddPool!,
+          poolGenesisAddress!,
+        );
 
-    String? tokenDefinition;
-    final resultLPTokenDefinition =
-        await routerFactory.getLPTokenDefinition(token1.symbol, token2.symbol);
-    resultLPTokenDefinition.map(
-      success: (success) {
-        tokenDefinition = success;
-      },
-      failure: (failure) {
+        transactionAddPoolTransferMap.map(
+          success: (success) {
+            transactionAddPoolTransfer = success;
+            poolAddNotifier.setRecoveryTransactionAddPoolTransfer(
+              transactionAddPoolTransfer,
+            );
+          },
+          failure: (failure) {
+            poolAddNotifier
+              ..setFailure(failure)
+              ..setProcessInProgress(false);
+            throw failure;
+          },
+        );
+      } catch (e) {
         return;
-      },
-    );
-
-    final storageNoncePublicKey = await apiService.getStorageNoncePublicKey();
-    final aesKey = archethic.uint8ListToHex(
-      Uint8List.fromList(
-        List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
-      ),
-    );
-    final authorizedKey = archethic.AuthorizedKey(
-      encryptedSecretKey: archethic
-          .uint8ListToHex(archethic.ecEncrypt(aesKey, storageNoncePublicKey)),
-      publicKey: storageNoncePublicKey,
-    );
-
-    final blockchainTxVersion = int.parse(
-      (await apiService.getBlockchainVersion()).version.transaction,
-    );
-    final originPrivateKey = apiService.getOriginKey();
-
-    final transactionPool = archethic.Transaction(
-      type: 'token',
-      version: blockchainTxVersion,
-      data: archethic.Transaction.initData(),
-    )
-        .setContent(tokenDefinition!)
-        .setCode(poolCode!)
-        .addOwnership(
-          archethic.uint8ListToHex(
-            archethic.aesEncrypt(poolSeed, aesKey),
-          ),
-          [authorizedKey],
-        )
-        .build(poolSeed, 0)
-        .transaction
-        .originSign(originPrivateKey);
-
-    dev.log(
-      'transactionPool address ${transactionPool.address!.address}',
-      name: logName,
-    );
-
-    final feesToken = await calculateFees(transactionPool);
-    dev.log('feesToken: $feesToken', name: logName);
-
-    var transactionTransfer = archethic.Transaction(
-      type: 'transfer',
-      version: blockchainTxVersion,
-      data: archethic.Transaction.initData(),
-    ).addUCOTransfer(poolGenesisAddress, archethic.toBigInt(feesToken));
-
-    try {
-      final currentNameAccount = await getCurrentAccount();
-      transactionTransfer = (await signTx(
-        Uri.encodeFull('archethic-wallet-$currentNameAccount'),
-        '',
-        [transactionTransfer],
-      ))
-          .first;
-    } catch (e) {
-      dev.log('Signature failed', name: logName);
-      throw const Failure.userRejected();
+      }
     }
 
-    await sendTransactions(
-      <archethic.Transaction>[
-        transactionTransfer,
-        transactionPool,
-      ],
-    );
+    if (recoveryStep <= 3) {
+      poolAddNotifier.setCurrentStep(3);
+      try {
+        final currentNameAccount = await getCurrentAccount();
+        ref
+            .read(PoolAddFormProvider.poolAddForm.notifier)
+            .setWalletConfirmation(true);
 
-    var expectedTokenLP = sqrt(token1Amount * token2Amount);
-    final expectedTokenLPResult = await PoolFactory(
-      poolGenesisAddress,
-      apiService,
-    ).getLPTokenToMint(token1Amount, token2Amount);
-    expectedTokenLPResult.map(
-      success: (success) {
-        if (success != null) {
-          expectedTokenLP = success;
-          dev.log('expectedTokenLP: $expectedTokenLP', name: logName);
-        } else {
-          dev.log('expectedTokenLP: null', name: logName);
+        transactionAddPoolTransfer = (await signTx(
+          Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+          '',
+          [transactionAddPoolTransfer!],
+        ))
+            .first;
+
+        ref
+            .read(PoolAddFormProvider.poolAddForm.notifier)
+            .setWalletConfirmation(false);
+      } catch (e) {
+        dev.log('Signature failed $e', name: logName);
+        if (e is Failure) {
+          ref.read(PoolAddFormProvider.poolAddForm.notifier).setFailure(e);
+          return;
         }
-      },
-      failure: (failure) {
-        dev.log('expectedTokenLP failure: $failure', name: logName);
-      },
-    );
+        ref
+            .read(PoolAddFormProvider.poolAddForm.notifier)
+            .setFailure(Failure.other(cause: e.toString()));
 
-    final token1minAmount = token1Amount * ((100 - slippage) / 100);
-    final token2minAmount = token2Amount * ((100 - slippage) / 100);
-
-    var transactionAdd = archethic.Transaction(
-      type: 'transfer',
-      version: blockchainTxVersion,
-      data: archethic.Transaction.initData(),
-    ).addRecipient(
-      poolGenesisAddress,
-      action: 'add_liquidity',
-      args: [
-        token1minAmount,
-        token2minAmount,
-      ],
-    ).addRecipient(
-      routerAddress,
-      action: 'add_pool',
-      args: [
-        token1.address!,
-        token2.address!,
-        transactionPool.address!.address!.toUpperCase(),
-      ],
-    );
-
-    if (token1.address == 'UCO') {
-      transactionAdd.addUCOTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token1Amount),
-      );
-    } else {
-      transactionAdd.addTokenTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token1Amount),
-        token1.address!,
+        return;
+      }
+      await sendTransactions(
+        <archethic.Transaction>[
+          transactionAddPoolTransfer!,
+          transactionAddPool!,
+        ],
       );
     }
 
-    if (token2.address == 'UCO') {
-      transactionAdd.addUCOTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token2Amount),
-      );
-    } else {
-      transactionAdd.addTokenTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token2Amount),
-        token2.address!,
-      );
+    if (recoveryStep <= 4) {
+      poolAddNotifier.setCurrentStep(4);
+      try {
+        final transactionAddPoolLiquidityMap =
+            await archethicContract.getAddPoolPlusLiquidityTx(
+          routerAddress,
+          transactionAddPool!.address!.address!,
+          token1,
+          token1Amount,
+          token2,
+          token2Amount,
+          poolGenesisAddress!,
+          slippage,
+        );
+
+        transactionAddPoolLiquidityMap.map(
+          success: (success) {
+            transactionAddPoolLiquidity = success;
+            poolAddNotifier.setRecoveryTransactionAddPoolLiquidity(
+              transactionAddPoolLiquidity,
+            );
+          },
+          failure: (failure) {
+            poolAddNotifier
+              ..setFailure(failure)
+              ..setProcessInProgress(false);
+            throw failure;
+          },
+        );
+      } catch (e) {
+        return;
+      }
     }
 
-    try {
-      final currentNameAccount = await getCurrentAccount();
-      transactionAdd = (await signTx(
-        Uri.encodeFull('archethic-wallet-$currentNameAccount'),
-        '',
-        [transactionAdd],
-      ))
-          .first;
-    } catch (e) {
-      dev.log('Signature failed', name: logName);
-      throw const Failure.userRejected();
-    }
+    if (recoveryStep <= 5) {
+      poolAddNotifier.setCurrentStep(5);
+      try {
+        final currentNameAccount = await getCurrentAccount();
+        ref
+            .read(PoolAddFormProvider.poolAddForm.notifier)
+            .setWalletConfirmation(true);
 
-    await sendTransactions(
-      <archethic.Transaction>[
-        transactionAdd,
-      ],
-    );
+        transactionAddPoolLiquidity = (await signTx(
+          Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+          '',
+          [transactionAddPoolLiquidity!],
+        ))
+            .first;
+
+        ref
+            .read(PoolAddFormProvider.poolAddForm.notifier)
+            .setWalletConfirmation(false);
+      } catch (e) {
+        dev.log('Signature failed $e', name: logName);
+        if (e is Failure) {
+          ref.read(PoolAddFormProvider.poolAddForm.notifier).setFailure(e);
+          return;
+        }
+        ref
+            .read(PoolAddFormProvider.poolAddForm.notifier)
+            .setFailure(Failure.other(cause: e.toString()));
+
+        return;
+      }
+
+      await sendTransactions(
+        <archethic.Transaction>[
+          transactionAddPoolLiquidity!,
+        ],
+      );
+
+      poolAddNotifier.setCurrentStep(6);
+    }
+  }
+
+  String getAEStepLabel(
+    BuildContext context,
+    int step,
+  ) {
+    switch (step) {
+      case 1:
+        return AppLocalizations.of(context)!.addPoolProcessStep1;
+      case 2:
+        return AppLocalizations.of(context)!.addPoolProcessStep2;
+      case 3:
+        return AppLocalizations.of(context)!.addPoolProcessStep3;
+      case 4:
+        return AppLocalizations.of(context)!.addPoolProcessStep4;
+      case 5:
+        return AppLocalizations.of(context)!.addPoolProcessStep5;
+      case 6:
+        return AppLocalizations.of(context)!.addPoolProcessStep6;
+      default:
+        return AppLocalizations.of(context)!.addPoolProcessStep0;
+    }
   }
 }

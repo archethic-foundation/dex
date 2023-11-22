@@ -2,7 +2,7 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_popup.dart';
+import 'package:aedex/ui/views/pool_add_in_progress/pool_add_in_progress_popup.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,4 @@
 import 'package:aedex/application/dex_blockchain.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:aedex/util/address_util.dart';
 import 'package:aedex/util/endpoint_util.dart';
@@ -14,36 +13,40 @@ enum TypeAddress { address, transaction }
 class FormatAddressLinkCopy extends ConsumerWidget {
   const FormatAddressLinkCopy({
     required this.address,
+    required this.chainId,
     this.reduceAddress = false,
     this.fontSize = 13,
     this.typeAddress = TypeAddress.address,
+    this.header,
     super.key,
   });
 
+  final int chainId;
   final String address;
   final bool reduceAddress;
   final double fontSize;
   final TypeAddress typeAddress;
+  final String? header;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Widget _address() {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 2.3),
-        child: Text(
-          reduceAddress ? AddressUtil.reduceAddress(address) : address,
-          style: TextStyle(
-            fontSize: fontSize,
-            fontFamily: DexThemeBase.addressFont,
-          ),
-        ),
-      );
-    }
-
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        _address(),
+        if (header != null)
+          SelectableText(
+            '$header ${reduceAddress ? AddressUtil.reduceAddress(address) : address}',
+            style: TextStyle(
+              fontSize: fontSize,
+            ),
+          )
+        else
+          SelectableText(
+            reduceAddress ? AddressUtil.reduceAddress(address) : address,
+            style: TextStyle(
+              fontSize: fontSize,
+            ),
+          ),
         const SizedBox(width: 5),
         InkWell(
           onTap: () {

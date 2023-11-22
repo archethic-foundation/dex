@@ -9,11 +9,11 @@ environment:
 
 dependencies:
   # A client dart library to interact with Archethic Wallet RPC API.
-  #archethic_wallet_client: ^1.0.7
-  archethic_wallet_client:
-    git:
-      url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
-      ref: dev
+  archethic_wallet_client: ^1.0.8
+  #archethic_wallet_client:
+  #  git:
+  #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
+  #    ref: dev
 
   # Centralized loading widget management
   busy: ^1.0.3
@@ -24,7 +24,8 @@ dependencies:
   # Collections and utilities functions and classes related to collections.
   collection: ^1.17.0
 
-  crypto_font_icons: ^1.0.1
+  # The decimal package allows you to deal with decimal numbers without losing precision
+  decimal: ^2.3.3
 
   flutter:
     sdk: flutter
@@ -77,6 +78,9 @@ dependencies:
 
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.2.1
+
+  # Wave animation
+  wave: ^0.2.2
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.

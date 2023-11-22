@@ -67,6 +67,18 @@ Map<String, dynamic> _$$ServiceAlreadyExistsImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$PoolAlreadyExistsImpl _$$PoolAlreadyExistsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PoolAlreadyExistsImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$PoolAlreadyExistsImplToJson(
+        _$PoolAlreadyExistsImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$InsufficientFundsImpl _$$InsufficientFundsImplFromJson(
         Map<String, dynamic> json) =>
     _$InsufficientFundsImpl(

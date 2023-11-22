@@ -1,10 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_circular_step_progress_indicator.dart';
-import 'package:aedex/ui/views/util/components/failure_message.dart';
-import 'package:aedex/ui/views/util/components/in_progress_banner.dart';
+import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_add_in_progress/components/pool_add_in_progress_circular_step_progress_indicator.dart';
+import 'package:aedex/ui/views/pool_add_in_progress/components/pool_add_in_progress_current_step.dart';
+import 'package:aedex/ui/views/pool_add_in_progress/components/pool_add_in_progress_infos_banner.dart';
+import 'package:aedex/ui/views/pool_add_in_progress/components/pool_add_in_progress_resume_btn.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/popup_close_button.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
-class SwapInProgressPopup {
+class PoolAddInProgressPopup {
   static Future<void> getDialog(
     BuildContext context,
     WidgetRef ref,
@@ -26,7 +29,7 @@ class SwapInProgressPopup {
             builder: (context) {
               return Consumer(
                 builder: (context, ref, _) {
-                  final swap = ref.watch(SwapFormProvider.swapForm);
+                  final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
                   return Scaffold(
                     backgroundColor: Colors.transparent.withAlpha(120),
                     body: AlertDialog(
@@ -117,37 +120,18 @@ class SwapInProgressPopup {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(20),
+                                  const Padding(
+                                    padding: EdgeInsets.all(20),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        const SwapCircularStepProgressIndicator(),
-                                        InProgressBanner(
-                                          stepLabel: swap.isProcessInProgress
-                                              ? AppLocalizations.of(context)!
-                                                  .swapProcessInProgress
-                                              : '',
-                                          infoMessage: swap
-                                                      .walletConfirmation ==
-                                                  true
-                                              ? AppLocalizations.of(context)!
-                                                  .swapInProgressConfirmAEWallet
-                                              : swap.swapOk == true
-                                                  ? AppLocalizations.of(
-                                                      context,
-                                                    )!
-                                                      .swapSuccessInfo
-                                                  : '',
-                                          errorMessage: swap.failure != null
-                                              ? FailureMessage(
-                                                  context: context,
-                                                  failure: swap.failure,
-                                                ).getMessage()
-                                              : '',
-                                        ),
+                                        PoolAddInProgressCircularStepProgressIndicator(),
+                                        PoolAddInProgressCurrentStep(),
+                                        PoolAddInProgressInfosBanner(),
+                                        Spacer(),
+                                        PoolAddInProgressResumeBtn(),
                                       ],
                                     ),
                                   ),
@@ -158,20 +142,27 @@ class SwapInProgressPopup {
                           Positioned(
                             right: 0,
                             child: PopupCloseButton(
-                              warningCloseWarning: swap.isProcessInProgress,
+                              warningCloseWarning: poolAdd.isProcessInProgress,
                               warningCloseLabel:
-                                  swap.isProcessInProgress == true
+                                  poolAdd.isProcessInProgress == true
                                       ? AppLocalizations.of(context)!
-                                          .swapProcessInterruptionWarning
+                                          .poolAddProcessInterruptionWarning
                                       : '',
                               warningCloseFunction: () {
                                 ref.read(
-                                  SwapFormProvider.swapForm.notifier,
+                                  PoolAddFormProvider.poolAddForm.notifier,
                                 )
                                   ..setProcessInProgress(false)
                                   ..setFailure(null)
-                                  ..setSwapOk(false)
+                                  ..setPoolAddOk(false)
                                   ..setWalletConfirmation(false);
+                                ref
+                                    .read(
+                                      MainScreenWidgetDisplayedProviders
+                                          .mainScreenWidgetDisplayedProvider
+                                          .notifier,
+                                    )
+                                    .setWidget(const PoolListSheet(), ref);
                               },
                             ),
                           ),

@@ -109,7 +109,7 @@ class _SwapTokenSwappedAmountState
                         autocorrect: false,
                         controller: tokenSwappedAmountController,
                         onChanged: (text) async {
-                          swapNotifier.setTokenSwappedAmount(
+                          await swapNotifier.setTokenSwappedAmount(
                             double.tryParse(text.replaceAll(' ', '')) ?? 0,
                           );
                         },

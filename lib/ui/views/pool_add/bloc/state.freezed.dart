@@ -18,6 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PoolAddFormState {
   PoolAddProcessStep get poolAddProcessStep =>
       throw _privateConstructorUsedError;
+  bool get resumeProcess => throw _privateConstructorUsedError;
+  int get currentStep => throw _privateConstructorUsedError;
+  int get tokenFormSelected => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get poolAddOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
@@ -29,6 +32,13 @@ mixin _$PoolAddFormState {
   double get token2Balance => throw _privateConstructorUsedError;
   double get token2Amount => throw _privateConstructorUsedError;
   double get networkFees => throw _privateConstructorUsedError;
+  Transaction? get recoveryTransactionAddPool =>
+      throw _privateConstructorUsedError;
+  Transaction? get recoveryTransactionAddPoolTransfer =>
+      throw _privateConstructorUsedError;
+  Transaction? get recoveryTransactionAddPoolLiquidity =>
+      throw _privateConstructorUsedError;
+  String? get recoveryPoolGenesisAddress => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -44,6 +54,9 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
   @useResult
   $Res call(
       {PoolAddProcessStep poolAddProcessStep,
+      bool resumeProcess,
+      int currentStep,
+      int tokenFormSelected,
       bool isProcessInProgress,
       bool poolAddOk,
       bool walletConfirmation,
@@ -55,10 +68,17 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
       double token2Balance,
       double token2Amount,
       double networkFees,
+      Transaction? recoveryTransactionAddPool,
+      Transaction? recoveryTransactionAddPoolTransfer,
+      Transaction? recoveryTransactionAddPoolLiquidity,
+      String? recoveryPoolGenesisAddress,
       Failure? failure});
 
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPool;
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPoolTransfer;
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPoolLiquidity;
   $FailureCopyWith<$Res>? get failure;
 }
 
@@ -76,6 +96,9 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
   @override
   $Res call({
     Object? poolAddProcessStep = null,
+    Object? resumeProcess = null,
+    Object? currentStep = null,
+    Object? tokenFormSelected = null,
     Object? isProcessInProgress = null,
     Object? poolAddOk = null,
     Object? walletConfirmation = null,
@@ -87,6 +110,10 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     Object? token2Balance = null,
     Object? token2Amount = null,
     Object? networkFees = null,
+    Object? recoveryTransactionAddPool = freezed,
+    Object? recoveryTransactionAddPoolTransfer = freezed,
+    Object? recoveryTransactionAddPoolLiquidity = freezed,
+    Object? recoveryPoolGenesisAddress = freezed,
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
@@ -94,6 +121,18 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
           ? _value.poolAddProcessStep
           : poolAddProcessStep // ignore: cast_nullable_to_non_nullable
               as PoolAddProcessStep,
+      resumeProcess: null == resumeProcess
+          ? _value.resumeProcess
+          : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentStep: null == currentStep
+          ? _value.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
+      tokenFormSelected: null == tokenFormSelected
+          ? _value.tokenFormSelected
+          : tokenFormSelected // ignore: cast_nullable_to_non_nullable
+              as int,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -138,6 +177,24 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
           ? _value.networkFees
           : networkFees // ignore: cast_nullable_to_non_nullable
               as double,
+      recoveryTransactionAddPool: freezed == recoveryTransactionAddPool
+          ? _value.recoveryTransactionAddPool
+          : recoveryTransactionAddPool // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
+      recoveryTransactionAddPoolTransfer: freezed ==
+              recoveryTransactionAddPoolTransfer
+          ? _value.recoveryTransactionAddPoolTransfer
+          : recoveryTransactionAddPoolTransfer // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
+      recoveryTransactionAddPoolLiquidity: freezed ==
+              recoveryTransactionAddPoolLiquidity
+          ? _value.recoveryTransactionAddPoolLiquidity
+          : recoveryTransactionAddPoolLiquidity // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
+      recoveryPoolGenesisAddress: freezed == recoveryPoolGenesisAddress
+          ? _value.recoveryPoolGenesisAddress
+          : recoveryPoolGenesisAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -171,6 +228,47 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
 
   @override
   @pragma('vm:prefer-inline')
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPool {
+    if (_value.recoveryTransactionAddPool == null) {
+      return null;
+    }
+
+    return $TransactionCopyWith<$Res>(_value.recoveryTransactionAddPool!,
+        (value) {
+      return _then(_value.copyWith(recoveryTransactionAddPool: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPoolTransfer {
+    if (_value.recoveryTransactionAddPoolTransfer == null) {
+      return null;
+    }
+
+    return $TransactionCopyWith<$Res>(
+        _value.recoveryTransactionAddPoolTransfer!, (value) {
+      return _then(
+          _value.copyWith(recoveryTransactionAddPoolTransfer: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPoolLiquidity {
+    if (_value.recoveryTransactionAddPoolLiquidity == null) {
+      return null;
+    }
+
+    return $TransactionCopyWith<$Res>(
+        _value.recoveryTransactionAddPoolLiquidity!, (value) {
+      return _then(
+          _value.copyWith(recoveryTransactionAddPoolLiquidity: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
     if (_value.failure == null) {
       return null;
@@ -192,6 +290,9 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {PoolAddProcessStep poolAddProcessStep,
+      bool resumeProcess,
+      int currentStep,
+      int tokenFormSelected,
       bool isProcessInProgress,
       bool poolAddOk,
       bool walletConfirmation,
@@ -203,12 +304,22 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
       double token2Balance,
       double token2Amount,
       double networkFees,
+      Transaction? recoveryTransactionAddPool,
+      Transaction? recoveryTransactionAddPoolTransfer,
+      Transaction? recoveryTransactionAddPoolLiquidity,
+      String? recoveryPoolGenesisAddress,
       Failure? failure});
 
   @override
   $DexTokenCopyWith<$Res>? get token1;
   @override
   $DexTokenCopyWith<$Res>? get token2;
+  @override
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPool;
+  @override
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPoolTransfer;
+  @override
+  $TransactionCopyWith<$Res>? get recoveryTransactionAddPoolLiquidity;
   @override
   $FailureCopyWith<$Res>? get failure;
 }
@@ -225,6 +336,9 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? poolAddProcessStep = null,
+    Object? resumeProcess = null,
+    Object? currentStep = null,
+    Object? tokenFormSelected = null,
     Object? isProcessInProgress = null,
     Object? poolAddOk = null,
     Object? walletConfirmation = null,
@@ -236,6 +350,10 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
     Object? token2Balance = null,
     Object? token2Amount = null,
     Object? networkFees = null,
+    Object? recoveryTransactionAddPool = freezed,
+    Object? recoveryTransactionAddPoolTransfer = freezed,
+    Object? recoveryTransactionAddPoolLiquidity = freezed,
+    Object? recoveryPoolGenesisAddress = freezed,
     Object? failure = freezed,
   }) {
     return _then(_$PoolAddFormStateImpl(
@@ -243,6 +361,18 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
           ? _value.poolAddProcessStep
           : poolAddProcessStep // ignore: cast_nullable_to_non_nullable
               as PoolAddProcessStep,
+      resumeProcess: null == resumeProcess
+          ? _value.resumeProcess
+          : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentStep: null == currentStep
+          ? _value.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
+      tokenFormSelected: null == tokenFormSelected
+          ? _value.tokenFormSelected
+          : tokenFormSelected // ignore: cast_nullable_to_non_nullable
+              as int,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -287,6 +417,24 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
           ? _value.networkFees
           : networkFees // ignore: cast_nullable_to_non_nullable
               as double,
+      recoveryTransactionAddPool: freezed == recoveryTransactionAddPool
+          ? _value.recoveryTransactionAddPool
+          : recoveryTransactionAddPool // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
+      recoveryTransactionAddPoolTransfer: freezed ==
+              recoveryTransactionAddPoolTransfer
+          ? _value.recoveryTransactionAddPoolTransfer
+          : recoveryTransactionAddPoolTransfer // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
+      recoveryTransactionAddPoolLiquidity: freezed ==
+              recoveryTransactionAddPoolLiquidity
+          ? _value.recoveryTransactionAddPoolLiquidity
+          : recoveryTransactionAddPoolLiquidity // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
+      recoveryPoolGenesisAddress: freezed == recoveryPoolGenesisAddress
+          ? _value.recoveryPoolGenesisAddress
+          : recoveryPoolGenesisAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -300,6 +448,9 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
 class _$PoolAddFormStateImpl extends _PoolAddFormState {
   const _$PoolAddFormStateImpl(
       {this.poolAddProcessStep = PoolAddProcessStep.form,
+      this.resumeProcess = false,
+      this.currentStep = 0,
+      this.tokenFormSelected = 1,
       this.isProcessInProgress = false,
       this.poolAddOk = false,
       this.walletConfirmation = false,
@@ -311,12 +462,25 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
       this.token2Balance = 0.0,
       this.token2Amount = 0.0,
       this.networkFees = 0.0,
+      this.recoveryTransactionAddPool,
+      this.recoveryTransactionAddPoolTransfer,
+      this.recoveryTransactionAddPoolLiquidity,
+      this.recoveryPoolGenesisAddress,
       this.failure})
       : super._();
 
   @override
   @JsonKey()
   final PoolAddProcessStep poolAddProcessStep;
+  @override
+  @JsonKey()
+  final bool resumeProcess;
+  @override
+  @JsonKey()
+  final int currentStep;
+  @override
+  @JsonKey()
+  final int tokenFormSelected;
   @override
   @JsonKey()
   final bool isProcessInProgress;
@@ -349,11 +513,19 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
   @JsonKey()
   final double networkFees;
   @override
+  final Transaction? recoveryTransactionAddPool;
+  @override
+  final Transaction? recoveryTransactionAddPoolTransfer;
+  @override
+  final Transaction? recoveryTransactionAddPoolLiquidity;
+  @override
+  final String? recoveryPoolGenesisAddress;
+  @override
   final Failure? failure;
 
   @override
   String toString() {
-    return 'PoolAddFormState(poolAddProcessStep: $poolAddProcessStep, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, failure: $failure)';
+    return 'PoolAddFormState(poolAddProcessStep: $poolAddProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, recoveryTransactionAddPool: $recoveryTransactionAddPool, recoveryTransactionAddPoolTransfer: $recoveryTransactionAddPoolTransfer, recoveryTransactionAddPoolLiquidity: $recoveryTransactionAddPoolLiquidity, recoveryPoolGenesisAddress: $recoveryPoolGenesisAddress, failure: $failure)';
   }
 
   @override
@@ -363,6 +535,12 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
             other is _$PoolAddFormStateImpl &&
             (identical(other.poolAddProcessStep, poolAddProcessStep) ||
                 other.poolAddProcessStep == poolAddProcessStep) &&
+            (identical(other.resumeProcess, resumeProcess) ||
+                other.resumeProcess == resumeProcess) &&
+            (identical(other.currentStep, currentStep) ||
+                other.currentStep == currentStep) &&
+            (identical(other.tokenFormSelected, tokenFormSelected) ||
+                other.tokenFormSelected == tokenFormSelected) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
                 other.isProcessInProgress == isProcessInProgress) &&
             (identical(other.poolAddOk, poolAddOk) ||
@@ -383,25 +561,49 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
                 other.token2Amount == token2Amount) &&
             (identical(other.networkFees, networkFees) ||
                 other.networkFees == networkFees) &&
+            (identical(other.recoveryTransactionAddPool,
+                    recoveryTransactionAddPool) ||
+                other.recoveryTransactionAddPool ==
+                    recoveryTransactionAddPool) &&
+            (identical(other.recoveryTransactionAddPoolTransfer,
+                    recoveryTransactionAddPoolTransfer) ||
+                other.recoveryTransactionAddPoolTransfer ==
+                    recoveryTransactionAddPoolTransfer) &&
+            (identical(other.recoveryTransactionAddPoolLiquidity,
+                    recoveryTransactionAddPoolLiquidity) ||
+                other.recoveryTransactionAddPoolLiquidity ==
+                    recoveryTransactionAddPoolLiquidity) &&
+            (identical(other.recoveryPoolGenesisAddress,
+                    recoveryPoolGenesisAddress) ||
+                other.recoveryPoolGenesisAddress ==
+                    recoveryPoolGenesisAddress) &&
             (identical(other.failure, failure) || other.failure == failure));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      poolAddProcessStep,
-      isProcessInProgress,
-      poolAddOk,
-      walletConfirmation,
-      token1,
-      token2,
-      slippage,
-      token1Balance,
-      token1Amount,
-      token2Balance,
-      token2Amount,
-      networkFees,
-      failure);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        poolAddProcessStep,
+        resumeProcess,
+        currentStep,
+        tokenFormSelected,
+        isProcessInProgress,
+        poolAddOk,
+        walletConfirmation,
+        token1,
+        token2,
+        slippage,
+        token1Balance,
+        token1Amount,
+        token2Balance,
+        token2Amount,
+        networkFees,
+        recoveryTransactionAddPool,
+        recoveryTransactionAddPoolTransfer,
+        recoveryTransactionAddPoolLiquidity,
+        recoveryPoolGenesisAddress,
+        failure
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -414,6 +616,9 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
 abstract class _PoolAddFormState extends PoolAddFormState {
   const factory _PoolAddFormState(
       {final PoolAddProcessStep poolAddProcessStep,
+      final bool resumeProcess,
+      final int currentStep,
+      final int tokenFormSelected,
       final bool isProcessInProgress,
       final bool poolAddOk,
       final bool walletConfirmation,
@@ -425,11 +630,21 @@ abstract class _PoolAddFormState extends PoolAddFormState {
       final double token2Balance,
       final double token2Amount,
       final double networkFees,
+      final Transaction? recoveryTransactionAddPool,
+      final Transaction? recoveryTransactionAddPoolTransfer,
+      final Transaction? recoveryTransactionAddPoolLiquidity,
+      final String? recoveryPoolGenesisAddress,
       final Failure? failure}) = _$PoolAddFormStateImpl;
   const _PoolAddFormState._() : super._();
 
   @override
   PoolAddProcessStep get poolAddProcessStep;
+  @override
+  bool get resumeProcess;
+  @override
+  int get currentStep;
+  @override
+  int get tokenFormSelected;
   @override
   bool get isProcessInProgress;
   @override
@@ -452,6 +667,14 @@ abstract class _PoolAddFormState extends PoolAddFormState {
   double get token2Amount;
   @override
   double get networkFees;
+  @override
+  Transaction? get recoveryTransactionAddPool;
+  @override
+  Transaction? get recoveryTransactionAddPoolTransfer;
+  @override
+  Transaction? get recoveryTransactionAddPoolLiquidity;
+  @override
+  String? get recoveryPoolGenesisAddress;
   @override
   Failure? get failure;
   @override

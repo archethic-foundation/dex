@@ -62,6 +62,13 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
     final poolAddNotifier = ref.watch(PoolAddFormProvider.poolAddForm.notifier);
 
     final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+
+    if (poolAdd.tokenFormSelected == 1) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        tokenAmountFocusNode.requestFocus();
+      });
+    }
+
     final textNum = double.tryParse(tokenAmountController.text);
     if (!(poolAdd.token1Amount != 0.0 ||
         tokenAmountController.text == '' ||
@@ -72,7 +79,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
     return Column(
       children: [
         Stack(
-          alignment: Alignment.centerRight,
+          alignment: Alignment.centerLeft,
           children: [
             SizedBox(
               width: DexThemeBase.sizeBoxComponentWidth,
@@ -111,26 +118,48 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                   stops: const [0, 1],
                                 ),
                               ),
-                              child: TextField(
-                                style: textTheme.titleMedium,
-                                autocorrect: false,
-                                controller: tokenAmountController,
-                                onChanged: (text) async {
-                                  poolAddNotifier.setToken1Amount(
-                                    double.tryParse(text.replaceAll(' ', '')) ??
-                                        0,
-                                  );
-                                },
-                                focusNode: tokenAmountFocusNode,
-                                textAlign: TextAlign.left,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.text,
-                                inputFormatters: <TextInputFormatter>[
-                                  AmountTextInputFormatter(precision: 8),
-                                ],
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(left: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 160,
+                                  right: 70,
+                                ),
+                                child: TextField(
+                                  style: textTheme.titleMedium,
+                                  autocorrect: false,
+                                  controller: tokenAmountController,
+                                  onChanged: (text) async {
+                                    ref
+                                        .read(
+                                          PoolAddFormProvider
+                                              .poolAddForm.notifier,
+                                        )
+                                        .setTokenFormSelected(1);
+                                    poolAddNotifier.setToken1Amount(
+                                      double.tryParse(
+                                            text.replaceAll(' ', ''),
+                                          ) ??
+                                          0,
+                                    );
+                                  },
+                                  onTap: () {
+                                    ref
+                                        .read(
+                                          PoolAddFormProvider
+                                              .poolAddForm.notifier,
+                                        )
+                                        .setTokenFormSelected(1);
+                                  },
+                                  focusNode: tokenAmountFocusNode,
+                                  textAlign: TextAlign.left,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.text,
+                                  inputFormatters: <TextInputFormatter>[
+                                    AmountTextInputFormatter(precision: 8),
+                                  ],
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(left: 10),
+                                  ),
                                 ),
                               ),
                             ),
@@ -144,24 +173,23 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
             ),
             const Padding(
               padding: EdgeInsets.only(
-                right: 10,
+                left: 10,
               ),
               child: PoolAddToken1Selection(),
             ),
-            const SizedBox(
-              width: 10,
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const PoolAddToken1Balance(),
             if (poolAdd.token1Balance > 0)
-              SizedBox(
-                height: 30,
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 3,
+                  left: 540,
+                ),
                 child: InkWell(
                   onTap: () {
+                    ref
+                        .read(
+                          PoolAddFormProvider.poolAddForm.notifier,
+                        )
+                        .setTokenFormSelected(1);
                     ref
                         .read(PoolAddFormProvider.poolAddForm.notifier)
                         .setToken1AmountMax();
@@ -180,6 +208,11 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                       ),
                 ),
               ),
+          ],
+        ),
+        const Row(
+          children: [
+            PoolAddToken1Balance(),
           ],
         ),
       ],

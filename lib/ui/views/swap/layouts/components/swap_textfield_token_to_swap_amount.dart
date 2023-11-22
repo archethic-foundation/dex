@@ -108,7 +108,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         autocorrect: false,
                         controller: tokenToSwapAmountController,
                         onChanged: (text) async {
-                          swapNotifier.setTokenToSwapAmount(
+                          await swapNotifier.setTokenToSwapAmount(
                             double.tryParse(text.replaceAll(' ', '')) ?? 0,
                           );
                         },

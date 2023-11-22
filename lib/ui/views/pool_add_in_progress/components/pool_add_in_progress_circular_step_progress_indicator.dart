@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-class PoolAddCircularStepProgressIndicator extends ConsumerWidget {
-  const PoolAddCircularStepProgressIndicator({
+class PoolAddInProgressCircularStepProgressIndicator extends ConsumerWidget {
+  const PoolAddInProgressCircularStepProgressIndicator({
     super.key,
   });
 
@@ -23,8 +23,8 @@ class PoolAddCircularStepProgressIndicator extends ConsumerWidget {
           alignment: Alignment.center,
           children: [
             CircularStepProgressIndicator(
-              totalSteps: 1,
-              currentStep: 1,
+              totalSteps: 6,
+              currentStep: poolAdd.currentStep,
               width: 35,
               height: 35,
               stepSize: 2,

@@ -40,6 +40,9 @@ class PoolAddToken1Selection extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: () async {
+          ref
+              .read(PoolAddFormProvider.poolAddForm.notifier)
+              .setTokenFormSelected(1);
           final token = await TokenSelectionPopup.getDialog(
             context,
           );
