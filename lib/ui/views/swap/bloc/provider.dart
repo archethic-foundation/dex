@@ -60,16 +60,19 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
           state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
         );
-        poolInfosResult.map(
-          success: (success) {
+        await poolInfosResult.map(
+          success: (success) async {
             if (success != null && success['address'] != null) {
               state = state.copyWith(poolGenesisAddress: success['address']);
+              await getRatio();
+              setFailure(const PoolNotExists());
             }
           },
-          failure: (failure) {},
+          failure: (failure) {
+            setFailure(const PoolNotExists());
+          },
         );
       }
-      await getRatio();
     }
     return;
   }
@@ -202,16 +205,19 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
         state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
       );
-      poolInfosResult.map(
-        success: (success) {
+      await poolInfosResult.map(
+        success: (success) async {
           if (success != null && success['address'] != null) {
             state = state.copyWith(poolGenesisAddress: success['address']);
+            await getRatio();
+          } else {
+            setFailure(const PoolNotExists());
           }
         },
-        failure: (failure) {},
+        failure: (failure) {
+          setFailure(const PoolNotExists());
+        },
       );
-
-      await getRatio();
     }
   }
 

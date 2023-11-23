@@ -31,6 +31,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failurePoolAlreadyExists;
     }
 
+    if (failure is PoolNotExists) {
+      return AppLocalizations.of(context)!.failurePoolNotExists;
+    }
+
     if (failure is InsufficientFunds) {
       return AppLocalizations.of(context)!.failureInsufficientFunds;
     }

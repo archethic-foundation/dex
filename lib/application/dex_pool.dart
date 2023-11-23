@@ -26,6 +26,16 @@ Future<List<DexPool>> _getPoolList(
       .getPoolList(dexConf.routerGenesisAddress, apiService);
 }
 
+@riverpod
+Future<DexPool?> _getPoolInfos(
+  _GetPoolInfosRef ref,
+  String poolGenesisAddress,
+) async {
+  return ref
+      .watch(_dexPoolsRepositoryProvider)
+      .getPoolInfos(poolGenesisAddress);
+}
+
 class DexPoolsRepository {
   Future<List<DexPool>> getPoolList(
     String routerAddress,
@@ -55,8 +65,27 @@ class DexPoolsRepository {
     );
     return dexPools;
   }
+
+  Future<DexPool?> getPoolInfos(
+    String poolGenesisAddress,
+  ) async {
+    DexPool? dexPool;
+    final apiService = sl.get<ApiService>();
+    final poolFactory = PoolFactory(poolGenesisAddress, apiService);
+
+    final poolInfosResult = await poolFactory.getPoolInfos();
+    poolInfosResult.map(
+      success: (success) {
+        dexPool = success;
+      },
+      failure: (failure) {},
+    );
+
+    return dexPool!;
+  }
 }
 
 abstract class DexPoolProviders {
   static final getPoolList = _getPoolListProvider;
+  static const getPoolInfos = _getPoolInfosProvider;
 }

@@ -16,13 +16,10 @@ class SwapTokenSwappedBalance extends ConsumerWidget {
     final swap = ref.watch(SwapFormProvider.swapForm);
 
     if (swap.tokenSwapped == null) {
-      return const SizedBox(
-        height: 30,
-      );
+      return const SizedBox.shrink();
     }
 
     return SizedBox(
-      height: 30,
       child: Text(
         '${AppLocalizations.of(context)!.balance_title_infos} ${swap.tokenSwappedBalance.formatNumber()} ${swap.tokenSwapped!.symbol}',
       )

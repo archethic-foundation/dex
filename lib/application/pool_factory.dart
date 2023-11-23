@@ -178,6 +178,7 @@ class PoolFactory with ModelParser {
             ),
           ),
         );
+        log('getEquivalentAmount = $result');
         return double.tryParse(result.toString());
       },
     );

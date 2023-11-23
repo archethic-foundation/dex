@@ -8,6 +8,7 @@ import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_rem
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_token_infos.dart';
+import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,13 +55,19 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      PoolInfoCard(
+                        poolGenesisAddress: liquidityRemove.poolGenesisAddress,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Stack(
                         alignment: Alignment.centerRight,
                         children: [

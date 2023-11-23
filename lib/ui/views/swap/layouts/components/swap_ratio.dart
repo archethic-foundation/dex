@@ -16,15 +16,12 @@ class SwapRatio extends ConsumerWidget {
     if (swap.tokenToSwap == null ||
         swap.tokenSwapped == null ||
         swap.ratio == 0) {
-      return const SizedBox(
-        height: 40,
-      );
+      return const SizedBox.shrink();
     }
 
     return SizedBox(
-      height: 40,
       child: Text(
-        '1 ${swap.tokenToSwap!.name} = ${swap.ratio} ${swap.tokenSwapped!.name}',
+        '1 ${swap.tokenToSwap!.symbol} = ${swap.ratio} ${swap.tokenSwapped!.symbol}',
       ),
     )
         .animate()

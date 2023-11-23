@@ -89,7 +89,8 @@
   "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
   "failureInsufficientFunds": "Funds are not sufficient.",
   "failureTimeout": "Timeout occurred.",
-  "failurePoolAlreadyExists": "Pool already exists for these tokens",
+  "failurePoolAlreadyExists": "Pool already exists for this pair",
+  "failurePoolNotExists": "No pool for this pair",
   "removeLiquidity": "Remove liquidity",
   "btn_liquidity_remove": "Remove liquidity",
   "btn_confirm_liquidity_remove": "Confirm",
@@ -104,7 +105,7 @@
   "swapSuccessInfo": "The process has been performed successfully",
   "swapInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet",
   "swapProcessInProgress": "Please wait.",
-  "poolListHeaderName": "Name",
+  "poolListHeaderName": "Pair",
   "poolListHeaderLPTokenName": "LP Token",
   "poolListHeaderLPTokenSupply": "LP Token Supply",
   "poolListHeaderLiquidity": "Liquidity",
@@ -148,5 +149,9 @@
   "swapControlTokenToSwapAmountEmpty": "Please enter the amount of token to swap",
   "swapControlTokenSwappedAmountEmpty": "Please enter the amount of token swapped",
   "swapControlTokenToSwapAmountExceedBalance": "The amount entered for token to swap exceeds your balance.",
-  "swapControlTokenSwappedAmountExceedBalance": "The amount entered for token swapped exceeds your balance."
+  "swapControlTokenSwappedAmountExceedBalance": "The amount entered for token swapped exceeds your balance.",
+  "poolCardPair": "Pair",
+  "poolCardPooled": "Pooled",
+  "poolCardLPToken": "LP Token",
+  "poolCardLPTokenSupply": "Supply"
 }

@@ -28,6 +28,8 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
       return ServiceAlreadyExists.fromJson(json);
     case 'poolAlreadyExists':
       return PoolAlreadyExists.fromJson(json);
+    case 'poolNotExists':
+      return PoolNotExists.fromJson(json);
     case 'insufficientFunds':
       return InsufficientFunds.fromJson(json);
     case 'unauthorized':
@@ -61,6 +63,7 @@ mixin _$Failure {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -79,6 +82,7 @@ mixin _$Failure {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -97,6 +101,7 @@ mixin _$Failure {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -116,6 +121,7 @@ mixin _$Failure {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -135,6 +141,7 @@ mixin _$Failure {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -153,6 +160,7 @@ mixin _$Failure {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -237,6 +245,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -258,6 +267,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -279,6 +289,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -304,6 +315,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -326,6 +338,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -347,6 +360,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -432,6 +446,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -453,6 +468,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -474,6 +490,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -499,6 +516,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -521,6 +539,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -542,6 +561,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -656,6 +676,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -677,6 +698,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -698,6 +720,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -723,6 +746,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -745,6 +769,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -766,6 +791,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -857,6 +883,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -878,6 +905,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -899,6 +927,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -924,6 +953,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -946,6 +976,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -967,6 +998,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -1053,6 +1085,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -1074,6 +1107,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -1095,6 +1129,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -1120,6 +1155,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -1142,6 +1178,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -1163,6 +1200,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -1248,6 +1286,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -1269,6 +1308,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -1290,6 +1330,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -1315,6 +1356,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -1337,6 +1379,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -1358,6 +1401,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -1388,6 +1432,207 @@ abstract class PoolAlreadyExists extends Failure {
 
   factory PoolAlreadyExists.fromJson(Map<String, dynamic> json) =
       _$PoolAlreadyExistsImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$PoolNotExistsImplCopyWith<$Res> {
+  factory _$$PoolNotExistsImplCopyWith(
+          _$PoolNotExistsImpl value, $Res Function(_$PoolNotExistsImpl) then) =
+      __$$PoolNotExistsImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$PoolNotExistsImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$PoolNotExistsImpl>
+    implements _$$PoolNotExistsImplCopyWith<$Res> {
+  __$$PoolNotExistsImplCopyWithImpl(
+      _$PoolNotExistsImpl _value, $Res Function(_$PoolNotExistsImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PoolNotExistsImpl extends PoolNotExists {
+  const _$PoolNotExistsImpl({final String? $type})
+      : $type = $type ?? 'poolNotExists',
+        super._();
+
+  factory _$PoolNotExistsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PoolNotExistsImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.poolNotExists()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$PoolNotExistsImpl);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function(String cause) wrongNetwork,
+    required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() timeout,
+    required TResult Function(String? cause, String? stack) other,
+  }) {
+    return poolNotExists();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? timeout,
+    TResult? Function(String? cause, String? stack)? other,
+  }) {
+    return poolNotExists?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function(String cause)? wrongNetwork,
+    TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? timeout,
+    TResult Function(String? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (poolNotExists != null) {
+      return poolNotExists();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(Timeout value) timeout,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return poolNotExists(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(Timeout value)? timeout,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return poolNotExists?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(Timeout value)? timeout,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (poolNotExists != null) {
+      return poolNotExists(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PoolNotExistsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class PoolNotExists extends Failure {
+  const factory PoolNotExists() = _$PoolNotExistsImpl;
+  const PoolNotExists._() : super._();
+
+  factory PoolNotExists.fromJson(Map<String, dynamic> json) =
+      _$PoolNotExistsImpl.fromJson;
 }
 
 /// @nodoc
@@ -1443,6 +1688,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -1464,6 +1710,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -1485,6 +1732,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -1510,6 +1758,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -1532,6 +1781,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -1553,6 +1803,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -1638,6 +1889,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -1659,6 +1911,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -1680,6 +1933,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -1705,6 +1959,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -1727,6 +1982,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -1748,6 +2004,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -1833,6 +2090,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -1854,6 +2112,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -1875,6 +2134,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -1900,6 +2160,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -1922,6 +2183,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -1943,6 +2205,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -2054,6 +2317,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -2075,6 +2339,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -2096,6 +2361,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -2121,6 +2387,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -2143,6 +2410,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -2164,6 +2432,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -2254,6 +2523,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -2275,6 +2545,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -2296,6 +2567,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -2321,6 +2593,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -2343,6 +2616,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -2364,6 +2638,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -2451,6 +2726,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -2472,6 +2748,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -2493,6 +2770,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -2518,6 +2796,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -2540,6 +2819,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -2561,6 +2841,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -2646,6 +2927,7 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -2667,6 +2949,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -2688,6 +2971,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -2713,6 +2997,7 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -2735,6 +3020,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -2756,6 +3042,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
@@ -2874,6 +3161,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function() serviceNotFound,
     required TResult Function() serviceAlreadyExists,
     required TResult Function() poolAlreadyExists,
+    required TResult Function() poolNotExists,
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
@@ -2895,6 +3183,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function()? serviceNotFound,
     TResult? Function()? serviceAlreadyExists,
     TResult? Function()? poolAlreadyExists,
+    TResult? Function()? poolNotExists,
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
@@ -2916,6 +3205,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function()? serviceNotFound,
     TResult Function()? serviceAlreadyExists,
     TResult Function()? poolAlreadyExists,
+    TResult Function()? poolNotExists,
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
@@ -2941,6 +3231,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(PoolNotExists value) poolNotExists,
     required TResult Function(InsufficientFunds value) insufficientFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
@@ -2963,6 +3254,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(PoolNotExists value)? poolNotExists,
     TResult? Function(InsufficientFunds value)? insufficientFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
@@ -2984,6 +3276,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(PoolNotExists value)? poolNotExists,
     TResult Function(InsufficientFunds value)? insufficientFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,

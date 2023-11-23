@@ -72,10 +72,12 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
     }
 
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(swap.tokenToSwapAmount != 0.0 ||
-        tokenAmountController.text == '' ||
-        (textNum != null && textNum == 0))) {
+    if (textNum == null && swap.tokenToSwapAmount != 0.0) {
       _updateAmountTextController();
+    } else {
+      if (textNum != null && swap.tokenToSwapAmount != textNum) {
+        _updateAmountTextController();
+      }
     }
 
     return Column(

@@ -27,6 +27,7 @@ class Failure with _$Failure implements Exception {
   const factory Failure.serviceNotFound() = ServiceNotFound;
   const factory Failure.serviceAlreadyExists() = ServiceAlreadyExists;
   const factory Failure.poolAlreadyExists() = PoolAlreadyExists;
+  const factory Failure.poolNotExists() = PoolNotExists;
   const factory Failure.insufficientFunds() = InsufficientFunds;
   const factory Failure.unauthorized() = Unauthorized;
   const factory Failure.invalidValue() = InvalidValue;

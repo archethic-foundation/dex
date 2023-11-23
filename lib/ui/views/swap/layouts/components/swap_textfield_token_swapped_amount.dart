@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_ratio.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_balance.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_selection.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
@@ -72,10 +73,12 @@ class _SwapTokenSwappedAmountState
     }
 
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(swap.tokenSwappedAmount != 0.0 ||
-        tokenAmountController.text == '' ||
-        (textNum != null && textNum == 0))) {
+    if (textNum == null && swap.tokenSwappedAmount != 0.0) {
       _updateAmountTextController();
+    } else {
+      if (textNum != null && swap.tokenSwappedAmount != textNum) {
+        _updateAmountTextController();
+      }
     }
     return Column(
       children: [
@@ -211,8 +214,10 @@ class _SwapTokenSwappedAmountState
           ],
         ),
         const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SwapTokenSwappedBalance(),
+            SwapRatio(),
           ],
         ),
       ],

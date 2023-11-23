@@ -99,7 +99,9 @@ class RouterFactory with ModelParser {
           ),
           resultMap: true,
         ) as Map<String, dynamic>?;
-
+        if (result == null) {
+          dev.log('getPoolAddresses: result null');
+        }
         return result;
       },
     );
