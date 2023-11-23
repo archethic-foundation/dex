@@ -3,6 +3,8 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_selection.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -213,12 +215,49 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             DexTokenBalance(
               tokenBalance: swap.tokenToSwapBalance,
               tokenSymbol:
                   swap.tokenToSwap == null ? '' : swap.tokenToSwap!.symbol,
             ),
+            if (swap.tokenToSwapBalance > 0)
+              Row(
+                children: [
+                  DexButtonHalf(
+                    balanceAmount: swap.tokenToSwapBalance,
+                    onTap: () {
+                      ref
+                          .read(
+                            SwapFormProvider.swapForm.notifier,
+                          )
+                          .setTokenFormSelected(1);
+                      ref
+                          .read(SwapFormProvider.swapForm.notifier)
+                          .setTokenToSwapAmountHalf();
+                      _updateAmountTextController();
+                    },
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  DexButtonMax(
+                    balanceAmount: swap.tokenToSwapBalance,
+                    onTap: () {
+                      ref
+                          .read(
+                            SwapFormProvider.swapForm.notifier,
+                          )
+                          .setTokenFormSelected(1);
+                      ref
+                          .read(SwapFormProvider.swapForm.notifier)
+                          .setTokenToSwapAmountMax();
+                      _updateAmountTextController();
+                    },
+                  ),
+                ],
+              ),
           ],
         ),
       ],

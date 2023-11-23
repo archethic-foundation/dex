@@ -12,6 +12,7 @@ import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,10 +66,13 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             if (success != null && success['address'] != null) {
               state = state.copyWith(poolGenesisAddress: success['address']);
               await getRatio();
+            } else {
+              setPoolAddress('');
               setFailure(const PoolNotExists());
             }
           },
           failure: (failure) {
+            setPoolAddress('');
             setFailure(const PoolNotExists());
           },
         );
@@ -294,6 +298,20 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
   void setTokenSwappedAmountMax() {
     setTokenSwappedAmount(state.tokenSwappedBalance);
+  }
+
+  void setTokenToSwapAmountHalf() {
+    setTokenToSwapAmount(
+      (Decimal.parse(state.tokenToSwapBalance.toString()) / Decimal.fromInt(2))
+          .toDouble(),
+    );
+  }
+
+  void setTokenSwappedAmountHalf() {
+    setTokenSwappedAmount(
+      (Decimal.parse(state.tokenSwappedBalance.toString()) / Decimal.fromInt(2))
+          .toDouble(),
+    );
   }
 
   void setRecoveryTransactionSwap(Transaction? recoveryTransactionSwap) {

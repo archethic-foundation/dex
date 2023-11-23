@@ -2,13 +2,12 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_selection.dart';
-import 'package:aedex/ui/views/util/components/dex_ratio.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SwapTokenSwappedAmount extends ConsumerStatefulWidget {
@@ -180,37 +179,6 @@ class _SwapTokenSwappedAmountState
               ),
               child: SwapTokenSwappedSelection(),
             ),
-            if (swap.tokenSwappedBalance > 0)
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 3,
-                  left: 540,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    ref
-                        .read(
-                          SwapFormProvider.swapForm.notifier,
-                        )
-                        .setTokenFormSelected(2);
-                    ref
-                        .read(SwapFormProvider.swapForm.notifier)
-                        .setTokenSwappedAmountMax();
-                    _updateAmountTextController();
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.btn_max,
-                    style: TextStyle(color: DexThemeBase.maxButtonColor),
-                  )
-                      .animate()
-                      .fade(
-                        duration: const Duration(milliseconds: 500),
-                      )
-                      .scale(
-                        duration: const Duration(milliseconds: 500),
-                      ),
-                ),
-              ),
           ],
         ),
         Row(
@@ -221,13 +189,42 @@ class _SwapTokenSwappedAmountState
               tokenSymbol:
                   swap.tokenSwapped == null ? '' : swap.tokenSwapped!.symbol,
             ),
-            DexRatio(
-              ratio: swap.ratio,
-              token1Symbol:
-                  swap.tokenToSwap == null ? '' : swap.tokenToSwap!.symbol,
-              token2Symbol:
-                  swap.tokenSwapped == null ? '' : swap.tokenSwapped!.symbol,
-            ),
+            if (swap.tokenSwappedBalance > 0)
+              Row(
+                children: [
+                  DexButtonHalf(
+                    balanceAmount: swap.tokenSwappedBalance,
+                    onTap: () {
+                      ref
+                          .read(
+                            SwapFormProvider.swapForm.notifier,
+                          )
+                          .setTokenFormSelected(2);
+                      ref
+                          .read(SwapFormProvider.swapForm.notifier)
+                          .setTokenSwappedAmountHalf();
+                      _updateAmountTextController();
+                    },
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  DexButtonMax(
+                    balanceAmount: swap.tokenSwappedBalance,
+                    onTap: () {
+                      ref
+                          .read(
+                            SwapFormProvider.swapForm.notifier,
+                          )
+                          .setTokenFormSelected(2);
+                      ref
+                          .read(SwapFormProvider.swapForm.notifier)
+                          .setTokenSwappedAmountMax();
+                      _updateAmountTextController();
+                    },
+                  ),
+                ],
+              ),
           ],
         ),
       ],

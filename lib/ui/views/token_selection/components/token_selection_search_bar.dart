@@ -111,8 +111,9 @@ class TokenSelectionSearchBarState
                                 border: InputBorder.none,
                                 hintText: AppLocalizations.of(context)!
                                     .token_selection_search_bar_hint,
-                                hintStyle: textTheme.labelMedium!
-                                    .copyWith(fontWeight: FontWeight.w300),
+                                hintStyle: textTheme.labelMedium!.copyWith(
+                                  fontWeight: FontWeight.w300,
+                                ),
                                 contentPadding: const EdgeInsets.only(left: 10),
                               ),
                             ),

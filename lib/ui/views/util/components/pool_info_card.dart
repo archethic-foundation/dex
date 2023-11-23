@@ -28,6 +28,10 @@ class PoolInfoCard extends ConsumerWidget {
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
+    if (poolGenesisAddress.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return FutureBuilder<DexPool?>(
       future:
           ref.watch(DexPoolProviders.getPoolInfos(poolGenesisAddress).future),
