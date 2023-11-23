@@ -8,6 +8,7 @@ import 'package:aedex/domain/usecases/add_pool.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,6 +68,20 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
   void setToken2AmountMax() {
     setToken2Amount(state.token2Balance);
+  }
+
+  void setToken1AmountHalf() {
+    setToken1Amount(
+      (Decimal.parse(state.token1Balance.toString()) / Decimal.fromInt(2))
+          .toDouble(),
+    );
+  }
+
+  void setToken2AmountHalf() {
+    setToken2Amount(
+      (Decimal.parse(state.token2Balance.toString()) / Decimal.fromInt(2))
+          .toDouble(),
+    );
   }
 
   void setToken1Balance(

@@ -3,12 +3,12 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_1_selection.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddToken1Amount extends ConsumerStatefulWidget {
@@ -177,45 +177,51 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
               ),
               child: PoolAddToken1Selection(),
             ),
-            if (poolAdd.token1Balance > 0)
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 3,
-                  left: 540,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    ref
-                        .read(
-                          PoolAddFormProvider.poolAddForm.notifier,
-                        )
-                        .setTokenFormSelected(1);
-                    ref
-                        .read(PoolAddFormProvider.poolAddForm.notifier)
-                        .setToken1AmountMax();
-                    _updateAmountTextController();
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.btn_max,
-                    style: TextStyle(color: DexThemeBase.maxButtonColor),
-                  )
-                      .animate()
-                      .fade(
-                        duration: const Duration(milliseconds: 500),
-                      )
-                      .scale(
-                        duration: const Duration(milliseconds: 500),
-                      ),
-                ),
-              ),
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             DexTokenBalance(
               tokenBalance: poolAdd.token1Balance,
               tokenSymbol: poolAdd.token1 == null ? '' : poolAdd.token1!.symbol,
             ),
+            if (poolAdd.token1Balance > 0)
+              Row(
+                children: [
+                  DexButtonHalf(
+                    balanceAmount: poolAdd.token1Balance,
+                    onTap: () {
+                      ref
+                          .read(
+                            PoolAddFormProvider.poolAddForm.notifier,
+                          )
+                          .setTokenFormSelected(1);
+                      ref
+                          .read(PoolAddFormProvider.poolAddForm.notifier)
+                          .setToken1AmountHalf();
+                      _updateAmountTextController();
+                    },
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  DexButtonMax(
+                    balanceAmount: poolAdd.token1Balance,
+                    onTap: () {
+                      ref
+                          .read(
+                            PoolAddFormProvider.poolAddForm.notifier,
+                          )
+                          .setTokenFormSelected(1);
+                      ref
+                          .read(PoolAddFormProvider.poolAddForm.notifier)
+                          .setToken1AmountMax();
+                      _updateAmountTextController();
+                    },
+                  ),
+                ],
+              ),
           ],
         ),
       ],

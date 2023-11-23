@@ -2,6 +2,7 @@ import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/dex_fees.dart';
+import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
@@ -52,9 +53,9 @@ class PoolInfoCard extends ConsumerWidget {
               boxShadow: [
                 BoxShadow(
                   color: ArchethicThemeBase.neutral900,
-                  blurRadius: 5,
+                  blurRadius: 7,
                   spreadRadius: 1,
-                  offset: const Offset(1, 2),
+                  offset: const Offset(0, 5),
                 ),
               ],
             ),
@@ -110,6 +111,16 @@ class PoolInfoCard extends ConsumerWidget {
                               address: pool.pair!.token2.address!,
                             ),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DexRatio(
+                        ratio: pool.ratio,
+                        token1Symbol:
+                            pool.pair == null ? '' : pool.pair!.token1.symbol,
+                        token2Symbol:
+                            pool.pair == null ? '' : pool.pair!.token2.symbol,
                       ),
                     ],
                   ),
@@ -183,7 +194,7 @@ class PoolInfoCard extends ConsumerWidget {
                           ),
                           FormatAddressLink(
                             address: pool.lpToken!.address!,
-                            typeAddress: TypeAddress.chain,
+                            typeAddress: TypeAddress.transaction,
                           ),
                         ],
                       ),

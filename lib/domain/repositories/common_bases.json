@@ -4,46 +4,54 @@
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
-                "address": "UCO"
+                "address": "UCO",
+                "icon": "Archethic.svg"
             },
             {
                 "name": "Wrapped Ether",
                 "symbol": "aeETH",
-                "address": "0000BC30E877B99FCA564DC07AF6A905EB2A85F6BB01CD270D0B3BAF056303A7759E"
+                "address": "0000BC30E877B99FCA564DC07AF6A905EB2A85F6BB01CD270D0B3BAF056303A7759E",
+                "icon": "Ethereum.svg"
             }
         ],
         "testnet": [
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
-                "address": "UCO"
+                "address": "UCO",
+                "icon": "Archethic.svg"
             },
             {
                 "name": "Wrapped Ether",
                 "symbol": "aeETH",
-                "address": "00003DF600E329199BF3EE8FBE2B8223413D70BCDD97E15089E6A74D94DE3F1173B4"
+                "address": "00003DF600E329199BF3EE8FBE2B8223413D70BCDD97E15089E6A74D94DE3F1173B4",
+                "icon": "Ethereum.svg"
             },
             {
                 "name": "Wrapped Polygon",
                 "symbol": "aeMATIC",
-                "address": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1"
+                "address": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1",
+                "icon": "Polygon.svg"
             },
             {
                 "name": "Wrapped Binance Coin",
                 "symbol": "aeBNB",
-                "address": "0000288BF6F0E12457B125DC54D2DFA4EB010BE3073CF02E10FB79B696180F55B827"
+                "address": "0000288BF6F0E12457B125DC54D2DFA4EB010BE3073CF02E10FB79B696180F55B827",
+                "icon": "BSC.svg"
             }
         ],
         "mainnet": [
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
-                "address": "UCO"
+                "address": "UCO",
+                "icon": "Archethic.svg"
             },
             {
                 "name": "Wrapped Ether",
                 "symbol": "aeETH",
-                "address": ""
+                "address": "",
+                "icon": "Ethereum.svg"
             }
         ]
     }

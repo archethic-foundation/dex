@@ -10,6 +10,7 @@ import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -176,6 +177,13 @@ class LiquidityRemoveFormNotifier
 
   void setLpTokenAmountMax() {
     setLPTokenAmount(state.lpTokenBalance);
+  }
+
+  void setLpTokenAmountHalf() {
+    setLPTokenAmount(
+      (Decimal.parse(state.lpTokenBalance.toString()) / Decimal.fromInt(2))
+          .toDouble(),
+    );
   }
 
   void setProcessInProgress(bool isProcessInProgress) {

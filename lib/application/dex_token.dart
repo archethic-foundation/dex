@@ -33,7 +33,7 @@ class DexTokensRepository with ModelParser {
     if (tokenMap[address] == null) {
       return [];
     }
-    final dexToken = tokenSDKToModel(tokenMap[address]!);
+    final dexToken = tokenSDKToModel(tokenMap[address]!, 0);
     return <DexToken>[dexToken];
   }
 
@@ -53,8 +53,8 @@ class DexTokensRepository with ModelParser {
       tokenAddressList.add(token.address!);
     }
 
-    final dexTokenUCO =
-        ucoToken.copyWith(balance: fromBigInt(balance.uco).toDouble());
+    final dexTokenUCO = ucoToken.copyWith(
+        balance: fromBigInt(balance.uco).toDouble(), icon: 'Archethic.svg');
     dexTokens.add(dexTokenUCO);
 
     final tokenMap = await sl.get<ApiService>().getToken(
@@ -63,7 +63,17 @@ class DexTokensRepository with ModelParser {
         );
     tokenMap.forEach((key, value) {
       final _token = value.copyWith(address: key);
-      final dexToken = tokenSDKToModel(_token);
+
+      var balanceAmount = 0.0;
+      for (final tokenBalance in balance.token) {
+        if (tokenBalance.address!.toUpperCase() ==
+            _token.address!.toUpperCase()) {
+          balanceAmount = fromBigInt(tokenBalance.amount).toDouble();
+          break;
+        }
+      }
+
+      final dexToken = tokenSDKToModel(_token, balanceAmount);
 
       dexTokens.add(
         dexToken,

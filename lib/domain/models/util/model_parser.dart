@@ -5,6 +5,7 @@ import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:decimal/decimal.dart';
 
 mixin ModelParser {
   archethic.Token tokenModelToSDK(
@@ -19,8 +20,10 @@ mixin ModelParser {
 
   DexToken tokenSDKToModel(
     archethic.Token token,
+    double balance,
   ) {
     return DexToken(
+      balance: balance,
       name: token.name ?? '',
       address: token.address ?? '',
       symbol: token.symbol ?? '',
@@ -100,11 +103,20 @@ mixin ModelParser {
       supply: getPoolInfosResponse.lpToken.supply,
     );
 
+    var ratio = 0.0;
+    if (getPoolInfosResponse.token1.reserve > 0 &&
+        getPoolInfosResponse.token2.reserve > 0) {
+      ratio = (Decimal.parse(getPoolInfosResponse.token1.reserve.toString()) /
+              Decimal.parse(getPoolInfosResponse.token2.reserve.toString()))
+          .toDouble();
+    }
+
     return DexPool(
       poolAddress: poolAddress,
       pair: dexPair,
       lpToken: lpToken,
       fees: getPoolInfosResponse.fee,
+      ratio: ratio,
     );
   }
 

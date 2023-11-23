@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/token_selection_popup.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -22,16 +23,16 @@ class PoolAddToken1Selection extends ConsumerWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.white.withOpacity(0.4),
-            Colors.white.withOpacity(0.1),
+            ArchethicThemeBase.purple500,
+            ArchethicThemeBase.purple500.withOpacity(0.4),
           ],
           stops: const [0, 1],
         ),
         border: GradientBoxBorder(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withOpacity(0.4),
-              Colors.white.withOpacity(0.1),
+              ArchethicThemeBase.plum300,
+              ArchethicThemeBase.plum300.withOpacity(0.4),
             ],
             stops: const [0, 1],
           ),

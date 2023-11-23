@@ -11,7 +11,8 @@ class DexThemeBase {
 
   static Color primaryColor = ArchethicThemeBase.purple500;
   static Color backgroundColor = ArchethicThemeBase.neutral900;
-  static Color maxButtonColor = ArchethicThemeBase.raspberry500;
+  static Color maxButtonColor = ArchethicThemeBase.raspberry300;
+  static Color halfButtonColor = ArchethicThemeBase.raspberry300;
   static Color backgroundPopupColor = ArchethicThemeBase.purple500;
 
   static Color statusOK = ArchethicThemeBase.systemPositive500;

@@ -1,7 +1,9 @@
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
 class TokenSelectionCommonBases extends StatelessWidget {
@@ -54,6 +56,7 @@ class TokenSelectionCommonBases extends StatelessWidget {
               name: entry['name'] ?? '',
               symbol: entry['symbol'] ?? '',
               address: entry['address'] ?? '',
+              icon: entry['icon'] ?? '',
             );
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 5),
@@ -62,16 +65,16 @@ class TokenSelectionCommonBases extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.white.withOpacity(0.4),
-                    Colors.white.withOpacity(0.1),
+                    ArchethicThemeBase.purple500,
+                    ArchethicThemeBase.purple500.withOpacity(0.4),
                   ],
                   stops: const [0, 1],
                 ),
                 border: GradientBoxBorder(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.white.withOpacity(0.4),
-                      Colors.white.withOpacity(0.1),
+                      ArchethicThemeBase.plum300,
+                      ArchethicThemeBase.plum300.withOpacity(0.4),
                     ],
                     stops: const [0, 1],
                   ),
@@ -87,38 +90,47 @@ class TokenSelectionCommonBases extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.2),
-                      ),
-                      child: Center(
-                        child: Text(
-                          token.symbol,
-                          style: const TextStyle(
-                            fontSize: 6,
-                            color: Colors.white,
+                    if (token.icon != null && token.icon!.isNotEmpty)
+                      SvgPicture.asset(
+                        'assets/images/bc-logos/${token.icon}',
+                        width: 20,
+                      )
+                    else
+                      Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            '?',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     const SizedBox(
                       width: 10,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          token.name,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        Text(
-                          token.symbol,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 1),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            token.name,
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          Text(
+                            token.symbol,
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

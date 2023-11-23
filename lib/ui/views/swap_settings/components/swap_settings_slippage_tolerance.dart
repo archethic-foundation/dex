@@ -39,9 +39,6 @@ class SwapSettingsSlippageToleranceState
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
     final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
 
     return Row(
@@ -107,13 +104,9 @@ class SwapSettingsSlippageToleranceState
               inputFormatters: <TextInputFormatter>[
                 LengthLimitingTextInputFormatter(10),
               ],
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: InputBorder.none,
-                hintText: AppLocalizations.of(context)!
-                    .token_selection_search_bar_hint,
-                hintStyle: textTheme.labelMedium!
-                    .copyWith(fontWeight: FontWeight.w300),
-                contentPadding: const EdgeInsets.only(right: 5, top: -3),
+                contentPadding: EdgeInsets.only(right: 5, top: -3),
               ),
             ),
           ),

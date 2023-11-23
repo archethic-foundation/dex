@@ -1,12 +1,16 @@
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
+import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class TokenList extends ConsumerWidget {
@@ -140,7 +144,7 @@ class _TokensList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 250,
       child: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(
           height: 10,
@@ -169,20 +173,20 @@ class _SingleToken extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 35,
+      height: 40,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.white.withOpacity(0.4),
-            Colors.white.withOpacity(0.1),
+            ArchethicThemeBase.purple500,
+            ArchethicThemeBase.purple500.withOpacity(0.4),
           ],
           stops: const [0, 1],
         ),
         border: GradientBoxBorder(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withOpacity(0.4),
-              Colors.white.withOpacity(0.1),
+              ArchethicThemeBase.plum300,
+              ArchethicThemeBase.plum300.withOpacity(0.4),
             ],
             stops: const [0, 1],
           ),
@@ -198,47 +202,76 @@ class _SingleToken extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.2),
-              ),
-              child: Center(
-                child: Text(
-                  token.symbol,
-                  style: const TextStyle(
-                    fontSize: 6,
-                    color: Colors.white,
+            if (token.icon != null && token.icon!.isNotEmpty)
+              SvgPicture.asset(
+                'assets/images/bc-logos/${token.icon}',
+                width: 20,
+              )
+            else
+              Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withOpacity(0.2),
+                ),
+                child: const Center(
+                  child: Text(
+                    '?',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
             const SizedBox(
               width: 10,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      '${token.name} ',
-                      style: Theme.of(context).textTheme.labelSmall,
-                    ),
-                    if (token.balance > 0)
+            Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
                       Text(
-                        '(${token.balance.toStringAsFixed(2)} ${token.symbol})',
+                        '${token.name} (${token.symbol})',
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
-                  ],
-                ),
-                Text(
-                  token.symbol,
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-              ],
+                      const SizedBox(
+                        width: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: VerifiedTokenIcon(
+                          address: token.isUCO ? 'UCO' : token.address!,
+                          iconSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (token.balance > 0)
+                    Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 3),
+                          child: Icon(
+                            Iconsax.empty_wallet,
+                            size: 12,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          token.balance.toStringAsFixed(2),
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                      ],
+                    )
+                ],
+              ),
             ),
           ],
         ),

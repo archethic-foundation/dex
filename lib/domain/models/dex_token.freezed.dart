@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DexToken {
   String get name => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
+  String? get icon => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
   double get balance => throw _privateConstructorUsedError;
   double get reserve => throw _privateConstructorUsedError;
@@ -36,6 +37,7 @@ abstract class $DexTokenCopyWith<$Res> {
   $Res call(
       {String name,
       String? address,
+      String? icon,
       String symbol,
       double balance,
       double reserve,
@@ -57,6 +59,7 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
   $Res call({
     Object? name = null,
     Object? address = freezed,
+    Object? icon = freezed,
     Object? symbol = null,
     Object? balance = null,
     Object? reserve = null,
@@ -70,6 +73,10 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      icon: freezed == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
               as String?,
       symbol: null == symbol
           ? _value.symbol
@@ -102,6 +109,7 @@ abstract class _$$DexTokenImplCopyWith<$Res>
   $Res call(
       {String name,
       String? address,
+      String? icon,
       String symbol,
       double balance,
       double reserve,
@@ -121,6 +129,7 @@ class __$$DexTokenImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? address = freezed,
+    Object? icon = freezed,
     Object? symbol = null,
     Object? balance = null,
     Object? reserve = null,
@@ -134,6 +143,10 @@ class __$$DexTokenImplCopyWithImpl<$Res>
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      icon: freezed == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
               as String?,
       symbol: null == symbol
           ? _value.symbol
@@ -161,6 +174,7 @@ class _$DexTokenImpl extends _DexToken {
   const _$DexTokenImpl(
       {this.name = '',
       this.address,
+      this.icon,
       this.symbol = '',
       this.balance = 0.0,
       this.reserve = 0.0,
@@ -172,6 +186,8 @@ class _$DexTokenImpl extends _DexToken {
   final String name;
   @override
   final String? address;
+  @override
+  final String? icon;
   @override
   @JsonKey()
   final String symbol;
@@ -187,7 +203,7 @@ class _$DexTokenImpl extends _DexToken {
 
   @override
   String toString() {
-    return 'DexToken(name: $name, address: $address, symbol: $symbol, balance: $balance, reserve: $reserve, supply: $supply)';
+    return 'DexToken(name: $name, address: $address, icon: $icon, symbol: $symbol, balance: $balance, reserve: $reserve, supply: $supply)';
   }
 
   @override
@@ -197,6 +213,7 @@ class _$DexTokenImpl extends _DexToken {
             other is _$DexTokenImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.reserve, reserve) || other.reserve == reserve) &&
@@ -204,8 +221,8 @@ class _$DexTokenImpl extends _DexToken {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, address, symbol, balance, reserve, supply);
+  int get hashCode => Object.hash(
+      runtimeType, name, address, icon, symbol, balance, reserve, supply);
 
   @JsonKey(ignore: true)
   @override
@@ -218,6 +235,7 @@ abstract class _DexToken extends DexToken {
   const factory _DexToken(
       {final String name,
       final String? address,
+      final String? icon,
       final String symbol,
       final double balance,
       final double reserve,
@@ -228,6 +246,8 @@ abstract class _DexToken extends DexToken {
   String get name;
   @override
   String? get address;
+  @override
+  String? get icon;
   @override
   String get symbol;
   @override

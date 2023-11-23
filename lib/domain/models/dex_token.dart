@@ -8,6 +8,7 @@ class DexToken with _$DexToken {
   const factory DexToken({
     @Default('') String name,
     String? address,
+    String? icon,
     @Default('') String symbol,
     @Default(0.0) double balance,
     @Default(0.0) double reserve,

@@ -103,6 +103,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/bc-logos/
     - lib/domain/repositories/common_bases.json
     - lib/domain/repositories/config.json
     - lib/domain/repositories/blockchains_list.json

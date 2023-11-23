@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
-class DexButtonMax extends StatelessWidget {
-  const DexButtonMax({
+class DexButtonHalf extends StatelessWidget {
+  const DexButtonHalf({
     super.key,
     required this.balanceAmount,
     required this.onTap,
@@ -28,13 +28,13 @@ class DexButtonMax extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: DexThemeBase.maxButtonColor),
+          border: Border.all(color: DexThemeBase.halfButtonColor),
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 2),
           child: Text(
-            AppLocalizations.of(context)!.btn_max,
-            style: TextStyle(color: DexThemeBase.maxButtonColor),
+            AppLocalizations.of(context)!.btn_half,
+            style: TextStyle(color: DexThemeBase.halfButtonColor),
           ),
         ),
       )

@@ -9,10 +9,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class VerifiedTokenIcon extends ConsumerWidget {
   const VerifiedTokenIcon({
     required this.address,
+    this.iconSize = 14,
     super.key,
   });
 
   final String address;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +30,7 @@ class VerifiedTokenIcon extends ConsumerWidget {
               child: Icon(
                 Iconsax.verify,
                 color: ArchethicThemeBase.systemPositive500,
-                size: 14,
+                size: iconSize,
               ),
             );
           }

@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -17,15 +18,12 @@ class DexRatio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (token1Symbol.isEmpty || token2Symbol.isEmpty || ratio <= 0) {
-      return const SizedBox(
-        height: 30,
-      );
+      return const SizedBox.shrink();
     }
 
     return SizedBox(
-      height: 30,
       child: Text(
-        '1 $token1Symbol = $ratio $token2Symbol',
+        '${double.parse('1').formatNumber()} $token1Symbol = ${ratio.formatNumber()} $token2Symbol',
       ),
     )
         .animate()
