@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/main_screen_widget_displayed.dart';
-import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
@@ -30,35 +29,6 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
   ) {
     final dexPools = ref.watch(DexPoolProviders.getPoolList);
 
-    var _sortColumnIndex = 0;
-    var _isAscending = true;
-
-    void _sort<T>(
-      Comparable<T> Function(DexPool d) getField,
-      int columnIndex,
-    ) {
-      final ascending = _sortColumnIndex != columnIndex || !_isAscending;
-
-      dexPools.map(
-        data: (data) {
-          data.value.sort((a, b) {
-            final aValue = getField(a);
-            final bValue = getField(b);
-            return ascending
-                ? Comparable.compare(aValue, bValue)
-                : Comparable.compare(bValue, aValue);
-          });
-        },
-        error: (error) {},
-        loading: (loading) {},
-      );
-
-      setState(() {
-        _sortColumnIndex = columnIndex;
-        _isAscending = ascending;
-      });
-    }
-
     return Stack(
       alignment: Alignment.bottomRight,
       children: [
@@ -77,8 +47,6 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                         return const SizedBox.shrink();
                       }
                       return DataTable(
-                        sortColumnIndex: _sortColumnIndex,
-                        sortAscending: _isAscending,
                         columnSpacing: 0,
                         horizontalMargin: 0,
                         dividerThickness: 1,
@@ -90,10 +58,6 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                     .poolListHeaderName,
                                 textAlign: TextAlign.center,
                               ),
-                            ),
-                            onSort: (columnIndex, ascending) => _sort(
-                              (DexPool pool) => pool.pair!.token1.name,
-                              columnIndex,
                             ),
                           ),
                           DataColumn(
@@ -114,10 +78,6 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            onSort: (columnIndex, ascending) => _sort(
-                              (DexPool pool) => pool.lpToken!.name,
-                              columnIndex,
-                            ),
                           ),
                           DataColumn(
                             label: Expanded(
@@ -128,10 +88,6 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                               ),
                             ),
                             numeric: true,
-                            onSort: (columnIndex, ascending) => _sort(
-                              (DexPool pool) => pool.lpToken!.supply,
-                              columnIndex,
-                            ),
                           ),
                           DataColumn(
                             label: Expanded(
@@ -227,8 +183,6 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                         child: SizedBox(
                                           width: 150,
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 pool.lpToken!.name,

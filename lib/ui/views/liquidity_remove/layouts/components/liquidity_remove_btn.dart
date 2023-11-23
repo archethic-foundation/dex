@@ -40,7 +40,7 @@ class LiquidityRemoveButton extends ConsumerWidget {
       onPressed: () {
         ref
             .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
-            .validateForm();
+            .validateForm(context);
       },
     );
   }

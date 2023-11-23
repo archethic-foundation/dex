@@ -2,6 +2,7 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_btn.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_close_btn.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_error_message.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_ratio.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
@@ -70,8 +71,15 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             padding: const EdgeInsets.only(
                               right: 10,
                             ),
-                            child: LiquidityAddTokenInfos(
-                              token: liquidityAdd.token1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const LiquidityAddToken1MaxButton(),
+                                const SizedBox(width: 10),
+                                LiquidityAddTokenInfos(
+                                  token: liquidityAdd.token1,
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -83,7 +91,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           LiquidityAddToken1Balance(),
-                          LiquidityAddToken1MaxButton(),
+                          SizedBox.shrink(),
                         ],
                       ),
                       const SizedBox(
@@ -97,8 +105,15 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             padding: const EdgeInsets.only(
                               right: 10,
                             ),
-                            child: LiquidityAddTokenInfos(
-                              token: liquidityAdd.token2,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const LiquidityAddToken2MaxButton(),
+                                const SizedBox(width: 10),
+                                LiquidityAddTokenInfos(
+                                  token: liquidityAdd.token2,
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -110,29 +125,23 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           LiquidityAddToken2Balance(),
-                          LiquidityAddToken2MaxButton(),
+                          LiquidityAddRatio(),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Align(
-                        alignment: Alignment.centerRight,
-                        child: LiquidityAddRatio(),
                       ),
                     ],
                   ),
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      LiquidityAddErrorMessage(),
+                      SizedBox(
+                        height: 20,
+                      ),
                       LiquidityAddButton(),
                       SizedBox(
                         height: 20,
                       ),
                       LiquidityAddCloseButton(),
-                      SizedBox(
-                        height: 20,
-                      ),
                     ],
                   ),
                 ],

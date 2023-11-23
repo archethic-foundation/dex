@@ -33,5 +33,9 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
   const LiquidityAddFormState._();
 
   bool get isControlsOk =>
-      failure == null && token1Balance > 0 && token2Balance > 0;
+      failure == null &&
+      token1Balance > 0 &&
+      token2Balance > 0 &&
+      token1Amount > 0 &&
+      token2Amount > 0;
 }

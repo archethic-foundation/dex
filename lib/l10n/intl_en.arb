@@ -135,5 +135,12 @@
   "removeLiquidityProcessStep0": "Process not started",
   "removeLiquidityProcessStep1": "Retrieving information to remove liquidity from the pool",
   "removeLiquidityProcessStep2": "Removing liquidity",
-  "removeLiquidityProcessStep3": "Process finished"
+  "removeLiquidityProcessStep3": "Process finished",
+  "liquidityAddControlToken1AmountEmpty": "Please enter the amount of token 1",
+  "liquidityAddControlToken2AmountEmpty": "Please enter the amount of token 2",
+  "liquidityAddControlToken1AmountExceedBalance": "The amount entered for token 1 exceeds your balance.",
+  "liquidityAddControlToken2AmountExceedBalance": "The amount entered for token 2 exceeds your balance.",
+  "liquidityRemoveControlLPTokenAmountEmpty": "Please enter the amount of lp token",
+  "liquidityRemoveControlToken1AmountExceedBalance": "The amount entered for lp token exceeds your balance.",
+  "liquidityRemoveTokensGetBackHeader": "Amounts of token to get back when removing liquidity"
 }

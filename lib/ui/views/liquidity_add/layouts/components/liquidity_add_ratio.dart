@@ -16,15 +16,12 @@ class LiquidityAddRatio extends ConsumerWidget {
     if (liquidityAdd.token1 == null ||
         liquidityAdd.token2 == null ||
         liquidityAdd.ratio == 0) {
-      return const SizedBox(
-        height: 40,
-      );
+      return const SizedBox.shrink();
     }
 
     return SizedBox(
-      height: 40,
       child: Text(
-        '1 ${liquidityAdd.token1!.name} = ${liquidityAdd.ratio} ${liquidityAdd.token2!.name}',
+        '1 ${liquidityAdd.token1!.symbol} = ${liquidityAdd.ratio} ${liquidityAdd.token2!.symbol}',
       ),
     )
         .animate()

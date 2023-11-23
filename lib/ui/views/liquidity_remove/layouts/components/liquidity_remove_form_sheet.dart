@@ -2,6 +2,7 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_btn.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_close_btn.dart';
+import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_error_message.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_token_balance.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_token_max_btn.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
@@ -68,8 +69,15 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                             padding: const EdgeInsets.only(
                               right: 10,
                             ),
-                            child: LiquidityRemoveTokenInfos(
-                              token: liquidityRemove.lpToken,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const LiquidityRemoveLPTokenMaxButton(),
+                                const SizedBox(width: 10),
+                                LiquidityRemoveTokenInfos(
+                                  token: liquidityRemove.lpToken,
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -81,7 +89,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           LiquidityRemoveLPTokenBalance(),
-                          LiquidityRemoveLPTokenMaxButton(),
+                          SizedBox.shrink(),
                         ],
                       ),
                       const SizedBox(
@@ -93,14 +101,15 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      LiquidityRemoveErrorMessage(),
+                      SizedBox(
+                        height: 20,
+                      ),
                       LiquidityRemoveButton(),
                       SizedBox(
                         height: 20,
                       ),
                       LiquidityRemoveCloseButton(),
-                      SizedBox(
-                        height: 20,
-                      ),
                     ],
                   ),
                 ],

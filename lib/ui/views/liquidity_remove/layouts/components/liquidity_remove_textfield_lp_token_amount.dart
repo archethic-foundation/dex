@@ -63,10 +63,12 @@ class _LiquidityRemoveLPTokenAmountState
     final liquidityRemove =
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(liquidityRemove.lpTokenAmount != 0.0 ||
-        tokenAmountController.text == '' ||
-        (textNum != null && textNum == 0))) {
+    if (textNum == null && liquidityRemove.lpTokenAmount != 0.0) {
       _updateAmountTextController();
+    } else {
+      if (textNum != null && liquidityRemove.lpTokenAmount != textNum) {
+        _updateAmountTextController();
+      }
     }
 
     return SizedBox(

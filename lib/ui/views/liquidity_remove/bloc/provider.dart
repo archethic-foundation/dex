@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _liquidityRemoveFormProvider = NotifierProvider.autoDispose<
@@ -138,6 +139,7 @@ class LiquidityRemoveFormNotifier
     double amount,
   ) async {
     state = state.copyWith(
+      failure: null,
       lpTokenAmount: amount,
     );
 
@@ -173,7 +175,7 @@ class LiquidityRemoveFormNotifier
   }
 
   void setLpTokenAmountMax() {
-    state = state.copyWith(lpTokenAmount: state.lpTokenBalance);
+    setLPTokenAmount(state.lpTokenBalance);
   }
 
   void setProcessInProgress(bool isProcessInProgress) {
@@ -196,8 +198,8 @@ class LiquidityRemoveFormNotifier
     );
   }
 
-  Future<void> validateForm() async {
-    if (control() == false) {
+  Future<void> validateForm(BuildContext context) async {
+    if (control(context) == false) {
       return;
     }
 
@@ -206,12 +208,25 @@ class LiquidityRemoveFormNotifier
     );
   }
 
-  bool control() {
+  bool control(BuildContext context) {
     setFailure(null);
 
     if (state.lpTokenAmount <= 0) {
       setFailure(
-        const Failure.other(cause: 'Please enter the amount of lp token'),
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .liquidityRemoveControlLPTokenAmountEmpty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.lpTokenAmount > state.lpTokenBalance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .liquidityRemoveControlToken1AmountExceedBalance,
+        ),
       );
       return false;
     }
@@ -222,7 +237,7 @@ class LiquidityRemoveFormNotifier
   Future<void> remove(BuildContext context, WidgetRef ref) async {
     setLiquidityRemoveOk(false);
 
-    if (control() == false) {
+    if (control(context) == false) {
       return;
     }
     setProcessInProgress(true);

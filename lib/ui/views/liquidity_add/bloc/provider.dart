@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _liquidityAddFormProvider = NotifierProvider.autoDispose<
@@ -167,6 +168,7 @@ class LiquidityAddFormNotifier
     double amount,
   ) async {
     state = state.copyWith(
+      failure: null,
       token1Amount: amount,
     );
 
@@ -181,6 +183,7 @@ class LiquidityAddFormNotifier
     double amount,
   ) async {
     state = state.copyWith(
+      failure: null,
       token2Amount: amount,
     );
     final equivalentAmount =
@@ -234,8 +237,8 @@ class LiquidityAddFormNotifier
     );
   }
 
-  Future<void> validateForm() async {
-    if (control() == false) {
+  Future<void> validateForm(BuildContext context) async {
+    if (control(context) == false) {
       return;
     }
 
@@ -244,30 +247,55 @@ class LiquidityAddFormNotifier
     );
   }
 
-  bool control() {
+  bool control(BuildContext context) {
     setFailure(null);
 
     if (state.token1Amount <= 0) {
       setFailure(
-        const Failure.other(cause: 'Please enter the amount of token 1'),
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .liquidityAddControlToken1AmountEmpty,
+        ),
       );
       return false;
     }
 
     if (state.token2Amount <= 0) {
       setFailure(
-        const Failure.other(cause: 'Please enter the amount of token 1'),
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .liquidityAddControlToken2AmountEmpty,
+        ),
       );
       return false;
     }
 
+    if (state.token1Amount > state.token1Balance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .liquidityAddControlToken1AmountExceedBalance,
+        ),
+      );
+      return false;
+    }
+
+    if (state.token2Amount > state.token2Balance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .liquidityAddControlToken2AmountExceedBalance,
+        ),
+      );
+      return false;
+    }
     return true;
   }
 
   Future<void> add(BuildContext context, WidgetRef ref) async {
     setLiquidityAddOk(false);
 
-    if (control() == false) {
+    if (control(context) == false) {
       return;
     }
     setProcessInProgress(true);

@@ -39,7 +39,7 @@ class LiquidityAddButton extends ConsumerWidget {
       onPressed: () {
         ref
             .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-            .validateForm();
+            .validateForm(context);
       },
     );
   }
