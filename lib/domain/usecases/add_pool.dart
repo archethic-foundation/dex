@@ -133,12 +133,10 @@ class AddPoolCase with TransactionDexMixin {
       } catch (e) {
         dev.log('Signature failed $e', name: logName);
         if (e is Failure) {
-          ref.read(PoolAddFormProvider.poolAddForm.notifier).setFailure(e);
+          poolAddNotifier.setFailure(e);
           return;
         }
-        ref
-            .read(PoolAddFormProvider.poolAddForm.notifier)
-            .setFailure(Failure.other(cause: e.toString()));
+        poolAddNotifier.setFailure(Failure.other(cause: e.toString()));
 
         return;
       }
@@ -188,9 +186,7 @@ class AddPoolCase with TransactionDexMixin {
       poolAddNotifier.setCurrentStep(5);
       try {
         final currentNameAccount = await getCurrentAccount();
-        ref
-            .read(PoolAddFormProvider.poolAddForm.notifier)
-            .setWalletConfirmation(true);
+        poolAddNotifier.setWalletConfirmation(true);
 
         transactionAddPoolLiquidity = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
@@ -199,18 +195,14 @@ class AddPoolCase with TransactionDexMixin {
         ))
             .first;
 
-        ref
-            .read(PoolAddFormProvider.poolAddForm.notifier)
-            .setWalletConfirmation(false);
+        poolAddNotifier.setWalletConfirmation(false);
       } catch (e) {
         dev.log('Signature failed $e', name: logName);
         if (e is Failure) {
-          ref.read(PoolAddFormProvider.poolAddForm.notifier).setFailure(e);
+          poolAddNotifier.setFailure(e);
           return;
         }
-        ref
-            .read(PoolAddFormProvider.poolAddForm.notifier)
-            .setFailure(Failure.other(cause: e.toString()));
+        poolAddNotifier.setFailure(Failure.other(cause: e.toString()));
 
         return;
       }

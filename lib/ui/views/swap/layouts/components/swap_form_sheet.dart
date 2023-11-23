@@ -1,19 +1,10 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_balance_max_btn.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_icon_direction.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_btn.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_error_message.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_icon_settings.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_pool_address.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_ratio.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swapped_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swapped_amount.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_amount_fiat.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_balance.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_selection.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_amount_fiat.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_balance.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_selection.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_validation_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,7 +14,7 @@ class SwapFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final swap = ref.read(SwapFormProvider.swapForm);
+    final swap = ref.watch(SwapFormProvider.swapForm);
 
     return Expanded(
       child: Column(
@@ -59,96 +50,39 @@ class SwapFormSheet extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '${AppLocalizations.of(context)!.swap_settings_slippage_tolerance} ${swap.slippageTolerance}%',
-                      ),
-                      const Align(
-                        alignment: Alignment.centerRight,
-                        child: SwapTokenIconSettings(),
-                      ),
-                    ],
-                  ),
-                  const Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      SwapTokenToSwapAmount(),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: SwapTokenToSwapSelection(),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox.shrink(),
-                      //SwapTokenToSwapAmountFiat(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SwapTokenToSwapBalance(),
-                          SizedBox(
-                            width: 5,
+                          Text(
+                            '${AppLocalizations.of(context)!.swap_settings_slippage_tolerance} ${swap.slippageTolerance}%',
                           ),
-                          SwapBalanceMaxButton(),
+                          const Align(
+                            alignment: Alignment.centerRight,
+                            child: SwapTokenIconSettings(),
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                  const SwapTokenIconDirection(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Stack(
-                    alignment: Alignment.centerRight,
-                    children: [
-                      SwapTokenSwappedAmount(),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: SwapTokenSwappedSelection(),
+                      const SwapTokenToSwapAmount(),
+                      const SizedBox(
+                        height: 10,
                       ),
+                      const SwapTokenSwappedAmount(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const SwapErrorMessage(),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox.shrink(),
-                      //  SwapTokenSwappedAmountFiat(),
-                      SwapTokenSwappedBalance(),
+                      SwapButton(),
                     ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: SwapRatio(),
-                  ),
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: SwapPoolAddress(),
-                  ),
-                  const Spacer(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const SwapValidationButton(),
-                  const SizedBox(
-                    height: 20,
                   ),
                 ],
               ),

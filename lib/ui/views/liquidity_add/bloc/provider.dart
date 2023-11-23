@@ -58,7 +58,10 @@ class LiquidityAddFormNotifier
     final apiService = sl.get<ApiService>();
     final equivalentAmounResult =
         await PoolFactory(state.poolGenesisAddress, apiService)
-            .getEquivalentAmount(state.token1!.address!, 1);
+            .getEquivalentAmount(
+      state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+      1,
+    );
     var ratio = 0.0;
     equivalentAmounResult.map(
       success: (success) {
@@ -172,8 +175,10 @@ class LiquidityAddFormNotifier
       token1Amount: amount,
     );
 
-    final equivalentAmount =
-        await _calculateEquivalentAmount(state.token1!.address!, amount);
+    final equivalentAmount = await _calculateEquivalentAmount(
+      state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+      amount,
+    );
     state = state.copyWith(
       token2Amount: equivalentAmount,
     );
@@ -186,8 +191,10 @@ class LiquidityAddFormNotifier
       failure: null,
       token2Amount: amount,
     );
-    final equivalentAmount =
-        await _calculateEquivalentAmount(state.token2!.address!, amount);
+    final equivalentAmount = await _calculateEquivalentAmount(
+      state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+      amount,
+    );
     state = state.copyWith(
       token1Amount: equivalentAmount,
     );

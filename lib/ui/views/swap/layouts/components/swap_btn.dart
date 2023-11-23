@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SwapValidationButton extends ConsumerWidget {
-  const SwapValidationButton({
+class SwapButton extends ConsumerWidget {
+  const SwapButton({
     super.key,
   });
 
@@ -18,10 +18,8 @@ class SwapValidationButton extends ConsumerWidget {
 
     if (swap.isControlsOk == false) {
       return AppButton(
-        labelBtn: AppLocalizations.of(context)!
-            .btn_swap_insufficient_balance
-            .replaceAll('%1', swap.tokenToSwap!.name),
-        icon: Iconsax.empty_wallet,
+        labelBtn: AppLocalizations.of(context)!.btn_swap,
+        icon: Iconsax.arrange_circle_2,
         disabled: true,
       );
     }
@@ -29,8 +27,9 @@ class SwapValidationButton extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
     if (session.isConnected == false) {
       return AppButton(
-        labelBtn: AppLocalizations.of(context)!.btn_connect_wallet,
-        icon: Iconsax.empty_wallet,
+        labelBtn: AppLocalizations.of(context)!.btn_swap,
+        icon: Iconsax.arrange_circle_2,
+        disabled: true,
       );
     }
 
@@ -38,7 +37,7 @@ class SwapValidationButton extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.btn_swap,
       icon: Iconsax.arrange_circle_2,
       onPressed: () {
-        ref.read(SwapFormProvider.swapForm.notifier).validateForm();
+        ref.read(SwapFormProvider.swapForm.notifier).validateForm(context);
       },
     );
   }

@@ -13,6 +13,7 @@ import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _swapFormProvider =
@@ -34,6 +35,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     DexToken tokenToSwap,
   ) async {
     state = state.copyWith(
+      failure: null,
       tokenToSwap: tokenToSwap,
     );
 
@@ -130,11 +132,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     double tokenToSwapAmount,
   ) async {
     state = state.copyWith(
+      failure: null,
       tokenToSwapAmount: tokenToSwapAmount,
     );
 
     final equivalentAmount = await _calculateOutputAmount(
-      state.tokenToSwap!.address!,
+      state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       tokenToSwapAmount,
     );
     state = state.copyWith(
@@ -146,11 +149,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     double tokenSwappedAmount,
   ) async {
     state = state.copyWith(
+      failure: null,
       tokenSwappedAmount: tokenSwappedAmount,
     );
 
     final equivalentAmount = await _calculateOutputAmount(
-      state.tokenSwapped!.address!,
+      state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
       tokenSwappedAmount,
     );
     state = state.copyWith(
@@ -174,6 +178,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     DexToken tokenSwapped,
   ) async {
     state = state.copyWith(
+      failure: null,
       tokenSwapped: tokenSwapped,
     );
 
@@ -212,9 +217,13 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
   Future<void> getRatio() async {
     final apiService = sl.get<ApiService>();
-    final equivalentAmounResult =
-        await PoolFactory(state.poolGenesisAddress, apiService)
-            .getEquivalentAmount(state.tokenToSwap!.address!, 1);
+    final equivalentAmounResult = await PoolFactory(
+      state.poolGenesisAddress,
+      apiService,
+    ).getEquivalentAmount(
+      state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+      1,
+    );
     var ratio = 0.0;
     equivalentAmounResult.map(
       success: (success) {
@@ -234,12 +243,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   ) {
     state = state.copyWith(
       poolGenesisAddress: poolAddress,
-    );
-  }
-
-  void setControlInProgress(bool controlInProgress) {
-    state = state.copyWith(
-      controlInProgress: controlInProgress,
     );
   }
 
@@ -279,12 +282,36 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
+  void setTokenToSwapAmountMax() {
+    setTokenToSwapAmount(state.tokenToSwapBalance);
+  }
+
+  void setTokenSwappedAmountMax() {
+    setTokenSwappedAmount(state.tokenSwappedBalance);
+  }
+
+  void setRecoveryTransactionSwap(Transaction? recoveryTransactionSwap) {
+    state = state.copyWith(recoveryTransactionSwap: recoveryTransactionSwap);
+  }
+
   void setEstimatedReceived(
     double estimatedReceived,
   ) {
     state = state.copyWith(
       estimatedReceived: estimatedReceived,
     );
+  }
+
+  void setCurrentStep(int currentStep) {
+    state = state.copyWith(currentStep: currentStep);
+  }
+
+  void setResumeProcess(bool resumeProcess) {
+    state = state.copyWith(resumeProcess: resumeProcess);
+  }
+
+  void setTokenFormSelected(int tokenFormSelected) {
+    state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
   }
 
   void setFailure(Failure? failure) {
@@ -305,8 +332,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
-  Future<void> validateForm() async {
-    if (control() == false) {
+  Future<void> validateForm(BuildContext context) async {
+    if (control(context) == false) {
       return;
     }
 
@@ -315,14 +342,71 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
-  bool control() {
+  bool control(BuildContext context) {
     setFailure(null);
+
+    if (state.tokenToSwap == null) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.tokenSwapped == null) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.tokenToSwapAmount <= 0) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.tokenSwappedAmount <= 0) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.tokenToSwapAmount > state.tokenToSwapBalance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .swapControlTokenToSwapAmountExceedBalance,
+        ),
+      );
+      return false;
+    }
+
+    if (state.tokenSwappedAmount > state.tokenSwappedBalance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .swapControlTokenSwappedAmountExceedBalance,
+        ),
+      );
+      return false;
+    }
 
     return true;
   }
 
   Future<void> swap(BuildContext context, WidgetRef ref) async {
-    if (control() == false) {
+    setSwapOk(false);
+    if (control(context) == false) {
       return;
     }
     setProcessInProgress(true);
@@ -335,7 +419,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       state.slippageTolerance,
     );
 
+    setResumeProcess(false);
     setProcessInProgress(false);
+    setSwapOk(true);
   }
 }
 

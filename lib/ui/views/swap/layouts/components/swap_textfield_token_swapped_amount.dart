@@ -1,9 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_balance.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_selection.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_balance.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_selection.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,17 +10,18 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SwapTokenToSwapAmount extends ConsumerStatefulWidget {
-  const SwapTokenToSwapAmount({
+class SwapTokenSwappedAmount extends ConsumerStatefulWidget {
+  const SwapTokenSwappedAmount({
     super.key,
   });
 
   @override
-  ConsumerState<SwapTokenToSwapAmount> createState() =>
-      _SwapTokenToSwapAmountState();
+  ConsumerState<SwapTokenSwappedAmount> createState() =>
+      _SwapTokenSwappedAmountState();
 }
 
-class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
+class _SwapTokenSwappedAmountState
+    extends ConsumerState<SwapTokenSwappedAmount> {
   late TextEditingController tokenAmountController;
   late FocusNode tokenAmountFocusNode;
 
@@ -39,9 +39,9 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
         AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
-        text: swap.tokenToSwapAmount == 0
+        text: swap.tokenSwappedAmount == 0
             ? ''
-            : swap.tokenToSwapAmount.toString(),
+            : swap.tokenSwappedAmount.toString(),
       ),
     );
   }
@@ -65,19 +65,18 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
 
     final swap = ref.watch(SwapFormProvider.swapForm);
 
-    if (swap.tokenFormSelected == 1) {
+    if (swap.tokenFormSelected == 2) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         tokenAmountFocusNode.requestFocus();
       });
     }
 
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(swap.tokenToSwapAmount != 0.0 ||
+    if (!(swap.tokenSwappedAmount != 0.0 ||
         tokenAmountController.text == '' ||
         (textNum != null && textNum == 0))) {
       _updateAmountTextController();
     }
-
     return Column(
       children: [
         Stack(
@@ -93,6 +92,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Expanded(
                             child: DecoratedBox(
@@ -134,8 +134,8 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                                         .read(
                                           SwapFormProvider.swapForm.notifier,
                                         )
-                                        .setTokenFormSelected(1);
-                                    await swapNotifier.setTokenToSwapAmount(
+                                        .setTokenFormSelected(2);
+                                    await swapNotifier.setTokenSwappedAmount(
                                       double.tryParse(
                                             text.replaceAll(' ', ''),
                                           ) ??
@@ -147,7 +147,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                                         .read(
                                           SwapFormProvider.swapForm.notifier,
                                         )
-                                        .setTokenFormSelected(1);
+                                        .setTokenFormSelected(2);
                                   },
                                   focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
@@ -175,9 +175,9 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
               padding: EdgeInsets.only(
                 left: 10,
               ),
-              child: SwapTokenToSwapSelection(),
+              child: SwapTokenSwappedSelection(),
             ),
-            if (swap.tokenToSwapBalance > 0)
+            if (swap.tokenSwappedBalance > 0)
               Container(
                 padding: const EdgeInsets.only(
                   top: 3,
@@ -189,10 +189,10 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         .read(
                           SwapFormProvider.swapForm.notifier,
                         )
-                        .setTokenFormSelected(1);
+                        .setTokenFormSelected(2);
                     ref
                         .read(SwapFormProvider.swapForm.notifier)
-                        .setTokenToSwapAmountMax();
+                        .setTokenSwappedAmountMax();
                     _updateAmountTextController();
                   },
                   child: Text(
@@ -212,7 +212,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
         ),
         const Row(
           children: [
-            SwapTokenToSwapBalance(),
+            SwapTokenSwappedBalance(),
           ],
         ),
       ],

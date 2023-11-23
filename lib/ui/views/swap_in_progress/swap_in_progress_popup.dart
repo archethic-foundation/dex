@@ -1,10 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_circular_step_progress_indicator.dart';
-import 'package:aedex/ui/views/util/components/failure_message.dart';
-import 'package:aedex/ui/views/util/components/in_progress_banner.dart';
+import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/swap_in_progress/components/swap_in_progress_circular_step_progress_indicator.dart';
+import 'package:aedex/ui/views/swap_in_progress/components/swap_in_progress_current_step.dart';
+import 'package:aedex/ui/views/swap_in_progress/components/swap_in_progress_infos_banner.dart';
+import 'package:aedex/ui/views/swap_in_progress/components/swap_in_progress_resume_btn.dart';
 import 'package:aedex/ui/views/util/components/popup_close_button.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
@@ -117,37 +120,18 @@ class SwapInProgressPopup {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(20),
+                                  const Padding(
+                                    padding: EdgeInsets.all(20),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        const SwapCircularStepProgressIndicator(),
-                                        InProgressBanner(
-                                          stepLabel: swap.isProcessInProgress
-                                              ? AppLocalizations.of(context)!
-                                                  .swapProcessInProgress
-                                              : '',
-                                          infoMessage: swap
-                                                      .walletConfirmation ==
-                                                  true
-                                              ? AppLocalizations.of(context)!
-                                                  .swapInProgressConfirmAEWallet
-                                              : swap.swapOk == true
-                                                  ? AppLocalizations.of(
-                                                      context,
-                                                    )!
-                                                      .swapSuccessInfo
-                                                  : '',
-                                          errorMessage: swap.failure != null
-                                              ? FailureMessage(
-                                                  context: context,
-                                                  failure: swap.failure,
-                                                ).getMessage()
-                                              : '',
-                                        ),
+                                        SwapInProgressCircularStepProgressIndicator(),
+                                        SwapInProgressCurrentStep(),
+                                        SwapInProgressInfosBanner(),
+                                        Spacer(),
+                                        SwapInProgressResumeBtn(),
                                       ],
                                     ),
                                   ),
@@ -172,6 +156,13 @@ class SwapInProgressPopup {
                                   ..setFailure(null)
                                   ..setSwapOk(false)
                                   ..setWalletConfirmation(false);
+                                ref
+                                    .read(
+                                      MainScreenWidgetDisplayedProviders
+                                          .mainScreenWidgetDisplayedProvider
+                                          .notifier,
+                                    )
+                                    .setWidget(const SwapSheet(), ref);
                               },
                             ),
                           ),

@@ -2,7 +2,7 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_popup.dart';
+import 'package:aedex/ui/views/swap_in_progress/swap_in_progress_popup.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';

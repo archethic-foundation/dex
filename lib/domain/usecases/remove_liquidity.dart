@@ -21,12 +21,12 @@ class RemoveLiquidityCase with TransactionDexMixin {
     int recoveryStep = 0,
   }) async {
     final archethicContract = ArchethicContract();
-    final liquidityRemoveAddNotifier =
+    final liquidityRemoveNotifier =
         ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier);
 
     archethic.Transaction? transactionRemoveLiquidity;
     if (recoveryStep <= 1) {
-      liquidityRemoveAddNotifier.setCurrentStep(1);
+      liquidityRemoveNotifier.setCurrentStep(1);
       try {
         final transactionAddLiquiditylMap =
             await archethicContract.getRemoveLiquidityTx(
@@ -40,7 +40,7 @@ class RemoveLiquidityCase with TransactionDexMixin {
             transactionRemoveLiquidity = success;
           },
           failure: (failure) {
-            liquidityRemoveAddNotifier
+            liquidityRemoveNotifier
               ..setFailure(failure)
               ..setProcessInProgress(false);
             throw failure;
@@ -52,27 +52,23 @@ class RemoveLiquidityCase with TransactionDexMixin {
     }
 
     if (recoveryStep <= 1) {
-      liquidityRemoveAddNotifier.setCurrentStep(2);
+      liquidityRemoveNotifier.setCurrentStep(2);
       try {
         final currentNameAccount = await getCurrentAccount();
-        liquidityRemoveAddNotifier.setWalletConfirmation(true);
+        liquidityRemoveNotifier.setWalletConfirmation(true);
         transactionRemoveLiquidity = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionRemoveLiquidity!],
         ))
             .first;
-        liquidityRemoveAddNotifier.setWalletConfirmation(false);
+        liquidityRemoveNotifier.setWalletConfirmation(false);
       } catch (e) {
         if (e is Failure) {
-          ref
-              .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
-              .setFailure(e);
+          liquidityRemoveNotifier.setFailure(e);
           return;
         }
-        ref
-            .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
-            .setFailure(Failure.other(cause: e.toString()));
+        liquidityRemoveNotifier.setFailure(Failure.other(cause: e.toString()));
 
         return;
       }
@@ -84,7 +80,7 @@ class RemoveLiquidityCase with TransactionDexMixin {
       ],
     );
 
-    liquidityRemoveAddNotifier.setCurrentStep(3);
+    liquidityRemoveNotifier.setCurrentStep(3);
   }
 
   String getAEStepLabel(

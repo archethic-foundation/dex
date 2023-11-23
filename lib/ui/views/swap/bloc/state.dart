@@ -2,6 +2,7 @@
 
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
@@ -12,6 +13,9 @@ enum SwapProcessStep { form, confirmation }
 class SwapFormState with _$SwapFormState {
   const factory SwapFormState({
     @Default(SwapProcessStep.form) SwapProcessStep swapProcessStep,
+    @Default(false) bool resumeProcess,
+    @Default(0) int currentStep,
+    @Default(1) int tokenFormSelected,
     @Default('') String poolGenesisAddress,
     DexToken? tokenToSwap,
     @Default(false) bool isProcessInProgress,
@@ -29,14 +33,18 @@ class SwapFormState with _$SwapFormState {
     @Default(0.0) double minimumReceived,
     @Default(0.0) double priceImpact,
     @Default(0.0) double estimatedReceived,
-    @Default(false) bool? controlInProgress,
     Failure? failure,
+    Transaction? recoveryTransactionSwap,
   }) = _SwapFormState;
   const SwapFormState._();
 
-  bool get isControlsOk => failure == null;
-
-  bool get canSwap => isControlsOk;
+  bool get isControlsOk =>
+      tokenToSwap != null &&
+      tokenSwapped != null &&
+      tokenToSwapBalance > 0 &&
+      tokenToSwapAmount > 0 &&
+      tokenSwappedAmount > 0 &&
+      tokenToSwap!.address != tokenSwapped!.address;
 
   @override
   double get tokenToSwapBalance => tokenToSwap!.balance;

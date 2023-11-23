@@ -17,6 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SwapFormState {
   SwapProcessStep get swapProcessStep => throw _privateConstructorUsedError;
+  bool get resumeProcess => throw _privateConstructorUsedError;
+  int get currentStep => throw _privateConstructorUsedError;
+  int get tokenFormSelected => throw _privateConstructorUsedError;
   String get poolGenesisAddress => throw _privateConstructorUsedError;
   DexToken? get tokenToSwap => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
@@ -34,8 +37,9 @@ mixin _$SwapFormState {
   double get minimumReceived => throw _privateConstructorUsedError;
   double get priceImpact => throw _privateConstructorUsedError;
   double get estimatedReceived => throw _privateConstructorUsedError;
-  bool? get controlInProgress => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
+  Transaction? get recoveryTransactionSwap =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SwapFormStateCopyWith<SwapFormState> get copyWith =>
@@ -50,6 +54,9 @@ abstract class $SwapFormStateCopyWith<$Res> {
   @useResult
   $Res call(
       {SwapProcessStep swapProcessStep,
+      bool resumeProcess,
+      int currentStep,
+      int tokenFormSelected,
       String poolGenesisAddress,
       DexToken? tokenToSwap,
       bool isProcessInProgress,
@@ -67,12 +74,13 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double minimumReceived,
       double priceImpact,
       double estimatedReceived,
-      bool? controlInProgress,
-      Failure? failure});
+      Failure? failure,
+      Transaction? recoveryTransactionSwap});
 
   $DexTokenCopyWith<$Res>? get tokenToSwap;
   $DexTokenCopyWith<$Res>? get tokenSwapped;
   $FailureCopyWith<$Res>? get failure;
+  $TransactionCopyWith<$Res>? get recoveryTransactionSwap;
 }
 
 /// @nodoc
@@ -89,6 +97,9 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
   @override
   $Res call({
     Object? swapProcessStep = null,
+    Object? resumeProcess = null,
+    Object? currentStep = null,
+    Object? tokenFormSelected = null,
     Object? poolGenesisAddress = null,
     Object? tokenToSwap = freezed,
     Object? isProcessInProgress = null,
@@ -106,14 +117,26 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? minimumReceived = null,
     Object? priceImpact = null,
     Object? estimatedReceived = null,
-    Object? controlInProgress = freezed,
     Object? failure = freezed,
+    Object? recoveryTransactionSwap = freezed,
   }) {
     return _then(_value.copyWith(
       swapProcessStep: null == swapProcessStep
           ? _value.swapProcessStep
           : swapProcessStep // ignore: cast_nullable_to_non_nullable
               as SwapProcessStep,
+      resumeProcess: null == resumeProcess
+          ? _value.resumeProcess
+          : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentStep: null == currentStep
+          ? _value.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
+      tokenFormSelected: null == tokenFormSelected
+          ? _value.tokenFormSelected
+          : tokenFormSelected // ignore: cast_nullable_to_non_nullable
+              as int,
       poolGenesisAddress: null == poolGenesisAddress
           ? _value.poolGenesisAddress
           : poolGenesisAddress // ignore: cast_nullable_to_non_nullable
@@ -182,14 +205,14 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.estimatedReceived
           : estimatedReceived // ignore: cast_nullable_to_non_nullable
               as double,
-      controlInProgress: freezed == controlInProgress
-          ? _value.controlInProgress
-          : controlInProgress // ignore: cast_nullable_to_non_nullable
-              as bool?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      recoveryTransactionSwap: freezed == recoveryTransactionSwap
+          ? _value.recoveryTransactionSwap
+          : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
     ) as $Val);
   }
 
@@ -228,6 +251,18 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
       return _then(_value.copyWith(failure: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionCopyWith<$Res>? get recoveryTransactionSwap {
+    if (_value.recoveryTransactionSwap == null) {
+      return null;
+    }
+
+    return $TransactionCopyWith<$Res>(_value.recoveryTransactionSwap!, (value) {
+      return _then(_value.copyWith(recoveryTransactionSwap: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -240,6 +275,9 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {SwapProcessStep swapProcessStep,
+      bool resumeProcess,
+      int currentStep,
+      int tokenFormSelected,
       String poolGenesisAddress,
       DexToken? tokenToSwap,
       bool isProcessInProgress,
@@ -257,8 +295,8 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
       double minimumReceived,
       double priceImpact,
       double estimatedReceived,
-      bool? controlInProgress,
-      Failure? failure});
+      Failure? failure,
+      Transaction? recoveryTransactionSwap});
 
   @override
   $DexTokenCopyWith<$Res>? get tokenToSwap;
@@ -266,6 +304,8 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
   $DexTokenCopyWith<$Res>? get tokenSwapped;
   @override
   $FailureCopyWith<$Res>? get failure;
+  @override
+  $TransactionCopyWith<$Res>? get recoveryTransactionSwap;
 }
 
 /// @nodoc
@@ -280,6 +320,9 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? swapProcessStep = null,
+    Object? resumeProcess = null,
+    Object? currentStep = null,
+    Object? tokenFormSelected = null,
     Object? poolGenesisAddress = null,
     Object? tokenToSwap = freezed,
     Object? isProcessInProgress = null,
@@ -297,14 +340,26 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
     Object? minimumReceived = null,
     Object? priceImpact = null,
     Object? estimatedReceived = null,
-    Object? controlInProgress = freezed,
     Object? failure = freezed,
+    Object? recoveryTransactionSwap = freezed,
   }) {
     return _then(_$SwapFormStateImpl(
       swapProcessStep: null == swapProcessStep
           ? _value.swapProcessStep
           : swapProcessStep // ignore: cast_nullable_to_non_nullable
               as SwapProcessStep,
+      resumeProcess: null == resumeProcess
+          ? _value.resumeProcess
+          : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentStep: null == currentStep
+          ? _value.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
+      tokenFormSelected: null == tokenFormSelected
+          ? _value.tokenFormSelected
+          : tokenFormSelected // ignore: cast_nullable_to_non_nullable
+              as int,
       poolGenesisAddress: null == poolGenesisAddress
           ? _value.poolGenesisAddress
           : poolGenesisAddress // ignore: cast_nullable_to_non_nullable
@@ -373,14 +428,14 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
           ? _value.estimatedReceived
           : estimatedReceived // ignore: cast_nullable_to_non_nullable
               as double,
-      controlInProgress: freezed == controlInProgress
-          ? _value.controlInProgress
-          : controlInProgress // ignore: cast_nullable_to_non_nullable
-              as bool?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      recoveryTransactionSwap: freezed == recoveryTransactionSwap
+          ? _value.recoveryTransactionSwap
+          : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
     ));
   }
 }
@@ -390,6 +445,9 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
 class _$SwapFormStateImpl extends _SwapFormState {
   const _$SwapFormStateImpl(
       {this.swapProcessStep = SwapProcessStep.form,
+      this.resumeProcess = false,
+      this.currentStep = 0,
+      this.tokenFormSelected = 1,
       this.poolGenesisAddress = '',
       this.tokenToSwap,
       this.isProcessInProgress = false,
@@ -407,13 +465,22 @@ class _$SwapFormStateImpl extends _SwapFormState {
       this.minimumReceived = 0.0,
       this.priceImpact = 0.0,
       this.estimatedReceived = 0.0,
-      this.controlInProgress = false,
-      this.failure})
+      this.failure,
+      this.recoveryTransactionSwap})
       : super._();
 
   @override
   @JsonKey()
   final SwapProcessStep swapProcessStep;
+  @override
+  @JsonKey()
+  final bool resumeProcess;
+  @override
+  @JsonKey()
+  final int currentStep;
+  @override
+  @JsonKey()
+  final int tokenFormSelected;
   @override
   @JsonKey()
   final String poolGenesisAddress;
@@ -464,14 +531,13 @@ class _$SwapFormStateImpl extends _SwapFormState {
   @JsonKey()
   final double estimatedReceived;
   @override
-  @JsonKey()
-  final bool? controlInProgress;
-  @override
   final Failure? failure;
+  @override
+  final Transaction? recoveryTransactionSwap;
 
   @override
   String toString() {
-    return 'SwapFormState(swapProcessStep: $swapProcessStep, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, networkFees: $networkFees, swapFees: $swapFees, slippageTolerance: $slippageTolerance, minimumReceived: $minimumReceived, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, controlInProgress: $controlInProgress, failure: $failure)';
+    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, networkFees: $networkFees, swapFees: $swapFees, slippageTolerance: $slippageTolerance, minimumReceived: $minimumReceived, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap)';
   }
 
   @override
@@ -481,6 +547,12 @@ class _$SwapFormStateImpl extends _SwapFormState {
             other is _$SwapFormStateImpl &&
             (identical(other.swapProcessStep, swapProcessStep) ||
                 other.swapProcessStep == swapProcessStep) &&
+            (identical(other.resumeProcess, resumeProcess) ||
+                other.resumeProcess == resumeProcess) &&
+            (identical(other.currentStep, currentStep) ||
+                other.currentStep == currentStep) &&
+            (identical(other.tokenFormSelected, tokenFormSelected) ||
+                other.tokenFormSelected == tokenFormSelected) &&
             (identical(other.poolGenesisAddress, poolGenesisAddress) ||
                 other.poolGenesisAddress == poolGenesisAddress) &&
             (identical(other.tokenToSwap, tokenToSwap) ||
@@ -513,15 +585,19 @@ class _$SwapFormStateImpl extends _SwapFormState {
                 other.priceImpact == priceImpact) &&
             (identical(other.estimatedReceived, estimatedReceived) ||
                 other.estimatedReceived == estimatedReceived) &&
-            (identical(other.controlInProgress, controlInProgress) ||
-                other.controlInProgress == controlInProgress) &&
-            (identical(other.failure, failure) || other.failure == failure));
+            (identical(other.failure, failure) || other.failure == failure) &&
+            (identical(
+                    other.recoveryTransactionSwap, recoveryTransactionSwap) ||
+                other.recoveryTransactionSwap == recoveryTransactionSwap));
   }
 
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
         swapProcessStep,
+        resumeProcess,
+        currentStep,
+        tokenFormSelected,
         poolGenesisAddress,
         tokenToSwap,
         isProcessInProgress,
@@ -539,8 +615,8 @@ class _$SwapFormStateImpl extends _SwapFormState {
         minimumReceived,
         priceImpact,
         estimatedReceived,
-        controlInProgress,
-        failure
+        failure,
+        recoveryTransactionSwap
       ]);
 
   @JsonKey(ignore: true)
@@ -553,6 +629,9 @@ class _$SwapFormStateImpl extends _SwapFormState {
 abstract class _SwapFormState extends SwapFormState {
   const factory _SwapFormState(
       {final SwapProcessStep swapProcessStep,
+      final bool resumeProcess,
+      final int currentStep,
+      final int tokenFormSelected,
       final String poolGenesisAddress,
       final DexToken? tokenToSwap,
       final bool isProcessInProgress,
@@ -570,12 +649,18 @@ abstract class _SwapFormState extends SwapFormState {
       final double minimumReceived,
       final double priceImpact,
       final double estimatedReceived,
-      final bool? controlInProgress,
-      final Failure? failure}) = _$SwapFormStateImpl;
+      final Failure? failure,
+      final Transaction? recoveryTransactionSwap}) = _$SwapFormStateImpl;
   const _SwapFormState._() : super._();
 
   @override
   SwapProcessStep get swapProcessStep;
+  @override
+  bool get resumeProcess;
+  @override
+  int get currentStep;
+  @override
+  int get tokenFormSelected;
   @override
   String get poolGenesisAddress;
   @override
@@ -611,9 +696,9 @@ abstract class _SwapFormState extends SwapFormState {
   @override
   double get estimatedReceived;
   @override
-  bool? get controlInProgress;
-  @override
   Failure? get failure;
+  @override
+  Transaction? get recoveryTransactionSwap;
   @override
   @JsonKey(ignore: true)
   _$$SwapFormStateImplCopyWith<_$SwapFormStateImpl> get copyWith =>

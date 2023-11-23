@@ -26,12 +26,12 @@ class AddLiquidityCase with TransactionDexMixin {
     int recoveryStep = 0,
   }) async {
     final archethicContract = ArchethicContract();
-    final poolAddNotifier =
+    final liquidityAddNotifier =
         ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier);
 
     archethic.Transaction? transactionAddLiquidity;
     if (recoveryStep <= 1) {
-      poolAddNotifier.setCurrentStep(1);
+      liquidityAddNotifier.setCurrentStep(1);
       try {
         final transactionAddLiquiditylMap =
             await archethicContract.getAddLiquidityTx(
@@ -48,7 +48,7 @@ class AddLiquidityCase with TransactionDexMixin {
             transactionAddLiquidity = success;
           },
           failure: (failure) {
-            poolAddNotifier
+            liquidityAddNotifier
               ..setFailure(failure)
               ..setProcessInProgress(false);
             throw failure;
@@ -60,28 +60,24 @@ class AddLiquidityCase with TransactionDexMixin {
     }
 
     if (recoveryStep <= 1) {
-      poolAddNotifier.setCurrentStep(2);
+      liquidityAddNotifier.setCurrentStep(2);
       try {
         final currentNameAccount = await getCurrentAccount();
-        poolAddNotifier.setWalletConfirmation(true);
+        liquidityAddNotifier.setWalletConfirmation(true);
         transactionAddLiquidity = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddLiquidity!],
         ))
             .first;
-        poolAddNotifier.setWalletConfirmation(false);
+        liquidityAddNotifier.setWalletConfirmation(false);
       } catch (e) {
         dev.log('Signature failed', name: logName);
         if (e is Failure) {
-          ref
-              .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-              .setFailure(e);
+          liquidityAddNotifier.setFailure(e);
           return;
         }
-        ref
-            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-            .setFailure(Failure.other(cause: e.toString()));
+        liquidityAddNotifier.setFailure(Failure.other(cause: e.toString()));
 
         return;
       }
@@ -93,7 +89,7 @@ class AddLiquidityCase with TransactionDexMixin {
       ],
     );
 
-    poolAddNotifier.setCurrentStep(3);
+    liquidityAddNotifier.setCurrentStep(3);
   }
 
   String getAEStepLabel(

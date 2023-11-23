@@ -386,4 +386,82 @@ class ArchethicContract with TransactionDexMixin {
       return transactionLiquidity;
     });
   }
+
+  Future<Result<double, Failure>> getSwapInfos(
+    DexToken tokenToSwap,
+    double tokenToSwapAmount,
+    String poolGenesisAddress,
+  ) async {
+    return Result.guard(() async {
+      const logName = 'ArchethicContract.getSwapInfos';
+
+      dev.log('Token1 address: ${tokenToSwap.address}', name: logName);
+
+      final apiService = sl.get<archethic.ApiService>();
+
+      var outputAmount = 0.0;
+      final getSwapInfosResult = await PoolFactory(
+        poolGenesisAddress,
+        apiService,
+      ).getSwapInfos(tokenToSwap.address!, tokenToSwapAmount);
+      getSwapInfosResult.map(
+        success: (success) {
+          if (success != null) {
+            outputAmount = success['output_amount'];
+            dev.log('outputAmount: $outputAmount', name: logName);
+          } else {
+            dev.log('outputAmount: null', name: logName);
+          }
+        },
+        failure: (failure) {
+          dev.log('$failure', name: logName);
+        },
+      );
+      return outputAmount;
+    });
+  }
+
+  Future<Result<archethic.Transaction, Failure>> getSwapTx(
+    DexToken tokenToSwap,
+    double tokenToSwapAmount,
+    String poolGenesisAddress,
+    double slippage,
+    double outputAmount,
+  ) async {
+    return Result.guard(() async {
+      final apiService = sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final minToReceive = outputAmount * ((100 - slippage) / 100);
+
+      final transactionSwap = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        poolGenesisAddress,
+        action: 'swap',
+        args: [
+          minToReceive,
+        ],
+      );
+
+      if (tokenToSwap.isUCO) {
+        transactionSwap.addUCOTransfer(
+          poolGenesisAddress,
+          archethic.toBigInt(tokenToSwapAmount),
+        );
+      } else {
+        transactionSwap.addTokenTransfer(
+          poolGenesisAddress,
+          archethic.toBigInt(tokenToSwapAmount),
+          tokenToSwap.address!,
+        );
+      }
+
+      return transactionSwap;
+    });
+  }
 }

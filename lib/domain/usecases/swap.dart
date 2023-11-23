@@ -1,11 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
 
-import 'package:aedex/application/pool_factory.dart';
+import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,86 +15,114 @@ class SwapCase with TransactionDexMixin {
   Future<void> run(
     WidgetRef ref,
     String poolGenesisAddress,
-    DexToken token1,
-    double token1Amount,
-    double slippage,
-  ) async {
-    dev.log('Token1 address: ${token1.address}', name: logName);
+    DexToken tokenToSwap,
+    double tokenToSwapAmount,
+    double slippage, {
+    int recoveryStep = 0,
+    archethic.Transaction? recoveryTransactionSwap,
+  }) async {
+    final archethicContract = ArchethicContract();
+    final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
 
-    final apiService = sl.get<archethic.ApiService>();
+    archethic.Transaction? transactionSwap;
+    if (recoveryTransactionSwap != null) {
+      transactionSwap = recoveryTransactionSwap;
+    }
 
     var outputAmount = 0.0;
-    final getSwapInfosResult = await PoolFactory(
-      poolGenesisAddress,
-      apiService,
-    ).getSwapInfos(token1.address!, token1Amount);
-    getSwapInfosResult.map(
-      success: (success) {
-        if (success != null) {
-          outputAmount = success['output_amount'];
-          dev.log('outputAmount: $outputAmount', name: logName);
-        } else {
-          dev.log('outputAmount: null', name: logName);
-        }
-      },
-      failure: (failure) {
-        dev.log('expectedTokenLP failure: $failure', name: logName);
-      },
-    );
+    if (recoveryStep <= 1) {
+      swapNotifier.setCurrentStep(1);
 
-    if (outputAmount == 0) {
-      throw const Failure.other(
-        cause: 'Error outputAmount',
-      );
-    }
-    final minToReceive = outputAmount * ((100 - slippage) / 100);
+      try {
+        final outputAmountMap = await archethicContract.getSwapInfos(
+          tokenToSwap,
+          tokenToSwapAmount,
+          poolGenesisAddress,
+        );
 
-    final blockchainTxVersion = int.parse(
-      (await apiService.getBlockchainVersion()).version.transaction,
-    );
+        outputAmountMap.map(
+          success: (success) {
+            outputAmount = success;
 
-    var transactionLiquidity = archethic.Transaction(
-      type: 'transfer',
-      version: blockchainTxVersion,
-      data: archethic.Transaction.initData(),
-    ).addRecipient(
-      poolGenesisAddress,
-      action: 'swap',
-      args: [
-        minToReceive,
-      ],
-    );
-
-    if (token1.address == 'UCO') {
-      transactionLiquidity.addUCOTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token1Amount),
-      );
-    } else {
-      transactionLiquidity.addTokenTransfer(
-        poolGenesisAddress,
-        archethic.toBigInt(token1Amount),
-        token1.address!,
-      );
+            if (outputAmount <= 0) {
+              throw const Failure.other(
+                cause: 'Error outputAmount',
+              );
+            }
+          },
+          failure: (failure) {
+            swapNotifier
+              ..setFailure(failure)
+              ..setProcessInProgress(false);
+            throw failure;
+          },
+        );
+      } catch (e) {
+        return;
+      }
     }
 
+    if (recoveryStep <= 1) {
+      swapNotifier.setCurrentStep(2);
+      try {
+        final transactionSwapMap = await archethicContract.getSwapTx(
+          tokenToSwap,
+          tokenToSwapAmount,
+          poolGenesisAddress,
+          slippage,
+          outputAmount,
+        );
+
+        transactionSwapMap.map(
+          success: (success) {
+            transactionSwap = success;
+            swapNotifier.setRecoveryTransactionSwap(
+              transactionSwap,
+            );
+          },
+          failure: (failure) {
+            swapNotifier
+              ..setFailure(failure)
+              ..setProcessInProgress(false);
+            throw failure;
+          },
+        );
+      } catch (e) {
+        return;
+      }
+    }
+
+    if (recoveryStep <= 3) {
+      swapNotifier.setCurrentStep(3);
+    }
     try {
       final currentNameAccount = await getCurrentAccount();
-      transactionLiquidity = (await signTx(
+      swapNotifier.setWalletConfirmation(true);
+
+      transactionSwap = (await signTx(
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
-        [transactionLiquidity],
+        [transactionSwap!],
       ))
           .first;
+
+      swapNotifier.setWalletConfirmation(false);
     } catch (e) {
-      dev.log('Signature failed', name: logName);
-      throw const Failure.userRejected();
+      if (e is Failure) {
+        swapNotifier.setFailure(e);
+        return;
+      }
+      swapNotifier.setFailure(Failure.other(cause: e.toString()));
+
+      return;
     }
 
     await sendTransactions(
       <archethic.Transaction>[
-        transactionLiquidity,
+        transactionSwap!,
       ],
     );
+
+    swapNotifier.setCurrentStep(4);
   }
 }
