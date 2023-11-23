@@ -1,17 +1,17 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_btn.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_close_btn.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_error_message.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_ratio.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_token_1_balance.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_token_1_max_btn.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_token_2_balance.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_token_2_max_btn.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_token_infos.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+import 'package:aedex/ui/views/util/components/dex_error_message.dart';
+import 'package:aedex/ui/views/util/components/dex_ratio.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,9 +81,19 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                const LiquidityAddToken1MaxButton(),
+                                DexButtonMax(
+                                  balanceAmount: liquidityAdd.token1Balance,
+                                  onTap: () {
+                                    ref
+                                        .read(
+                                          LiquidityAddFormProvider
+                                              .liquidityAddForm.notifier,
+                                        )
+                                        .setToken1AmountMax();
+                                  },
+                                ),
                                 const SizedBox(width: 10),
-                                LiquidityAddTokenInfos(
+                                DexTokenInfos(
                                   token: liquidityAdd.token1,
                                 ),
                               ],
@@ -94,11 +104,16 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          LiquidityAddToken1Balance(),
-                          SizedBox.shrink(),
+                          DexTokenBalance(
+                            tokenBalance: liquidityAdd.token1Balance,
+                            tokenSymbol: liquidityAdd.token1 == null
+                                ? ''
+                                : liquidityAdd.token1!.symbol,
+                          ),
+                          const SizedBox.shrink(),
                         ],
                       ),
                       const SizedBox(
@@ -115,9 +130,17 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                const LiquidityAddToken2MaxButton(),
+                                DexButtonMax(
+                                  balanceAmount: liquidityAdd.token2Balance,
+                                  onTap: () => ref
+                                      .read(
+                                        LiquidityAddFormProvider
+                                            .liquidityAddForm.notifier,
+                                      )
+                                      .setToken2AmountMax(),
+                                ),
                                 const SizedBox(width: 10),
-                                LiquidityAddTokenInfos(
+                                DexTokenInfos(
                                   token: liquidityAdd.token2,
                                 ),
                               ],
@@ -128,27 +151,53 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          LiquidityAddToken2Balance(),
-                          LiquidityAddRatio(),
+                          DexTokenBalance(
+                            tokenBalance: liquidityAdd.token2Balance,
+                            tokenSymbol: liquidityAdd.token2 == null
+                                ? ''
+                                : liquidityAdd.token2!.symbol,
+                          ),
+                          DexRatio(
+                            ratio: liquidityAdd.ratio,
+                            token1Symbol: liquidityAdd.token1 == null
+                                ? ''
+                                : liquidityAdd.token1!.symbol,
+                            token2Symbol: liquidityAdd.token2 == null
+                                ? ''
+                                : liquidityAdd.token2!.symbol,
+                          ),
                         ],
                       ),
                     ],
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      LiquidityAddErrorMessage(),
-                      SizedBox(
+                      DexErrorMessage(failure: liquidityAdd.failure),
+                      const SizedBox(
                         height: 20,
                       ),
-                      LiquidityAddButton(),
-                      SizedBox(
+                      DexButtonValidate(
+                        controlOk: liquidityAdd.isControlsOk,
+                        icon: Iconsax.wallet_money,
+                        labelBtn:
+                            AppLocalizations.of(context)!.btn_liquidity_add,
+                        onPressed: () => ref
+                            .read(
+                              LiquidityAddFormProvider
+                                  .liquidityAddForm.notifier,
+                            )
+                            .validateForm(context),
+                      ),
+                      const SizedBox(
                         height: 20,
                       ),
-                      LiquidityAddCloseButton(),
+                      const DexButtonClose(
+                        target: PoolListSheet(),
+                      ),
                     ],
                   ),
                 ],

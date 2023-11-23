@@ -2,8 +2,8 @@
 
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_1_balance.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_1_selection.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -210,9 +210,12 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
               ),
           ],
         ),
-        const Row(
+        Row(
           children: [
-            PoolAddToken1Balance(),
+            DexTokenBalance(
+              tokenBalance: poolAdd.token1Balance,
+              tokenSymbol: poolAdd.token1 == null ? '' : poolAdd.token1!.symbol,
+            ),
           ],
         ),
       ],

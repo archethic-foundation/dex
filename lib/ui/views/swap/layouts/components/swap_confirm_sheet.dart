@@ -1,8 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
+
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_btn.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_ratio.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_popup.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
+import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,7 +64,13 @@ class SwapConfirmSheet extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          const SwapRatio(),
+          DexRatio(
+            ratio: swap.ratio,
+            token1Symbol:
+                swap.tokenToSwap == null ? '' : swap.tokenToSwap!.symbol,
+            token2Symbol:
+                swap.tokenSwapped == null ? '' : swap.tokenSwapped!.symbol,
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -138,7 +147,17 @@ class SwapConfirmSheet extends ConsumerWidget {
             height: 20,
           ),
           const Spacer(),
-          const SwapConfirmBtn(),
+          DexButtonConfirm(
+            labelBtn: AppLocalizations.of(context)!.btn_confirm_swap,
+            onPressed: () async {
+              final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
+              unawaited(swapNotifier.swap(context, ref));
+              await SwapInProgressPopup.getDialog(
+                context,
+                ref,
+              );
+            },
+          ),
           const SizedBox(
             height: 10,
           ),

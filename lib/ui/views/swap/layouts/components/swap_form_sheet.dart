@@ -1,11 +1,12 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_btn.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_error_message.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_icon_settings.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swapped_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,7 +79,7 @@ class SwapFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SwapErrorMessage(),
+                      DexErrorMessage(failure: swap.failure),
                       if (swap.poolGenesisAddress.isNotEmpty)
                         const SizedBox(
                           height: 20,
@@ -89,7 +90,14 @@ class SwapFormSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      const SwapButton(),
+                      DexButtonValidate(
+                        controlOk: swap.isControlsOk,
+                        icon: Iconsax.arrange_circle_2,
+                        labelBtn: AppLocalizations.of(context)!.btn_swap,
+                        onPressed: () => ref
+                            .read(SwapFormProvider.swapForm.notifier)
+                            .validateForm(context),
+                      ),
                     ],
                   ),
                 ],

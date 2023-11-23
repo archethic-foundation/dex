@@ -2,9 +2,9 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_form_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +62,7 @@ class SwapSheet extends ConsumerWidget {
                           const SwapFormSheet()
                         else
                           const SwapConfirmSheet(),
-                        const SwapArchethicOracleUco(),
+                        const DexArchethicOracleUco(),
                       ],
                     ),
                   ),

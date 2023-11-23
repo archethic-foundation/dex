@@ -153,5 +153,10 @@
   "poolCardPair": "Pair",
   "poolCardPooled": "Pooled",
   "poolCardLPToken": "LP Token",
-  "poolCardLPTokenSupply": "Supply"
+  "poolCardLPTokenSupply": "Supply",
+  "swapProcessStep0": "Process not started",
+  "swapProcessStep1": "Calculating",
+  "swapProcessStep2": "Retrieving information to swap",
+  "swapProcessStep3": "Swapping",
+  "swapProcessStep4": "Process finished"
 }

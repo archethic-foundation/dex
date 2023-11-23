@@ -118,7 +118,7 @@ class PoolInfoCard extends ConsumerWidget {
                       Row(
                         children: [
                           Text(
-                            '${AppLocalizations.of(context)!.poolCardPooled}: ',
+                            AppLocalizations.of(context)!.poolCardPooled,
                             style: textTheme.labelSmall,
                           ),
                           const SizedBox(

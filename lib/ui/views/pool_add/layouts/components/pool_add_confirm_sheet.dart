@@ -1,9 +1,14 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
+
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_back_btn.dart';
-import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_btn.dart';
+import 'package:aedex/ui/views/pool_add/bloc/state.dart';
+import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_popup.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddConfirmSheet extends ConsumerWidget {
@@ -19,11 +24,22 @@ class PoolAddConfirmSheet extends ConsumerWidget {
     return Expanded(
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(
+          Padding(
+            padding: const EdgeInsets.only(
               top: 10,
             ),
-            child: PoolAddConfirmBackButton(),
+            child: DexButtonConfirmBack(
+              title: AppLocalizations.of(context)!.poolAddConfirmTitle,
+              onPressed: () => poolAdd.token1 == null
+                  ? null
+                  : () {
+                      ref
+                          .read(PoolAddFormProvider.poolAddForm.notifier)
+                          .setPoolAddProcessStep(
+                            PoolAddProcessStep.form,
+                          );
+                    },
+            ),
           ),
           Expanded(
             child: Padding(
@@ -93,12 +109,21 @@ class PoolAddConfirmSheet extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PoolAddConfirmBtn(),
-                      SizedBox(
-                        height: 10,
+                      DexButtonConfirm(
+                        labelBtn:
+                            AppLocalizations.of(context)!.btn_confirm_pool_add,
+                        onPressed: () async {
+                          final poolAddNotifier = ref
+                              .read(PoolAddFormProvider.poolAddForm.notifier);
+                          unawaited(poolAddNotifier.add(context, ref));
+                          await PoolAddInProgressPopup.getDialog(
+                            context,
+                            ref,
+                          );
+                        },
                       ),
                     ],
                   ),

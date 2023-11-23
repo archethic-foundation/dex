@@ -2,9 +2,9 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
-import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_form_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,7 +63,7 @@ class PoolAddSheet extends ConsumerWidget {
                           const PoolAddFormSheet()
                         else
                           const PoolAddConfirmSheet(),
-                        const PoolAddArchethicOracleUco(),
+                        const DexArchethicOracleUco(),
                       ],
                     ),
                   ),

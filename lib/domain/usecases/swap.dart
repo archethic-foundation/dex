@@ -7,6 +7,8 @@ import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'SwapCase';
@@ -124,5 +126,23 @@ class SwapCase with TransactionDexMixin {
     );
 
     swapNotifier.setCurrentStep(4);
+  }
+
+  String getAEStepLabel(
+    BuildContext context,
+    int step,
+  ) {
+    switch (step) {
+      case 1:
+        return AppLocalizations.of(context)!.swapProcessStep1;
+      case 2:
+        return AppLocalizations.of(context)!.swapProcessStep2;
+      case 3:
+        return AppLocalizations.of(context)!.swapProcessStep3;
+      case 4:
+        return AppLocalizations.of(context)!.swapProcessStep4;
+      default:
+        return AppLocalizations.of(context)!.swapProcessStep0;
+    }
   }
 }

@@ -1,14 +1,16 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_btn.dart';
-import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_close_btn.dart';
-import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_error_message.dart';
-import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_token_balance.dart';
-import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_token_max_btn.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
-import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_token_infos.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+import 'package:aedex/ui/views/util/components/dex_error_message.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -79,9 +81,17 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                const LiquidityRemoveLPTokenMaxButton(),
+                                DexButtonMax(
+                                  balanceAmount: liquidityRemove.lpTokenBalance,
+                                  onTap: () => ref
+                                      .read(
+                                        LiquidityRemoveFormProvider
+                                            .liquidityRemoveForm.notifier,
+                                      )
+                                      .setLpTokenAmountMax(),
+                                ),
                                 const SizedBox(width: 10),
-                                LiquidityRemoveTokenInfos(
+                                DexTokenInfos(
                                   token: liquidityRemove.lpToken,
                                 ),
                               ],
@@ -92,11 +102,16 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          LiquidityRemoveLPTokenBalance(),
-                          SizedBox.shrink(),
+                          DexTokenBalance(
+                            tokenBalance: liquidityRemove.lpTokenBalance,
+                            tokenSymbol: liquidityRemove.lpToken == null
+                                ? ''
+                                : liquidityRemove.lpToken!.symbol,
+                          ),
+                          const SizedBox.shrink(),
                         ],
                       ),
                       const SizedBox(
@@ -105,18 +120,31 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                       const LiquidityRemoveTokensGetBack(),
                     ],
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      LiquidityRemoveErrorMessage(),
-                      SizedBox(
+                      DexErrorMessage(failure: liquidityRemove.failure),
+                      const SizedBox(
                         height: 20,
                       ),
-                      LiquidityRemoveButton(),
-                      SizedBox(
+                      DexButtonValidate(
+                        controlOk: liquidityRemove.isControlsOk,
+                        icon: Iconsax.wallet_money,
+                        labelBtn:
+                            AppLocalizations.of(context)!.btn_liquidity_remove,
+                        onPressed: () => ref
+                            .read(
+                              LiquidityRemoveFormProvider
+                                  .liquidityRemoveForm.notifier,
+                            )
+                            .validateForm(context),
+                      ),
+                      const SizedBox(
                         height: 20,
                       ),
-                      LiquidityRemoveCloseButton(),
+                      const DexButtonClose(
+                        target: PoolListSheet(),
+                      ),
                     ],
                   ),
                 ],

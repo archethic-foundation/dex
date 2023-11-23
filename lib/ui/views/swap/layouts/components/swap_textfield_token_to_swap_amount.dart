@@ -2,8 +2,8 @@
 
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_balance.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_selection.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -212,9 +212,13 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
               ),
           ],
         ),
-        const Row(
+        Row(
           children: [
-            SwapTokenToSwapBalance(),
+            DexTokenBalance(
+              tokenBalance: swap.tokenToSwapBalance,
+              tokenSymbol:
+                  swap.tokenToSwap == null ? '' : swap.tokenToSwap!.symbol,
+            ),
           ],
         ),
       ],

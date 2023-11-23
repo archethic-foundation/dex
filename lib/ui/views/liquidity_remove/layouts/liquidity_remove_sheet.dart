@@ -4,9 +4,9 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
-import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_form_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -91,7 +91,7 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
                           const LiquidityRemoveFormSheet()
                         else
                           const LiquidityRemoveConfirmSheet(),
-                        const LiquidityRemoveArchethicOracleUco(),
+                        const DexArchethicOracleUco(),
                       ],
                     ),
                   ),
