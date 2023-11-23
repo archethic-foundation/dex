@@ -30,7 +30,7 @@ class PoolAddConfirmSheet extends ConsumerWidget {
             ),
             child: DexButtonConfirmBack(
               title: AppLocalizations.of(context)!.poolAddConfirmTitle,
-              onPressed: () => poolAdd.token1 == null
+              onPressed: poolAdd.token1 == null
                   ? null
                   : () {
                       ref

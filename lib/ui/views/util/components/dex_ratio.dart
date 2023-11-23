@@ -17,10 +17,13 @@ class DexRatio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (token1Symbol.isEmpty || token2Symbol.isEmpty || ratio <= 0) {
-      return const SizedBox.shrink();
+      return const SizedBox(
+        height: 30,
+      );
     }
 
     return SizedBox(
+      height: 30,
       child: Text(
         '1 $token1Symbol = $ratio $token2Symbol',
       ),

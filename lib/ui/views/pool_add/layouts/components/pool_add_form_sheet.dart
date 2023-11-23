@@ -1,3 +1,4 @@
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
@@ -84,8 +85,18 @@ class PoolAddFormSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      const DexButtonClose(
-                        target: PoolListSheet(),
+                      DexButtonClose(
+                        onPressed: () {
+                          ref
+                              .read(
+                                MainScreenWidgetDisplayedProviders
+                                    .mainScreenWidgetDisplayedProvider.notifier,
+                              )
+                              .setWidget(
+                                const PoolListSheet(),
+                                ref,
+                              );
+                        },
                       ),
                     ],
                   ),

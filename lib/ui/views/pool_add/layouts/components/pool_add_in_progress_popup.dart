@@ -5,6 +5,7 @@ import 'package:aedex/domain/usecases/add_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
@@ -104,6 +105,34 @@ class PoolAddInProgressPopup {
                                           failure: poolAdd.failure,
                                         ),
                                         const Spacer(),
+                                        if (poolAdd.failure == null &&
+                                            poolAdd.isProcessInProgress ==
+                                                false)
+                                          DexButtonClose(
+                                            onPressed: () {
+                                              ref.read(
+                                                PoolAddFormProvider
+                                                    .poolAddForm.notifier,
+                                              )
+                                                ..setProcessInProgress(false)
+                                                ..setFailure(null)
+                                                ..setPoolAddOk(false)
+                                                ..setWalletConfirmation(false);
+                                              ref
+                                                  .read(
+                                                    MainScreenWidgetDisplayedProviders
+                                                        .mainScreenWidgetDisplayedProvider
+                                                        .notifier,
+                                                  )
+                                                  .setWidget(
+                                                    const PoolListSheet(),
+                                                    ref,
+                                                  );
+                                              if (!context.mounted) return;
+                                              Navigator.of(context).pop();
+                                              return;
+                                            },
+                                          ),
                                         DexInProgressResumeBtn(
                                           currentStep: poolAdd.currentStep,
                                           isProcessInProgress:

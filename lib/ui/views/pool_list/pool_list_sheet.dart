@@ -4,9 +4,11 @@ import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_fees.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/icon_animated.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: SizedBox(
-                width: 900,
+                width: 850,
                 height: MediaQuery.of(context).size.height - 100,
                 child: ArchethicScrollbar(
                   child: dexPools.when(
@@ -74,20 +76,19 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                             label: Expanded(
                               child: Text(
                                 AppLocalizations.of(context)!
-                                    .poolListHeaderLPTokenName,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!
                                     .poolListHeaderLPTokenSupply,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             numeric: true,
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!.feesLbl,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
                           DataColumn(
                             label: Expanded(
@@ -158,11 +159,33 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  Text(
-                                                    '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                                  Row(
+                                                    children: [
+                                                      VerifiedTokenIcon(
+                                                        address: pool.pair!
+                                                            .token1.address!,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                                      ),
+                                                    ],
                                                   ),
-                                                  Text(
-                                                    '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                                  Row(
+                                                    children: [
+                                                      VerifiedTokenIcon(
+                                                        address: pool.pair!
+                                                            .token2.address!,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
@@ -172,26 +195,6 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                               FormatAddressLink(
                                                 address: pool.poolAddress,
                                                 typeAddress: TypeAddress.chain,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Align(
-                                        child: SizedBox(
-                                          width: 150,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                pool.lpToken!.name,
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              FormatAddressLink(
-                                                address: pool.lpToken!.address!,
                                               ),
                                             ],
                                           ),
@@ -210,9 +213,37 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text(
-                                                pool.lpToken!.supply
-                                                    .formatNumber(),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    pool.lpToken!.supply
+                                                        .formatNumber(),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  FormatAddressLink(
+                                                    address:
+                                                        pool.lpToken!.address!,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Align(
+                                        child: SizedBox(
+                                          width: 50,
+                                          child: Row(
+                                            children: [
+                                              DexFees(
+                                                fees: pool.fees,
+                                                withLabel: false,
                                               ),
                                             ],
                                           ),
@@ -221,6 +252,8 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                     ),
                                     DataCell(
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Align(
                                             child: SizedBox(

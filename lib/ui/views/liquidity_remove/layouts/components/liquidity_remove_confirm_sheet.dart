@@ -27,7 +27,7 @@ class LiquidityRemoveConfirmSheet extends ConsumerWidget {
         children: [
           DexButtonConfirmBack(
             title: AppLocalizations.of(context)!.liquidityRemoveConfirmTitle,
-            onPressed: () => liquidityRemove.lpToken == null
+            onPressed: liquidityRemove.lpToken == null
                 ? null
                 : () {
                     ref

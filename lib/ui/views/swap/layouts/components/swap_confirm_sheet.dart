@@ -3,8 +3,10 @@ import 'dart:async';
 
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -28,6 +30,23 @@ class SwapConfirmSheet extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
+            ),
+            child: DexButtonConfirmBack(
+              title: AppLocalizations.of(context)!.poolAddConfirmTitle,
+              onPressed: swap.tokenToSwap == null
+                  ? null
+                  : () {
+                      ref
+                          .read(SwapFormProvider.swapForm.notifier)
+                          .setSwapProcessStep(
+                            SwapProcessStep.form,
+                          );
+                    },
+            ),
+          ),
           Text(
             AppLocalizations.of(context)!.swap_confirmation_you_pay,
           ),

@@ -1,3 +1,4 @@
+import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
@@ -142,8 +143,18 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      const DexButtonClose(
-                        target: PoolListSheet(),
+                      DexButtonClose(
+                        onPressed: () {
+                          ref
+                              .read(
+                                MainScreenWidgetDisplayedProviders
+                                    .mainScreenWidgetDisplayedProvider.notifier,
+                              )
+                              .setWidget(
+                                const PoolListSheet(),
+                                ref,
+                              );
+                        },
                       ),
                     ],
                   ),

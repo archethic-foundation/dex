@@ -104,6 +104,7 @@ mixin ModelParser {
       poolAddress: poolAddress,
       pair: dexPair,
       lpToken: lpToken,
+      fees: getPoolInfosResponse.fee,
     );
   }
 

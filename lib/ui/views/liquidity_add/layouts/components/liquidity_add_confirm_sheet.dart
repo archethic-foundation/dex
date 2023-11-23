@@ -26,7 +26,7 @@ class LiquidityAddConfirmSheet extends ConsumerWidget {
         children: [
           DexButtonConfirmBack(
             title: AppLocalizations.of(context)!.liquidityAddConfirmTitle,
-            onPressed: () => liquidityAdd.token1 == null
+            onPressed: liquidityAdd.token1 == null
                 ? null
                 : () {
                     ref

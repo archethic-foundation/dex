@@ -1,7 +1,9 @@
 import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/util/components/dex_fees.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
+import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -137,11 +139,31 @@ class PoolInfoCard extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                              Row(
+                                children: [
+                                  VerifiedTokenIcon(
+                                    address: pool.pair!.token1.address!,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                  ),
+                                ],
                               ),
-                              Text(
-                                '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                              Row(
+                                children: [
+                                  VerifiedTokenIcon(
+                                    address: pool.pair!.token2.address!,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -165,22 +187,14 @@ class PoolInfoCard extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                pool.lpToken!.name,
-                              ),
-                              Text(
-                                '${AppLocalizations.of(context)!.poolCardLPTokenSupply}: ${pool.lpToken!.supply.formatNumber()}',
-                              ),
-                            ],
-                          ),
-                        ],
+                      Text(
+                        '${AppLocalizations.of(context)!.poolCardLPTokenSupply}: ${pool.lpToken!.supply.formatNumber()}',
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DexFees(
+                        fees: pool.fees,
                       ),
                     ],
                   ),
