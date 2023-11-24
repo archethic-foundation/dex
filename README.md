@@ -42,6 +42,12 @@ Returns the equivalent amount of the other token of the pool. This should be use
 - `amount` is the amount of token_address you want to provide
 
 ```elixir
+get_ratio(token_address)
+```
+Returns the pool ratio
+- `token_address` is the token you want to provide (result amount will be the other token)
+
+```elixir
 get_lp_token_to_mint(token1_amount, token2_amount)
 ```
 Returns the amount of LP token that will be minted if the amount of tokens are provided
