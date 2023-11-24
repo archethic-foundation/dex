@@ -79,6 +79,18 @@ Map<String, dynamic> _$$PoolAlreadyExistsImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$LPTokenAmountExceedBalanceImpl _$$LPTokenAmountExceedBalanceImplFromJson(
+        Map<String, dynamic> json) =>
+    _$LPTokenAmountExceedBalanceImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$LPTokenAmountExceedBalanceImplToJson(
+        _$LPTokenAmountExceedBalanceImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$PoolNotExistsImpl _$$PoolNotExistsImplFromJson(Map<String, dynamic> json) =>
     _$PoolNotExistsImpl(
       $type: json['runtimeType'] as String?,

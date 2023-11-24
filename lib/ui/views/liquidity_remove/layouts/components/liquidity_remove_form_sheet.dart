@@ -65,9 +65,15 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PoolInfoCard(
-                        poolGenesisAddress: liquidityRemove.poolGenesisAddress,
-                      ),
+                      if (liquidityRemove.token1 != null)
+                        PoolInfoCard(
+                          poolGenesisAddress:
+                              liquidityRemove.poolGenesisAddress,
+                          tokenAddressRatioPrimary:
+                              liquidityRemove.token1!.address == null
+                                  ? 'UCO'
+                                  : liquidityRemove.token1!.address!,
+                        ),
                       const SizedBox(
                         height: 20,
                       ),

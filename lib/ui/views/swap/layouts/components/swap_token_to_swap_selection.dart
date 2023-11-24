@@ -52,15 +52,18 @@ class SwapTokenToSwapSelection extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Row(
-              children: [
-                if (swap.tokenToSwap == null)
-                  Text(
-                    AppLocalizations.of(context)!.btn_selectToken,
-                  )
-                else
-                  Text(swap.tokenToSwap!.name),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: Row(
+                children: [
+                  if (swap.tokenToSwap == null)
+                    Text(
+                      AppLocalizations.of(context)!.btn_selectToken,
+                    )
+                  else
+                    Text(swap.tokenToSwap!.name),
+                ],
+              ),
             ),
             const Icon(
               Iconsax.search_normal,

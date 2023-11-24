@@ -13,6 +13,7 @@ class DexPool with _$DexPool {
     @Default(0) int ranking,
     DexPair? pair,
     @Default(0.0) double fees,
-    @Default(0.0) double ratio,
+    @Default(0.0) double ratioToken1Token2,
+    @Default(0.0) double ratioToken2Token1,
   }) = _DexPool;
 }

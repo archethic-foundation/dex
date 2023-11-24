@@ -97,20 +97,6 @@ class SwapConfirmSheet extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppLocalizations.of(context)!.swap_confirmation_network_fee,
-              ),
-              Text(
-                swap.networkFees.toString(),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
                 AppLocalizations.of(context)!.swap_confirmation_swap_fee,
               ),
               Text(
@@ -129,7 +115,7 @@ class SwapConfirmSheet extends ConsumerWidget {
                     .swap_confirmation_minimum_received,
               ),
               Text(
-                swap.minimumReceived.toString(),
+                swap.minToReceive.toString(),
               ),
             ],
           ),

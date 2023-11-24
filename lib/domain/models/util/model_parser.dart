@@ -103,12 +103,18 @@ mixin ModelParser {
       supply: getPoolInfosResponse.lpToken.supply,
     );
 
-    var ratio = 0.0;
+    var ratioToken1Token2 = 0.0;
+    var ratioToken2Token1 = 0.0;
     if (getPoolInfosResponse.token1.reserve > 0 &&
         getPoolInfosResponse.token2.reserve > 0) {
-      ratio = (Decimal.parse(getPoolInfosResponse.token1.reserve.toString()) /
-              Decimal.parse(getPoolInfosResponse.token2.reserve.toString()))
-          .toDouble();
+      ratioToken1Token2 =
+          (Decimal.parse(getPoolInfosResponse.token2.reserve.toString()) /
+                  Decimal.parse(getPoolInfosResponse.token1.reserve.toString()))
+              .toDouble();
+      ratioToken2Token1 =
+          (Decimal.parse(getPoolInfosResponse.token1.reserve.toString()) /
+                  Decimal.parse(getPoolInfosResponse.token2.reserve.toString()))
+              .toDouble();
     }
 
     return DexPool(
@@ -116,7 +122,8 @@ mixin ModelParser {
       pair: dexPair,
       lpToken: lpToken,
       fees: getPoolInfosResponse.fee,
-      ratio: ratio,
+      ratioToken1Token2: ratioToken1Token2,
+      ratioToken2Token1: ratioToken2Token1,
     );
   }
 

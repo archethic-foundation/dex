@@ -21,7 +21,8 @@ mixin _$DexPool {
   int get ranking => throw _privateConstructorUsedError;
   DexPair? get pair => throw _privateConstructorUsedError;
   double get fees => throw _privateConstructorUsedError;
-  double get ratio => throw _privateConstructorUsedError;
+  double get ratioToken1Token2 => throw _privateConstructorUsedError;
+  double get ratioToken2Token1 => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexPoolCopyWith<DexPool> get copyWith => throw _privateConstructorUsedError;
@@ -38,7 +39,8 @@ abstract class $DexPoolCopyWith<$Res> {
       int ranking,
       DexPair? pair,
       double fees,
-      double ratio});
+      double ratioToken1Token2,
+      double ratioToken2Token1});
 
   $DexTokenCopyWith<$Res>? get lpToken;
   $DexPairCopyWith<$Res>? get pair;
@@ -62,7 +64,8 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
     Object? ranking = null,
     Object? pair = freezed,
     Object? fees = null,
-    Object? ratio = null,
+    Object? ratioToken1Token2 = null,
+    Object? ratioToken2Token1 = null,
   }) {
     return _then(_value.copyWith(
       poolAddress: null == poolAddress
@@ -85,9 +88,13 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
               as double,
-      ratio: null == ratio
-          ? _value.ratio
-          : ratio // ignore: cast_nullable_to_non_nullable
+      ratioToken1Token2: null == ratioToken1Token2
+          ? _value.ratioToken1Token2
+          : ratioToken1Token2 // ignore: cast_nullable_to_non_nullable
+              as double,
+      ratioToken2Token1: null == ratioToken2Token1
+          ? _value.ratioToken2Token1
+          : ratioToken2Token1 // ignore: cast_nullable_to_non_nullable
               as double,
     ) as $Val);
   }
@@ -130,7 +137,8 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
       int ranking,
       DexPair? pair,
       double fees,
-      double ratio});
+      double ratioToken1Token2,
+      double ratioToken2Token1});
 
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -154,7 +162,8 @@ class __$$DexPoolImplCopyWithImpl<$Res>
     Object? ranking = null,
     Object? pair = freezed,
     Object? fees = null,
-    Object? ratio = null,
+    Object? ratioToken1Token2 = null,
+    Object? ratioToken2Token1 = null,
   }) {
     return _then(_$DexPoolImpl(
       poolAddress: null == poolAddress
@@ -177,9 +186,13 @@ class __$$DexPoolImplCopyWithImpl<$Res>
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
               as double,
-      ratio: null == ratio
-          ? _value.ratio
-          : ratio // ignore: cast_nullable_to_non_nullable
+      ratioToken1Token2: null == ratioToken1Token2
+          ? _value.ratioToken1Token2
+          : ratioToken1Token2 // ignore: cast_nullable_to_non_nullable
+              as double,
+      ratioToken2Token1: null == ratioToken2Token1
+          ? _value.ratioToken2Token1
+          : ratioToken2Token1 // ignore: cast_nullable_to_non_nullable
               as double,
     ));
   }
@@ -194,7 +207,8 @@ class _$DexPoolImpl implements _DexPool {
       this.ranking = 0,
       this.pair,
       this.fees = 0.0,
-      this.ratio = 0.0});
+      this.ratioToken1Token2 = 0.0,
+      this.ratioToken2Token1 = 0.0});
 
   @override
   @JsonKey()
@@ -211,11 +225,14 @@ class _$DexPoolImpl implements _DexPool {
   final double fees;
   @override
   @JsonKey()
-  final double ratio;
+  final double ratioToken1Token2;
+  @override
+  @JsonKey()
+  final double ratioToken2Token1;
 
   @override
   String toString() {
-    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, ranking: $ranking, pair: $pair, fees: $fees, ratio: $ratio)';
+    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, ranking: $ranking, pair: $pair, fees: $fees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1)';
   }
 
   @override
@@ -229,12 +246,15 @@ class _$DexPoolImpl implements _DexPool {
             (identical(other.ranking, ranking) || other.ranking == ranking) &&
             (identical(other.pair, pair) || other.pair == pair) &&
             (identical(other.fees, fees) || other.fees == fees) &&
-            (identical(other.ratio, ratio) || other.ratio == ratio));
+            (identical(other.ratioToken1Token2, ratioToken1Token2) ||
+                other.ratioToken1Token2 == ratioToken1Token2) &&
+            (identical(other.ratioToken2Token1, ratioToken2Token1) ||
+                other.ratioToken2Token1 == ratioToken2Token1));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, poolAddress, lpToken, ranking, pair, fees, ratio);
+  int get hashCode => Object.hash(runtimeType, poolAddress, lpToken, ranking,
+      pair, fees, ratioToken1Token2, ratioToken2Token1);
 
   @JsonKey(ignore: true)
   @override
@@ -250,7 +270,8 @@ abstract class _DexPool implements DexPool {
       final int ranking,
       final DexPair? pair,
       final double fees,
-      final double ratio}) = _$DexPoolImpl;
+      final double ratioToken1Token2,
+      final double ratioToken2Token1}) = _$DexPoolImpl;
 
   @override
   String get poolAddress;
@@ -263,7 +284,9 @@ abstract class _DexPool implements DexPool {
   @override
   double get fees;
   @override
-  double get ratio;
+  double get ratioToken1Token2;
+  @override
+  double get ratioToken2Token1;
   @override
   @JsonKey(ignore: true)
   _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>

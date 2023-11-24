@@ -36,7 +36,7 @@ class SwapCase with TransactionDexMixin {
       swapNotifier.setCurrentStep(1);
 
       try {
-        final outputAmountMap = await archethicContract.getSwapInfos(
+        final outputAmountMap = await archethicContract.getOutputAmount(
           tokenToSwap,
           tokenToSwapAmount,
           poolGenesisAddress,

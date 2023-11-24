@@ -11,13 +11,16 @@ class SwapTokenIconSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return IconButton(
-      onPressed: () {
+    return InkWell(
+      onTap: () {
         SwapSettingsPopup.getDialog(
           context,
         );
       },
-      icon: const Icon(Iconsax.setting_2),
+      child: const Padding(
+        padding: EdgeInsets.only(left: 5, bottom: 4),
+        child: Icon(Iconsax.setting_2, size: 14),
+      ),
     );
   }
 }

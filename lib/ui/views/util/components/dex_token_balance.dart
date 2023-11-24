@@ -1,10 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DexTokenBalance extends StatelessWidget {
+class DexTokenBalance extends ConsumerWidget {
   const DexTokenBalance({
     required this.tokenBalance,
     required this.tokenSymbol,
@@ -15,7 +17,10 @@ class DexTokenBalance extends StatelessWidget {
   final String tokenSymbol;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
     if (tokenSymbol.isEmpty) {
       return const SizedBox(
         height: 30,
@@ -39,6 +44,24 @@ class DexTokenBalance extends StatelessWidget {
           ),
           Text(
             '${tokenBalance.formatNumber()} $tokenSymbol',
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          FutureBuilder<String>(
+            future: FiatValue().display(
+              ref,
+              tokenSymbol,
+              tokenBalance,
+            ),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(
+                  snapshot.data!,
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ],
       ),

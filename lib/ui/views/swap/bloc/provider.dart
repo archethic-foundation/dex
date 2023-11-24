@@ -30,7 +30,13 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   @override
   SwapFormState build() => const SwapFormState();
 
-  CancelableTask<double?>? _calculateOutputAmountTask;
+  CancelableTask<
+      ({
+        double outputAmount,
+        double fees,
+        double priceImpact,
+        double minToReceive
+      })>? _calculateSwapInfosTask;
 
   Future<void> setTokenToSwap(
     DexToken tokenToSwap,
@@ -64,7 +70,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         await poolInfosResult.map(
           success: (success) async {
             if (success != null && success['address'] != null) {
-              state = state.copyWith(poolGenesisAddress: success['address']);
+              setPoolAddress(success['address']);
+              await setTokenToSwapAmount(state.tokenToSwapAmount);
+              setTokenFormSelected(1);
               await getRatio();
             } else {
               setPoolAddress('');
@@ -81,24 +89,63 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     return;
   }
 
-  Future<double> _calculateOutputAmount(
+  Future<
+      ({
+        double outputAmount,
+        double fees,
+        double priceImpact,
+        double minToReceive
+      })> _calculateSwapInfos(
     String tokenAddress,
     double amount, {
     Duration delay = const Duration(milliseconds: 800),
   }) async {
+    if (state.poolGenesisAddress.isEmpty) {
+      return (
+        outputAmount: 0.0,
+        fees: 0.0,
+        priceImpact: 0.0,
+        minToReceive: 0.0,
+      );
+    }
     final apiService = sl.get<ApiService>();
-    late final double outputAmount;
+    final ({
+      double fees,
+      double outputAmount,
+      double priceImpact,
+      double minToReceive,
+    }) result;
     try {
-      outputAmount = await Future<double>(
+      result = await Future<
+          ({
+            double outputAmount,
+            double fees,
+            double priceImpact,
+            double minToReceive,
+          })>(
         () async {
           if (amount <= 0) {
-            return 0;
+            return (
+              outputAmount: 0.0,
+              fees: 0.0,
+              priceImpact: 0.0,
+              minToReceive: 0.0,
+            );
           }
 
-          _calculateOutputAmountTask?.cancel();
-          _calculateOutputAmountTask = CancelableTask<double?>(
+          _calculateSwapInfosTask?.cancel();
+          _calculateSwapInfosTask = CancelableTask<
+              ({
+                double outputAmount,
+                double fees,
+                double priceImpact,
+                double minToReceive,
+              })>(
             task: () async {
               var _outputAmount = 0.0;
+              var _fees = 0.0;
+              var _priceImpact = 0.0;
+              var _minToReceive = 0.0;
               final getSwapInfosResult = await PoolFactory(
                 state.poolGenesisAddress,
                 apiService,
@@ -107,7 +154,17 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               getSwapInfosResult.map(
                 success: (success) {
                   if (success != null) {
-                    _outputAmount = success['output_amount'];
+                    _outputAmount = success['output_amount'] ?? 0;
+                    _fees = success['fee'] ?? 0;
+                    _priceImpact = success['price_impact'] ?? 0;
+                    _minToReceive = (Decimal.parse(_outputAmount.toString()) *
+                            (((Decimal.parse('100') -
+                                        Decimal.parse(
+                                          state.slippageTolerance.toString(),
+                                        )) /
+                                    Decimal.parse('100'))
+                                .toDecimal()))
+                        .toDouble();
                     log('calculateOutputAmount: address $tokenAddress $amount -> outputAmount $_outputAmount');
                   }
                 },
@@ -119,20 +176,39 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                   );
                 },
               );
-              return _outputAmount;
+              return (
+                outputAmount: _outputAmount,
+                fees: _fees,
+                priceImpact: _priceImpact,
+                minToReceive: _minToReceive,
+              );
             },
           );
 
-          final __outputAmount =
-              await _calculateOutputAmountTask?.schedule(delay);
+          final __result = await _calculateSwapInfosTask?.schedule(delay);
 
-          return __outputAmount ?? 0;
+          return (
+            outputAmount: __result == null ? 0.0 : __result.outputAmount,
+            fees: __result == null ? 0.0 : __result.fees,
+            priceImpact: __result == null ? 0.0 : __result.priceImpact,
+            minToReceive: __result == null ? 0.0 : __result.minToReceive,
+          );
         },
       );
     } on CanceledTask {
-      return 0;
+      return (
+        outputAmount: 0.0,
+        fees: 0.0,
+        priceImpact: 0.0,
+        minToReceive: 0.0,
+      );
     }
-    return outputAmount;
+    return (
+      outputAmount: result.outputAmount,
+      fees: result.fees,
+      priceImpact: result.priceImpact,
+      minToReceive: result.minToReceive,
+    );
   }
 
   Future<void> setTokenToSwapAmount(
@@ -143,12 +219,18 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       tokenToSwapAmount: tokenToSwapAmount,
     );
 
-    final equivalentAmount = await _calculateOutputAmount(
+    if (state.tokenToSwap == null) {
+      return;
+    }
+    final swapInfos = await _calculateSwapInfos(
       state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       tokenToSwapAmount,
     );
     state = state.copyWith(
-      tokenSwappedAmount: equivalentAmount,
+      tokenSwappedAmount: swapInfos.outputAmount,
+      swapFees: swapInfos.fees,
+      priceImpact: swapInfos.priceImpact,
+      minToReceive: swapInfos.minToReceive,
     );
   }
 
@@ -160,12 +242,18 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       tokenSwappedAmount: tokenSwappedAmount,
     );
 
-    final equivalentAmount = await _calculateOutputAmount(
+    if (state.tokenSwapped == null) {
+      return;
+    }
+    final swapInfos = await _calculateSwapInfos(
       state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
       tokenSwappedAmount,
     );
     state = state.copyWith(
-      tokenToSwapAmount: equivalentAmount,
+      tokenToSwapAmount: swapInfos.outputAmount,
+      swapFees: swapInfos.fees,
+      priceImpact: swapInfos.priceImpact,
+      minToReceive: swapInfos.minToReceive,
     );
   }
 
@@ -212,7 +300,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       await poolInfosResult.map(
         success: (success) async {
           if (success != null && success['address'] != null) {
-            state = state.copyWith(poolGenesisAddress: success['address']);
+            setPoolAddress(success['address']);
+            await setTokenSwappedAmount(state.tokenSwappedAmount);
+            setTokenFormSelected(2);
             await getRatio();
           } else {
             setFailure(const PoolNotExists());
@@ -226,23 +316,27 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   }
 
   Future<void> getRatio() async {
+    if (state.tokenToSwap == null) {
+      state = state.copyWith(ratio: 0);
+      return;
+    }
+
     final apiService = sl.get<ApiService>();
-    final equivalentAmounResult = await PoolFactory(
+    final poolRatioResult = await PoolFactory(
       state.poolGenesisAddress,
       apiService,
-    ).getEquivalentAmount(
-      state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-      1,
+    ).getPoolRatio(
+      state.tokenToSwap!.address == null ? 'UCO' : state.tokenToSwap!.address!,
     );
     var ratio = 0.0;
-    equivalentAmounResult.map(
+    poolRatioResult.map(
       success: (success) {
         if (success != null) {
           ratio = success;
         }
       },
       failure: (failure) {
-        setFailure(Failure.other(cause: 'getEquivalentAmount error $failure'));
+        setFailure(Failure.other(cause: 'poolRatioResult error $failure'));
       },
     );
     state = state.copyWith(ratio: ratio);
@@ -253,12 +347,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   ) {
     state = state.copyWith(
       poolGenesisAddress: poolAddress,
-    );
-  }
-
-  void setNetworkFees(double networkFees) {
-    state = state.copyWith(
-      networkFees: networkFees,
     );
   }
 
@@ -277,10 +365,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   }
 
   void setMinimumReceived(
-    double minimumReceived,
+    double minToReceive,
   ) {
     state = state.copyWith(
-      minimumReceived: minimumReceived,
+      minToReceive: minToReceive,
     );
   }
 

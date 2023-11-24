@@ -184,6 +184,31 @@ class PoolFactory with ModelParser {
     );
   }
 
+  /// Returns the pool ratio
+  /// [tokenAddress] is the token you want to provide (result amount will be the other token)
+  Future<Result<double?, Failure>> getPoolRatio(
+    String tokenAddress,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_ratio',
+              args: [
+                tokenAddress,
+              ],
+            ),
+          ),
+        );
+        log('getPoolRatio = $result');
+        return double.tryParse(result.toString());
+      },
+    );
+  }
+
   /// Returns amounts of token to get back when removing liquidity
   /// [lpTokenAmount] Number of lp token to remove
   Future<Result<Map<String, dynamic>?, Failure>> getRemoveAmounts(
@@ -230,6 +255,8 @@ class PoolFactory with ModelParser {
           ),
           resultMap: true,
         ) as Map<String, dynamic>?;
+
+        log('getSwapInfos: $result');
         return result;
       },
     );

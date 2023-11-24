@@ -28,11 +28,11 @@ class ArchethicContract with TransactionDexMixin {
     return Result.guard(() async {
       const logName = 'ArchethicContract.addPool';
       dev.log(
-        'Token1 address: ${token1.address}',
+        'Token1 address: ${token1.isUCO ? 'UCO' : token1.address!}',
         name: logName,
       );
       dev.log(
-        'Token2 address: ${token2.address}',
+        'Token2 address: ${token2.isUCO ? 'UCO' : token2.address!}',
         name: logName,
       );
 
@@ -387,7 +387,7 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<double, Failure>> getSwapInfos(
+  Future<Result<double, Failure>> getOutputAmount(
     DexToken tokenToSwap,
     double tokenToSwapAmount,
     String poolGenesisAddress,

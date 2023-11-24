@@ -269,7 +269,7 @@ class _SingleToken extends StatelessWidget {
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ],
-                    )
+                    ),
                 ],
               ),
             ),

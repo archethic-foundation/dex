@@ -14,10 +14,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class PoolInfoCard extends ConsumerWidget {
   const PoolInfoCard({
     required this.poolGenesisAddress,
+    required this.tokenAddressRatioPrimary,
     super.key,
   });
 
   final String poolGenesisAddress;
+  final String tokenAddressRatioPrimary;
 
   @override
   Widget build(
@@ -120,11 +122,18 @@ class PoolInfoCard extends ConsumerWidget {
                         height: 10,
                       ),
                       DexRatio(
-                        ratio: pool.ratio,
-                        token1Symbol:
-                            pool.pair == null ? '' : pool.pair!.token1.symbol,
-                        token2Symbol:
-                            pool.pair == null ? '' : pool.pair!.token2.symbol,
+                        ratio: tokenAddressRatioPrimary ==
+                                pool.pair!.token1.address
+                            ? pool.ratioToken1Token2
+                            : pool.ratioToken2Token1,
+                        token1Symbol: tokenAddressRatioPrimary ==
+                                pool.pair!.token1.address
+                            ? pool.pair!.token1.symbol
+                            : pool.pair!.token2.symbol,
+                        token2Symbol: tokenAddressRatioPrimary ==
+                                pool.pair!.token1.address
+                            ? pool.pair!.token2.symbol
+                            : pool.pair!.token1.symbol,
                       ),
                     ],
                   ),

@@ -5,9 +5,11 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_select
 import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SwapTokenSwappedAmount extends ConsumerStatefulWidget {
@@ -80,98 +82,137 @@ class _SwapTokenSwappedAmountState
       }
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(AppLocalizations.of(context)!.swapToEstimatedLbl),
         Stack(
           alignment: Alignment.centerLeft,
           children: [
-            SizedBox(
-              width: DexThemeBase.sizeBoxComponentWidth,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  10,
-                                ),
-                                border: Border.all(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  width: 0.5,
-                                ),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .background
-                                        .withOpacity(1),
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .background
-                                        .withOpacity(0.3),
-                                  ],
-                                  stops: const [0, 1],
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 160,
-                                  right: 70,
-                                ),
-                                child: TextField(
-                                  style: textTheme.titleMedium,
-                                  autocorrect: false,
-                                  controller: tokenAmountController,
-                                  onChanged: (text) async {
-                                    ref
-                                        .read(
-                                          SwapFormProvider.swapForm.notifier,
-                                        )
-                                        .setTokenFormSelected(2);
-                                    await swapNotifier.setTokenSwappedAmount(
-                                      double.tryParse(
-                                            text.replaceAll(' ', ''),
-                                          ) ??
-                                          0,
-                                    );
-                                  },
-                                  onTap: () {
-                                    ref
-                                        .read(
-                                          SwapFormProvider.swapForm.notifier,
-                                        )
-                                        .setTokenFormSelected(2);
-                                  },
-                                  focusNode: tokenAmountFocusNode,
-                                  textAlign: TextAlign.left,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.text,
-                                  inputFormatters: <TextInputFormatter>[
-                                    AmountTextInputFormatter(precision: 8),
-                                  ],
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(left: 10),
+            Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                SizedBox(
+                  width: DexThemeBase.sizeBoxComponentWidth,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      10,
+                                    ),
+                                    border: Border.all(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primaryContainer,
+                                      width: 0.5,
+                                    ),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .background
+                                            .withOpacity(1),
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .background
+                                            .withOpacity(0.3),
+                                      ],
+                                      stops: const [0, 1],
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 160,
+                                      right: 70,
+                                    ),
+                                    child: TextField(
+                                      style: textTheme.titleMedium,
+                                      autocorrect: false,
+                                      controller: tokenAmountController,
+                                      onChanged: (text) async {
+                                        ref
+                                            .read(
+                                              SwapFormProvider
+                                                  .swapForm.notifier,
+                                            )
+                                            .setTokenFormSelected(2);
+                                        await swapNotifier
+                                            .setTokenSwappedAmount(
+                                          double.tryParse(
+                                                text.replaceAll(' ', ''),
+                                              ) ??
+                                              0,
+                                        );
+                                      },
+                                      onTap: () {
+                                        ref
+                                            .read(
+                                              SwapFormProvider
+                                                  .swapForm.notifier,
+                                            )
+                                            .setTokenFormSelected(2);
+                                      },
+                                      focusNode: tokenAmountFocusNode,
+                                      textAlign: TextAlign.left,
+                                      textInputAction: TextInputAction.next,
+                                      keyboardType: TextInputType.text,
+                                      inputFormatters: <TextInputFormatter>[
+                                        AmountTextInputFormatter(precision: 8),
+                                        LengthLimitingTextInputFormatter(
+                                          swap.tokenSwappedBalance
+                                                  .formatNumber(precision: 0)
+                                                  .length +
+                                              8 +
+                                              1,
+                                        ),
+                                      ],
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        contentPadding:
+                                            EdgeInsets.only(left: 10),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                if (swap.tokenSwapped != null)
+                  Positioned(
+                    top: 14,
+                    right: 10,
+                    child: FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        swap.tokenSwapped!.symbol,
+                        swap.tokenSwappedAmount,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!,
+                            style: textTheme.titleMedium,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
                     ),
                   ),
-                ],
-              ),
+              ],
             ),
             const Padding(
               padding: EdgeInsets.only(

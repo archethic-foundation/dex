@@ -87,8 +87,12 @@ class LiquidityRemoveFormNotifier
     log("removeAmounts token2 ${removeAmounts['token2']})");
 
     return (
-      removeAmountToken1: removeAmounts['token1'] as double,
-      removeAmountToken2: removeAmounts['token2'] as double,
+      removeAmountToken1: removeAmounts['token1'] == null
+          ? 0.0
+          : removeAmounts['token1'] as double,
+      removeAmountToken2: removeAmounts['token2'] == null
+          ? 0.0
+          : removeAmounts['token2'] as double,
     );
   }
 
@@ -143,6 +147,17 @@ class LiquidityRemoveFormNotifier
       failure: null,
       lpTokenAmount: amount,
     );
+
+    if (amount > state.lpTokenBalance) {
+      setFailure(
+        const Failure.lpTokenAmountExceedBalance(),
+      );
+      state = state.copyWith(
+        token1AmountGetBack: 0,
+        token2AmountGetBack: 0,
+      );
+      return;
+    }
 
     final calculateRemoveAmountsResult = await _calculateRemoveAmounts(amount);
     state = state.copyWith(
@@ -231,10 +246,7 @@ class LiquidityRemoveFormNotifier
 
     if (state.lpTokenAmount > state.lpTokenBalance) {
       setFailure(
-        Failure.other(
-          cause: AppLocalizations.of(context)!
-              .liquidityRemoveControlToken1AmountExceedBalance,
-        ),
+        const Failure.lpTokenAmountExceedBalance(),
       );
       return false;
     }

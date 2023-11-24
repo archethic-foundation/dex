@@ -54,7 +54,9 @@ class DexTokensRepository with ModelParser {
     }
 
     final dexTokenUCO = ucoToken.copyWith(
-        balance: fromBigInt(balance.uco).toDouble(), icon: 'Archethic.svg');
+      balance: fromBigInt(balance.uco).toDouble(),
+      icon: 'Archethic.svg',
+    );
     dexTokens.add(dexTokenUCO);
 
     final tokenMap = await sl.get<ApiService>().getToken(

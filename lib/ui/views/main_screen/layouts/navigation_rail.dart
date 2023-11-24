@@ -60,6 +60,8 @@ class _NavigationRailMainScreenState
                   'assets/images/AELogo-Public Blockchain-White.svg',
                   semanticsLabel: 'AE Logo',
                   height: 22,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ],
             ),

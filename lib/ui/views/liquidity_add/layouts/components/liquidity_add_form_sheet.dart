@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,9 @@ class LiquidityAddFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final textTheme = Theme.of(context)
+        .textTheme
+        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
     return Expanded(
       child: Column(
@@ -65,9 +69,14 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PoolInfoCard(
-                        poolGenesisAddress: liquidityAdd.poolGenesisAddress,
-                      ),
+                      if (liquidityAdd.token1 != null)
+                        PoolInfoCard(
+                          poolGenesisAddress: liquidityAdd.poolGenesisAddress,
+                          tokenAddressRatioPrimary:
+                              liquidityAdd.token1!.address == null
+                                  ? 'UCO'
+                                  : liquidityAdd.token1!.address!,
+                        ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -82,6 +91,30 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
+                                if (liquidityAdd.token1 != null &&
+                                    liquidityAdd.token1Amount > 0)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: FutureBuilder<String>(
+                                      future: FiatValue().display(
+                                        ref,
+                                        liquidityAdd.token1!.symbol,
+                                        liquidityAdd.token1Amount,
+                                      ),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!,
+                                            style: textTheme.titleMedium,
+                                          );
+                                        }
+                                        return const SizedBox.shrink();
+                                      },
+                                    ),
+                                  ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 DexTokenInfos(
                                   token: liquidityAdd.token1,
                                 ),
@@ -143,6 +176,30 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
+                                if (liquidityAdd.token2 != null &&
+                                    liquidityAdd.token2Amount > 0)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: FutureBuilder<String>(
+                                      future: FiatValue().display(
+                                        ref,
+                                        liquidityAdd.token2!.symbol,
+                                        liquidityAdd.token2Amount,
+                                      ),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!,
+                                            style: textTheme.titleMedium,
+                                          );
+                                        }
+                                        return const SizedBox.shrink();
+                                      },
+                                    ),
+                                  ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 DexTokenInfos(
                                   token: liquidityAdd.token2,
                                 ),
@@ -187,7 +244,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                     .setToken2AmountMax(),
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ],

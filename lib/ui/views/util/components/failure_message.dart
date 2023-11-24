@@ -43,6 +43,9 @@ class FailureMessage {
       return (failure! as WrongNetwork).cause;
     }
 
+    if (failure is LPTokenAmountExceedBalance) {
+      return AppLocalizations.of(context)!.lpTokenAmountExceedBalance;
+    }
     if (failure is OtherFailure) {
       return (failure! as OtherFailure).cause.toString();
     }

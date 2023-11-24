@@ -51,7 +51,6 @@
   "swap_confirmation_you_pay": "You pay",
   "swap_confirmation_you_receive": "You receive",
   "swap_confirmation_exchange_rate": "Exchange rate",
-  "swap_confirmation_network_fee": "Network fee",
   "swap_confirmation_swap_fee": "Swap fee",
   "swap_confirmation_minimum_received": "Minimum received",
   "swap_confirmation_price_impact": "Price impact",
@@ -142,7 +141,7 @@
   "liquidityAddControlToken1AmountExceedBalance": "The amount entered for token 1 exceeds your balance.",
   "liquidityAddControlToken2AmountExceedBalance": "The amount entered for token 2 exceeds your balance.",
   "liquidityRemoveControlLPTokenAmountEmpty": "Please enter the amount of lp token",
-  "liquidityRemoveControlToken1AmountExceedBalance": "The amount entered for lp token exceeds your balance.",
+  "lpTokenAmountExceedBalance": "The amount entered for lp token exceeds your balance.",
   "liquidityRemoveTokensGetBackHeader": "Amounts of token to get back when removing liquidity",
   "swapControlTokenToSwapEmpty": "Please enter the token to swap",
   "swapControlTokenSwappedEmpty": "Please enter the token swapped",
@@ -159,5 +158,7 @@
   "swapProcessStep2": "Retrieving information to swap",
   "swapProcessStep3": "Swapping",
   "swapProcessStep4": "Process finished",
-  "feesLbl": "Fees"
+  "feesLbl": "Fees",
+  "swapFromLbl": "From",
+  "swapToEstimatedLbl": "To (estimated)"
 }
