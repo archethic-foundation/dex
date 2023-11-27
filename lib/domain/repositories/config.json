@@ -6,7 +6,7 @@
         },
         {
             "name": "testnet",
-            "routerGenesisAddress": ""
+            "routerGenesisAddress": "00000dd757ac0a67fd619c1d1c400037a38cdb0471e6496807d8b850dc422e5ca3aa"
         },
         {
             "name": "mainnet",
