@@ -33,6 +33,7 @@ mixin _$LiquidityAddFormState {
   double get token2Balance => throw _privateConstructorUsedError;
   double get token2Amount => throw _privateConstructorUsedError;
   double get networkFees => throw _privateConstructorUsedError;
+  double get expectedTokenLP => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -63,6 +64,7 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       double token2Balance,
       double token2Amount,
       double networkFees,
+      double expectedTokenLP,
       Failure? failure});
 
   $DexTokenCopyWith<$Res>? get token1;
@@ -100,6 +102,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     Object? token2Balance = null,
     Object? token2Amount = null,
     Object? networkFees = null,
+    Object? expectedTokenLP = null,
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
@@ -166,6 +169,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
       networkFees: null == networkFees
           ? _value.networkFees
           : networkFees // ignore: cast_nullable_to_non_nullable
+              as double,
+      expectedTokenLP: null == expectedTokenLP
+          ? _value.expectedTokenLP
+          : expectedTokenLP // ignore: cast_nullable_to_non_nullable
               as double,
       failure: freezed == failure
           ? _value.failure
@@ -237,6 +244,7 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       double token2Balance,
       double token2Amount,
       double networkFees,
+      double expectedTokenLP,
       Failure? failure});
 
   @override
@@ -275,6 +283,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
     Object? token2Balance = null,
     Object? token2Amount = null,
     Object? networkFees = null,
+    Object? expectedTokenLP = null,
     Object? failure = freezed,
   }) {
     return _then(_$LiquidityAddFormStateImpl(
@@ -342,6 +351,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
           ? _value.networkFees
           : networkFees // ignore: cast_nullable_to_non_nullable
               as double,
+      expectedTokenLP: null == expectedTokenLP
+          ? _value.expectedTokenLP
+          : expectedTokenLP // ignore: cast_nullable_to_non_nullable
+              as double,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -370,6 +383,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
       this.token2Balance = 0.0,
       this.token2Amount = 0.0,
       this.networkFees = 0.0,
+      this.expectedTokenLP = 0.0,
       this.failure})
       : super._();
 
@@ -420,11 +434,14 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   @JsonKey()
   final double networkFees;
   @override
+  @JsonKey()
+  final double expectedTokenLP;
+  @override
   final Failure? failure;
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, ratio: $ratio, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, failure: $failure)';
+    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, ratio: $ratio, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, failure: $failure)';
   }
 
   @override
@@ -462,6 +479,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
                 other.token2Amount == token2Amount) &&
             (identical(other.networkFees, networkFees) ||
                 other.networkFees == networkFees) &&
+            (identical(other.expectedTokenLP, expectedTokenLP) ||
+                other.expectedTokenLP == expectedTokenLP) &&
             (identical(other.failure, failure) || other.failure == failure));
   }
 
@@ -484,6 +503,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
       token2Balance,
       token2Amount,
       networkFees,
+      expectedTokenLP,
       failure);
 
   @JsonKey(ignore: true)
@@ -512,6 +532,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final double token2Balance,
       final double token2Amount,
       final double networkFees,
+      final double expectedTokenLP,
       final Failure? failure}) = _$LiquidityAddFormStateImpl;
   const _LiquidityAddFormState._() : super._();
 
@@ -547,6 +568,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   double get token2Amount;
   @override
   double get networkFees;
+  @override
+  double get expectedTokenLP;
   @override
   Failure? get failure;
   @override

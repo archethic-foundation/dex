@@ -164,6 +164,21 @@ class LiquidityRemoveFormNotifier
       token1AmountGetBack: calculateRemoveAmountsResult.removeAmountToken1,
       token2AmountGetBack: calculateRemoveAmountsResult.removeAmountToken2,
     );
+    final session = ref.read(SessionProviders.session);
+    final balanceToken1 = await ref.read(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+      ).future,
+    );
+    state = state.copyWith(token1Balance: balanceToken1);
+    final balanceToken2 = await ref.read(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+      ).future,
+    );
+    state = state.copyWith(token2Balance: balanceToken2);
   }
 
   void estimateNetworkFees() {

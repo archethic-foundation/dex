@@ -28,6 +28,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(0.0) double token2Balance,
     @Default(0.0) double token2Amount,
     @Default(0.0) double networkFees,
+    @Default(0.0) double expectedTokenLP,
     Failure? failure,
   }) = _LiquidityAddFormState;
   const LiquidityAddFormState._();

@@ -131,6 +131,27 @@ class LiquidityAddFormNotifier
     );
   }
 
+  Future<void> setExpectedTokenLP() async {
+    state = state.copyWith(expectedTokenLP: 0);
+
+    if (state.token1Amount <= 0 || state.token2Amount <= 0) {
+      return;
+    }
+    final apiService = sl.get<ApiService>();
+    final expectedTokenLPResult = await PoolFactory(
+      state.poolGenesisAddress,
+      apiService,
+    ).getLPTokenToMint(state.token1Amount, state.token2Amount);
+    expectedTokenLPResult.map(
+      success: (success) {
+        if (success != null) {
+          state = state.copyWith(expectedTokenLP: success);
+        }
+      },
+      failure: (failure) {},
+    );
+  }
+
   Future<double> _calculateEquivalentAmount(
     String tokenAddress,
     double amount, {
@@ -197,6 +218,8 @@ class LiquidityAddFormNotifier
     state = state.copyWith(
       token2Amount: equivalentAmount,
     );
+
+    await setExpectedTokenLP();
   }
 
   Future<void> setToken2Amount(
@@ -213,6 +236,8 @@ class LiquidityAddFormNotifier
     state = state.copyWith(
       token1Amount: equivalentAmount,
     );
+
+    await setExpectedTokenLP();
   }
 
   void estimateNetworkFees() {

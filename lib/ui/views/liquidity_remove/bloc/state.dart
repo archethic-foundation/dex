@@ -27,6 +27,8 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
     @Default(0.0) double token1AmountGetBack,
     @Default(0.0) double token2AmountGetBack,
     @Default(0.0) double networkFees,
+    @Default(0.0) double token1Balance,
+    @Default(0.0) double token2Balance,
     Failure? failure,
   }) = _LiquidityRemoveFormState;
   const LiquidityRemoveFormState._();

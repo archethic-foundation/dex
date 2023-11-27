@@ -3,9 +3,11 @@ import 'dart:async';
 
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
+import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_infos.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
+import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,6 +43,25 @@ class LiquidityRemoveConfirmSheet extends ConsumerWidget {
                   },
           ),
           const SizedBox(height: 15),
+          Stack(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 60),
+                child: LiquidityRemoveConfirmInfos(),
+              ),
+              if (liquidityRemove.token1 != null)
+                PoolInfoCard(
+                  poolGenesisAddress: liquidityRemove.poolGenesisAddress,
+                  tokenAddressRatioPrimary:
+                      liquidityRemove.token1!.address == null
+                          ? 'UCO'
+                          : liquidityRemove.token1!.address!,
+                ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           const Spacer(),
           DexButtonConfirm(
             labelBtn:

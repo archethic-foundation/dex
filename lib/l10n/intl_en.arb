@@ -160,5 +160,10 @@
   "swapProcessStep4": "Process finished",
   "feesLbl": "Fees",
   "swapFromLbl": "From",
-  "swapToEstimatedLbl": "To (estimated)"
+  "swapToEstimatedLbl": "To (estimated)",
+  "poolAddConfirmNewPoolLbl": "New pool",
+  "poolAddConfirmWithLiquidityLbl": "With liquidity",
+  "poolAddConfirmYourBalanceLbl": "Your balance",
+  "poolAddConfirmBalanceBeforeLbl": "Before",
+  "poolAddConfirmBalanceAfterLbl": "After"
 }
