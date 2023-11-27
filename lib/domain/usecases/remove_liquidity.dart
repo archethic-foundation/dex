@@ -81,6 +81,8 @@ class RemoveLiquidityCase with TransactionDexMixin {
     );
 
     liquidityRemoveNotifier.setCurrentStep(3);
+
+    unawaited(refreshCurrentAccountInfoWallet());
   }
 
   String getAEStepLabel(

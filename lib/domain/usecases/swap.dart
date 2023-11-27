@@ -126,6 +126,8 @@ class SwapCase with TransactionDexMixin {
     );
 
     swapNotifier.setCurrentStep(4);
+
+    unawaited(refreshCurrentAccountInfoWallet());
   }
 
   String getAEStepLabel(

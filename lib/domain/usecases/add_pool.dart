@@ -214,6 +214,8 @@ class AddPoolCase with TransactionDexMixin {
       );
 
       poolAddNotifier.setCurrentStep(6);
+
+      unawaited(refreshCurrentAccountInfoWallet());
     }
   }
 

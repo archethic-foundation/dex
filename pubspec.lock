@@ -45,10 +45,10 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_wallet_client
-      sha256: "4d40e35cc128fc6fcf394ab60487d4e5e57efe2943eb622df3cabe8d97e43677"
+      sha256: "51b4266cf52938b5f4f86b39b8bdaf0e805cf79652b2bd14415650f98455dd9b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.8"
+    version: "1.0.9"
   archive:
     dependency: transitive
     description:

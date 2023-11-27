@@ -90,6 +90,8 @@ class AddLiquidityCase with TransactionDexMixin {
     );
 
     liquidityAddNotifier.setCurrentStep(3);
+
+    unawaited(refreshCurrentAccountInfoWallet());
   }
 
   String getAEStepLabel(
