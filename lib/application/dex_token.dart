@@ -50,7 +50,7 @@ class DexTokensRepository with ModelParser {
 
     final tokenAddressList = <String>[];
     for (final token in balance.token) {
-      tokenAddressList.add(token.address!);
+      if (token.tokenId == 0) tokenAddressList.add(token.address!);
     }
 
     final dexTokenUCO = ucoToken.copyWith(
