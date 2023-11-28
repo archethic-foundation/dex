@@ -1,8 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:convert';
+
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
+import 'package:aedex/util/endpoint_util.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_token.g.dart';
@@ -25,6 +29,14 @@ Future<List<DexToken>> _getTokenFromAccount(
   address,
 ) async {
   return ref.watch(_dexTokensRepositoryProvider).getTokensFromAccount(address);
+}
+
+@riverpod
+Future<String?> _getTokenIcon(
+  _GetTokenIconRef ref,
+  address,
+) async {
+  return ref.watch(_dexTokensRepositoryProvider).getTokenIcon(address);
 }
 
 class DexTokensRepository with ModelParser {
@@ -88,9 +100,33 @@ class DexTokensRepository with ModelParser {
 
     return dexTokens;
   }
+
+  Future<String?> getTokenIcon(String address) async {
+    final jsonContent = await rootBundle
+        .loadString('lib/domain/repositories/common_bases.json');
+
+    final jsonData = jsonDecode(jsonContent);
+
+    final currentEnvironment = EndpointUtil.getEnvironnement();
+    try {
+      final tokens = jsonData['tokens'][currentEnvironment] as List<dynamic>;
+      String? tokenIcon;
+      for (final token in tokens) {
+        if (token['address'].toString().toUpperCase() ==
+            address.toUpperCase()) {
+          tokenIcon = token['icon'];
+          break;
+        }
+      }
+      return tokenIcon;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 abstract class DexTokensProviders {
   static const getTokenFromAddress = _getTokenFromAddressProvider;
   static const getTokenFromAccount = _getTokenFromAccountProvider;
+  static const getTokenIcon = _getTokenIconProvider;
 }

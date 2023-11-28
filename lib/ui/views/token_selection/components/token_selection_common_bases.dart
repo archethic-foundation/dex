@@ -118,18 +118,9 @@ class TokenSelectionCommonBases extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 1),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            token.name,
-                            style: Theme.of(context).textTheme.labelSmall,
-                          ),
-                          Text(
-                            token.symbol,
-                            style: Theme.of(context).textTheme.labelSmall,
-                          ),
-                        ],
+                      child: Text(
+                        token.symbol,
+                        style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ),
                   ],

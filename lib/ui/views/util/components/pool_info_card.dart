@@ -3,7 +3,9 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/dex_fees.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
+import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
+import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -77,45 +79,37 @@ class PoolInfoCard extends ConsumerWidget {
                 children: [
                   Column(
                     children: [
-                      Text(
-                        pool.pair!.token1.symbol,
-                        style: textTheme.titleLarge,
-                      ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            pool.pair!.token1.name,
-                            style: textTheme.labelSmall,
+                          DexTokenIcon(
+                            tokenAddress: pool.pair!.token1.address == null
+                                ? 'UCO'
+                                : pool.pair!.token1.address!,
                           ),
                           const SizedBox(
-                            width: 5,
+                            width: 10,
                           ),
-                          if (pool.pair!.token1.isUCO == false)
-                            FormatAddressLink(
-                              address: pool.pair!.token1.address!,
-                            ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        pool.pair!.token2.symbol,
-                        style: textTheme.titleLarge,
-                      ),
-                      Row(
-                        children: [
                           Text(
-                            pool.pair!.token2.name,
-                            style: textTheme.labelSmall,
+                            pool.pair!.token1.symbol,
+                            style: textTheme.titleLarge,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: Text('/'),
+                          ),
+                          DexTokenIcon(
+                            tokenAddress: pool.pair!.token2.address == null
+                                ? 'UCO'
+                                : pool.pair!.token2.address!,
                           ),
                           const SizedBox(
-                            width: 5,
+                            width: 10,
                           ),
-                          if (pool.pair!.token2.isUCO == false)
-                            FormatAddressLink(
-                              address: pool.pair!.token2.address!,
-                            ),
+                          Text(
+                            pool.pair!.token2.symbol,
+                            style: textTheme.titleLarge,
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -134,6 +128,13 @@ class PoolInfoCard extends ConsumerWidget {
                                 pool.pair!.token1.address
                             ? pool.pair!.token2.symbol
                             : pool.pair!.token1.symbol,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      VerifiedPoolIcon(
+                        address: pool.poolAddress,
+                        withLabel: true,
                       ),
                     ],
                   ),
@@ -174,6 +175,17 @@ class PoolInfoCard extends ConsumerWidget {
                                   Text(
                                     '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
                                   ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  if (pool.pair!.token1.isUCO == false)
+                                    FormatAddressLink(
+                                      address: pool.pair!.token1.address!,
+                                    )
+                                  else
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
                                 ],
                               ),
                               Row(
@@ -187,6 +199,17 @@ class PoolInfoCard extends ConsumerWidget {
                                   Text(
                                     '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
                                   ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  if (pool.pair!.token2.isUCO == false)
+                                    FormatAddressLink(
+                                      address: pool.pair!.token2.address!,
+                                    )
+                                  else
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
                                 ],
                               ),
                             ],

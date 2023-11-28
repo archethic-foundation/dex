@@ -2,6 +2,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/token_selection_popup.dart';
+import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -61,7 +62,24 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                       AppLocalizations.of(context)!.btn_selectToken,
                     )
                   else
-                    Text(swap.tokenSwapped!.name),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                      ),
+                      child: Row(
+                        children: [
+                          DexTokenIcon(
+                            tokenAddress: swap.tokenSwapped!.address == null
+                                ? 'UCO'
+                                : swap.tokenSwapped!.address!,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2, left: 10),
+                            child: Text(swap.tokenSwapped!.symbol),
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),

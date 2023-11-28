@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
@@ -39,8 +40,21 @@ class DexTokenInfos extends StatelessWidget {
       ),
       child: token != null
           ? Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(token!.name),
+              padding: const EdgeInsets.only(
+                left: 10,
+              ),
+              child: Row(
+                children: [
+                  DexTokenIcon(
+                    tokenAddress:
+                        token!.address == null ? 'UCO' : token!.address!,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2, left: 10),
+                    child: Text(token!.symbol),
+                  ),
+                ],
+              ),
             )
           : const SizedBox.shrink(),
     );

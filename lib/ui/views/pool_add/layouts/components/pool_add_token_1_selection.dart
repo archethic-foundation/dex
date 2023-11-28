@@ -2,6 +2,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/token_selection_popup.dart';
+import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -62,7 +63,24 @@ class PoolAddToken1Selection extends ConsumerWidget {
                     AppLocalizations.of(context)!.btn_selectToken,
                   )
                 else
-                  Text(poolAdd.token1!.name),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                    ),
+                    child: Row(
+                      children: [
+                        DexTokenIcon(
+                          tokenAddress: poolAdd.token1!.address == null
+                              ? 'UCO'
+                              : poolAdd.token1!.address!,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2, left: 10),
+                          child: Text(poolAdd.token1!.symbol),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
             const Icon(

@@ -3,6 +3,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class TokenList extends ConsumerWidget {
@@ -202,29 +202,9 @@ class _SingleToken extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            if (token.icon != null && token.icon!.isNotEmpty)
-              SvgPicture.asset(
-                'assets/images/bc-logos/${token.icon}',
-                width: 20,
-              )
-            else
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.2),
-                ),
-                child: const Center(
-                  child: Text(
-                    '?',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+            DexTokenIcon(
+              tokenAddress: token.address == null ? 'UCO' : token.address!,
+            ),
             const SizedBox(
               width: 10,
             ),
@@ -236,7 +216,7 @@ class _SingleToken extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${token.name} (${token.symbol})',
+                        token.symbol,
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                       const SizedBox(

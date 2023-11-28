@@ -305,5 +305,133 @@ class _GetTokenFromAccountProviderElement
   @override
   dynamic get address => (origin as _GetTokenFromAccountProvider).address;
 }
+
+String _$getTokenIconHash() => r'c34c61639fdac99ae3b6c450f7b21d3029b00b30';
+
+/// See also [_getTokenIcon].
+@ProviderFor(_getTokenIcon)
+const _getTokenIconProvider = _GetTokenIconFamily();
+
+/// See also [_getTokenIcon].
+class _GetTokenIconFamily extends Family<AsyncValue<String?>> {
+  /// See also [_getTokenIcon].
+  const _GetTokenIconFamily();
+
+  /// See also [_getTokenIcon].
+  _GetTokenIconProvider call(
+    dynamic address,
+  ) {
+    return _GetTokenIconProvider(
+      address,
+    );
+  }
+
+  @override
+  _GetTokenIconProvider getProviderOverride(
+    covariant _GetTokenIconProvider provider,
+  ) {
+    return call(
+      provider.address,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getTokenIconProvider';
+}
+
+/// See also [_getTokenIcon].
+class _GetTokenIconProvider extends AutoDisposeFutureProvider<String?> {
+  /// See also [_getTokenIcon].
+  _GetTokenIconProvider(
+    dynamic address,
+  ) : this._internal(
+          (ref) => _getTokenIcon(
+            ref as _GetTokenIconRef,
+            address,
+          ),
+          from: _getTokenIconProvider,
+          name: r'_getTokenIconProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getTokenIconHash,
+          dependencies: _GetTokenIconFamily._dependencies,
+          allTransitiveDependencies:
+              _GetTokenIconFamily._allTransitiveDependencies,
+          address: address,
+        );
+
+  _GetTokenIconProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.address,
+  }) : super.internal();
+
+  final dynamic address;
+
+  @override
+  Override overrideWith(
+    FutureOr<String?> Function(_GetTokenIconRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetTokenIconProvider._internal(
+        (ref) => create(ref as _GetTokenIconRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        address: address,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<String?> createElement() {
+    return _GetTokenIconProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetTokenIconProvider && other.address == address;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, address.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _GetTokenIconRef on AutoDisposeFutureProviderRef<String?> {
+  /// The parameter `address` of this provider.
+  dynamic get address;
+}
+
+class _GetTokenIconProviderElement
+    extends AutoDisposeFutureProviderElement<String?> with _GetTokenIconRef {
+  _GetTokenIconProviderElement(super.provider);
+
+  @override
+  dynamic get address => (origin as _GetTokenIconProvider).address;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

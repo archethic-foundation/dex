@@ -5,9 +5,11 @@ import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_fees.dart';
+import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/icon_animated.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -113,8 +115,25 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                           width: 250,
                                           child: Row(
                                             children: [
+                                              DexPairIcons(
+                                                token1Address:
+                                                    pool.pair!.token1.address ==
+                                                            null
+                                                        ? 'UCO'
+                                                        : pool.pair!.token1
+                                                            .address!,
+                                                token2Address:
+                                                    pool.pair!.token2.address ==
+                                                            null
+                                                        ? 'UCO'
+                                                        : pool.pair!.token2
+                                                            .address!,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
                                               Text(
-                                                pool.pair!.token1.name,
+                                                pool.pair!.token1.symbol,
                                               ),
                                               const SizedBox(
                                                 width: 5,
@@ -127,7 +146,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                 ),
                                               const Text(' / '),
                                               Text(
-                                                pool.pair!.token2.name,
+                                                pool.pair!.token2.symbol,
                                               ),
                                               const SizedBox(
                                                 width: 5,
@@ -138,6 +157,12 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                   address: pool
                                                       .pair!.token2.address!,
                                                 ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              VerifiedPoolIcon(
+                                                address: pool.poolAddress,
+                                              ),
                                             ],
                                           ),
                                         ),

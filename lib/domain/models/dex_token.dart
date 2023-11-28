@@ -16,7 +16,7 @@ class DexToken with _$DexToken {
   }) = _DexToken;
   const DexToken._();
 
-  bool get isUCO => symbol == 'UCO' && address == null;
+  bool get isUCO => symbol == 'UCO' && (address == null || address! == 'UCO');
 }
 
 DexToken get ucoToken => const DexToken(name: 'Universal Coin', symbol: 'UCO');

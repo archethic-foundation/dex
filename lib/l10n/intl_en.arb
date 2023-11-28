@@ -168,5 +168,6 @@
   "poolAddConfirmWithLiquidityLbl": "With liquidity",
   "poolAddConfirmYourBalanceLbl": "Your balance",
   "poolAddConfirmBalanceBeforeLbl": "Before",
-  "poolAddConfirmBalanceAfterLbl": "After"
+  "poolAddConfirmBalanceAfterLbl": "After",
+  "poolCardPoolVerified": "Pool verified"
 }

@@ -2,7 +2,7 @@ name: aedex
 description: Enable direct peer-to-peer trading of digital assets on the Archethic blockchain, eliminating the need for centralized intermediaries.
 publish_to: "none"
 
-version: 0.0.9+1
+version: 0.0.9+2
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -108,6 +108,7 @@ flutter:
     - lib/domain/repositories/config.json
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens/verified_tokens.json
+    - lib/domain/repositories/pools/verified_pools.json
 
   fonts:
     - family: Roboto
