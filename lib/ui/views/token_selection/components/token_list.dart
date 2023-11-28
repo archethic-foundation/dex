@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -144,7 +145,7 @@ class _TokensList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 200,
       child: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(
           height: 10,
@@ -245,7 +246,7 @@ class _SingleToken extends StatelessWidget {
                           width: 5,
                         ),
                         Text(
-                          token.balance.toStringAsFixed(2),
+                          token.balance.formatNumber(),
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ],

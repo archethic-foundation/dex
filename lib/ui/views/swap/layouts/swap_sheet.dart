@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
@@ -10,13 +11,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
-class SwapSheet extends ConsumerWidget {
+class SwapSheet extends ConsumerStatefulWidget {
   const SwapSheet({
+    this.tokenToSwap,
+    this.tokenSwapped,
     super.key,
   });
 
+  final DexToken? tokenToSwap;
+  final DexToken? tokenSwapped;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SwapSheet> createState() => _SwapSheetState();
+}
+
+class _SwapSheetState extends ConsumerState<SwapSheet> {
+  @override
+  void initState() {
+    if (widget.tokenToSwap != null && widget.tokenSwapped != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(SwapFormProvider.swapForm.notifier)
+          ..setTokenToSwap(widget.tokenToSwap!)
+          ..setTokenSwapped(widget.tokenSwapped!);
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final swap = ref.watch(SwapFormProvider.swapForm);
     return Align(
       child: Container(

@@ -310,6 +310,18 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     }
   }
 
+  void swapDirections() {
+    final oldToken1 = state.tokenToSwap;
+    final oldToken2 = state.tokenSwapped;
+    if (oldToken2 != null) {
+      setTokenToSwap(oldToken2);
+    }
+
+    if (oldToken1 != null) {
+      setTokenSwapped(oldToken1);
+    }
+  }
+
   Future<void> getRatio() async {
     if (state.tokenToSwap == null) {
       state = state.copyWith(ratio: 0);

@@ -1,12 +1,18 @@
+import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
+import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
-class TokenSelectionCommonBases extends StatelessWidget {
+class TokenSelectionCommonBases extends ConsumerWidget {
   const TokenSelectionCommonBases({
     required this.tokens,
     super.key,
@@ -15,7 +21,9 @@ class TokenSelectionCommonBases extends StatelessWidget {
   final List tokens;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(SessionProviders.session);
+
     return Column(
       children: [
         Row(
@@ -58,6 +66,7 @@ class TokenSelectionCommonBases extends StatelessWidget {
               address: entry['address'] ?? '',
               icon: entry['icon'] ?? '',
             );
+
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 5),
               width: 150,
@@ -116,12 +125,63 @@ class TokenSelectionCommonBases extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 1),
-                      child: Text(
-                        token.symbol,
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 1),
+                              child: Text(
+                                token.symbol,
+                                style: Theme.of(context).textTheme.labelSmall,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 3,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2),
+                              child: VerifiedTokenIcon(
+                                address: token.isUCO ? 'UCO' : token.address!,
+                                iconSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                        FutureBuilder<double>(
+                          future: ref.read(
+                            BalanceProviders.getBalance(
+                              session.genesisAddress,
+                              token.isUCO ? 'UCO' : token.address!,
+                            ).future,
+                          ),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Row(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(bottom: 3),
+                                    child: Icon(
+                                      Iconsax.empty_wallet,
+                                      size: 12,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    snapshot.data!.formatNumber(),
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
+                                ],
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),

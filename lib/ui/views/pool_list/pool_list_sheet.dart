@@ -4,6 +4,7 @@ import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
+import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_fees.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
@@ -87,7 +88,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                           DataColumn(
                             label: Expanded(
                               child: Text(
-                                AppLocalizations.of(context)!.feesLbl,
+                                AppLocalizations.of(context)!.swapFeesLbl,
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -97,6 +98,15 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                               child: Text(
                                 AppLocalizations.of(context)!
                                     .poolListHeaderLiquidity,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .poolListHeaderSwap,
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -343,6 +353,49 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                     child: const IconAnimated(
                                                       icon:
                                                           Iconsax.wallet_minus,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Align(
+                                            child: SizedBox(
+                                              width: 50,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      ref
+                                                          .read(
+                                                            MainScreenWidgetDisplayedProviders
+                                                                .mainScreenWidgetDisplayedProvider
+                                                                .notifier,
+                                                          )
+                                                          .setWidget(
+                                                            SwapSheet(
+                                                              tokenToSwap: pool
+                                                                  .pair!.token1,
+                                                              tokenSwapped: pool
+                                                                  .pair!.token2,
+                                                            ),
+                                                            ref,
+                                                          );
+                                                    },
+                                                    child: const IconAnimated(
+                                                      icon: Iconsax
+                                                          .arrange_circle_2,
                                                       color: Colors.white,
                                                     ),
                                                   ),
