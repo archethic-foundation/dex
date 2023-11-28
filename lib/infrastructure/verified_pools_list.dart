@@ -10,7 +10,6 @@ class VerifiedPoolsList implements VerifiedPoolsRepositoryInterface {
   Future<VerifiedPools> getVerifiedPools() async {
     final jsonContent = await rootBundle
         .loadString('lib/domain/repositories/pools/verified_pools.json');
-
     final Map<String, dynamic> jsonData = json.decode(jsonContent);
 
     return VerifiedPools.fromJson(jsonData);

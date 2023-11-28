@@ -2,9 +2,11 @@
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
+import 'package:aedex/application/verified_pools.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_pool.g.dart';
@@ -16,13 +18,14 @@ DexPoolsRepository _dexPoolsRepository(_DexPoolsRepositoryRef ref) =>
 @riverpod
 Future<List<DexPool>> _getPoolList(
   _GetPoolListRef ref,
+  bool onlyVerified,
 ) async {
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
   final apiService = sl.get<ApiService>();
   return ref
       .watch(_dexPoolsRepositoryProvider)
-      .getPoolList(dexConf.routerGenesisAddress, apiService);
+      .getPoolList(dexConf.routerGenesisAddress, onlyVerified, apiService, ref);
 }
 
 @riverpod
@@ -38,7 +41,9 @@ Future<DexPool?> _getPoolInfos(
 class DexPoolsRepository {
   Future<List<DexPool>> getPoolList(
     String routerAddress,
+    bool onlyVerified,
     ApiService apiService,
+    Ref ref,
   ) async {
     final dexPools = <DexPool>[];
     final resultPoolList = await RouterFactory(
@@ -52,9 +57,19 @@ class DexPoolsRepository {
         for (final pool in poolList) {
           final poolFactory = PoolFactory(pool.poolAddress, apiService);
           final poolInfosResult = await poolFactory.getPoolInfos();
-          poolInfosResult.map(
-            success: (dexPool) {
-              dexPools.add(dexPool);
+          await poolInfosResult.map(
+            success: (dexPool) async {
+              final isVerified = await ref.read(
+                VerifiedPoolsProviders.isVerifiedPool(dexPool.poolAddress)
+                    .future,
+              );
+
+              dexPool = dexPool.copyWith(verified: isVerified);
+
+              if (onlyVerified == false ||
+                  (onlyVerified == true && dexPool.verified == true)) {
+                dexPools.add(dexPool);
+              }
             },
             failure: (failure) {},
           );
@@ -85,6 +100,6 @@ class DexPoolsRepository {
 }
 
 abstract class DexPoolProviders {
-  static final getPoolList = _getPoolListProvider;
+  static const getPoolList = _getPoolListProvider;
   static const getPoolInfos = _getPoolInfosProvider;
 }

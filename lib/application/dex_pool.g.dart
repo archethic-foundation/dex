@@ -23,21 +23,7 @@ final _dexPoolsRepositoryProvider =
 );
 
 typedef _DexPoolsRepositoryRef = AutoDisposeProviderRef<DexPoolsRepository>;
-String _$getPoolListHash() => r'529ddb7606d3f51e72456b101c02f0aa0ac895a5';
-
-/// See also [_getPoolList].
-@ProviderFor(_getPoolList)
-final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
-  _getPoolList,
-  name: r'_getPoolListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getPoolListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _GetPoolListRef = AutoDisposeFutureProviderRef<List<DexPool>>;
-String _$getPoolInfosHash() => r'91bd638090682c1d52314c216e29aae0afc708ab';
+String _$getPoolListHash() => r'84447390879847710a89a99895a95dc084b1209f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,6 +45,135 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [_getPoolList].
+@ProviderFor(_getPoolList)
+const _getPoolListProvider = _GetPoolListFamily();
+
+/// See also [_getPoolList].
+class _GetPoolListFamily extends Family<AsyncValue<List<DexPool>>> {
+  /// See also [_getPoolList].
+  const _GetPoolListFamily();
+
+  /// See also [_getPoolList].
+  _GetPoolListProvider call(
+    bool onlyVerified,
+  ) {
+    return _GetPoolListProvider(
+      onlyVerified,
+    );
+  }
+
+  @override
+  _GetPoolListProvider getProviderOverride(
+    covariant _GetPoolListProvider provider,
+  ) {
+    return call(
+      provider.onlyVerified,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getPoolListProvider';
+}
+
+/// See also [_getPoolList].
+class _GetPoolListProvider extends AutoDisposeFutureProvider<List<DexPool>> {
+  /// See also [_getPoolList].
+  _GetPoolListProvider(
+    bool onlyVerified,
+  ) : this._internal(
+          (ref) => _getPoolList(
+            ref as _GetPoolListRef,
+            onlyVerified,
+          ),
+          from: _getPoolListProvider,
+          name: r'_getPoolListProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getPoolListHash,
+          dependencies: _GetPoolListFamily._dependencies,
+          allTransitiveDependencies:
+              _GetPoolListFamily._allTransitiveDependencies,
+          onlyVerified: onlyVerified,
+        );
+
+  _GetPoolListProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.onlyVerified,
+  }) : super.internal();
+
+  final bool onlyVerified;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<DexPool>> Function(_GetPoolListRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetPoolListProvider._internal(
+        (ref) => create(ref as _GetPoolListRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        onlyVerified: onlyVerified,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<DexPool>> createElement() {
+    return _GetPoolListProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetPoolListProvider && other.onlyVerified == onlyVerified;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, onlyVerified.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _GetPoolListRef on AutoDisposeFutureProviderRef<List<DexPool>> {
+  /// The parameter `onlyVerified` of this provider.
+  bool get onlyVerified;
+}
+
+class _GetPoolListProviderElement
+    extends AutoDisposeFutureProviderElement<List<DexPool>>
+    with _GetPoolListRef {
+  _GetPoolListProviderElement(super.provider);
+
+  @override
+  bool get onlyVerified => (origin as _GetPoolListProvider).onlyVerified;
+}
+
+String _$getPoolInfosHash() => r'91bd638090682c1d52314c216e29aae0afc708ab';
 
 /// See also [_getPoolInfos].
 @ProviderFor(_getPoolInfos)

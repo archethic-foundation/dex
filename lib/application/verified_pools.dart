@@ -46,7 +46,6 @@ class VerifiedPoolsRepository {
   Future<List<String>> getVerifiedPoolsFromNetwork() async {
     final verifiedPools = await getVerifiedPools();
     final network = EndpointUtil.getEnvironnement();
-
     switch (network) {
       case 'testnet':
         return verifiedPools.testnet;
