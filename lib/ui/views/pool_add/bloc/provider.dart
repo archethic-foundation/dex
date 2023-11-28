@@ -264,9 +264,8 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return false;
     }
 
-    final dexConfig = await ref
-        .read(DexConfigProviders.dexConfigRepository)
-        .getDexConfig('devnet');
+    final dexConfig =
+        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
 
     final apiService = sl.get<ApiService>();
     final routerFactory =
@@ -299,10 +298,8 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     }
     setProcessInProgress(true);
 
-    // TODO(reddwarf03): get Env from Wallet
-    final dexConfig = await ref
-        .read(DexConfigProviders.dexConfigRepository)
-        .getDexConfig('devnet');
+    final dexConfig =
+        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
 
     await AddPoolCase().run(
       ref,

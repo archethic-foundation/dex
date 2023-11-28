@@ -56,9 +56,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(tokenToSwapBalance: balance);
 
     if (state.tokenSwapped != null) {
-      final dexConfig = await ref
-          .read(DexConfigProviders.dexConfigRepository)
-          .getDexConfig('devnet');
+      final dexConfig =
+          await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
       final apiService = sl.get<ApiService>();
       if (state.tokenToSwap != null) {
         final routerFactory =
@@ -286,9 +285,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
     state = state.copyWith(tokenSwappedBalance: balance);
 
-    final dexConfig = await ref
-        .read(DexConfigProviders.dexConfigRepository)
-        .getDexConfig('devnet');
+    final dexConfig =
+        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
     final apiService = sl.get<ApiService>();
     if (state.tokenToSwap != null) {
       final routerFactory =
