@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/main_screen_widget_displayed.dart';
+import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/utils/components/main_screen_background.dart';
 import 'package:aedex/ui/views/lp_staking/lp_staking_sheet.dart';
@@ -7,6 +8,7 @@ import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/body.dart';
 import 'package:aedex/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
+import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
@@ -27,6 +29,24 @@ class MainScreen extends ConsumerStatefulWidget {
 class MainScreenState extends ConsumerState<MainScreen> {
   bool _isSubMenuOpen = false;
   List<(String, IconData)> listNavigationLabelIcon = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    HivePreferencesDatasource.getInstance().then((value) {
+      if (value.isFirstConnection()) {
+        Future.delayed(Duration.zero, () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const PrivacyPopup();
+            },
+          );
+        });
+      }
+    });
+  }
 
   @override
   void didChangeDependencies() {

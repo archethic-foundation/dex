@@ -1,22 +1,42 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/preferences.dart';
 import 'package:aedex/application/version.dart';
 import 'package:aedex/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
+import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
+class AppBarMainScreen extends ConsumerStatefulWidget
+    implements PreferredSizeWidget {
   const AppBarMainScreen({
     super.key,
     required this.onAEMenuTapped,
   });
 
   final Function() onAEMenuTapped;
+  @override
+  Size get preferredSize => AppBar().preferredSize;
 
+  @override
+  ConsumerState<AppBarMainScreen> createState() => _AppBarMainScreenState();
+}
+
+class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
+  final thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
+    (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -109,7 +129,7 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {
                 launchUrl(
                   Uri.parse(
-                    'https://github.com/archethic-foundation/bridge',
+                    'https://github.com/archethic-foundation/dex',
                   ),
                 );
               },
@@ -176,6 +196,119 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
                 );
               },
             ),
+            MenuItemButton(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Iconsax.menu_board,
+                      size: 16,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(AppLocalizations.of(context)!.menu_logs_activated),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        FutureBuilder<bool>(
+                          future: ref
+                              .watch(
+                                PreferencesProviders.preferencesRepository,
+                              )
+                              .isLogsActived(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return SizedBox(
+                                height: 20,
+                                child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Switch(
+                                    thumbIcon: thumbIcon,
+                                    value: snapshot.data!,
+                                    onChanged: (value) {
+                                      ref
+                                          .read(
+                                            PreferencesProviders
+                                                .preferencesRepository,
+                                          )
+                                          .setLogsActived(value);
+                                      sl.get<LogManager>().logsActived = value;
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          child: const Icon(
+                            Icons.help_outline_outlined,
+                            size: 14,
+                          ),
+                          onTap: () {
+                            Future.delayed(Duration.zero, () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const PrivacyPopup();
+                                },
+                              );
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              onPressed: () {
+                launchUrl(
+                  Uri.parse(
+                    'https://www.archethic.net/privacy-policy-dex',
+                  ),
+                );
+              },
+            ),
+            MenuItemButton(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Iconsax.shield_tick,
+                      size: 16,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(AppLocalizations.of(context)!.menu_privacy_policy),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Icon(
+                      Iconsax.export_3,
+                      size: 12,
+                    ),
+                  ],
+                ),
+              ),
+              onPressed: () {
+                launchUrl(
+                  Uri.parse(
+                    'https://www.archethic.net/privacy-policy-dex',
+                  ),
+                );
+              },
+            ),
             const Divider(),
             Padding(
               padding: const EdgeInsets.only(
@@ -205,7 +338,7 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
         ),
         IconButton(
           icon: const Icon(Iconsax.element_3),
-          onPressed: onAEMenuTapped,
+          onPressed: widget.onAEMenuTapped,
         ),
         const SizedBox(
           width: 16,
@@ -213,7 +346,4 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => AppBar().preferredSize;
 }

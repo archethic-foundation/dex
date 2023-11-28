@@ -23,7 +23,7 @@ final _dexPoolsRepositoryProvider =
 );
 
 typedef _DexPoolsRepositoryRef = AutoDisposeProviderRef<DexPoolsRepository>;
-String _$getPoolListHash() => r'61c75781cd3cb85ff431258dd11d5c658c68deff';
+String _$getPoolListHash() => r'529ddb7606d3f51e72456b101c02f0aa0ac895a5';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)
