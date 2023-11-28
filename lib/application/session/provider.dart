@@ -1,10 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
-
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/repositories/features_flags.dart';
+import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -20,7 +19,6 @@ class _SessionNotifier extends Notifier<Session> {
   @override
   Session build() {
     ref.onDispose(() {
-      dev.log('dispose SessionNotifier');
       connectionStatusSubscription?.cancel();
     });
     return const Session();
@@ -41,7 +39,12 @@ class _SessionNotifier extends Notifier<Session> {
           replyBaseUrl: 'aedex://archethic.tech',
         );
       } catch (e, stackTrace) {
-        dev.log('$e', stackTrace: stackTrace);
+        sl.get<LogManager>().log(
+              '$e',
+              stackTrace: stackTrace,
+              level: LogLevel.error,
+              name: '_SessionNotifier - connectToWallet',
+            );
         throw const Failure.connectivityArchethic();
       }
       final endpointResponse = await archethicDAppClient.getEndpoint();
@@ -55,7 +58,6 @@ class _SessionNotifier extends Notifier<Session> {
               );
               break;
             default:
-              dev.log(failure.message ?? 'Connection failed');
               state = state.copyWith(
                 isConnected: false,
                 error: 'Please, open your Archethic Wallet.',
@@ -64,8 +66,6 @@ class _SessionNotifier extends Notifier<Session> {
           }
         },
         success: (result) async {
-          dev.log('DApp is connected to archethic wallet.');
-
           if (FeatureFlags.mainnetActive == false &&
               result.endpointUrl == 'https://mainnet.archethic.net') {
             state = state.copyWith(
@@ -81,7 +81,6 @@ class _SessionNotifier extends Notifier<Session> {
               archethicDAppClient!.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
-                dev.log('Disconnected', name: 'Wallet connection');
                 state = state.copyWith(
                   endpoint: '',
                   error: '',
@@ -92,14 +91,12 @@ class _SessionNotifier extends Notifier<Session> {
                 );
               },
               connected: () async {
-                dev.log('Connected', name: 'Wallet connection');
                 state = state.copyWith(
                   isConnected: true,
                   error: '',
                 );
               },
               connecting: () {
-                dev.log('Connecting', name: 'Wallet connection');
                 state = state.copyWith(
                   endpoint: '',
                   error: '',
@@ -159,7 +156,6 @@ class _SessionNotifier extends Notifier<Session> {
         },
       );
     } catch (e) {
-      dev.log(e.toString());
       state = state.copyWith(
         isConnected: false,
         error: 'Please, open your Archethic Wallet.',

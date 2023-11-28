@@ -1,11 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/widgets.dart';
@@ -131,7 +132,6 @@ class AddPoolCase with TransactionDexMixin {
             .read(PoolAddFormProvider.poolAddForm.notifier)
             .setWalletConfirmation(false);
       } catch (e) {
-        dev.log('Signature failed $e', name: logName);
         if (e is Failure) {
           poolAddNotifier.setFailure(e);
           return;
@@ -197,7 +197,11 @@ class AddPoolCase with TransactionDexMixin {
 
         poolAddNotifier.setWalletConfirmation(false);
       } catch (e) {
-        dev.log('Signature failed $e', name: logName);
+        sl.get<LogManager>().log(
+              'Signature failed $e',
+              level: LogLevel.error,
+              name: 'TransactionDexMixin - sendTransactions',
+            );
         if (e is Failure) {
           poolAddNotifier.setFailure(e);
           return;

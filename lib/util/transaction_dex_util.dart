@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:developer' as dev;
 
 import 'package:aedex/domain/models/failures.dart';
+import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter/foundation.dart';
 
 mixin TransactionDexMixin {
   Future<double> calculateFees(
@@ -58,9 +60,11 @@ mixin TransactionDexMixin {
         transaction: transaction,
         onConfirmation: (confirmation) async {
           if (confirmation.isEnoughConfirmed) {
-            dev.log(
-              'nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}',
-            );
+            sl.get<LogManager>().log(
+                  'nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}',
+                  level: LogLevel.debug,
+                  name: 'TransactionDexMixin - sendTransactions',
+                );
             transactionRepository.close();
             next = true;
           }
@@ -95,7 +99,7 @@ mixin TransactionDexMixin {
 
       while (next == false && errorDetail.isEmpty) {
         await Future.delayed(const Duration(seconds: 1));
-        dev.log('wait...');
+        if (kDebugMode) dev.log('wait...');
       }
     }
 
@@ -184,7 +188,12 @@ mixin TransactionDexMixin {
         },
       );
     } catch (e, stackTrace) {
-      dev.log('$e', stackTrace: stackTrace);
+      sl.get<LogManager>().log(
+            '$e',
+            stackTrace: stackTrace,
+            level: LogLevel.error,
+            name: 'TransactionDexMixin - getCurrentAccount',
+          );
     }
 
     return accountName;

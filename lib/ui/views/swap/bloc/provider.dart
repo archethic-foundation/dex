@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/pool_factory.dart';
@@ -164,7 +162,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                                     Decimal.parse('100'))
                                 .toDecimal()))
                         .toDouble();
-                    log('calculateOutputAmount: address $tokenAddress $amount -> outputAmount $_outputAmount');
                   }
                 },
                 failure: (failure) {

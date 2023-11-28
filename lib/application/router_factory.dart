@@ -1,11 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
+import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 class RouterFactory with ModelParser {
@@ -100,7 +101,11 @@ class RouterFactory with ModelParser {
           resultMap: true,
         ) as Map<String, dynamic>?;
         if (result == null) {
-          dev.log('getPoolAddresses: result null');
+          sl.get<LogManager>().log(
+                'getPoolAddresses: result null $token1Address $token2Address',
+                level: LogLevel.error,
+                name: 'getPoolAddresses',
+              );
         }
         return result;
       },
@@ -158,7 +163,6 @@ class RouterFactory with ModelParser {
         final poolList = <DexPool>[];
 
         for (final result in results) {
-          dev.log('$result');
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
             await poolListToModel(getPoolListResponse),

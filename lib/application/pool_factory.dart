@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
@@ -44,8 +43,6 @@ class PoolFactory with ModelParser {
           ),
           resultMap: true,
         ) as Map<String, dynamic>;
-
-        log('result: $result');
 
         final getPoolInfosResponse = GetPoolInfosResponse.fromJson(result);
         return poolInfoToModel(factoryAddress, getPoolInfosResponse);
@@ -178,7 +175,6 @@ class PoolFactory with ModelParser {
             ),
           ),
         );
-        log('getEquivalentAmount = $result');
         return double.tryParse(result.toString());
       },
     );
@@ -203,7 +199,6 @@ class PoolFactory with ModelParser {
             ),
           ),
         );
-        log('getPoolRatio = $result');
         return double.tryParse(result.toString());
       },
     );
@@ -256,7 +251,6 @@ class PoolFactory with ModelParser {
           resultMap: true,
         ) as Map<String, dynamic>?;
 
-        log('getSwapInfos: $result');
         return result;
       },
     );

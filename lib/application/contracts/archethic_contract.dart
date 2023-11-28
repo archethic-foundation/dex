@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -9,6 +8,7 @@ import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
+import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -26,30 +26,14 @@ class ArchethicContract with TransactionDexMixin {
     String lpTokenAddress,
   ) async {
     return Result.guard(() async {
-      const logName = 'ArchethicContract.addPool';
-      dev.log(
-        'Token1 address: ${token1.isUCO ? 'UCO' : token1.address!}',
-        name: logName,
-      );
-      dev.log(
-        'Token2 address: ${token2.isUCO ? 'UCO' : token2.address!}',
-        name: logName,
-      );
-
       final apiService = sl.get<archethic.ApiService>();
       final routerFactory = RouterFactory(routerAddress, apiService);
-      dev.log('Router address: $routerAddress', name: logName);
-
-      dev.log('poolGenesisAddress : $poolGenesisAddress', name: logName);
-      dev.log('lpTokenAddress: $lpTokenAddress', name: logName);
-
       final poolInfosResult = await routerFactory.getPoolAddresses(
         token1.isUCO ? 'UCO' : token1.address!,
         token2.isUCO ? 'UCO' : token2.address!,
       );
       poolInfosResult.map(
         success: (success) {
-          dev.log('$success');
           if (success != null && success['address'] != null) {
             throw const PoolAlreadyExists();
           }
@@ -128,11 +112,6 @@ class ArchethicContract with TransactionDexMixin {
           .transaction
           .originSign(originPrivateKey);
 
-      dev.log(
-        'transactionPool address ${transactionPool.address!.address}',
-        name: logName,
-      );
-
       return transactionPool;
     });
   }
@@ -142,11 +121,7 @@ class ArchethicContract with TransactionDexMixin {
     String poolGenesisAddress,
   ) async {
     return Result.guard(() async {
-      const logName = 'ArchethicContract.getAddPoolTxTransfer';
-
       final feesToken = await calculateFees(transactionPool);
-      dev.log('feesToken: $feesToken', name: logName);
-
       final apiService = sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
@@ -173,12 +148,12 @@ class ArchethicContract with TransactionDexMixin {
     double slippage,
   ) async {
     return Result.guard(() async {
-      const logName = 'ArchethicContract.getAddPoolPlusLiquidityTx';
       final apiService = sl.get<archethic.ApiService>();
-
       final tokensAmmountMult =
           Decimal.parse('$token1Amount') * Decimal.parse('$token2Amount');
 
+      // TODO(reddwarf03): A quoi ça sert ici ?
+      // ignore: unused_local_variable
       var expectedTokenLP = sqrt(tokensAmmountMult.toDouble());
       final expectedTokenLPResult = await PoolFactory(
         poolGenesisAddress,
@@ -188,14 +163,9 @@ class ArchethicContract with TransactionDexMixin {
         success: (success) {
           if (success != null) {
             expectedTokenLP = success;
-            dev.log('expectedTokenLP: $expectedTokenLP', name: logName);
-          } else {
-            dev.log('expectedTokenLP: null', name: logName);
           }
         },
-        failure: (failure) {
-          dev.log('expectedTokenLP failure: $failure', name: logName);
-        },
+        failure: (failure) {},
       );
 
       final slippagePourcent =
@@ -269,10 +239,6 @@ class ArchethicContract with TransactionDexMixin {
     double slippage,
   ) async {
     return Result.guard(() async {
-      const logName = 'ArchethicContract.getAddLiquidityTx';
-      dev.log('Token1 address: ${token1.address}', name: logName);
-      dev.log('Token2 address: ${token2.address}', name: logName);
-
       final apiService = sl.get<archethic.ApiService>();
 
       var expectedTokenLP = 0.0;
@@ -284,14 +250,9 @@ class ArchethicContract with TransactionDexMixin {
         success: (success) {
           if (success != null) {
             expectedTokenLP = success;
-            dev.log('expectedTokenLP: $expectedTokenLP', name: logName);
-          } else {
-            dev.log('expectedTokenLP: null', name: logName);
           }
         },
-        failure: (failure) {
-          dev.log('expectedTokenLP failure: $failure', name: logName);
-        },
+        failure: (failure) {},
       );
 
       if (expectedTokenLP == 0) {
@@ -362,9 +323,6 @@ class ArchethicContract with TransactionDexMixin {
     return Result.guard(() async {
       const burnAddress =
           '00000000000000000000000000000000000000000000000000000000000000000000';
-      const logName = 'ArchethicContract.getRemoveLiquidityTx';
-      dev.log('LP Token address: $lpTokenAddress', name: logName);
-
       final apiService = sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
@@ -394,9 +352,6 @@ class ArchethicContract with TransactionDexMixin {
   ) async {
     return Result.guard(() async {
       const logName = 'ArchethicContract.getSwapInfos';
-
-      dev.log('Token1 address: ${tokenToSwap.address}', name: logName);
-
       final apiService = sl.get<archethic.ApiService>();
 
       var outputAmount = 0.0;
@@ -408,13 +363,14 @@ class ArchethicContract with TransactionDexMixin {
         success: (success) {
           if (success != null) {
             outputAmount = success['output_amount'];
-            dev.log('outputAmount: $outputAmount', name: logName);
-          } else {
-            dev.log('outputAmount: null', name: logName);
           }
         },
         failure: (failure) {
-          dev.log('$failure', name: logName);
+          sl.get<LogManager>().log(
+                '$failure',
+                level: LogLevel.error,
+                name: logName,
+              );
         },
       );
       return outputAmount;

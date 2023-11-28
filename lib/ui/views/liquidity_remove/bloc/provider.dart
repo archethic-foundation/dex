@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
@@ -82,9 +80,6 @@ class LiquidityRemoveFormNotifier
     } on CanceledTask {
       return (removeAmountToken1: 0.0, removeAmountToken2: 0.0);
     }
-
-    log("removeAmounts token1 ${removeAmounts['token1']})");
-    log("removeAmounts token2 ${removeAmounts['token2']})");
 
     return (
       removeAmountToken1: removeAmounts['token1'] == null

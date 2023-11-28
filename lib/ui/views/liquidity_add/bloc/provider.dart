@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
@@ -178,7 +176,6 @@ class LiquidityAddFormNotifier
                 success: (success) {
                   if (success != null) {
                     _equivalentAmount = success;
-                    log('equivalentAmounResult: address $tokenAddress $amount -> equivalentAmount $_equivalentAmount');
                   }
                 },
                 failure: (failure) {

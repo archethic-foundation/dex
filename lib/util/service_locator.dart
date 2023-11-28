@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -13,12 +11,10 @@ void setupServiceLocator() {
       () =>
           OracleService('https://mainnet.archethic.net', logsActivation: false),
     );
-  log('Register', name: 'OracleService');
 }
 
 void setupServiceLocatorApiService(String endpoint) {
   sl.registerLazySingleton<ApiService>(
     () => ApiService(endpoint, logsActivation: false),
   );
-  log('Register', name: 'ApiService');
 }

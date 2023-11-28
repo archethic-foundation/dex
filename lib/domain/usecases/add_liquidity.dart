@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -72,7 +71,6 @@ class AddLiquidityCase with TransactionDexMixin {
             .first;
         liquidityAddNotifier.setWalletConfirmation(false);
       } catch (e) {
-        dev.log('Signature failed', name: logName);
         if (e is Failure) {
           liquidityAddNotifier.setFailure(e);
           return;
