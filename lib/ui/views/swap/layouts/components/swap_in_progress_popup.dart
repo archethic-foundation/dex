@@ -5,6 +5,7 @@ import 'package:aedex/domain/usecases/swap.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
@@ -103,6 +104,28 @@ class SwapInProgressPopup {
                                           failure: swap.failure,
                                         ),
                                         const Spacer(),
+                                        if (swap.failure == null &&
+                                            swap.isProcessInProgress == false)
+                                          DexButtonClose(
+                                            onPressed: () {
+                                              ref.invalidate(
+                                                SwapFormProvider.swapForm,
+                                              );
+                                              ref
+                                                  .read(
+                                                    MainScreenWidgetDisplayedProviders
+                                                        .mainScreenWidgetDisplayedProvider
+                                                        .notifier,
+                                                  )
+                                                  .setWidget(
+                                                    const SwapSheet(),
+                                                    ref,
+                                                  );
+                                              if (!context.mounted) return;
+                                              Navigator.of(context).pop();
+                                              return;
+                                            },
+                                          ),
                                         DexInProgressResumeBtn(
                                           currentStep: swap.currentStep,
                                           isProcessInProgress:
@@ -142,13 +165,9 @@ class SwapInProgressPopup {
                                           .swapProcessInterruptionWarning
                                       : '',
                               warningCloseFunction: () {
-                                ref.read(
-                                  SwapFormProvider.swapForm.notifier,
-                                )
-                                  ..setProcessInProgress(false)
-                                  ..setFailure(null)
-                                  ..setSwapOk(false)
-                                  ..setWalletConfirmation(false);
+                                ref.invalidate(
+                                  SwapFormProvider.swapForm,
+                                );
                                 ref
                                     .read(
                                       MainScreenWidgetDisplayedProviders

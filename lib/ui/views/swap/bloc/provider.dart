@@ -282,32 +282,37 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
     state = state.copyWith(tokenSwappedBalance: balance);
 
-    final dexConfig =
-        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-    final apiService = sl.get<ApiService>();
     if (state.tokenToSwap != null) {
-      final routerFactory =
-          RouterFactory(dexConfig.routerGenesisAddress, apiService);
-      final poolInfosResult = await routerFactory.getPoolAddresses(
-        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
-      );
-      await poolInfosResult.map(
-        success: (success) async {
-          if (success != null && success['address'] != null) {
-            setPoolAddress(success['address']);
-            await setTokenSwappedAmount(state.tokenSwappedAmount);
-            setTokenFormSelected(2);
-            await getRatio();
-          } else {
+      final dexConfig =
+          await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+      final apiService = sl.get<ApiService>();
+      if (state.tokenSwapped != null) {
+        final routerFactory =
+            RouterFactory(dexConfig.routerGenesisAddress, apiService);
+        final poolInfosResult = await routerFactory.getPoolAddresses(
+          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+          state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+        );
+        await poolInfosResult.map(
+          success: (success) async {
+            if (success != null && success['address'] != null) {
+              setPoolAddress(success['address']);
+              await setTokenSwappedAmount(state.tokenSwappedAmount);
+              setTokenFormSelected(2);
+              await getRatio();
+            } else {
+              setPoolAddress('');
+              setFailure(const PoolNotExists());
+            }
+          },
+          failure: (failure) {
+            setPoolAddress('');
             setFailure(const PoolNotExists());
-          }
-        },
-        failure: (failure) {
-          setFailure(const PoolNotExists());
-        },
-      );
+          },
+        );
+      }
     }
+    return;
   }
 
   void swapDirections() {

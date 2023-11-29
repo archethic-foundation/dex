@@ -174,7 +174,9 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
-              Text('LP Token: -${liquidityRemove.lpTokenAmount}'),
+              Text(
+                'LP Token: -${liquidityRemove.lpTokenAmount.formatNumber()}',
+              ),
             ],
           ),
         ),

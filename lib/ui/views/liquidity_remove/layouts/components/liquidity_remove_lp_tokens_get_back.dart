@@ -30,7 +30,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
           Row(
             children: [
               Text(
-                '${liquidityRemove.token1!.name}: ${liquidityRemove.token1AmountGetBack.formatNumber()} ${liquidityRemove.token1!.symbol}',
+                '${liquidityRemove.token1!.symbol}: +${liquidityRemove.token1AmountGetBack.formatNumber()} ${liquidityRemove.token1!.symbol}',
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.end,
               ),
@@ -59,7 +59,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
           Row(
             children: [
               Text(
-                '${liquidityRemove.token2!.name}: ${liquidityRemove.token2AmountGetBack.formatNumber()} ${liquidityRemove.token2!.symbol}',
+                '${liquidityRemove.token2!.symbol}: +${liquidityRemove.token2AmountGetBack.formatNumber()} ${liquidityRemove.token2!.symbol}',
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.end,
               ),

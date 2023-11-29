@@ -43,6 +43,7 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 Text(
                   'Fees: ${swap.swapFees.formatNumber()} ${swap.tokenToSwap!.symbol}',
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
                 const SizedBox(
                   width: 5,
@@ -57,6 +58,7 @@ class SwapInfos extends ConsumerWidget {
                     if (snapshot.hasData) {
                       return Text(
                         snapshot.data!,
+                        style: Theme.of(context).textTheme.labelSmall,
                       );
                     }
                     return const SizedBox.shrink();
@@ -65,12 +67,16 @@ class SwapInfos extends ConsumerWidget {
               ],
             ),
           if (swap.priceImpact > 0)
-            Text('Price impact: ${swap.priceImpact.formatNumber()}%'),
+            Text(
+              'Price impact: ${swap.priceImpact.formatNumber()}%',
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
           if (swap.minToReceive > 0 && swap.tokenSwapped != null)
             Row(
               children: [
                 Text(
-                  'Minimum received: ${swap.minToReceive.formatNumber()} ${swap.tokenSwapped!.symbol}',
+                  'Minimum received: ${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
                 const SizedBox(
                   width: 5,
@@ -85,6 +91,7 @@ class SwapInfos extends ConsumerWidget {
                     if (snapshot.hasData) {
                       return Text(
                         snapshot.data!,
+                        style: Theme.of(context).textTheme.labelSmall,
                       );
                     }
                     return const SizedBox.shrink();
