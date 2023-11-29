@@ -53,17 +53,16 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              Text(AppLocalizations.of(context)!.poolAddConfirmYourBalanceLbl),
+              Text(AppLocalizations.of(context)!.confirmYourBalanceLbl),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!
-                        .poolAddConfirmBalanceBeforeLbl,
+                    AppLocalizations.of(context)!.confirmBeforeLbl,
                   ),
                   Text(
-                    AppLocalizations.of(context)!.poolAddConfirmBalanceAfterLbl,
+                    AppLocalizations.of(context)!.confirmAfterLbl,
                   ),
                 ],
               ),

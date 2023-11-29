@@ -146,6 +146,8 @@
   "liquidityAddControlToken2AmountEmpty": "Please enter the amount of token 2",
   "liquidityAddControlToken1AmountExceedBalance": "The amount entered for token 1 exceeds your balance.",
   "liquidityAddControlToken2AmountExceedBalance": "The amount entered for token 2 exceeds your balance.",
+  "confirmPoolLiquidityLbl": "Pool liquidity",
+  "confirmYourBalanceLbl": "Your balance",
   "liquidityRemoveControlLPTokenAmountEmpty": "Please enter the amount of lp token",
   "lpTokenAmountExceedBalance": "The amount entered for lp token exceeds your balance.",
   "liquidityRemoveTokensGetBackHeader": "Amounts of token to get back when removing liquidity",
@@ -170,8 +172,7 @@
   "swapToEstimatedLbl": "To (estimated)",
   "poolAddConfirmNewPoolLbl": "New pool",
   "poolAddConfirmWithLiquidityLbl": "With liquidity",
-  "poolAddConfirmYourBalanceLbl": "Your balance",
-  "poolAddConfirmBalanceBeforeLbl": "Before",
-  "poolAddConfirmBalanceAfterLbl": "After",
+  "confirmBeforeLbl": "Before",
+  "confirmAfterLbl": "After",
   "poolCardPoolVerified": "Pool verified"
 }

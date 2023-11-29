@@ -10,11 +10,15 @@ class DexTokenBalance extends ConsumerWidget {
   const DexTokenBalance({
     required this.tokenBalance,
     required this.tokenSymbol,
+    this.withFiat = true,
+    this.height = 30,
     super.key,
   });
 
   final double tokenBalance;
   final String tokenSymbol;
+  final bool withFiat;
+  final double height;
 
   @override
   Widget build(
@@ -22,13 +26,13 @@ class DexTokenBalance extends ConsumerWidget {
     WidgetRef ref,
   ) {
     if (tokenSymbol.isEmpty) {
-      return const SizedBox(
-        height: 30,
+      return SizedBox(
+        height: height,
       );
     }
 
     return SizedBox(
-      height: 30,
+      height: height,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -45,24 +49,26 @@ class DexTokenBalance extends ConsumerWidget {
           Text(
             '${tokenBalance.formatNumber()} $tokenSymbol',
           ),
-          const SizedBox(
-            width: 5,
-          ),
-          FutureBuilder<String>(
-            future: FiatValue().display(
-              ref,
-              tokenSymbol,
-              tokenBalance,
+          if (withFiat)
+            const SizedBox(
+              width: 5,
             ),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(
-                  snapshot.data!,
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
+          if (withFiat)
+            FutureBuilder<String>(
+              future: FiatValue().display(
+                ref,
+                tokenSymbol,
+                tokenBalance,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    snapshot.data!,
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
         ],
       ),
     )

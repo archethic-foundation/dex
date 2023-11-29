@@ -1,6 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/fiat_value.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_infos.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -51,73 +52,14 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
             right: 20,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppLocalizations.of(context)!.poolAddConfirmYourBalanceLbl),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!
-                        .poolAddConfirmBalanceBeforeLbl,
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!.poolAddConfirmBalanceAfterLbl,
-                  ),
-                ],
+              const Text('Add liquidity in the pool'),
+              Text(
+                '+ ${liquidityAdd.token1Amount.formatNumber()} ${liquidityAdd.token1!.symbol}',
               ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${liquidityAdd.token1Balance.formatNumber()} ${liquidityAdd.token1!.symbol}',
-                  ),
-                  Text(
-                    '${(Decimal.parse(liquidityAdd.token1Balance.toString()) - Decimal.parse(liquidityAdd.token1Amount.toString())).toDouble().formatNumber()} ${liquidityAdd.token1!.symbol}',
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FutureBuilder<String>(
-                    future: FiatValue().display(
-                      ref,
-                      liquidityAdd.token1!.symbol,
-                      liquidityAdd.token1Balance,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(
-                          snapshot.data!,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                  FutureBuilder<String>(
-                    future: FiatValue().display(
-                      ref,
-                      liquidityAdd.token1!.symbol,
-                      (Decimal.parse(liquidityAdd.token1Balance.toString()) -
-                              Decimal.parse(
-                                liquidityAdd.token1Amount.toString(),
-                              ))
-                          .toDouble(),
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(
-                          snapshot.data!,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                ],
+              Text(
+                '+ ${liquidityAdd.token2Amount.formatNumber()} ${liquidityAdd.token2!.symbol}',
               ),
               const SizedBox(
                 height: 10,
@@ -126,55 +68,58 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${liquidityAdd.token2Balance.formatNumber()} ${liquidityAdd.token2!.symbol}',
+                    AppLocalizations.of(context)!.confirmBeforeLbl,
                   ),
                   Text(
-                    '${(Decimal.parse(liquidityAdd.token2Balance.toString()) - Decimal.parse(liquidityAdd.token2Amount.toString())).toDouble().formatNumber()} ${liquidityAdd.token2!.symbol}',
+                    AppLocalizations.of(context)!.confirmAfterLbl,
                   ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FutureBuilder<String>(
-                    future: FiatValue().display(
-                      ref,
-                      liquidityAdd.token2!.symbol,
-                      liquidityAdd.token2Balance,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(
-                          snapshot.data!,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
+                  DexTokenBalance(
+                    tokenBalance: liquidityAdd.token1Balance,
+                    tokenSymbol: liquidityAdd.token1!.symbol,
+                    withFiat: false,
+                    height: 20,
                   ),
-                  FutureBuilder<String>(
-                    future: FiatValue().display(
-                      ref,
-                      liquidityAdd.token2!.symbol,
-                      (Decimal.parse(liquidityAdd.token2Balance.toString()) -
-                              Decimal.parse(
-                                liquidityAdd.token2Amount.toString(),
-                              ))
-                          .toDouble(),
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(
-                          snapshot.data!,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                                liquidityAdd.token1Balance.toString()) -
+                            Decimal.parse(liquidityAdd.token1Amount.toString()))
+                        .toDouble(),
+                    tokenSymbol: liquidityAdd.token1!.symbol,
+                    withFiat: false,
+                    height: 20,
                   ),
                 ],
               ),
-              Text('Expected LP Token: +${liquidityAdd.expectedTokenLP}'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DexTokenBalance(
+                    tokenBalance: liquidityAdd.token2Balance,
+                    tokenSymbol: liquidityAdd.token2!.symbol,
+                    withFiat: false,
+                    height: 20,
+                  ),
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                                liquidityAdd.token2Balance.toString()) -
+                            Decimal.parse(liquidityAdd.token2Amount.toString()))
+                        .toDouble(),
+                    tokenSymbol: liquidityAdd.token2!.symbol,
+                    withFiat: false,
+                    height: 20,
+                  ),
+                ],
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(top: 10),
+                child: const LiquidityAddInfos(),
+              ),
             ],
           ),
         ),
