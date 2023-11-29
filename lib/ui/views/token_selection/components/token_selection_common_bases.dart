@@ -34,12 +34,7 @@ class TokenSelectionCommonBases extends ConsumerWidget {
                   TextSpan(
                     text: AppLocalizations.of(context)!
                         .token_selection_common_bases_title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .apply(
-                          displayColor: Theme.of(context).colorScheme.onSurface,
-                        )
-                        .labelMedium,
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                   WidgetSpan(
                     alignment: PlaceholderAlignment.middle,

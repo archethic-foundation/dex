@@ -217,6 +217,7 @@ class LiquidityAddFormNotifier
     );
 
     await setExpectedTokenLP();
+    estimateTokenMinAmounts();
   }
 
   Future<void> setToken2Amount(
@@ -235,6 +236,23 @@ class LiquidityAddFormNotifier
     );
 
     await setExpectedTokenLP();
+    estimateTokenMinAmounts();
+  }
+
+  void estimateTokenMinAmounts() {
+    final slippagePourcent = (Decimal.parse('100') -
+            Decimal.parse(state.slippageTolerance.toString())) /
+        Decimal.parse('100');
+    setToken1minAmount(
+      (Decimal.parse(state.token1Amount.toString()) *
+              slippagePourcent.toDecimal())
+          .toDouble(),
+    );
+    setToken2minAmount(
+      (Decimal.parse(state.token2Amount.toString()) *
+              slippagePourcent.toDecimal())
+          .toDouble(),
+    );
   }
 
   void estimateNetworkFees() {
@@ -263,6 +281,19 @@ class LiquidityAddFormNotifier
 
   void setCurrentStep(int currentStep) {
     state = state.copyWith(currentStep: currentStep);
+  }
+
+  void setToken1minAmount(double token1minAmount) {
+    state = state.copyWith(token1minAmount: token1minAmount);
+  }
+
+  void setToken2minAmount(double token2minAmount) {
+    state = state.copyWith(token2minAmount: token2minAmount);
+  }
+
+  void setSlippageTolerance(double slippageTolerance) {
+    state = state.copyWith(slippageTolerance: slippageTolerance);
+    estimateTokenMinAmounts();
   }
 
   void setResumeProcess(bool resumeProcess) {
@@ -351,7 +382,7 @@ class LiquidityAddFormNotifier
       state.token1Amount,
       state.token2!,
       state.token2Amount,
-      state.slippage,
+      state.slippageTolerance,
       recoveryStep: state.currentStep,
     );
 

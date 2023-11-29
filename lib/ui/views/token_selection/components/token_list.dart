@@ -37,13 +37,7 @@ class TokenList extends ConsumerWidget {
                     TextSpan(
                       text: AppLocalizations.of(context)!
                           .token_selection_your_tokens_title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .apply(
-                            displayColor:
-                                Theme.of(context).colorScheme.onSurface,
-                          )
-                          .labelMedium,
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
@@ -80,13 +74,7 @@ class TokenList extends ConsumerWidget {
                         Text(
                           AppLocalizations.of(context)!
                               .token_selection_get_tokens_from_wallet,
-                          style: Theme.of(context)
-                              .textTheme
-                              .apply(
-                                displayColor:
-                                    Theme.of(context).colorScheme.onSurface,
-                              )
-                              .labelMedium,
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                         const SizedBox(width: 10),
                         const SizedBox(

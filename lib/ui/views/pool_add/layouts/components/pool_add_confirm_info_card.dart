@@ -19,10 +19,6 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
     if (poolAdd.token1 == null) {
       return const SizedBox.shrink();
@@ -87,13 +83,13 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
                         children: [
                           Text(
                             poolAdd.token1!.symbol,
-                            style: textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Row(
                             children: [
                               Text(
                                 poolAdd.token1!.name,
-                                style: textTheme.labelSmall,
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                               const SizedBox(
                                 width: 5,
@@ -127,13 +123,13 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
                         children: [
                           Text(
                             poolAdd.token2!.symbol,
-                            style: textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Row(
                             children: [
                               Text(
                                 poolAdd.token2!.name,
-                                style: textTheme.labelSmall,
+                                style: Theme.of(context).textTheme.labelSmall,
                               ),
                               const SizedBox(
                                 width: 5,
@@ -169,14 +165,14 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
                       height: 80,
                       child: Text(
                         '+ ${poolAdd.token1Amount} ${poolAdd.token1!.symbol}',
-                        style: textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
                     SizedBox(
                       height: 80,
                       child: Text(
                         '+ ${poolAdd.token2Amount} ${poolAdd.token2!.symbol}',
-                        style: textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
                   ],

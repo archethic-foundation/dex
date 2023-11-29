@@ -1,4 +1,4 @@
-import 'package:aedex/ui/views/swap_settings/components/swap_settings_slippage_tolerance.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_settings_slippage_tolerance.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/popup_template.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';

@@ -363,11 +363,21 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
-  void setSlippageTolerance(
+  Future<void> setSlippageTolerance(
     double slippageTolerance,
-  ) {
+  ) async {
     state = state.copyWith(
       slippageTolerance: slippageTolerance,
+    );
+    final swapInfos = await _calculateSwapInfos(
+      state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+      state.tokenToSwapAmount,
+    );
+    state = state.copyWith(
+      tokenSwappedAmount: swapInfos.outputAmount,
+      swapFees: swapInfos.fees,
+      priceImpact: swapInfos.priceImpact,
+      minToReceive: swapInfos.minToReceive,
     );
   }
 

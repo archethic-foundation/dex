@@ -52,10 +52,6 @@ class _LiquidityAddToken1AmountState
   Widget build(
     BuildContext context,
   ) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     final liquidityAddNotifier =
         ref.watch(LiquidityAddFormProvider.liquidityAddForm.notifier);
 
@@ -105,7 +101,7 @@ class _LiquidityAddToken1AmountState
                         ),
                       ),
                       child: TextField(
-                        style: textTheme.titleMedium,
+                        style: Theme.of(context).textTheme.titleMedium,
                         autocorrect: false,
                         controller: tokenAmountController,
                         onChanged: (text) async {

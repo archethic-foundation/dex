@@ -51,7 +51,7 @@
   "token_selection_your_tokens_title": "Your tokens",
   "token_selection_get_tokens_from_wallet": "Retrieving tokens from your current account in your wallet...",
   "swap_pool_address": "Pool address:",
-  "swap_settings_slippage_tolerance": "Slippage tolerance",
+  "slippage_tolerance": "Slippage tolerance",
   "swap_settings_expert_mode": "Expert mode",
   "swap_confirmation_you_pay": "You pay",
   "swap_confirmation_you_receive": "You receive",

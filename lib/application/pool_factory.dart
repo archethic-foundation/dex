@@ -51,7 +51,7 @@ class PoolFactory with ModelParser {
   }
 
   /// This action allow user to add liquidity to the pool. User must send tokens to the pool's genesis address.
-  /// The amounts sent should be equivalent to the pool ratio. User can specify a slippage tolerence by providing the minimum amount by token that the pool can use.
+  /// The amounts sent should be equivalent to the pool ratio. User can specify a slippage tolerance by providing the minimum amount by token that the pool can use.
   /// If there is more fund sent by the user than the needed liquidity, the excedent is returned to the user.
   /// In exchange of the liquidity, the user will receive some LP token.
   /// [token1MinAmount] is the minimum amount of token1 to add in liquidity (token1 is the first token returned by the function get_pair_tokens())
@@ -103,7 +103,7 @@ class PoolFactory with ModelParser {
   /// This action allow user to swap a token of the pool against the other token.
   /// User must send the input token to the pool's genesis address.
   /// The pool will calculate the output amount and send it to the user.
-  /// User can specify a slippage tolerence by providing the minimum amount of the output token to receive.
+  /// User can specify a slippage tolerance by providing the minimum amount of the output token to receive.
   /// [minAmountToReceive] is the minimum amount of the output token to receive
   Future<Result<void, Failure>> swap(
     double minAmountToReceive,

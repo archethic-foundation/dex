@@ -80,7 +80,7 @@ Returns amounts of token to get back when removing liquidity
 ```elixir
 add_liquidity(token1_min_amount, token2_min_amount)
 ```
-This action allow user to add liquidity to the pool. User must send tokens to the pool's genesis address. The amounts sent should be equivalent to the pool ratio. User can specify a slippage tolerence by providing the minimum amount by token that the pool can use. If there is more fund sent by the user than the needed liquidity, the excedent is returned to the user. In exchange of the liquidity, the user will receive some LP token.
+This action allow user to add liquidity to the pool. User must send tokens to the pool's genesis address. The amounts sent should be equivalent to the pool ratio. User can specify a slippage tolerance by providing the minimum amount by token that the pool can use. If there is more fund sent by the user than the needed liquidity, the excedent is returned to the user. In exchange of the liquidity, the user will receive some LP token.
 - `token1_min_amount` is the minimum amount of token1 to add in liquidity
 - `token2_min_amount` is the minimum amount of token2 to add in liquidity
 
@@ -92,7 +92,7 @@ This action allow user to remove the liquidity he previously provided. User must
 ```elixir
 swap(min_to_receive)
 ```
-This action allow user to swap a token of the pool against the other token. User must send the input token to the pool's genesis address. The pool will calculate the output amount and send it to the user. User can specify a slippage tolerence by providing the minimum amount of the output token to receive.
+This action allow user to swap a token of the pool against the other token. User must send the input token to the pool's genesis address. The pool will calculate the output amount and send it to the user. User can specify a slippage tolerance by providing the minimum amount of the output token to receive.
 - `min_to_receive` is the minimum amount of the output token to receive
 
 ```elixir

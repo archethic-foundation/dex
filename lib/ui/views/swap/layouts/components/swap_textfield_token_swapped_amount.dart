@@ -59,10 +59,6 @@ class _SwapTokenSwappedAmountState
   Widget build(
     BuildContext context,
   ) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
 
     final swap = ref.watch(SwapFormProvider.swapForm);
@@ -135,7 +131,9 @@ class _SwapTokenSwappedAmountState
                                       right: 70,
                                     ),
                                     child: TextField(
-                                      style: textTheme.titleMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
                                       autocorrect: false,
                                       controller: tokenAmountController,
                                       onChanged: (text) async {
@@ -205,7 +203,7 @@ class _SwapTokenSwappedAmountState
                         if (snapshot.hasData) {
                           return Text(
                             snapshot.data!,
-                            style: textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium,
                           );
                         }
                         return const SizedBox.shrink();

@@ -28,10 +28,6 @@ class PoolInfoCard extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     if (poolGenesisAddress.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -92,7 +88,7 @@ class PoolInfoCard extends ConsumerWidget {
                           ),
                           Text(
                             pool.pair!.token1.symbol,
-                            style: textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const Padding(
                             padding: EdgeInsets.only(left: 10, right: 10),
@@ -108,7 +104,7 @@ class PoolInfoCard extends ConsumerWidget {
                           ),
                           Text(
                             pool.pair!.token2.symbol,
-                            style: textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ],
                       ),
@@ -146,7 +142,7 @@ class PoolInfoCard extends ConsumerWidget {
                         children: [
                           Text(
                             AppLocalizations.of(context)!.poolCardPooled,
-                            style: textTheme.labelSmall,
+                            style: Theme.of(context).textTheme.labelSmall,
                           ),
                           const SizedBox(
                             width: 5,
@@ -223,7 +219,7 @@ class PoolInfoCard extends ConsumerWidget {
                         children: [
                           Text(
                             AppLocalizations.of(context)!.poolCardLPToken,
-                            style: textTheme.labelSmall,
+                            style: Theme.of(context).textTheme.labelSmall,
                           ),
                           const SizedBox(
                             width: 5,

@@ -77,6 +77,12 @@ class DexPoolsRepository {
       },
       failure: (failure) {},
     );
+
+    dexPools.sort((a, b) {
+      if (a.verified == b.verified) return 0;
+      return a.verified ? -1 : 1;
+    });
+
     return dexPools;
   }
 

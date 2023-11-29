@@ -53,10 +53,6 @@ class _LiquidityRemoveLPTokenAmountState
   Widget build(
     BuildContext context,
   ) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     final liquidityRemoveNotifier =
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier);
 
@@ -107,7 +103,7 @@ class _LiquidityRemoveLPTokenAmountState
                         ),
                       ),
                       child: TextField(
-                        style: textTheme.titleMedium,
+                        style: Theme.of(context).textTheme.titleMedium,
                         autocorrect: false,
                         controller: tokenAmountController,
                         onChanged: (text) async {

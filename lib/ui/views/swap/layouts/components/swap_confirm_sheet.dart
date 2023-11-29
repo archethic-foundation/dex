@@ -22,10 +22,6 @@ class SwapConfirmSheet extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +48,7 @@ class SwapConfirmSheet extends ConsumerWidget {
           ),
           Text(
             '${swap.tokenToSwapAmount} ${swap.tokenToSwap!.symbol}',
-            style: textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(
             height: 10,
@@ -62,7 +58,7 @@ class SwapConfirmSheet extends ConsumerWidget {
           ),
           Text(
             '${swap.tokenSwappedAmount} ${swap.tokenSwapped!.symbol}',
-            style: textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(
             height: 10,

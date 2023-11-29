@@ -55,10 +55,6 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
   Widget build(
     BuildContext context,
   ) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     final poolAddNotifier = ref.watch(PoolAddFormProvider.poolAddForm.notifier);
 
     final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
@@ -124,7 +120,8 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                   right: 70,
                                 ),
                                 child: TextField(
-                                  style: textTheme.titleMedium,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                   autocorrect: false,
                                   controller: tokenAmountController,
                                   onChanged: (text) async {

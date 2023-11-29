@@ -265,7 +265,8 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                           DataCell(
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  right: 20),
+                                                right: 20,
+                                              ),
                                               child: SizedBox(
                                                 width: 150,
                                                 child: Column(

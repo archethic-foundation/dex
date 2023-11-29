@@ -61,10 +61,6 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
   Widget build(
     BuildContext context,
   ) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
 
     final swap = ref.watch(SwapFormProvider.swapForm);
@@ -95,7 +91,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  '${AppLocalizations.of(context)!.swap_settings_slippage_tolerance} ${swap.slippageTolerance}%',
+                  '${AppLocalizations.of(context)!.slippage_tolerance} ${swap.slippageTolerance}%',
                 ),
                 const Align(
                   alignment: Alignment.centerRight,
@@ -154,7 +150,9 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                                       right: 70,
                                     ),
                                     child: TextField(
-                                      style: textTheme.titleMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
                                       autocorrect: false,
                                       controller: tokenAmountController,
                                       onChanged: (text) async {
@@ -223,7 +221,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         if (snapshot.hasData) {
                           return Text(
                             snapshot.data!,
-                            style: textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium,
                           );
                         }
                         return const SizedBox.shrink();

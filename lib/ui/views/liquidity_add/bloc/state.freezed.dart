@@ -27,11 +27,13 @@ mixin _$LiquidityAddFormState {
   DexToken? get token1 => throw _privateConstructorUsedError;
   DexToken? get token2 => throw _privateConstructorUsedError;
   double get ratio => throw _privateConstructorUsedError;
-  double get slippage => throw _privateConstructorUsedError;
+  double get slippageTolerance => throw _privateConstructorUsedError;
   double get token1Balance => throw _privateConstructorUsedError;
   double get token1Amount => throw _privateConstructorUsedError;
   double get token2Balance => throw _privateConstructorUsedError;
   double get token2Amount => throw _privateConstructorUsedError;
+  double get token1minAmount => throw _privateConstructorUsedError;
+  double get token2minAmount => throw _privateConstructorUsedError;
   double get networkFees => throw _privateConstructorUsedError;
   double get expectedTokenLP => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
@@ -58,11 +60,13 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       DexToken? token1,
       DexToken? token2,
       double ratio,
-      double slippage,
+      double slippageTolerance,
       double token1Balance,
       double token1Amount,
       double token2Balance,
       double token2Amount,
+      double token1minAmount,
+      double token2minAmount,
       double networkFees,
       double expectedTokenLP,
       Failure? failure});
@@ -96,11 +100,13 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     Object? token1 = freezed,
     Object? token2 = freezed,
     Object? ratio = null,
-    Object? slippage = null,
+    Object? slippageTolerance = null,
     Object? token1Balance = null,
     Object? token1Amount = null,
     Object? token2Balance = null,
     Object? token2Amount = null,
+    Object? token1minAmount = null,
+    Object? token2minAmount = null,
     Object? networkFees = null,
     Object? expectedTokenLP = null,
     Object? failure = freezed,
@@ -146,9 +152,9 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
           ? _value.ratio
           : ratio // ignore: cast_nullable_to_non_nullable
               as double,
-      slippage: null == slippage
-          ? _value.slippage
-          : slippage // ignore: cast_nullable_to_non_nullable
+      slippageTolerance: null == slippageTolerance
+          ? _value.slippageTolerance
+          : slippageTolerance // ignore: cast_nullable_to_non_nullable
               as double,
       token1Balance: null == token1Balance
           ? _value.token1Balance
@@ -165,6 +171,14 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
       token2Amount: null == token2Amount
           ? _value.token2Amount
           : token2Amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1minAmount: null == token1minAmount
+          ? _value.token1minAmount
+          : token1minAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2minAmount: null == token2minAmount
+          ? _value.token2minAmount
+          : token2minAmount // ignore: cast_nullable_to_non_nullable
               as double,
       networkFees: null == networkFees
           ? _value.networkFees
@@ -238,11 +252,13 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       DexToken? token1,
       DexToken? token2,
       double ratio,
-      double slippage,
+      double slippageTolerance,
       double token1Balance,
       double token1Amount,
       double token2Balance,
       double token2Amount,
+      double token1minAmount,
+      double token2minAmount,
       double networkFees,
       double expectedTokenLP,
       Failure? failure});
@@ -277,11 +293,13 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
     Object? token1 = freezed,
     Object? token2 = freezed,
     Object? ratio = null,
-    Object? slippage = null,
+    Object? slippageTolerance = null,
     Object? token1Balance = null,
     Object? token1Amount = null,
     Object? token2Balance = null,
     Object? token2Amount = null,
+    Object? token1minAmount = null,
+    Object? token2minAmount = null,
     Object? networkFees = null,
     Object? expectedTokenLP = null,
     Object? failure = freezed,
@@ -327,9 +345,9 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
           ? _value.ratio
           : ratio // ignore: cast_nullable_to_non_nullable
               as double,
-      slippage: null == slippage
-          ? _value.slippage
-          : slippage // ignore: cast_nullable_to_non_nullable
+      slippageTolerance: null == slippageTolerance
+          ? _value.slippageTolerance
+          : slippageTolerance // ignore: cast_nullable_to_non_nullable
               as double,
       token1Balance: null == token1Balance
           ? _value.token1Balance
@@ -346,6 +364,14 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
       token2Amount: null == token2Amount
           ? _value.token2Amount
           : token2Amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1minAmount: null == token1minAmount
+          ? _value.token1minAmount
+          : token1minAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2minAmount: null == token2minAmount
+          ? _value.token2minAmount
+          : token2minAmount // ignore: cast_nullable_to_non_nullable
               as double,
       networkFees: null == networkFees
           ? _value.networkFees
@@ -377,11 +403,13 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
       this.token1,
       this.token2,
       this.ratio = 0.0,
-      this.slippage = 2.0,
+      this.slippageTolerance = 0.5,
       this.token1Balance = 0.0,
       this.token1Amount = 0.0,
       this.token2Balance = 0.0,
       this.token2Amount = 0.0,
+      this.token1minAmount = 0.0,
+      this.token2minAmount = 0.0,
       this.networkFees = 0.0,
       this.expectedTokenLP = 0.0,
       this.failure})
@@ -417,7 +445,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   final double ratio;
   @override
   @JsonKey()
-  final double slippage;
+  final double slippageTolerance;
   @override
   @JsonKey()
   final double token1Balance;
@@ -432,6 +460,12 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   final double token2Amount;
   @override
   @JsonKey()
+  final double token1minAmount;
+  @override
+  @JsonKey()
+  final double token2minAmount;
+  @override
+  @JsonKey()
   final double networkFees;
   @override
   @JsonKey()
@@ -441,7 +475,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, ratio: $ratio, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, failure: $failure)';
+    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, failure: $failure)';
   }
 
   @override
@@ -467,8 +501,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
             (identical(other.token1, token1) || other.token1 == token1) &&
             (identical(other.token2, token2) || other.token2 == token2) &&
             (identical(other.ratio, ratio) || other.ratio == ratio) &&
-            (identical(other.slippage, slippage) ||
-                other.slippage == slippage) &&
+            (identical(other.slippageTolerance, slippageTolerance) ||
+                other.slippageTolerance == slippageTolerance) &&
             (identical(other.token1Balance, token1Balance) ||
                 other.token1Balance == token1Balance) &&
             (identical(other.token1Amount, token1Amount) ||
@@ -477,6 +511,10 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
                 other.token2Balance == token2Balance) &&
             (identical(other.token2Amount, token2Amount) ||
                 other.token2Amount == token2Amount) &&
+            (identical(other.token1minAmount, token1minAmount) ||
+                other.token1minAmount == token1minAmount) &&
+            (identical(other.token2minAmount, token2minAmount) ||
+                other.token2minAmount == token2minAmount) &&
             (identical(other.networkFees, networkFees) ||
                 other.networkFees == networkFees) &&
             (identical(other.expectedTokenLP, expectedTokenLP) ||
@@ -485,26 +523,29 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      liquidityAddProcessStep,
-      resumeProcess,
-      currentStep,
-      poolGenesisAddress,
-      isProcessInProgress,
-      liquidityAddOk,
-      walletConfirmation,
-      token1,
-      token2,
-      ratio,
-      slippage,
-      token1Balance,
-      token1Amount,
-      token2Balance,
-      token2Amount,
-      networkFees,
-      expectedTokenLP,
-      failure);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        liquidityAddProcessStep,
+        resumeProcess,
+        currentStep,
+        poolGenesisAddress,
+        isProcessInProgress,
+        liquidityAddOk,
+        walletConfirmation,
+        token1,
+        token2,
+        ratio,
+        slippageTolerance,
+        token1Balance,
+        token1Amount,
+        token2Balance,
+        token2Amount,
+        token1minAmount,
+        token2minAmount,
+        networkFees,
+        expectedTokenLP,
+        failure
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -526,11 +567,13 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final DexToken? token1,
       final DexToken? token2,
       final double ratio,
-      final double slippage,
+      final double slippageTolerance,
       final double token1Balance,
       final double token1Amount,
       final double token2Balance,
       final double token2Amount,
+      final double token1minAmount,
+      final double token2minAmount,
       final double networkFees,
       final double expectedTokenLP,
       final Failure? failure}) = _$LiquidityAddFormStateImpl;
@@ -557,7 +600,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   @override
   double get ratio;
   @override
-  double get slippage;
+  double get slippageTolerance;
   @override
   double get token1Balance;
   @override
@@ -566,6 +609,10 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   double get token2Balance;
   @override
   double get token2Amount;
+  @override
+  double get token1minAmount;
+  @override
+  double get token2minAmount;
   @override
   double get networkFees;
   @override

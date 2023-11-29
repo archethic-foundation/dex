@@ -21,10 +21,6 @@ class DexFees extends StatelessWidget {
       );
     }
 
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
@@ -34,11 +30,11 @@ class DexFees extends StatelessWidget {
       child: withLabel
           ? Text(
               '${AppLocalizations.of(context)!.feesLbl}: $fees%',
-              style: textTheme.labelSmall,
+              style: Theme.of(context).textTheme.labelSmall,
             )
           : Text(
               '$fees%',
-              style: textTheme.labelSmall,
+              style: Theme.of(context).textTheme.labelSmall,
             ),
     );
   }

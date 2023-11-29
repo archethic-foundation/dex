@@ -23,10 +23,6 @@ class PoolAddConfirmBalance extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-
     return Container(
       padding: const EdgeInsets.only(
         top: 50,
@@ -95,7 +91,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return Text(
                           snapshot.data!,
-                          style: textTheme.labelSmall,
+                          style: Theme.of(context).textTheme.labelSmall,
                         );
                       }
                       return const SizedBox.shrink();
@@ -113,7 +109,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return Text(
                           snapshot.data!,
-                          style: textTheme.labelSmall,
+                          style: Theme.of(context).textTheme.labelSmall,
                         );
                       }
                       return const SizedBox.shrink();
@@ -148,7 +144,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return Text(
                           snapshot.data!,
-                          style: textTheme.labelSmall,
+                          style: Theme.of(context).textTheme.labelSmall,
                         );
                       }
                       return const SizedBox.shrink();
@@ -166,7 +162,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return Text(
                           snapshot.data!,
-                          style: textTheme.labelSmall,
+                          style: Theme.of(context).textTheme.labelSmall,
                         );
                       }
                       return const SizedBox.shrink();

@@ -95,7 +95,7 @@ class DexTokensRepository with ModelParser {
     });
 
     dexTokens.sort(
-      (a, b) => a.name.compareTo(b.name),
+      (a, b) => a.symbol.toUpperCase().compareTo(b.symbol.toUpperCase()),
     );
 
     return dexTokens;

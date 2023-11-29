@@ -48,14 +48,8 @@ class SwapSettingsSlippageToleranceState
             TextSpan(
               children: [
                 TextSpan(
-                  text: AppLocalizations.of(context)!
-                      .swap_settings_slippage_tolerance,
-                  style: Theme.of(context)
-                      .textTheme
-                      .apply(
-                        displayColor: Theme.of(context).colorScheme.onSurface,
-                      )
-                      .labelMedium,
+                  text: AppLocalizations.of(context)!.slippage_tolerance,
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
                 WidgetSpan(
                   alignment: PlaceholderAlignment.middle,

@@ -1,6 +1,8 @@
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_icon_settings.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_infos.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
@@ -26,9 +28,6 @@ class LiquidityAddFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
     return Expanded(
       child: Column(
@@ -78,7 +77,19 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                   : liquidityAdd.token1!.address!,
                         ),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '${AppLocalizations.of(context)!.slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
+                          ),
+                          const Align(
+                            alignment: Alignment.centerRight,
+                            child: LiquidityAddTokenIconSettings(),
+                          ),
+                        ],
                       ),
                       Stack(
                         alignment: Alignment.centerRight,
@@ -105,7 +116,9 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                         if (snapshot.hasData) {
                                           return Text(
                                             snapshot.data!,
-                                            style: textTheme.titleMedium,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
                                           );
                                         }
                                         return const SizedBox.shrink();
@@ -190,7 +203,9 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                         if (snapshot.hasData) {
                                           return Text(
                                             snapshot.data!,
-                                            style: textTheme.titleMedium,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
                                           );
                                         }
                                         return const SizedBox.shrink();
@@ -247,42 +262,53 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                           ),
                         ],
                       ),
+                      const LiquidityAddInfos(),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
                       DexErrorMessage(failure: liquidityAdd.failure),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
-                      DexButtonValidate(
-                        controlOk: liquidityAdd.isControlsOk,
-                        icon: Iconsax.wallet_money,
-                        labelBtn:
-                            AppLocalizations.of(context)!.btn_liquidity_add,
-                        onPressed: () => ref
-                            .read(
-                              LiquidityAddFormProvider
-                                  .liquidityAddForm.notifier,
-                            )
-                            .validateForm(context),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      DexButtonClose(
-                        onPressed: () {
-                          ref
-                              .read(
-                                MainScreenWidgetDisplayedProviders
-                                    .mainScreenWidgetDisplayedProvider.notifier,
-                              )
-                              .setWidget(
-                                const PoolListSheet(),
-                                ref,
-                              );
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: DexButtonValidate(
+                              controlOk: liquidityAdd.isControlsOk,
+                              icon: Iconsax.wallet_money,
+                              labelBtn: AppLocalizations.of(context)!
+                                  .btn_liquidity_add,
+                              onPressed: () => ref
+                                  .read(
+                                    LiquidityAddFormProvider
+                                        .liquidityAddForm.notifier,
+                                  )
+                                  .validateForm(context),
+                            ),
+                          ),
+                          Expanded(
+                            child: DexButtonClose(
+                              onPressed: () {
+                                ref
+                                    .read(
+                                      MainScreenWidgetDisplayedProviders
+                                          .mainScreenWidgetDisplayedProvider
+                                          .notifier,
+                                    )
+                                    .setWidget(
+                                      const PoolListSheet(),
+                                      ref,
+                                    );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
