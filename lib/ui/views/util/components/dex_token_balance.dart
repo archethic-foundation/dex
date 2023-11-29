@@ -30,6 +30,10 @@ class DexTokenBalance extends ConsumerWidget {
         height: height,
       );
     }
+    var opacity = 1.0;
+    if (tokenBalance <= 0) {
+      opacity = 0.5;
+    }
 
     return SizedBox(
       height: height,
@@ -46,8 +50,11 @@ class DexTokenBalance extends ConsumerWidget {
           const SizedBox(
             width: 5,
           ),
-          Text(
-            '${tokenBalance.formatNumber()} $tokenSymbol',
+          Opacity(
+            opacity: opacity,
+            child: Text(
+              '${tokenBalance.formatNumber()} $tokenSymbol',
+            ),
           ),
           if (withFiat)
             const SizedBox(
@@ -62,8 +69,11 @@ class DexTokenBalance extends ConsumerWidget {
               ),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(
-                    snapshot.data!,
+                  return Opacity(
+                    opacity: opacity,
+                    child: Text(
+                      snapshot.data!,
+                    ),
                   );
                 }
                 return const SizedBox.shrink();

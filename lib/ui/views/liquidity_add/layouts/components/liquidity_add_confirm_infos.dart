@@ -86,7 +86,8 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
-                                liquidityAdd.token1Balance.toString()) -
+                              liquidityAdd.token1Balance.toString(),
+                            ) -
                             Decimal.parse(liquidityAdd.token1Amount.toString()))
                         .toDouble(),
                     tokenSymbol: liquidityAdd.token1!.symbol,
@@ -106,7 +107,8 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
-                                liquidityAdd.token2Balance.toString()) -
+                              liquidityAdd.token2Balance.toString(),
+                            ) -
                             Decimal.parse(liquidityAdd.token2Amount.toString()))
                         .toDouble(),
                     tokenSymbol: liquidityAdd.token2!.symbol,

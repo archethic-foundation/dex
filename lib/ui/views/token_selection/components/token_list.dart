@@ -1,18 +1,13 @@
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
+import 'package:aedex/ui/views/token_selection/components/token_single.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
-import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class TokenList extends ConsumerWidget {
   const TokenList({super.key});
@@ -21,8 +16,8 @@ class TokenList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tokenSelectionForm =
         ref.watch(TokenSelectionFormProvider.tokenSelectionForm);
+    final session = ref.watch(SessionProviders.session);
     if (tokenSelectionForm.isAddress == false) {
-      final session = ref.read(SessionProviders.session);
       final tokens = ref.watch(
         DexTokensProviders.getTokenFromAccount(session.genesisAddress),
       );
@@ -95,7 +90,10 @@ class TokenList extends ConsumerWidget {
       );
     }
     final tokens = ref.watch(
-      DexTokensProviders.getTokenFromAddress(tokenSelectionForm.searchText),
+      DexTokensProviders.getTokenFromAddress(
+        tokenSelectionForm.searchText,
+        session.genesisAddress,
+      ),
     );
     return SizedBox(
       child: tokens.map(
@@ -126,12 +124,26 @@ class TokenList extends ConsumerWidget {
   }
 }
 
-class _TokensList extends StatelessWidget {
+class _TokensList extends ConsumerWidget {
   const _TokensList({required this.tokens});
 
   final List<DexToken> tokens;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tokenSelectionForm =
+        ref.watch(TokenSelectionFormProvider.tokenSelectionForm);
+    final tokensFiltered = [...tokens];
+    if (tokenSelectionForm.searchText.isNotEmpty &&
+        tokenSelectionForm.isAddress == false) {
+      tokensFiltered.removeWhere(
+        (element) =>
+            element.symbol
+                .toUpperCase()
+                .contains(tokenSelectionForm.searchText.toUpperCase()) ==
+            false,
+      );
+    }
+
     return SizedBox(
       height: 200,
       child: ListView.separated(
@@ -142,108 +154,14 @@ class _TokensList extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: 15,
         ),
-        itemCount: tokens.length,
+        itemCount: tokensFiltered.length,
         itemBuilder: (BuildContext context, int index) {
-          return _SingleToken(token: tokens[index])
+          return SingleToken(token: tokensFiltered[index])
               .animate(delay: (100 * index).ms)
               .fadeIn(duration: 900.ms, delay: 200.ms)
               .shimmer(blendMode: BlendMode.srcOver, color: Colors.white12)
               .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad);
         },
-      ),
-    );
-  }
-}
-
-class _SingleToken extends StatelessWidget {
-  const _SingleToken({required this.token});
-
-  final DexToken token;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            ArchethicThemeBase.purple500,
-            ArchethicThemeBase.purple500.withOpacity(0.4),
-          ],
-          stops: const [0, 1],
-        ),
-        border: GradientBoxBorder(
-          gradient: LinearGradient(
-            colors: [
-              ArchethicThemeBase.plum300,
-              ArchethicThemeBase.plum300.withOpacity(0.4),
-            ],
-            stops: const [0, 1],
-          ),
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: InkWell(
-        onTap: () {
-          Navigator.pop(context, token);
-        },
-        child: Row(
-          children: [
-            const SizedBox(
-              width: 10,
-            ),
-            DexTokenIcon(
-              tokenAddress: token.address == null ? 'UCO' : token.address!,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 3),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        token.symbol,
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: VerifiedTokenIcon(
-                          address: token.isUCO ? 'UCO' : token.address!,
-                          iconSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (token.balance > 0)
-                    Row(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 3),
-                          child: Icon(
-                            Iconsax.empty_wallet,
-                            size: 12,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          token.balance.formatNumber(),
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

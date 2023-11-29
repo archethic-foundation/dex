@@ -19,16 +19,21 @@ DexTokensRepository _dexTokensRepository(_DexTokensRepositoryRef ref) =>
 Future<List<DexToken>> _getTokenFromAddress(
   _GetTokenFromAddressRef ref,
   address,
+  accountAddress,
 ) async {
-  return ref.watch(_dexTokensRepositoryProvider).getTokenFromAddress(address);
+  return ref
+      .watch(_dexTokensRepositoryProvider)
+      .getTokenFromAddress(address, accountAddress);
 }
 
 @riverpod
 Future<List<DexToken>> _getTokenFromAccount(
   _GetTokenFromAccountRef ref,
-  address,
+  accountAddress,
 ) async {
-  return ref.watch(_dexTokensRepositoryProvider).getTokensFromAccount(address);
+  return ref
+      .watch(_dexTokensRepositoryProvider)
+      .getTokensFromAccount(accountAddress);
 }
 
 @riverpod
@@ -40,12 +45,34 @@ Future<String?> _getTokenIcon(
 }
 
 class DexTokensRepository with ModelParser {
-  Future<List<DexToken>> getTokenFromAddress(String address) async {
-    final tokenMap = await sl.get<ApiService>().getToken([address]);
+  Future<List<DexToken>> getTokenFromAddress(
+    String address,
+    String accountAddress,
+  ) async {
+    final tokenMap = await sl.get<ApiService>().getToken(
+      [address],
+      request: 'name, id, supply, symbol, type',
+    );
     if (tokenMap[address] == null) {
       return [];
     }
-    final dexToken = tokenSDKToModel(tokenMap[address]!, 0);
+
+    var token = tokenMap[address];
+    token = token!.copyWith(address: address);
+
+    final balanceMap =
+        await sl.get<ApiService>().fetchBalance([accountAddress]);
+    final balance = balanceMap[accountAddress];
+    var balanceAmount = 0.0;
+    if (balance != null) {
+      for (final tokenBalance in balance.token) {
+        if (tokenBalance.address!.toUpperCase() == address.toUpperCase()) {
+          balanceAmount = fromBigInt(tokenBalance.amount).toDouble();
+          break;
+        }
+      }
+    }
+    final dexToken = tokenSDKToModel(token, balanceAmount);
     return <DexToken>[dexToken];
   }
 

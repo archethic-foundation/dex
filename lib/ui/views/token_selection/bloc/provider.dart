@@ -1,4 +1,5 @@
 import 'package:aedex/application/dex_token.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/token_selection/bloc/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,8 +26,14 @@ class TokenSelectionFormNotifier
     );
 
     if (state.isAddress) {
+      final session = ref.read(SessionProviders.session);
       final token = ref
-          .read(DexTokensProviders.getTokenFromAddress(searchText))
+          .read(
+            DexTokensProviders.getTokenFromAddress(
+              searchText,
+              session.genesisAddress,
+            ),
+          )
           .valueOrNull;
       if (token != null) {
         state = state.copyWith(
@@ -34,7 +41,6 @@ class TokenSelectionFormNotifier
         );
       }
     }
-
     return;
   }
 }

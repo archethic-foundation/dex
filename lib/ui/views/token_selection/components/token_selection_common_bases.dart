@@ -153,6 +153,11 @@ class TokenSelectionCommonBases extends ConsumerWidget {
                           ),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
+                              var opacity = 1.0;
+                              if (snapshot.data! <= 0) {
+                                opacity = 0.5;
+                              }
+
                               return Row(
                                 children: [
                                   const Padding(
@@ -165,10 +170,14 @@ class TokenSelectionCommonBases extends ConsumerWidget {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Text(
-                                    snapshot.data!.formatNumber(),
-                                    style:
-                                        Theme.of(context).textTheme.labelSmall,
+                                  Opacity(
+                                    opacity: opacity,
+                                    child: Text(
+                                      snapshot.data!.formatNumber(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
                                   ),
                                 ],
                               );

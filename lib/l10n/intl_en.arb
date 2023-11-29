@@ -46,7 +46,7 @@
   "btn_swap_insufficient_balance": "Insufficient %1 balance",
   "btn_max": "MAX",
   "btn_half": "HALF",
-  "token_selection_search_bar_hint": "Search name or paste address",
+  "token_selection_search_bar_hint": "Search symbol or from token address",
   "token_selection_common_bases_title": "Common bases",
   "token_selection_your_tokens_title": "Your tokens",
   "token_selection_get_tokens_from_wallet": "Retrieving tokens from your current account in your wallet...",

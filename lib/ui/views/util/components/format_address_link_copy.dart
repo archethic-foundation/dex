@@ -13,7 +13,6 @@ enum TypeAddress { address, transaction, chain }
 class FormatAddressLinkCopy extends ConsumerWidget {
   const FormatAddressLinkCopy({
     required this.address,
-    required this.chainId,
     this.reduceAddress = false,
     this.fontSize = 13,
     this.typeAddress = TypeAddress.address,
@@ -21,7 +20,6 @@ class FormatAddressLinkCopy extends ConsumerWidget {
     super.key,
   });
 
-  final int chainId;
   final String address;
   final bool reduceAddress;
   final double fontSize;
