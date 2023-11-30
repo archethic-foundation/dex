@@ -525,16 +525,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       return false;
     }
 
-    if (state.tokenSwappedAmount > state.tokenSwappedBalance) {
-      setFailure(
-        Failure.other(
-          cause: AppLocalizations.of(context)!
-              .swapControlTokenSwappedAmountExceedBalance,
-        ),
-      );
-      return false;
-    }
-
     return true;
   }
 

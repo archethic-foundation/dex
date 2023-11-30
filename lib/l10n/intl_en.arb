@@ -91,6 +91,7 @@
   "btn_back": "Back",
   "failureUserRejected": "The request has been declined.",
   "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
+  "failureConnectivityArchethicBrave": "Please, open your Archethic Wallet, allow DApps connection and disable Brave's shield.",
   "failureInsufficientFunds": "Funds are not sufficient.",
   "failureTimeout": "Timeout occurred.",
   "failurePoolAlreadyExists": "Pool already exists for this pair",

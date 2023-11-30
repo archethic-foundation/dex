@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/failures.dart';
+import 'package:aedex/util/browser_util.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -20,6 +22,12 @@ class FailureMessage {
     }
 
     if (failure is ConnectivityArchethic) {
+      if (kIsWeb == true) {
+        if (BrowserUtil().isBraveBrowser()) {
+          return AppLocalizations.of(context)!
+              .failureConnectivityArchethicBrave;
+        }
+      }
       return AppLocalizations.of(context)!.failureConnectivityArchethic;
     }
 

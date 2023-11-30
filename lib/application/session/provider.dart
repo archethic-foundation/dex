@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/repositories/features_flags.dart';
+import 'package:aedex/util/browser_util.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -25,6 +27,13 @@ class _SessionNotifier extends Notifier<Session> {
   }
 
   Future<void> connectToWallet() async {
+    var isBrave = false;
+    if (kIsWeb == true) {
+      if (BrowserUtil().isBraveBrowser()) {
+        isBrave = true;
+      }
+    }
+
     try {
       state = state.copyWith(
         isConnected: false,
@@ -48,19 +57,24 @@ class _SessionNotifier extends Notifier<Session> {
         throw const Failure.connectivityArchethic();
       }
       final endpointResponse = await archethicDAppClient.getEndpoint();
+
       await endpointResponse.when(
         failure: (failure) {
           switch (failure.code) {
             case 4901:
               state = state.copyWith(
                 isConnected: false,
-                error: 'Please, open your Archethic Wallet.',
+                error: isBrave
+                    ? "Please, open your Archethic Wallet and disable Brave's shield."
+                    : 'Please, open your Archethic Wallet.',
               );
               break;
             default:
               state = state.copyWith(
                 isConnected: false,
-                error: 'Please, open your Archethic Wallet.',
+                error: isBrave
+                    ? "Please, open your Archethic Wallet and disable Brave's shield."
+                    : 'Please, open your Archethic Wallet.',
               );
               throw const Failure.connectivityArchethic();
           }
@@ -133,7 +147,9 @@ class _SessionNotifier extends Notifier<Session> {
                       oldNameAccount: state.nameAccount,
                       genesisAddress: event.genesisAddress,
                       nameAccount: event.name,
-                      error: 'Please, open your Archethic Wallet.',
+                      error: isBrave
+                          ? "Please, open your Archethic Wallet and disable Brave's shield."
+                          : 'Please, open your Archethic Wallet.',
                       isConnected: false,
                     );
                     return;
@@ -158,7 +174,9 @@ class _SessionNotifier extends Notifier<Session> {
     } catch (e) {
       state = state.copyWith(
         isConnected: false,
-        error: 'Please, open your Archethic Wallet.',
+        error: isBrave
+            ? "Please, open your Archethic Wallet and disable Brave's shield."
+            : 'Please, open your Archethic Wallet.',
       );
     }
   }
