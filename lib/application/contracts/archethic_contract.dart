@@ -45,8 +45,8 @@ class ArchethicContract with TransactionDexMixin {
 
       String? poolCode;
       final resultPoolCode = await routerFactory.getPoolCode(
-        token1.address!,
-        token2.address!,
+        token1.isUCO ? 'UCO' : token1.address!,
+        token2.isUCO ? 'UCO' : token2.address!,
         poolGenesisAddress,
         lpTokenAddress,
       );
@@ -195,13 +195,13 @@ class ArchethicContract with TransactionDexMixin {
         routerAddress,
         action: 'add_pool',
         args: [
-          token1.address!,
-          token2.address!,
+          if (token1.isUCO) 'UCO' else token1.address!,
+          if (token2.isUCO) 'UCO' else token2.address!,
           transactionPoolAddress.toUpperCase(),
         ],
       );
 
-      if (token1.address == 'UCO') {
+      if (token1.isUCO) {
         transactionAdd.addUCOTransfer(
           poolGenesisAddress,
           archethic.toBigInt(token1Amount),
@@ -214,7 +214,7 @@ class ArchethicContract with TransactionDexMixin {
         );
       }
 
-      if (token2.address == 'UCO') {
+      if (token2.isUCO) {
         transactionAdd.addUCOTransfer(
           poolGenesisAddress,
           archethic.toBigInt(token2Amount),
@@ -286,7 +286,7 @@ class ArchethicContract with TransactionDexMixin {
         ],
       );
 
-      if (token1.address == 'UCO') {
+      if (token1.isUCO) {
         transactionLiquidity.addUCOTransfer(
           poolGenesisAddress,
           archethic.toBigInt(token1Amount),
@@ -299,7 +299,7 @@ class ArchethicContract with TransactionDexMixin {
         );
       }
 
-      if (token2.address == 'UCO') {
+      if (token2.isUCO) {
         transactionLiquidity.addUCOTransfer(
           poolGenesisAddress,
           archethic.toBigInt(token2Amount),

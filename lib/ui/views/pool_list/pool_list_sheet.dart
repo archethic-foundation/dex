@@ -53,7 +53,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: SizedBox(
-                    width: 850,
+                    width: 900,
                     height: MediaQuery.of(context).size.height - 100,
                     child: ArchethicScrollbar(
                       child: dexPools.map(
@@ -202,7 +202,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                 right: 20,
                                               ),
                                               child: SizedBox(
-                                                width: 150,
+                                                width: 200,
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,

@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -164,14 +165,14 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
                     SizedBox(
                       height: 80,
                       child: Text(
-                        '+ ${poolAdd.token1Amount} ${poolAdd.token1!.symbol}',
+                        '+ ${poolAdd.token1Amount.formatNumber()} ${poolAdd.token1!.symbol}',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
                     SizedBox(
                       height: 80,
                       child: Text(
-                        '+ ${poolAdd.token2Amount} ${poolAdd.token2!.symbol}',
+                        '+ ${poolAdd.token2Amount.formatNumber()} ${poolAdd.token2!.symbol}',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
