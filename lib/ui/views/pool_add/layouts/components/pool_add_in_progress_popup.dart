@@ -4,6 +4,7 @@ import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/add_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
@@ -104,6 +105,7 @@ class PoolAddInProgressPopup {
                                               poolAdd.walletConfirmation,
                                           failure: poolAdd.failure,
                                         ),
+                                        const PoolAddInProgressTxAddresses(),
                                         const Spacer(),
                                         if (poolAdd.failure == null &&
                                             poolAdd.isProcessInProgress ==

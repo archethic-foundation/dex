@@ -62,7 +62,9 @@ class RemoveLiquidityCase with TransactionDexMixin {
           [transactionRemoveLiquidity!],
         ))
             .first;
-        liquidityRemoveNotifier.setWalletConfirmation(false);
+        liquidityRemoveNotifier
+          ..setWalletConfirmation(false)
+          ..setTransactionRemoveLiquidity(transactionRemoveLiquidity!);
       } catch (e) {
         if (e is Failure) {
           liquidityRemoveNotifier.setFailure(e);

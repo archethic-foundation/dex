@@ -103,6 +103,11 @@ class LiquidityRemoveFormNotifier
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
   }
 
+  void setTransactionRemoveLiquidity(Transaction transactionRemoveLiquidity) {
+    state =
+        state.copyWith(transactionRemoveLiquidity: transactionRemoveLiquidity);
+  }
+
   void setToken1(
     DexToken token,
   ) {

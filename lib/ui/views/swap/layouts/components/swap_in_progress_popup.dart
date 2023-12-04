@@ -4,6 +4,7 @@ import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/swap.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
@@ -103,6 +104,7 @@ class SwapInProgressPopup {
                                               swap.walletConfirmation,
                                           failure: swap.failure,
                                         ),
+                                        const SwapInProgressTxAddresses(),
                                         const Spacer(),
                                         if (swap.failure == null &&
                                             swap.isProcessInProgress == false)

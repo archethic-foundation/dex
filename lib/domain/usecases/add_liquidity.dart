@@ -69,7 +69,9 @@ class AddLiquidityCase with TransactionDexMixin {
           [transactionAddLiquidity!],
         ))
             .first;
-        liquidityAddNotifier.setWalletConfirmation(false);
+        liquidityAddNotifier
+          ..setWalletConfirmation(false)
+          ..setTransactionAddLiquidity(transactionAddLiquidity!);
       } catch (e) {
         if (e is Failure) {
           liquidityAddNotifier.setFailure(e);

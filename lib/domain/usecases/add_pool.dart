@@ -70,8 +70,7 @@ class AddPoolCase with TransactionDexMixin {
         transactionAddPoolMap.map(
           success: (success) {
             transactionAddPool = success;
-            poolAddNotifier
-                .setRecoveryTransactionAddPool(recoveryTransactionAddPool);
+            poolAddNotifier.setRecoveryTransactionAddPool(transactionAddPool);
           },
           failure: (failure) {
             poolAddNotifier
@@ -131,6 +130,9 @@ class AddPoolCase with TransactionDexMixin {
         ref
             .read(PoolAddFormProvider.poolAddForm.notifier)
             .setWalletConfirmation(false);
+        poolAddNotifier.setRecoveryTransactionAddPoolTransfer(
+          transactionAddPoolTransfer,
+        );
       } catch (e) {
         if (e is Failure) {
           poolAddNotifier.setFailure(e);
@@ -195,7 +197,11 @@ class AddPoolCase with TransactionDexMixin {
         ))
             .first;
 
-        poolAddNotifier.setWalletConfirmation(false);
+        poolAddNotifier
+          ..setWalletConfirmation(false)
+          ..setRecoveryTransactionAddPoolLiquidity(
+            transactionAddPoolLiquidity,
+          );
       } catch (e) {
         sl.get<LogManager>().log(
               'Signature failed $e',

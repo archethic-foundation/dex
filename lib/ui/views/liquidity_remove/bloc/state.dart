@@ -2,6 +2,7 @@
 
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
@@ -29,6 +30,7 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
     @Default(0.0) double networkFees,
     @Default(0.0) double token1Balance,
     @Default(0.0) double token2Balance,
+    Transaction? transactionRemoveLiquidity,
     Failure? failure,
   }) = _LiquidityRemoveFormState;
   const LiquidityRemoveFormState._();

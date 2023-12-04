@@ -4,6 +4,7 @@ import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/add_liquidity.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
@@ -104,6 +105,7 @@ class LiquidityAddInProgressPopup {
                                               liquidityAdd.walletConfirmation,
                                           failure: liquidityAdd.failure,
                                         ),
+                                        const LiquidityAddInProgressTxAddresses(),
                                         const Spacer(),
                                         DexInProgressResumeBtn(
                                           currentStep: liquidityAdd.currentStep,

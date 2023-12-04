@@ -2,6 +2,7 @@
 
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
@@ -31,6 +32,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(0.0) double token2minAmount,
     @Default(0.0) double networkFees,
     @Default(0.0) double expectedTokenLP,
+    Transaction? transactionAddLiquidity,
     Failure? failure,
   }) = _LiquidityAddFormState;
   const LiquidityAddFormState._();

@@ -75,6 +75,10 @@ class LiquidityAddFormNotifier
     state = state.copyWith(ratio: ratio);
   }
 
+  void setTransactionAddLiquidity(Transaction transactionAddLiquidity) {
+    state = state.copyWith(transactionAddLiquidity: transactionAddLiquidity);
+  }
+
   void setToken1(
     DexToken token,
   ) {

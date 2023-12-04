@@ -108,7 +108,11 @@ class SwapCase with TransactionDexMixin {
       ))
           .first;
 
-      swapNotifier.setWalletConfirmation(false);
+      swapNotifier
+        ..setWalletConfirmation(false)
+        ..setRecoveryTransactionSwap(
+          transactionSwap,
+        );
     } catch (e) {
       if (e is Failure) {
         swapNotifier.setFailure(e);

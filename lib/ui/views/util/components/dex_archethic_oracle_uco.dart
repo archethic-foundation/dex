@@ -18,7 +18,7 @@ class DexArchethicOracleUco extends ConsumerWidget {
     if (archethicOracleUCO.usd == 0) {
       return const SizedBox.shrink();
     }
-    final timestamp = DateFormat.yMMMEd(
+    final timestamp = DateFormat.yMd(
       Localizations.localeOf(context).languageCode,
     ).add_Hm().format(
           DateTime.fromMillisecondsSinceEpoch(

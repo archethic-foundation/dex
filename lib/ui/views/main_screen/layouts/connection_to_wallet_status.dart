@@ -3,6 +3,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
+import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:busy/busy.dart';
@@ -194,6 +195,13 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                 child: Text(
                   session.endpoint,
                   textAlign: TextAlign.center,
+                ),
+              ),
+              Center(
+                child: FormatAddressLinkCopy(
+                  address: session.genesisAddress,
+                  typeAddress: TypeAddress.chain,
+                  reduceAddress: true,
                 ),
               ),
             ],

@@ -13,6 +13,7 @@ import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:aedex/util/endpoint_util.dart';
 import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -179,6 +180,20 @@ class MainScreenState extends ConsumerState<MainScreen> {
                             begin: const Offset(-16, 0),
                             curve: Curves.easeOutQuad,
                           ),
+                      if (EndpointUtil.getEnvironnement() == 'testnet')
+                        _buildSubMenu(
+                          AppLocalizations.of(context)!
+                              .archethicDashboardMenuFaucetItem,
+                          AppLocalizations.of(context)!
+                              .archethicDashboardMenuFaucetDesc,
+                          'https://testnet.archethic.net/faucet',
+                        )
+                            .animate(delay: 500.ms)
+                            .fadeIn(duration: 400.ms, delay: 200.ms)
+                            .move(
+                              begin: const Offset(-16, 0),
+                              curve: Curves.easeOutQuad,
+                            ),
                     ],
                   ),
                 ),

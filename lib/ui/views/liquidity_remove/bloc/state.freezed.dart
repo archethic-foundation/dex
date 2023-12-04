@@ -34,6 +34,8 @@ mixin _$LiquidityRemoveFormState {
   double get networkFees => throw _privateConstructorUsedError;
   double get token1Balance => throw _privateConstructorUsedError;
   double get token2Balance => throw _privateConstructorUsedError;
+  Transaction? get transactionRemoveLiquidity =>
+      throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -65,11 +67,13 @@ abstract class $LiquidityRemoveFormStateCopyWith<$Res> {
       double networkFees,
       double token1Balance,
       double token2Balance,
+      Transaction? transactionRemoveLiquidity,
       Failure? failure});
 
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
   $DexTokenCopyWith<$Res>? get lpToken;
+  $TransactionCopyWith<$Res>? get transactionRemoveLiquidity;
   $FailureCopyWith<$Res>? get failure;
 }
 
@@ -104,6 +108,7 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
     Object? networkFees = null,
     Object? token1Balance = null,
     Object? token2Balance = null,
+    Object? transactionRemoveLiquidity = freezed,
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
@@ -175,6 +180,10 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
           ? _value.token2Balance
           : token2Balance // ignore: cast_nullable_to_non_nullable
               as double,
+      transactionRemoveLiquidity: freezed == transactionRemoveLiquidity
+          ? _value.transactionRemoveLiquidity
+          : transactionRemoveLiquidity // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -220,6 +229,19 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
+  $TransactionCopyWith<$Res>? get transactionRemoveLiquidity {
+    if (_value.transactionRemoveLiquidity == null) {
+      return null;
+    }
+
+    return $TransactionCopyWith<$Res>(_value.transactionRemoveLiquidity!,
+        (value) {
+      return _then(_value.copyWith(transactionRemoveLiquidity: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
     if (_value.failure == null) {
       return null;
@@ -258,6 +280,7 @@ abstract class _$$LiquidityRemoveFormStateImplCopyWith<$Res>
       double networkFees,
       double token1Balance,
       double token2Balance,
+      Transaction? transactionRemoveLiquidity,
       Failure? failure});
 
   @override
@@ -266,6 +289,8 @@ abstract class _$$LiquidityRemoveFormStateImplCopyWith<$Res>
   $DexTokenCopyWith<$Res>? get token2;
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
+  @override
+  $TransactionCopyWith<$Res>? get transactionRemoveLiquidity;
   @override
   $FailureCopyWith<$Res>? get failure;
 }
@@ -300,6 +325,7 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
     Object? networkFees = null,
     Object? token1Balance = null,
     Object? token2Balance = null,
+    Object? transactionRemoveLiquidity = freezed,
     Object? failure = freezed,
   }) {
     return _then(_$LiquidityRemoveFormStateImpl(
@@ -371,6 +397,10 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
           ? _value.token2Balance
           : token2Balance // ignore: cast_nullable_to_non_nullable
               as double,
+      transactionRemoveLiquidity: freezed == transactionRemoveLiquidity
+          ? _value.transactionRemoveLiquidity
+          : transactionRemoveLiquidity // ignore: cast_nullable_to_non_nullable
+              as Transaction?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -400,6 +430,7 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
       this.networkFees = 0.0,
       this.token1Balance = 0.0,
       this.token2Balance = 0.0,
+      this.transactionRemoveLiquidity,
       this.failure})
       : super._();
 
@@ -452,11 +483,13 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   @JsonKey()
   final double token2Balance;
   @override
+  final Transaction? transactionRemoveLiquidity;
+  @override
   final Failure? failure;
 
   @override
   String toString() {
-    return 'LiquidityRemoveFormState(liquidityRemoveProcessStep: $liquidityRemoveProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, token1Balance: $token1Balance, token2Balance: $token2Balance, failure: $failure)';
+    return 'LiquidityRemoveFormState(liquidityRemoveProcessStep: $liquidityRemoveProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, token1Balance: $token1Balance, token2Balance: $token2Balance, transactionRemoveLiquidity: $transactionRemoveLiquidity, failure: $failure)';
   }
 
   @override
@@ -497,30 +530,36 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
                 other.token1Balance == token1Balance) &&
             (identical(other.token2Balance, token2Balance) ||
                 other.token2Balance == token2Balance) &&
+            (identical(other.transactionRemoveLiquidity,
+                    transactionRemoveLiquidity) ||
+                other.transactionRemoveLiquidity ==
+                    transactionRemoveLiquidity) &&
             (identical(other.failure, failure) || other.failure == failure));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      liquidityRemoveProcessStep,
-      resumeProcess,
-      currentStep,
-      poolGenesisAddress,
-      isProcessInProgress,
-      liquidityRemoveOk,
-      walletConfirmation,
-      token1,
-      token2,
-      lpToken,
-      lpTokenBalance,
-      lpTokenAmount,
-      token1AmountGetBack,
-      token2AmountGetBack,
-      networkFees,
-      token1Balance,
-      token2Balance,
-      failure);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        liquidityRemoveProcessStep,
+        resumeProcess,
+        currentStep,
+        poolGenesisAddress,
+        isProcessInProgress,
+        liquidityRemoveOk,
+        walletConfirmation,
+        token1,
+        token2,
+        lpToken,
+        lpTokenBalance,
+        lpTokenAmount,
+        token1AmountGetBack,
+        token2AmountGetBack,
+        networkFees,
+        token1Balance,
+        token2Balance,
+        transactionRemoveLiquidity,
+        failure
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -549,6 +588,7 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
       final double networkFees,
       final double token1Balance,
       final double token2Balance,
+      final Transaction? transactionRemoveLiquidity,
       final Failure? failure}) = _$LiquidityRemoveFormStateImpl;
   const _LiquidityRemoveFormState._() : super._();
 
@@ -586,6 +626,8 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
   double get token1Balance;
   @override
   double get token2Balance;
+  @override
+  Transaction? get transactionRemoveLiquidity;
   @override
   Failure? get failure;
   @override
