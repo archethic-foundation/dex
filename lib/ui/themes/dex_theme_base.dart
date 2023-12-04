@@ -35,6 +35,13 @@ class DexThemeBase {
     stops: [0, 1],
   );
 
+  static Gradient gradientShimmer = LinearGradient(
+    colors: [
+      const Color(0xFF562FED).withOpacity(0.2),
+      const Color(0xFFD55CFF).withOpacity(0.2),
+    ],
+  );
+
   static Gradient gradientBtn = LinearGradient(
     colors: <Color>[
       ArchethicThemeBase.blue500,

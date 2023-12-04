@@ -53,26 +53,19 @@ class DexPoolsRepository {
 
     await resultPoolList.map(
       success: (poolList) async {
-        final apiService = sl.get<ApiService>();
         for (final pool in poolList) {
-          final poolFactory = PoolFactory(pool.poolAddress, apiService);
-          final poolInfosResult = await poolFactory.getPoolInfos();
-          await poolInfosResult.map(
-            success: (dexPool) async {
-              final isVerified = await ref.read(
-                VerifiedPoolsProviders.isVerifiedPool(dexPool.poolAddress)
-                    .future,
-              );
-
-              dexPool = dexPool.copyWith(verified: isVerified);
-
-              if (onlyVerified == false ||
-                  (onlyVerified == true && dexPool.verified == true)) {
-                dexPools.add(dexPool);
-              }
-            },
-            failure: (failure) {},
+          var dexPool = pool;
+          final isVerified = await ref.read(
+            VerifiedPoolsProviders.isVerifiedPool(dexPool.poolAddress).future,
           );
+          dexPool = dexPool.copyWith(verified: isVerified);
+          if (onlyVerified && isVerified == true) {
+            dexPools.add(dexPool);
+          } else {
+            if (onlyVerified == false) {
+              dexPools.add(dexPool);
+            }
+          }
         }
       },
       failure: (failure) {},
