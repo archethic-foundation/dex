@@ -29,7 +29,7 @@ Returns infos of the pool as:
     "address": "0000ABCD...",
     "supply": 950.45645
   },
-  "fee": 0.3
+  "fee": 0.25
 }
 ```
 In next function, token1 and token2 represent the one returned by this function

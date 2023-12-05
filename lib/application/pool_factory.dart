@@ -27,7 +27,7 @@ class PoolFactory with ModelParser {
   ///     "address": "0000ABCD...",
   ///     "supply": 950.45645
   ///   },
-  ///   "fee": 0.3
+  ///   "fee": 0.25
   /// }
   Future<Result<DexPool, Failure>> getPoolInfos() async {
     return Result.guard(

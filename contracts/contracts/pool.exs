@@ -146,7 +146,7 @@ condition triggered_by: transaction, on: swap(min_to_receive), as: [
         valid? = swap.output_amount > 0 && swap.output_amount >= min_to_receive
     end
 
-    valid? 
+    valid?
   )
 ]
 
@@ -159,7 +159,7 @@ actions triggered_by: transaction, on: swap(_min_to_receive) do
   token_to_send = nil
   if transfer.token_address == @TOKEN1 do
     pool_balances = Map.set(pool_balances, "token2", pool_balances.token2 - swap.output_amount)
-    token_to_send = @TOKEN2 
+    token_to_send = @TOKEN2
   else
     pool_balances = Map.set(pool_balances, "token1", pool_balances.token1 - swap.output_amount)
     token_to_send = @TOKEN1
@@ -263,7 +263,7 @@ export fun get_swap_infos(token_address, amount) do
   token_address = String.to_uppercase(token_address)
 
   if reserves.token1 > 0 && reserves.token2 > 0 do
-    fee = amount * 0.003
+    fee = amount * 0.0025
     amount_with_fee = amount - fee
 
     market_price = 0
@@ -300,7 +300,7 @@ export fun get_remove_amounts(lp_token_amount) do
 
   token1_to_remove = 0
   token2_to_remove = 0
-  
+
   if lp_token_supply > 0 && lp_token_amount < lp_token_supply do
     token1_to_remove = (lp_token_amount * reserves.token1) / lp_token_supply
     token2_to_remove = (lp_token_amount * reserves.token2) / lp_token_supply
@@ -325,7 +325,7 @@ export fun get_pool_infos() do
       address: @LP_TOKEN,
       supply: State.get("lp_token_supply", 0)
     ],
-    fee: 0.3
+    fee: 0.25
   ]
 end
 
@@ -394,7 +394,7 @@ fun get_user_transfer(tx) do
   if uco_amount != nil do
     transfers = List.prepend(transfers, [token_address: "UCO", amount: uco_amount])
   end
-  
+
   transfer = List.at(transfers, 0)
 
   tokens = [
