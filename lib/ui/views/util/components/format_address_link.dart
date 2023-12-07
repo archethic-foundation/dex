@@ -12,12 +12,14 @@ class FormatAddressLink extends ConsumerWidget {
     required this.address,
     this.iconSize = 12,
     this.typeAddress = TypeAddress.address,
+    this.tooltipLink,
     super.key,
   });
 
   final String address;
   final TypeAddress typeAddress;
   final double iconSize;
+  final String? tooltipLink;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,10 +54,18 @@ class FormatAddressLink extends ConsumerWidget {
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 3),
-        child: Icon(
-          Iconsax.export_3,
-          size: iconSize,
-        ),
+        child: tooltipLink == null
+            ? Icon(
+                Iconsax.export_3,
+                size: iconSize,
+              )
+            : Tooltip(
+                message: tooltipLink,
+                child: Icon(
+                  Iconsax.export_3,
+                  size: iconSize,
+                ),
+              ),
       ),
     );
   }

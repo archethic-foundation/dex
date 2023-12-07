@@ -17,6 +17,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
     this.fontSize = 13,
     this.typeAddress = TypeAddress.address,
     this.header,
+    this.tooltipCopy,
+    this.tooltipLink,
     super.key,
   });
 
@@ -25,6 +27,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
   final double fontSize;
   final TypeAddress typeAddress;
   final String? header;
+  final String? tooltipCopy;
+  final String? tooltipLink;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,10 +73,18 @@ class FormatAddressLinkCopy extends ConsumerWidget {
           },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 3),
-            child: Icon(
-              Iconsax.copy,
-              size: fontSize - 1,
-            ),
+            child: tooltipCopy == null
+                ? Icon(
+                    Iconsax.copy,
+                    size: fontSize - 1,
+                  )
+                : Tooltip(
+                    message: tooltipCopy,
+                    child: Icon(
+                      Iconsax.copy,
+                      size: fontSize - 1,
+                    ),
+                  ),
           ),
         ),
         const SizedBox(width: 5),
@@ -107,10 +119,18 @@ class FormatAddressLinkCopy extends ConsumerWidget {
           },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 3),
-            child: Icon(
-              Iconsax.export_3,
-              size: fontSize - 1,
-            ),
+            child: tooltipCopy == null
+                ? Icon(
+                    Iconsax.export_3,
+                    size: fontSize - 1,
+                  )
+                : Tooltip(
+                    message: tooltipLink,
+                    child: Icon(
+                      Iconsax.export_3,
+                      size: fontSize - 1,
+                    ),
+                  ),
           ),
         ),
       ],

@@ -177,5 +177,8 @@
   "poolAddConfirmWithLiquidityLbl": "With liquidity",
   "confirmBeforeLbl": "Before",
   "confirmAfterLbl": "After",
-  "poolCardPoolVerified": "Pool verified"
+  "poolCardPoolVerified": "Pool verified",
+  "localHistoryTooltipLinkToken": "View the Token information in the explorer",
+  "localHistoryTooltipLinkLPToken": "View the LP Token information in the explorer",
+  "localHistoryTooltipLinkPool": "View the pool information in the explorer"
 }

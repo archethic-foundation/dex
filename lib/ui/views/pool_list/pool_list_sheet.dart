@@ -178,6 +178,11 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                       FormatAddressLink(
                                                         address: pool.pair!
                                                             .token1.address!,
+                                                        tooltipLink:
+                                                            AppLocalizations.of(
+                                                          context,
+                                                        )!
+                                                                .localHistoryTooltipLinkToken,
                                                       ),
                                                     const Text(' / '),
                                                     Text(
@@ -192,6 +197,11 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                       FormatAddressLink(
                                                         address: pool.pair!
                                                             .token2.address!,
+                                                        tooltipLink:
+                                                            AppLocalizations.of(
+                                                          context,
+                                                        )!
+                                                                .localHistoryTooltipLinkToken,
                                                       ),
                                                     const SizedBox(
                                                       width: 5,
@@ -267,6 +277,12 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                               pool.poolAddress,
                                                           typeAddress:
                                                               TypeAddress.chain,
+                                                          tooltipLink:
+                                                              AppLocalizations
+                                                                      .of(
+                                                            context,
+                                                          )!
+                                                                  .localHistoryTooltipLinkPool,
                                                         ),
                                                       ],
                                                     ),
@@ -340,6 +356,12 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                                   .value!
                                                                   .lpToken!
                                                                   .address!,
+                                                              tooltipLink:
+                                                                  AppLocalizations
+                                                                          .of(
+                                                                context,
+                                                              )!
+                                                                      .localHistoryTooltipLinkLPToken,
                                                             ),
                                                           ],
                                                         ),
