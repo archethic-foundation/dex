@@ -285,6 +285,12 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                     },
                   ),
                 ],
+              )
+            else
+              const Row(
+                children: [
+                  SwapChange(),
+                ],
               ),
           ],
         ),
