@@ -19,10 +19,10 @@ class WelcomeInfos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width * 0.9;
-    var height = 230.0;
+    var height = 180.0;
     if (Responsive.isDesktop(context) == true) {
       width = MediaQuery.of(context).size.width / 6;
-      height = MediaQuery.of(context).size.height * 0.5;
+      height = MediaQuery.of(context).size.height * 0.4;
     }
 
     return Container(
