@@ -38,10 +38,6 @@ class SwapFormSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DexErrorMessage(failure: swap.failure),
-                      if (swap.poolGenesisAddress.isNotEmpty)
-                        const SizedBox(
-                          height: 10,
-                        ),
                       if (swap.tokenToSwap != null)
                         PoolInfoCard(
                           poolGenesisAddress: swap.poolGenesisAddress,

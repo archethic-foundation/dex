@@ -17,7 +17,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
     if (liquidityRemove.lpTokenAmount <= 0 ||
         liquidityRemove.lpTokenAmount > liquidityRemove.lpTokenBalance) {
-      return const SizedBox(height: 60);
+      return const SizedBox.shrink();
     }
     return SizedBox(
       height: 60,

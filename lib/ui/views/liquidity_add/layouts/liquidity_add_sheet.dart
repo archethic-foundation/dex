@@ -44,7 +44,6 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
     return Align(
       child: Container(
         width: 650,
-        constraints: const BoxConstraints(minHeight: 400, maxHeight: 600),
         decoration: BoxDecoration(
           gradient: DexThemeBase.gradientSheetBackground,
           border: GradientBoxBorder(
@@ -77,7 +76,10 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
             builder: (context, constraint) {
               return ArchethicScrollbar(
                 child: Container(
-                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                  constraints: BoxConstraints(
+                    minHeight: 100,
+                    maxHeight: constraint.maxHeight,
+                  ),
                   child: IntrinsicHeight(
                     child: Column(
                       children: [

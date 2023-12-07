@@ -127,9 +127,6 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DexErrorMessage(failure: liquidityRemove.failure),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       DexButtonValidate(
                         controlOk: liquidityRemove.isControlsOk,
                         icon: Iconsax.wallet_money,

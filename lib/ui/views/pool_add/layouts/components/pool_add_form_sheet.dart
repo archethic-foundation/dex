@@ -65,9 +65,6 @@ class PoolAddFormSheet extends ConsumerWidget {
                         height: 10,
                       ),
                       const PoolAddToken2Amount(),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       DexErrorMessage(failure: poolAdd.failure),
                     ],
                   ),
