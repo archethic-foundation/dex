@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/ui/views/welcome/bloc/providers.dart';
 import 'package:busy/busy.dart';
@@ -100,23 +99,12 @@ class WelcomeConnectWalletBtnState
                       ),
                     ],
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Iconsax.empty_wallet,
-                        color: Theme.of(context).textTheme.labelMedium!.color,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        AppLocalizations.of(context)!.connectionWalletConnect,
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.labelMedium!.color,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    AppLocalizations.of(context)!.connectionWalletConnect,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.labelMedium!.color,
+                      fontSize: 17,
+                    ),
                   ),
                 ).animate(target: _over ? 0 : 1).fade(end: 0.8),
               ),
@@ -138,9 +126,11 @@ class WelcomeConnectWalletBtnState
                 top: 10,
               ),
               child: Text(
+                maxLines: 2,
                 AppLocalizations.of(context)!.welcomeNoWallet,
                 style: Theme.of(context).textTheme.labelLarge,
                 textAlign: TextAlign.center,
+                softWrap: true,
               ),
             ),
           ),

@@ -97,7 +97,7 @@ class SwapSettingsSlippageToleranceState
                   autocorrect: false,
                   controller: slippageToleranceController,
                   focusNode: slippageToleranceFocusNode,
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.center,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.text,
                   inputFormatters: <TextInputFormatter>[
@@ -108,7 +108,7 @@ class SwapSettingsSlippageToleranceState
                   },
                   decoration: const InputDecoration(
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(right: 5, top: -3),
+                    contentPadding: EdgeInsets.only(top: -3),
                   ),
                 ),
               ),

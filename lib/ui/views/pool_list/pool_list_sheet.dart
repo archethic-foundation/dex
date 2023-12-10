@@ -16,6 +16,7 @@ import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -47,6 +48,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   padding: const EdgeInsets.only(top: 20),
@@ -56,7 +58,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                   scrollDirection: Axis.horizontal,
                   child: SizedBox(
                     width: 900,
-                    height: MediaQuery.of(context).size.height - 100,
+                    height: MediaQuery.of(context).size.height - 160,
                     child: ArchethicScrollbar(
                       child: dexPools.map(
                         data: (pools) {
@@ -578,7 +580,9 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(20),
+          padding: Responsive.isMobile(context)
+              ? const EdgeInsets.only(left: 20, right: 20, bottom: 80)
+              : const EdgeInsets.all(20),
           child: FloatingActionButton.extended(
             onPressed: () {
               ref
