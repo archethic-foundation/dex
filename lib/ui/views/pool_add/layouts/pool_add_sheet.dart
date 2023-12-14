@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
@@ -10,13 +11,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
-class PoolAddSheet extends ConsumerWidget {
+class PoolAddSheet extends ConsumerStatefulWidget {
   const PoolAddSheet({
+    this.token1,
+    this.token2,
     super.key,
   });
 
+  final DexToken? token1;
+  final DexToken? token2;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PoolAddSheet> createState() => _PoolAddSheetState();
+}
+
+class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
+  @override
+  void initState() {
+    if (widget.token1 != null && widget.token2 != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(PoolAddFormProvider.poolAddForm.notifier)
+          ..setToken1(widget.token1!)
+          ..setToken2(widget.token2!);
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
     return Align(
       child: Container(

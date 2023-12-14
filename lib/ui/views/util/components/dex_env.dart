@@ -35,7 +35,7 @@ class DexEnv extends ConsumerWidget {
         ),
         const SizedBox(width: 5),
         const Padding(
-          padding: const EdgeInsets.only(bottom: 2),
+          padding: EdgeInsets.only(bottom: 2),
           child: Icon(
             Iconsax.arrow_down_1,
             size: 18,

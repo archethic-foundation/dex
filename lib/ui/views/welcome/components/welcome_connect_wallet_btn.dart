@@ -17,8 +17,6 @@ class WelcomeConnectWalletBtn extends ConsumerStatefulWidget {
   WelcomeConnectWalletBtnState createState() => WelcomeConnectWalletBtnState();
 }
 
-var _over = false;
-
 class WelcomeConnectWalletBtnState
     extends ConsumerState<WelcomeConnectWalletBtn> {
   @override

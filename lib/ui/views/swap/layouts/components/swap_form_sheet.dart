@@ -1,3 +1,6 @@
+import 'package:aedex/application/main_screen_widget_displayed.dart';
+import 'package:aedex/domain/models/failures.dart';
+import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swapped_amount.dart';
@@ -38,6 +41,30 @@ class SwapFormSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DexErrorMessage(failure: swap.failure),
+                      if (swap.failure is PoolNotExists &&
+                          swap.tokenToSwap != null &&
+                          swap.tokenSwapped != null &&
+                          swap.tokenToSwap!.address !=
+                              swap.tokenSwapped!.address)
+                        TextButton.icon(
+                          label: const Text('Create this pool'),
+                          onPressed: () {
+                            ref
+                                .read(
+                                  MainScreenWidgetDisplayedProviders
+                                      .mainScreenWidgetDisplayedProvider
+                                      .notifier,
+                                )
+                                .setWidget(
+                                  PoolAddSheet(
+                                    token1: swap.tokenToSwap,
+                                    token2: swap.tokenSwapped,
+                                  ),
+                                  ref,
+                                );
+                          },
+                          icon: const Icon(Icons.add),
+                        ),
                       if (swap.tokenToSwap != null)
                         PoolInfoCard(
                           poolGenesisAddress: swap.poolGenesisAddress,
