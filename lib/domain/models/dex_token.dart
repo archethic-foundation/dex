@@ -13,6 +13,7 @@ class DexToken with _$DexToken {
     @Default(0.0) double balance,
     @Default(0.0) double reserve,
     @Default(0.0) double supply,
+    @Default(false) bool verified,
   }) = _DexToken;
   const DexToken._();
 

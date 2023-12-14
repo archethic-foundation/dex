@@ -129,7 +129,7 @@ class PoolInfoCard extends ConsumerWidget {
                         height: 10,
                       ),
                       VerifiedPoolIcon(
-                        address: pool.poolAddress,
+                        isVerified: pool.isVerified,
                         withLabel: true,
                       ),
                     ],

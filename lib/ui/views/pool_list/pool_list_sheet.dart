@@ -209,7 +209,8 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                       width: 5,
                                                     ),
                                                     VerifiedPoolIcon(
-                                                      address: pool.poolAddress,
+                                                      isVerified:
+                                                          pool.isVerified,
                                                     ),
                                                   ],
                                                 ),

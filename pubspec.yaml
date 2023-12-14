@@ -114,7 +114,6 @@ flutter:
     - lib/domain/repositories/config.json
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens/verified_tokens.json
-    - lib/domain/repositories/pools/verified_pools.json
 
   fonts:
     - family: Roboto

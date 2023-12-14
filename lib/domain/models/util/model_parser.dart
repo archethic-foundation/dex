@@ -1,3 +1,4 @@
+import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -81,18 +82,27 @@ mixin ModelParser {
           tokenResultMap[getPoolInfosResponse.lpToken.address]!.symbol!;
     }
 
+    final token1Verified = await VerifiedTokensRepository().isVerifiedToken(
+      getPoolInfosResponse.token1.address.toUpperCase().toUpperCase(),
+    );
+    final token2Verified = await VerifiedTokensRepository().isVerifiedToken(
+      getPoolInfosResponse.token2.address.toUpperCase().toUpperCase(),
+    );
+
     final dexPair = DexPair(
       token1: DexToken(
         address: getPoolInfosResponse.token1.address.toUpperCase(),
         name: token1Name,
         symbol: token1Symbol,
         reserve: getPoolInfosResponse.token1.reserve,
+        verified: token1Verified,
       ),
       token2: DexToken(
         address: getPoolInfosResponse.token2.address.toUpperCase(),
         name: token2Name,
         symbol: token2Symbol,
         reserve: getPoolInfosResponse.token2.reserve,
+        verified: token2Verified,
       ),
     );
 
@@ -177,16 +187,23 @@ mixin ModelParser {
           tokenResultMap[getPoolListResponse.lpTokenAddress]!.symbol!;
     }
 
+    final token1Verified = await VerifiedTokensRepository()
+        .isVerifiedToken(tokens[0].toUpperCase());
+    final token2Verified = await VerifiedTokensRepository()
+        .isVerifiedToken(tokens[1].toUpperCase());
+
     final dexPair = DexPair(
       token1: DexToken(
         address: tokens[0].toUpperCase(),
         name: token1Name,
         symbol: token1Symbol,
+        verified: token1Verified,
       ),
       token2: DexToken(
         address: tokens[1].toUpperCase(),
         name: token2Name,
         symbol: token2Symbol,
+        verified: token2Verified,
       ),
     );
 

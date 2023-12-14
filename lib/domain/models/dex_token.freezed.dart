@@ -23,6 +23,7 @@ mixin _$DexToken {
   double get balance => throw _privateConstructorUsedError;
   double get reserve => throw _privateConstructorUsedError;
   double get supply => throw _privateConstructorUsedError;
+  bool get verified => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexTokenCopyWith<DexToken> get copyWith =>
@@ -41,7 +42,8 @@ abstract class $DexTokenCopyWith<$Res> {
       String symbol,
       double balance,
       double reserve,
-      double supply});
+      double supply,
+      bool verified});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
     Object? balance = null,
     Object? reserve = null,
     Object? supply = null,
+    Object? verified = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -94,6 +97,10 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
           ? _value.supply
           : supply // ignore: cast_nullable_to_non_nullable
               as double,
+      verified: null == verified
+          ? _value.verified
+          : verified // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -113,7 +120,8 @@ abstract class _$$DexTokenImplCopyWith<$Res>
       String symbol,
       double balance,
       double reserve,
-      double supply});
+      double supply,
+      bool verified});
 }
 
 /// @nodoc
@@ -134,6 +142,7 @@ class __$$DexTokenImplCopyWithImpl<$Res>
     Object? balance = null,
     Object? reserve = null,
     Object? supply = null,
+    Object? verified = null,
   }) {
     return _then(_$DexTokenImpl(
       name: null == name
@@ -164,6 +173,10 @@ class __$$DexTokenImplCopyWithImpl<$Res>
           ? _value.supply
           : supply // ignore: cast_nullable_to_non_nullable
               as double,
+      verified: null == verified
+          ? _value.verified
+          : verified // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -178,7 +191,8 @@ class _$DexTokenImpl extends _DexToken {
       this.symbol = '',
       this.balance = 0.0,
       this.reserve = 0.0,
-      this.supply = 0.0})
+      this.supply = 0.0,
+      this.verified = false})
       : super._();
 
   @override
@@ -200,10 +214,13 @@ class _$DexTokenImpl extends _DexToken {
   @override
   @JsonKey()
   final double supply;
+  @override
+  @JsonKey()
+  final bool verified;
 
   @override
   String toString() {
-    return 'DexToken(name: $name, address: $address, icon: $icon, symbol: $symbol, balance: $balance, reserve: $reserve, supply: $supply)';
+    return 'DexToken(name: $name, address: $address, icon: $icon, symbol: $symbol, balance: $balance, reserve: $reserve, supply: $supply, verified: $verified)';
   }
 
   @override
@@ -217,12 +234,14 @@ class _$DexTokenImpl extends _DexToken {
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.reserve, reserve) || other.reserve == reserve) &&
-            (identical(other.supply, supply) || other.supply == supply));
+            (identical(other.supply, supply) || other.supply == supply) &&
+            (identical(other.verified, verified) ||
+                other.verified == verified));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, name, address, icon, symbol, balance, reserve, supply);
+  int get hashCode => Object.hash(runtimeType, name, address, icon, symbol,
+      balance, reserve, supply, verified);
 
   @JsonKey(ignore: true)
   @override
@@ -239,7 +258,8 @@ abstract class _DexToken extends DexToken {
       final String symbol,
       final double balance,
       final double reserve,
-      final double supply}) = _$DexTokenImpl;
+      final double supply,
+      final bool verified}) = _$DexTokenImpl;
   const _DexToken._() : super._();
 
   @override
@@ -256,6 +276,8 @@ abstract class _DexToken extends DexToken {
   double get reserve;
   @override
   double get supply;
+  @override
+  bool get verified;
   @override
   @JsonKey(ignore: true)
   _$$DexTokenImplCopyWith<_$DexTokenImpl> get copyWith =>

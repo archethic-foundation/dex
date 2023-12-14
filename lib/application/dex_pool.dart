@@ -2,7 +2,6 @@
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
-import 'package:aedex/application/verified_pools.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -54,16 +53,11 @@ class DexPoolsRepository {
     await resultPoolList.map(
       success: (poolList) async {
         for (final pool in poolList) {
-          var dexPool = pool;
-          final isVerified = await ref.read(
-            VerifiedPoolsProviders.isVerifiedPool(dexPool.poolAddress).future,
-          );
-          dexPool = dexPool.copyWith(verified: isVerified);
-          if (onlyVerified && isVerified == true) {
-            dexPools.add(dexPool);
+          if (onlyVerified && pool.isVerified == true) {
+            dexPools.add(pool);
           } else {
             if (onlyVerified == false) {
-              dexPools.add(dexPool);
+              dexPools.add(pool);
             }
           }
         }
@@ -72,8 +66,8 @@ class DexPoolsRepository {
     );
 
     dexPools.sort((a, b) {
-      if (a.verified == b.verified) return 0;
-      return a.verified ? -1 : 1;
+      if (a.isVerified == b.isVerified) return 0;
+      return a.isVerified ? -1 : 1;
     });
 
     return dexPools;
