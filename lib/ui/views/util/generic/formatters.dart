@@ -211,4 +211,10 @@ extension StringNumberExt on String {
     }
     return resultBuilder.toString();
   }
+
+  String compactNumber() {
+    final f = NumberFormat.compact();
+    final doubleNumber = double.tryParse(this) ?? 0;
+    return f.format(doubleNumber);
+  }
 }

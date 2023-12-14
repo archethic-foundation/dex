@@ -1,8 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/market.dart';
+import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +38,51 @@ Future<DexPool?> _getPoolInfos(
   return ref
       .watch(_dexPoolsRepositoryProvider)
       .getPoolInfos(poolGenesisAddress);
+}
+
+@riverpod
+Future<double> _estimateTokenInFiat(
+  _EstimateTokenInFiatRef ref,
+  DexToken token,
+) async {
+  var fiatValue = 0.0;
+  if (token.symbol == 'UCO') {
+    final archethicOracleUCO =
+        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+
+    fiatValue = archethicOracleUCO.usd;
+  } else {
+    final price = await ref
+        .watch(MarketProviders.getPriceFromSymbol(token.symbol).future);
+
+    fiatValue = price;
+  }
+  return fiatValue;
+}
+
+@riverpod
+Future<double> _estimatePoolTVLInFiat(
+  _EstimatePoolTVLInFiatRef ref,
+  DexPool pool,
+) async {
+  var fiatValue = 0.0;
+  var tvl = 0.0;
+  fiatValue = await ref
+      .watch(DexPoolProviders.estimateTokenInFiat(pool.pair!.token1).future);
+
+  if (fiatValue > 0) {
+    tvl = pool.pair!.token1.reserve * fiatValue * 2;
+  }
+
+  if (fiatValue > 0) {
+    fiatValue = await ref
+        .watch(DexPoolProviders.estimateTokenInFiat(pool.pair!.token2).future);
+    if (fiatValue > 0) {
+      tvl = pool.pair!.token2.reserve * fiatValue * 2;
+    }
+  }
+
+  return tvl;
 }
 
 class DexPoolsRepository {
@@ -95,4 +143,6 @@ class DexPoolsRepository {
 abstract class DexPoolProviders {
   static const getPoolList = _getPoolListProvider;
   static const getPoolInfos = _getPoolInfosProvider;
+  static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
+  static const estimateTokenInFiat = _estimateTokenInFiatProvider;
 }

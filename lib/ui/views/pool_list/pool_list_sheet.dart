@@ -94,7 +94,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                 label: Expanded(
                                   child: Text(
                                     AppLocalizations.of(context)!
-                                        .poolListHeaderLPTokenSupply,
+                                        .poolListHeaderTVL,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -328,49 +328,58 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                 right: 20,
                                               ),
                                               child: dexPoolInfo.map(
-                                                data: (data) {
-                                                  return SizedBox(
-                                                    width: 150,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .end,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            Text(
-                                                              data
-                                                                  .value!
-                                                                  .lpToken!
-                                                                  .supply
-                                                                  .formatNumber(),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            FormatAddressLink(
-                                                              address: data
-                                                                  .value!
-                                                                  .lpToken!
-                                                                  .address!,
-                                                              tooltipLink:
-                                                                  AppLocalizations
-                                                                          .of(
-                                                                context,
-                                                              )!
-                                                                      .localHistoryTooltipLinkLPToken,
-                                                            ),
-                                                          ],
+                                                data: (poolInfo) {
+                                                  return ref
+                                                      .watch(
+                                                        DexPoolProviders
+                                                            .estimatePoolTVLInFiat(
+                                                          poolInfo.value!,
                                                         ),
-                                                      ],
-                                                    ),
-                                                  );
+                                                      )
+                                                      .map(
+                                                        data:
+                                                            (estimatePoolValorisationInFiat) {
+                                                          return SizedBox(
+                                                            width: 150,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .end,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Text(
+                                                                      '\$${estimatePoolValorisationInFiat.value.formatNumber()}',
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                        error: (error) =>
+                                                            const SizedBox(
+                                                          width: 150,
+                                                        ),
+                                                        loading: (loading) =>
+                                                            SizedBox(
+                                                          width: 150,
+                                                          child: Shimmer(
+                                                            gradient: DexThemeBase
+                                                                .gradientShimmer,
+                                                            child:
+                                                                const TitlePlaceholder(
+                                                              width: 150,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
                                                 },
                                                 error: (error) =>
                                                     const SizedBox(width: 150),
@@ -409,7 +418,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                   );
                                                 },
                                                 error: (error) =>
-                                                    const SizedBox(width: 50),
+                                                    const Text('Error'),
                                                 loading: (loading) => SizedBox(
                                                   width: 50,
                                                   child: Shimmer(
@@ -467,45 +476,43 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                   ),
                                                 ),
                                                 Align(
-                                                  child:
-                                                      pool.lpToken!.reserve <
-                                                              0.0000001
-                                                          ? const SizedBox(
-                                                              width: 50,
-                                                            )
-                                                          : SizedBox(
-                                                              width: 50,
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      ref
-                                                                          .read(
-                                                                            MainScreenWidgetDisplayedProviders.mainScreenWidgetDisplayedProvider.notifier,
-                                                                          )
-                                                                          .setWidget(
-                                                                            LiquidityRemoveSheet(
-                                                                              poolGenesisAddress: pool.poolAddress,
-                                                                              lpToken: pool.lpToken!,
-                                                                              pair: pool.pair!,
-                                                                            ),
-                                                                            ref,
-                                                                          );
-                                                                    },
-                                                                    child:
-                                                                        const IconAnimated(
-                                                                      icon: Iconsax
-                                                                          .wallet_minus,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
+                                                  child: SizedBox(
+                                                    width: 50,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            ref
+                                                                .read(
+                                                                  MainScreenWidgetDisplayedProviders
+                                                                      .mainScreenWidgetDisplayedProvider
+                                                                      .notifier,
+                                                                )
+                                                                .setWidget(
+                                                                  LiquidityRemoveSheet(
+                                                                    poolGenesisAddress:
+                                                                        pool.poolAddress,
+                                                                    lpToken: pool
+                                                                        .lpToken!,
+                                                                    pair: pool
+                                                                        .pair!,
                                                                   ),
-                                                                ],
-                                                              ),
-                                                            ),
+                                                                  ref,
+                                                                );
+                                                          },
+                                                          child:
+                                                              const IconAnimated(
+                                                            icon: Iconsax
+                                                                .wallet_minus,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),

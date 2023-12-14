@@ -302,5 +302,265 @@ class _GetPoolInfosProviderElement
   String get poolGenesisAddress =>
       (origin as _GetPoolInfosProvider).poolGenesisAddress;
 }
+
+String _$estimateTokenInFiatHash() =>
+    r'9a71209573d9ea2867e12de00d6309c7a4165fa9';
+
+/// See also [_estimateTokenInFiat].
+@ProviderFor(_estimateTokenInFiat)
+const _estimateTokenInFiatProvider = _EstimateTokenInFiatFamily();
+
+/// See also [_estimateTokenInFiat].
+class _EstimateTokenInFiatFamily extends Family<AsyncValue<double>> {
+  /// See also [_estimateTokenInFiat].
+  const _EstimateTokenInFiatFamily();
+
+  /// See also [_estimateTokenInFiat].
+  _EstimateTokenInFiatProvider call(
+    DexToken token,
+  ) {
+    return _EstimateTokenInFiatProvider(
+      token,
+    );
+  }
+
+  @override
+  _EstimateTokenInFiatProvider getProviderOverride(
+    covariant _EstimateTokenInFiatProvider provider,
+  ) {
+    return call(
+      provider.token,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_estimateTokenInFiatProvider';
+}
+
+/// See also [_estimateTokenInFiat].
+class _EstimateTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
+  /// See also [_estimateTokenInFiat].
+  _EstimateTokenInFiatProvider(
+    DexToken token,
+  ) : this._internal(
+          (ref) => _estimateTokenInFiat(
+            ref as _EstimateTokenInFiatRef,
+            token,
+          ),
+          from: _estimateTokenInFiatProvider,
+          name: r'_estimateTokenInFiatProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$estimateTokenInFiatHash,
+          dependencies: _EstimateTokenInFiatFamily._dependencies,
+          allTransitiveDependencies:
+              _EstimateTokenInFiatFamily._allTransitiveDependencies,
+          token: token,
+        );
+
+  _EstimateTokenInFiatProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.token,
+  }) : super.internal();
+
+  final DexToken token;
+
+  @override
+  Override overrideWith(
+    FutureOr<double> Function(_EstimateTokenInFiatRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _EstimateTokenInFiatProvider._internal(
+        (ref) => create(ref as _EstimateTokenInFiatRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        token: token,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<double> createElement() {
+    return _EstimateTokenInFiatProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _EstimateTokenInFiatProvider && other.token == token;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, token.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _EstimateTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
+  /// The parameter `token` of this provider.
+  DexToken get token;
+}
+
+class _EstimateTokenInFiatProviderElement
+    extends AutoDisposeFutureProviderElement<double>
+    with _EstimateTokenInFiatRef {
+  _EstimateTokenInFiatProviderElement(super.provider);
+
+  @override
+  DexToken get token => (origin as _EstimateTokenInFiatProvider).token;
+}
+
+String _$estimatePoolTVLInFiatHash() =>
+    r'16f9ede2559a5baceead16001cce113ddd1887b4';
+
+/// See also [_estimatePoolTVLInFiat].
+@ProviderFor(_estimatePoolTVLInFiat)
+const _estimatePoolTVLInFiatProvider = _EstimatePoolTVLInFiatFamily();
+
+/// See also [_estimatePoolTVLInFiat].
+class _EstimatePoolTVLInFiatFamily extends Family<AsyncValue<double>> {
+  /// See also [_estimatePoolTVLInFiat].
+  const _EstimatePoolTVLInFiatFamily();
+
+  /// See also [_estimatePoolTVLInFiat].
+  _EstimatePoolTVLInFiatProvider call(
+    DexPool pool,
+  ) {
+    return _EstimatePoolTVLInFiatProvider(
+      pool,
+    );
+  }
+
+  @override
+  _EstimatePoolTVLInFiatProvider getProviderOverride(
+    covariant _EstimatePoolTVLInFiatProvider provider,
+  ) {
+    return call(
+      provider.pool,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_estimatePoolTVLInFiatProvider';
+}
+
+/// See also [_estimatePoolTVLInFiat].
+class _EstimatePoolTVLInFiatProvider extends AutoDisposeFutureProvider<double> {
+  /// See also [_estimatePoolTVLInFiat].
+  _EstimatePoolTVLInFiatProvider(
+    DexPool pool,
+  ) : this._internal(
+          (ref) => _estimatePoolTVLInFiat(
+            ref as _EstimatePoolTVLInFiatRef,
+            pool,
+          ),
+          from: _estimatePoolTVLInFiatProvider,
+          name: r'_estimatePoolTVLInFiatProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$estimatePoolTVLInFiatHash,
+          dependencies: _EstimatePoolTVLInFiatFamily._dependencies,
+          allTransitiveDependencies:
+              _EstimatePoolTVLInFiatFamily._allTransitiveDependencies,
+          pool: pool,
+        );
+
+  _EstimatePoolTVLInFiatProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.pool,
+  }) : super.internal();
+
+  final DexPool pool;
+
+  @override
+  Override overrideWith(
+    FutureOr<double> Function(_EstimatePoolTVLInFiatRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _EstimatePoolTVLInFiatProvider._internal(
+        (ref) => create(ref as _EstimatePoolTVLInFiatRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        pool: pool,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<double> createElement() {
+    return _EstimatePoolTVLInFiatProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _EstimatePoolTVLInFiatProvider && other.pool == pool;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, pool.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _EstimatePoolTVLInFiatRef on AutoDisposeFutureProviderRef<double> {
+  /// The parameter `pool` of this provider.
+  DexPool get pool;
+}
+
+class _EstimatePoolTVLInFiatProviderElement
+    extends AutoDisposeFutureProviderElement<double>
+    with _EstimatePoolTVLInFiatRef {
+  _EstimatePoolTVLInFiatProviderElement(super.provider);
+
+  @override
+  DexPool get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
