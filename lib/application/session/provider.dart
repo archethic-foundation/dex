@@ -38,16 +38,18 @@ class _SessionNotifier extends Notifier<Session> {
       ..invalidate(DexPoolProviders.getPoolList);
   }
 
-  void connectEndpoint() {
+  void connectEndpoint(String env) {
     state = state.copyWith(
+      envSelected: env,
       isConnected: false,
       error: '',
-      endpoint: EndpointUtil.getEnvironnementUrl('testnet'),
+      endpoint: EndpointUtil.getEnvironnementUrl(env),
     );
     if (sl.isRegistered<ApiService>()) {
       sl.unregister<ApiService>();
     }
     setupServiceLocatorApiService(state.endpoint);
+    invalidateInfos();
   }
 
   Future<void> connectToWallet() async {
@@ -166,6 +168,7 @@ class _SessionNotifier extends Notifier<Session> {
                 accountSub: success,
                 error: '',
                 isConnected: true,
+                envSelected: EndpointUtil.getEnvironnement(),
                 accountStreamSub: success.updates.listen((event) {
                   if (event.name.isEmpty && event.genesisAddress.isEmpty) {
                     state = state.copyWith(
@@ -226,6 +229,9 @@ class _SessionNotifier extends Notifier<Session> {
       nameAccount: '',
       genesisAddress: '',
     );
+
+    connectEndpoint(state.envSelected);
+    invalidateInfos();
   }
 }
 

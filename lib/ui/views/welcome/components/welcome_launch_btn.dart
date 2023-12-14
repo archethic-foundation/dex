@@ -57,7 +57,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                       if (session.isConnected == false) {
                         ref
                             .read(SessionProviders.session.notifier)
-                            .connectEndpoint();
+                            .connectEndpoint(session.envSelected);
                       }
 
                       if (!context.mounted) return;

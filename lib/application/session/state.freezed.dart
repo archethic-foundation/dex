@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Session {
+  String get envSelected => throw _privateConstructorUsedError;
   String get endpoint => throw _privateConstructorUsedError;
   String get nameAccount => throw _privateConstructorUsedError;
   String get oldNameAccount => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $SessionCopyWith<$Res> {
       _$SessionCopyWithImpl<$Res, Session>;
   @useResult
   $Res call(
-      {String endpoint,
+      {String envSelected,
+      String endpoint,
       String nameAccount,
       String oldNameAccount,
       String genesisAddress,
@@ -61,6 +63,7 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? envSelected = null,
     Object? endpoint = null,
     Object? nameAccount = null,
     Object? oldNameAccount = null,
@@ -71,6 +74,10 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
     Object? accountStreamSub = freezed,
   }) {
     return _then(_value.copyWith(
+      envSelected: null == envSelected
+          ? _value.envSelected
+          : envSelected // ignore: cast_nullable_to_non_nullable
+              as String,
       endpoint: null == endpoint
           ? _value.endpoint
           : endpoint // ignore: cast_nullable_to_non_nullable
@@ -127,7 +134,8 @@ abstract class _$$SessionImplCopyWith<$Res> implements $SessionCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String endpoint,
+      {String envSelected,
+      String endpoint,
       String nameAccount,
       String oldNameAccount,
       String genesisAddress,
@@ -151,6 +159,7 @@ class __$$SessionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? envSelected = null,
     Object? endpoint = null,
     Object? nameAccount = null,
     Object? oldNameAccount = null,
@@ -161,6 +170,10 @@ class __$$SessionImplCopyWithImpl<$Res>
     Object? accountStreamSub = freezed,
   }) {
     return _then(_$SessionImpl(
+      envSelected: null == envSelected
+          ? _value.envSelected
+          : envSelected // ignore: cast_nullable_to_non_nullable
+              as String,
       endpoint: null == endpoint
           ? _value.endpoint
           : endpoint // ignore: cast_nullable_to_non_nullable
@@ -201,7 +214,8 @@ class __$$SessionImplCopyWithImpl<$Res>
 
 class _$SessionImpl extends _Session {
   const _$SessionImpl(
-      {this.endpoint = '',
+      {this.envSelected = 'testnet',
+      this.endpoint = '',
       this.nameAccount = '',
       this.oldNameAccount = '',
       this.genesisAddress = '',
@@ -211,6 +225,9 @@ class _$SessionImpl extends _Session {
       this.accountStreamSub})
       : super._();
 
+  @override
+  @JsonKey()
+  final String envSelected;
   @override
   @JsonKey()
   final String endpoint;
@@ -236,7 +253,7 @@ class _$SessionImpl extends _Session {
 
   @override
   String toString() {
-    return 'Session(endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
+    return 'Session(envSelected: $envSelected, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
   }
 
   @override
@@ -244,6 +261,8 @@ class _$SessionImpl extends _Session {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SessionImpl &&
+            (identical(other.envSelected, envSelected) ||
+                other.envSelected == envSelected) &&
             (identical(other.endpoint, endpoint) ||
                 other.endpoint == endpoint) &&
             (identical(other.nameAccount, nameAccount) ||
@@ -264,6 +283,7 @@ class _$SessionImpl extends _Session {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      envSelected,
       endpoint,
       nameAccount,
       oldNameAccount,
@@ -282,7 +302,8 @@ class _$SessionImpl extends _Session {
 
 abstract class _Session extends Session {
   const factory _Session(
-      {final String endpoint,
+      {final String envSelected,
+      final String endpoint,
       final String nameAccount,
       final String oldNameAccount,
       final String genesisAddress,
@@ -292,6 +313,8 @@ abstract class _Session extends Session {
       final StreamSubscription<Account>? accountStreamSub}) = _$SessionImpl;
   const _Session._() : super._();
 
+  @override
+  String get envSelected;
   @override
   String get endpoint;
   @override

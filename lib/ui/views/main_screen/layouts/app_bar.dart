@@ -415,7 +415,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                                                 await sessionNotifier
                                                     .cancelConnection();
                                                 if (!context.mounted) return;
-                                                context.go('/welcome');
+                                                context.pop();
                                               },
                                             ),
                                           ],
