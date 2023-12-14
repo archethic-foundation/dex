@@ -127,33 +127,40 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DexErrorMessage(failure: liquidityRemove.failure),
-                      DexButtonValidate(
-                        controlOk: liquidityRemove.isControlsOk,
-                        icon: Iconsax.wallet_money,
-                        labelBtn:
-                            AppLocalizations.of(context)!.btn_liquidity_remove,
-                        onPressed: () => ref
-                            .read(
-                              LiquidityRemoveFormProvider
-                                  .liquidityRemoveForm.notifier,
-                            )
-                            .validateForm(context),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      DexButtonClose(
-                        onPressed: () {
-                          ref
-                              .read(
-                                MainScreenWidgetDisplayedProviders
-                                    .mainScreenWidgetDisplayedProvider.notifier,
-                              )
-                              .setWidget(
-                                const PoolListSheet(),
-                                ref,
-                              );
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: DexButtonValidate(
+                              controlOk: liquidityRemove.isControlsOk,
+                              icon: Iconsax.wallet_money,
+                              labelBtn: AppLocalizations.of(context)!
+                                  .btn_liquidity_remove,
+                              onPressed: () => ref
+                                  .read(
+                                    LiquidityRemoveFormProvider
+                                        .liquidityRemoveForm.notifier,
+                                  )
+                                  .validateForm(context),
+                            ),
+                          ),
+                          Expanded(
+                            child: DexButtonClose(
+                              onPressed: () {
+                                ref
+                                    .read(
+                                      MainScreenWidgetDisplayedProviders
+                                          .mainScreenWidgetDisplayedProvider
+                                          .notifier,
+                                    )
+                                    .setWidget(
+                                      const PoolListSheet(),
+                                      ref,
+                                    );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
