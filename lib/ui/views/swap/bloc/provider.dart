@@ -33,7 +33,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double outputAmount,
         double fees,
         double priceImpact,
-        double minToReceive
       })>? _calculateSwapInfosTask;
 
   Future<void> setTokenToSwap(
@@ -91,7 +90,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double outputAmount,
         double fees,
         double priceImpact,
-        double minToReceive
       })> _calculateSwapInfos(
     String tokenAddress,
     double amount, {
@@ -102,7 +100,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         outputAmount: 0.0,
         fees: 0.0,
         priceImpact: 0.0,
-        minToReceive: 0.0,
       );
     }
     final apiService = sl.get<ApiService>();
@@ -110,7 +107,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       double fees,
       double outputAmount,
       double priceImpact,
-      double minToReceive,
     }) result;
     try {
       result = await Future<
@@ -118,7 +114,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             double outputAmount,
             double fees,
             double priceImpact,
-            double minToReceive,
           })>(
         () async {
           if (amount <= 0) {
@@ -126,7 +121,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               outputAmount: 0.0,
               fees: 0.0,
               priceImpact: 0.0,
-              minToReceive: 0.0,
             );
           }
 
@@ -136,13 +130,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 double outputAmount,
                 double fees,
                 double priceImpact,
-                double minToReceive,
               })>(
             task: () async {
               var _outputAmount = 0.0;
               var _fees = 0.0;
               var _priceImpact = 0.0;
-              var _minToReceive = 0.0;
+
               final getSwapInfosResult = await PoolFactory(
                 state.poolGenesisAddress,
                 apiService,
@@ -154,14 +147,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                     _outputAmount = success['output_amount'] ?? 0;
                     _fees = success['fee'] ?? 0;
                     _priceImpact = success['price_impact'] ?? 0;
-                    _minToReceive = (Decimal.parse(_outputAmount.toString()) *
-                            (((Decimal.parse('100') -
-                                        Decimal.parse(
-                                          state.slippageTolerance.toString(),
-                                        )) /
-                                    Decimal.parse('100'))
-                                .toDecimal()))
-                        .toDouble();
                   }
                 },
                 failure: (failure) {
@@ -176,7 +161,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 outputAmount: _outputAmount,
                 fees: _fees,
                 priceImpact: _priceImpact,
-                minToReceive: _minToReceive,
               );
             },
           );
@@ -187,7 +171,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             outputAmount: __result == null ? 0.0 : __result.outputAmount,
             fees: __result == null ? 0.0 : __result.fees,
             priceImpact: __result == null ? 0.0 : __result.priceImpact,
-            minToReceive: __result == null ? 0.0 : __result.minToReceive,
           );
         },
       );
@@ -196,14 +179,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         outputAmount: 0.0,
         fees: 0.0,
         priceImpact: 0.0,
-        minToReceive: 0.0,
       );
     }
     return (
       outputAmount: result.outputAmount,
       fees: result.fees,
       priceImpact: result.priceImpact,
-      minToReceive: result.minToReceive,
     );
   }
 
@@ -222,11 +203,21 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       tokenToSwapAmount,
     );
+
+    final minToReceive = (Decimal.parse(swapInfos.outputAmount.toString()) *
+            (((Decimal.parse('100') -
+                        Decimal.parse(
+                          state.slippageTolerance.toString(),
+                        )) /
+                    Decimal.parse('100'))
+                .toDecimal()))
+        .toDouble();
+
     state = state.copyWith(
       tokenSwappedAmount: swapInfos.outputAmount,
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
-      minToReceive: swapInfos.minToReceive,
+      minToReceive: minToReceive,
     );
   }
 
@@ -245,11 +236,21 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
       tokenSwappedAmount,
     );
+
+    final minToReceive = (Decimal.parse(tokenSwappedAmount.toString()) *
+            (((Decimal.parse('100') -
+                        Decimal.parse(
+                          state.slippageTolerance.toString(),
+                        )) /
+                    Decimal.parse('100'))
+                .toDecimal()))
+        .toDouble();
+
     state = state.copyWith(
       tokenToSwapAmount: swapInfos.outputAmount,
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
-      minToReceive: swapInfos.minToReceive,
+      minToReceive: minToReceive,
     );
   }
 
@@ -378,11 +379,21 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       state.tokenToSwapAmount,
     );
+
+    final minToReceive = (Decimal.parse(swapInfos.outputAmount.toString()) *
+            (((Decimal.parse('100') -
+                        Decimal.parse(
+                          state.slippageTolerance.toString(),
+                        )) /
+                    Decimal.parse('100'))
+                .toDecimal()))
+        .toDouble();
+
     state = state.copyWith(
       tokenSwappedAmount: swapInfos.outputAmount,
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
-      minToReceive: swapInfos.minToReceive,
+      minToReceive: minToReceive,
     );
   }
 
