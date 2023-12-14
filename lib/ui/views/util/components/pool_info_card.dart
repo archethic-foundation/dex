@@ -28,8 +28,10 @@ class PoolInfoCard extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    const cardHeight = 180.0;
+
     if (poolGenesisAddress.isEmpty) {
-      return const SizedBox.shrink();
+      return const SizedBox(height: cardHeight);
     }
 
     return FutureBuilder<DexPool?>(
@@ -39,9 +41,10 @@ class PoolInfoCard extends ConsumerWidget {
         if (snapshot.hasData) {
           final pool = snapshot.data;
           if (pool == null) {
-            return const SizedBox.shrink();
+            return const SizedBox(height: cardHeight);
           }
-          return DecoratedBox(
+          return Container(
+            height: cardHeight,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               image: DecorationImage(
@@ -249,7 +252,7 @@ class PoolInfoCard extends ConsumerWidget {
               .fade(duration: const Duration(milliseconds: 200))
               .scale(duration: const Duration(milliseconds: 200));
         }
-        return const SizedBox.shrink();
+        return const SizedBox(height: cardHeight);
       },
     );
   }
