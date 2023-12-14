@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
+import 'package:aedex/ui/views/welcome/components/welcome_connect_wallet_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,16 +21,12 @@ class DexButtonValidate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (controlOk == false) {
-      return AppButton(
-        labelBtn: labelBtn,
-        icon: icon,
-        disabled: true,
-      );
-    }
-
     final session = ref.watch(SessionProviders.session);
     if (session.isConnected == false) {
+      return const WelcomeConnectWalletBtn();
+    }
+
+    if (controlOk == false) {
       return AppButton(
         labelBtn: labelBtn,
         icon: icon,

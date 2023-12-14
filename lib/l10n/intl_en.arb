@@ -15,6 +15,7 @@
   "settingsTitle": "Settings",
   "connectionWalletDisconnect": "Disconnect wallet",
   "connectionWalletConnect": "Connect your wallet",
+  "launch": "Launch",
   "btn_connect_wallet": "Connect wallet",
   "confirmationPopupTitle": "Confirmation Request",
   "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallet\nand exit the application?",

@@ -13,4 +13,28 @@ class EndpointUtil {
         return 'devnet';
     }
   }
+
+  static String getEnvironnementUrl(String env) {
+    switch (env) {
+      case 'testnet':
+        return 'https://testnet.archethic.net';
+      case 'mainnet':
+        return 'https://mainnet.archethic.net';
+      default:
+        return 'localhost:4000';
+    }
+  }
+
+  static String getEnvironnementLabel(String endpoint) {
+    switch (endpoint) {
+      case 'https://testnet.archethic.net':
+        return 'Archethic Testnet';
+      case 'https://mainnet.archethic.net':
+        return 'Archethic Mainnet';
+      case '':
+        return 'No environment';
+      default:
+        return 'Archethic Devnet';
+    }
+  }
 }

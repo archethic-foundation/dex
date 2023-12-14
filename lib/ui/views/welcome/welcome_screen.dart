@@ -5,7 +5,7 @@ import 'package:aedex/ui/views/main_screen/layouts/app_bar_welcome.dart';
 import 'package:aedex/ui/views/util/components/dex_background.dart';
 import 'package:aedex/ui/views/util/components/dex_main_menu_app.dart';
 import 'package:aedex/ui/views/welcome/bloc/providers.dart';
-import 'package:aedex/ui/views/welcome/components/welcome_connect_wallet_btn.dart';
+import 'package:aedex/ui/views/welcome/components/welcome_launch_btn.dart';
 import 'package:aedex/ui/views/welcome/components/welcome_title.dart';
 import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
               const Column(
                 children: [
                   WelcomeTitle(),
-                  WelcomeConnectWalletBtn(),
+                  WelcomeLaunchBtn(),
                 ],
               ),
               if (_isSubMenuOpen)

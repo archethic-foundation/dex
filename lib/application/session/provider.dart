@@ -1,10 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'package:aedex/application/dex_pool.dart';
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/repositories/features_flags.dart';
 import 'package:aedex/util/browser_util.dart';
 import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/endpoint_util.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -24,6 +27,27 @@ class _SessionNotifier extends Notifier<Session> {
       connectionStatusSubscription?.cancel();
     });
     return const Session();
+  }
+
+  void invalidateInfos() {
+    ref
+      ..invalidate(DexTokensProviders.getTokenFromAccount)
+      ..invalidate(DexTokensProviders.getTokenFromAddress)
+      ..invalidate(DexTokensProviders.getTokenIcon)
+      ..invalidate(DexPoolProviders.getPoolInfos)
+      ..invalidate(DexPoolProviders.getPoolList);
+  }
+
+  void connectEndpoint() {
+    state = state.copyWith(
+      isConnected: false,
+      error: '',
+      endpoint: EndpointUtil.getEnvironnementUrl('testnet'),
+    );
+    if (sl.isRegistered<ApiService>()) {
+      sl.unregister<ApiService>();
+    }
+    setupServiceLocatorApiService(state.endpoint);
   }
 
   Future<void> connectToWallet() async {
@@ -137,6 +161,7 @@ class _SessionNotifier extends Notifier<Session> {
 
           await subscription.when(
             success: (success) async {
+              invalidateInfos();
               state = state.copyWith(
                 accountSub: success,
                 error: '',

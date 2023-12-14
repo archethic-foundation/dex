@@ -61,7 +61,7 @@ class RoutesPath {
         builder: (BuildContext context, GoRouterState state) {
           final session = ref.read(SessionProviders.session);
 
-          if (session.isConnected) {
+          if (session.endpoint.isNotEmpty) {
             return const MainScreen();
           }
 

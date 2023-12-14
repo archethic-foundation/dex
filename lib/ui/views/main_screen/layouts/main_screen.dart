@@ -9,6 +9,7 @@ import 'package:aedex/ui/views/main_screen/layouts/body.dart';
 import 'package:aedex/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_background.dart';
+import 'package:aedex/ui/views/util/components/dex_env.dart';
 import 'package:aedex/ui/views/util/components/dex_main_menu_app.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -91,14 +92,24 @@ class MainScreenState extends ConsumerState<MainScreen> {
             ),
           ),
           body: Stack(
-            alignment: Alignment.center,
+            alignment: Alignment.topRight,
             children: [
-              const DexBackground(),
-              Body(
-                listNavigationLabelIcon: listNavigationLabelIcon,
-                navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  const DexBackground(),
+                  Body(
+                    listNavigationLabelIcon: listNavigationLabelIcon,
+                    navDrawerIndex:
+                        ref.watch(navigationIndexMainScreenProvider),
+                  ),
+                  if (_isSubMenuOpen) const DexMainMenuApp(),
+                ],
               ),
-              if (_isSubMenuOpen) const DexMainMenuApp(),
+              const Padding(
+                padding: EdgeInsets.only(top: 80, right: 20),
+                child: DexEnv(),
+              ),
             ],
           ),
           bottomNavigationBar: Responsive.isMobile(context)

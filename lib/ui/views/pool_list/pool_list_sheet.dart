@@ -57,7 +57,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: SizedBox(
-                    width: 900,
+                    width: 950,
                     height: MediaQuery.of(context).size.height - 160,
                     child: ArchethicScrollbar(
                       child: dexPools.map(
@@ -393,8 +393,11 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                               child: dexPoolInfo.map(
                                                 data: (data) {
                                                   return SizedBox(
-                                                    width: 50,
+                                                    width: 100,
                                                     child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: [
                                                         DexFees(
                                                           fees:
@@ -464,43 +467,45 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                   ),
                                                 ),
                                                 Align(
-                                                  child: SizedBox(
-                                                    width: 50,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        InkWell(
-                                                          onTap: () {
-                                                            ref
-                                                                .read(
-                                                                  MainScreenWidgetDisplayedProviders
-                                                                      .mainScreenWidgetDisplayedProvider
-                                                                      .notifier,
-                                                                )
-                                                                .setWidget(
-                                                                  LiquidityRemoveSheet(
-                                                                    poolGenesisAddress:
-                                                                        pool.poolAddress,
-                                                                    lpToken: pool
-                                                                        .lpToken!,
-                                                                    pair: pool
-                                                                        .pair!,
+                                                  child:
+                                                      pool.lpToken!.reserve <
+                                                              0.0000001
+                                                          ? const SizedBox(
+                                                              width: 50,
+                                                            )
+                                                          : SizedBox(
+                                                              width: 50,
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  InkWell(
+                                                                    onTap: () {
+                                                                      ref
+                                                                          .read(
+                                                                            MainScreenWidgetDisplayedProviders.mainScreenWidgetDisplayedProvider.notifier,
+                                                                          )
+                                                                          .setWidget(
+                                                                            LiquidityRemoveSheet(
+                                                                              poolGenesisAddress: pool.poolAddress,
+                                                                              lpToken: pool.lpToken!,
+                                                                              pair: pool.pair!,
+                                                                            ),
+                                                                            ref,
+                                                                          );
+                                                                    },
+                                                                    child:
+                                                                        const IconAnimated(
+                                                                      icon: Iconsax
+                                                                          .wallet_minus,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
                                                                   ),
-                                                                  ref,
-                                                                );
-                                                          },
-                                                          child:
-                                                              const IconAnimated(
-                                                            icon: Iconsax
-                                                                .wallet_minus,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
                                                 ),
                                               ],
                                             ),

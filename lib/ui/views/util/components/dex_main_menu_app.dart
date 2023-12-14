@@ -17,7 +17,7 @@ class DexMainMenuApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 70,
+      top: 80,
       right: 20,
       child: Column(
         children: [
