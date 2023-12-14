@@ -29,7 +29,7 @@ class LiquidityRemoveInProgressTxAddresses extends ConsumerWidget {
             address: liquidityRemove
                 .transactionRemoveLiquidity!.address!.address!
                 .toUpperCase(),
-            header: "Liquidity's remove address: ",
+            header: 'Liquidity suppression transaction address: ',
             typeAddress: TypeAddress.transaction,
             reduceAddress: true,
           ),

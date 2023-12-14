@@ -2,12 +2,14 @@ import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class DexInProgressInfosBanner extends StatelessWidget {
   const DexInProgressInfosBanner({
     required this.isProcessInProgress,
     required this.walletConfirmation,
+    required this.walletConfirmationTxt,
+    required this.successTxt,
+    required this.inProgressTxt,
     this.failure,
     super.key,
   });
@@ -15,6 +17,9 @@ class DexInProgressInfosBanner extends StatelessWidget {
   final bool isProcessInProgress;
   final bool walletConfirmation;
   final Failure? failure;
+  final String walletConfirmationTxt;
+  final String successTxt;
+  final String inProgressTxt;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,7 @@ class DexInProgressInfosBanner extends StatelessWidget {
 
     if (walletConfirmation == true) {
       return InfoBanner(
-        AppLocalizations.of(context)!.poolAddInProgressConfirmAEWallet,
+        walletConfirmationTxt,
         InfoBannerType.request,
         width: MediaQuery.of(context).size.width * 0.9,
       );
@@ -39,14 +44,14 @@ class DexInProgressInfosBanner extends StatelessWidget {
 
     if (failure == null && isProcessInProgress == false) {
       return InfoBanner(
-        AppLocalizations.of(context)!.poolAddSuccessInfo,
+        successTxt,
         InfoBannerType.success,
         width: MediaQuery.of(context).size.width * 0.9,
       );
     }
 
     return InfoBanner(
-      AppLocalizations.of(context)!.poolAddProcessInProgress,
+      inProgressTxt,
       InfoBannerType.request,
       width: MediaQuery.of(context).size.width * 0.9,
       waitAnimation: true,

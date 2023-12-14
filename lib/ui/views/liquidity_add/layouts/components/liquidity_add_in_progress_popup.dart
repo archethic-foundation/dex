@@ -104,6 +104,16 @@ class LiquidityAddInProgressPopup {
                                           walletConfirmation:
                                               liquidityAdd.walletConfirmation,
                                           failure: liquidityAdd.failure,
+                                          inProgressTxt: AppLocalizations.of(
+                                            context,
+                                          )!
+                                              .liquidityAddProcessInProgress,
+                                          walletConfirmationTxt: AppLocalizations
+                                                  .of(context)!
+                                              .liquidityAddInProgressConfirmAEWallet,
+                                          successTxt:
+                                              AppLocalizations.of(context)!
+                                                  .liquidityAddSuccessInfo,
                                         ),
                                         const LiquidityAddInProgressTxAddresses(),
                                         const Spacer(),

@@ -36,17 +36,23 @@ class FormatAddressLinkCopy extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         if (header != null)
-          SelectableText(
-            '$header ${reduceAddress ? AddressUtil.reduceAddress(address) : address}',
-            style: TextStyle(
-              fontSize: fontSize,
+          Tooltip(
+            message: address,
+            child: SelectableText(
+              '$header ${reduceAddress ? AddressUtil.reduceAddress(address) : address}',
+              style: TextStyle(
+                fontSize: fontSize,
+              ),
             ),
           )
         else
-          SelectableText(
-            reduceAddress ? AddressUtil.reduceAddress(address) : address,
-            style: TextStyle(
-              fontSize: fontSize,
+          Tooltip(
+            message: address,
+            child: SelectableText(
+              reduceAddress ? AddressUtil.reduceAddress(address) : address,
+              style: TextStyle(
+                fontSize: fontSize,
+              ),
             ),
           ),
         const SizedBox(width: 5),

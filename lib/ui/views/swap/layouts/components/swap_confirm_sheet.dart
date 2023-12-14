@@ -61,7 +61,7 @@ class SwapConfirmSheet extends ConsumerWidget {
           ),
           const Spacer(),
           DexButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_liquidity_add,
+            labelBtn: AppLocalizations.of(context)!.btn_confirm_swap,
             onPressed: () async {
               final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
               unawaited(swapNotifier.swap(context, ref));

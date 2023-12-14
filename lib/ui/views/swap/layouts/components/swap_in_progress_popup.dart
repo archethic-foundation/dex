@@ -103,6 +103,15 @@ class SwapInProgressPopup {
                                           walletConfirmation:
                                               swap.walletConfirmation,
                                           failure: swap.failure,
+                                          inProgressTxt:
+                                              AppLocalizations.of(context)!
+                                                  .swapProcessInProgress,
+                                          walletConfirmationTxt:
+                                              AppLocalizations.of(context)!
+                                                  .swapInProgressConfirmAEWallet,
+                                          successTxt:
+                                              AppLocalizations.of(context)!
+                                                  .swapSuccessInfo,
                                         ),
                                         const SwapInProgressTxAddresses(),
                                         const Spacer(),

@@ -105,6 +105,16 @@ class LiquidityRemoveInProgressPopup {
                                           walletConfirmation: liquidityRemove
                                               .walletConfirmation,
                                           failure: liquidityRemove.failure,
+                                          inProgressTxt: AppLocalizations.of(
+                                            context,
+                                          )!
+                                              .liquidityRemoveProcessInProgress,
+                                          walletConfirmationTxt: AppLocalizations
+                                                  .of(context)!
+                                              .liquidityRemoveInProgressConfirmAEWallet,
+                                          successTxt:
+                                              AppLocalizations.of(context)!
+                                                  .liquidityRemoveSuccessInfo,
                                         ),
                                         const LiquidityRemoveInProgressTxAddresses(),
                                         const Spacer(),

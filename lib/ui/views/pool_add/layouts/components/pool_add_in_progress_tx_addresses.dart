@@ -33,7 +33,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: poolAdd.recoveryTransactionAddPool!.address!.address!
                 .toUpperCase(),
-            header: "Pool's add address: ",
+            header: 'Pool creation transaction address: ',
             typeAddress: TypeAddress.transaction,
             reduceAddress: true,
           ),
@@ -45,7 +45,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
             address: poolAdd
                 .recoveryTransactionAddPoolTransfer!.address!.address!
                 .toUpperCase(),
-            header: "Pool's funds transfer address: ",
+            header: 'Pool funds transfer transaction address: ',
             typeAddress: TypeAddress.transaction,
             reduceAddress: true,
           ),
@@ -57,7 +57,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
             address: poolAdd
                 .recoveryTransactionAddPoolLiquidity!.address!.address!
                 .toUpperCase(),
-            header: "Pool's add liquidity address: ",
+            header: 'Liquidity addition transaction address: ',
             typeAddress: TypeAddress.transaction,
             reduceAddress: true,
           ),

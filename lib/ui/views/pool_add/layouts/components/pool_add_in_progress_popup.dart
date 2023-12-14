@@ -104,6 +104,15 @@ class PoolAddInProgressPopup {
                                           walletConfirmation:
                                               poolAdd.walletConfirmation,
                                           failure: poolAdd.failure,
+                                          inProgressTxt:
+                                              AppLocalizations.of(context)!
+                                                  .poolAddProcessInProgress,
+                                          walletConfirmationTxt: AppLocalizations
+                                                  .of(context)!
+                                              .poolAddInProgressConfirmAEWallet,
+                                          successTxt:
+                                              AppLocalizations.of(context)!
+                                                  .poolAddSuccessInfo,
                                         ),
                                         const PoolAddInProgressTxAddresses(),
                                         const Spacer(),

@@ -26,7 +26,7 @@ class SwapInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address:
                 swap.recoveryTransactionSwap!.address!.address!.toUpperCase(),
-            header: 'Swap address: ',
+            header: 'Swap transaction address: ',
             typeAddress: TypeAddress.transaction,
             reduceAddress: true,
           ),
