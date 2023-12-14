@@ -33,7 +33,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: poolAdd.recoveryTransactionAddPool!.address!.address!
                 .toUpperCase(),
-            header: 'Pool creation transaction address: ',
+            header: 'Pool registration transaction address: ',
             typeAddress: TypeAddress.transaction,
             reduceAddress: true,
           ),

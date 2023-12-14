@@ -49,9 +49,16 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                 onPressed: () {
                   startBusyContext(
                     () async {
-                      ref
+                      await ref
                           .read(SessionProviders.session.notifier)
-                          .connectEndpoint();
+                          .connectToWallet();
+
+                      final session = ref.read(SessionProviders.session);
+                      if (session.isConnected == false) {
+                        ref
+                            .read(SessionProviders.session.notifier)
+                            .connectEndpoint();
+                      }
 
                       if (!context.mounted) return;
                       context.go(

@@ -24,13 +24,7 @@ class SwapConfirmInfos extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return Container(
-      padding: const EdgeInsets.only(
-        top: 50,
-        bottom: 20,
-        left: 50,
-        right: 50,
-      ),
+    return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: ArchethicThemeBase.blue800,
@@ -45,18 +39,15 @@ class SwapConfirmInfos extends ConsumerWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 60,
-            bottom: 20,
-            left: 20,
-            right: 20,
+          padding: const EdgeInsets.all(
+            20,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Swap'),
               Text(
-                '≈ -${swap.tokenToSwapAmount.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
+                '    -${swap.tokenToSwapAmount.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
               ),
               Text(
                 '≈ +${swap.tokenSwappedAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',

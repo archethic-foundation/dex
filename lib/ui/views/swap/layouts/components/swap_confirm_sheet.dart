@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
-import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,21 +40,7 @@ class SwapConfirmSheet extends ConsumerWidget {
                   },
           ),
           const SizedBox(height: 15),
-          Stack(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 60),
-                child: SwapConfirmInfos(),
-              ),
-              if (swap.tokenToSwap != null)
-                PoolInfoCard(
-                  poolGenesisAddress: swap.poolGenesisAddress,
-                  tokenAddressRatioPrimary: swap.tokenToSwap!.address == null
-                      ? 'UCO'
-                      : swap.tokenToSwap!.address!,
-                ),
-            ],
-          ),
+          const SwapConfirmInfos(),
           const SizedBox(
             height: 20,
           ),

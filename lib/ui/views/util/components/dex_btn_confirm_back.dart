@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class DexButtonConfirmBack extends StatelessWidget {
   const DexButtonConfirmBack({
@@ -22,12 +21,8 @@ class DexButtonConfirmBack extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        TextButton(
+        BackButton(
           onPressed: onPressed,
-          child: Text(
-            '< ${AppLocalizations.of(context)!.btn_back}',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
         ),
       ],
     );
