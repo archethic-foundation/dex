@@ -3,7 +3,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
-import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
@@ -81,86 +80,44 @@ class _ConnectionToWalletStatusState
       );
     }
 
-    if (Responsive.isDesktop(context)) {
-      return Container(
-        constraints: const BoxConstraints(maxWidth: 300),
-        child: MenuAnchor(
-          style: MenuStyle(
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          alignmentOffset: const Offset(0, 10),
-          builder: (context, controller, child) {
-            return FilledButton.tonal(
-              onPressed: () {
-                if (controller.isOpen) {
-                  controller.close();
-                } else {
-                  controller.open();
-                }
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Iconsax.user,
-                    size: 18,
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Flexible(
-                    child: Text(
-                      overflow: TextOverflow.ellipsis,
-                      session.nameAccount,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                ],
-              ),
-            );
-          },
-          menuChildren: const [
-            MenuConnectionToWalletStatus(),
-          ],
-        ),
-      );
-    }
-
-    return MenuAnchor(
-      style: MenuStyle(
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-      ),
-      alignmentOffset: const Offset(0, 10),
-      builder: (context, controller, child) {
-        return IconButton(
-          onPressed: () {
-            if (controller.isOpen) {
-              controller.close();
-            } else {
-              controller.open();
-            }
-          },
-          icon: const Icon(
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 400),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
             Iconsax.user,
-            //size: 18,
+            size: 18,
           ),
-        );
-      },
-      menuChildren: const [
-        MenuConnectionToWalletStatus(),
-      ],
+          const SizedBox(
+            width: 16,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  session.nameAccount,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+              Flexible(
+                child: FormatAddressLinkCopy(
+                  address: session.genesisAddress.toUpperCase(),
+                  typeAddress: TypeAddress.chain,
+                  reduceAddress: true,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 4,
+          ),
+        ],
+      ),
     );
   }
 }

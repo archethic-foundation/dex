@@ -51,7 +51,9 @@ class Header extends ConsumerWidget {
             style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
-        if (withMenu && Responsive.isMobile(context) == false)
+        if (withMenu &&
+            Responsive.isMobile(context) == false &&
+            Responsive.isTablet(context) == false)
           Row(
             children: [
               const SizedBox(

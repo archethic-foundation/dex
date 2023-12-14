@@ -112,7 +112,8 @@ class MainScreenState extends ConsumerState<MainScreen> {
               ),
             ],
           ),
-          bottomNavigationBar: Responsive.isMobile(context)
+          bottomNavigationBar: Responsive.isMobile(context) ||
+                  Responsive.isTablet(context)
               ? BottomNavigationBarMainScreen(
                   listNavigationLabelIcon: listNavigationLabelIcon,
                   navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
