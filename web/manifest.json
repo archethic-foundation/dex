@@ -1,11 +1,11 @@
 {
-    "name": "aedex",
-    "short_name": "aedex",
+    "name": "AESwap",
+    "short_name": "AESwap",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Archethic - DEX",
+    "description": "AESwap",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

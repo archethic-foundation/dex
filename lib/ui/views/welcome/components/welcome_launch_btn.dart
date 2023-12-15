@@ -1,4 +1,3 @@
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/ui/views/welcome/bloc/providers.dart';
@@ -48,18 +47,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                 ),
                 onPressed: () {
                   startBusyContext(
-                    () async {
-                      await ref
-                          .read(SessionProviders.session.notifier)
-                          .connectToWallet();
-
-                      final session = ref.read(SessionProviders.session);
-                      if (session.isConnected == false) {
-                        ref
-                            .read(SessionProviders.session.notifier)
-                            .connectEndpoint(session.envSelected);
-                      }
-
+                    () {
                       if (!context.mounted) return;
                       context.go(
                         RoutesPath().main(),

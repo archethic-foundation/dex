@@ -37,7 +37,7 @@ class Header extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(top: 5),
           child: Text(
-            'DEX',
+            'AESwap',
             style: TextStyle(
               fontSize: 30,
               color: ArchethicThemeBase.blue200,
