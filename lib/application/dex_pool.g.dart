@@ -303,6 +303,155 @@ class _GetPoolInfosProviderElement
       (origin as _GetPoolInfosProvider).poolGenesisAddress;
 }
 
+String _$getPoolListFromCacheHash() =>
+    r'46a00dc6f40b3103c968e69eecafaa267846168f';
+
+/// See also [_getPoolListFromCache].
+@ProviderFor(_getPoolListFromCache)
+const _getPoolListFromCacheProvider = _GetPoolListFromCacheFamily();
+
+/// See also [_getPoolListFromCache].
+class _GetPoolListFromCacheFamily extends Family<AsyncValue<List<DexPool>>> {
+  /// See also [_getPoolListFromCache].
+  const _GetPoolListFromCacheFamily();
+
+  /// See also [_getPoolListFromCache].
+  _GetPoolListFromCacheProvider call(
+    bool onlyVerified,
+  ) {
+    return _GetPoolListFromCacheProvider(
+      onlyVerified,
+    );
+  }
+
+  @override
+  _GetPoolListFromCacheProvider getProviderOverride(
+    covariant _GetPoolListFromCacheProvider provider,
+  ) {
+    return call(
+      provider.onlyVerified,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getPoolListFromCacheProvider';
+}
+
+/// See also [_getPoolListFromCache].
+class _GetPoolListFromCacheProvider
+    extends AutoDisposeFutureProvider<List<DexPool>> {
+  /// See also [_getPoolListFromCache].
+  _GetPoolListFromCacheProvider(
+    bool onlyVerified,
+  ) : this._internal(
+          (ref) => _getPoolListFromCache(
+            ref as _GetPoolListFromCacheRef,
+            onlyVerified,
+          ),
+          from: _getPoolListFromCacheProvider,
+          name: r'_getPoolListFromCacheProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getPoolListFromCacheHash,
+          dependencies: _GetPoolListFromCacheFamily._dependencies,
+          allTransitiveDependencies:
+              _GetPoolListFromCacheFamily._allTransitiveDependencies,
+          onlyVerified: onlyVerified,
+        );
+
+  _GetPoolListFromCacheProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.onlyVerified,
+  }) : super.internal();
+
+  final bool onlyVerified;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<DexPool>> Function(_GetPoolListFromCacheRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetPoolListFromCacheProvider._internal(
+        (ref) => create(ref as _GetPoolListFromCacheRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        onlyVerified: onlyVerified,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<DexPool>> createElement() {
+    return _GetPoolListFromCacheProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetPoolListFromCacheProvider &&
+        other.onlyVerified == onlyVerified;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, onlyVerified.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _GetPoolListFromCacheRef on AutoDisposeFutureProviderRef<List<DexPool>> {
+  /// The parameter `onlyVerified` of this provider.
+  bool get onlyVerified;
+}
+
+class _GetPoolListFromCacheProviderElement
+    extends AutoDisposeFutureProviderElement<List<DexPool>>
+    with _GetPoolListFromCacheRef {
+  _GetPoolListFromCacheProviderElement(super.provider);
+
+  @override
+  bool get onlyVerified =>
+      (origin as _GetPoolListFromCacheProvider).onlyVerified;
+}
+
+String _$putPoolListToCacheHash() =>
+    r'c63e73605823a6610f53061b64834dcd78cf1eaf';
+
+/// See also [_putPoolListToCache].
+@ProviderFor(_putPoolListToCache)
+final _putPoolListToCacheProvider = AutoDisposeFutureProvider<void>.internal(
+  _putPoolListToCache,
+  name: r'_putPoolListToCacheProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$putPoolListToCacheHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _PutPoolListToCacheRef = AutoDisposeFutureProviderRef<void>;
 String _$estimateTokenInFiatHash() =>
     r'9a71209573d9ea2867e12de00d6309c7a4165fa9';
 

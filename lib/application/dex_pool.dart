@@ -6,8 +6,11 @@ import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
+import 'package:aedex/util/cache_manager_hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -38,6 +41,48 @@ Future<DexPool?> _getPoolInfos(
   return ref
       .watch(_dexPoolsRepositoryProvider)
       .getPoolInfos(poolGenesisAddress);
+}
+
+@riverpod
+Future<List<DexPool>> _getPoolListFromCache(
+  _GetPoolListFromCacheRef ref,
+  bool onlyVerified,
+) async {
+  final poolListCache = <DexPool>[];
+  final cacheManagerHive = await CacheManagerHive.getInstance();
+  final poolListCached = cacheManagerHive.get('poolList') as List<DexPoolHive>;
+  debugPrint('poolListCached ${poolListCached.length}');
+
+  for (final poolHive in poolListCached) {
+    final pool = poolHive.toDexPool();
+    if (onlyVerified && pool.isVerified || !onlyVerified) {
+      poolListCache.add(pool);
+    }
+  }
+  return poolListCache;
+}
+
+@riverpod
+Future<void> _putPoolListToCache(
+  _PutPoolListToCacheRef ref,
+) async {
+  final poolListCache = <DexPoolHive>[];
+  final poolList = await ref.watch(DexPoolProviders.getPoolList(false).future);
+  for (final pool in poolList) {
+    debugPrint('pool cache: ${pool.poolAddress}');
+    final poolInfos =
+        await ref.watch(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
+
+    if (poolInfos != null) {
+      debugPrint('pool infos: ${poolInfos.isVerified}');
+      poolListCache.add(
+        DexPoolHive.fromDexPool(poolInfos),
+      );
+    }
+  }
+  final cacheManagerHive = await CacheManagerHive.getInstance();
+  await cacheManagerHive.put('poolList', CacheItemHive(poolListCache));
+  debugPrint('poolList stored');
 }
 
 @riverpod
@@ -145,4 +190,6 @@ abstract class DexPoolProviders {
   static const getPoolInfos = _getPoolInfosProvider;
   static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
   static const estimateTokenInFiat = _estimateTokenInFiatProvider;
+  static final putPoolListToCache = _putPoolListToCacheProvider;
+  static const getPoolListFromCache = _getPoolListFromCacheProvider;
 }

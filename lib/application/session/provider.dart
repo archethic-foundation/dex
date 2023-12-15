@@ -35,7 +35,8 @@ class _SessionNotifier extends Notifier<Session> {
       ..invalidate(DexTokensProviders.getTokenFromAddress)
       ..invalidate(DexTokensProviders.getTokenIcon)
       ..invalidate(DexPoolProviders.getPoolInfos)
-      ..invalidate(DexPoolProviders.getPoolList);
+      ..invalidate(DexPoolProviders.getPoolList)
+      ..invalidate(DexPoolProviders.getPoolListFromCache);
   }
 
   void connectEndpoint(String env) {
@@ -69,9 +70,9 @@ class _SessionNotifier extends Notifier<Session> {
       try {
         archethicDAppClient = awc.ArchethicDAppClient.auto(
           origin: const awc.RequestOrigin(
-            name: 'AEDex',
+            name: 'AESwap',
           ),
-          replyBaseUrl: 'aedex://archethic.tech',
+          replyBaseUrl: 'aeswap://archethic.tech',
         );
       } catch (e, stackTrace) {
         sl.get<LogManager>().log(
@@ -82,6 +83,12 @@ class _SessionNotifier extends Notifier<Session> {
             );
         throw const Failure.connectivityArchethic();
       }
+
+      if (archethicDAppClient.state !=
+          const awc.ArchethicDappConnectionState.connected()) {
+        throw const Failure.connectivityArchethic();
+      }
+
       final endpointResponse = await archethicDAppClient.getEndpoint();
 
       await endpointResponse.when(
@@ -111,7 +118,7 @@ class _SessionNotifier extends Notifier<Session> {
             state = state.copyWith(
               isConnected: false,
               error:
-                  'AEDex is not currently available on the Archethic mainnet.',
+                  'AESwap is not currently available on the Archethic mainnet.',
             );
             throw Failure.other(cause: state.error);
           }

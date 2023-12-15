@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/oracle/provider.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/views/util/router.dart';
@@ -30,12 +34,48 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  Timer? _poolListTimer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(SessionProviders.session.notifier).connectToWallet();
+
+      final session = ref.read(SessionProviders.session);
+      if (session.isConnected == false) {
+        ref
+            .read(SessionProviders.session.notifier)
+            .connectEndpoint(session.envSelected);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _poolListTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref.read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier).init();
+    ref.read(DexPoolProviders.putPoolListToCache);
+
+    _poolListTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      ref
+        ..read(DexPoolProviders.putPoolListToCache)
+        ..invalidate(DexPoolProviders.getPoolListFromCache);
+    });
 
     // GoRouter configuration
     final _router = GoRouter(
@@ -44,7 +84,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       routerConfig: _router,
-      title: 'AEDex',
+      title: 'AESwap',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,

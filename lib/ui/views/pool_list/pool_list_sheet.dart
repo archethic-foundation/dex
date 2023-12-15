@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/main_screen_widget_displayed.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
@@ -21,7 +20,6 @@ import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shimmer/shimmer.dart';
 
 class PoolListSheet extends ConsumerStatefulWidget {
   const PoolListSheet({
@@ -39,7 +37,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
   ) {
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     final dexPools = ref.watch(
-      DexPoolProviders.getPoolList(poolListForm.onlyVerifiedPools),
+      DexPoolProviders.getPoolListFromCache(poolListForm.onlyVerifiedPools),
     );
     return Stack(
       alignment: Alignment.bottomRight,
@@ -131,12 +129,6 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                 .asMap()
                                 .map(
                                   (index, pool) {
-                                    final dexPoolInfo = ref.watch(
-                                      DexPoolProviders.getPoolInfos(
-                                        pool.poolAddress,
-                                      ),
-                                    );
-
                                     return MapEntry(
                                       index,
                                       DataRow(
@@ -222,83 +214,13 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                               padding: const EdgeInsets.only(
                                                 right: 20,
                                               ),
-                                              child: dexPoolInfo.map(
-                                                data: (data) {
-                                                  return SizedBox(
-                                                    width: 200,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .end,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                VerifiedTokenIcon(
-                                                                  address: pool
-                                                                      .pair!
-                                                                      .token1
-                                                                      .address!,
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text(
-                                                                  '${data.value!.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                VerifiedTokenIcon(
-                                                                  address: pool
-                                                                      .pair!
-                                                                      .token2
-                                                                      .address!,
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text(
-                                                                  '${data.value!.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        FormatAddressLink(
-                                                          address:
-                                                              pool.poolAddress,
-                                                          typeAddress:
-                                                              TypeAddress.chain,
-                                                          tooltipLink:
-                                                              AppLocalizations
-                                                                      .of(
-                                                            context,
-                                                          )!
-                                                                  .localHistoryTooltipLinkPool,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                                error: (error) =>
-                                                    const SizedBox(width: 200),
-                                                loading: (loading) => SizedBox(
-                                                  width: 200,
-                                                  child: Shimmer(
-                                                    gradient: DexThemeBase
-                                                        .gradientShimmer,
-                                                    child: const Column(
+                                              child: SizedBox(
+                                                width: 200,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .end,
@@ -306,129 +228,98 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                           MainAxisAlignment
                                                               .center,
                                                       children: [
-                                                        TitlePlaceholder(
-                                                          width: 200,
+                                                        Row(
+                                                          children: [
+                                                            VerifiedTokenIcon(
+                                                              address: pool
+                                                                  .pair!
+                                                                  .token1
+                                                                  .address!,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                                            ),
+                                                          ],
                                                         ),
-                                                        SizedBox(
-                                                          height: 8,
-                                                        ),
-                                                        TitlePlaceholder(
-                                                          width: 200,
+                                                        Row(
+                                                          children: [
+                                                            VerifiedTokenIcon(
+                                                              address: pool
+                                                                  .pair!
+                                                                  .token2
+                                                                  .address!,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                                            ),
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    FormatAddressLink(
+                                                      address: pool.poolAddress,
+                                                      typeAddress:
+                                                          TypeAddress.chain,
+                                                      tooltipLink: AppLocalizations
+                                                              .of(
+                                                        context,
+                                                      )!
+                                                          .localHistoryTooltipLinkPool,
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          DataCell(
+                                          const DataCell(
                                             Padding(
-                                              padding: const EdgeInsets.only(
+                                              padding: EdgeInsets.only(
                                                 right: 20,
                                               ),
-                                              child: dexPoolInfo.map(
-                                                data: (poolInfo) {
-                                                  return ref
-                                                      .watch(
-                                                        DexPoolProviders
-                                                            .estimatePoolTVLInFiat(
-                                                          poolInfo.value!,
-                                                        ),
-                                                      )
-                                                      .map(
-                                                        data:
-                                                            (estimatePoolValorisationInFiat) {
-                                                          return SizedBox(
-                                                            width: 150,
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
-                                                                  children: [
-                                                                    Text(
+                                              child: SizedBox(
+                                                width: 150,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        /* Text(
                                                                       '\$${estimatePoolValorisationInFiat.value.formatNumber()}',
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
-                                                        error: (error) =>
-                                                            const SizedBox(
-                                                          width: 150,
-                                                        ),
-                                                        loading: (loading) =>
-                                                            SizedBox(
-                                                          width: 150,
-                                                          child: Shimmer(
-                                                            gradient: DexThemeBase
-                                                                .gradientShimmer,
-                                                            child:
-                                                                const TitlePlaceholder(
-                                                              width: 150,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      );
-                                                },
-                                                error: (error) =>
-                                                    const SizedBox(width: 150),
-                                                loading: (loading) => SizedBox(
-                                                  width: 150,
-                                                  child: Shimmer(
-                                                    gradient: DexThemeBase
-                                                        .gradientShimmer,
-                                                    child:
-                                                        const TitlePlaceholder(
-                                                      width: 150,
+                                                                    ),*/
+                                                      ],
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ),
                                           DataCell(
                                             Align(
-                                              child: dexPoolInfo.map(
-                                                data: (data) {
-                                                  return SizedBox(
-                                                    width: 100,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        DexFees(
-                                                          fees:
-                                                              data.value!.fees,
-                                                          withLabel: false,
-                                                        ),
-                                                      ],
+                                              child: SizedBox(
+                                                width: 100,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    DexFees(
+                                                      fees: pool.fees,
+                                                      withLabel: false,
                                                     ),
-                                                  );
-                                                },
-                                                error: (error) =>
-                                                    const Text('Error'),
-                                                loading: (loading) => SizedBox(
-                                                  width: 50,
-                                                  child: Shimmer(
-                                                    gradient: DexThemeBase
-                                                        .gradientShimmer,
-                                                    child:
-                                                        const TitlePlaceholder(
-                                                      width: 100,
-                                                    ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -573,7 +464,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                 .toList(),
                           );
                         },
-                        error: (error) => const SizedBox(),
+                        error: (error) => const Text('error'),
                         loading: (loading) => const Padding(
                           padding: EdgeInsets.only(
                             left: 30,
