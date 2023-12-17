@@ -28,7 +28,7 @@ class PoolInfoCard extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    const cardHeight = 180.0;
+    const cardHeight = 110.0;
 
     if (poolGenesisAddress.isEmpty) {
       return const SizedBox(height: cardHeight);
@@ -214,27 +214,6 @@ class PoolInfoCard extends ConsumerWidget {
                             ],
                           ),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.poolCardLPToken,
-                            style: Theme.of(context).textTheme.labelSmall,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          FormatAddressLink(
-                            address: pool.lpToken!.address!,
-                            typeAddress: TypeAddress.transaction,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${AppLocalizations.of(context)!.poolCardLPTokenSupply}: ${pool.lpToken!.supply.formatNumber()}',
                       ),
                       const SizedBox(
                         height: 10,
