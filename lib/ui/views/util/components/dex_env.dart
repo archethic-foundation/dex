@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:aedex/util/cache_manager_hive.dart';
 import 'package:aedex/util/endpoint_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -118,8 +119,10 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                   ],
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (session.endpoint == 'https://testnet.archethic.net') return;
+                final cacheManagerHive = await CacheManagerHive.getInstance();
+                cacheManagerHive.delete('poolList');
                 ref
                     .read(SessionProviders.session.notifier)
                     .connectEndpoint('testnet');
@@ -171,8 +174,10 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                   ],
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (session.endpoint == 'https://mainnet.archethic.net') return;
+                final cacheManagerHive = await CacheManagerHive.getInstance();
+                cacheManagerHive.delete('poolList');
                 ref
                     .read(SessionProviders.session.notifier)
                     .connectEndpoint('mainnet');

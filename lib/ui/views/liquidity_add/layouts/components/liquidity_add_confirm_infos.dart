@@ -26,7 +26,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.only(
-        top: 50,
+        top: 30,
         bottom: 20,
         left: 50,
         right: 50,
@@ -46,7 +46,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.only(
-            top: 60,
+            top: 40,
             bottom: 20,
             left: 20,
             right: 20,
@@ -112,6 +112,29 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                             Decimal.parse(liquidityAdd.token2Amount.toString()))
                         .toDouble(),
                     tokenSymbol: liquidityAdd.token2!.symbol,
+                    withFiat: false,
+                    height: 20,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DexTokenBalance(
+                    tokenBalance: liquidityAdd.lpTokenBalance,
+                    tokenSymbol: liquidityAdd.pool!.lpToken!.symbol,
+                    withFiat: false,
+                    height: 20,
+                  ),
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                              liquidityAdd.lpTokenBalance.toString(),
+                            ) +
+                            Decimal.parse(
+                              liquidityAdd.expectedTokenLP.toString(),
+                            ))
+                        .toDouble(),
+                    tokenSymbol: liquidityAdd.pool!.lpToken!.symbol,
                     withFiat: false,
                     height: 20,
                   ),

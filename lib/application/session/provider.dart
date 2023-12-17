@@ -53,7 +53,9 @@ class _SessionNotifier extends Notifier<Session> {
     invalidateInfos();
   }
 
-  Future<void> connectToWallet() async {
+  Future<void> connectToWallet({
+    bool forceConnection = true,
+  }) async {
     var isBrave = false;
     if (kIsWeb == true) {
       if (BrowserUtil().isBraveBrowser()) {
@@ -81,11 +83,6 @@ class _SessionNotifier extends Notifier<Session> {
               level: LogLevel.error,
               name: '_SessionNotifier - connectToWallet',
             );
-        throw const Failure.connectivityArchethic();
-      }
-
-      if (archethicDAppClient.state !=
-          const awc.ArchethicDappConnectionState.connected()) {
         throw const Failure.connectivityArchethic();
       }
 
@@ -170,6 +167,7 @@ class _SessionNotifier extends Notifier<Session> {
 
           await subscription.when(
             success: (success) async {
+              connectEndpoint(EndpointUtil.getEnvironnement());
               invalidateInfos();
               state = state.copyWith(
                 accountSub: success,
@@ -207,12 +205,14 @@ class _SessionNotifier extends Notifier<Session> {
         },
       );
     } catch (e) {
-      state = state.copyWith(
-        isConnected: false,
-        error: isBrave
-            ? "Please, open your Archethic Wallet and disable Brave's shield."
-            : 'Please, open your Archethic Wallet.',
-      );
+      if (forceConnection == false) {
+        state = state.copyWith(
+          isConnected: false,
+          error: isBrave
+              ? "Please, open your Archethic Wallet and disable Brave's shield."
+              : 'Please, open your Archethic Wallet.',
+        );
+      }
     }
   }
 
@@ -238,7 +238,6 @@ class _SessionNotifier extends Notifier<Session> {
     );
 
     connectEndpoint(state.envSelected);
-    invalidateInfos();
   }
 }
 

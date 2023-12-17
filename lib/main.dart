@@ -49,7 +49,9 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(SessionProviders.session.notifier).connectToWallet();
+      await ref.read(SessionProviders.session.notifier).connectToWallet(
+            forceConnection: false,
+          );
 
       final session = ref.read(SessionProviders.session);
       if (session.isConnected == false) {

@@ -280,9 +280,9 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                               ),
                                             ),
                                           ),
-                                          const DataCell(
+                                          DataCell(
                                             Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                 right: 20,
                                               ),
                                               child: SizedBox(
@@ -297,9 +297,9 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                       mainAxisAlignment:
                                                           MainAxisAlignment.end,
                                                       children: [
-                                                        /* Text(
-                                                                      '\$${estimatePoolValorisationInFiat.value.formatNumber()}',
-                                                                    ),*/
+                                                        Text(
+                                                          '\$${pool.estimatePoolTVLInFiat.formatNumber()}',
+                                                        ),
                                                       ],
                                                     ),
                                                   ],

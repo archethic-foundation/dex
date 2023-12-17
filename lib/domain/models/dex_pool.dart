@@ -15,6 +15,7 @@ class DexPool with _$DexPool {
     @Default(0.0) double fees,
     @Default(0.0) double ratioToken1Token2,
     @Default(0.0) double ratioToken2Token1,
+    @Default(0.0) double estimatePoolTVLInFiat,
   }) = _DexPool;
   const DexPool._();
 

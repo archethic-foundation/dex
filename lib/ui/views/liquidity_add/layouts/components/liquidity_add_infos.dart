@@ -13,11 +13,64 @@ class LiquidityAddInfos extends ConsumerWidget {
   ) {
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
     if (liquidityAdd.token1 == null ||
-        liquidityAdd.token1minAmount <= 0 ||
         liquidityAdd.token2 == null ||
-        liquidityAdd.token2minAmount <= 0 ||
-        liquidityAdd.expectedTokenLP <= 0) {
+        (liquidityAdd.token1minAmount == 0 &&
+            liquidityAdd.token2minAmount == 0 &&
+            liquidityAdd.expectedTokenLP == 0)) {
       return const SizedBox.shrink();
+    }
+
+    if (liquidityAdd.calculationInProgress) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                'Mininum amount for ${liquidityAdd.token1!.symbol}: ',
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+              const SizedBox(
+                height: 5,
+                width: 5,
+                child: CircularProgressIndicator(
+                  strokeWidth: 1,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Mininum amount for ${liquidityAdd.token2!.symbol}: ',
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+              const SizedBox(
+                height: 5,
+                width: 5,
+                child: CircularProgressIndicator(
+                  strokeWidth: 1,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Expected LP Token: ',
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+              const SizedBox(
+                height: 5,
+                width: 5,
+                child: CircularProgressIndicator(
+                  strokeWidth: 1,
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
     }
 
     return Column(

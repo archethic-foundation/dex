@@ -1,4 +1,5 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -29,8 +30,12 @@ class LiquidityAddFormNotifier
 
   CancelableTask<double?>? _calculateEquivalentAmountTask;
 
-  void setPoolGenesisAddress(String poolGenesisAddress) {
+  Future<void> setPoolGenesisAddress(String poolGenesisAddress) async {
     state = state.copyWith(poolGenesisAddress: poolGenesisAddress);
+
+    final poolInfos = await ref
+        .read(DexPoolProviders.getPoolInfos(poolGenesisAddress).future);
+    state = state.copyWith(pool: poolInfos);
   }
 
   Future<void> initBalances() async {
@@ -51,6 +56,14 @@ class LiquidityAddFormNotifier
       ).future,
     );
     state = state.copyWith(token2Balance: token2Balance);
+
+    final lpTokenBalance = await ref.read(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        state.pool!.lpToken!.address!,
+      ).future,
+    );
+    state = state.copyWith(lpTokenBalance: lpTokenBalance);
   }
 
   Future<void> initRatio() async {
@@ -210,6 +223,7 @@ class LiquidityAddFormNotifier
     state = state.copyWith(
       failure: null,
       token1Amount: amount,
+      calculationInProgress: true,
     );
 
     final equivalentAmount = await _calculateEquivalentAmount(
@@ -222,6 +236,10 @@ class LiquidityAddFormNotifier
 
     await setExpectedTokenLP();
     estimateTokenMinAmounts();
+
+    state = state.copyWith(
+      calculationInProgress: false,
+    );
   }
 
   Future<void> setToken2Amount(
@@ -230,6 +248,7 @@ class LiquidityAddFormNotifier
     state = state.copyWith(
       failure: null,
       token2Amount: amount,
+      calculationInProgress: true,
     );
     final equivalentAmount = await _calculateEquivalentAmount(
       state.token2!.isUCO ? 'UCO' : state.token2!.address!,
@@ -241,6 +260,10 @@ class LiquidityAddFormNotifier
 
     await setExpectedTokenLP();
     estimateTokenMinAmounts();
+
+    state = state.copyWith(
+      calculationInProgress: false,
+    );
   }
 
   void estimateTokenMinAmounts() {

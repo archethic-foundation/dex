@@ -16,6 +16,7 @@ class DexPoolHive extends HiveObject {
     required this.fees,
     required this.ratioToken1Token2,
     required this.ratioToken2Token1,
+    required this.estimatePoolTVLInFiat,
   });
 
   factory DexPoolHive.fromDexPool(DexPool dexPool) {
@@ -29,6 +30,7 @@ class DexPoolHive extends HiveObject {
       fees: dexPool.fees,
       ratioToken1Token2: dexPool.ratioToken1Token2,
       ratioToken2Token1: dexPool.ratioToken2Token1,
+      estimatePoolTVLInFiat: dexPool.estimatePoolTVLInFiat,
     );
   }
   @HiveField(0)
@@ -52,6 +54,9 @@ class DexPoolHive extends HiveObject {
   @HiveField(6)
   double ratioToken2Token1;
 
+  @HiveField(7)
+  double estimatePoolTVLInFiat;
+
   DexPool toDexPool() {
     return DexPool(
       poolAddress: poolAddress,
@@ -61,6 +66,7 @@ class DexPoolHive extends HiveObject {
       fees: fees,
       ratioToken1Token2: ratioToken1Token2,
       ratioToken2Token1: ratioToken2Token1,
+      estimatePoolTVLInFiat: estimatePoolTVLInFiat,
     );
   }
 }

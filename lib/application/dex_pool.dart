@@ -50,6 +50,9 @@ Future<List<DexPool>> _getPoolListFromCache(
 ) async {
   final poolListCache = <DexPool>[];
   final cacheManagerHive = await CacheManagerHive.getInstance();
+  if (cacheManagerHive.contains('poolList') == false) {
+    return <DexPool>[];
+  }
   final poolListCached = cacheManagerHive.get('poolList') as List<DexPoolHive>;
   debugPrint('poolListCached ${poolListCached.length}');
 
@@ -66,21 +69,32 @@ Future<List<DexPool>> _getPoolListFromCache(
 Future<void> _putPoolListToCache(
   _PutPoolListToCacheRef ref,
 ) async {
+  // To gain some time, we are loading the first only verified pools
+  final cacheManagerHive = await CacheManagerHive.getInstance();
+  var onlyVerified = false;
+  if (cacheManagerHive.contains('poolList') == false) {
+    onlyVerified = true;
+  }
   final poolListCache = <DexPoolHive>[];
-  final poolList = await ref.watch(DexPoolProviders.getPoolList(false).future);
+  final poolList =
+      await ref.watch(DexPoolProviders.getPoolList(onlyVerified).future);
   for (final pool in poolList) {
-    debugPrint('pool cache: ${pool.poolAddress}');
-    final poolInfos =
+    var poolInfos =
         await ref.watch(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
 
     if (poolInfos != null) {
-      debugPrint('pool infos: ${poolInfos.isVerified}');
+      final estimatePoolTVLInFiat = await ref.watch(
+        DexPoolProviders.estimatePoolTVLInFiat(
+          poolInfos,
+        ).future,
+      );
+      poolInfos =
+          poolInfos.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
       poolListCache.add(
         DexPoolHive.fromDexPool(poolInfos),
       );
     }
   }
-  final cacheManagerHive = await CacheManagerHive.getInstance();
   await cacheManagerHive.put('poolList', CacheItemHive(poolListCache));
   debugPrint('poolList stored');
 }
