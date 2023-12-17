@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_co
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
-import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,21 +40,7 @@ class LiquidityAddConfirmSheet extends ConsumerWidget {
                   },
           ),
           const SizedBox(height: 15),
-          Stack(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 60),
-                child: LiquidityAddConfirmInfos(),
-              ),
-              if (liquidityAdd.token1 != null)
-                PoolInfoCard(
-                  poolGenesisAddress: liquidityAdd.poolGenesisAddress,
-                  tokenAddressRatioPrimary: liquidityAdd.token1!.address == null
-                      ? 'UCO'
-                      : liquidityAdd.token1!.address!,
-                ),
-            ],
-          ),
+          const LiquidityAddConfirmInfos(),
           const SizedBox(
             height: 20,
           ),

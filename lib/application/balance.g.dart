@@ -187,5 +187,136 @@ class _GetBalanceProviderElement
   @override
   String get tokenAddress => (origin as _GetBalanceProvider).tokenAddress;
 }
+
+String _$getUserTokensBalanceHash() =>
+    r'5d5942456535c1ca2c662cd7bffe4649ff9b0aa9';
+
+/// See also [_getUserTokensBalance].
+@ProviderFor(_getUserTokensBalance)
+const _getUserTokensBalanceProvider = _GetUserTokensBalanceFamily();
+
+/// See also [_getUserTokensBalance].
+class _GetUserTokensBalanceFamily extends Family<AsyncValue<Balance?>> {
+  /// See also [_getUserTokensBalance].
+  const _GetUserTokensBalanceFamily();
+
+  /// See also [_getUserTokensBalance].
+  _GetUserTokensBalanceProvider call(
+    String address,
+  ) {
+    return _GetUserTokensBalanceProvider(
+      address,
+    );
+  }
+
+  @override
+  _GetUserTokensBalanceProvider getProviderOverride(
+    covariant _GetUserTokensBalanceProvider provider,
+  ) {
+    return call(
+      provider.address,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getUserTokensBalanceProvider';
+}
+
+/// See also [_getUserTokensBalance].
+class _GetUserTokensBalanceProvider
+    extends AutoDisposeFutureProvider<Balance?> {
+  /// See also [_getUserTokensBalance].
+  _GetUserTokensBalanceProvider(
+    String address,
+  ) : this._internal(
+          (ref) => _getUserTokensBalance(
+            ref as _GetUserTokensBalanceRef,
+            address,
+          ),
+          from: _getUserTokensBalanceProvider,
+          name: r'_getUserTokensBalanceProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getUserTokensBalanceHash,
+          dependencies: _GetUserTokensBalanceFamily._dependencies,
+          allTransitiveDependencies:
+              _GetUserTokensBalanceFamily._allTransitiveDependencies,
+          address: address,
+        );
+
+  _GetUserTokensBalanceProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.address,
+  }) : super.internal();
+
+  final String address;
+
+  @override
+  Override overrideWith(
+    FutureOr<Balance?> Function(_GetUserTokensBalanceRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetUserTokensBalanceProvider._internal(
+        (ref) => create(ref as _GetUserTokensBalanceRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        address: address,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Balance?> createElement() {
+    return _GetUserTokensBalanceProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetUserTokensBalanceProvider && other.address == address;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, address.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _GetUserTokensBalanceRef on AutoDisposeFutureProviderRef<Balance?> {
+  /// The parameter `address` of this provider.
+  String get address;
+}
+
+class _GetUserTokensBalanceProviderElement
+    extends AutoDisposeFutureProviderElement<Balance?>
+    with _GetUserTokensBalanceRef {
+  _GetUserTokensBalanceProviderElement(super.provider);
+
+  @override
+  String get address => (origin as _GetUserTokensBalanceProvider).address;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -61,7 +61,7 @@ class WelcomeTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'add liquidity & access LP staking',
+                  'add liquidity & access yield farming',
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.w400,

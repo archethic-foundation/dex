@@ -28,7 +28,7 @@ class PoolInfoCard extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    const cardHeight = 110.0;
+    const cardHeight = 115.0;
 
     if (poolGenesisAddress.isEmpty) {
       return const SizedBox(height: cardHeight);
@@ -215,8 +215,8 @@ class PoolInfoCard extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
+                      Text(
+                        'TVL: \$${pool.estimatePoolTVLInFiat.formatNumber(precision: 2)}',
                       ),
                       DexFees(
                         fees: pool.fees,

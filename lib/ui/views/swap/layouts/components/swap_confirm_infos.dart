@@ -47,10 +47,10 @@ class SwapConfirmInfos extends ConsumerWidget {
             children: [
               const Text('Swap'),
               Text(
-                '    -${swap.tokenToSwapAmount.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
+                '    - ${swap.tokenToSwapAmount.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
               ),
               Text(
-                '≈ +${swap.tokenSwappedAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+                '≈ + ${swap.tokenSwappedAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
               ),
               const SizedBox(
                 height: 10,

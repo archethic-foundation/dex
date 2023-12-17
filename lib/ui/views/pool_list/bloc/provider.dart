@@ -22,6 +22,14 @@ class PoolListFormNotifier extends AutoDisposeNotifier<PoolListFormState> {
       onlyVerifiedPools: onlyVerifiedPools,
     );
   }
+
+  void setOnlyPoolsWithLiquidityPositions(
+    bool onlyPoolsWithLiquidityPositions,
+  ) {
+    state = state.copyWith(
+      onlyPoolsWithLiquidityPositions: onlyPoolsWithLiquidityPositions,
+    );
+  }
 }
 
 abstract class PoolListFormProvider {

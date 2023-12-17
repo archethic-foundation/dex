@@ -57,10 +57,6 @@ class DexTokenBalance extends ConsumerWidget {
             ),
           ),
           if (withFiat)
-            const SizedBox(
-              width: 5,
-            ),
-          if (withFiat)
             FutureBuilder<String>(
               future: FiatValue().display(
                 ref,
@@ -71,8 +67,13 @@ class DexTokenBalance extends ConsumerWidget {
                 if (snapshot.hasData) {
                   return Opacity(
                     opacity: opacity,
-                    child: Text(
-                      snapshot.data!,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 5,
+                      ),
+                      child: Text(
+                        snapshot.data!,
+                      ),
                     ),
                   );
                 }

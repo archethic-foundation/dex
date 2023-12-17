@@ -1,9 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/market.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
@@ -38,15 +40,28 @@ Future<DexPool?> _getPoolInfos(
   _GetPoolInfosRef ref,
   String poolGenesisAddress,
 ) async {
-  return ref
+  var poolInfos = await ref
       .watch(_dexPoolsRepositoryProvider)
       .getPoolInfos(poolGenesisAddress);
+  if (poolInfos != null) {
+    final estimatePoolTVLInFiat = await ref.watch(
+      DexPoolProviders.estimatePoolTVLInFiat(
+        poolInfos,
+      ).future,
+    );
+
+    poolInfos =
+        poolInfos.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
+  }
+
+  return poolInfos;
 }
 
 @riverpod
 Future<List<DexPool>> _getPoolListFromCache(
   _GetPoolListFromCacheRef ref,
   bool onlyVerified,
+  bool onlyPoolsWithLiquidityPositions,
 ) async {
   final poolListCache = <DexPool>[];
   final cacheManagerHive = await CacheManagerHive.getInstance();
@@ -58,10 +73,27 @@ Future<List<DexPool>> _getPoolListFromCache(
 
   for (final poolHive in poolListCached) {
     final pool = poolHive.toDexPool();
-    if (onlyVerified && pool.isVerified || !onlyVerified) {
+    if ((onlyPoolsWithLiquidityPositions && pool.lpTokenInUserBalance ||
+            !onlyPoolsWithLiquidityPositions) &&
+        (onlyVerified && pool.isVerified || !onlyVerified)) {
       poolListCache.add(pool);
     }
   }
+
+  poolListCache.sort((a, b) {
+    if (a.lpTokenInUserBalance && !b.lpTokenInUserBalance) {
+      return -1;
+    } else if (!a.lpTokenInUserBalance && b.lpTokenInUserBalance) {
+      return 1;
+    }
+    if (a.isVerified && !b.isVerified) {
+      return -1;
+    } else if (!a.isVerified && b.isVerified) {
+      return 1;
+    }
+    return 0;
+  });
+
   return poolListCache;
 }
 
@@ -76,6 +108,15 @@ Future<void> _putPoolListToCache(
     onlyVerified = true;
   }
   final poolListCache = <DexPoolHive>[];
+
+  final session = ref.watch(SessionProviders.session);
+  Balance? userBalance;
+  if (session.isConnected && session.genesisAddress.isNotEmpty) {
+    userBalance = await ref.watch(
+      BalanceProviders.getUserTokensBalance(session.genesisAddress).future,
+    );
+  }
+
   final poolList =
       await ref.watch(DexPoolProviders.getPoolList(onlyVerified).future);
   for (final pool in poolList) {
@@ -88,14 +129,30 @@ Future<void> _putPoolListToCache(
           poolInfos,
         ).future,
       );
+
+      if (userBalance != null) {
+        for (final userTokensBalance in userBalance.token) {
+          if (poolInfos != null &&
+              poolInfos.lpToken != null &&
+              poolInfos.lpToken!.address != null &&
+              poolInfos.lpToken!.address == userTokensBalance.address) {
+            poolInfos = poolInfos.copyWith(
+              lpTokenInUserBalance: true,
+            );
+          }
+        }
+      }
+
       poolInfos =
-          poolInfos.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
+          poolInfos!.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
+
       poolListCache.add(
         DexPoolHive.fromDexPool(poolInfos),
       );
     }
   }
   await cacheManagerHive.put('poolList', CacheItemHive(poolListCache));
+
   debugPrint('poolList stored');
 }
 
@@ -133,7 +190,7 @@ Future<double> _estimatePoolTVLInFiat(
     tvl = pool.pair!.token1.reserve * fiatValue * 2;
   }
 
-  if (fiatValue > 0) {
+  if (fiatValue == 0) {
     fiatValue = await ref
         .watch(DexPoolProviders.estimateTokenInFiat(pool.pair!.token2).future);
     if (fiatValue > 0) {

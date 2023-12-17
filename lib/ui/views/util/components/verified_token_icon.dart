@@ -27,10 +27,13 @@ class VerifiedTokenIcon extends ConsumerWidget {
           if (snapshot.data == true) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 3),
-              child: Icon(
-                Iconsax.verify,
-                color: ArchethicThemeBase.systemPositive500,
-                size: iconSize,
+              child: Tooltip(
+                message: 'This token has been verified by Archethic',
+                child: Icon(
+                  Iconsax.verify,
+                  color: ArchethicThemeBase.systemPositive500,
+                  size: iconSize,
+                ),
               ),
             );
           }

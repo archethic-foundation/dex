@@ -1,6 +1,7 @@
 import 'package:aedex/domain/repositories/balance.repository.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart'
+    show Balance, ApiService, fromBigInt;
 
 class BalanceRepositoryImpl implements BalanceRepository {
   @override
@@ -25,5 +26,17 @@ class BalanceRepositoryImpl implements BalanceRepository {
     }
 
     return 0.0;
+  }
+
+  @override
+  Future<Balance?> getUserTokensBalance(
+    String address,
+  ) async {
+    final balanceGetResponseMap =
+        await sl.get<ApiService>().fetchBalance([address]);
+    if (balanceGetResponseMap[address] != null) {
+      return balanceGetResponseMap[address];
+    }
+    return null;
   }
 }

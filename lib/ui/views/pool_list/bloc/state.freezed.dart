@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PoolListFormState {
   bool get onlyVerifiedPools => throw _privateConstructorUsedError;
+  bool get onlyPoolsWithLiquidityPositions =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolListFormStateCopyWith<PoolListFormState> get copyWith =>
@@ -29,7 +31,7 @@ abstract class $PoolListFormStateCopyWith<$Res> {
           PoolListFormState value, $Res Function(PoolListFormState) then) =
       _$PoolListFormStateCopyWithImpl<$Res, PoolListFormState>;
   @useResult
-  $Res call({bool onlyVerifiedPools});
+  $Res call({bool onlyVerifiedPools, bool onlyPoolsWithLiquidityPositions});
 }
 
 /// @nodoc
@@ -46,11 +48,16 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
   @override
   $Res call({
     Object? onlyVerifiedPools = null,
+    Object? onlyPoolsWithLiquidityPositions = null,
   }) {
     return _then(_value.copyWith(
       onlyVerifiedPools: null == onlyVerifiedPools
           ? _value.onlyVerifiedPools
           : onlyVerifiedPools // ignore: cast_nullable_to_non_nullable
+              as bool,
+      onlyPoolsWithLiquidityPositions: null == onlyPoolsWithLiquidityPositions
+          ? _value.onlyPoolsWithLiquidityPositions
+          : onlyPoolsWithLiquidityPositions // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -64,7 +71,7 @@ abstract class _$$PoolListFormStateImplCopyWith<$Res>
       __$$PoolListFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool onlyVerifiedPools});
+  $Res call({bool onlyVerifiedPools, bool onlyPoolsWithLiquidityPositions});
 }
 
 /// @nodoc
@@ -79,11 +86,16 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? onlyVerifiedPools = null,
+    Object? onlyPoolsWithLiquidityPositions = null,
   }) {
     return _then(_$PoolListFormStateImpl(
       onlyVerifiedPools: null == onlyVerifiedPools
           ? _value.onlyVerifiedPools
           : onlyVerifiedPools // ignore: cast_nullable_to_non_nullable
+              as bool,
+      onlyPoolsWithLiquidityPositions: null == onlyPoolsWithLiquidityPositions
+          ? _value.onlyPoolsWithLiquidityPositions
+          : onlyPoolsWithLiquidityPositions // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -92,15 +104,21 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PoolListFormStateImpl extends _PoolListFormState {
-  const _$PoolListFormStateImpl({this.onlyVerifiedPools = true}) : super._();
+  const _$PoolListFormStateImpl(
+      {this.onlyVerifiedPools = false,
+      this.onlyPoolsWithLiquidityPositions = true})
+      : super._();
 
   @override
   @JsonKey()
   final bool onlyVerifiedPools;
+  @override
+  @JsonKey()
+  final bool onlyPoolsWithLiquidityPositions;
 
   @override
   String toString() {
-    return 'PoolListFormState(onlyVerifiedPools: $onlyVerifiedPools)';
+    return 'PoolListFormState(onlyVerifiedPools: $onlyVerifiedPools, onlyPoolsWithLiquidityPositions: $onlyPoolsWithLiquidityPositions)';
   }
 
   @override
@@ -109,11 +127,16 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
         (other.runtimeType == runtimeType &&
             other is _$PoolListFormStateImpl &&
             (identical(other.onlyVerifiedPools, onlyVerifiedPools) ||
-                other.onlyVerifiedPools == onlyVerifiedPools));
+                other.onlyVerifiedPools == onlyVerifiedPools) &&
+            (identical(other.onlyPoolsWithLiquidityPositions,
+                    onlyPoolsWithLiquidityPositions) ||
+                other.onlyPoolsWithLiquidityPositions ==
+                    onlyPoolsWithLiquidityPositions));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, onlyVerifiedPools);
+  int get hashCode => Object.hash(
+      runtimeType, onlyVerifiedPools, onlyPoolsWithLiquidityPositions);
 
   @JsonKey(ignore: true)
   @override
@@ -124,12 +147,15 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
 }
 
 abstract class _PoolListFormState extends PoolListFormState {
-  const factory _PoolListFormState({final bool onlyVerifiedPools}) =
-      _$PoolListFormStateImpl;
+  const factory _PoolListFormState(
+      {final bool onlyVerifiedPools,
+      final bool onlyPoolsWithLiquidityPositions}) = _$PoolListFormStateImpl;
   const _PoolListFormState._() : super._();
 
   @override
   bool get onlyVerifiedPools;
+  @override
+  bool get onlyPoolsWithLiquidityPositions;
   @override
   @JsonKey(ignore: true)
   _$$PoolListFormStateImplCopyWith<_$PoolListFormStateImpl> get copyWith =>

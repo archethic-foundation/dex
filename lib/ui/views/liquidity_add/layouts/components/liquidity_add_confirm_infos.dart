@@ -24,13 +24,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return Container(
-      padding: const EdgeInsets.only(
-        top: 30,
-        bottom: 20,
-        left: 50,
-        right: 50,
-      ),
+    return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: ArchethicThemeBase.blue800,
@@ -45,11 +39,8 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 40,
-            bottom: 20,
-            left: 20,
-            right: 20,
+          padding: const EdgeInsets.all(
+            20,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +72,6 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   DexTokenBalance(
                     tokenBalance: liquidityAdd.token1Balance,
                     tokenSymbol: liquidityAdd.token1!.symbol,
-                    withFiat: false,
                     height: 20,
                   ),
                   DexTokenBalance(
@@ -91,7 +81,6 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                             Decimal.parse(liquidityAdd.token1Amount.toString()))
                         .toDouble(),
                     tokenSymbol: liquidityAdd.token1!.symbol,
-                    withFiat: false,
                     height: 20,
                   ),
                 ],
@@ -102,7 +91,6 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   DexTokenBalance(
                     tokenBalance: liquidityAdd.token2Balance,
                     tokenSymbol: liquidityAdd.token2!.symbol,
-                    withFiat: false,
                     height: 20,
                   ),
                   DexTokenBalance(
@@ -112,7 +100,6 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                             Decimal.parse(liquidityAdd.token2Amount.toString()))
                         .toDouble(),
                     tokenSymbol: liquidityAdd.token2!.symbol,
-                    withFiat: false,
                     height: 20,
                   ),
                 ],

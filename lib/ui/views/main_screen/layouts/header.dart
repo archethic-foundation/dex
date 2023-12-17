@@ -121,7 +121,7 @@ class Header extends ConsumerWidget {
                         .setWidget(const LpStakingSheet(), ref);
                   },
                   child: Text(
-                    AppLocalizations.of(context)!.menu_lpStaking,
+                    AppLocalizations.of(context)!.menu_yield_farming,
                     style: TextStyle(
                       fontSize: 16,
                       color: indexMenu == 2

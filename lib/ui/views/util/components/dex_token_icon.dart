@@ -44,15 +44,6 @@ class DexTokenIcon extends ConsumerWidget {
         shape: BoxShape.circle,
         color: Colors.white.withOpacity(0.2),
       ),
-      child: const Center(
-        child: Text(
-          '?',
-          style: TextStyle(
-            fontSize: 10,
-            color: Colors.white,
-          ),
-        ),
-      ),
     );
   }
 }

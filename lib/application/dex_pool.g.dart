@@ -173,7 +173,7 @@ class _GetPoolListProviderElement
   bool get onlyVerified => (origin as _GetPoolListProvider).onlyVerified;
 }
 
-String _$getPoolInfosHash() => r'91bd638090682c1d52314c216e29aae0afc708ab';
+String _$getPoolInfosHash() => r'3a338779d5e0a7625005347be5240a889bcb93e4';
 
 /// See also [_getPoolInfos].
 @ProviderFor(_getPoolInfos)
@@ -304,7 +304,7 @@ class _GetPoolInfosProviderElement
 }
 
 String _$getPoolListFromCacheHash() =>
-    r'67568de3923a4f825e30ff8e0cb971d517c88a63';
+    r'6bf41c314b65e7c1d041f7cdc09333bfd003965b';
 
 /// See also [_getPoolListFromCache].
 @ProviderFor(_getPoolListFromCache)
@@ -318,9 +318,11 @@ class _GetPoolListFromCacheFamily extends Family<AsyncValue<List<DexPool>>> {
   /// See also [_getPoolListFromCache].
   _GetPoolListFromCacheProvider call(
     bool onlyVerified,
+    bool onlyPoolsWithLiquidityPositions,
   ) {
     return _GetPoolListFromCacheProvider(
       onlyVerified,
+      onlyPoolsWithLiquidityPositions,
     );
   }
 
@@ -330,6 +332,7 @@ class _GetPoolListFromCacheFamily extends Family<AsyncValue<List<DexPool>>> {
   ) {
     return call(
       provider.onlyVerified,
+      provider.onlyPoolsWithLiquidityPositions,
     );
   }
 
@@ -354,10 +357,12 @@ class _GetPoolListFromCacheProvider
   /// See also [_getPoolListFromCache].
   _GetPoolListFromCacheProvider(
     bool onlyVerified,
+    bool onlyPoolsWithLiquidityPositions,
   ) : this._internal(
           (ref) => _getPoolListFromCache(
             ref as _GetPoolListFromCacheRef,
             onlyVerified,
+            onlyPoolsWithLiquidityPositions,
           ),
           from: _getPoolListFromCacheProvider,
           name: r'_getPoolListFromCacheProvider',
@@ -369,6 +374,7 @@ class _GetPoolListFromCacheProvider
           allTransitiveDependencies:
               _GetPoolListFromCacheFamily._allTransitiveDependencies,
           onlyVerified: onlyVerified,
+          onlyPoolsWithLiquidityPositions: onlyPoolsWithLiquidityPositions,
         );
 
   _GetPoolListFromCacheProvider._internal(
@@ -379,9 +385,11 @@ class _GetPoolListFromCacheProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.onlyVerified,
+    required this.onlyPoolsWithLiquidityPositions,
   }) : super.internal();
 
   final bool onlyVerified;
+  final bool onlyPoolsWithLiquidityPositions;
 
   @override
   Override overrideWith(
@@ -397,6 +405,7 @@ class _GetPoolListFromCacheProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         onlyVerified: onlyVerified,
+        onlyPoolsWithLiquidityPositions: onlyPoolsWithLiquidityPositions,
       ),
     );
   }
@@ -409,13 +418,16 @@ class _GetPoolListFromCacheProvider
   @override
   bool operator ==(Object other) {
     return other is _GetPoolListFromCacheProvider &&
-        other.onlyVerified == onlyVerified;
+        other.onlyVerified == onlyVerified &&
+        other.onlyPoolsWithLiquidityPositions ==
+            onlyPoolsWithLiquidityPositions;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, onlyVerified.hashCode);
+    hash = _SystemHash.combine(hash, onlyPoolsWithLiquidityPositions.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -424,6 +436,9 @@ class _GetPoolListFromCacheProvider
 mixin _GetPoolListFromCacheRef on AutoDisposeFutureProviderRef<List<DexPool>> {
   /// The parameter `onlyVerified` of this provider.
   bool get onlyVerified;
+
+  /// The parameter `onlyPoolsWithLiquidityPositions` of this provider.
+  bool get onlyPoolsWithLiquidityPositions;
 }
 
 class _GetPoolListFromCacheProviderElement
@@ -434,10 +449,13 @@ class _GetPoolListFromCacheProviderElement
   @override
   bool get onlyVerified =>
       (origin as _GetPoolListFromCacheProvider).onlyVerified;
+  @override
+  bool get onlyPoolsWithLiquidityPositions =>
+      (origin as _GetPoolListFromCacheProvider).onlyPoolsWithLiquidityPositions;
 }
 
 String _$putPoolListToCacheHash() =>
-    r'5ae1acb40eb95ea40a16a45f7771dec8ac9421ab';
+    r'8b676765090b04bbe20e27746f783446c99d3a59';
 
 /// See also [_putPoolListToCache].
 @ProviderFor(_putPoolListToCache)
@@ -583,7 +601,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimatePoolTVLInFiatHash() =>
-    r'16f9ede2559a5baceead16001cce113ddd1887b4';
+    r'75b90b783143aa5a0617205300c7167e4bbed95d';
 
 /// See also [_estimatePoolTVLInFiat].
 @ProviderFor(_estimatePoolTVLInFiat)
