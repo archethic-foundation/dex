@@ -72,7 +72,7 @@ class _SessionNotifier extends Notifier<Session> {
       try {
         archethicDAppClient = awc.ArchethicDAppClient.auto(
           origin: const awc.RequestOrigin(
-            name: 'AESwap',
+            name: 'aeSwap',
           ),
           replyBaseUrl: 'aeswap://archethic.tech',
         );
@@ -115,7 +115,7 @@ class _SessionNotifier extends Notifier<Session> {
             state = state.copyWith(
               isConnected: false,
               error:
-                  'AESwap is not currently available on the Archethic mainnet.',
+                  'aeSwap is not currently available on the Archethic mainnet.',
             );
             throw Failure.other(cause: state.error);
           }

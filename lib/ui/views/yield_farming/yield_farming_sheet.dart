@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LpStakingSheet extends ConsumerWidget {
-  const LpStakingSheet({super.key});
+class YieldFarmingSheet extends ConsumerWidget {
+  const YieldFarmingSheet({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

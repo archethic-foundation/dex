@@ -48,24 +48,26 @@ class CacheManagerHive with SecuredHiveMixin {
     await _cacheBox.put(key, cacheItemHive);
   }
 
-  dynamic get(String key) {
+  T? get<T>(String key) {
     final cachedItem = _cacheBox.get(key);
-    if (cachedItem != null) {
-      if (Duration(seconds: cachedItem.ttl) != Duration.zero) {
-        final ttlExpirationTime = cachedItem.createdAt.add(
-          Duration(
-            seconds: cachedItem.ttl,
-          ),
-        );
-        if (DateTime.now().isBefore(ttlExpirationTime)) {
-          return cachedItem.value;
-        } else {
-          log('Delete expired item $key', name: 'cacheManagerHive');
-          _cacheBox.delete(key);
-        }
-      } else {
-        return cachedItem.value;
-      }
+    if (cachedItem == null) {
+      return null;
+    }
+
+    if (Duration(seconds: cachedItem.ttl) == Duration.zero) {
+      return cachedItem.value is T ? cachedItem.value : null;
+    }
+
+    final ttlExpirationTime = cachedItem.createdAt.add(
+      Duration(
+        seconds: cachedItem.ttl,
+      ),
+    );
+    if (DateTime.now().isBefore(ttlExpirationTime)) {
+      return cachedItem.value is T ? cachedItem.value : null;
+    } else {
+      log('Delete expired item $key', name: 'cacheManagerHive');
+      _cacheBox.delete(key);
     }
     return null;
   }

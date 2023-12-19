@@ -1,11 +1,11 @@
 {
-    "name": "AESwap",
-    "short_name": "AESwap",
+    "name": "aeSwap",
+    "short_name": "aeSwap",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "AESwap",
+    "description": "aeSwap",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

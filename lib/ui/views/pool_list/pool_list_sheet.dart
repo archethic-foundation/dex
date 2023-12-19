@@ -64,9 +64,9 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                     width: 950,
                     height: MediaQuery.of(context).size.height - 160,
                     child: ArchethicScrollbar(
-                      child: dexPools.map(
+                      child: dexPools.when(
                         data: (pools) {
-                          if (pools.value.isEmpty) {
+                          if (pools.isEmpty) {
                             return const SizedBox.shrink();
                           }
 
@@ -136,7 +136,7 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                     ),
                                   ),
                                 ],
-                                rows: pools.value
+                                rows: pools
                                     .asMap()
                                     .map(
                                       (index, pool) {
@@ -521,17 +521,21 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                             ),
                           );
                         },
-                        error: (error) => const Text('error'),
-                        loading: (loading) => const Padding(
-                          padding: EdgeInsets.only(
-                            left: 30,
-                            right: 30,
-                            top: 230,
-                          ),
-                          child: LinearProgressIndicator(
-                            minHeight: 1,
-                          ),
-                        ),
+                        error: (error, stackTrace) {
+                          return Text('error $error');
+                        },
+                        loading: () {
+                          return const Padding(
+                            padding: EdgeInsets.only(
+                              left: 30,
+                              right: 30,
+                              top: 230,
+                            ),
+                            child: LinearProgressIndicator(
+                              minHeight: 1,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),

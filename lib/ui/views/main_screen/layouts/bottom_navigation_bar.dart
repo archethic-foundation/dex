@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:aedex/application/main_screen_widget_displayed.dart';
-import 'package:aedex/ui/views/lp_staking/lp_staking_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/yield_farming/yield_farming_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -74,7 +74,7 @@ class _BottomNavigationBarMainScreenState
                       MainScreenWidgetDisplayedProviders
                           .mainScreenWidgetDisplayedProvider.notifier,
                     )
-                    .setWidget(const LpStakingSheet(), ref);
+                    .setWidget(const YieldFarmingSheet(), ref);
 
                 break;
 

@@ -59,6 +59,17 @@ class _MyAppState extends ConsumerState<MyApp> {
             .read(SessionProviders.session.notifier)
             .connectEndpoint(session.envSelected);
       }
+
+      await ref
+          .read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier)
+          .init();
+      await ref.read(DexPoolProviders.putPoolListToCache.future);
+
+      _poolListTimer =
+          Timer.periodic(const Duration(minutes: 1), (timer) async {
+        await ref.read(DexPoolProviders.putPoolListToCache.future);
+        ref.invalidate(DexPoolProviders.getPoolListFromCache);
+      });
     });
   }
 
@@ -70,15 +81,6 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    ref.read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier).init();
-    ref.read(DexPoolProviders.putPoolListToCache);
-
-    _poolListTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
-      ref
-        ..read(DexPoolProviders.putPoolListToCache)
-        ..invalidate(DexPoolProviders.getPoolListFromCache);
-    });
-
     // GoRouter configuration
     final _router = GoRouter(
       routes: RoutesPath().aeDexRoutes(ref),
@@ -86,7 +88,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
     return MaterialApp.router(
       routerConfig: _router,
-      title: 'AESwap',
+      title: 'aeSwap',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,

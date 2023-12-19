@@ -1,10 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
-import 'package:aedex/ui/views/lp_staking/lp_staking_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/yield_farming/yield_farming_sheet.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +23,7 @@ class MainScreenWidgetDiplayed extends StateNotifier<Widget> {
       ref.read(navigationIndexMainScreenProvider.notifier).state = 1;
     } else if (newWidget is LiquidityAddSheet) {
       ref.read(navigationIndexMainScreenProvider.notifier).state = 1;
-    } else if (newWidget is LpStakingSheet) {
+    } else if (newWidget is YieldFarmingSheet) {
       ref.read(navigationIndexMainScreenProvider.notifier).state = 2;
     }
   }

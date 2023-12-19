@@ -68,7 +68,9 @@ Future<List<DexPool>> _getPoolListFromCache(
   if (cacheManagerHive.contains('poolList') == false) {
     return <DexPool>[];
   }
-  final poolListCached = cacheManagerHive.get('poolList') as List<DexPoolHive>;
+  final poolListCached =
+      cacheManagerHive.get<List<DexPoolHive>>('poolList') ?? [];
+
   debugPrint('poolListCached ${poolListCached.length}');
 
   for (final poolHive in poolListCached) {
@@ -109,22 +111,22 @@ Future<void> _putPoolListToCache(
   }
   final poolListCache = <DexPoolHive>[];
 
-  final session = ref.watch(SessionProviders.session);
+  final session = ref.read(SessionProviders.session);
   Balance? userBalance;
   if (session.isConnected && session.genesisAddress.isNotEmpty) {
-    userBalance = await ref.watch(
+    userBalance = await ref.read(
       BalanceProviders.getUserTokensBalance(session.genesisAddress).future,
     );
   }
 
   final poolList =
-      await ref.watch(DexPoolProviders.getPoolList(onlyVerified).future);
+      await ref.read(DexPoolProviders.getPoolList(onlyVerified).future);
   for (final pool in poolList) {
     var poolInfos =
-        await ref.watch(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
+        await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
 
     if (poolInfos != null) {
-      final estimatePoolTVLInFiat = await ref.watch(
+      final estimatePoolTVLInFiat = await ref.read(
         DexPoolProviders.estimatePoolTVLInFiat(
           poolInfos,
         ).future,

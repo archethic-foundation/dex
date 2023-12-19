@@ -39,7 +39,7 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
         # Ensure liquidity is provided to the pool
         valid? = List.in?(transaction.recipients, pool_genesis_address)
       end
-      
+
       log("valid_definition? #{valid_definition?}")
       log("valid_code? #{valid_code?}")
       log("valid? #{valid?}")
@@ -180,7 +180,7 @@ export fun get_pool_code(token1_address, token2_address, pool_address, lp_token_
       token2_address = temp
     end
 
-    code = 
+    code =
 """
 @POOL_CODE
 """
@@ -206,7 +206,7 @@ export fun get_lp_token_definition(token1_symbol, token2_symbol) do
     name: lp_token,
     allow_mint: true,
     properties: [
-      description: "LP token of AESwap"
+      description: "LP token of aeSwap"
     ],
     recipients: [
       [
