@@ -43,7 +43,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                   child: SelectionArea(
                     child: Text(
                       AppLocalizations.of(context)!.liquidityAddFormTitle,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ),
@@ -84,6 +84,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                         children: [
                           Text(
                             '${AppLocalizations.of(context)!.slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const Align(
                             alignment: Alignment.centerRight,

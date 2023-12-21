@@ -15,6 +15,7 @@ import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/icon_animated.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:aedex/ui/views/util/components/text_button_animated.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
@@ -398,11 +399,10 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                                 message:
                                                                     'Add liquidity',
                                                                 child:
-                                                                    IconAnimated(
-                                                                  icon: Iconsax
-                                                                      .wallet_add_1,
-                                                                  color: Colors
-                                                                      .white,
+                                                                    TextButtonAnimated(
+                                                                  text: Text(
+                                                                    'add',
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
@@ -410,50 +410,52 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Align(
-                                                      child: SizedBox(
-                                                        width: 50,
-                                                        child: pool
-                                                                .lpTokenInUserBalance
-                                                            ? Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      ref
-                                                                          .read(
-                                                                            MainScreenWidgetDisplayedProviders.mainScreenWidgetDisplayedProvider.notifier,
-                                                                          )
-                                                                          .setWidget(
-                                                                            LiquidityRemoveSheet(
-                                                                              poolGenesisAddress: pool.poolAddress,
-                                                                              lpToken: pool.lpToken!,
-                                                                              pair: pool.pair!,
-                                                                            ),
-                                                                            ref,
-                                                                          );
-                                                                    },
-                                                                    child:
-                                                                        const Tooltip(
-                                                                      message:
-                                                                          'Remove liquidity',
-                                                                      child:
-                                                                          IconAnimated(
-                                                                        icon: Iconsax
-                                                                            .wallet_minus,
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
+                                                    if (pool
+                                                        .lpTokenInUserBalance)
+                                                      Align(
+                                                        child: SizedBox(
+                                                          width: 50,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  ref
+                                                                      .read(
+                                                                        MainScreenWidgetDisplayedProviders
+                                                                            .mainScreenWidgetDisplayedProvider
+                                                                            .notifier,
+                                                                      )
+                                                                      .setWidget(
+                                                                        LiquidityRemoveSheet(
+                                                                          poolGenesisAddress:
+                                                                              pool.poolAddress,
+                                                                          lpToken:
+                                                                              pool.lpToken!,
+                                                                          pair:
+                                                                              pool.pair!,
+                                                                        ),
+                                                                        ref,
+                                                                      );
+                                                                },
+                                                                child:
+                                                                    const Tooltip(
+                                                                  message:
+                                                                      'Remove liquidity',
+                                                                  child:
+                                                                      TextButtonAnimated(
+                                                                    text: Text(
+                                                                      'remove',
                                                                     ),
                                                                   ),
-                                                                ],
-                                                              )
-                                                            : const SizedBox
-                                                                .shrink(),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
                                                   ],
                                                 ),
                                               ),

@@ -35,7 +35,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                   child: SelectionArea(
                     child: Text(
                       AppLocalizations.of(context)!.poolAddFormTitle,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 ),

@@ -59,7 +59,7 @@ class SwapSettingsSlippageToleranceState
                   children: [
                     TextSpan(
                       text: AppLocalizations.of(context)!.slippage_tolerance,
-                      style: Theme.of(context).textTheme.labelMedium,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
@@ -113,9 +113,12 @@ class SwapSettingsSlippageToleranceState
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 5),
-              child: Text('%'),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Text(
+                '%',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
           ],
         ),

@@ -111,9 +111,12 @@ class LiquiditySettingsSlippageToleranceState
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 5),
-              child: Text('%'),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Text(
+                '%',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
           ],
         ),

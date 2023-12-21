@@ -45,12 +45,17 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Add liquidity in the pool'),
+              Text(
+                'Add liquidity in the pool',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
               Text(
                 '+ ${liquidityAdd.token1Amount.formatNumber()} ${liquidityAdd.token1!.symbol}',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Text(
                 '+ ${liquidityAdd.token2Amount.formatNumber()} ${liquidityAdd.token2!.symbol}',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 10,
@@ -60,9 +65,11 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
                     AppLocalizations.of(context)!.confirmAfterLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
               ),

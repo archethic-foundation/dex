@@ -54,6 +54,7 @@ class DexTokenBalance extends ConsumerWidget {
             opacity: opacity,
             child: Text(
               '${tokenBalance.formatNumber()} $tokenSymbol',
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
           if (withFiat)
@@ -73,6 +74,7 @@ class DexTokenBalance extends ConsumerWidget {
                       ),
                       child: Text(
                         snapshot.data!,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   );

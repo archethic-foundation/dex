@@ -29,14 +29,12 @@ class DexButtonValidate extends ConsumerWidget {
     if (controlOk == false) {
       return AppButton(
         labelBtn: labelBtn,
-        icon: icon,
         disabled: true,
       );
     }
 
     return AppButton(
       labelBtn: labelBtn,
-      icon: icon,
       onPressed: onPressed,
     );
   }

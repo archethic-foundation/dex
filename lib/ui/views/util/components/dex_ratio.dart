@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class DexRatio extends StatelessWidget {
   const DexRatio({
@@ -24,14 +23,8 @@ class DexRatio extends StatelessWidget {
     return SizedBox(
       child: Text(
         '${double.parse('1').formatNumber()} $token1Symbol = ${ratio.formatNumber()} $token2Symbol',
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
-    )
-        .animate()
-        .fade(
-          duration: const Duration(milliseconds: 500),
-        )
-        .scale(
-          duration: const Duration(milliseconds: 500),
-        );
+    );
   }
 }

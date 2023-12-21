@@ -3,6 +3,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_change.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_icon_refresh.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_icon_settings.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_selection.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
@@ -86,17 +87,25 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(AppLocalizations.of(context)!.swapFromLbl),
+            Text(
+              AppLocalizations.of(context)!.swapFromLbl,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
                   '${AppLocalizations.of(context)!.slippage_tolerance} ${swap.slippageTolerance}%',
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const Align(
                   alignment: Alignment.centerRight,
                   child: SwapTokenIconSettings(),
                 ),
+                const SizedBox(
+                  width: 5,
+                ),
+                const SwapTokenIconRefresh(),
               ],
             ),
           ],
@@ -221,7 +230,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                         if (snapshot.hasData) {
                           return Text(
                             snapshot.data!,
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           );
                         }
                         return const SizedBox.shrink();

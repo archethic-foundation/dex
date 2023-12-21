@@ -45,7 +45,10 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Remove liquidity from the pool'),
+              Text(
+                'Remove liquidity from the pool',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -54,9 +57,11 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
                     AppLocalizations.of(context)!.confirmAfterLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
               ),
@@ -107,6 +112,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
               ),
               Text(
                 'LP Token: -${liquidityRemove.lpTokenAmount.formatNumber()}',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ],
           ),

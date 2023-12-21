@@ -75,7 +75,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                     ],
                   ),
                   child: Text(
-                    AppLocalizations.of(context)!.launch,
+                    AppLocalizations.of(context)!.go,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.labelMedium!.color,
                       fontSize: 17,

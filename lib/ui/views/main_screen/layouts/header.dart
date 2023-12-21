@@ -1,11 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/farm/farm_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
-import 'package:aedex/ui/views/yield_farming/yield_farming_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,7 +75,7 @@ class Header extends ConsumerWidget {
                   child: Text(
                     AppLocalizations.of(context)!.menu_swap,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       color: indexMenu == 0
                           ? ArchethicThemeBase.blue50
                           : ArchethicThemeBase.blue200,
@@ -99,7 +99,7 @@ class Header extends ConsumerWidget {
                   child: Text(
                     AppLocalizations.of(context)!.menu_liquidity,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       color: indexMenu == 1
                           ? ArchethicThemeBase.blue50
                           : ArchethicThemeBase.blue200,
@@ -118,12 +118,12 @@ class Header extends ConsumerWidget {
                           MainScreenWidgetDisplayedProviders
                               .mainScreenWidgetDisplayedProvider.notifier,
                         )
-                        .setWidget(const YieldFarmingSheet(), ref);
+                        .setWidget(const FarmSheet(), ref);
                   },
                   child: Text(
-                    AppLocalizations.of(context)!.menu_yield_farming,
+                    AppLocalizations.of(context)!.menu_farm,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       color: indexMenu == 2
                           ? ArchethicThemeBase.blue50
                           : ArchethicThemeBase.blue200,

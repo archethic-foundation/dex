@@ -105,8 +105,8 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
 
 class _$PoolListFormStateImpl extends _PoolListFormState {
   const _$PoolListFormStateImpl(
-      {this.onlyVerifiedPools = false,
-      this.onlyPoolsWithLiquidityPositions = true})
+      {this.onlyVerifiedPools = true,
+      this.onlyPoolsWithLiquidityPositions = false})
       : super._();
 
   @override

@@ -3,8 +3,6 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
@@ -55,46 +53,22 @@ class SingleToken extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 3),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            token.symbol,
-                            style: Theme.of(context).textTheme.labelSmall,
-                          ),
-                          const SizedBox(
-                            width: 3,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 2),
-                            child: VerifiedTokenIcon(
-                              address: token.isUCO ? 'UCO' : token.address!,
-                              iconSize: 12,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        token.symbol,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      if (token.balance > 0)
-                        Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(bottom: 3),
-                              child: Icon(
-                                Iconsax.empty_wallet,
-                                size: 12,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              token.balance.formatNumber(),
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
+                      const SizedBox(
+                        width: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: VerifiedTokenIcon(
+                          address: token.isUCO ? 'UCO' : token.address!,
+                          iconSize: 12,
                         ),
+                      ),
                     ],
                   ),
                 ),

@@ -45,12 +45,17 @@ class SwapConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Swap'),
+              Text(
+                'Swap',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
               Text(
                 '    - ${swap.tokenToSwapAmount.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Text(
                 '≈ + ${swap.tokenSwappedAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 10,
@@ -60,9 +65,11 @@ class SwapConfirmInfos extends ConsumerWidget {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
                     AppLocalizations.of(context)!.confirmAfterLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
               ),

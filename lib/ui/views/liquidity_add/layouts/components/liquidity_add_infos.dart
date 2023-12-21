@@ -28,7 +28,7 @@ class LiquidityAddInfos extends ConsumerWidget {
             children: [
               Text(
                 'Mininum amount for ${liquidityAdd.token1!.symbol}: ',
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 5,
@@ -43,7 +43,7 @@ class LiquidityAddInfos extends ConsumerWidget {
             children: [
               Text(
                 'Mininum amount for ${liquidityAdd.token2!.symbol}: ',
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 5,
@@ -58,7 +58,7 @@ class LiquidityAddInfos extends ConsumerWidget {
             children: [
               Text(
                 'Expected LP Token: ',
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 5,
@@ -78,15 +78,15 @@ class LiquidityAddInfos extends ConsumerWidget {
       children: [
         Text(
           'Mininum amount for ${liquidityAdd.token1!.symbol}: +${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
-          style: Theme.of(context).textTheme.labelSmall,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         Text(
           'Mininum amount for ${liquidityAdd.token2!.symbol}: +${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
-          style: Theme.of(context).textTheme.labelSmall,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         Text(
           'Expected LP Token: +${liquidityAdd.expectedTokenLP.formatNumber()}',
-          style: Theme.of(context).textTheme.labelSmall,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ],
     );

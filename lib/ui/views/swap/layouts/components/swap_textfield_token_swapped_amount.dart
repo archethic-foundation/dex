@@ -80,7 +80,10 @@ class _SwapTokenSwappedAmountState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(AppLocalizations.of(context)!.swapToEstimatedLbl),
+        Text(
+          AppLocalizations.of(context)!.swapToEstimatedLbl,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
         Stack(
           alignment: Alignment.centerLeft,
           children: [
@@ -203,7 +206,7 @@ class _SwapTokenSwappedAmountState
                         if (snapshot.hasData) {
                           return Text(
                             snapshot.data!,
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           );
                         }
                         return const SizedBox.shrink();

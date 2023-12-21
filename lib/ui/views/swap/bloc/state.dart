@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -34,6 +35,7 @@ class SwapFormState with _$SwapFormState {
     @Default(0.0) double estimatedReceived,
     Failure? failure,
     Transaction? recoveryTransactionSwap,
+    DexPool? poolInfos,
   }) = _SwapFormState;
   const SwapFormState._();
 

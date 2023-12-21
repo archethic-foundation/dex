@@ -61,6 +61,7 @@ class PoolAddToken1Selection extends ConsumerWidget {
                 if (poolAdd.token1 == null)
                   Text(
                     AppLocalizations.of(context)!.btn_selectToken,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   )
                 else
                   Padding(
@@ -76,7 +77,10 @@ class PoolAddToken1Selection extends ConsumerWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 2, left: 10),
-                          child: Text(poolAdd.token1!.symbol),
+                          child: Text(
+                            poolAdd.token1!.symbol,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                         ),
                       ],
                     ),

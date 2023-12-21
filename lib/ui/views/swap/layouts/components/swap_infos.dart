@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,9 @@ class SwapInfos extends ConsumerWidget {
     if (swap.swapFees <= 0 && swap.priceImpact <= 0) {
       return const SizedBox.shrink();
     }
+    final tokenAddressRatioPrimary =
+        swap.tokenToSwap!.address == null ? 'UCO' : swap.tokenToSwap!.address!;
+
     return Padding(
       padding: const EdgeInsets.only(top: 5),
       child: Column(
@@ -42,8 +46,8 @@ class SwapInfos extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  'Fees: ${swap.swapFees.formatNumber()} ${swap.tokenToSwap!.symbol}',
-                  style: Theme.of(context).textTheme.labelSmall,
+                  'Fees: ${swap.swapFees.formatNumber()} UCO',
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(
                   width: 5,
@@ -58,7 +62,7 @@ class SwapInfos extends ConsumerWidget {
                     if (snapshot.hasData) {
                       return Text(
                         snapshot.data!,
-                        style: Theme.of(context).textTheme.labelSmall,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       );
                     }
                     return const SizedBox.shrink();
@@ -66,17 +70,20 @@ class SwapInfos extends ConsumerWidget {
                 ),
               ],
             ),
-          if (swap.priceImpact > 0)
+          if (swap.tokenSwapped != null &&
+              swap.tokenToSwap != null &&
+              swap.tokenSwappedAmount > 0 &&
+              swap.tokenToSwapAmount > 0)
             Text(
               'Price impact: ${swap.priceImpact.formatNumber()}%',
-              style: Theme.of(context).textTheme.labelSmall,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           if (swap.minToReceive > 0 && swap.tokenSwapped != null)
             Row(
               children: [
                 Text(
                   'Minimum received: ${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
-                  style: Theme.of(context).textTheme.labelSmall,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(
                   width: 5,
@@ -91,13 +98,33 @@ class SwapInfos extends ConsumerWidget {
                     if (snapshot.hasData) {
                       return Text(
                         snapshot.data!,
-                        style: Theme.of(context).textTheme.labelSmall,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       );
                     }
                     return const SizedBox.shrink();
                   },
                 ),
               ],
+            ),
+          if (swap.poolInfos != null)
+            Text(
+              'TVL: \$${swap.poolInfos!.estimatePoolTVLInFiat.formatNumber(precision: 2)}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          if (swap.poolInfos != null)
+            DexRatio(
+              ratio: tokenAddressRatioPrimary ==
+                      swap.poolInfos!.pair!.token1.address
+                  ? swap.poolInfos!.ratioToken1Token2
+                  : swap.poolInfos!.ratioToken2Token1,
+              token1Symbol: tokenAddressRatioPrimary ==
+                      swap.poolInfos!.pair!.token1.address
+                  ? swap.poolInfos!.pair!.token1.symbol
+                  : swap.poolInfos!.pair!.token2.symbol,
+              token2Symbol: tokenAddressRatioPrimary ==
+                      swap.poolInfos!.pair!.token1.address
+                  ? swap.poolInfos!.pair!.token2.symbol
+                  : swap.poolInfos!.pair!.token1.symbol,
             ),
         ],
       ),

@@ -61,9 +61,11 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
               children: [
                 Text(
                   AppLocalizations.of(context)!.poolAddConfirmNewPoolLbl,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Text(
                   AppLocalizations.of(context)!.poolAddConfirmWithLiquidityLbl,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),
@@ -84,13 +86,13 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
                         children: [
                           Text(
                             poolAdd.token1!.symbol,
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           Row(
                             children: [
                               Text(
                                 poolAdd.token1!.name,
-                                style: Theme.of(context).textTheme.labelSmall,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               const SizedBox(
                                 width: 5,
@@ -124,13 +126,13 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
                         children: [
                           Text(
                             poolAdd.token2!.symbol,
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           Row(
                             children: [
                               Text(
                                 poolAdd.token2!.name,
-                                style: Theme.of(context).textTheme.labelSmall,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               const SizedBox(
                                 width: 5,
@@ -166,14 +168,14 @@ class PoolAddConfirmInfoCard extends ConsumerWidget {
                       height: 80,
                       child: Text(
                         '+ ${poolAdd.token1Amount.formatNumber()} ${poolAdd.token1!.symbol}',
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                     SizedBox(
                       height: 80,
                       child: Text(
                         '+ ${poolAdd.token2Amount.formatNumber()} ${poolAdd.token2!.symbol}',
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   ],

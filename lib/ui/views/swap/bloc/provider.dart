@@ -1,8 +1,10 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/swap.dart';
@@ -34,6 +36,18 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double fees,
         double priceImpact,
       })>? _calculateSwapInfosTask;
+
+  Future<void> getPoolInfos() async {
+    final poolInfos = await ref
+        .read(DexPoolProviders.getPoolInfos(state.poolGenesisAddress).future);
+    if (poolInfos != null) {
+      setPoolInfos(poolInfos);
+    }
+  }
+
+  void setPoolInfos(DexPool dexPool) {
+    state = state.copyWith(poolInfos: dexPool);
+  }
 
   Future<void> setTokenToSwap(
     DexToken tokenToSwap,
@@ -70,6 +84,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               await setTokenToSwapAmount(state.tokenToSwapAmount);
               setTokenFormSelected(1);
               await getRatio();
+              await getPoolInfos();
             } else {
               setPoolAddress('');
               setFailure(const PoolNotExists());
@@ -90,7 +105,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double outputAmount,
         double fees,
         double priceImpact,
-      })> _calculateSwapInfos(
+      })> calculateSwapInfos(
     String tokenAddress,
     double amount, {
     Duration delay = const Duration(milliseconds: 800),
@@ -199,7 +214,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenToSwap == null) {
       return;
     }
-    final swapInfos = await _calculateSwapInfos(
+    final swapInfos = await calculateSwapInfos(
       state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       tokenToSwapAmount,
     );
@@ -232,7 +247,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenSwapped == null) {
       return;
     }
-    final swapInfos = await _calculateSwapInfos(
+    final swapInfos = await calculateSwapInfos(
       state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
       tokenSwappedAmount,
     );
@@ -301,6 +316,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               await setTokenSwappedAmount(state.tokenSwappedAmount);
               setTokenFormSelected(2);
               await getRatio();
+              await getPoolInfos();
             } else {
               setPoolAddress('');
               setFailure(const PoolNotExists());
@@ -375,7 +391,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(
       slippageTolerance: slippageTolerance,
     );
-    final swapInfos = await _calculateSwapInfos(
+    final swapInfos = await calculateSwapInfos(
       state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       state.tokenToSwapAmount,
     );

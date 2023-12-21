@@ -53,7 +53,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
     listNavigationLabelIcon = [
       (AppLocalizations.of(context)!.menu_swap, Iconsax.arrange_circle_2),
       (AppLocalizations.of(context)!.menu_liquidity, Iconsax.wallet_money),
-      (AppLocalizations.of(context)!.menu_yield_farming, Iconsax.coin5),
+      (AppLocalizations.of(context)!.menu_farm, Iconsax.coin5),
     ];
   }
 

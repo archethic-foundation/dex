@@ -60,6 +60,7 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                   if (swap.tokenSwapped == null)
                     Text(
                       AppLocalizations.of(context)!.btn_selectToken,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     )
                   else
                     Padding(
@@ -75,7 +76,10 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 2, left: 10),
-                            child: Text(swap.tokenSwapped!.symbol),
+                            child: Text(
+                              swap.tokenSwapped!.symbol,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                           ),
                         ],
                       ),

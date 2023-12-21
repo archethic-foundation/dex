@@ -40,7 +40,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                   child: SelectionArea(
                     child: Text(
                       AppLocalizations.of(context)!.liquidityRemoveFormTitle,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ),

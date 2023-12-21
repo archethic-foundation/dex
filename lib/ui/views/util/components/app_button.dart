@@ -7,12 +7,10 @@ class AppButton extends StatefulWidget {
   const AppButton({
     super.key,
     required this.labelBtn,
-    this.icon,
     this.onPressed,
-    this.height = 30,
+    this.height = 40,
     this.disabled = false,
   });
-  final IconData? icon;
   final String labelBtn;
   final Function? onPressed;
   final bool disabled;
@@ -91,22 +89,13 @@ class AppButtonState extends State<AppButton> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (widget.icon != null)
-            Icon(
-              widget.icon,
-              color: widget.disabled
-                  ? Colors.white.withOpacity(0.5)
-                  : Colors.white,
-              size: 12,
-            ),
-          if (widget.icon != null) const SizedBox(width: 5),
           Text(
             widget.labelBtn,
             style: TextStyle(
               color: widget.disabled
                   ? Colors.white.withOpacity(0.5)
                   : Colors.white,
-              fontSize: 12,
+              fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
             maxLines: 1,

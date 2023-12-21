@@ -3,7 +3,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/components/token_single.dart';
-import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -24,31 +23,12 @@ class TokenList extends ConsumerWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: AppLocalizations.of(context)!
-                          .token_selection_your_tokens_title,
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: IconButtonAnimated(
-                        icon: Icon(
-                          Icons.help,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        onPressed: () {},
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              AppLocalizations.of(context)!.token_selection_your_tokens_title,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ),
           SizedBox(
             child: tokens.map(
@@ -69,7 +49,7 @@ class TokenList extends ConsumerWidget {
                         Text(
                           AppLocalizations.of(context)!
                               .token_selection_get_tokens_from_wallet,
-                          style: Theme.of(context).textTheme.labelMedium,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         const SizedBox(width: 10),
                         const SizedBox(
