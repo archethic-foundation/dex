@@ -51,7 +51,167 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
     );
 
     if (cacheFirstLoading) {
-      return const Text('loading in progress... please wait');
+      return Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          Align(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: const PoolListSearch(),
+                  ),
+                  SizedBox(
+                    width: 950,
+                    height: MediaQuery.of(context).size.height - 160,
+                    child: ArchethicScrollbar(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: DataTable(
+                            columnSpacing: 0,
+                            horizontalMargin: 0,
+                            dividerThickness: 1,
+                            columns: [
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .poolListHeaderName,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .poolListHeaderTokensPooled,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                numeric: true,
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .poolListHeaderTVL,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                numeric: true,
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    AppLocalizations.of(context)!.swapFeesLbl,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .poolListHeaderLiquidity,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Expanded(
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .poolListHeaderSwap,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            rows: const [
+                              DataRow(
+                                cells: [
+                                  DataCell(
+                                    SizedBox(
+                                      width: 250,
+                                    ),
+                                  ),
+                                  DataCell(
+                                    SizedBox(
+                                      width: 150,
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Align(
+                                      child: SizedBox(
+                                        width: 200,
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 10,
+                                              height: 10,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 1,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    SizedBox(
+                                      width: 100,
+                                    ),
+                                  ),
+                                  DataCell(
+                                    SizedBox(
+                                      width: 50,
+                                    ),
+                                  ),
+                                  DataCell(
+                                    SizedBox(
+                                      width: 50,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: Responsive.isMobile(context)
+                ? const EdgeInsets.only(left: 20, right: 20, bottom: 80)
+                : const EdgeInsets.all(20),
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                ref
+                    .read(
+                      MainScreenWidgetDisplayedProviders
+                          .mainScreenWidgetDisplayedProvider.notifier,
+                    )
+                    .setWidget(const PoolAddSheet(), ref);
+              },
+              icon: const Icon(Icons.add),
+              label: Text(
+                AppLocalizations.of(context)!.addPool,
+              ),
+            ),
+          ),
+        ],
+      );
     }
 
     return Stack(
