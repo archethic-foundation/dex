@@ -9,6 +9,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/util/cache_manager_hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -156,6 +157,14 @@ Future<void> _putPoolListToCache(
   await cacheManagerHive.put('poolList', CacheItemHive(poolListCache));
 
   debugPrint('poolList stored');
+  ref.read(SessionProviders.session.notifier).setCacheFirstLoading(false);
+  final poolListForm = ref.read(PoolListFormProvider.poolListForm);
+  ref.invalidate(
+    DexPoolProviders.getPoolListFromCache(
+      poolListForm.onlyVerifiedPools,
+      poolListForm.onlyPoolsWithLiquidityPositions,
+    ),
+  );
 }
 
 @riverpod

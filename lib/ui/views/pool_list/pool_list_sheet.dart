@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/main_screen_widget_displayed.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
@@ -40,12 +41,19 @@ class PoolListSheetState extends ConsumerState<PoolListSheet> {
     BuildContext context,
   ) {
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
+    final cacheFirstLoading =
+        ref.watch(SessionProviders.session).cacheFirstLoading;
     final dexPools = ref.watch(
       DexPoolProviders.getPoolListFromCache(
         poolListForm.onlyVerifiedPools,
         poolListForm.onlyPoolsWithLiquidityPositions,
       ),
     );
+
+    if (cacheFirstLoading) {
+      return const Text('loading in progress... please wait');
+    }
+
     return Stack(
       alignment: Alignment.bottomRight,
       children: [

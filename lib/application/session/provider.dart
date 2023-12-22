@@ -53,6 +53,10 @@ class _SessionNotifier extends Notifier<Session> {
     invalidateInfos();
   }
 
+  void setCacheFirstLoading(bool cacheFirstLoading) {
+    state = state.copyWith(cacheFirstLoading: cacheFirstLoading);
+  }
+
   Future<void> connectToWallet({
     bool forceConnection = true,
   }) async {

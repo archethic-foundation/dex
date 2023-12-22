@@ -49,6 +49,8 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(SessionProviders.session.notifier).setCacheFirstLoading(true);
+
       await ref.read(SessionProviders.session.notifier).connectToWallet(
             forceConnection: false,
           );

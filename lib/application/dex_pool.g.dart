@@ -455,7 +455,7 @@ class _GetPoolListFromCacheProviderElement
 }
 
 String _$putPoolListToCacheHash() =>
-    r'7979856a0b4b8c1c892c96f74d814539c0c77113';
+    r'3288af612f39d370954e25eb89ea87c6ad39cb22';
 
 /// See also [_putPoolListToCache].
 @ProviderFor(_putPoolListToCache)

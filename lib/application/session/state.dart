@@ -18,6 +18,7 @@ class Session with _$Session {
     @Default(false) bool isConnected,
     Subscription<Account>? accountSub,
     StreamSubscription<Account>? accountStreamSub,
+    @Default(false) cacheFirstLoading,
   }) = _Session;
   const Session._();
 }
