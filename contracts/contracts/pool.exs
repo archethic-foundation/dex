@@ -283,7 +283,12 @@ export fun get_swap_infos(token_address, amount) do
     end
 
     if output_amount > 0 do
-      price_impact = ((market_price / output_amount) - 1) * 100
+      # This check is necessary as there might be some approximation in small decimal calculation
+      if market_price > output_amount do
+        price_impact = ((market_price / output_amount) - 1) * 100
+      else
+        price_impact = 0
+      end
     end
   end
 
