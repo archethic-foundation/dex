@@ -39,11 +39,6 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
         # Ensure liquidity is provided to the pool
         valid? = List.in?(transaction.recipients, pool_genesis_address)
       end
-
-      log("valid_definition? #{valid_definition?}")
-      log("valid_code? #{valid_code?}")
-      log("valid? #{valid?}")
-
     end
 
     valid?
