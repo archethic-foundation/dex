@@ -7,7 +7,7 @@ condition triggered_by: transaction, on: add_liquidity(token1_min_amount, token2
 
     user_amounts = get_user_transfers_amount(transaction)
 
-    if user_transfers.token1 > 0 && user_transfers.token2 > 0 do
+    if user_amounts.token1 > 0 && user_amounts.token2 > 0 do
       lp_token_supply = State.get("lp_token_supply", 0)
       reserves = State.get("reserves", [token1: 0, token2: 0])
 
