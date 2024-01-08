@@ -4,7 +4,6 @@ import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/repositories/features_flags.dart';
 import 'package:aedex/util/browser_util.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/endpoint_util.dart';
@@ -114,16 +113,6 @@ class _SessionNotifier extends Notifier<Session> {
           }
         },
         success: (result) async {
-          if (FeatureFlags.mainnetActive == false &&
-              result.endpointUrl == 'https://mainnet.archethic.net') {
-            state = state.copyWith(
-              isConnected: false,
-              error:
-                  'aeSwap is not currently available on the Archethic mainnet.',
-            );
-            throw Failure.other(cause: state.error);
-          }
-
           state = state.copyWith(endpoint: result.endpointUrl);
           connectionStatusSubscription =
               archethicDAppClient!.connectionStateStream.listen((event) {
