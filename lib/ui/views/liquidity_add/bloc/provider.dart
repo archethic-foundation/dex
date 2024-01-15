@@ -356,9 +356,7 @@ class LiquidityAddFormNotifier
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        Failure.other(
-          cause: AppLocalizations.of(context)!.failureIncompatibleBrowser,
-        ),
+        const Failure.incompatibleBrowser(),
       );
       return false;
     }

@@ -510,9 +510,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        Failure.other(
-          cause: AppLocalizations.of(context)!.failureIncompatibleBrowser,
-        ),
+        const Failure.incompatibleBrowser(),
       );
       return false;
     }
