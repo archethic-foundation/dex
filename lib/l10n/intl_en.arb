@@ -89,6 +89,7 @@
   "failureTimeout": "Timeout occurred.",
   "failurePoolAlreadyExists": "Pool already exists for this pair",
   "failurePoolNotExists": "No pool for this pair",
+  "failureIncompatibleBrowser": "Sorry, but your browser is not compatible with the app.\nPlease refer to the FAQ for more information.",
   "removeLiquidity": "Remove liquidity",
   "btn_liquidity_remove": "Remove liquidity",
   "btn_confirm_liquidity_remove": "Confirm",

@@ -40,6 +40,8 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
       return InvalidValue.fromJson(json);
     case 'wrongNetwork':
       return WrongNetwork.fromJson(json);
+    case 'incompatibleBrowser':
+      return IncompatibleBrowser.fromJson(json);
     case 'userRejected':
       return UserRejected.fromJson(json);
     case 'connectivityArchethic':
@@ -71,6 +73,7 @@ mixin _$Failure {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -91,6 +94,7 @@ mixin _$Failure {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -111,6 +115,7 @@ mixin _$Failure {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -133,6 +138,7 @@ mixin _$Failure {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -155,6 +161,7 @@ mixin _$Failure {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -176,6 +183,7 @@ mixin _$Failure {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -262,6 +270,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -285,6 +294,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -308,6 +318,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -336,6 +347,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -361,6 +373,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -385,6 +398,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -472,6 +486,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -495,6 +510,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -518,6 +534,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -546,6 +563,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -571,6 +589,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -595,6 +614,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -711,6 +731,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -734,6 +755,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -757,6 +779,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -785,6 +808,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -810,6 +834,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -834,6 +859,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -927,6 +953,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -950,6 +977,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -973,6 +1001,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -1001,6 +1030,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -1026,6 +1056,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -1050,6 +1081,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -1138,6 +1170,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -1161,6 +1194,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -1184,6 +1218,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -1212,6 +1247,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -1237,6 +1273,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -1261,6 +1298,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -1348,6 +1386,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -1371,6 +1410,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -1394,6 +1434,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -1422,6 +1463,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -1447,6 +1489,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -1471,6 +1514,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -1562,6 +1606,7 @@ class _$LPTokenAmountExceedBalanceImpl extends LPTokenAmountExceedBalance {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -1585,6 +1630,7 @@ class _$LPTokenAmountExceedBalanceImpl extends LPTokenAmountExceedBalance {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -1608,6 +1654,7 @@ class _$LPTokenAmountExceedBalanceImpl extends LPTokenAmountExceedBalance {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -1636,6 +1683,7 @@ class _$LPTokenAmountExceedBalanceImpl extends LPTokenAmountExceedBalance {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -1661,6 +1709,7 @@ class _$LPTokenAmountExceedBalanceImpl extends LPTokenAmountExceedBalance {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -1685,6 +1734,7 @@ class _$LPTokenAmountExceedBalanceImpl extends LPTokenAmountExceedBalance {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -1772,6 +1822,7 @@ class _$PoolNotExistsImpl extends PoolNotExists {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -1795,6 +1846,7 @@ class _$PoolNotExistsImpl extends PoolNotExists {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -1818,6 +1870,7 @@ class _$PoolNotExistsImpl extends PoolNotExists {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -1846,6 +1899,7 @@ class _$PoolNotExistsImpl extends PoolNotExists {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -1871,6 +1925,7 @@ class _$PoolNotExistsImpl extends PoolNotExists {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -1895,6 +1950,7 @@ class _$PoolNotExistsImpl extends PoolNotExists {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -1982,6 +2038,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -2005,6 +2062,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -2028,6 +2086,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -2056,6 +2115,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -2081,6 +2141,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -2105,6 +2166,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -2192,6 +2254,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -2215,6 +2278,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -2238,6 +2302,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -2266,6 +2331,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -2291,6 +2357,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -2315,6 +2382,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -2402,6 +2470,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -2425,6 +2494,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -2448,6 +2518,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -2476,6 +2547,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -2501,6 +2573,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -2525,6 +2598,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -2638,6 +2712,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -2661,6 +2736,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -2684,6 +2760,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -2712,6 +2789,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -2737,6 +2815,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -2761,6 +2840,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -2792,6 +2872,223 @@ abstract class WrongNetwork extends Failure {
   @JsonKey(ignore: true)
   _$$WrongNetworkImplCopyWith<_$WrongNetworkImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$IncompatibleBrowserImplCopyWith<$Res> {
+  factory _$$IncompatibleBrowserImplCopyWith(_$IncompatibleBrowserImpl value,
+          $Res Function(_$IncompatibleBrowserImpl) then) =
+      __$$IncompatibleBrowserImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$IncompatibleBrowserImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$IncompatibleBrowserImpl>
+    implements _$$IncompatibleBrowserImplCopyWith<$Res> {
+  __$$IncompatibleBrowserImplCopyWithImpl(_$IncompatibleBrowserImpl _value,
+      $Res Function(_$IncompatibleBrowserImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$IncompatibleBrowserImpl extends IncompatibleBrowser {
+  const _$IncompatibleBrowserImpl({final String? $type})
+      : $type = $type ?? 'incompatibleBrowser',
+        super._();
+
+  factory _$IncompatibleBrowserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IncompatibleBrowserImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.incompatibleBrowser()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IncompatibleBrowserImpl);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() poolAlreadyExists,
+    required TResult Function() lpTokenAmountExceedBalance,
+    required TResult Function() poolNotExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
+    required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() timeout,
+    required TResult Function(String? cause, String? stack) other,
+  }) {
+    return incompatibleBrowser();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? poolAlreadyExists,
+    TResult? Function()? lpTokenAmountExceedBalance,
+    TResult? Function()? poolNotExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
+    TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? timeout,
+    TResult? Function(String? cause, String? stack)? other,
+  }) {
+    return incompatibleBrowser?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? poolAlreadyExists,
+    TResult Function()? lpTokenAmountExceedBalance,
+    TResult Function()? poolNotExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
+    TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? timeout,
+    TResult Function(String? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (incompatibleBrowser != null) {
+      return incompatibleBrowser();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(PoolAlreadyExists value) poolAlreadyExists,
+    required TResult Function(LPTokenAmountExceedBalance value)
+        lpTokenAmountExceedBalance,
+    required TResult Function(PoolNotExists value) poolNotExists,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(Timeout value) timeout,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return incompatibleBrowser(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult? Function(LPTokenAmountExceedBalance value)?
+        lpTokenAmountExceedBalance,
+    TResult? Function(PoolNotExists value)? poolNotExists,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(Timeout value)? timeout,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return incompatibleBrowser?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(PoolAlreadyExists value)? poolAlreadyExists,
+    TResult Function(LPTokenAmountExceedBalance value)?
+        lpTokenAmountExceedBalance,
+    TResult Function(PoolNotExists value)? poolNotExists,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(Timeout value)? timeout,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (incompatibleBrowser != null) {
+      return incompatibleBrowser(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$IncompatibleBrowserImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class IncompatibleBrowser extends Failure {
+  const factory IncompatibleBrowser() = _$IncompatibleBrowserImpl;
+  const IncompatibleBrowser._() : super._();
+
+  factory IncompatibleBrowser.fromJson(Map<String, dynamic> json) =
+      _$IncompatibleBrowserImpl.fromJson;
 }
 
 /// @nodoc
@@ -2853,6 +3150,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -2876,6 +3174,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -2899,6 +3198,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -2927,6 +3227,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -2952,6 +3253,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -2976,6 +3278,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -3065,6 +3368,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -3088,6 +3392,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -3111,6 +3416,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -3139,6 +3445,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -3164,6 +3471,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -3188,6 +3496,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -3275,6 +3584,7 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -3298,6 +3608,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -3321,6 +3632,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -3349,6 +3661,7 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -3374,6 +3687,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -3398,6 +3712,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,
@@ -3518,6 +3833,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function(String cause) wrongNetwork,
+    required TResult Function() incompatibleBrowser,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() timeout,
@@ -3541,6 +3857,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? timeout,
@@ -3564,6 +3881,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function(String cause)? wrongNetwork,
+    TResult Function()? incompatibleBrowser,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? timeout,
@@ -3592,6 +3910,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
@@ -3617,6 +3936,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(Timeout value)? timeout,
@@ -3641,6 +3961,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(Timeout value)? timeout,

@@ -7,6 +7,7 @@ import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_liquidity.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:aedex/ui/views/util/delayed_task.dart';
+import 'package:aedex/util/browser_util.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
@@ -351,6 +352,16 @@ class LiquidityAddFormNotifier
 
   bool control(BuildContext context) {
     setFailure(null);
+
+    if (BrowserUtil().isEdgeBrowser() ||
+        BrowserUtil().isInternetExplorerBrowser()) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!.failureIncompatibleBrowser,
+        ),
+      );
+      return false;
+    }
 
     if (state.token1Amount <= 0) {
       setFailure(

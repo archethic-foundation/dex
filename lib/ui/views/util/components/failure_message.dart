@@ -54,8 +54,13 @@ class FailureMessage {
     if (failure is LPTokenAmountExceedBalance) {
       return AppLocalizations.of(context)!.lpTokenAmountExceedBalance;
     }
+
     if (failure is OtherFailure) {
       return (failure! as OtherFailure).cause.toString();
+    }
+
+    if (failure is IncompatibleBrowser) {
+      return AppLocalizations.of(context)!.failureIncompatibleBrowser;
     }
 
     return failure.toString();

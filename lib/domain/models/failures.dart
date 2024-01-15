@@ -36,6 +36,7 @@ class Failure with _$Failure implements Exception {
   const factory Failure.wrongNetwork(
     String cause,
   ) = WrongNetwork;
+  const factory Failure.incompatibleBrowser() = IncompatibleBrowser;
   const factory Failure.userRejected() = UserRejected;
   const factory Failure.connectivityArchethic() = ConnectivityArchethic;
   const factory Failure.timeout() = Timeout;

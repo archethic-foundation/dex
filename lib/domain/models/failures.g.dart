@@ -145,6 +145,18 @@ Map<String, dynamic> _$$WrongNetworkImplToJson(_$WrongNetworkImpl instance) =>
       'runtimeType': instance.$type,
     };
 
+_$IncompatibleBrowserImpl _$$IncompatibleBrowserImplFromJson(
+        Map<String, dynamic> json) =>
+    _$IncompatibleBrowserImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$IncompatibleBrowserImplToJson(
+        _$IncompatibleBrowserImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$UserRejectedImpl _$$UserRejectedImplFromJson(Map<String, dynamic> json) =>
     _$UserRejectedImpl(
       $type: json['runtimeType'] as String?,
