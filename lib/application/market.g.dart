@@ -23,7 +23,7 @@ final _marketRepositoryProvider =
 
 typedef _MarketRepositoryRef = AutoDisposeProviderRef<MarketRepository>;
 String _$getPriceFromCoinIdHash() =>
-    r'e733a49f3cf9def2d0f88ba60991026a2808b4dd';
+    r'960d85bb898706604f599b7de2c9d0fb849a8c10';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -58,10 +58,10 @@ class _GetPriceFromCoinIdFamily
 
   /// See also [_getPriceFromCoinId].
   _GetPriceFromCoinIdProvider call(
-    String coinId,
+    int ucid,
   ) {
     return _GetPriceFromCoinIdProvider(
-      coinId,
+      ucid,
     );
   }
 
@@ -70,7 +70,7 @@ class _GetPriceFromCoinIdFamily
     covariant _GetPriceFromCoinIdProvider provider,
   ) {
     return call(
-      provider.coinId,
+      provider.ucid,
     );
   }
 
@@ -94,11 +94,11 @@ class _GetPriceFromCoinIdProvider
     extends AutoDisposeFutureProvider<Result<double, Failure>> {
   /// See also [_getPriceFromCoinId].
   _GetPriceFromCoinIdProvider(
-    String coinId,
+    int ucid,
   ) : this._internal(
           (ref) => _getPriceFromCoinId(
             ref as _GetPriceFromCoinIdRef,
-            coinId,
+            ucid,
           ),
           from: _getPriceFromCoinIdProvider,
           name: r'_getPriceFromCoinIdProvider',
@@ -109,7 +109,7 @@ class _GetPriceFromCoinIdProvider
           dependencies: _GetPriceFromCoinIdFamily._dependencies,
           allTransitiveDependencies:
               _GetPriceFromCoinIdFamily._allTransitiveDependencies,
-          coinId: coinId,
+          ucid: ucid,
         );
 
   _GetPriceFromCoinIdProvider._internal(
@@ -119,10 +119,10 @@ class _GetPriceFromCoinIdProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.coinId,
+    required this.ucid,
   }) : super.internal();
 
-  final String coinId;
+  final int ucid;
 
   @override
   Override overrideWith(
@@ -138,7 +138,7 @@ class _GetPriceFromCoinIdProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        coinId: coinId,
+        ucid: ucid,
       ),
     );
   }
@@ -150,13 +150,13 @@ class _GetPriceFromCoinIdProvider
 
   @override
   bool operator ==(Object other) {
-    return other is _GetPriceFromCoinIdProvider && other.coinId == coinId;
+    return other is _GetPriceFromCoinIdProvider && other.ucid == ucid;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, coinId.hashCode);
+    hash = _SystemHash.combine(hash, ucid.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -164,8 +164,8 @@ class _GetPriceFromCoinIdProvider
 
 mixin _GetPriceFromCoinIdRef
     on AutoDisposeFutureProviderRef<Result<double, Failure>> {
-  /// The parameter `coinId` of this provider.
-  String get coinId;
+  /// The parameter `ucid` of this provider.
+  int get ucid;
 }
 
 class _GetPriceFromCoinIdProviderElement
@@ -174,11 +174,11 @@ class _GetPriceFromCoinIdProviderElement
   _GetPriceFromCoinIdProviderElement(super.provider);
 
   @override
-  String get coinId => (origin as _GetPriceFromCoinIdProvider).coinId;
+  int get ucid => (origin as _GetPriceFromCoinIdProvider).ucid;
 }
 
 String _$getPriceFromSymbolHash() =>
-    r'624b8ccf552d0609ba14ab0c18fe265b895d2c25';
+    r'7dd7c8f760b73033987dd6f3fc1fd7fc89503dc5';
 
 /// See also [_getPriceFromSymbol].
 @ProviderFor(_getPriceFromSymbol)

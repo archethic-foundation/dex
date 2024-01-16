@@ -13,10 +13,10 @@ MarketRepository _marketRepository(_MarketRepositoryRef ref) =>
 @riverpod
 Future<Result<double, Failure>> _getPriceFromCoinId(
   _GetPriceFromCoinIdRef ref,
-  String coinId,
+  int ucid,
 ) async {
   return ref.read(_marketRepositoryProvider).getPrice(
-        coinId,
+        ucid,
       );
 }
 
@@ -25,26 +25,26 @@ Future<double> _getPriceFromSymbol(
   _GetPriceFromSymbolRef ref,
   String symbol,
 ) async {
-  String? coinId;
+  int? ucid;
   switch (symbol) {
     case 'ETH':
     case 'aeETH':
-      coinId = 'ethereum';
+      ucid = 1027;
       break;
     case 'BNB':
     case 'aeBNB':
-      coinId = 'binancecoin';
+      ucid = 1839;
       break;
     case 'MATIC':
     case 'aeMATIC':
-      coinId = 'matic-network';
+      ucid = 3890;
       break;
   }
-  if (coinId == null) {
+  if (ucid == null) {
     return 0;
   }
   final result = await ref.read(
-    MarketProviders.getPriceFromCoindId(coinId).future,
+    MarketProviders.getPriceFromCoindId(ucid).future,
   );
 
   return result.map(success: (price) => price, failure: (failure) => 0);
