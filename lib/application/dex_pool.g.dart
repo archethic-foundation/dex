@@ -304,7 +304,7 @@ class _GetPoolInfosProviderElement
 }
 
 String _$getPoolListFromCacheHash() =>
-    r'629a781fee3526962b5aeb5d5f254dfa0c66b891';
+    r'4225ea7ad93f71d37c9a1356eb8ba9e7c20d8a8e';
 
 /// See also [_getPoolListFromCache].
 @ProviderFor(_getPoolListFromCache)
@@ -455,7 +455,7 @@ class _GetPoolListFromCacheProviderElement
 }
 
 String _$putPoolListToCacheHash() =>
-    r'3288af612f39d370954e25eb89ea87c6ad39cb22';
+    r'a7371f5c8e5e80d23104a9bfd70f324bcab2183b';
 
 /// See also [_putPoolListToCache].
 @ProviderFor(_putPoolListToCache)

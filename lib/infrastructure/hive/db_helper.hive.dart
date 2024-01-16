@@ -2,7 +2,6 @@
 import 'package:aedex/infrastructure/hive/dex_pair.hive.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/dex_token.hive.dart';
-import 'package:aedex/util/cache_manager_hive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,7 +23,6 @@ class DBHelper {
     }
 
     Hive
-      ..registerAdapter(CacheItemHiveAdapter())
       ..registerAdapter(DexPairHiveAdapter())
       ..registerAdapter(DexPoolHiveAdapter())
       ..registerAdapter(DexTokenHiveAdapter());

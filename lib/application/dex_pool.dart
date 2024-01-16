@@ -9,8 +9,8 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
+import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/util/cache_manager_hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
@@ -65,12 +65,9 @@ Future<List<DexPool>> _getPoolListFromCache(
   bool onlyPoolsWithLiquidityPositions,
 ) async {
   final poolListCache = <DexPool>[];
-  final cacheManagerHive = await CacheManagerHive.getInstance();
-  if (cacheManagerHive.contains('poolList') == false) {
-    return <DexPool>[];
-  }
-  final poolListCached =
-      cacheManagerHive.get<List<DexPoolHive>>('poolList') ?? [];
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+
+  final poolListCached = poolsListDatasource.getPoolsList();
 
   debugPrint('poolListCached ${poolListCached.length}');
 
@@ -105,11 +102,7 @@ Future<void> _putPoolListToCache(
   _PutPoolListToCacheRef ref,
 ) async {
   // To gain some time, we are loading the first only verified pools
-  final cacheManagerHive = await CacheManagerHive.getInstance();
-  var onlyVerified = false;
-  if (cacheManagerHive.contains('poolList') == false) {
-    onlyVerified = true;
-  }
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
   final poolListCache = <DexPoolHive>[];
 
   final session = ref.read(SessionProviders.session);
@@ -120,8 +113,7 @@ Future<void> _putPoolListToCache(
     );
   }
 
-  final poolList =
-      await ref.read(DexPoolProviders.getPoolList(onlyVerified).future);
+  final poolList = await ref.read(DexPoolProviders.getPoolList(false).future);
   for (final pool in poolList) {
     var poolInfos =
         await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
@@ -154,7 +146,7 @@ Future<void> _putPoolListToCache(
       );
     }
   }
-  await cacheManagerHive.put('poolList', CacheItemHive(poolListCache));
+  await poolsListDatasource.setPoolsList(poolListCache);
 
   debugPrint('poolList stored');
   ref.read(SessionProviders.session.notifier).setCacheFirstLoading(false);

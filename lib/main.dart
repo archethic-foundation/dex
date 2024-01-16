@@ -4,11 +4,10 @@ import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
-import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
+import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/router.dart';
-import 'package:aedex/util/cache_manager_hive.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/generic/providers_observer.dart';
@@ -26,7 +25,6 @@ Future<void> main() async {
 
   final preferences = await HivePreferencesDatasource.getInstance();
   sl.get<LogManager>().logsActived = preferences.isLogsActived();
-
   runApp(
     ProviderScope(
       observers: [
@@ -60,9 +58,8 @@ class _MyAppState extends ConsumerState<MyApp> {
         ),
       );
 
-      final cacheManagerHive = await CacheManagerHive.getInstance();
-      if (cacheManagerHive.get<List<DexPoolHive>>('poolList') == null ||
-          cacheManagerHive.get<List<DexPoolHive>>('poolList')!.isEmpty) {
+      final cacheManagerHive = await HivePoolsListDatasource.getInstance();
+      if (cacheManagerHive.getPoolsList().isEmpty) {
         ref.read(SessionProviders.session.notifier).setCacheFirstLoading(true);
       }
 
@@ -84,6 +81,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {
+        debugPrint('pool reload');
         await ref.read(DexPoolProviders.putPoolListToCache.future);
         ref.invalidate(DexPoolProviders.getPoolListFromCache);
       });
