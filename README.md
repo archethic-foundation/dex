@@ -33,7 +33,7 @@ Return the code to create a farm for a LP token and a reward token.
 ```elixir
 get_lp_token_definition(token1_symbol, token2_symbol)
 ```
-Return a the lp token definition to use when creating a pool. Returns a JSON stringified
+Return the lp token definition to use when creating a pool. Returns a JSON stringified
 - `token1_symbol` is the symbol of the first token
 - `token2_symbol` is the symbol of the second token
 
@@ -244,12 +244,12 @@ Return the infos of all the farms.
 ```elixir
 add_pool(token1_address, token2_address, pool_creation_address)
 ```
-This action allow users to add a new pool in the router. The transaction triggering this action should also add the first liquidity to a previously created pool. The transaction that created the pool should be a token transaction with the token definition returned by the function `get_lp_token_definition`. It should also have the code returned by the function `get_pool_code`.
+This action allows users to add a new pool in the router. The transaction triggering this action should also add the first liquidity to a previously created pool. The transaction that created the pool should be a token transaction with the token definition returned by the function `get_lp_token_definition`. It should also have the code returned by the function `get_pool_code`.
 
 ```elixir
 add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address)
 ```
-This action allow the Master chain of the dex to add a new farm in the router. The transaction triggering this action should also add the first amounr of reward token to the previously created farm. The transaction that created the farm should be a contract transaction with the code returned by the function `get_farm_code` of the Factory contract.
+This action allows the Master chain of the dex to add a new farm in the router. The transaction triggering this action should also add the first amount of reward token to the previously created farm. The transaction that created the farm should be a contract transaction with the code returned by the function `get_farm_code` of the Factory contract.
 
 ```elixir
 update_code(new_code)
@@ -329,9 +329,9 @@ node dex deploy_pool --token1 token3 --token2 token4 --token1_amount 100 --token
 
 Then you can use script to add / remove liquidity or swap:
 ```bash
-node dex add_liquidity --token1 token2 --token1_amount 750 --token2 token3
-node dex swap --token1 token2 --token1_amount 50 --token2 token3
-node dex remove_liquidity --token1 token2 --token2 token3 --lp_token_amount 72
+node dex add_liquidity --token1 token3 --token1_amount 750 --token2 token4
+node dex swap --token1 token3 --token1_amount 50 --token2 token4
+node dex remove_liquidity --token1 token3 --token2 token4 --lp_token_amount 72
 ```
 
 You can also deploy a farm (Master address should have the reward tokens):

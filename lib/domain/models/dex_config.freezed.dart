@@ -22,6 +22,7 @@ DexConfig _$DexConfigFromJson(Map<String, dynamic> json) {
 mixin _$DexConfig {
   String get name => throw _privateConstructorUsedError;
   String get routerGenesisAddress => throw _privateConstructorUsedError;
+  String get factoryGenesisAddress => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,8 @@ abstract class $DexConfigCopyWith<$Res> {
   factory $DexConfigCopyWith(DexConfig value, $Res Function(DexConfig) then) =
       _$DexConfigCopyWithImpl<$Res, DexConfig>;
   @useResult
-  $Res call({String name, String routerGenesisAddress});
+  $Res call(
+      {String name, String routerGenesisAddress, String factoryGenesisAddress});
 }
 
 /// @nodoc
@@ -52,6 +54,7 @@ class _$DexConfigCopyWithImpl<$Res, $Val extends DexConfig>
   $Res call({
     Object? name = null,
     Object? routerGenesisAddress = null,
+    Object? factoryGenesisAddress = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -61,6 +64,10 @@ class _$DexConfigCopyWithImpl<$Res, $Val extends DexConfig>
       routerGenesisAddress: null == routerGenesisAddress
           ? _value.routerGenesisAddress
           : routerGenesisAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      factoryGenesisAddress: null == factoryGenesisAddress
+          ? _value.factoryGenesisAddress
+          : factoryGenesisAddress // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -74,7 +81,8 @@ abstract class _$$DexConfigImplCopyWith<$Res>
       __$$DexConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String routerGenesisAddress});
+  $Res call(
+      {String name, String routerGenesisAddress, String factoryGenesisAddress});
 }
 
 /// @nodoc
@@ -90,6 +98,7 @@ class __$$DexConfigImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? routerGenesisAddress = null,
+    Object? factoryGenesisAddress = null,
   }) {
     return _then(_$DexConfigImpl(
       name: null == name
@@ -100,6 +109,10 @@ class __$$DexConfigImplCopyWithImpl<$Res>
           ? _value.routerGenesisAddress
           : routerGenesisAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      factoryGenesisAddress: null == factoryGenesisAddress
+          ? _value.factoryGenesisAddress
+          : factoryGenesisAddress // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -107,7 +120,10 @@ class __$$DexConfigImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DexConfigImpl extends _DexConfig {
-  const _$DexConfigImpl({this.name = '', this.routerGenesisAddress = ''})
+  const _$DexConfigImpl(
+      {this.name = '',
+      this.routerGenesisAddress = '',
+      this.factoryGenesisAddress = ''})
       : super._();
 
   factory _$DexConfigImpl.fromJson(Map<String, dynamic> json) =>
@@ -119,10 +135,13 @@ class _$DexConfigImpl extends _DexConfig {
   @override
   @JsonKey()
   final String routerGenesisAddress;
+  @override
+  @JsonKey()
+  final String factoryGenesisAddress;
 
   @override
   String toString() {
-    return 'DexConfig(name: $name, routerGenesisAddress: $routerGenesisAddress)';
+    return 'DexConfig(name: $name, routerGenesisAddress: $routerGenesisAddress, factoryGenesisAddress: $factoryGenesisAddress)';
   }
 
   @override
@@ -132,12 +151,15 @@ class _$DexConfigImpl extends _DexConfig {
             other is _$DexConfigImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.routerGenesisAddress, routerGenesisAddress) ||
-                other.routerGenesisAddress == routerGenesisAddress));
+                other.routerGenesisAddress == routerGenesisAddress) &&
+            (identical(other.factoryGenesisAddress, factoryGenesisAddress) ||
+                other.factoryGenesisAddress == factoryGenesisAddress));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, routerGenesisAddress);
+  int get hashCode => Object.hash(
+      runtimeType, name, routerGenesisAddress, factoryGenesisAddress);
 
   @JsonKey(ignore: true)
   @override
@@ -155,7 +177,9 @@ class _$DexConfigImpl extends _DexConfig {
 
 abstract class _DexConfig extends DexConfig {
   const factory _DexConfig(
-      {final String name, final String routerGenesisAddress}) = _$DexConfigImpl;
+      {final String name,
+      final String routerGenesisAddress,
+      final String factoryGenesisAddress}) = _$DexConfigImpl;
   const _DexConfig._() : super._();
 
   factory _DexConfig.fromJson(Map<String, dynamic> json) =
@@ -165,6 +189,8 @@ abstract class _DexConfig extends DexConfig {
   String get name;
   @override
   String get routerGenesisAddress;
+  @override
+  String get factoryGenesisAddress;
   @override
   @JsonKey(ignore: true)
   _$$DexConfigImplCopyWith<_$DexConfigImpl> get copyWith =>

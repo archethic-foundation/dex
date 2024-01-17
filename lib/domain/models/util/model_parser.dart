@@ -1,7 +1,9 @@
 import 'package:aedex/application/verified_tokens.dart';
+import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
@@ -216,6 +218,30 @@ mixin ModelParser {
     return DexPool(
       poolAddress: getPoolListResponse.address,
       pair: dexPair,
+      lpToken: lpToken,
+    );
+  }
+
+  Future<DexFarm> farmListToModel(
+    GetFarmListResponse getFarmListResponse,
+  ) async {
+    final adressesToSearch = <String>[getFarmListResponse.lpTokenAddress];
+    final tokenResultMap =
+        await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+    DexToken? lpToken;
+    if (tokenResultMap[getFarmListResponse.lpTokenAddress] != null) {
+      lpToken = DexToken(
+        address: getFarmListResponse.lpTokenAddress.toUpperCase(),
+        name: tokenResultMap[getFarmListResponse.lpTokenAddress]!.name!,
+        symbol: tokenResultMap[getFarmListResponse.lpTokenAddress]!.symbol!,
+      );
+    }
+
+    return DexFarm(
+      startDate: getFarmListResponse.startDate,
+      endDate: getFarmListResponse.endDate,
+      farmAddress: getFarmListResponse.address,
+      rewardToken: getFarmListResponse.rewardTokenAddress,
       lpToken: lpToken,
     );
   }

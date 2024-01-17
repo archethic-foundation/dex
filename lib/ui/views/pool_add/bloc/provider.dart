@@ -317,6 +317,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       state.token2!,
       state.token2Amount,
       dexConfig.routerGenesisAddress,
+      dexConfig.factoryGenesisAddress,
       state.slippage,
       recoveryStep: state.currentStep,
       recoveryTransactionAddPool: state.recoveryTransactionAddPool,

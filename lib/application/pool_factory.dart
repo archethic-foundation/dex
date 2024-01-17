@@ -50,6 +50,136 @@ class PoolFactory with ModelParser {
     );
   }
 
+  /// Returns the equivalent amount of the other token of the pool. This should be used in the process of adding liquidity
+  /// [tokenAddress] is the token you want to provide (result amount will be the other token)
+  /// [tokenAmount] is the amount of token_address you want to provide
+  Future<Result<double?, Failure>> getEquivalentAmount(
+    String tokenAddress,
+    double tokenAmount,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_equivalent_amount',
+              args: [
+                tokenAddress,
+                tokenAmount,
+              ],
+            ),
+          ),
+        );
+        return double.tryParse(result.toString());
+      },
+    );
+  }
+
+  /// Returns the pool ratio
+  /// [tokenAddress] is the token you want to provide (result amount will be the other token)
+  Future<Result<double?, Failure>> getPoolRatio(
+    String tokenAddress,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_ratio',
+              args: [
+                tokenAddress,
+              ],
+            ),
+          ),
+        );
+        return double.tryParse(result.toString());
+      },
+    );
+  }
+
+  /// Returns the amount of LP token that will be minted if the amount of tokens are provided
+  /// [token1Amount] Amount of token1 to provide (token1 is the first token returned by get_pair_tokens)
+  /// [token1Amount] Amount of token2 to provide (token2 is the second token returned by get_pair_tokens)
+  Future<Result<double?, Failure>> getLPTokenToMint(
+    double token1Amount,
+    double token2Amount,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_lp_token_to_mint',
+              args: [
+                token1Amount,
+                token2Amount,
+              ],
+            ),
+          ),
+        );
+        return double.tryParse(result.toString());
+      },
+    );
+  }
+
+  /// Returns the info about a swap: expected output_amount, fee and price impact
+  /// [tokenAddress] One of the 2 tokens of the pool
+  /// [amount] Amount of of this token you want to swap
+  Future<Result<Map<String, dynamic>?, Failure>> getSwapInfos(
+    String tokenAddress,
+    double amount,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_swap_infos',
+              args: [
+                tokenAddress,
+                amount,
+              ],
+            ),
+          ),
+          resultMap: true,
+        ) as Map<String, dynamic>?;
+
+        return result;
+      },
+    );
+  }
+
+  /// Returns amounts of token to get back when removing liquidity
+  /// [lpTokenAmount] Number of lp token to remove
+  Future<Result<Map<String, dynamic>?, Failure>> getRemoveAmounts(
+    double lpTokenAmount,
+  ) async {
+    return Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_remove_amounts',
+              args: [lpTokenAmount],
+            ),
+          ),
+          resultMap: true,
+        ) as Map<String, dynamic>?;
+        return result;
+      },
+    );
+  }
+
   /// This action allow user to add liquidity to the pool. User must send tokens to the pool's genesis address.
   /// The amounts sent should be equivalent to the pool ratio. User can specify a slippage tolerance by providing the minimum amount by token that the pool can use.
   /// If there is more fund sent by the user than the needed liquidity, the excedent is returned to the user.
@@ -122,136 +252,6 @@ class PoolFactory with ModelParser {
             ),
           ),
         );
-      },
-    );
-  }
-
-  /// Returns the amount of LP token that will be minted if the amount of tokens are provided
-  /// [token1Amount] Amount of token1 to provide (token1 is the first token returned by get_pair_tokens)
-  /// [token1Amount] Amount of token2 to provide (token2 is the second token returned by get_pair_tokens)
-  Future<Result<double?, Failure>> getLPTokenToMint(
-    double token1Amount,
-    double token2Amount,
-  ) async {
-    return Result.guard(
-      () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_lp_token_to_mint',
-              args: [
-                token1Amount,
-                token2Amount,
-              ],
-            ),
-          ),
-        );
-        return double.tryParse(result.toString());
-      },
-    );
-  }
-
-  /// Returns the equivalent amount of the other token of the pool. This should be used in the process of adding liquidity
-  /// [tokenAddress] is the token you want to provide (result amount will be the other token)
-  /// [tokenAmount] is the amount of token_address you want to provide
-  Future<Result<double?, Failure>> getEquivalentAmount(
-    String tokenAddress,
-    double tokenAmount,
-  ) async {
-    return Result.guard(
-      () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_equivalent_amount',
-              args: [
-                tokenAddress,
-                tokenAmount,
-              ],
-            ),
-          ),
-        );
-        return double.tryParse(result.toString());
-      },
-    );
-  }
-
-  /// Returns the pool ratio
-  /// [tokenAddress] is the token you want to provide (result amount will be the other token)
-  Future<Result<double?, Failure>> getPoolRatio(
-    String tokenAddress,
-  ) async {
-    return Result.guard(
-      () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_ratio',
-              args: [
-                tokenAddress,
-              ],
-            ),
-          ),
-        );
-        return double.tryParse(result.toString());
-      },
-    );
-  }
-
-  /// Returns amounts of token to get back when removing liquidity
-  /// [lpTokenAmount] Number of lp token to remove
-  Future<Result<Map<String, dynamic>?, Failure>> getRemoveAmounts(
-    double lpTokenAmount,
-  ) async {
-    return Result.guard(
-      () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_remove_amounts',
-              args: [lpTokenAmount],
-            ),
-          ),
-          resultMap: true,
-        ) as Map<String, dynamic>?;
-        return result;
-      },
-    );
-  }
-
-  /// Returns the info about a swap: expected output_amount, fee and price impact
-  /// [tokenAddress] One of the 2 tokens of the pool
-  /// [amount] Amount of of this token you want to swap
-  Future<Result<Map<String, dynamic>?, Failure>> getSwapInfos(
-    String tokenAddress,
-    double amount,
-  ) async {
-    return Result.guard(
-      () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_swap_infos',
-              args: [
-                tokenAddress,
-                amount,
-              ],
-            ),
-          ),
-          resultMap: true,
-        ) as Map<String, dynamic>?;
-
-        return result;
       },
     );
   }

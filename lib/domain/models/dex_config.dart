@@ -9,6 +9,7 @@ class DexConfig with _$DexConfig {
   const factory DexConfig({
     @Default('') String name,
     @Default('') String routerGenesisAddress,
+    @Default('') String factoryGenesisAddress,
   }) = _DexConfig;
 
   const DexConfig._();
