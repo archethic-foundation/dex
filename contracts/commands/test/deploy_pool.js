@@ -67,6 +67,7 @@ const handler = async function(argv) {
 
   const poolGenesisAddress = getGenesisAddress(poolSeed)
   console.log("Pool genesis address:", poolGenesisAddress)
+  console.log("LP token address:", getTokenAddress(poolSeed))
 
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
 
@@ -77,8 +78,9 @@ const handler = async function(argv) {
   }
 
   // We could batch those requests but archehic sdk do not allow batch request for now
-  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, routerAddress)
-  const tokenDefinition = await archethic.network.callFunction(routerAddress, "get_lp_token_definition", [token1Name, token2Name])
+  const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
+  const poolCode = await getPoolCode(archethic, token1Address, token2Address, poolSeed, factoryAddress)
+  const tokenDefinition = await archethic.network.callFunction(factoryAddress, "get_lp_token_definition", [token1Name, token2Name])
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
   const { encryptedSecret, authorizedKeys } = encryptSecret(poolSeed, storageNonce)

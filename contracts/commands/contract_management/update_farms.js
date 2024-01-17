@@ -2,8 +2,8 @@ import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
 import { getServiceGenesisAddress } from "../utils.js"
 
-const command = "update_pools"
-const describe = "Update all pool code"
+const command = "update_farms"
+const describe = "Update all farm code"
 const builder = {
   access_seed: {
     describe: "the keychain access seed (default in env config)",
@@ -54,7 +54,7 @@ const handler = async function(argv) {
 
   let updateTx = archethic.transaction.new()
     .setType("transfer")
-    .addRecipient(routerGenesisAddress, "update_pools_code")
+    .addRecipient(routerGenesisAddress, "update_farms_code")
 
   updateTx = keychain.buildTransaction(updateTx, "Master", index).originSign(Utils.originPrivateKey)
 
