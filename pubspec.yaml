@@ -18,9 +18,6 @@ dependencies:
   # Centralized loading widget management
   busy: ^1.0.3
 
-  # Dart package that provides simple access to the CoinGecko API (Version 3)
-  coingecko_api: ^1.1.1+1
-
   # Collections and utilities functions and classes related to collections.
   collection: ^1.17.0
 
@@ -38,9 +35,6 @@ dependencies:
 
   # State management
   flutter_riverpod: ^2.4.5
-
-  # Flutter Secure Storage provides API to store data in secure storage. Keychain is used in iOS, KeyStore based solution is used in Android
-  flutter_secure_storage: ^8.0.0
 
   # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
   flutter_svg: ^2.0.9

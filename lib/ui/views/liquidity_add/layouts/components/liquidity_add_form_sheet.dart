@@ -170,7 +170,9 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                       LiquidityAddFormProvider
                                           .liquidityAddForm.notifier,
                                     )
-                                    .setToken1AmountMax(),
+                                    .setToken1AmountMax(
+                                      ref,
+                                    ),
                               ),
                             ],
                           ),
@@ -257,7 +259,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                       LiquidityAddFormProvider
                                           .liquidityAddForm.notifier,
                                     )
-                                    .setToken2AmountMax(),
+                                    .setToken2AmountMax(ref),
                               ),
                             ],
                           ),

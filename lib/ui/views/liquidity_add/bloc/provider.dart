@@ -125,12 +125,32 @@ class LiquidityAddFormNotifier
     );
   }
 
-  void setToken1AmountMax() {
-    setToken1Amount(state.token1Balance);
+  Future<void> setToken1AmountMax(WidgetRef ref) async {
+    await setToken1Amount(state.token1Balance);
+    final feesUCO = await AddLiquidityCase().estimateFees(
+      ref,
+      state.poolGenesisAddress,
+      state.token1!,
+      state.token1Amount,
+      state.token2!,
+      state.token2Amount,
+      state.slippageTolerance,
+    );
+    debugPrint('feesUCO: $feesUCO');
   }
 
-  void setToken2AmountMax() {
-    setToken2Amount(state.token2Balance);
+  Future<void> setToken2AmountMax(WidgetRef ref) async {
+    await setToken2Amount(state.token2Balance);
+    final feesUCO = await AddLiquidityCase().estimateFees(
+      ref,
+      state.poolGenesisAddress,
+      state.token1!,
+      state.token1Amount,
+      state.token2!,
+      state.token2Amount,
+      state.slippageTolerance,
+    );
+    debugPrint('feesUCO: $feesUCO');
   }
 
   void setToken1AmountHalf() {
@@ -425,6 +445,7 @@ class LiquidityAddFormNotifier
     setResumeProcess(false);
     setProcessInProgress(false);
     setLiquidityAddOk(true);
+    ref.invalidate(DexPoolProviders.getPoolListFromCache);
   }
 }
 

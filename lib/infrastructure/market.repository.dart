@@ -5,14 +5,9 @@ import 'dart:convert';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/repositories/market.repository.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
-import 'package:coingecko_api/coingecko_api.dart';
 import 'package:http/http.dart' as http;
 
 class MarketRepositoryImpl implements MarketRepository {
-  CoinGeckoApi? _coinGeckoApi;
-  CoinGeckoApi get coinGeckoApi => _coinGeckoApi ??= sl.get<CoinGeckoApi>();
-
   @override
   Future<Result<double, Failure>> getPrice(
     int ucid,

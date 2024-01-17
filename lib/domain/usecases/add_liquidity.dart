@@ -94,6 +94,45 @@ class AddLiquidityCase with TransactionDexMixin {
     unawaited(refreshCurrentAccountInfoWallet());
   }
 
+  Future<double> estimateFees(
+    WidgetRef ref,
+    String poolGenesisAddress,
+    DexToken token1,
+    double token1Amount,
+    DexToken token2,
+    double token2Amount,
+    double slippage,
+  ) async {
+    final archethicContract = ArchethicContract();
+    archethic.Transaction? transactionAddLiquidity;
+
+    try {
+      final transactionAddLiquiditylMap =
+          await archethicContract.getAddLiquidityTx(
+        token1,
+        token1Amount,
+        token2,
+        token2Amount,
+        poolGenesisAddress,
+        slippage,
+      );
+
+      transactionAddLiquiditylMap.map(
+        success: (success) {
+          transactionAddLiquidity = success;
+        },
+        failure: (failure) {
+          return 0.0;
+        },
+      );
+    } catch (e) {
+      return 0.0;
+    }
+
+    final fees = await calculateFees(transactionAddLiquidity!);
+    return fees;
+  }
+
   String getAEStepLabel(
     BuildContext context,
     int step,

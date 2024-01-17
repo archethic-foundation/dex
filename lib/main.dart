@@ -81,7 +81,6 @@ class _MyAppState extends ConsumerState<MyApp> {
 
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {
-        debugPrint('pool reload');
         await ref.read(DexPoolProviders.putPoolListToCache.future);
         ref.invalidate(DexPoolProviders.getPoolListFromCache);
       });
