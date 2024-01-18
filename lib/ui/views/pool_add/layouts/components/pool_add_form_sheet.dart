@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,7 +72,6 @@ class PoolAddFormSheet extends ConsumerWidget {
                     children: [
                       DexButtonValidate(
                         controlOk: poolAdd.isControlsOk,
-                        icon: Iconsax.wallet_money,
                         labelBtn: AppLocalizations.of(context)!.btn_pool_add,
                         onPressed: () => ref
                             .read(PoolAddFormProvider.poolAddForm.notifier)

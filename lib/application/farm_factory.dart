@@ -1,7 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
+import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
+import 'package:aedex/domain/models/util/get_user_infos_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
@@ -15,7 +19,7 @@ class FarmFactory with ModelParser {
   final ApiService apiService;
 
   /// Returns the informations of the farm
-  Future<Result<Map<String, dynamic>?, Failure>> getFarmInfos() async {
+  Future<Result<DexFarm, Failure>> getFarmInfos({DexFarm? dexFarmInput}) async {
     return Result.guard(
       () async {
         final result = await apiService.callSCFunction(
@@ -36,14 +40,18 @@ class FarmFactory with ModelParser {
                 name: 'getFarmInfos',
               );
         }
-        return result;
+        final getFarmInfosResponse = GetFarmInfosResponse.fromJson(result!);
+        return farmInfosToModel(
+          factoryAddress,
+          getFarmInfosResponse,
+          dexFarmInput: dexFarmInput,
+        );
       },
     );
   }
 
   /// Returns the informations of a user who has deposited lp token in the farm
-  Future<Result<({double depositedAmount, double rewardAmount}), Failure>>
-      getUserInfos(
+  Future<Result<DexFarmUserInfos, Failure>> getUserInfos(
     String userGenesisAddress,
   ) async {
     return Result.guard(
@@ -58,38 +66,13 @@ class FarmFactory with ModelParser {
             ),
           ),
           resultMap: true,
-        ) as List<dynamic>;
-/*
-        // TODO (reddwarf03): to finish
-        final depositedAmount = results['deposited_amount'] as double;
-        final rewardAmount = results['reward_amount'] as double;
-*/
-        const depositedAmount = 0.0;
-        const rewardAmount = 0.0;
+        ) as Map<String, dynamic>?;
 
-        return (depositedAmount: depositedAmount, rewardAmount: rewardAmount);
-      },
-    );
-  }
-
-  /// This action allow user to deposit lp token in the farm.
-  /// User must send tokens to the farm's genesis address.
-  /// It's fund will be hold by the contract and could be reclaimed using withdraw action.
-  /// The user will gain reward each second based on the reward amount and it's share of the farm. The reward can be claimed using the claim actions.
-  /// A user can deposit multiple time in the same farm, or in multiple farms.
-  Future<Result<void, Failure>> deposit() async {
-    return Result.guard(
-      () async {
-        await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'deposit',
-              args: [],
-            ),
-          ),
-        ) as List<dynamic>;
+        final getUserInfosResponse = GetUserInfosResponse.fromJson(results!);
+        return DexFarmUserInfos(
+          depositedAmount: getUserInfosResponse.depositedAmount,
+          rewardAmount: getUserInfosResponse.rewardAmount,
+        );
       },
     );
   }

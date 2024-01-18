@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swap
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,7 +65,6 @@ class SwapFormSheet extends ConsumerWidget {
                         ),
                       DexButtonValidate(
                         controlOk: swap.isControlsOk,
-                        icon: Iconsax.arrange_circle_2,
                         labelBtn: AppLocalizations.of(context)!.btn_swap,
                         onPressed: () => ref
                             .read(SwapFormProvider.swapForm.notifier)

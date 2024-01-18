@@ -11,7 +11,10 @@ class DexFarm with _$DexFarm {
     DexToken? lpToken,
     @Default(0) int startDate,
     @Default(0) int endDate,
-    @Default('') String rewardToken,
+    DexToken? rewardToken,
+    @Default(0) double remainingReward,
+    @Default(0) double lpTokenDeposited,
+    @Default(0) int nbDeposit,
   }) = _DexFarm;
   const DexFarm._();
 }

@@ -423,4 +423,82 @@ class ArchethicContract with TransactionDexMixin {
       return transactionSwap;
     });
   }
+
+  Future<Result<archethic.Transaction, Failure>> getDepositTx(
+    String farmGenesisAddress,
+    String lpTokenAddress,
+    double amount,
+  ) async {
+    return Result.guard(() async {
+      final apiService = sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      )
+          .addTokenTransfer(
+        farmGenesisAddress,
+        archethic.toBigInt(amount),
+        lpTokenAddress,
+      )
+          .addRecipient(
+        farmGenesisAddress,
+        action: 'deposit',
+        args: [],
+      );
+
+      return transaction;
+    });
+  }
+
+  Future<Result<archethic.Transaction, Failure>> getWithdrawTx(
+    String farmGenesisAddress,
+    double amount,
+  ) async {
+    return Result.guard(() async {
+      final apiService = sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        farmGenesisAddress,
+        action: 'withdraw',
+        args: [amount],
+      );
+
+      return transaction;
+    });
+  }
+
+  Future<Result<archethic.Transaction, Failure>> getClaimTx(
+    String farmGenesisAddress,
+  ) async {
+    return Result.guard(() async {
+      final apiService = sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        farmGenesisAddress,
+        action: 'claim',
+        args: [],
+      );
+
+      return transaction;
+    });
+  }
 }

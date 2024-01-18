@@ -9,14 +9,12 @@ class DexButtonValidate extends ConsumerWidget {
   const DexButtonValidate({
     required this.controlOk,
     required this.labelBtn,
-    required this.icon,
     required this.onPressed,
     super.key,
   });
 
   final bool controlOk;
   final String labelBtn;
-  final IconData icon;
   final Function onPressed;
 
   @override

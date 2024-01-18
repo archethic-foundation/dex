@@ -21,7 +21,7 @@ class EndpointUtil {
       case 'mainnet':
         return 'https://mainnet.archethic.net';
       default:
-        return 'localhost:4000';
+        return 'http://localhost:4000';
     }
   }
 

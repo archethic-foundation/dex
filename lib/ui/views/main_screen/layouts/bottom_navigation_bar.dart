@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:aedex/application/main_screen_widget_displayed.dart';
-import 'package:aedex/ui/views/farm/farm_sheet.dart';
+import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
@@ -74,7 +74,7 @@ class _BottomNavigationBarMainScreenState
                       MainScreenWidgetDisplayedProviders
                           .mainScreenWidgetDisplayedProvider.notifier,
                     )
-                    .setWidget(const FarmSheet(), ref);
+                    .setWidget(const FarmListSheet(), ref);
 
                 break;
 

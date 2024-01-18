@@ -7,10 +7,11 @@ import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_liquidity.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:aedex/ui/views/util/delayed_task.dart';
-import 'package:aedex/util/browser_util.dart';
+import 'package:aedex/util/browser_util_web.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -373,8 +374,9 @@ class LiquidityAddFormNotifier
   bool control(BuildContext context) {
     setFailure(null);
 
-    if (BrowserUtil().isEdgeBrowser() ||
-        BrowserUtil().isInternetExplorerBrowser()) {
+    if (kIsWeb &&
+        (BrowserUtil().isEdgeBrowser() ||
+            BrowserUtil().isInternetExplorerBrowser())) {
       setFailure(
         const Failure.incompatibleBrowser(),
       );

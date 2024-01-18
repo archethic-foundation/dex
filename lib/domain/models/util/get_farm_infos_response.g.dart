@@ -1,0 +1,31 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'get_farm_infos_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$GetFarmInfosResponseImpl _$$GetFarmInfosResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GetFarmInfosResponseImpl(
+      lpTokenAddress: json['lp_token_address'] as String,
+      rewardToken: json['reward_token'] as String,
+      startDate: json['start_date'] as int,
+      endDate: json['end_date'] as int,
+      remainingReward: (json['remaining_reward'] as num).toDouble(),
+      lpTokenDeposited: (json['lp_token_deposited'] as num).toDouble(),
+      nbDeposit: json['nb_deposit'] as int,
+    );
+
+Map<String, dynamic> _$$GetFarmInfosResponseImplToJson(
+        _$GetFarmInfosResponseImpl instance) =>
+    <String, dynamic>{
+      'lp_token_address': instance.lpTokenAddress,
+      'reward_token': instance.rewardToken,
+      'start_date': instance.startDate,
+      'end_date': instance.endDate,
+      'remaining_reward': instance.remainingReward,
+      'lp_token_deposited': instance.lpTokenDeposited,
+      'nb_deposit': instance.nbDeposit,
+    };
