@@ -2,9 +2,9 @@ import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/claim_farm.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/state.dart';
-import 'package:aedex/util/browser_util_web.dart';
+import 'package:aedex/util/browser_util_desktop.dart'
+    if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -82,9 +82,8 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
   bool control(BuildContext context) {
     setFailure(null);
 
-    if (kIsWeb &&
-        (BrowserUtil().isEdgeBrowser() ||
-            BrowserUtil().isInternetExplorerBrowser())) {
+    if (BrowserUtil().isEdgeBrowser() ||
+        BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
         const Failure.incompatibleBrowser(),
       );

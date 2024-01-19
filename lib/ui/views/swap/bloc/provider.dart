@@ -10,7 +10,8 @@ import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/swap.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/util/delayed_task.dart';
-import 'package:aedex/util/browser_util_web.dart';
+import 'package:aedex/util/browser_util_desktop.dart'
+    if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';

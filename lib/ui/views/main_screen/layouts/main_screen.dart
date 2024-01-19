@@ -14,9 +14,9 @@ import 'package:aedex/ui/views/util/components/dex_env.dart';
 import 'package:aedex/ui/views/util/components/dex_main_menu_app.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
-import 'package:aedex/util/browser_util_web.dart';
+import 'package:aedex/util/browser_util_desktop.dart'
+    if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:busy/busy.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,9 +35,8 @@ class MainScreenState extends ConsumerState<MainScreen> {
   void initState() {
     super.initState();
 
-    if (kIsWeb &&
-        (BrowserUtil().isEdgeBrowser() ||
-            BrowserUtil().isInternetExplorerBrowser())) {
+    if (BrowserUtil().isEdgeBrowser() ||
+        BrowserUtil().isInternetExplorerBrowser()) {
       Future.delayed(Duration.zero, () {
         showDialog(
           context: context,
