@@ -27,9 +27,9 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref
-          .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
-          .setDexFarmInfos(widget.farm);
+      ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+        ..setDexFarmInfos(widget.farm)
+        ..initBalances();
     });
   }
 

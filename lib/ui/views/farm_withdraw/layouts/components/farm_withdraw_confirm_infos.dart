@@ -1,7 +1,9 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_infos.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -44,11 +46,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Withdraw',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              Text(
-                '+ ${farmWithdraw.amount.formatNumber()} ${farmWithdraw.dexFarmInfos!.lpToken!.symbol}',
+                'Please confirm the withdraw of ${farmWithdraw.amount.formatNumber()} ${farmWithdraw.dexFarmInfos!.lpToken!.symbol}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
@@ -64,6 +62,29 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DexTokenBalance(
+                    tokenBalance: farmWithdraw.lpTokenDepositedBalance,
+                    tokenSymbol: farmWithdraw.dexFarmInfos!.lpToken!.symbol,
+                    withFiat: false,
+                    height: 20,
+                  ),
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                              farmWithdraw.lpTokenDepositedBalance.toString(),
+                            ) +
+                            Decimal.parse(
+                              farmWithdraw.amount.toString(),
+                            ))
+                        .toDouble(),
+                    tokenSymbol: farmWithdraw.dexFarmInfos!.lpToken!.symbol,
+                    withFiat: false,
+                    height: 20,
                   ),
                 ],
               ),

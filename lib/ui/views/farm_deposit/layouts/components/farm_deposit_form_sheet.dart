@@ -18,6 +18,9 @@ class FarmDepositFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
+    if (farmDeposit.dexFarmInfos == null) {
+      return const SizedBox.shrink();
+    }
 
     return Expanded(
       child: Column(
@@ -58,13 +61,11 @@ class FarmDepositFormSheet extends ConsumerWidget {
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          FarmDepositAmount(),
-                        ],
-                      ),
+                      FarmDepositAmount(),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

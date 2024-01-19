@@ -22,6 +22,7 @@ class FarmDepositFormState with _$FarmDepositFormState {
     @Default(false) bool walletConfirmation,
     @Default(0.0) double amount,
     Transaction? transactionDepositFarm,
+    @Default(0.0) double lpTokenBalance,
     Failure? failure,
   }) = _FarmDepositFormState;
   const FarmDepositFormState._();

@@ -5,6 +5,8 @@ import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,6 +59,25 @@ class FarmClaimFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      FutureBuilder<String>(
+                        future: FiatValue().display(
+                          ref,
+                          farmClaim.dexFarmInfos!.rewardToken!.symbol,
+                          farmClaim.dexFarmInfos!.remainingReward,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              '${farmClaim.dexFarmInfos!.remainingReward.formatNumber()} ${farmClaim.dexFarmInfos!.rewardToken!.symbol} ${snapshot.data} are available for claiming.',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       DexErrorMessage(failure: farmClaim.failure),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

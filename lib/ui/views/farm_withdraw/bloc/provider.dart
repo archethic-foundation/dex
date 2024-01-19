@@ -1,3 +1,5 @@
+import 'package:aedex/application/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.dart';
@@ -5,6 +7,7 @@ import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,12 +30,36 @@ class FarmWithdrawFormNotifier
     state = state.copyWith(transactionWithdrawFarm: transactionWithdrawFarm);
   }
 
+  Future<void> initBalances() async {
+    final session = ref.read(SessionProviders.session);
+
+    final userInfos = await ref.read(
+      DexFarmProviders.getUserInfos(
+        state.dexFarmInfos!.farmAddress,
+        session.genesisAddress,
+      ).future,
+    );
+    state = state.copyWith(lpTokenDepositedBalance: userInfos!.depositedAmount);
+  }
+
   void setAmount(
     double amount,
   ) {
     state = state.copyWith(
       failure: null,
       amount: amount,
+    );
+  }
+
+  void setAmountMax() {
+    setAmount(state.lpTokenDepositedBalance);
+  }
+
+  void setAmountHalf() {
+    setAmount(
+      (Decimal.parse(state.lpTokenDepositedBalance.toString()) /
+              Decimal.fromInt(2))
+          .toDouble(),
     );
   }
 
@@ -105,6 +132,16 @@ class FarmWithdrawFormNotifier
       setFailure(
         Failure.other(
           cause: AppLocalizations.of(context)!.farmWithdrawControlAmountEmpty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.amount > state.lpTokenDepositedBalance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .farmWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
       return false;

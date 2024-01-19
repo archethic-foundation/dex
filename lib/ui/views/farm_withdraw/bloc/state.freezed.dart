@@ -27,6 +27,7 @@ mixin _$FarmWithdrawFormState {
   double get amount => throw _privateConstructorUsedError;
   Transaction? get transactionWithdrawFarm =>
       throw _privateConstructorUsedError;
+  double get lpTokenDepositedBalance => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -50,6 +51,7 @@ abstract class $FarmWithdrawFormStateCopyWith<$Res> {
       bool walletConfirmation,
       double amount,
       Transaction? transactionWithdrawFarm,
+      double lpTokenDepositedBalance,
       Failure? failure});
 
   $DexFarmCopyWith<$Res>? get dexFarmInfos;
@@ -80,6 +82,7 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
     Object? walletConfirmation = null,
     Object? amount = null,
     Object? transactionWithdrawFarm = freezed,
+    Object? lpTokenDepositedBalance = null,
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
@@ -119,6 +122,10 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
           ? _value.transactionWithdrawFarm
           : transactionWithdrawFarm // ignore: cast_nullable_to_non_nullable
               as Transaction?,
+      lpTokenDepositedBalance: null == lpTokenDepositedBalance
+          ? _value.lpTokenDepositedBalance
+          : lpTokenDepositedBalance // ignore: cast_nullable_to_non_nullable
+              as double,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -182,6 +189,7 @@ abstract class _$$FarmWithdrawFormStateImplCopyWith<$Res>
       bool walletConfirmation,
       double amount,
       Transaction? transactionWithdrawFarm,
+      double lpTokenDepositedBalance,
       Failure? failure});
 
   @override
@@ -213,6 +221,7 @@ class __$$FarmWithdrawFormStateImplCopyWithImpl<$Res>
     Object? walletConfirmation = null,
     Object? amount = null,
     Object? transactionWithdrawFarm = freezed,
+    Object? lpTokenDepositedBalance = null,
     Object? failure = freezed,
   }) {
     return _then(_$FarmWithdrawFormStateImpl(
@@ -252,6 +261,10 @@ class __$$FarmWithdrawFormStateImplCopyWithImpl<$Res>
           ? _value.transactionWithdrawFarm
           : transactionWithdrawFarm // ignore: cast_nullable_to_non_nullable
               as Transaction?,
+      lpTokenDepositedBalance: null == lpTokenDepositedBalance
+          ? _value.lpTokenDepositedBalance
+          : lpTokenDepositedBalance // ignore: cast_nullable_to_non_nullable
+              as double,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -273,6 +286,7 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
       this.walletConfirmation = false,
       this.amount = 0.0,
       this.transactionWithdrawFarm,
+      this.lpTokenDepositedBalance = 0.0,
       this.failure})
       : super._();
 
@@ -302,11 +316,14 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
   @override
   final Transaction? transactionWithdrawFarm;
   @override
+  @JsonKey()
+  final double lpTokenDepositedBalance;
+  @override
   final Failure? failure;
 
   @override
   String toString() {
-    return 'FarmWithdrawFormState(farmWithdrawProcessStep: $farmWithdrawProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfos: $dexFarmInfos, isProcessInProgress: $isProcessInProgress, farmWithdrawOk: $farmWithdrawOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionWithdrawFarm: $transactionWithdrawFarm, failure: $failure)';
+    return 'FarmWithdrawFormState(farmWithdrawProcessStep: $farmWithdrawProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfos: $dexFarmInfos, isProcessInProgress: $isProcessInProgress, farmWithdrawOk: $farmWithdrawOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionWithdrawFarm: $transactionWithdrawFarm, lpTokenDepositedBalance: $lpTokenDepositedBalance, failure: $failure)';
   }
 
   @override
@@ -333,6 +350,9 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
             (identical(
                     other.transactionWithdrawFarm, transactionWithdrawFarm) ||
                 other.transactionWithdrawFarm == transactionWithdrawFarm) &&
+            (identical(
+                    other.lpTokenDepositedBalance, lpTokenDepositedBalance) ||
+                other.lpTokenDepositedBalance == lpTokenDepositedBalance) &&
             (identical(other.failure, failure) || other.failure == failure));
   }
 
@@ -348,6 +368,7 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
       walletConfirmation,
       amount,
       transactionWithdrawFarm,
+      lpTokenDepositedBalance,
       failure);
 
   @JsonKey(ignore: true)
@@ -369,6 +390,7 @@ abstract class _FarmWithdrawFormState extends FarmWithdrawFormState {
       final bool walletConfirmation,
       final double amount,
       final Transaction? transactionWithdrawFarm,
+      final double lpTokenDepositedBalance,
       final Failure? failure}) = _$FarmWithdrawFormStateImpl;
   const _FarmWithdrawFormState._() : super._();
 
@@ -390,6 +412,8 @@ abstract class _FarmWithdrawFormState extends FarmWithdrawFormState {
   double get amount;
   @override
   Transaction? get transactionWithdrawFarm;
+  @override
+  double get lpTokenDepositedBalance;
   @override
   Failure? get failure;
   @override

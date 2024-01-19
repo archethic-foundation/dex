@@ -1,7 +1,9 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_infos.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -44,11 +46,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Deposit',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              Text(
-                '+ ${farmDeposit.amount.formatNumber()} ${farmDeposit.dexFarmInfos!.lpToken!.symbol}',
+                'Please confirm the deposit of ${farmDeposit.amount.formatNumber()} ${farmDeposit.dexFarmInfos!.lpToken!.symbol}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
@@ -64,6 +62,29 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                   Text(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DexTokenBalance(
+                    tokenBalance: farmDeposit.lpTokenBalance,
+                    tokenSymbol: farmDeposit.dexFarmInfos!.lpToken!.symbol,
+                    withFiat: false,
+                    height: 20,
+                  ),
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                              farmDeposit.lpTokenBalance.toString(),
+                            ) -
+                            Decimal.parse(
+                              farmDeposit.amount.toString(),
+                            ))
+                        .toDouble(),
+                    tokenSymbol: farmDeposit.dexFarmInfos!.lpToken!.symbol,
+                    withFiat: false,
+                    height: 20,
                   ),
                 ],
               ),

@@ -119,9 +119,13 @@ class DexFarmsRepository {
 
           lpTokenDepositedInFiat = price * dexFarm.lpTokenDeposited;
         }
-        final apr = (Decimal.parse('$remainingRewardInFiat') /
-                Decimal.parse('$lpTokenDepositedInFiat'))
-            .toDouble();
+
+        var apr = 0.0;
+        if (lpTokenDepositedInFiat > 0) {
+          apr = (Decimal.parse('$remainingRewardInFiat') /
+                  Decimal.parse('$lpTokenDepositedInFiat'))
+              .toDouble();
+        }
 
         return dexFarm.copyWith(
           apr: apr,

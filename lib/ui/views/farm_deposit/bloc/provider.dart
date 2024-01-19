@@ -1,3 +1,5 @@
+import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/deposit_farm.dart';
@@ -5,6 +7,7 @@ import 'package:aedex/ui/views/farm_deposit/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +26,20 @@ class FarmDepositFormNotifier
   @override
   FarmDepositFormState build() => const FarmDepositFormState();
 
+  Future<void> initBalances() async {
+    final session = ref.read(SessionProviders.session);
+
+    final lpTokenBalance = await ref.read(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        state.dexFarmInfos!.lpToken!.isUCO
+            ? 'UCO'
+            : state.dexFarmInfos!.lpToken!.address!,
+      ).future,
+    );
+    state = state.copyWith(lpTokenBalance: lpTokenBalance);
+  }
+
   void setTransactionDepositFarm(Transaction transactionDepositFarm) {
     state = state.copyWith(transactionDepositFarm: transactionDepositFarm);
   }
@@ -33,6 +50,17 @@ class FarmDepositFormNotifier
     state = state.copyWith(
       failure: null,
       amount: amount,
+    );
+  }
+
+  void setAmountMax() {
+    setAmount(state.lpTokenBalance);
+  }
+
+  void setAmountHalf() {
+    setAmount(
+      (Decimal.parse(state.lpTokenBalance.toString()) / Decimal.fromInt(2))
+          .toDouble(),
     );
   }
 
@@ -105,6 +133,16 @@ class FarmDepositFormNotifier
       setFailure(
         Failure.other(
           cause: AppLocalizations.of(context)!.farmDepositControlAmountEmpty,
+        ),
+      );
+      return false;
+    }
+
+    if (state.amount > state.lpTokenBalance) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!
+              .farmDepositControlLPTokenAmountExceedBalance,
         ),
       );
       return false;

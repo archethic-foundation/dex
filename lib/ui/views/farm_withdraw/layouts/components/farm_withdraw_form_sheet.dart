@@ -18,6 +18,9 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
+    if (farmWithdraw.dexFarmInfos == null) {
+      return const SizedBox.shrink();
+    }
 
     return Expanded(
       child: Column(
@@ -58,12 +61,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          FarmWithdrawAmount(),
-                        ],
-                      ),
+                      FarmWithdrawAmount(),
                     ],
                   ),
                   Column(

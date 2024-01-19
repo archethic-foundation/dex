@@ -22,6 +22,7 @@ class FarmWithdrawFormState with _$FarmWithdrawFormState {
     @Default(false) bool walletConfirmation,
     @Default(0.0) double amount,
     Transaction? transactionWithdrawFarm,
+    @Default(0.0) double lpTokenDepositedBalance,
     Failure? failure,
   }) = _FarmWithdrawFormState;
   const FarmWithdrawFormState._();

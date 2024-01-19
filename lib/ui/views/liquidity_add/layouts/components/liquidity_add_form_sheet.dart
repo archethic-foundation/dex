@@ -7,11 +7,8 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_te
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
-import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
@@ -137,47 +134,6 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                         ],
                       ),
                       const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          DexTokenBalance(
-                            tokenBalance: liquidityAdd.token1Balance,
-                            tokenSymbol: liquidityAdd.token1 == null
-                                ? ''
-                                : liquidityAdd.token1!.symbol,
-                          ),
-                          Row(
-                            children: [
-                              DexButtonHalf(
-                                balanceAmount: liquidityAdd.token1Balance,
-                                onTap: () => ref
-                                    .read(
-                                      LiquidityAddFormProvider
-                                          .liquidityAddForm.notifier,
-                                    )
-                                    .setToken1AmountHalf(),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              DexButtonMax(
-                                balanceAmount: liquidityAdd.token1Balance,
-                                onTap: () => ref
-                                    .read(
-                                      LiquidityAddFormProvider
-                                          .liquidityAddForm.notifier,
-                                    )
-                                    .setToken1AmountMax(
-                                      ref,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
                         height: 10,
                       ),
                       Stack(
@@ -222,45 +178,6 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          DexTokenBalance(
-                            tokenBalance: liquidityAdd.token2Balance,
-                            tokenSymbol: liquidityAdd.token2 == null
-                                ? ''
-                                : liquidityAdd.token2!.symbol,
-                          ),
-                          Row(
-                            children: [
-                              DexButtonHalf(
-                                balanceAmount: liquidityAdd.token2Balance,
-                                onTap: () => ref
-                                    .read(
-                                      LiquidityAddFormProvider
-                                          .liquidityAddForm.notifier,
-                                    )
-                                    .setToken2AmountHalf(),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              DexButtonMax(
-                                balanceAmount: liquidityAdd.token2Balance,
-                                onTap: () => ref
-                                    .read(
-                                      LiquidityAddFormProvider
-                                          .liquidityAddForm.notifier,
-                                    )
-                                    .setToken2AmountMax(ref),
-                              ),
-                            ],
                           ),
                         ],
                       ),
