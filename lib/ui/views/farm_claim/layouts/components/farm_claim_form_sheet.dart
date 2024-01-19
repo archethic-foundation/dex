@@ -19,6 +19,9 @@ class FarmClaimFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
+    if (farmClaim.dexFarmInfos == null) {
+      return const SizedBox.shrink();
+    }
 
     return Expanded(
       child: Column(

@@ -138,9 +138,9 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
           children: [
             DexTokenBalance(
               tokenBalance: farmWithdraw.lpTokenDepositedBalance,
-              tokenSymbol: farmWithdraw.dexFarmInfos!.lpToken == null
-                  ? ''
-                  : farmWithdraw.dexFarmInfos!.lpToken!.symbol,
+              tokenSymbol: farmWithdraw.lpTokenDepositedBalance > 1
+                  ? 'LP Tokens'
+                  : 'LP Token',
             ),
             const SizedBox(
               height: 5,

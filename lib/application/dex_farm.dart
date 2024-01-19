@@ -121,9 +121,9 @@ class DexFarmsRepository {
         }
 
         var apr = 0.0;
-        if (lpTokenDepositedInFiat > 0) {
-          apr = (Decimal.parse('$remainingRewardInFiat') /
-                  Decimal.parse('$lpTokenDepositedInFiat'))
+        if (remainingRewardInFiat > 0) {
+          apr = (Decimal.parse('$lpTokenDepositedInFiat') /
+                  Decimal.parse('$remainingRewardInFiat'))
               .toDouble();
         }
 
