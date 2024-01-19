@@ -57,12 +57,10 @@ class _LiquidityAddToken1AmountState
 
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
     final textNum = double.tryParse(tokenAmountController.text);
-    if (textNum == null && liquidityAdd.token1Amount != 0.0) {
+    if (!(liquidityAdd.token1Amount != 0.0 ||
+        tokenAmountController.text == '' ||
+        (textNum != null && textNum == 0))) {
       _updateAmountTextController();
-    } else {
-      if (textNum != null && liquidityAdd.token1Amount != textNum) {
-        _updateAmountTextController();
-      }
     }
 
     return SizedBox(

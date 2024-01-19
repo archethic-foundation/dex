@@ -70,12 +70,10 @@ class _SwapTokenSwappedAmountState
     }
 
     final textNum = double.tryParse(tokenAmountController.text);
-    if (textNum == null && swap.tokenSwappedAmount != 0.0) {
+    if (!(swap.tokenSwappedAmount != 0.0 ||
+        tokenAmountController.text == '' ||
+        (textNum != null && textNum == 0))) {
       _updateAmountTextController();
-    } else {
-      if (textNum != null && swap.tokenSwappedAmount != textNum) {
-        _updateAmountTextController();
-      }
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

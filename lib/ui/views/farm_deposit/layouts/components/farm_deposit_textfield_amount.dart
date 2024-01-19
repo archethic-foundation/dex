@@ -54,12 +54,10 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
 
     final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
     final textNum = double.tryParse(tokenAmountController.text);
-    if (textNum == null && farmDeposit.amount != 0.0) {
+    if (!(farmDeposit.amount != 0.0 ||
+        tokenAmountController.text == '' ||
+        (textNum != null && textNum == 0))) {
       _updateAmountTextController();
-    } else {
-      if (textNum != null && farmDeposit.amount != textNum) {
-        _updateAmountTextController();
-      }
     }
 
     return SizedBox(

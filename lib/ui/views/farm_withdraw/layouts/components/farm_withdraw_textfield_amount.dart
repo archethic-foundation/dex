@@ -54,12 +54,10 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
 
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
     final textNum = double.tryParse(tokenAmountController.text);
-    if (textNum == null && farmWithdraw.amount != 0.0) {
+    if (!(farmWithdraw.amount != 0.0 ||
+        tokenAmountController.text == '' ||
+        (textNum != null && textNum == 0))) {
       _updateAmountTextController();
-    } else {
-      if (textNum != null && farmWithdraw.amount != textNum) {
-        _updateAmountTextController();
-      }
     }
 
     return SizedBox(
