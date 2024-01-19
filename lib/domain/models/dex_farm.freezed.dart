@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DexFarm {
   String get farmAddress => throw _privateConstructorUsedError;
+  double get apr => throw _privateConstructorUsedError;
   DexToken? get lpToken => throw _privateConstructorUsedError;
   int get startDate => throw _privateConstructorUsedError;
   int get endDate => throw _privateConstructorUsedError;
@@ -36,6 +37,7 @@ abstract class $DexFarmCopyWith<$Res> {
   @useResult
   $Res call(
       {String farmAddress,
+      double apr,
       DexToken? lpToken,
       int startDate,
       int endDate,
@@ -62,6 +64,7 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
   @override
   $Res call({
     Object? farmAddress = null,
+    Object? apr = null,
     Object? lpToken = freezed,
     Object? startDate = null,
     Object? endDate = null,
@@ -75,6 +78,10 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
           ? _value.farmAddress
           : farmAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      apr: null == apr
+          ? _value.apr
+          : apr // ignore: cast_nullable_to_non_nullable
+              as double,
       lpToken: freezed == lpToken
           ? _value.lpToken
           : lpToken // ignore: cast_nullable_to_non_nullable
@@ -140,6 +147,7 @@ abstract class _$$DexFarmImplCopyWith<$Res> implements $DexFarmCopyWith<$Res> {
   @useResult
   $Res call(
       {String farmAddress,
+      double apr,
       DexToken? lpToken,
       int startDate,
       int endDate,
@@ -166,6 +174,7 @@ class __$$DexFarmImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? farmAddress = null,
+    Object? apr = null,
     Object? lpToken = freezed,
     Object? startDate = null,
     Object? endDate = null,
@@ -179,6 +188,10 @@ class __$$DexFarmImplCopyWithImpl<$Res>
           ? _value.farmAddress
           : farmAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      apr: null == apr
+          ? _value.apr
+          : apr // ignore: cast_nullable_to_non_nullable
+              as double,
       lpToken: freezed == lpToken
           ? _value.lpToken
           : lpToken // ignore: cast_nullable_to_non_nullable
@@ -216,6 +229,7 @@ class __$$DexFarmImplCopyWithImpl<$Res>
 class _$DexFarmImpl extends _DexFarm {
   const _$DexFarmImpl(
       {this.farmAddress = '',
+      this.apr = 0,
       this.lpToken,
       this.startDate = 0,
       this.endDate = 0,
@@ -228,6 +242,9 @@ class _$DexFarmImpl extends _DexFarm {
   @override
   @JsonKey()
   final String farmAddress;
+  @override
+  @JsonKey()
+  final double apr;
   @override
   final DexToken? lpToken;
   @override
@@ -250,7 +267,7 @@ class _$DexFarmImpl extends _DexFarm {
 
   @override
   String toString() {
-    return 'DexFarm(farmAddress: $farmAddress, lpToken: $lpToken, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit)';
+    return 'DexFarm(farmAddress: $farmAddress, apr: $apr, lpToken: $lpToken, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit)';
   }
 
   @override
@@ -260,6 +277,7 @@ class _$DexFarmImpl extends _DexFarm {
             other is _$DexFarmImpl &&
             (identical(other.farmAddress, farmAddress) ||
                 other.farmAddress == farmAddress) &&
+            (identical(other.apr, apr) || other.apr == apr) &&
             (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
@@ -275,8 +293,17 @@ class _$DexFarmImpl extends _DexFarm {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, farmAddress, lpToken, startDate,
-      endDate, rewardToken, remainingReward, lpTokenDeposited, nbDeposit);
+  int get hashCode => Object.hash(
+      runtimeType,
+      farmAddress,
+      apr,
+      lpToken,
+      startDate,
+      endDate,
+      rewardToken,
+      remainingReward,
+      lpTokenDeposited,
+      nbDeposit);
 
   @JsonKey(ignore: true)
   @override
@@ -288,6 +315,7 @@ class _$DexFarmImpl extends _DexFarm {
 abstract class _DexFarm extends DexFarm {
   const factory _DexFarm(
       {final String farmAddress,
+      final double apr,
       final DexToken? lpToken,
       final int startDate,
       final int endDate,
@@ -299,6 +327,8 @@ abstract class _DexFarm extends DexFarm {
 
   @override
   String get farmAddress;
+  @override
+  double get apr;
   @override
   DexToken? get lpToken;
   @override

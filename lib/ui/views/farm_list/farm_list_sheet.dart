@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
@@ -112,7 +113,7 @@ class FarmDetails extends ConsumerWidget {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(
-              height: 40,
+              height: 10,
             ),
             FutureBuilder<DexFarm?>(
               future: ref.watch(
@@ -143,6 +144,13 @@ class FarmDetails extends ConsumerWidget {
                     ),
                     child: Column(
                       children: [
+                        Text(
+                          'Current APR ${snapshot.data!.apr.formatNumber(precision: 8)}%',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -188,9 +196,34 @@ class FarmDetails extends ConsumerWidget {
                               'Remaining reward',
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
-                            Text(
-                              '${snapshot.data!.remainingReward.formatNumber()} ${snapshot.data!.rewardToken!.symbol}',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                            Row(
+                              children: [
+                                Text(
+                                  '${snapshot.data!.remainingReward.formatNumber()} ${snapshot.data!.rewardToken!.symbol}',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                FutureBuilder<String>(
+                                  future: FiatValue().display(
+                                    ref,
+                                    snapshot.data!.rewardToken!.symbol,
+                                    snapshot.data!.remainingReward,
+                                  ),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Text(
+                                        snapshot.data!,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      );
+                                    }
+                                    return const SizedBox.shrink();
+                                  },
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -266,16 +299,42 @@ class FarmDetails extends ConsumerWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Reward amount',
+                                        'Your reward amount',
                                         style: Theme.of(
                                           context,
                                         ).textTheme.bodyLarge,
                                       ),
-                                      Text(
-                                        '${snapshot2.data!.rewardAmount.formatNumber(precision: 8)} ${snapshot.data!.rewardToken!.symbol}',
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.bodyLarge,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${snapshot2.data!.rewardAmount.formatNumber(precision: 8)} ${snapshot.data!.rewardToken!.symbol}',
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.bodyLarge,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          FutureBuilder<String>(
+                                            future: FiatValue().display(
+                                              ref,
+                                              snapshot
+                                                  .data!.rewardToken!.symbol,
+                                              snapshot2.data!.rewardAmount,
+                                            ),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Text(
+                                                  snapshot.data!,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge,
+                                                );
+                                              }
+                                              return const SizedBox.shrink();
+                                            },
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

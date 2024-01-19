@@ -8,6 +8,7 @@ part 'dex_farm.freezed.dart';
 class DexFarm with _$DexFarm {
   const factory DexFarm({
     @Default('') String farmAddress,
+    @Default(0) double apr,
     DexToken? lpToken,
     @Default(0) int startDate,
     @Default(0) int endDate,

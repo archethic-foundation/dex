@@ -1,10 +1,13 @@
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/farm_factory.dart';
+import 'package:aedex/application/market.dart';
+import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -34,7 +37,7 @@ Future<DexFarm?> _getFarmInfos(
 }) async {
   final farmInfos = await ref
       .watch(_dexFarmsRepositoryProvider)
-      .getFarmInfos(farmGenesisAddress, dexFarmInput: dexFarmInput);
+      .getFarmInfos(farmGenesisAddress, ref, dexFarmInput: dexFarmInput);
 
   return farmInfos;
 }
@@ -74,7 +77,8 @@ class DexFarmsRepository {
   }
 
   Future<DexFarm?> getFarmInfos(
-    String farmGenesisAddress, {
+    String farmGenesisAddress,
+    Ref ref, {
     DexFarm? dexFarmInput,
   }) async {
     final apiService = sl.get<ApiService>();
@@ -83,8 +87,45 @@ class DexFarmsRepository {
     final farmInfosResult =
         await farmFactory.getFarmInfos(dexFarmInput: dexFarmInput);
     return farmInfosResult.map(
-      success: (success) {
-        return success;
+      success: (dexFarm) async {
+        // Apr calculation
+        var remainingRewardInFiat = 0.0;
+        if (dexFarm.rewardToken!.isUCO) {
+          final archethicOracleUCO =
+              ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+
+          remainingRewardInFiat =
+              archethicOracleUCO.usd * dexFarm.remainingReward;
+        } else {
+          final price = await ref.read(
+            MarketProviders.getPriceFromSymbol(dexFarm.rewardToken!.symbol)
+                .future,
+          );
+
+          remainingRewardInFiat = price * dexFarm.remainingReward;
+        }
+        var lpTokenDepositedInFiat = 0.0;
+        if (dexFarm.rewardToken!.isUCO) {
+          final archethicOracleUCO =
+              ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+
+          lpTokenDepositedInFiat =
+              archethicOracleUCO.usd * dexFarm.lpTokenDeposited;
+        } else {
+          final price = await ref.read(
+            MarketProviders.getPriceFromSymbol(dexFarm.rewardToken!.symbol)
+                .future,
+          );
+
+          lpTokenDepositedInFiat = price * dexFarm.lpTokenDeposited;
+        }
+        final apr = (Decimal.parse('$remainingRewardInFiat') /
+                Decimal.parse('$lpTokenDepositedInFiat'))
+            .toDouble();
+
+        return dexFarm.copyWith(
+          apr: apr,
+        );
       },
       failure: (failure) {
         return const DexFarm();
