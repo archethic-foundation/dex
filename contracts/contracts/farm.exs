@@ -73,7 +73,7 @@ actions triggered_by: transaction, on: claim() do
 
   new_user_deposit = Map.set(user_deposit, "reward_amount", 0)
   deposits = Map.set(deposits, user_genesis_address, new_user_deposit)
-  
+
   State.set("deposits", deposits)
 end
 
@@ -140,7 +140,7 @@ actions triggered_by: transaction, on: withdraw(amount) do
     new_deposit = Map.set(new_deposit, "amount", user_deposit.amount - amount)
     deposits = Map.set(deposits, user_genesis_address, new_deposit)
   end
-  
+
   State.set("deposits", deposits)
 end
 
@@ -257,7 +257,7 @@ export fun get_user_infos(user_genesis_address) do
 
   deposits = State.get("deposits", Map.new())
   user_deposit = Map.get(deposits, user_genesis_address)
-  
+
   if user_deposit != nil do
     lp_token_deposited = State.get("lp_token_deposited", 0)
     last_calculation_timestamp = State.get("last_calculation_timestamp", @START_DATE)
@@ -288,8 +288,8 @@ export fun get_user_infos(user_genesis_address) do
         end
       end
     end
-    [desposited_amount: user_deposit.amount, reward_amount: user_deposit.reward_amount]
+    [deposited_amount: user_deposit.amount, reward_amount: user_deposit.reward_amount]
   else
-    [desposited_amount: 0, reward_amount: 0]
+    [deposited_amount: 0, reward_amount: 0]
   end
 end

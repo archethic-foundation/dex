@@ -26,7 +26,7 @@ const builder = {
   }
 }
 
-const handler = async function(argv) {
+const handler = async function (argv) {
   const envName = argv["env"] ? argv["env"] : "local"
   const env = config.environments[envName]
 
@@ -71,14 +71,14 @@ const handler = async function(argv) {
 
   const userInfos = await archethic.network.callFunction(farm.address, "get_user_infos", [userAddress])
 
-  if (userInfos.desposited_amount == 0) {
+  if (userInfos.deposited_amount == 0) {
     console.log("User does not have deposited lp token in this farm")
     process.exit(1)
-  } else if (amount && userInfos.desposited_amount < amount) {
+  } else if (amount && userInfos.deposited_amount < amount) {
     console.log("Amount is over than deposed amount")
     process.exit(1)
   } else if (!amount) {
-    amount = userInfos.desposited_amount
+    amount = userInfos.deposited_amount
   }
 
   console.log("Withdrawing", amount, "of LP token")

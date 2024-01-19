@@ -21,7 +21,7 @@ const builder = {
   }
 }
 
-const handler = async function(argv) {
+const handler = async function (argv) {
   const envName = argv["env"] ? argv["env"] : "local"
   const env = config.environments[envName]
 
@@ -64,7 +64,7 @@ const handler = async function(argv) {
   console.log("User genesis address:", userAddress)
 
   const userInfos = await archethic.network.callFunction(farm.address, "get_user_infos", [userAddress])
-  if (userInfos.desposited_amount == 0) {
+  if (userInfos.deposited_amount == 0) {
     console.log("User does not have deposited lp token in this farm")
     process.exit(1)
   }
