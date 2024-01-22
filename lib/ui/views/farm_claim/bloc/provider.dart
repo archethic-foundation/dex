@@ -1,4 +1,5 @@
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/claim_farm.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/state.dart';
@@ -25,9 +26,15 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
     state = state.copyWith(transactionClaimFarm: transactionClaimFarm);
   }
 
-  void setDexFarmInfos(DexFarm dexFarmInfos) {
+  void setDexFarmUserInfo(DexFarmUserInfos dexFarmUserInfo) {
     state = state.copyWith(
-      dexFarmInfos: dexFarmInfos,
+      dexFarmUserInfo: dexFarmUserInfo,
+    );
+  }
+
+  void setDexFarm(DexFarm dexFarm) {
+    state = state.copyWith(
+      dexFarm: dexFarm,
     );
   }
 
@@ -101,7 +108,7 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
     }
     setProcessInProgress(true);
 
-    await ClaimFarmCase().run(ref, state.dexFarmInfos!.farmAddress);
+    await ClaimFarmCase().run(ref, state.dexFarm!.farmAddress);
 
     setResumeProcess(false);
     setProcessInProgress(false);

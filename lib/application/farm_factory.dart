@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
@@ -19,7 +20,10 @@ class FarmFactory with ModelParser {
   final ApiService apiService;
 
   /// Returns the informations of the farm
-  Future<Result<DexFarm, Failure>> getFarmInfos({DexFarm? dexFarmInput}) async {
+  Future<Result<DexFarm, Failure>> getFarmInfos(
+    DexPool pool, {
+    DexFarm? dexFarmInput,
+  }) async {
     return Result.guard(
       () async {
         final result = await apiService.callSCFunction(
@@ -44,6 +48,7 @@ class FarmFactory with ModelParser {
         return farmInfosToModel(
           factoryAddress,
           getFarmInfosResponse,
+          pool,
           dexFarmInput: dexFarmInput,
         );
       },

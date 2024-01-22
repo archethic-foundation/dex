@@ -601,7 +601,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimatePoolTVLInFiatHash() =>
-    r'75b90b783143aa5a0617205300c7167e4bbed95d';
+    r'952cc20b4026e709044cc9f64fdf463a38de7b86';
 
 /// See also [_estimatePoolTVLInFiat].
 @ProviderFor(_estimatePoolTVLInFiat)

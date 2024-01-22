@@ -17,7 +17,7 @@ class FarmWithdrawConfirmSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
-    if (farmWithdraw.dexFarmInfos == null) {
+    if (farmWithdraw.dexFarmInfo == null) {
       return const SizedBox.shrink();
     }
 
@@ -27,7 +27,7 @@ class FarmWithdrawConfirmSheet extends ConsumerWidget {
         children: [
           DexButtonConfirmBack(
             title: AppLocalizations.of(context)!.farmWithdrawConfirmTitle,
-            onPressed: farmWithdraw.dexFarmInfos == null
+            onPressed: farmWithdraw.dexFarmInfo == null
                 ? null
                 : () {
                     ref

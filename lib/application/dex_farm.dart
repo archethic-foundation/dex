@@ -1,10 +1,14 @@
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/farm_factory.dart';
 import 'package:aedex/application/market.dart';
 import 'package:aedex/application/oracle/provider.dart';
+import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
@@ -24,20 +28,53 @@ Future<List<DexFarm>> _getFarmList(
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
   final apiService = sl.get<ApiService>();
+  var poolList = <DexPool>[];
+
+  final poolListResult =
+      await RouterFactory(dexConf.routerGenesisAddress, apiService)
+          .getPoolList();
+  await poolListResult.map(
+    success: (success) async {
+      poolList = success;
+    },
+    failure: (failure) {},
+  );
+
   return ref
       .watch(_dexFarmsRepositoryProvider)
-      .getFarmList(dexConf.routerGenesisAddress, apiService, ref);
+      .getFarmList(dexConf.routerGenesisAddress, apiService, ref, poolList);
 }
 
 @riverpod
 Future<DexFarm?> _getFarmInfos(
   _GetFarmInfosRef ref,
-  String farmGenesisAddress, {
+  String farmGenesisAddress,
+  String poolAddress, {
   DexFarm? dexFarmInput,
 }) async {
-  final farmInfos = await ref
-      .watch(_dexFarmsRepositoryProvider)
-      .getFarmInfos(farmGenesisAddress, ref, dexFarmInput: dexFarmInput);
+  final dexConf =
+      await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
+  final apiService = sl.get<ApiService>();
+  final poolListResult =
+      await RouterFactory(dexConf.routerGenesisAddress, apiService)
+          .getPoolList();
+  DexPool? pool;
+  await poolListResult.map(
+    success: (success) async {
+      pool = success.singleWhere(
+        (poolSelect) =>
+            poolSelect.poolAddress.toUpperCase() == poolAddress.toUpperCase(),
+      );
+    },
+    failure: (failure) {},
+  );
+
+  final farmInfos = await ref.watch(_dexFarmsRepositoryProvider).getFarmInfos(
+        farmGenesisAddress,
+        pool!,
+        ref,
+        dexFarmInput: dexFarmInput,
+      );
 
   return farmInfos;
 }
@@ -55,16 +92,69 @@ Future<DexFarmUserInfos?> _getUserInfos(
   return farmInfos;
 }
 
+@riverpod
+Future<double> _estimateLPTokenInFiat(
+  _EstimateLPTokenInFiatRef ref,
+  DexToken token1,
+  DexToken token2,
+  double lpTokenAmount,
+  String poolAddress,
+) async {
+  var fiatValueToken1 = 0.0;
+  var fiatValueToken2 = 0.0;
+
+  fiatValueToken1 =
+      await ref.watch(DexPoolProviders.estimateTokenInFiat(token1).future);
+  fiatValueToken2 =
+      await ref.watch(DexPoolProviders.estimateTokenInFiat(token2).future);
+
+  if (fiatValueToken1 == 0 && fiatValueToken2 == 0) {
+    throw Exception();
+  }
+
+  final apiService = sl.get<ApiService>();
+  final amountsResult = await PoolFactory(poolAddress, apiService)
+      .getRemoveAmounts(lpTokenAmount);
+  var amountToken1 = 0.0;
+  var amountToken2 = 0.0;
+  amountsResult.map(
+    success: (success) {
+      if (success != null) {
+        amountToken1 =
+            success['token1'] == null ? 0.0 : success['token1'] as double;
+        amountToken2 =
+            success['token2'] == null ? 0.0 : success['token2'] as double;
+      }
+    },
+    failure: (failure) {},
+  );
+
+  if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
+    return amountToken1 * fiatValueToken1 + amountToken2 * fiatValueToken1;
+  }
+
+  if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
+    return (amountToken1 + amountToken2) * fiatValueToken1;
+  }
+
+  if (fiatValueToken1 == 0 && fiatValueToken2 > 0) {
+    return (amountToken1 + amountToken2) * fiatValueToken2;
+  }
+
+  return 0;
+}
+
 class DexFarmsRepository {
   Future<List<DexFarm>> getFarmList(
     String routerAddress,
     ApiService apiService,
     Ref ref,
+    List<DexPool> poolList,
   ) async {
     final resultFarmList = await RouterFactory(
       routerAddress,
       apiService,
-    ).getFarmList();
+    ).getFarmList(poolList);
 
     return resultFarmList.map(
       success: (farmList) async {
@@ -78,6 +168,7 @@ class DexFarmsRepository {
 
   Future<DexFarm?> getFarmInfos(
     String farmGenesisAddress,
+    DexPool pool,
     Ref ref, {
     DexFarm? dexFarmInput,
   }) async {
@@ -85,55 +176,53 @@ class DexFarmsRepository {
     final farmFactory = FarmFactory(farmGenesisAddress, apiService);
 
     final farmInfosResult =
-        await farmFactory.getFarmInfos(dexFarmInput: dexFarmInput);
-    return farmInfosResult.map(
-      success: (dexFarm) async {
-        // Apr calculation
-        var remainingRewardInFiat = 0.0;
-        if (dexFarm.rewardToken!.isUCO) {
+        await farmFactory.getFarmInfos(pool, dexFarmInput: dexFarmInput);
+    // Apr calculation
+    var remainingRewardInFiat = 0.0;
+    DexFarm? dexFarm;
+    await farmInfosResult.map(
+      success: (success) async {
+        dexFarm = success;
+        if (dexFarm!.rewardToken!.isUCO) {
           final archethicOracleUCO =
               ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
 
           remainingRewardInFiat =
-              archethicOracleUCO.usd * dexFarm.remainingReward;
+              archethicOracleUCO.usd * dexFarm!.remainingReward;
         } else {
           final price = await ref.read(
-            MarketProviders.getPriceFromSymbol(dexFarm.rewardToken!.symbol)
+            MarketProviders.getPriceFromSymbol(dexFarm!.rewardToken!.symbol)
                 .future,
           );
 
-          remainingRewardInFiat = price * dexFarm.remainingReward;
+          remainingRewardInFiat = price * dexFarm!.remainingReward;
         }
-        var lpTokenDepositedInFiat = 0.0;
-        if (dexFarm.rewardToken!.isUCO) {
-          final archethicOracleUCO =
-              ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+      },
+      failure: (failure) {},
+    );
 
-          lpTokenDepositedInFiat =
-              archethicOracleUCO.usd * dexFarm.lpTokenDeposited;
-        } else {
-          final price = await ref.read(
-            MarketProviders.getPriceFromSymbol(dexFarm.rewardToken!.symbol)
-                .future,
-          );
-
-          lpTokenDepositedInFiat = price * dexFarm.lpTokenDeposited;
-        }
-
-        var apr = 0.0;
+    final lpTokenDepositedInFiatResult =
+        ref.read(DexFarmProviders.estimateLPTokenInFiat(
+      dexFarm!.lpTokenPair!.token1,
+      dexFarm!.lpTokenPair!.token2,
+      dexFarm!.lpTokenDeposited,
+      dexFarm!.poolAddress,
+    ));
+    var apr = 0.0;
+    lpTokenDepositedInFiatResult.map(
+      data: (data) {
         if (remainingRewardInFiat > 0) {
-          apr = (Decimal.parse('$lpTokenDepositedInFiat') /
+          apr = (Decimal.parse('${data.value}') /
                   Decimal.parse('$remainingRewardInFiat'))
               .toDouble();
         }
+      },
+      error: (error) {},
+      loading: (loading) {},
+    );
 
-        return dexFarm.copyWith(
-          apr: apr,
-        );
-      },
-      failure: (failure) {
-        return const DexFarm();
-      },
+    return dexFarm!.copyWith(
+      apr: apr,
     );
   }
 
@@ -160,4 +249,5 @@ abstract class DexFarmProviders {
   static final getFarmList = _getFarmListProvider;
   static const getFarmInfos = _getFarmInfosProvider;
   static const getUserInfos = _getUserInfosProvider;
+  static const estimateLPTokenInFiat = _estimateLPTokenInFiatProvider;
 }

@@ -1,7 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_infos.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
-    if (farmWithdraw.dexFarmInfos == null) {
+    if (farmWithdraw.dexFarmInfo == null) {
       return const SizedBox.shrink();
     }
 
@@ -46,11 +46,15 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Please confirm the withdraw of ${farmWithdraw.amount.formatNumber()} ${farmWithdraw.dexFarmInfos!.lpToken!.symbol}',
+                'Please confirm the withdraw of ${farmWithdraw.amount.formatNumber()} ${farmWithdraw.amount > 1 ? 'LP Tokens' : 'LP Token'}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
-                height: 10,
+                height: 30,
+              ),
+              Text(
+                'Your balance',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,29 +73,121 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   DexTokenBalance(
-                    tokenBalance: farmWithdraw.lpTokenDepositedBalance,
-                    tokenSymbol: farmWithdraw.dexFarmInfos!.lpToken!.symbol,
+                    tokenBalance: farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                    tokenSymbol:
+                        farmWithdraw.dexFarmUserInfo!.depositedAmount > 1
+                            ? 'LP Tokens'
+                            : 'LP Token',
                     withFiat: false,
                     height: 20,
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
-                              farmWithdraw.lpTokenDepositedBalance.toString(),
+                              farmWithdraw.dexFarmUserInfo!.depositedAmount
+                                  .toString(),
                             ) +
                             Decimal.parse(
                               farmWithdraw.amount.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: farmWithdraw.dexFarmInfos!.lpToken!.symbol,
+                    tokenSymbol: (Decimal.parse(
+                                      farmWithdraw
+                                          .dexFarmUserInfo!.depositedAmount
+                                          .toString(),
+                                    ) +
+                                    Decimal.parse(
+                                      farmWithdraw.amount.toString(),
+                                    ))
+                                .toDouble() >
+                            1
+                        ? 'LP Tokens'
+                        : 'LP Token',
                     withFiat: false,
                     height: 20,
                   ),
                 ],
               ),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(top: 10),
-                child: const FarmWithdrawInfos(),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Farm's balance",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.confirmBeforeLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.confirmAfterLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DexTokenBalance(
+                    tokenBalance: farmWithdraw.dexFarmInfo!.lpTokenDeposited,
+                    tokenSymbol: farmWithdraw.dexFarmInfo!.lpTokenDeposited > 1
+                        ? 'LP Tokens'
+                        : 'LP Token',
+                    withFiat: false,
+                    height: 20,
+                  ),
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                              farmWithdraw.dexFarmInfo!.lpTokenDeposited
+                                  .toString(),
+                            ) -
+                            Decimal.parse(
+                              farmWithdraw.amount.toString(),
+                            ))
+                        .toDouble(),
+                    tokenSymbol: (Decimal.parse(
+                                      farmWithdraw.dexFarmInfo!.lpTokenDeposited
+                                          .toString(),
+                                    ) +
+                                    Decimal.parse(
+                                      farmWithdraw.amount.toString(),
+                                    ))
+                                .toDouble() >
+                            1
+                        ? 'LP Tokens'
+                        : 'LP Token',
+                    withFiat: false,
+                    height: 20,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                'Rewards',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              FutureBuilder<String>(
+                future: FiatValue().display(
+                  ref,
+                  farmWithdraw.dexFarmInfo!.rewardToken!.symbol,
+                  farmWithdraw.dexFarmUserInfo!.rewardAmount,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      'You will receive ${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ${snapshot.data}',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+              const SizedBox(
+                height: 10,
               ),
             ],
           ),

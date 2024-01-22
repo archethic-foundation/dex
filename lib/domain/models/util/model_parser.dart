@@ -225,6 +225,7 @@ mixin ModelParser {
 
   Future<DexFarm> farmListToModel(
     GetFarmListResponse getFarmListResponse,
+    DexPool pool,
   ) async {
     final adressesToSearch = <String>[getFarmListResponse.lpTokenAddress];
     if (getFarmListResponse.rewardTokenAddress != 'UCO') {
@@ -261,12 +262,15 @@ mixin ModelParser {
       farmAddress: getFarmListResponse.address,
       rewardToken: rewardToken,
       lpToken: lpToken,
+      lpTokenPair: pool.pair,
+      poolAddress: pool.poolAddress,
     );
   }
 
   Future<DexFarm> farmInfosToModel(
     String farmGenesisAddress,
-    GetFarmInfosResponse getFarmInfosResponse, {
+    GetFarmInfosResponse getFarmInfosResponse,
+    DexPool pool, {
     DexFarm? dexFarmInput,
   }) async {
     DexFarm? dexFarm = DexFarm(
@@ -276,6 +280,8 @@ mixin ModelParser {
       endDate: getFarmInfosResponse.endDate,
       startDate: getFarmInfosResponse.startDate,
       farmAddress: farmGenesisAddress,
+      poolAddress: pool.poolAddress,
+      lpTokenPair: pool.pair,
     );
     if (dexFarmInput == null || dexFarmInput.lpToken == null) {
       final adressesToSearch = <String>[getFarmInfosResponse.lpTokenAddress];

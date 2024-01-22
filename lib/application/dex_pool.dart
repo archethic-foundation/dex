@@ -184,24 +184,28 @@ Future<double> _estimatePoolTVLInFiat(
   _EstimatePoolTVLInFiatRef ref,
   DexPool pool,
 ) async {
-  var fiatValue = 0.0;
-  var tvl = 0.0;
-  fiatValue = await ref
+  var fiatValueToken1 = 0.0;
+  var fiatValueToken2 = 0.0;
+
+  fiatValueToken1 = await ref
       .watch(DexPoolProviders.estimateTokenInFiat(pool.pair!.token1).future);
+  fiatValueToken2 = await ref
+      .watch(DexPoolProviders.estimateTokenInFiat(pool.pair!.token2).future);
 
-  if (fiatValue > 0) {
-    tvl = pool.pair!.token1.reserve * fiatValue * 2;
+  if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
+    return pool.pair!.token1.reserve * fiatValueToken1 +
+        pool.pair!.token2.reserve * fiatValueToken1;
   }
 
-  if (fiatValue == 0) {
-    fiatValue = await ref
-        .watch(DexPoolProviders.estimateTokenInFiat(pool.pair!.token2).future);
-    if (fiatValue > 0) {
-      tvl = pool.pair!.token2.reserve * fiatValue * 2;
-    }
+  if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
+    return pool.pair!.token1.reserve * fiatValueToken1 * 2;
   }
 
-  return tvl;
+  if (fiatValueToken1 == 0 && fiatValueToken2 > 0) {
+    return pool.pair!.token2.reserve * fiatValueToken2 * 2;
+  }
+
+  return 0;
 }
 
 class DexPoolsRepository {

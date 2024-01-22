@@ -6,6 +6,8 @@ import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_te
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +20,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
-    if (farmWithdraw.dexFarmInfos == null) {
+    if (farmWithdraw.dexFarmInfo == null) {
       return const SizedBox.shrink();
     }
 
@@ -58,10 +60,42 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      FarmWithdrawAmount(),
+                      Text(
+                        'You can withdraw all or part of your deposited LP tokens. At the same time, this will claim your rewards.',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      FutureBuilder<String>(
+                        future: FiatValue().display(
+                          ref,
+                          farmWithdraw.dexFarmInfo!.rewardToken!.symbol,
+                          farmWithdraw.dexFarmUserInfo!.rewardAmount,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Row(
+                              children: [
+                                Text(
+                                  '${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                Text(
+                                  '${snapshot.data}',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                Text(
+                                  ' are available for claiming.',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      const FarmWithdrawAmount(),
                     ],
                   ),
                   Column(

@@ -1,6 +1,5 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_infos.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
@@ -46,11 +45,15 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Please confirm the deposit of ${farmDeposit.amount.formatNumber()} ${farmDeposit.dexFarmInfos!.lpToken!.symbol}',
+                'Please confirm the deposit of ${farmDeposit.amount.formatNumber()} ${farmDeposit.amount > 1 ? 'LP Tokens' : 'LP Token'}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
-                height: 10,
+                height: 30,
+              ),
+              Text(
+                'Your balance',
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,7 +73,9 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: farmDeposit.lpTokenBalance,
-                    tokenSymbol: farmDeposit.dexFarmInfos!.lpToken!.symbol,
+                    tokenSymbol: farmDeposit.lpTokenBalance > 1
+                        ? 'LP Tokens'
+                        : 'LP Token',
                     withFiat: false,
                     height: 20,
                   ),
@@ -82,16 +87,79 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                               farmDeposit.amount.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: farmDeposit.dexFarmInfos!.lpToken!.symbol,
+                    tokenSymbol: (Decimal.parse(
+                                      farmDeposit.lpTokenBalance.toString(),
+                                    ) -
+                                    Decimal.parse(
+                                      farmDeposit.amount.toString(),
+                                    ))
+                                .toDouble() >
+                            1
+                        ? 'LP Tokens'
+                        : 'LP Token',
                     withFiat: false,
                     height: 20,
                   ),
                 ],
               ),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(top: 10),
-                child: const FarmDepositInfos(),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Farm's balance",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.confirmBeforeLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.confirmAfterLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DexTokenBalance(
+                    tokenBalance: farmDeposit.dexFarmInfos!.lpTokenDeposited,
+                    tokenSymbol: farmDeposit.dexFarmInfos!.lpTokenDeposited > 1
+                        ? 'LP Tokens'
+                        : 'LP Token',
+                    withFiat: false,
+                    height: 20,
+                  ),
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                              farmDeposit.dexFarmInfos!.lpTokenDeposited
+                                  .toString(),
+                            ) -
+                            Decimal.parse(
+                              farmDeposit.amount.toString(),
+                            ))
+                        .toDouble(),
+                    tokenSymbol: (Decimal.parse(
+                                      farmDeposit.dexFarmInfos!.lpTokenDeposited
+                                          .toString(),
+                                    ) +
+                                    Decimal.parse(
+                                      farmDeposit.amount.toString(),
+                                    ))
+                                .toDouble() >
+                            1
+                        ? 'LP Tokens'
+                        : 'LP Token',
+                    withFiat: false,
+                    height: 20,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
               ),
             ],
           ),

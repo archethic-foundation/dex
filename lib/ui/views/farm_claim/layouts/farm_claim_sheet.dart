@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/state.dart';
@@ -14,9 +15,11 @@ import 'package:gradient_borders/gradient_borders.dart';
 class FarmClaimSheet extends ConsumerStatefulWidget {
   const FarmClaimSheet({
     required this.farm,
+    required this.farmUserInfo,
     super.key,
   });
 
+  final DexFarmUserInfos farmUserInfo;
   final DexFarm farm;
   @override
   ConsumerState<FarmClaimSheet> createState() => _FarmClaimSheetState();
@@ -27,9 +30,9 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref
-          .read(FarmClaimFormProvider.farmClaimForm.notifier)
-          .setDexFarmInfos(widget.farm);
+      ref.read(FarmClaimFormProvider.farmClaimForm.notifier)
+        ..setDexFarm(widget.farm)
+        ..setDexFarmUserInfo(widget.farmUserInfo);
     });
   }
 

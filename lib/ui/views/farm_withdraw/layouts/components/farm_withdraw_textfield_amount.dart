@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/components/lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -136,11 +137,36 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            DexTokenBalance(
-              tokenBalance: farmWithdraw.lpTokenDepositedBalance,
-              tokenSymbol: farmWithdraw.lpTokenDepositedBalance > 1
-                  ? 'LP Tokens'
-                  : 'LP Token',
+            Row(
+              children: [
+                DexTokenBalance(
+                  tokenBalance: farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                  tokenSymbol: farmWithdraw.dexFarmUserInfo!.depositedAmount > 1
+                      ? 'LP Tokens'
+                      : 'LP Token',
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                FutureBuilder<String>(
+                  future: LPTokenFiatValue().display(
+                    ref,
+                    farmWithdraw.dexFarmInfo!.lpTokenPair!.token1,
+                    farmWithdraw.dexFarmInfo!.lpTokenPair!.token2,
+                    farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                    farmWithdraw.dexFarmInfo!.poolAddress,
+                  ),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(
+                        snapshot.data!,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ],
             ),
             const SizedBox(
               height: 5,
@@ -148,7 +174,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
             Row(
               children: [
                 DexButtonHalf(
-                  balanceAmount: farmWithdraw.lpTokenDepositedBalance,
+                  balanceAmount: farmWithdraw.dexFarmUserInfo!.depositedAmount,
                   onTap: () {
                     ref
                         .read(
@@ -162,7 +188,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                   width: 10,
                 ),
                 DexButtonMax(
-                  balanceAmount: farmWithdraw.lpTokenDepositedBalance,
+                  balanceAmount: farmWithdraw.dexFarmUserInfo!.depositedAmount,
                   onTap: () {
                     ref
                         .read(

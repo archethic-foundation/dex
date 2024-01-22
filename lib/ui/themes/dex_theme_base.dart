@@ -10,6 +10,7 @@ class DexThemeBase {
   static String addressFont = 'Roboto';
 
   static Color primaryColor = ArchethicThemeBase.purple500;
+  static Color secondaryColor = ArchethicThemeBase.raspberry300;
   static Color backgroundColor = ArchethicThemeBase.neutral900;
   static Color maxButtonColor = ArchethicThemeBase.raspberry300;
   static Color halfButtonColor = ArchethicThemeBase.raspberry300;
@@ -63,6 +64,16 @@ class DexThemeBase {
     colors: [
       ArchethicThemeBase.purple500.withOpacity(1),
       ArchethicThemeBase.purple500.withOpacity(1),
+    ],
+    stops: const [0, 1],
+    begin: Alignment.topLeft,
+    end: Alignment.center,
+  );
+
+  static Gradient gradientLine = LinearGradient(
+    colors: [
+      ArchethicThemeBase.purple500.withOpacity(1),
+      ArchethicThemeBase.purple500.withOpacity(0.3),
     ],
     stops: const [0, 1],
     begin: Alignment.topLeft,

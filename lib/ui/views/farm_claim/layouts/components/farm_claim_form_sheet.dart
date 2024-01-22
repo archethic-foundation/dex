@@ -19,7 +19,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
-    if (farmClaim.dexFarmInfos == null) {
+    if (farmClaim.dexFarmUserInfo == null) {
       return const SizedBox.shrink();
     }
 
@@ -65,14 +65,26 @@ class FarmClaimFormSheet extends ConsumerWidget {
                       FutureBuilder<String>(
                         future: FiatValue().display(
                           ref,
-                          farmClaim.dexFarmInfos!.rewardToken!.symbol,
-                          farmClaim.dexFarmInfos!.remainingReward,
+                          farmClaim.dexFarm!.rewardToken!.symbol,
+                          farmClaim.dexFarmUserInfo!.rewardAmount,
                         ),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return Text(
-                              '${farmClaim.dexFarmInfos!.remainingReward.formatNumber()} ${farmClaim.dexFarmInfos!.rewardToken!.symbol} ${snapshot.data} are available for claiming.',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                            return Row(
+                              children: [
+                                Text(
+                                  '${farmClaim.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmClaim.dexFarm!.rewardToken!.symbol}',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                Text(
+                                  ' ${snapshot.data} ',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                Text(
+                                  ' are available for claiming.',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
                             );
                           }
                           return const SizedBox.shrink();

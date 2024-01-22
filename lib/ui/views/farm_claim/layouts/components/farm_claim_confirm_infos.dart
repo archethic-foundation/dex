@@ -1,6 +1,5 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_infos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -17,7 +16,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
-    if (farmClaim.dexFarmInfos == null) {
+    if (farmClaim.dexFarmUserInfo == null) {
       return const SizedBox.shrink();
     }
 
@@ -61,11 +60,6 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(top: 10),
-                child: const FarmClaimInfos(),
               ),
             ],
           ),

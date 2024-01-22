@@ -84,7 +84,9 @@ class RouterFactory with ModelParser {
   }
 
   /// Return the infos of all the farms.
-  Future<Result<List<DexFarm>, Failure>> getFarmList() async {
+  Future<Result<List<DexFarm>, Failure>> getFarmList(
+    List<DexPool> poolList,
+  ) async {
     return Result.guard(
       () async {
         final results = await apiService.callSCFunction(
@@ -103,8 +105,14 @@ class RouterFactory with ModelParser {
 
         for (final result in results) {
           final getFarmListResponse = GetFarmListResponse.fromJson(result);
+          final dexpool = poolList.singleWhere(
+            (pool) =>
+                pool.lpToken!.address!.toUpperCase() ==
+                getFarmListResponse.lpTokenAddress.toUpperCase(),
+          );
+
           farmList.add(
-            await farmListToModel(getFarmListResponse),
+            await farmListToModel(getFarmListResponse, dexpool),
           );
         }
 

@@ -1,7 +1,4 @@
-import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/dex_farm.dart';
-import 'package:aedex/application/pool_factory.dart';
-import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -9,7 +6,6 @@ import 'package:aedex/domain/usecases/withdraw_farm.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -37,44 +33,13 @@ class FarmWithdrawFormNotifier
   Future<void> initBalances() async {
     final session = ref.read(SessionProviders.session);
 
-    final userInfos = await ref.read(
+    final userInfo = await ref.read(
       DexFarmProviders.getUserInfos(
-        state.dexFarmInfos!.farmAddress,
+        state.dexFarmInfo!.farmAddress,
         session.genesisAddress,
       ).future,
     );
-    state = state.copyWith(lpTokenDepositedBalance: userInfos!.depositedAmount);
-
-    final apiService = sl.get<ApiService>();
-    final dexConfig =
-        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-
-    // TODO(reddwarf): Cache management
-    final poolListResult =
-        await RouterFactory(dexConfig.routerGenesisAddress, apiService)
-            .getPoolList();
-    await poolListResult.map(
-      success: (poolList) async {
-        final dexpool = poolList.singleWhere(
-          (pool) =>
-              pool.lpToken!.address!.toUpperCase() ==
-              state.dexFarmInfos!.lpToken!.address!.toUpperCase(),
-        );
-
-        final removeAmountsResult =
-            await PoolFactory(dexpool.poolAddress, apiService)
-                .getRemoveAmounts(userInfos.depositedAmount);
-
-        removeAmountsResult.map(
-          success: (removeAmounts) {
-            final token1 = removeAmounts!['token1'] as double;
-            final token2 = removeAmounts['token2'] as double;
-          },
-          failure: (failure) {},
-        );
-      },
-      failure: (failure) {},
-    );
+    state = state.copyWith(dexFarmUserInfo: userInfo);
   }
 
   void setAmount(
@@ -87,20 +52,20 @@ class FarmWithdrawFormNotifier
   }
 
   void setAmountMax() {
-    setAmount(state.lpTokenDepositedBalance);
+    setAmount(state.dexFarmUserInfo!.depositedAmount);
   }
 
   void setAmountHalf() {
     setAmount(
-      (Decimal.parse(state.lpTokenDepositedBalance.toString()) /
+      (Decimal.parse(state.dexFarmUserInfo!.depositedAmount.toString()) /
               Decimal.fromInt(2))
           .toDouble(),
     );
   }
 
-  void setDexFarmInfos(DexFarm dexFarmInfos) {
+  void setDexFarmInfo(DexFarm dexFarmInfo) {
     state = state.copyWith(
-      dexFarmInfos: dexFarmInfos,
+      dexFarmInfo: dexFarmInfo,
     );
   }
 
@@ -172,7 +137,7 @@ class FarmWithdrawFormNotifier
       return false;
     }
 
-    if (state.amount > state.lpTokenDepositedBalance) {
+    if (state.amount > state.dexFarmUserInfo!.depositedAmount) {
       setFailure(
         Failure.other(
           cause: AppLocalizations.of(context)!
@@ -195,8 +160,8 @@ class FarmWithdrawFormNotifier
 
     await WithdrawFarmCase().run(
       ref,
-      state.dexFarmInfos!.farmAddress,
-      state.dexFarmInfos!.lpToken!.address!,
+      state.dexFarmInfo!.farmAddress,
+      state.dexFarmInfo!.lpToken!.address!,
       state.amount,
     );
 
