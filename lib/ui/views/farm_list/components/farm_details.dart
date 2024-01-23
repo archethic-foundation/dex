@@ -104,7 +104,7 @@ class FarmDetails extends ConsumerWidget {
                                     address: snapshot.data!.farmAddress
                                         .toUpperCase(),
                                     header: '',
-                                    typeAddress: TypeAddress.chain,
+                                    typeAddress: TypeAddressLinkCopy.chain,
                                     reduceAddress: true,
                                     fontSize: Theme.of(context)
                                         .textTheme
@@ -580,7 +580,7 @@ class FarmDetails extends ConsumerWidget {
                                             ),
                                             if (allInfo == false)
                                               const SizedBox(
-                                                height: 40,
+                                                height: 30,
                                               ),
                                             if (allInfo == false)
                                               Column(

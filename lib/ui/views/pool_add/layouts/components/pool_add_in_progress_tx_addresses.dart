@@ -24,7 +24,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: poolAdd.recoveryPoolGenesisAddress!.toUpperCase(),
             header: 'Pool genesis address: ',
-            typeAddress: TypeAddress.chain,
+            typeAddress: TypeAddressLinkCopy.chain,
             reduceAddress: true,
           ),
         if (poolAdd.recoveryTransactionAddPool != null &&
@@ -34,7 +34,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
             address: poolAdd.recoveryTransactionAddPool!.address!.address!
                 .toUpperCase(),
             header: 'Pool registration transaction address: ',
-            typeAddress: TypeAddress.transaction,
+            typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
         if (poolAdd.recoveryTransactionAddPoolTransfer != null &&
@@ -46,7 +46,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
                 .recoveryTransactionAddPoolTransfer!.address!.address!
                 .toUpperCase(),
             header: 'Pool funds transfer transaction address: ',
-            typeAddress: TypeAddress.transaction,
+            typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
         if (poolAdd.recoveryTransactionAddPoolLiquidity != null &&
@@ -58,7 +58,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
                 .recoveryTransactionAddPoolLiquidity!.address!.address!
                 .toUpperCase(),
             header: 'Liquidity addition transaction address: ',
-            typeAddress: TypeAddress.transaction,
+            typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
       ],

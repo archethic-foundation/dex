@@ -70,11 +70,15 @@ class _SwapTokenSwappedAmountState
     }
 
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(swap.tokenSwappedAmount != 0.0 ||
-        tokenAmountController.text == '' ||
-        (textNum != null && textNum == 0))) {
+    if (swap.tokenSwappedAmount == 0.0 &&
+        tokenAmountController.text != '' &&
+        (textNum == null || textNum != 0)) {
       _updateAmountTextController();
     }
+    if (swap.tokenSwappedAmount != 0.0 && textNum != swap.tokenSwappedAmount) {
+      _updateAmountTextController();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

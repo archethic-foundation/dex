@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum TypeAddress { address, transaction, chain }
+enum TypeAddressLink { address, transaction, chain }
 
 class FormatAddressLink extends ConsumerWidget {
   const FormatAddressLink({
     required this.address,
     this.iconSize = 12,
-    this.typeAddress = TypeAddress.address,
+    this.typeAddress = TypeAddressLink.address,
     this.tooltipLink,
     super.key,
   });
 
   final String address;
-  final TypeAddress typeAddress;
+  final TypeAddressLink typeAddress;
   final double iconSize;
   final String? tooltipLink;
 
@@ -30,14 +30,14 @@ class FormatAddressLink extends ConsumerWidget {
             EndpointUtil.getEnvironnement(),
           ).future,
         );
-        if (typeAddress == TypeAddress.transaction) {
+        if (typeAddress == TypeAddressLink.transaction) {
           await launchUrl(
             Uri.parse(
               '${blockchain!.urlExplorerTransaction}$address',
             ),
           );
         } else {
-          if (typeAddress == TypeAddress.address) {
+          if (typeAddress == TypeAddressLink.address) {
             await launchUrl(
               Uri.parse(
                 '${blockchain!.urlExplorerAddress}$address',

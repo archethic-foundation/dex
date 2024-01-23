@@ -21,7 +21,11 @@ class FiatValue {
       final price =
           await ref.watch(MarketProviders.getPriceFromSymbol(symbol).future);
       if (price == 0) {
-        return '';
+        if (withParenthesis) {
+          return r'($--)';
+        } else {
+          return r'$--';
+        }
       }
       final fiatValue = price * amount;
       if (withParenthesis) {

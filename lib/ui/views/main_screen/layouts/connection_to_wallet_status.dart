@@ -107,7 +107,7 @@ class _ConnectionToWalletStatusState
               Flexible(
                 child: FormatAddressLinkCopy(
                   address: session.genesisAddress.toUpperCase(),
-                  typeAddress: TypeAddress.chain,
+                  typeAddress: TypeAddressLinkCopy.chain,
                   reduceAddress: true,
                 ),
               ),
@@ -147,7 +147,7 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
               Center(
                 child: FormatAddressLinkCopy(
                   address: session.genesisAddress,
-                  typeAddress: TypeAddress.chain,
+                  typeAddress: TypeAddressLinkCopy.chain,
                   reduceAddress: true,
                 ),
               ),

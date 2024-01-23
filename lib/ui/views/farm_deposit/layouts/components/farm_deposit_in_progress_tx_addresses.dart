@@ -27,7 +27,7 @@ class FarmDepositInProgressTxAddresses extends ConsumerWidget {
             address: farmDeposit.transactionDepositFarm!.address!.address!
                 .toUpperCase(),
             header: 'Deposit transaction address: ',
-            typeAddress: TypeAddress.transaction,
+            typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
       ],

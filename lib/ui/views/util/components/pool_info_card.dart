@@ -152,7 +152,7 @@ class PoolInfoCard extends ConsumerWidget {
                           ),
                           FormatAddressLink(
                             address: pool.poolAddress,
-                            typeAddress: TypeAddress.chain,
+                            typeAddress: TypeAddressLink.chain,
                           ),
                         ],
                       ),

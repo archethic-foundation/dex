@@ -27,7 +27,7 @@ class FarmClaimInProgressTxAddresses extends ConsumerWidget {
             address:
                 farmClaim.transactionClaimFarm!.address!.address!.toUpperCase(),
             header: 'Claim transaction address: ',
-            typeAddress: TypeAddress.transaction,
+            typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
       ],

@@ -27,7 +27,7 @@ class FarmWithdrawInProgressTxAddresses extends ConsumerWidget {
             address: farmWithdraw.transactionWithdrawFarm!.address!.address!
                 .toUpperCase(),
             header: 'Withdraw transaction address: ',
-            typeAddress: TypeAddress.transaction,
+            typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
       ],
