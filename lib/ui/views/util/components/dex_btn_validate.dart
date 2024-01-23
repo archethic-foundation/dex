@@ -10,12 +10,14 @@ class DexButtonValidate extends ConsumerWidget {
     required this.controlOk,
     required this.labelBtn,
     required this.onPressed,
+    this.background = const Color(0xFF3D1D63),
     super.key,
   });
 
   final bool controlOk;
   final String labelBtn;
   final Function onPressed;
+  final Color background;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,12 +28,14 @@ class DexButtonValidate extends ConsumerWidget {
 
     if (controlOk == false) {
       return AppButton(
+        background: background,
         labelBtn: labelBtn,
         disabled: true,
       );
     }
 
     return AppButton(
+      background: background,
       labelBtn: labelBtn,
       onPressed: onPressed,
     );

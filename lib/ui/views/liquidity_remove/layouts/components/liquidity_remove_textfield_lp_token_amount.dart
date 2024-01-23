@@ -146,9 +146,8 @@ class _LiquidityRemoveLPTokenAmountState
           children: [
             DexTokenBalance(
               tokenBalance: liquidityRemove.lpTokenBalance,
-              tokenSymbol: liquidityRemove.lpToken == null
-                  ? ''
-                  : liquidityRemove.lpToken!.symbol,
+              tokenSymbol:
+                  liquidityRemove.lpTokenBalance > 1 ? 'LP Tokens' : 'LP Token',
             ),
             Row(
               children: [

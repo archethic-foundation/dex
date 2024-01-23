@@ -16,7 +16,7 @@ class FarmDepositFormState with _$FarmDepositFormState {
     FarmDepositProcessStep farmDepositProcessStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
-    DexFarm? dexFarmInfos,
+    DexFarm? dexFarmInfo,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool farmDepositOk,
     @Default(false) bool walletConfirmation,

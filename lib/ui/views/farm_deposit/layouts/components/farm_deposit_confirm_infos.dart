@@ -19,7 +19,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
-    if (farmDeposit.dexFarmInfos == null) {
+    if (farmDeposit.dexFarmInfo == null) {
       return const SizedBox.shrink();
     }
 
@@ -126,8 +126,8 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   DexTokenBalance(
-                    tokenBalance: farmDeposit.dexFarmInfos!.lpTokenDeposited,
-                    tokenSymbol: farmDeposit.dexFarmInfos!.lpTokenDeposited > 1
+                    tokenBalance: farmDeposit.dexFarmInfo!.lpTokenDeposited,
+                    tokenSymbol: farmDeposit.dexFarmInfo!.lpTokenDeposited > 1
                         ? 'LP Tokens'
                         : 'LP Token',
                     withFiat: false,
@@ -135,15 +135,15 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
-                              farmDeposit.dexFarmInfos!.lpTokenDeposited
+                              farmDeposit.dexFarmInfo!.lpTokenDeposited
                                   .toString(),
-                            ) -
+                            ) +
                             Decimal.parse(
                               farmDeposit.amount.toString(),
                             ))
                         .toDouble(),
                     tokenSymbol: (Decimal.parse(
-                                      farmDeposit.dexFarmInfos!.lpTokenDeposited
+                                      farmDeposit.dexFarmInfo!.lpTokenDeposited
                                           .toString(),
                                     ) +
                                     Decimal.parse(

@@ -2,8 +2,8 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
+import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/components/lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -145,12 +145,12 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                       farmDeposit.lpTokenBalance > 1 ? 'LP Tokens' : 'LP Token',
                 ),
                 FutureBuilder<String>(
-                  future: LPTokenFiatValue().display(
+                  future: DEXLPTokenFiatValue().display(
                     ref,
-                    farmDeposit.dexFarmInfos!.lpTokenPair!.token1,
-                    farmDeposit.dexFarmInfos!.lpTokenPair!.token2,
+                    farmDeposit.dexFarmInfo!.lpTokenPair!.token1,
+                    farmDeposit.dexFarmInfo!.lpTokenPair!.token2,
                     farmDeposit.lpTokenBalance,
-                    farmDeposit.dexFarmInfos!.poolAddress,
+                    farmDeposit.dexFarmInfo!.poolAddress,
                   ),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {

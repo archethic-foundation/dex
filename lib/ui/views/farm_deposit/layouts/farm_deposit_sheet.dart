@@ -28,7 +28,7 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
     super.initState();
     Future.delayed(Duration.zero, () {
       ref.read(FarmDepositFormProvider.farmDepositForm.notifier)
-        ..setDexFarmInfos(widget.farm)
+        ..setDexFarmInfo(widget.farm)
         ..initBalances();
     });
   }

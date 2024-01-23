@@ -9,11 +9,12 @@ import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_all_info_popup.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
+import 'package:aedex/ui/views/util/components/dex_apr_value.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
-import 'package:aedex/ui/views/util/components/lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,73 +72,84 @@ class FarmDetails extends ConsumerWidget {
                               children: [
                                 Row(
                                   children: [
-                                    DexPairIcons(
-                                      token1Address: farm.lpTokenPair!.token1
-                                                  .address ==
-                                              null
-                                          ? 'UCO'
-                                          : farm.lpTokenPair!.token1.address!,
-                                      token2Address: farm.lpTokenPair!.token2
-                                                  .address ==
-                                              null
-                                          ? 'UCO'
-                                          : farm.lpTokenPair!.token2.address!,
-                                      iconSize: 22,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
                                     Text(
                                       '${farm.lpTokenPair!.token1.symbol}/${farm.lpTokenPair!.token2.symbol}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineMedium,
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 3),
+                                      child: DexPairIcons(
+                                        token1Address: farm.lpTokenPair!.token1
+                                                    .address ==
+                                                null
+                                            ? 'UCO'
+                                            : farm.lpTokenPair!.token1.address!,
+                                        token2Address: farm.lpTokenPair!.token2
+                                                    .address ==
+                                                null
+                                            ? 'UCO'
+                                            : farm.lpTokenPair!.token2.address!,
+                                        iconSize: 22,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
                                   ],
                                 ),
                                 if (allInfo)
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 14),
-                                    child: FormatAddressLinkCopy(
-                                      address: snapshot.data!.farmAddress
-                                          .toUpperCase(),
-                                      header: '',
-                                      typeAddress: TypeAddress.chain,
-                                      reduceAddress: true,
-                                      fontSize: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .fontSize!,
-                                    ),
+                                  FormatAddressLinkCopy(
+                                    address: snapshot.data!.farmAddress
+                                        .toUpperCase(),
+                                    header: '',
+                                    typeAddress: TypeAddress.chain,
+                                    reduceAddress: true,
+                                    fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .fontSize!,
                                   ),
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Current APR',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Current APR',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    FutureBuilder<String>(
+                                      future: DEXAprValue().display(
+                                        ref,
+                                        farm.farmAddress,
+                                        snapshot.data!.remainingReward,
+                                        snapshot.data!.lpTokenPair!.token1,
+                                        snapshot.data!.lpTokenPair!.token2,
+                                        snapshot.data!.lpTokenDeposited,
+                                        farm.poolAddress,
                                       ),
-                                      Text(
-                                        '${snapshot.data!.apr.formatNumber(precision: 8)}%',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium!
-                                            .copyWith(
-                                              color:
-                                                  DexThemeBase.secondaryColor,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            snapshot.data!,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineMedium!
+                                                .copyWith(
+                                                  color: DexThemeBase
+                                                      .secondaryColor,
+                                                ),
+                                          );
+                                        }
+                                        return const SizedBox.shrink();
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -159,7 +171,7 @@ class FarmDetails extends ConsumerWidget {
                                       color: ArchethicThemeBase.purple500,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                          top: 5,
+                                          top: 7,
                                           bottom: 5,
                                           left: 10,
                                           right: 10,
@@ -226,467 +238,453 @@ class FarmDetails extends ConsumerWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              if (DateTime.fromMillisecondsSinceEpoch(
-                                snapshot.data!.endDate * 1000,
-                              ).isAfter(DateTime.now()))
-                                Text(
-                                  'Farm ends at',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                )
-                              else
-                                Text(
-                                  'Farm ended',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (DateTime.fromMillisecondsSinceEpoch(
+                              snapshot.data!.endDate * 1000,
+                            ).isAfter(DateTime.now()))
                               Text(
-                                timestampEndDate,
+                                'Farm ends at',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              )
+                            else
+                              Text(
+                                'Farm ended',
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
-                            ],
-                          ),
+                            Text(
+                              timestampEndDate,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         if (allInfo)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Remaining reward',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '${snapshot.data!.remainingReward.formatNumber()} ${snapshot.data!.rewardToken!.symbol}',
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Remaining reward',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    '${snapshot.data!.remainingReward.formatNumber()} ${snapshot.data!.rewardToken!.symbol}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  FutureBuilder<String>(
+                                    future: FiatValue().display(
+                                      ref,
+                                      snapshot.data!.rewardToken!.symbol,
+                                      snapshot.data!.remainingReward,
                                     ),
-                                    FutureBuilder<String>(
-                                      future: FiatValue().display(
-                                        ref,
-                                        snapshot.data!.rewardToken!.symbol,
-                                        snapshot.data!.remainingReward,
-                                      ),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Text(
-                                            snapshot.data!,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium,
-                                          );
-                                        }
-                                        return const SizedBox.shrink();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        );
+                                      }
+                                      return const SizedBox.shrink();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         if (allInfo)
                           const SizedBox(
                             height: 10,
                           ),
                         if (allInfo)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'LP Token deposited',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '${snapshot.data!.lpTokenDeposited.formatNumber()} ${snapshot.data!.lpTokenDeposited > 1 ? 'LP Tokens' : 'LP Token'}',
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'LP Token deposited',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    '${snapshot.data!.lpTokenDeposited.formatNumber()} ${snapshot.data!.lpTokenDeposited > 1 ? 'LP Tokens' : 'LP Token'}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  FutureBuilder<String>(
+                                    future: DEXLPTokenFiatValue().display(
+                                      ref,
+                                      farm.lpTokenPair!.token1,
+                                      farm.lpTokenPair!.token2,
+                                      snapshot.data!.lpTokenDeposited,
+                                      farm.poolAddress,
                                     ),
-                                    FutureBuilder<String>(
-                                      future: LPTokenFiatValue().display(
-                                        ref,
-                                        farm.lpTokenPair!.token1,
-                                        farm.lpTokenPair!.token2,
-                                        snapshot.data!.lpTokenDeposited,
-                                        farm.poolAddress,
-                                      ),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Text(
-                                            snapshot.data!,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium,
-                                          );
-                                        }
-                                        return const SizedBox.shrink();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data!,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        );
+                                      }
+                                      return const SizedBox.shrink();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         if (allInfo)
                           const SizedBox(
                             height: 10,
                           ),
                         if (allInfo)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Nb deposit',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Text(
-                                  snapshot.data!.nbDeposit.toString(),
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Nb deposit',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              Text(
+                                snapshot.data!.nbDeposit.toString(),
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
                           ),
                         if (allInfo)
                           const SizedBox(
                             height: 15,
                           ),
                         if (allInfo)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Container(
-                              height: 0.5,
-                              color: Colors.white,
-                            ),
+                          Container(
+                            height: 0.5,
+                            color: Colors.white,
                           ),
                         if (allInfo == false)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Container(
-                              height: 1,
-                              decoration: BoxDecoration(
-                                gradient: DexThemeBase.gradientLine,
-                              ),
+                          Container(
+                            height: 1,
+                            decoration: BoxDecoration(
+                              gradient: DexThemeBase.gradientLine,
                             ),
                           ),
                         const SizedBox(
                           height: 20,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: FutureBuilder<DexFarmUserInfos?>(
-                            future: ref.watch(
-                              DexFarmProviders.getUserInfos(
-                                snapshot.data!.farmAddress,
-                                session.genesisAddress,
-                              ).future,
-                            ),
-                            builder: (context, snapshot2) {
-                              if (snapshot2.hasData) {
-                                return Column(
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Deposited amount',
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyLarge,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              '${snapshot2.data!.depositedAmount.formatNumber()} ${snapshot2.data!.depositedAmount > 1 ? 'LP Tokens' : 'LP Token'}',
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.bodyLarge,
-                                            ),
-                                            FutureBuilder<String>(
-                                              future:
-                                                  LPTokenFiatValue().display(
-                                                ref,
-                                                farm.lpTokenPair!.token1,
-                                                farm.lpTokenPair!.token2,
-                                                snapshot2.data!.depositedAmount,
-                                                farm.poolAddress,
-                                              ),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return Text(
-                                                    snapshot.data!,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium,
-                                                  );
-                                                }
-                                                return const SizedBox.shrink();
-                                              },
-                                            ),
-                                            if (allInfo)
-                                              Text(
-                                                '${snapshot2.data!.depositedAmount * 100 / snapshot.data!.lpTokenDeposited} % of the farm',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium,
-                                              ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Your reward amount',
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyLarge,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              '${snapshot2.data!.rewardAmount.formatNumber(precision: 8)} ${snapshot.data!.rewardToken!.symbol}',
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.bodyLarge!.copyWith(
-                                                    color: DexThemeBase
-                                                        .secondaryColor,
-                                                  ),
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            FutureBuilder<String>(
-                                              future: FiatValue().display(
-                                                ref,
-                                                snapshot
-                                                    .data!.rewardToken!.symbol,
-                                                snapshot2.data!.rewardAmount,
-                                              ),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return Text(
-                                                    snapshot.data!,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium,
-                                                  );
-                                                }
-                                                return const SizedBox.shrink();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    FutureBuilder<double>(
-                                      future: ref.watch(
-                                        BalanceProviders.getBalance(
-                                          session.genesisAddress,
-                                          snapshot.data!.lpToken!.isUCO
-                                              ? 'UCO'
-                                              : snapshot
-                                                  .data!.lpToken!.address!,
-                                        ).future,
+                        FutureBuilder<DexFarmUserInfos?>(
+                          future: ref.watch(
+                            DexFarmProviders.getUserInfos(
+                              snapshot.data!.farmAddress,
+                              session.genesisAddress,
+                            ).future,
+                          ),
+                          builder: (context, snapshot2) {
+                            if (snapshot2.hasData) {
+                              return Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Deposited amount',
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyLarge,
                                       ),
-                                      builder: (
-                                        context,
-                                        snapshot3,
-                                      ) {
-                                        if (snapshot3.hasData) {
-                                          return Column(
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    'Your available LP Token',
-                                                    style: Theme.of(
-                                                      context,
-                                                    ).textTheme.bodyLarge,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        '${snapshot3.data!.formatNumber()} ${snapshot3.data! > 1 ? 'LP Tokens' : 'LP Token'}',
-                                                        style: Theme.of(
-                                                          context,
-                                                        ).textTheme.bodyLarge,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            '${snapshot2.data!.depositedAmount.formatNumber()} ${snapshot2.data!.depositedAmount > 1 ? 'LP Tokens' : 'LP Token'}',
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.bodyLarge,
+                                          ),
+                                          FutureBuilder<String>(
+                                            future:
+                                                DEXLPTokenFiatValue().display(
+                                              ref,
+                                              farm.lpTokenPair!.token1,
+                                              farm.lpTokenPair!.token2,
+                                              snapshot2.data!.depositedAmount,
+                                              farm.poolAddress,
+                                            ),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Text(
+                                                  snapshot.data!,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium,
+                                                );
+                                              }
+                                              return const SizedBox.shrink();
+                                            },
+                                          ),
+                                          if (allInfo)
+                                            Text(
+                                              '${snapshot2.data!.depositedAmount * 100 / snapshot.data!.lpTokenDeposited} % of the farm',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
+                                            ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Your reward amount',
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyLarge,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            '${snapshot2.data!.rewardAmount.formatNumber(precision: 8)} ${snapshot.data!.rewardToken!.symbol}',
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.bodyLarge!.copyWith(
+                                                  color: DexThemeBase
+                                                      .secondaryColor,
+                                                ),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          FutureBuilder<String>(
+                                            future: FiatValue().display(
+                                              ref,
+                                              snapshot
+                                                  .data!.rewardToken!.symbol,
+                                              snapshot2.data!.rewardAmount,
+                                            ),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Text(
+                                                  snapshot.data!,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium,
+                                                );
+                                              }
+                                              return const SizedBox.shrink();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  FutureBuilder<double>(
+                                    future: ref.watch(
+                                      BalanceProviders.getBalance(
+                                        session.genesisAddress,
+                                        snapshot.data!.lpToken!.isUCO
+                                            ? 'UCO'
+                                            : snapshot.data!.lpToken!.address!,
+                                      ).future,
+                                    ),
+                                    builder: (
+                                      context,
+                                      snapshot3,
+                                    ) {
+                                      if (snapshot3.hasData) {
+                                        return Column(
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Your available LP Tokens',
+                                                  style: Theme.of(
+                                                    context,
+                                                  ).textTheme.bodyLarge,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      '${snapshot3.data!.formatNumber()} ${snapshot3.data! > 1 ? 'LP Tokens' : 'LP Token'}',
+                                                      style: Theme.of(
+                                                        context,
+                                                      ).textTheme.bodyLarge,
+                                                    ),
+                                                    FutureBuilder<String>(
+                                                      future:
+                                                          DEXLPTokenFiatValue()
+                                                              .display(
+                                                        ref,
+                                                        farm.lpTokenPair!
+                                                            .token1,
+                                                        farm.lpTokenPair!
+                                                            .token2,
+                                                        snapshot3.data!,
+                                                        farm.poolAddress,
                                                       ),
-                                                      FutureBuilder<String>(
-                                                        future:
-                                                            LPTokenFiatValue()
-                                                                .display(
-                                                          ref,
-                                                          farm.lpTokenPair!
-                                                              .token1,
-                                                          farm.lpTokenPair!
-                                                              .token2,
-                                                          snapshot3.data!,
-                                                          farm.poolAddress,
+                                                      builder: (
+                                                        context,
+                                                        snapshot,
+                                                      ) {
+                                                        if (snapshot.hasData) {
+                                                          return Text(
+                                                            snapshot.data!,
+                                                            style: Theme.of(
+                                                              context,
+                                                            )
+                                                                .textTheme
+                                                                .bodyMedium,
+                                                          );
+                                                        }
+                                                        return const SizedBox
+                                                            .shrink();
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            if (allInfo == false)
+                                              const SizedBox(
+                                                height: 40,
+                                              ),
+                                            if (allInfo == false)
+                                              Column(
+                                                children: [
+                                                  DexButtonValidate(
+                                                    background:
+                                                        ArchethicThemeBase
+                                                            .purple500,
+                                                    controlOk:
+                                                        snapshot3.data! > 0,
+                                                    labelBtn:
+                                                        'Deposit LP Tokens',
+                                                    onPressed: () {
+                                                      ref
+                                                          .read(
+                                                            MainScreenWidgetDisplayedProviders
+                                                                .mainScreenWidgetDisplayedProvider
+                                                                .notifier,
+                                                          )
+                                                          .setWidget(
+                                                            FarmDepositSheet(
+                                                              farm: snapshot
+                                                                  .data!,
+                                                            ),
+                                                            ref,
+                                                          );
+                                                    },
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 30,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child:
+                                                            DexButtonValidate(
+                                                          background:
+                                                              ArchethicThemeBase
+                                                                  .purple500,
+                                                          controlOk: snapshot
+                                                                  .data!
+                                                                  .lpTokenDeposited >
+                                                              0,
+                                                          labelBtn: 'Withdraw',
+                                                          onPressed: () {
+                                                            ref
+                                                                .read(
+                                                                  MainScreenWidgetDisplayedProviders
+                                                                      .mainScreenWidgetDisplayedProvider
+                                                                      .notifier,
+                                                                )
+                                                                .setWidget(
+                                                                  FarmWithdrawSheet(
+                                                                    farm: snapshot
+                                                                        .data!,
+                                                                  ),
+                                                                  ref,
+                                                                );
+                                                          },
                                                         ),
-                                                        builder: (
-                                                          context,
-                                                          snapshot,
-                                                        ) {
-                                                          if (snapshot
-                                                              .hasData) {
-                                                            return Text(
-                                                              snapshot.data!,
-                                                              style: Theme.of(
-                                                                context,
-                                                              )
-                                                                  .textTheme
-                                                                  .bodyMedium,
-                                                            );
-                                                          }
-                                                          return const SizedBox
-                                                              .shrink();
-                                                        },
+                                                      ),
+                                                      Expanded(
+                                                        child:
+                                                            DexButtonValidate(
+                                                          background:
+                                                              ArchethicThemeBase
+                                                                  .purple500,
+                                                          controlOk: true,
+                                                          labelBtn: 'Claim',
+                                                          onPressed: () {
+                                                            ref
+                                                                .read(
+                                                                  MainScreenWidgetDisplayedProviders
+                                                                      .mainScreenWidgetDisplayedProvider
+                                                                      .notifier,
+                                                                )
+                                                                .setWidget(
+                                                                  FarmClaimSheet(
+                                                                    farmUserInfo:
+                                                                        snapshot2
+                                                                            .data!,
+                                                                    farm: snapshot
+                                                                        .data!,
+                                                                  ),
+                                                                  ref,
+                                                                );
+                                                          },
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
                                                 ],
                                               ),
-                                              if (allInfo == false)
-                                                const SizedBox(
-                                                  height: 40,
-                                                ),
-                                              if (allInfo == false)
-                                                Column(
-                                                  children: [
-                                                    DexButtonValidate(
-                                                      controlOk:
-                                                          snapshot3.data! > 0,
-                                                      labelBtn:
-                                                          'Deposit LP Tokens',
-                                                      onPressed: () {
-                                                        ref
-                                                            .read(
-                                                              MainScreenWidgetDisplayedProviders
-                                                                  .mainScreenWidgetDisplayedProvider
-                                                                  .notifier,
-                                                            )
-                                                            .setWidget(
-                                                              FarmDepositSheet(
-                                                                farm: farm,
-                                                              ),
-                                                              ref,
-                                                            );
-                                                      },
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 30,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child:
-                                                              DexButtonValidate(
-                                                            controlOk: snapshot
-                                                                    .data!
-                                                                    .lpTokenDeposited >
-                                                                0,
-                                                            labelBtn:
-                                                                'Withdraw',
-                                                            onPressed: () {
-                                                              ref
-                                                                  .read(
-                                                                    MainScreenWidgetDisplayedProviders
-                                                                        .mainScreenWidgetDisplayedProvider
-                                                                        .notifier,
-                                                                  )
-                                                                  .setWidget(
-                                                                    FarmWithdrawSheet(
-                                                                      farm:
-                                                                          farm,
-                                                                    ),
-                                                                    ref,
-                                                                  );
-                                                            },
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child:
-                                                              DexButtonValidate(
-                                                            controlOk: true,
-                                                            labelBtn: 'Claim',
-                                                            onPressed: () {
-                                                              ref
-                                                                  .read(
-                                                                    MainScreenWidgetDisplayedProviders
-                                                                        .mainScreenWidgetDisplayedProvider
-                                                                        .notifier,
-                                                                  )
-                                                                  .setWidget(
-                                                                    FarmClaimSheet(
-                                                                      farmUserInfo:
-                                                                          snapshot2
-                                                                              .data!,
-                                                                      farm: snapshot
-                                                                          .data!,
-                                                                    ),
-                                                                    ref,
-                                                                  );
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                            ],
-                                          );
-                                        }
-                                        return const SizedBox.shrink();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              }
-                              return const SizedBox.shrink();
-                            },
-                          ),
+                                          ],
+                                        );
+                                      }
+                                      return const SizedBox.shrink();
+                                    },
+                                  ),
+                                ],
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
                         ),
                       ],
                     ),

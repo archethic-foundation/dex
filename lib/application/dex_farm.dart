@@ -11,7 +11,6 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -201,28 +200,8 @@ class DexFarmsRepository {
       failure: (failure) {},
     );
 
-    final lpTokenDepositedInFiatResult =
-        ref.read(DexFarmProviders.estimateLPTokenInFiat(
-      dexFarm!.lpTokenPair!.token1,
-      dexFarm!.lpTokenPair!.token2,
-      dexFarm!.lpTokenDeposited,
-      dexFarm!.poolAddress,
-    ));
-    var apr = 0.0;
-    lpTokenDepositedInFiatResult.map(
-      data: (data) {
-        if (remainingRewardInFiat > 0) {
-          apr = (Decimal.parse('${data.value}') /
-                  Decimal.parse('$remainingRewardInFiat'))
-              .toDouble();
-        }
-      },
-      error: (error) {},
-      loading: (loading) {},
-    );
-
     return dexFarm!.copyWith(
-      apr: apr,
+      remainingRewardInFiat: remainingRewardInFiat,
     );
   }
 

@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -10,11 +9,13 @@ class AppButton extends StatefulWidget {
     this.onPressed,
     this.height = 40,
     this.disabled = false,
+    this.background = const Color(0xFF3D1D63),
   });
   final String labelBtn;
   final Function? onPressed;
   final bool disabled;
   final double height;
+  final Color background;
 
   @override
   AppButtonState createState() => AppButtonState();
@@ -75,16 +76,8 @@ class AppButtonState extends State<AppButton> {
         horizontal: 20,
       ),
       decoration: ShapeDecoration(
-        gradient: DexThemeBase.gradientBtn,
+        color: widget.background,
         shape: const StadiumBorder(),
-        shadows: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            blurRadius: 7,
-            spreadRadius: 1,
-            offset: const Offset(0, 5),
-          ),
-        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -8,13 +8,16 @@ class DexButtonClose extends ConsumerWidget {
   const DexButtonClose({
     required this.onPressed,
     super.key,
+    this.background = const Color(0xFF3D1D63),
   });
 
   final VoidCallback onPressed;
+  final Color background;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
+      background: background,
       labelBtn: AppLocalizations.of(context)!.btn_close,
       onPressed: onPressed,
     );

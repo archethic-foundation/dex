@@ -1,3 +1,5 @@
+import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
@@ -24,6 +26,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
+    final session = ref.watch(SessionProviders.session);
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -69,43 +72,56 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DexTokenBalance(
-                    tokenBalance: farmWithdraw.dexFarmUserInfo!.depositedAmount,
-                    tokenSymbol:
-                        farmWithdraw.dexFarmUserInfo!.depositedAmount > 1
-                            ? 'LP Tokens'
-                            : 'LP Token',
-                    withFiat: false,
-                    height: 20,
-                  ),
-                  DexTokenBalance(
-                    tokenBalance: (Decimal.parse(
-                              farmWithdraw.dexFarmUserInfo!.depositedAmount
-                                  .toString(),
-                            ) +
-                            Decimal.parse(
-                              farmWithdraw.amount.toString(),
-                            ))
-                        .toDouble(),
-                    tokenSymbol: (Decimal.parse(
-                                      farmWithdraw
-                                          .dexFarmUserInfo!.depositedAmount
-                                          .toString(),
-                                    ) +
-                                    Decimal.parse(
-                                      farmWithdraw.amount.toString(),
-                                    ))
-                                .toDouble() >
-                            1
-                        ? 'LP Tokens'
-                        : 'LP Token',
-                    withFiat: false,
-                    height: 20,
-                  ),
-                ],
+              FutureBuilder<double>(
+                future: ref.watch(
+                  BalanceProviders.getBalance(
+                    session.genesisAddress,
+                    farmWithdraw.dexFarmInfo!.lpToken!.isUCO
+                        ? 'UCO'
+                        : farmWithdraw.dexFarmInfo!.lpToken!.address!,
+                  ).future,
+                ),
+                builder: (
+                  context,
+                  snapshot,
+                ) {
+                  if (snapshot.hasData) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DexTokenBalance(
+                          tokenBalance: snapshot.data!,
+                          tokenSymbol:
+                              snapshot.data! > 1 ? 'LP Tokens' : 'LP Token',
+                          withFiat: false,
+                          height: 20,
+                        ),
+                        DexTokenBalance(
+                          tokenBalance: (Decimal.parse(
+                                    snapshot.data!.toString(),
+                                  ) +
+                                  Decimal.parse(
+                                    farmWithdraw.amount.toString(),
+                                  ))
+                              .toDouble(),
+                          tokenSymbol: (Decimal.parse(
+                                            snapshot.data!.toString(),
+                                          ) +
+                                          Decimal.parse(
+                                            farmWithdraw.amount.toString(),
+                                          ))
+                                      .toDouble() >
+                                  1
+                              ? 'LP Tokens'
+                              : 'LP Token',
+                          withFiat: false,
+                          height: 20,
+                        ),
+                      ],
+                    );
+                  }
+                  return const Row(children: [Text('')]);
+                },
               ),
               const SizedBox(
                 height: 30,
@@ -150,7 +166,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     tokenSymbol: (Decimal.parse(
                                       farmWithdraw.dexFarmInfo!.lpTokenDeposited
                                           .toString(),
-                                    ) +
+                                    ) -
                                     Decimal.parse(
                                       farmWithdraw.amount.toString(),
                                     ))

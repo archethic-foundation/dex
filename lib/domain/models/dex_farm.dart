@@ -17,6 +17,7 @@ class DexFarm with _$DexFarm {
     @Default(0) int endDate,
     DexToken? rewardToken,
     @Default(0) double remainingReward,
+    @Default(0) double remainingRewardInFiat,
     @Default(0) double lpTokenDeposited,
     @Default(0) int nbDeposit,
   }) = _DexFarm;

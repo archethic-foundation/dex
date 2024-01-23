@@ -1,5 +1,10 @@
+import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -19,7 +24,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
     if (farmClaim.dexFarmUserInfo == null) {
       return const SizedBox.shrink();
     }
-
+    final session = ref.watch(SessionProviders.session);
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -41,12 +46,32 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Claim',
-                style: Theme.of(context).textTheme.bodyLarge,
+              FutureBuilder<String>(
+                future: FiatValue().display(
+                  ref,
+                  farmClaim.dexFarm!.rewardToken!.symbol,
+                  farmClaim.dexFarmUserInfo!.rewardAmount,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Row(
+                      children: [
+                        Text(
+                          'Please confirm the withdraw of ${farmClaim.dexFarmUserInfo!.rewardAmount} ${farmClaim.dexFarm!.rewardToken!.symbol}',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        Text(
+                          ' ${snapshot.data} ',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
               ),
               const SizedBox(
-                height: 10,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,6 +85,48 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
+              ),
+              FutureBuilder<double>(
+                future: ref.watch(
+                  BalanceProviders.getBalance(
+                    session.genesisAddress,
+                    farmClaim.dexFarm!.rewardToken!.isUCO
+                        ? 'UCO'
+                        : farmClaim.dexFarm!.rewardToken!.address!,
+                  ).future,
+                ),
+                builder: (
+                  context,
+                  snapshot,
+                ) {
+                  if (snapshot.hasData) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DexTokenBalance(
+                          tokenBalance: snapshot.data!,
+                          tokenSymbol: farmClaim.dexFarm!.rewardToken!.symbol,
+                          withFiat: false,
+                          height: 20,
+                        ),
+                        DexTokenBalance(
+                          tokenBalance: (Decimal.parse(
+                                    snapshot.data!.toString(),
+                                  ) +
+                                  Decimal.parse(
+                                    farmClaim.dexFarmUserInfo!.rewardAmount
+                                        .toString(),
+                                  ))
+                              .toDouble(),
+                          tokenSymbol: farmClaim.dexFarm!.rewardToken!.symbol,
+                          withFiat: false,
+                          height: 20,
+                        ),
+                      ],
+                    );
+                  }
+                  return const Row(children: [Text('')]);
+                },
               ),
             ],
           ),

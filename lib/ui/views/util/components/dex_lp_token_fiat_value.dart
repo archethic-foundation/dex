@@ -4,7 +4,7 @@ import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-class LPTokenFiatValue {
+class DEXLPTokenFiatValue {
   Future<String> display(
     WidgetRef ref,
     DexToken token1,

@@ -20,7 +20,7 @@ mixin _$FarmDepositFormState {
       throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
-  DexFarm? get dexFarmInfos => throw _privateConstructorUsedError;
+  DexFarm? get dexFarmInfo => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get farmDepositOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $FarmDepositFormStateCopyWith<$Res> {
       {FarmDepositProcessStep farmDepositProcessStep,
       bool resumeProcess,
       int currentStep,
-      DexFarm? dexFarmInfos,
+      DexFarm? dexFarmInfo,
       bool isProcessInProgress,
       bool farmDepositOk,
       bool walletConfirmation,
@@ -53,7 +53,7 @@ abstract class $FarmDepositFormStateCopyWith<$Res> {
       double lpTokenBalance,
       Failure? failure});
 
-  $DexFarmCopyWith<$Res>? get dexFarmInfos;
+  $DexFarmCopyWith<$Res>? get dexFarmInfo;
   $TransactionCopyWith<$Res>? get transactionDepositFarm;
   $FailureCopyWith<$Res>? get failure;
 }
@@ -75,7 +75,7 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
     Object? farmDepositProcessStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? dexFarmInfos = freezed,
+    Object? dexFarmInfo = freezed,
     Object? isProcessInProgress = null,
     Object? farmDepositOk = null,
     Object? walletConfirmation = null,
@@ -97,9 +97,9 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      dexFarmInfos: freezed == dexFarmInfos
-          ? _value.dexFarmInfos
-          : dexFarmInfos // ignore: cast_nullable_to_non_nullable
+      dexFarmInfo: freezed == dexFarmInfo
+          ? _value.dexFarmInfo
+          : dexFarmInfo // ignore: cast_nullable_to_non_nullable
               as DexFarm?,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
@@ -134,13 +134,13 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
-  $DexFarmCopyWith<$Res>? get dexFarmInfos {
-    if (_value.dexFarmInfos == null) {
+  $DexFarmCopyWith<$Res>? get dexFarmInfo {
+    if (_value.dexFarmInfo == null) {
       return null;
     }
 
-    return $DexFarmCopyWith<$Res>(_value.dexFarmInfos!, (value) {
-      return _then(_value.copyWith(dexFarmInfos: value) as $Val);
+    return $DexFarmCopyWith<$Res>(_value.dexFarmInfo!, (value) {
+      return _then(_value.copyWith(dexFarmInfo: value) as $Val);
     });
   }
 
@@ -181,7 +181,7 @@ abstract class _$$FarmDepositFormStateImplCopyWith<$Res>
       {FarmDepositProcessStep farmDepositProcessStep,
       bool resumeProcess,
       int currentStep,
-      DexFarm? dexFarmInfos,
+      DexFarm? dexFarmInfo,
       bool isProcessInProgress,
       bool farmDepositOk,
       bool walletConfirmation,
@@ -191,7 +191,7 @@ abstract class _$$FarmDepositFormStateImplCopyWith<$Res>
       Failure? failure});
 
   @override
-  $DexFarmCopyWith<$Res>? get dexFarmInfos;
+  $DexFarmCopyWith<$Res>? get dexFarmInfo;
   @override
   $TransactionCopyWith<$Res>? get transactionDepositFarm;
   @override
@@ -212,7 +212,7 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
     Object? farmDepositProcessStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? dexFarmInfos = freezed,
+    Object? dexFarmInfo = freezed,
     Object? isProcessInProgress = null,
     Object? farmDepositOk = null,
     Object? walletConfirmation = null,
@@ -234,9 +234,9 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      dexFarmInfos: freezed == dexFarmInfos
-          ? _value.dexFarmInfos
-          : dexFarmInfos // ignore: cast_nullable_to_non_nullable
+      dexFarmInfo: freezed == dexFarmInfo
+          ? _value.dexFarmInfo
+          : dexFarmInfo // ignore: cast_nullable_to_non_nullable
               as DexFarm?,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
@@ -277,7 +277,7 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
       {this.farmDepositProcessStep = FarmDepositProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
-      this.dexFarmInfos,
+      this.dexFarmInfo,
       this.isProcessInProgress = false,
       this.farmDepositOk = false,
       this.walletConfirmation = false,
@@ -297,7 +297,7 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
   @JsonKey()
   final int currentStep;
   @override
-  final DexFarm? dexFarmInfos;
+  final DexFarm? dexFarmInfo;
   @override
   @JsonKey()
   final bool isProcessInProgress;
@@ -320,7 +320,7 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
 
   @override
   String toString() {
-    return 'FarmDepositFormState(farmDepositProcessStep: $farmDepositProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfos: $dexFarmInfos, isProcessInProgress: $isProcessInProgress, farmDepositOk: $farmDepositOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionDepositFarm: $transactionDepositFarm, lpTokenBalance: $lpTokenBalance, failure: $failure)';
+    return 'FarmDepositFormState(farmDepositProcessStep: $farmDepositProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfo: $dexFarmInfo, isProcessInProgress: $isProcessInProgress, farmDepositOk: $farmDepositOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionDepositFarm: $transactionDepositFarm, lpTokenBalance: $lpTokenBalance, failure: $failure)';
   }
 
   @override
@@ -334,8 +334,8 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
-            (identical(other.dexFarmInfos, dexFarmInfos) ||
-                other.dexFarmInfos == dexFarmInfos) &&
+            (identical(other.dexFarmInfo, dexFarmInfo) ||
+                other.dexFarmInfo == dexFarmInfo) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
                 other.isProcessInProgress == isProcessInProgress) &&
             (identical(other.farmDepositOk, farmDepositOk) ||
@@ -356,7 +356,7 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
       farmDepositProcessStep,
       resumeProcess,
       currentStep,
-      dexFarmInfos,
+      dexFarmInfo,
       isProcessInProgress,
       farmDepositOk,
       walletConfirmation,
@@ -379,7 +379,7 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
       {final FarmDepositProcessStep farmDepositProcessStep,
       final bool resumeProcess,
       final int currentStep,
-      final DexFarm? dexFarmInfos,
+      final DexFarm? dexFarmInfo,
       final bool isProcessInProgress,
       final bool farmDepositOk,
       final bool walletConfirmation,
@@ -396,7 +396,7 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
   @override
   int get currentStep;
   @override
-  DexFarm? get dexFarmInfos;
+  DexFarm? get dexFarmInfo;
   @override
   bool get isProcessInProgress;
   @override

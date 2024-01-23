@@ -45,7 +45,7 @@ class FarmListSheet extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         elevation: 0,
-                        color: Colors.transparent,
+                        color: Colors.black.withOpacity(0.4),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: BackdropFilter(

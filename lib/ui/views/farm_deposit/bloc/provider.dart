@@ -32,9 +32,9 @@ class FarmDepositFormNotifier
     final lpTokenBalance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
-        state.dexFarmInfos!.lpToken!.isUCO
+        state.dexFarmInfo!.lpToken!.isUCO
             ? 'UCO'
-            : state.dexFarmInfos!.lpToken!.address!,
+            : state.dexFarmInfo!.lpToken!.address!,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
@@ -64,9 +64,9 @@ class FarmDepositFormNotifier
     );
   }
 
-  void setDexFarmInfos(DexFarm dexFarmInfos) {
+  void setDexFarmInfo(DexFarm dexFarmInfo) {
     state = state.copyWith(
-      dexFarmInfos: dexFarmInfos,
+      dexFarmInfo: dexFarmInfo,
     );
   }
 
@@ -161,8 +161,8 @@ class FarmDepositFormNotifier
 
     await DepositFarmCase().run(
       ref,
-      state.dexFarmInfos!.farmAddress,
-      state.dexFarmInfos!.lpToken!.address!,
+      state.dexFarmInfo!.farmAddress,
+      state.dexFarmInfo!.lpToken!.address!,
       state.amount,
     );
 

@@ -17,7 +17,7 @@ class FarmDepositConfirmSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
-    if (farmDeposit.dexFarmInfos == null) {
+    if (farmDeposit.dexFarmInfo == null) {
       return const SizedBox.shrink();
     }
 
@@ -27,7 +27,7 @@ class FarmDepositConfirmSheet extends ConsumerWidget {
         children: [
           DexButtonConfirmBack(
             title: AppLocalizations.of(context)!.farmDepositConfirmTitle,
-            onPressed: farmDeposit.dexFarmInfos == null
+            onPressed: farmDeposit.dexFarmInfo == null
                 ? null
                 : () {
                     ref

@@ -25,6 +25,7 @@ mixin _$DexFarm {
   int get endDate => throw _privateConstructorUsedError;
   DexToken? get rewardToken => throw _privateConstructorUsedError;
   double get remainingReward => throw _privateConstructorUsedError;
+  double get remainingRewardInFiat => throw _privateConstructorUsedError;
   double get lpTokenDeposited => throw _privateConstructorUsedError;
   int get nbDeposit => throw _privateConstructorUsedError;
 
@@ -47,6 +48,7 @@ abstract class $DexFarmCopyWith<$Res> {
       int endDate,
       DexToken? rewardToken,
       double remainingReward,
+      double remainingRewardInFiat,
       double lpTokenDeposited,
       int nbDeposit});
 
@@ -77,6 +79,7 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
     Object? endDate = null,
     Object? rewardToken = freezed,
     Object? remainingReward = null,
+    Object? remainingRewardInFiat = null,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
   }) {
@@ -116,6 +119,10 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
       remainingReward: null == remainingReward
           ? _value.remainingReward
           : remainingReward // ignore: cast_nullable_to_non_nullable
+              as double,
+      remainingRewardInFiat: null == remainingRewardInFiat
+          ? _value.remainingRewardInFiat
+          : remainingRewardInFiat // ignore: cast_nullable_to_non_nullable
               as double,
       lpTokenDeposited: null == lpTokenDeposited
           ? _value.lpTokenDeposited
@@ -182,6 +189,7 @@ abstract class _$$DexFarmImplCopyWith<$Res> implements $DexFarmCopyWith<$Res> {
       int endDate,
       DexToken? rewardToken,
       double remainingReward,
+      double remainingRewardInFiat,
       double lpTokenDeposited,
       int nbDeposit});
 
@@ -213,6 +221,7 @@ class __$$DexFarmImplCopyWithImpl<$Res>
     Object? endDate = null,
     Object? rewardToken = freezed,
     Object? remainingReward = null,
+    Object? remainingRewardInFiat = null,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
   }) {
@@ -253,6 +262,10 @@ class __$$DexFarmImplCopyWithImpl<$Res>
           ? _value.remainingReward
           : remainingReward // ignore: cast_nullable_to_non_nullable
               as double,
+      remainingRewardInFiat: null == remainingRewardInFiat
+          ? _value.remainingRewardInFiat
+          : remainingRewardInFiat // ignore: cast_nullable_to_non_nullable
+              as double,
       lpTokenDeposited: null == lpTokenDeposited
           ? _value.lpTokenDeposited
           : lpTokenDeposited // ignore: cast_nullable_to_non_nullable
@@ -278,6 +291,7 @@ class _$DexFarmImpl extends _DexFarm {
       this.endDate = 0,
       this.rewardToken,
       this.remainingReward = 0,
+      this.remainingRewardInFiat = 0,
       this.lpTokenDeposited = 0,
       this.nbDeposit = 0})
       : super._();
@@ -308,6 +322,9 @@ class _$DexFarmImpl extends _DexFarm {
   final double remainingReward;
   @override
   @JsonKey()
+  final double remainingRewardInFiat;
+  @override
+  @JsonKey()
   final double lpTokenDeposited;
   @override
   @JsonKey()
@@ -315,7 +332,7 @@ class _$DexFarmImpl extends _DexFarm {
 
   @override
   String toString() {
-    return 'DexFarm(farmAddress: $farmAddress, poolAddress: $poolAddress, apr: $apr, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit)';
+    return 'DexFarm(farmAddress: $farmAddress, poolAddress: $poolAddress, apr: $apr, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit)';
   }
 
   @override
@@ -338,6 +355,8 @@ class _$DexFarmImpl extends _DexFarm {
                 other.rewardToken == rewardToken) &&
             (identical(other.remainingReward, remainingReward) ||
                 other.remainingReward == remainingReward) &&
+            (identical(other.remainingRewardInFiat, remainingRewardInFiat) ||
+                other.remainingRewardInFiat == remainingRewardInFiat) &&
             (identical(other.lpTokenDeposited, lpTokenDeposited) ||
                 other.lpTokenDeposited == lpTokenDeposited) &&
             (identical(other.nbDeposit, nbDeposit) ||
@@ -356,6 +375,7 @@ class _$DexFarmImpl extends _DexFarm {
       endDate,
       rewardToken,
       remainingReward,
+      remainingRewardInFiat,
       lpTokenDeposited,
       nbDeposit);
 
@@ -377,6 +397,7 @@ abstract class _DexFarm extends DexFarm {
       final int endDate,
       final DexToken? rewardToken,
       final double remainingReward,
+      final double remainingRewardInFiat,
       final double lpTokenDeposited,
       final int nbDeposit}) = _$DexFarmImpl;
   const _DexFarm._() : super._();
@@ -399,6 +420,8 @@ abstract class _DexFarm extends DexFarm {
   DexToken? get rewardToken;
   @override
   double get remainingReward;
+  @override
+  double get remainingRewardInFiat;
   @override
   double get lpTokenDeposited;
   @override
