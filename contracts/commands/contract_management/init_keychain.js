@@ -45,10 +45,12 @@ const handler = async function(argv) {
   const keychain = new Keychain(keychainSeed)
     .addService("Master", "m/650'/Master")
     .addService("Router", "m/650'/Router")
+    .addService("Factory", "m/650'/Factory")
     .addAuthorizedPublicKey(accessPublicKey);
 
   console.log("Master genesis address:", getServiceGenesisAddress(keychain, "Master"))
   console.log("Router genesis address:", getServiceGenesisAddress(keychain, "Router"))
+  console.log("Factory genesis address:", getServiceGenesisAddress(keychain, "Factory"))
   console.log("=======================")
 
   const keychainGenesisAddress = Crypto.deriveAddress(keychain.seed, 0)

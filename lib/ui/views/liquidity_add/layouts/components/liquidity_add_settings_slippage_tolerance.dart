@@ -2,7 +2,6 @@
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -125,7 +124,6 @@ class LiquiditySettingsSlippageToleranceState
               double.tryParse(slippageToleranceController.text) != null &&
                   (double.tryParse(slippageToleranceController.text)! >= 0 &&
                       double.tryParse(slippageToleranceController.text)! < 100),
-          icon: Iconsax.setting_3,
           labelBtn: AppLocalizations.of(context)!.btn_save,
           onPressed: () {
             liquidityAddNotifier.setSlippageTolerance(

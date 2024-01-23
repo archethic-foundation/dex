@@ -194,7 +194,7 @@ actions triggered_by: transaction, on: update_code() do
     @LP_TOKEN
   ]
 
-  new_code = Contract.call_function(@ROUTER_ADDRESS, "get_pool_code", params)
+  new_code = Contract.call_function(@FACTORY_ADDRESS, "get_pool_code", params)
 
   if Code.is_valid?(new_code) && !Code.is_same?(new_code, contract.code) do
     Contract.set_type("contract")

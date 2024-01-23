@@ -1,7 +1,10 @@
 import 'package:aedex/application/verified_tokens.dart';
+import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
+import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
@@ -218,5 +221,119 @@ mixin ModelParser {
       pair: dexPair,
       lpToken: lpToken,
     );
+  }
+
+  Future<DexFarm> farmListToModel(
+    GetFarmListResponse getFarmListResponse,
+    DexPool pool,
+  ) async {
+    final adressesToSearch = <String>[getFarmListResponse.lpTokenAddress];
+    if (getFarmListResponse.rewardTokenAddress != 'UCO') {
+      adressesToSearch.add(getFarmListResponse.rewardTokenAddress);
+    }
+
+    final tokenResultMap =
+        await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+    DexToken? lpToken;
+    if (tokenResultMap[getFarmListResponse.lpTokenAddress] != null) {
+      lpToken = DexToken(
+        address: getFarmListResponse.lpTokenAddress.toUpperCase(),
+        name: tokenResultMap[getFarmListResponse.lpTokenAddress]!.name!,
+        symbol: tokenResultMap[getFarmListResponse.lpTokenAddress]!.symbol!,
+      );
+    }
+
+    DexToken? rewardToken;
+    if (tokenResultMap[getFarmListResponse.rewardTokenAddress] != null) {
+      rewardToken = DexToken(
+        address: getFarmListResponse.rewardTokenAddress.toUpperCase(),
+        name: tokenResultMap[getFarmListResponse.rewardTokenAddress]!.name!,
+        symbol: tokenResultMap[getFarmListResponse.rewardTokenAddress]!.symbol!,
+      );
+    } else {
+      if (getFarmListResponse.rewardTokenAddress == 'UCO') {
+        rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
+      }
+    }
+
+    return DexFarm(
+      startDate: getFarmListResponse.startDate,
+      endDate: getFarmListResponse.endDate,
+      farmAddress: getFarmListResponse.address,
+      rewardToken: rewardToken,
+      lpToken: lpToken,
+      lpTokenPair: pool.pair,
+      poolAddress: pool.poolAddress,
+    );
+  }
+
+  Future<DexFarm> farmInfosToModel(
+    String farmGenesisAddress,
+    GetFarmInfosResponse getFarmInfosResponse,
+    DexPool pool, {
+    DexFarm? dexFarmInput,
+  }) async {
+    DexFarm? dexFarm = DexFarm(
+      lpTokenDeposited: getFarmInfosResponse.lpTokenDeposited,
+      nbDeposit: getFarmInfosResponse.nbDeposit,
+      remainingReward: getFarmInfosResponse.remainingReward,
+      endDate: getFarmInfosResponse.endDate,
+      startDate: getFarmInfosResponse.startDate,
+      farmAddress: farmGenesisAddress,
+      poolAddress: pool.poolAddress,
+      lpTokenPair: pool.pair,
+    );
+    if (dexFarmInput == null || dexFarmInput.lpToken == null) {
+      final adressesToSearch = <String>[getFarmInfosResponse.lpTokenAddress];
+      final tokenResultMap =
+          await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+      DexToken? lpToken;
+      if (tokenResultMap[getFarmInfosResponse.lpTokenAddress] != null) {
+        lpToken = DexToken(
+          address: getFarmInfosResponse.lpTokenAddress.toUpperCase(),
+          name: tokenResultMap[getFarmInfosResponse.lpTokenAddress]!.name!,
+          symbol: tokenResultMap[getFarmInfosResponse.lpTokenAddress]!.symbol!,
+        );
+        dexFarm = dexFarm.copyWith(lpToken: lpToken);
+      }
+    } else {
+      dexFarm = dexFarm.copyWith(lpToken: dexFarmInput.lpToken);
+    }
+
+    DexToken? rewardToken;
+    if (dexFarmInput == null || dexFarmInput.rewardToken == null) {
+      final adressesToSearch = <String>[getFarmInfosResponse.rewardToken];
+      final tokenResultMap =
+          await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+
+      if (tokenResultMap[getFarmInfosResponse.rewardToken] != null) {
+        rewardToken = DexToken(
+          address: getFarmInfosResponse.rewardToken.toUpperCase(),
+          name: tokenResultMap[getFarmInfosResponse.rewardToken]!.name!,
+          symbol: tokenResultMap[getFarmInfosResponse.rewardToken]!.symbol!,
+        );
+        dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
+      }
+    } else {
+      if (getFarmInfosResponse.rewardToken == 'UCO') {
+        rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
+        dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
+      } else {
+        final adressesToSearch = <String>[getFarmInfosResponse.rewardToken];
+        final tokenResultMap =
+            await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+
+        if (tokenResultMap[getFarmInfosResponse.rewardToken] != null) {
+          rewardToken = DexToken(
+            address: getFarmInfosResponse.rewardToken.toUpperCase(),
+            name: tokenResultMap[getFarmInfosResponse.rewardToken]!.name!,
+            symbol: tokenResultMap[getFarmInfosResponse.rewardToken]!.symbol!,
+          );
+          dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
+        }
+      }
+    }
+
+    return dexFarm;
   }
 }

@@ -27,7 +27,7 @@ class LiquidityAddInProgressTxAddresses extends ConsumerWidget {
             address: liquidityAdd.transactionAddLiquidity!.address!.address!
                 .toUpperCase(),
             header: 'Liquidity addition transaction address: ',
-            typeAddress: TypeAddress.transaction,
+            typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
       ],

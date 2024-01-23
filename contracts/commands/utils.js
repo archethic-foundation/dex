@@ -9,6 +9,8 @@ const __dirname = path.dirname(__filename)
 const CONFIRMATION_THRESHOLD = 50
 
 const poolContractPath = path.resolve(__dirname, "../contracts/pool.exs")
+const farmContractPath = path.resolve(__dirname, "../contracts/farm.exs")
+const factoryContractPath = path.resolve(__dirname, "../contracts/factory.exs")
 const routerContractPath = path.resolve(__dirname, "../contracts/router.exs")
 
 export function getGenesisAddress(seed) {
@@ -80,9 +82,9 @@ export async function sendTransactionWithFunding(tx, keychain, archethic, fundSe
   })
 }
 
-export function getRouterCode(keychain) {
-  const masterAddress = getServiceGenesisAddress(keychain, "Master")
+export function getFactoryCode(keychain) {
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
+  const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
 
   let poolCode = fs.readFileSync(poolContractPath, "utf8")
   // Replace pool address
@@ -94,11 +96,44 @@ export function getRouterCode(keychain) {
   // Replace lp token address
   poolCode = poolCode.replaceAll("@LP_TOKEN", "0x#{lp_token_address}")
   // Replace router address
-  poolCode = poolCode.replaceAll("@ROUTER_ADDRESS", "0x" + routerAddress)
+  poolCode = poolCode.replaceAll("@ROUTER_ADDRESS", "0x#{router_address}")
+  // Replace factory address
+  poolCode = poolCode.replaceAll("@FACTORY_ADDRESS", "0x#{factory_address}")
+
+  let farmCode = fs.readFileSync(farmContractPath, "utf8")
+  // Replace farm address
+  farmCode = farmCode.replaceAll("@FARM_ADDRESS", "0x#{farm_genesis_address}")
+  // Replace lp token address
+  farmCode = farmCode.replaceAll("@LP_TOKEN_ADDRESS", "0x#{lp_token}")
+  // Replace start date
+  farmCode = farmCode.replaceAll("@START_DATE", "#{start_date}")
+  // Replace end date
+  farmCode = farmCode.replaceAll("@END_DATE", "#{end_date}")
+  // Replace reward token address
+  farmCode = farmCode.replaceAll("@REWARD_TOKEN", '"#{reward_token}"')
+  // Replace router address
+  farmCode = farmCode.replaceAll("@ROUTER_ADDRESS", "0x#{router_address}")
+  // Replace factory address
+  farmCode = farmCode.replaceAll("@FACTORY_ADDRESS", "0x#{factory_address}")
+
+  let factoryCode = fs.readFileSync(factoryContractPath, "utf8")
+  // Replace router address
+  factoryCode = factoryCode.replaceAll("@ROUTER_ADDRESS", "0x" + routerAddress)
+  // Replace factory address
+  factoryCode = factoryCode.replaceAll("@FACTORY_ADDRESS", "0x" + factoryAddress)
+  // Replace pool code
+  factoryCode = factoryCode.replaceAll("@POOL_CODE", poolCode)
+  // Replace farm code
+  return factoryCode.replaceAll("@FARM_CODE", farmCode)
+}
+
+export function getRouterCode(keychain) {
+  const masterAddress = getServiceGenesisAddress(keychain, "Master")
+  const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
 
   let routerCode = fs.readFileSync(routerContractPath, "utf8")
+  // Replace factory address
+  routerCode = routerCode.replaceAll("@FACTORY_ADDRESS", "0x" + factoryAddress)
   // Replace master address
-  routerCode = routerCode.replaceAll("@MASTER_ADDRESS", "0x" + masterAddress)
-  // Replace pool code
-  return routerCode.replaceAll("@POOL_CODE", poolCode)
+  return routerCode.replaceAll("@MASTER_ADDRESS", "0x" + masterAddress)
 }

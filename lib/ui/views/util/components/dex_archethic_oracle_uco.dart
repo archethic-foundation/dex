@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -46,7 +47,7 @@ class DexArchethicOracleUco extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              '1 UCO = \$${archethicOracleUCO.usd.toStringAsFixed(5)} ($timestamp)',
+              '1 UCO = \$${archethicOracleUCO.usd.formatNumber(precision: 2)} ($timestamp)',
               style: TextStyle(
                 fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
               ),

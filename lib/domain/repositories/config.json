@@ -2,15 +2,18 @@
     "environment": [
         {
             "name": "devnet",
-            "routerGenesisAddress": "00004910da0cd96b847006960b14b48735cd9e31aca02da3d323f2dd3c516eee5ab4"
+            "routerGenesisAddress": "00009df566f55cf5ffb42c4f35045fbf00fe40160a0a4e63f416dba4c919f9648cfb",
+            "factoryGenesisAddress": "00005ce33f5894aaa0a1fadbe6a422197b25d5e940fb79acc8acb1efb4bd565f3ddf"
         },
         {
             "name": "testnet",
-            "routerGenesisAddress": "00000dd757ac0a67fd619c1d1c400037a38cdb0471e6496807d8b850dc422e5ca3aa"
+            "routerGenesisAddress": "00000dd757ac0a67fd619c1d1c400037a38cdb0471e6496807d8b850dc422e5ca3aa",
+            "factoryGenesisAddress": ""
         },
         {
             "name": "mainnet",
-            "routerGenesisAddress": ""
+            "routerGenesisAddress": "",
+            "factoryGenesisAddress": ""
         }
     ]
 }

@@ -1,83 +1,24 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
+import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
+/// Router is a helper factory for user to easily retrieve existing pools and create new pools.
 class RouterFactory with ModelParser {
   RouterFactory(this.factoryAddress, this.apiService);
 
   final String factoryAddress;
   final ApiService apiService;
 
-  /// Return the code to create a pool for a pair of tokens.
-  /// [token1Address] is the first token address of the pair
-  /// [token2Address] is the second token address of the pair
-  /// [poolAddress] is the genesis address of the pool chain
-  /// [lpTokenAddress] is the address of the lp token (it should be the creation address of the pool)
-  Future<Result<String, Failure>> getPoolCode(
-    String token1Address,
-    String token2Address,
-    String poolAddress,
-    String lpTokenAddress,
-  ) async {
-    return Result.guard(
-      () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_pool_code',
-              args: [
-                token1Address,
-                token2Address,
-                poolAddress,
-                lpTokenAddress,
-              ],
-            ),
-          ),
-        );
-        return result.toString();
-      },
-    );
-  }
-
-  /// Return a the lp token definition to use when creating a pool. Returns a JSON stringified
-  /// [token1Symbol] is the symbol of the first token
-  /// [token2Symbol] is the symbol of the second token
-  Future<Result<String, Failure>> getLPTokenDefinition(
-    String token1Symbol,
-    String token2Symbol,
-  ) async {
-    return Result.guard(
-      () async {
-        final tokenDefinition = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_lp_token_definition',
-              args: [
-                token1Symbol,
-                token2Symbol,
-              ],
-            ),
-          ),
-        );
-        return tokenDefinition.toString();
-      },
-    );
-  }
-
   /// Returns the info of the pool for the 2 tokens address.
-  /// Pool infos is a map with address as the genesis address of the pool lp_token_address as the lp token address of the pool.
-  /// ({"address": "00001234...", "lp_token_address": "00005678..."})
   /// [token1Address] is the address of the first token
   /// [token2Address] is the address of the second token
   Future<Result<Map<String, dynamic>?, Failure>> getPoolAddresses(
@@ -112,7 +53,75 @@ class RouterFactory with ModelParser {
     );
   }
 
-  /// This actions allow users to add a new pool in the router.
+  /// Return the infos of all the pools.
+  Future<Result<List<DexPool>, Failure>> getPoolList() async {
+    return Result.guard(
+      () async {
+        final results = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_pool_list',
+              args: [],
+            ),
+          ),
+          resultMap: true,
+        ) as List<dynamic>;
+
+        final poolList = <DexPool>[];
+
+        for (final result in results) {
+          final getPoolListResponse = GetPoolListResponse.fromJson(result);
+          poolList.add(
+            await poolListToModel(getPoolListResponse),
+          );
+        }
+
+        return poolList;
+      },
+    );
+  }
+
+  /// Return the infos of all the farms.
+  Future<Result<List<DexFarm>, Failure>> getFarmList(
+    List<DexPool> poolList,
+  ) async {
+    return Result.guard(
+      () async {
+        final results = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_farm_list',
+              args: [],
+            ),
+          ),
+          resultMap: true,
+        ) as List<dynamic>;
+
+        final farmList = <DexFarm>[];
+
+        for (final result in results) {
+          final getFarmListResponse = GetFarmListResponse.fromJson(result);
+          final dexpool = poolList.singleWhere(
+            (pool) =>
+                pool.lpToken!.address!.toUpperCase() ==
+                getFarmListResponse.lpTokenAddress.toUpperCase(),
+          );
+
+          farmList.add(
+            await farmListToModel(getFarmListResponse, dexpool),
+          );
+        }
+
+        return farmList;
+      },
+    );
+  }
+
+  /// This action allows users to add a new pool in the router.
   /// The transaction triggering this action should be the transaction that create the pool.
   /// The transaction should be a token transaction with the token definition returned by the function get_lp_token_definition.
   /// It should also have the code returned by the function get_pool_code.
@@ -141,35 +150,35 @@ class RouterFactory with ModelParser {
     );
   }
 
-  /// Return the infos of all the pools.
-  /// Pool infos is a map with address as the genesis address of the pool, lp_token_address as the lp token address of the pool,
-  /// tokens as the address of both token concatenated and separated by a slash.
-  /// [{"address": "00001234...", "lp_token_address": "00005678...", "tokens": "0000456.../000789..."}]
-  Future<Result<List<DexPool>, Failure>> getPoolList() async {
+  /// This action allows the Master chain of the dex to add a new farm in the router.
+  /// The transaction triggering this action should also add the first amount of reward token to the previously created farm.
+  /// The transaction that created the farm should be a contract transaction with the code returned by the function get_farm_code
+  /// of the Factory contract.
+  Future<Result<void, Failure>> addFarm(
+    String lpTokenAddress,
+    int startDate,
+    int endDate,
+    String rewardTokenAddress,
+    String farmCreationAddress,
+  ) async {
     return Result.guard(
       () async {
-        final results = await apiService.callSCFunction(
+        await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
             method: 'contract_fun',
             params: SCCallFunctionParams(
               contract: factoryAddress.toUpperCase(),
-              function: 'get_pool_list',
-              args: [],
+              function: 'add_farm',
+              args: [
+                lpTokenAddress,
+                startDate,
+                endDate,
+                rewardTokenAddress,
+                farmCreationAddress,
+              ],
             ),
           ),
-          resultMap: true,
-        ) as List<dynamic>;
-
-        final poolList = <DexPool>[];
-
-        for (final result in results) {
-          final getPoolListResponse = GetPoolListResponse.fromJson(result);
-          poolList.add(
-            await poolListToModel(getPoolListResponse),
-          );
-        }
-
-        return poolList;
+        );
       },
     );
   }

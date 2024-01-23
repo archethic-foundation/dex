@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/views/farm/farm_sheet.dart';
+import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
@@ -23,7 +23,7 @@ class MainScreenWidgetDiplayed extends StateNotifier<Widget> {
       ref.read(navigationIndexMainScreenProvider.notifier).state = 1;
     } else if (newWidget is LiquidityAddSheet) {
       ref.read(navigationIndexMainScreenProvider.notifier).state = 1;
-    } else if (newWidget is FarmSheet) {
+    } else if (newWidget is FarmListSheet) {
       ref.read(navigationIndexMainScreenProvider.notifier).state = 2;
     }
   }

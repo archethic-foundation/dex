@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/farm/farm_sheet.dart';
+import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
@@ -118,7 +118,7 @@ class Header extends ConsumerWidget {
                           MainScreenWidgetDisplayedProviders
                               .mainScreenWidgetDisplayedProvider.notifier,
                         )
-                        .setWidget(const FarmSheet(), ref);
+                        .setWidget(const FarmListSheet(), ref);
                   },
                   child: Text(
                     AppLocalizations.of(context)!.menu_farm,

@@ -23,6 +23,7 @@ class AddPoolCase with TransactionDexMixin {
     DexToken token2,
     double token2Amount,
     String routerAddress,
+    String factoryAddress,
     double slippage, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionAddPool,
@@ -60,6 +61,7 @@ class AddPoolCase with TransactionDexMixin {
             archethic.deriveAddress(poolSeed, 1).toUpperCase();
         final transactionAddPoolMap = await archethicContract.getAddPoolTx(
           routerAddress,
+          factoryAddress,
           token1,
           token2,
           poolSeed,

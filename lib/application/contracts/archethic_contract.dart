@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:aedex/application/factory.dart';
 import 'package:aedex/application/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -19,6 +20,7 @@ class ArchethicContract with TransactionDexMixin {
 
   Future<Result<archethic.Transaction, Failure>> getAddPoolTx(
     String routerAddress,
+    String factoryAddress,
     DexToken token1,
     DexToken token2,
     String poolSeed,
@@ -44,7 +46,8 @@ class ArchethicContract with TransactionDexMixin {
       );
 
       String? poolCode;
-      final resultPoolCode = await routerFactory.getPoolCode(
+      final factory = Factory(factoryAddress, apiService);
+      final resultPoolCode = await factory.getPoolCode(
         token1.isUCO ? 'UCO' : token1.address!,
         token2.isUCO ? 'UCO' : token2.address!,
         poolGenesisAddress,
@@ -65,7 +68,7 @@ class ArchethicContract with TransactionDexMixin {
       );
 
       String? tokenDefinition;
-      final resultLPTokenDefinition = await routerFactory.getLPTokenDefinition(
+      final resultLPTokenDefinition = await factory.getLPTokenDefinition(
         token1.symbol,
         token2.symbol,
       );
@@ -418,6 +421,84 @@ class ArchethicContract with TransactionDexMixin {
       }
 
       return transactionSwap;
+    });
+  }
+
+  Future<Result<archethic.Transaction, Failure>> getDepositTx(
+    String farmGenesisAddress,
+    String lpTokenAddress,
+    double amount,
+  ) async {
+    return Result.guard(() async {
+      final apiService = sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      )
+          .addTokenTransfer(
+        farmGenesisAddress,
+        archethic.toBigInt(amount),
+        lpTokenAddress,
+      )
+          .addRecipient(
+        farmGenesisAddress,
+        action: 'deposit',
+        args: [],
+      );
+
+      return transaction;
+    });
+  }
+
+  Future<Result<archethic.Transaction, Failure>> getWithdrawTx(
+    String farmGenesisAddress,
+    double amount,
+  ) async {
+    return Result.guard(() async {
+      final apiService = sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        farmGenesisAddress,
+        action: 'withdraw',
+        args: [amount],
+      );
+
+      return transaction;
+    });
+  }
+
+  Future<Result<archethic.Transaction, Failure>> getClaimTx(
+    String farmGenesisAddress,
+  ) async {
+    return Result.guard(() async {
+      final apiService = sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        farmGenesisAddress,
+        action: 'claim',
+        args: [],
+      );
+
+      return transaction;
     });
   }
 }

@@ -53,7 +53,7 @@ class DexTokenBalance extends ConsumerWidget {
           Opacity(
             opacity: opacity,
             child: Text(
-              '${tokenBalance.formatNumber()} $tokenSymbol',
+              '${tokenBalance.formatNumber(precision: 8)} $tokenSymbol',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),

@@ -1,6 +1,6 @@
 import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
-import { sendTransactionWithFunding, getGenesisAddress } from "../utils.js"
+import { sendTransactionWithFunding, getGenesisAddress, getServiceGenesisAddress } from "../utils.js"
 
 const command = "create_tokens"
 const describe = "Create tokens and send them to user address"
@@ -13,20 +13,36 @@ const builder = {
 }
 
 const handler = async function(argv) {
-  const envName = "local"
+  const envName = argv["env"] ? argv["env"] : "local"
   const env = config.environments[envName]
+
+  const keychainAccessSeed = argv["access_seed"] ? argv["access_seed"] : env.keychainAccessSeed
+
+  if (keychainAccessSeed == undefined) {
+    console.log("Keychain access seed not defined")
+    process.exit(1)
+  }
 
   const archethic = new Archethic(env.endpoint)
   await archethic.connect()
 
+  let keychain
+  try {
+    keychain = await archethic.account.getKeychain(keychainAccessSeed)
+  } catch (err) {
+    console.log(err)
+    process.exit(1)
+  }
+
   const userAddress = getGenesisAddress(env.userSeed)
   console.log("user address:", userAddress)
+  const masterAddress = getServiceGenesisAddress(keychain, "Master")
 
   const numberOfToken = argv["number"] ? argv["number"] : 2
 
   const transactions = Array.from({ length: numberOfToken }, (_value, index) => index).map(nb => {
     const seed = "token" + nb
-    const tx = createTokenTx(archethic, seed, userAddress)
+    const tx = createTokenTx(archethic, seed, userAddress, masterAddress)
     console.log(seed, ":", Utils.uint8ArrayToHex(tx.address))
     return tx
   })
@@ -38,8 +54,8 @@ const handler = async function(argv) {
   process.exit(0)
 }
 
-function createTokenTx(archethic, seed, userAddress) {
-  const supply = 1_000_000 * 1e8
+function createTokenTx(archethic, seed, userAddress, masterAddress) {
+  const supply = 2_000_000 * 1e8
 
   const tokenDefinition = {
     aeip: [2, 8, 18, 19],
@@ -51,7 +67,11 @@ function createTokenTx(archethic, seed, userAddress) {
     recipients: [
       {
         to: userAddress,
-        amount: supply
+        amount: 1_000_000 * 1e8
+      },
+      {
+        to: masterAddress,
+        amount: 1_000_000 * 1e8
       }
     ]
   }

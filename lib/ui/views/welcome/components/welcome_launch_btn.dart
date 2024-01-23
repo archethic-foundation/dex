@@ -63,7 +63,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                   alignment: Alignment.center,
                   height: 50,
                   decoration: ShapeDecoration(
-                    gradient: DexThemeBase.gradientBtn,
+                    color: ArchethicThemeBase.purple300,
                     shape: const StadiumBorder(),
                     shadows: [
                       BoxShadow(

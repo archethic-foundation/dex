@@ -1,6 +1,6 @@
 import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
-import { getServiceGenesisAddress, getRouterCode } from "../utils.js"
+import { getServiceGenesisAddress } from "../utils.js"
 
 const command = "update_pools"
 const describe = "Update all pool code"
