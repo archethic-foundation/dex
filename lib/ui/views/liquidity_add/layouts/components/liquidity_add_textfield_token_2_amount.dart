@@ -66,6 +66,10 @@ class _LiquidityAddToken2AmountState
         (textNum != null && textNum == 0))) {
       _updateAmountTextController();
     }
+    if (liquidityAdd.token1Amount != 0.0 &&
+        textNum != liquidityAdd.token1Amount) {
+      _updateAmountTextController();
+    }
 
     return Column(
       children: [

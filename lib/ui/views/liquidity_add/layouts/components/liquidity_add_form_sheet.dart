@@ -102,7 +102,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                 if (liquidityAdd.token1 != null &&
                                     liquidityAdd.token1Amount > 0)
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 4),
+                                    padding: const EdgeInsets.only(top: 12),
                                     child: FutureBuilder<String>(
                                       future: FiatValue().display(
                                         ref,
@@ -153,7 +153,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                 if (liquidityAdd.token2 != null &&
                                     liquidityAdd.token2Amount > 0)
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 4),
+                                    padding: const EdgeInsets.only(top: 12),
                                     child: FutureBuilder<String>(
                                       future: FiatValue().display(
                                         ref,
