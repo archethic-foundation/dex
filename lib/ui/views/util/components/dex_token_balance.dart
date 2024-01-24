@@ -11,6 +11,9 @@ class DexTokenBalance extends ConsumerWidget {
     required this.tokenBalance,
     required this.tokenSymbol,
     this.withFiat = true,
+    this.fiatVertical = false,
+    this.fiatAlignLeft = false,
+    this.fiatTextStyleMedium = false,
     this.height = 30,
     super.key,
   });
@@ -19,6 +22,9 @@ class DexTokenBalance extends ConsumerWidget {
   final String tokenSymbol;
   final bool withFiat;
   final double height;
+  final bool fiatVertical;
+  final bool fiatAlignLeft;
+  final bool fiatTextStyleMedium;
 
   @override
   Widget build(
@@ -35,62 +41,128 @@ class DexTokenBalance extends ConsumerWidget {
       opacity = 0.5;
     }
 
-    return SizedBox(
-      height: height,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 3),
-            child: Icon(
-              Iconsax.empty_wallet,
-              size: 14,
-            ),
-          ),
-          const SizedBox(
-            width: 5,
-          ),
-          Opacity(
-            opacity: opacity,
-            child: Text(
-              '${tokenBalance.formatNumber(precision: 8)} $tokenSymbol',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ),
-          if (withFiat)
-            FutureBuilder<String>(
-              future: FiatValue().display(
-                ref,
-                tokenSymbol,
-                tokenBalance,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Opacity(
-                    opacity: opacity,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 5,
-                      ),
-                      child: Text(
-                        snapshot.data!,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
+    return fiatVertical
+        ? Column(
+            crossAxisAlignment: fiatAlignLeft
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 3),
+                    child: Icon(
+                      Iconsax.empty_wallet,
+                      size: 14,
                     ),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Opacity(
+                    opacity: opacity,
+                    child: Text(
+                      '${tokenBalance.formatNumber(precision: 8)} $tokenSymbol',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (withFiat)
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        tokenSymbol,
+                        tokenBalance,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Opacity(
+                            opacity: opacity,
+                            child: Text(
+                              snapshot.data!,
+                              style: fiatTextStyleMedium
+                                  ? Theme.of(context).textTheme.bodyMedium
+                                  : Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                ],
+              ),
+            ],
+          )
+            .animate()
+            .fade(
+              duration: const Duration(milliseconds: 200),
+            )
+            .scale(
+              duration: const Duration(milliseconds: 200),
+            )
+        : SizedBox(
+            height: height,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 3),
+                  child: Icon(
+                    Iconsax.empty_wallet,
+                    size: 14,
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Opacity(
+                  opacity: opacity,
+                  child: Text(
+                    '${tokenBalance.formatNumber(precision: 8)} $tokenSymbol',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                if (withFiat)
+                  FutureBuilder<String>(
+                    future: FiatValue().display(
+                      ref,
+                      tokenSymbol,
+                      tokenBalance,
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Opacity(
+                          opacity: opacity,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 5,
+                            ),
+                            child: Text(
+                              snapshot.data!,
+                              style: fiatTextStyleMedium
+                                  ? Theme.of(context).textTheme.bodyMedium
+                                  : Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+              ],
             ),
-        ],
-      ),
-    )
-        .animate()
-        .fade(
-          duration: const Duration(milliseconds: 200),
-        )
-        .scale(
-          duration: const Duration(milliseconds: 200),
-        );
+          )
+            .animate()
+            .fade(
+              duration: const Duration(milliseconds: 200),
+            )
+            .scale(
+              duration: const Duration(milliseconds: 200),
+            );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_infos.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
@@ -45,17 +44,73 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Add liquidity in the pool',
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Add liquidity in the pool',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    'Mininum amount',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
               ),
-              Text(
-                '+ ${liquidityAdd.token1Amount.formatNumber()} ${liquidityAdd.token1!.symbol}',
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        '+ ${liquidityAdd.token1Amount}',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: DexThemeBase.secondaryColor,
+                            ),
+                      ),
+                      Text(
+                        ' ${liquidityAdd.token1!.symbol}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                  Text(
+                    '+${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
               ),
-              Text(
-                '+ ${liquidityAdd.token2Amount.formatNumber()} ${liquidityAdd.token2!.symbol}',
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        '+ ${liquidityAdd.token2Amount}',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: DexThemeBase.secondaryColor,
+                            ),
+                      ),
+                      Text(
+                        ' ${liquidityAdd.token2!.symbol}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                  Text(
+                    '+${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: DexThemeBase.gradient,
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -80,6 +135,9 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     tokenBalance: liquidityAdd.token1Balance,
                     tokenSymbol: liquidityAdd.token1!.symbol,
                     height: 20,
+                    fiatVertical: true,
+                    fiatAlignLeft: true,
+                    fiatTextStyleMedium: true,
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
@@ -89,6 +147,8 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                         .toDouble(),
                     tokenSymbol: liquidityAdd.token1!.symbol,
                     height: 20,
+                    fiatVertical: true,
+                    fiatTextStyleMedium: true,
                   ),
                 ],
               ),
@@ -99,6 +159,9 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     tokenBalance: liquidityAdd.token2Balance,
                     tokenSymbol: liquidityAdd.token2!.symbol,
                     height: 20,
+                    fiatVertical: true,
+                    fiatAlignLeft: true,
+                    fiatTextStyleMedium: true,
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
@@ -108,6 +171,49 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                         .toDouble(),
                     tokenSymbol: liquidityAdd.token2!.symbol,
                     height: 20,
+                    fiatVertical: true,
+                    fiatTextStyleMedium: true,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: DexThemeBase.gradient,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Text(
+                    '+${liquidityAdd.expectedTokenLP.formatNumber()} ',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: DexThemeBase.secondaryColor,
+                        ),
+                  ),
+                  Text(
+                    liquidityAdd.expectedTokenLP > 1
+                        ? 'LP Tokens expected'
+                        : 'LP Token expected',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.confirmBeforeLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.confirmAfterLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
               ),
@@ -116,7 +222,9 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: liquidityAdd.lpTokenBalance,
-                    tokenSymbol: liquidityAdd.pool!.lpToken!.symbol,
+                    tokenSymbol: liquidityAdd.lpTokenBalance > 1
+                        ? 'LP Tokens'
+                        : 'LP Token',
                     withFiat: false,
                     height: 20,
                   ),
@@ -128,16 +236,20 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                               liquidityAdd.expectedTokenLP.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: liquidityAdd.pool!.lpToken!.symbol,
+                    tokenSymbol: (Decimal.parse(
+                                      liquidityAdd.lpTokenBalance.toString(),
+                                    ) +
+                                    Decimal.parse(
+                                      liquidityAdd.expectedTokenLP.toString(),
+                                    ))
+                                .toDouble() >
+                            1
+                        ? 'LP Tokens'
+                        : 'LP Token',
                     withFiat: false,
                     height: 20,
                   ),
                 ],
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(top: 10),
-                child: const LiquidityAddInfos(),
               ),
             ],
           ),
