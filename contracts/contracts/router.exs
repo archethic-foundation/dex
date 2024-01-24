@@ -15,15 +15,15 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
       pool_transaction = Chain.get_transaction(pool_creation_address)
 
       # Ensure tokens exists and lp token definition is good
-      token1_symbol = get_token_symbol(token1_address)
-      token2_symbol = get_token_symbol(token2_address)
+      valid_token1? = valid_token?(token1_address)
+      valid_token2? = valid_token?(token2_address)
 
       valid_definition? = false
-      if token1_symbol != nil && token2_symbol != nil && pool_transaction != nil && pool_transaction.type == "token" do
+      if valid_token1? && valid_token2? && pool_transaction != nil && pool_transaction.type == "token" do
         expected_content = Contract.call_function(
           @FACTORY_ADDRESS,
           "get_lp_token_definition",
-          [token1_symbol, token2_symbol]
+          [token1_address, token2_address]
         )
 
         valid_definition? = Json.parse(pool_transaction.content) == Json.parse(expected_content)
@@ -233,22 +233,20 @@ fun get_pool_id(token1_address, token2_address) do
   "#{token1_address}/#{token2_address}"
 end
 
-fun get_token_symbol(token_address) do
+fun valid_token?(token_address) do
+  valid? = false
   if token_address == "UCO" do
-    "UCO"
+    valid? = true
   else
     tx = Chain.get_transaction(token_address)
     # Transaction must have type token
-    # Token must by fungible
-    symbol = nil
+    # Token must be fungible
     if tx != nil && tx.type == "token" do
       token_definition = Json.parse(tx.content)
-      if token_definition.type == "fungible" do
-        symbol = Map.get(token_definition, "symbol", nil)
-      end
+      valid? = token_definition.type == "fungible"
     end
-    symbol
   end
+  valid?
 end
 
 export fun get_pool_addresses(token1_address, token2_address) do

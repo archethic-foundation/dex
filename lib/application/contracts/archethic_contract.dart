@@ -69,8 +69,8 @@ class ArchethicContract with TransactionDexMixin {
 
       String? tokenDefinition;
       final resultLPTokenDefinition = await factory.getLPTokenDefinition(
-        token1.symbol,
-        token2.symbol,
+        token1.isUCO ? 'UCO' : token1.address!,
+        token2.isUCO ? 'UCO' : token2.address!,
       );
       resultLPTokenDefinition.map(
         success: (success) {

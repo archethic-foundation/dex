@@ -39,24 +39,26 @@ export fun get_farm_code(lp_token, start_date, end_date, reward_token, farm_gene
 """
 end
 
-export fun get_lp_token_definition(token1_symbol, token2_symbol) do
-  if token1_symbol > token2_symbol do
-    temp = token1_symbol
-    token1_symbol = token2_symbol
-    token2_symbol = temp
-  end
+export fun get_lp_token_definition(token1_address, token2_address) do
+  token1_address = String.to_uppercase(token1_address)
+  token2_address = String.to_uppercase(token2_address)
 
-  lp_token = "lp_#{token1_symbol}_#{token2_symbol}"
+  if token1_address > token2_address do
+    temp = token1_address
+    token1_address = token2_address
+    token2_address = temp
+  end
 
   Json.to_string([
     aeip: [2, 8, 18, 19],
     supply: 10,
     type: "fungible",
-    symbol: lp_token,
-    name: lp_token,
+    symbol: "aeSwapLP",
+    name: "aeSwap LP Token",
     allow_mint: true,
     properties: [
-      description: "LP token of aeSwap"
+      token1_address: token1_address,
+      token2_address: token2_address
     ],
     recipients: [
       [

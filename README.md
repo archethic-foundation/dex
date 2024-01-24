@@ -31,11 +31,11 @@ Return the code to create a farm for a LP token and a reward token.
 - `farm_genesis_address` is the genesis address of the farm contract chain
 
 ```elixir
-get_lp_token_definition(token1_symbol, token2_symbol)
+get_lp_token_definition(token1_address, token2_address)
 ```
 Return the lp token definition to use when creating a pool. Returns a JSON stringified
-- `token1_symbol` is the symbol of the first token
-- `token2_symbol` is the symbol of the second token
+- `token1_address` is the address of the first token
+- `token2_address` is the address of the second token
 
 ### Pool
 
