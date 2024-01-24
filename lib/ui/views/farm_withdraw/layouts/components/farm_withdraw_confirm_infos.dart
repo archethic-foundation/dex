@@ -4,7 +4,6 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -48,16 +47,48 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Please confirm the withdraw of ${farmWithdraw.amount.formatNumber()} ${farmWithdraw.amount > 1 ? 'LP Tokens' : 'LP Token'}',
-                style: Theme.of(context).textTheme.bodyLarge,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Please confirm the withdraw of ',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    TextSpan(
+                      text: farmWithdraw.amount.toString(),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: DexThemeBase.secondaryColor,
+                          ),
+                    ),
+                    TextSpan(
+                      text:
+                          ' ${farmWithdraw.amount > 1 ? 'LP Tokens' : 'LP Token'}',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
-              Text(
-                'Your balance',
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                children: [
+                  Text(
+                    'Your balance',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: DexThemeBase.gradient,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,11 +155,26 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 },
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
-              Text(
-                "Farm's balance",
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                children: [
+                  Text(
+                    "Farm's balance",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: DexThemeBase.gradient,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,11 +226,26 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 ],
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
-              Text(
-                'Rewards',
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                children: [
+                  Text(
+                    'Rewards',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: DexThemeBase.gradient,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               FutureBuilder<String>(
                 future: FiatValue().display(
@@ -194,11 +255,35 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 ),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text(
-                      'You will receive ${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ${snapshot.data}',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                    return RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'You will receive ',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          TextSpan(
+                            text: farmWithdraw.dexFarmUserInfo!.rewardAmount
+                                .toString(),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: DexThemeBase.secondaryColor,
+                                    ),
+                          ),
+                          TextSpan(
+                            text:
+                                ' ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          TextSpan(
+                            text: '${snapshot.data}',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
                     );
                   }
+
                   return const SizedBox.shrink();
                 },
               ),

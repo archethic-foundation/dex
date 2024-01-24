@@ -69,21 +69,38 @@ class FarmClaimFormSheet extends ConsumerWidget {
                         ),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return Row(
-                              children: [
-                                Text(
-                                  '${farmClaim.dexFarmUserInfo!.rewardAmount} ${farmClaim.dexFarm!.rewardToken!.symbol}',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Text(
-                                  ' ${snapshot.data} ',
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                Text(
-                                  ' are available for claiming.',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
+                            return RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: farmClaim
+                                        .dexFarmUserInfo!.rewardAmount
+                                        .toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: DexThemeBase.secondaryColor,
+                                        ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        ' ${farmClaim.dexFarm!.rewardToken!.symbol}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  TextSpan(
+                                    text: ' ${snapshot.data} ',
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  TextSpan(
+                                    text: 'are available for claiming.',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
+                              ),
                             );
                           }
                           return const SizedBox.shrink();

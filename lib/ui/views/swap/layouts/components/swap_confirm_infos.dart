@@ -1,7 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/components/swap_infos.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -45,17 +45,94 @@ class SwapConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Swap',
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Swap',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    'Mininum received',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
               ),
-              Text(
-                '    - ${swap.tokenToSwapAmount.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
-                style: Theme.of(context).textTheme.bodyLarge,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text:
+                          '    - ${swap.tokenToSwapAmount.formatNumber(precision: 8)}',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: DexThemeBase.secondaryColor,
+                          ),
+                    ),
+                    TextSpan(
+                      text: ' ${swap.tokenToSwap!.symbol}',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                '≈ + ${swap.tokenSwappedAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              '≈ + ${swap.tokenSwappedAmount.formatNumber(precision: 8)}',
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: DexThemeBase.secondaryColor,
+                                  ),
+                        ),
+                        TextSpan(
+                          text: ' ${swap.tokenSwapped!.symbol}',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      FutureBuilder<String>(
+                        future: FiatValue().display(
+                          ref,
+                          swap.tokenSwapped!.symbol,
+                          swap.minToReceive,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data!,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: DexThemeBase.gradient,
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -79,7 +156,9 @@ class SwapConfirmInfos extends ConsumerWidget {
                   DexTokenBalance(
                     tokenBalance: swap.tokenToSwapBalance,
                     tokenSymbol: swap.tokenToSwap!.symbol,
-                    withFiat: false,
+                    fiatVertical: true,
+                    fiatAlignLeft: true,
+                    fiatTextStyleMedium: true,
                     height: 20,
                   ),
                   DexTokenBalance(
@@ -89,7 +168,8 @@ class SwapConfirmInfos extends ConsumerWidget {
                             Decimal.parse(swap.tokenToSwapAmount.toString()))
                         .toDouble(),
                     tokenSymbol: swap.tokenToSwap!.symbol,
-                    withFiat: false,
+                    fiatVertical: true,
+                    fiatTextStyleMedium: true,
                     height: 20,
                   ),
                 ],
@@ -100,7 +180,9 @@ class SwapConfirmInfos extends ConsumerWidget {
                   DexTokenBalance(
                     tokenBalance: swap.tokenSwappedBalance,
                     tokenSymbol: swap.tokenSwapped!.symbol,
-                    withFiat: false,
+                    fiatVertical: true,
+                    fiatAlignLeft: true,
+                    fiatTextStyleMedium: true,
                     height: 20,
                   ),
                   DexTokenBalance(
@@ -110,16 +192,60 @@ class SwapConfirmInfos extends ConsumerWidget {
                             Decimal.parse(swap.tokenSwappedAmount.toString()))
                         .toDouble(),
                     tokenSymbol: swap.tokenSwapped!.symbol,
-                    withFiat: false,
+                    fiatVertical: true,
+                    fiatTextStyleMedium: true,
                     height: 20,
                   ),
                 ],
               ),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(top: 10),
-                child: const SwapInfos(),
+              const SizedBox(
+                height: 10,
               ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: DexThemeBase.gradient,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              if (swap.swapFees > 0 && swap.tokenToSwap != null)
+                Row(
+                  children: [
+                    Text(
+                      'Fees: ${swap.swapFees.formatNumber()} UCO',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        swap.tokenToSwap!.symbol,
+                        swap.swapFees,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ],
+                ),
+              if (swap.tokenSwapped != null &&
+                  swap.tokenToSwap != null &&
+                  swap.tokenSwappedAmount > 0 &&
+                  swap.tokenToSwapAmount > 0)
+                Text(
+                  'Price impact: ${swap.priceImpact.formatNumber()}%',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
             ],
           ),
         ),

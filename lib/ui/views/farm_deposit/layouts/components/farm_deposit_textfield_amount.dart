@@ -143,6 +143,10 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                   tokenBalance: farmDeposit.lpTokenBalance,
                   tokenSymbol:
                       farmDeposit.lpTokenBalance > 1 ? 'LP Tokens' : 'LP Token',
+                  withFiat: false,
+                ),
+                const SizedBox(
+                  width: 5,
                 ),
                 FutureBuilder<String>(
                   future: DEXLPTokenFiatValue().display(

@@ -62,15 +62,24 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        '+ ${liquidityAdd.token1Amount}',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: DexThemeBase.secondaryColor,
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '+ ${liquidityAdd.token1Amount}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: DexThemeBase.secondaryColor,
+                                  ),
                             ),
-                      ),
-                      Text(
-                        ' ${liquidityAdd.token1!.symbol}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                            TextSpan(
+                              text: ' ${liquidityAdd.token1!.symbol}',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

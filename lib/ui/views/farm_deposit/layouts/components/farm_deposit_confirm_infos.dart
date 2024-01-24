@@ -1,7 +1,6 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -44,16 +43,48 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Please confirm the deposit of ${farmDeposit.amount.formatNumber()} ${farmDeposit.amount > 1 ? 'LP Tokens' : 'LP Token'}',
-                style: Theme.of(context).textTheme.bodyLarge,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Please confirm the deposit of ',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    TextSpan(
+                      text: farmDeposit.amount.toString(),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: DexThemeBase.secondaryColor,
+                          ),
+                    ),
+                    TextSpan(
+                      text:
+                          ' ${farmDeposit.amount > 1 ? 'LP Tokens' : 'LP Token'}',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
-              Text(
-                'Your balance',
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                children: [
+                  Text(
+                    'Your balance',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: DexThemeBase.gradient,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,11 +134,26 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                 ],
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
-              Text(
-                "Farm's balance",
-                style: Theme.of(context).textTheme.bodyLarge,
+              Row(
+                children: [
+                  Text(
+                    "Farm's balance",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: DexThemeBase.gradient,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

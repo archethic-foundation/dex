@@ -54,24 +54,47 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                 ),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Row(
-                      children: [
-                        Text(
-                          'Please confirm the withdraw of ${farmClaim.dexFarmUserInfo!.rewardAmount} ${farmClaim.dexFarm!.rewardToken!.symbol}',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        Text(
-                          ' ${snapshot.data} ',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
+                    return RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Please confirm the claim of ',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          TextSpan(
+                            text: farmClaim.dexFarmUserInfo!.rewardAmount
+                                .toString(),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: DexThemeBase.secondaryColor,
+                                    ),
+                          ),
+                          TextSpan(
+                            text: ' ${farmClaim.dexFarm!.rewardToken!.symbol}',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          TextSpan(
+                            text: ' ${snapshot.data} ',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
                     );
                   }
                   return const SizedBox.shrink();
                 },
               ),
               const SizedBox(
-                height: 30,
+                height: 10,
+              ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: DexThemeBase.gradient,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

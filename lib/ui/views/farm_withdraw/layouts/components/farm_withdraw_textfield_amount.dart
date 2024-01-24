@@ -144,9 +144,10 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                   tokenSymbol: farmWithdraw.dexFarmUserInfo!.depositedAmount > 1
                       ? 'LP Tokens'
                       : 'LP Token',
+                  withFiat: false,
                 ),
                 const SizedBox(
-                  height: 5,
+                  width: 5,
                 ),
                 FutureBuilder<String>(
                   future: DEXLPTokenFiatValue().display(
