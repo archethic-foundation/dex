@@ -89,7 +89,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                         ],
                       ),
                       Stack(
-                        alignment: Alignment.centerRight,
+                        alignment: Alignment.topRight,
                         children: [
                           const LiquidityAddToken1Amount(),
                           Padding(
@@ -125,8 +125,11 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                DexTokenInfos(
-                                  token: liquidityAdd.token1,
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 9),
+                                  child: DexTokenInfos(
+                                    token: liquidityAdd.token1,
+                                  ),
                                 ),
                               ],
                             ),
@@ -137,7 +140,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                         height: 10,
                       ),
                       Stack(
-                        alignment: Alignment.centerRight,
+                        alignment: Alignment.topRight,
                         children: [
                           const LiquidityAddToken2Amount(),
                           Padding(
@@ -173,8 +176,11 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                DexTokenInfos(
-                                  token: liquidityAdd.token2,
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 9),
+                                  child: DexTokenInfos(
+                                    token: liquidityAdd.token2,
+                                  ),
                                 ),
                               ],
                             ),
