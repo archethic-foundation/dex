@@ -62,7 +62,13 @@ Returns infos of the pool as:
     "address": "0000ABCD...",
     "supply": 950.45645
   },
-  "fee": 0.25
+  "fee": 0.25,
+  "stats": {
+    "token1_total_fee": 0.025,
+    "token1_total_volume": 10,
+    "token2_total_fee": 0.075,
+    "token2_total_volume": 30
+  }
 }
 ```
 In next function, token1 and token2 represent the one returned by this function
@@ -152,7 +158,10 @@ Returns the informations of the farm
   "end_date": 1705912842,
   "remaining_reward": 123456.789,
   "lp_token_deposited": 456123.987235,
-  "nb_deposit": 132
+  "nb_deposit": 132,
+  "stats": {
+    "reward_distributed": 1234.65657
+  }
 }
 ```
 
@@ -265,6 +274,11 @@ This action can be triggered only by the Master chain of the dex. It's allowing 
 update_farms_code()
 ```
 This action can be triggered only by the Master chain of the dex. It's allowing to update all the farms code. The Router will call the action `update_code()` of all the known farm.
+
+### Stats
+
+To get some statistics about the DEX, pool contracts are storing the volume and fee for both tokens since its creation. Farm contract also stores the reward already distibuted. You can refer to `get_pool_infos` function and `get_farm_infos`.  
+Those stats are accumulator since contract creation. For example, if you want to get the fee since the last 24h you have to retrieve the contract address of the pool 24h hour before (you can use node's `getTransactionChain` graphql api with `from` args) and call the function `get_pool_infos` on this transaction address. Do the same for the current address and you can calculate the difference between both values. The difference is the fee paid since the last 24h
 
 ### Helper scripts
 

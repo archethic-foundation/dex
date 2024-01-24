@@ -66,6 +66,9 @@ actions triggered_by: transaction, on: claim() do
     )
   end
 
+  reward_distributed = State.get("reward_distributed", 0)
+  State.set("reward_distributed", reward_distributed + user_deposit.reward_amount)
+
   State.set("rewards_reserved", res.rewards_reserved - user_deposit.reward_amount)
 
   reward_token_balance = State.get("reward_token_balance")
@@ -124,6 +127,9 @@ actions triggered_by: transaction, on: withdraw(amount) do
     amount: amount,
     token_address: @LP_TOKEN_ADDRESS
   )
+
+  reward_distributed = State.get("reward_distributed", 0)
+  State.set("reward_distributed", reward_distributed + user_deposit.reward_amount)
 
   State.set("rewards_reserved", rewards_reserved - user_deposit.reward_amount)
 
@@ -248,7 +254,10 @@ export fun get_farm_infos() do
     end_date: @END_DATE,
     remaining_reward: reward_token_balance - rewards_reserved,
     lp_token_deposited: State.get("lp_token_deposited", 0),
-    nb_deposit: Map.size(State.get("deposits", Map.new()))
+    nb_deposit: Map.size(State.get("deposits", Map.new())),
+    stats: [
+      reward_distributed: State.get("reward_distributed", 0)
+    ]
   ]
 end
 

@@ -157,15 +157,42 @@ actions triggered_by: transaction, on: swap(_min_to_receive) do
 
   pool_balances = get_pool_balances()
   token_to_send = nil
+  token1_volume = 0
+  token2_volume = 0
+  token1_fee = 0
+  token2_fee = 0
   if transfer.token_address == @TOKEN1 do
     pool_balances = Map.set(pool_balances, "token2", pool_balances.token2 - swap.output_amount)
     token_to_send = @TOKEN2
+    token1_volume = transfer.amount
+    token1_fee = swap.fee
   else
     pool_balances = Map.set(pool_balances, "token1", pool_balances.token1 - swap.output_amount)
     token_to_send = @TOKEN1
+    token2_volume = transfer.amount
+    token2_fee = swap.fee
   end
 
   State.set("reserves", [token1: pool_balances.token1, token2: pool_balances.token2])
+
+  stats = State.get("stats", [
+    token1_total_fee: 0,
+    token2_total_fee: 0,
+    token1_total_volume: 0,
+    token2_total_volume: 0
+  ])
+
+  token1_total_fee = Map.get(stats, "token1_total_fee") + token1_fee
+  token2_total_fee = Map.get(stats, "token2_total_fee") + token2_fee
+  token1_total_volume = Map.get(stats, "token1_total_volume") + token1_volume
+  token2_total_volume = Map.get(stats, "token2_total_volume") + token2_volume
+
+  stats = Map.set(stats, "token1_total_fee", token1_total_fee)
+  stats = Map.set(stats, "token2_total_fee", token2_total_fee)
+  stats = Map.set(stats, "token1_total_volume", token1_total_volume)
+  stats = Map.set(stats, "token2_total_volume", token2_total_volume)
+
+  State.set("stats", stats)
 
   Contract.set_type("transfer")
   if token_to_send == "UCO" do
@@ -316,6 +343,12 @@ end
 
 export fun get_pool_infos() do
   reserves = State.get("reserves", [token1: 0, token2: 0])
+  stats = State.get("stats", [
+    token1_total_fee: 0,
+    token2_total_fee: 0,
+    token1_total_volume: 0,
+    token2_total_volume: 0
+  ])
 
   [
     token1: [
@@ -330,7 +363,8 @@ export fun get_pool_infos() do
       address: @LP_TOKEN,
       supply: State.get("lp_token_supply", 0)
     ],
-    fee: 0.25
+    fee: 0.25,
+    stats: stats
   ]
 end
 
