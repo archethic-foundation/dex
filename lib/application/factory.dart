@@ -81,11 +81,11 @@ class Factory with ModelParser {
   }
 
   /// Return a the lp token definition to use when creating a pool. Returns a JSON stringified
-  /// [token1Symbol] is the symbol of the first token
-  /// [token2Symbol] is the symbol of the second token
+  /// [token1Address] is the symbol of the first token
+  /// [token2Address] is the symbol of the second token
   Future<Result<String, Failure>> getLPTokenDefinition(
-    String token1Symbol,
-    String token2Symbol,
+    String token1Address,
+    String token2Address,
   ) async {
     return Result.guard(
       () async {
@@ -96,8 +96,8 @@ class Factory with ModelParser {
               contract: factoryAddress.toUpperCase(),
               function: 'get_lp_token_definition',
               args: [
-                token1Symbol,
-                token2Symbol,
+                token1Address,
+                token2Address,
               ],
             ),
           ),
