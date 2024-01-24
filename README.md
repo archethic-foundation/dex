@@ -325,7 +325,11 @@ Options:
 To deploy the main dex contract you have to init the keychain and deploy the router:
 ```bash
 node dex init_keychain
+```
+```bash
 node dex deploy_factory
+```
+```bash
 node dex deploy_router
 ```
 NB: Don't forget to faucet the Master genesis address before executing `node dex deploy_factory`

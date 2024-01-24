@@ -28,6 +28,7 @@ mixin _$DexFarm {
   double get remainingRewardInFiat => throw _privateConstructorUsedError;
   double get lpTokenDeposited => throw _privateConstructorUsedError;
   int get nbDeposit => throw _privateConstructorUsedError;
+  double get statsRewardDistributed => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexFarmCopyWith<DexFarm> get copyWith => throw _privateConstructorUsedError;
@@ -50,7 +51,8 @@ abstract class $DexFarmCopyWith<$Res> {
       double remainingReward,
       double remainingRewardInFiat,
       double lpTokenDeposited,
-      int nbDeposit});
+      int nbDeposit,
+      double statsRewardDistributed});
 
   $DexTokenCopyWith<$Res>? get lpToken;
   $DexPairCopyWith<$Res>? get lpTokenPair;
@@ -82,6 +84,7 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
     Object? remainingRewardInFiat = null,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
+    Object? statsRewardDistributed = null,
   }) {
     return _then(_value.copyWith(
       farmAddress: null == farmAddress
@@ -132,6 +135,10 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
           ? _value.nbDeposit
           : nbDeposit // ignore: cast_nullable_to_non_nullable
               as int,
+      statsRewardDistributed: null == statsRewardDistributed
+          ? _value.statsRewardDistributed
+          : statsRewardDistributed // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 
@@ -191,7 +198,8 @@ abstract class _$$DexFarmImplCopyWith<$Res> implements $DexFarmCopyWith<$Res> {
       double remainingReward,
       double remainingRewardInFiat,
       double lpTokenDeposited,
-      int nbDeposit});
+      int nbDeposit,
+      double statsRewardDistributed});
 
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -224,6 +232,7 @@ class __$$DexFarmImplCopyWithImpl<$Res>
     Object? remainingRewardInFiat = null,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
+    Object? statsRewardDistributed = null,
   }) {
     return _then(_$DexFarmImpl(
       farmAddress: null == farmAddress
@@ -274,6 +283,10 @@ class __$$DexFarmImplCopyWithImpl<$Res>
           ? _value.nbDeposit
           : nbDeposit // ignore: cast_nullable_to_non_nullable
               as int,
+      statsRewardDistributed: null == statsRewardDistributed
+          ? _value.statsRewardDistributed
+          : statsRewardDistributed // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -293,7 +306,8 @@ class _$DexFarmImpl extends _DexFarm {
       this.remainingReward = 0,
       this.remainingRewardInFiat = 0,
       this.lpTokenDeposited = 0,
-      this.nbDeposit = 0})
+      this.nbDeposit = 0,
+      this.statsRewardDistributed = 0.0})
       : super._();
 
   @override
@@ -329,10 +343,13 @@ class _$DexFarmImpl extends _DexFarm {
   @override
   @JsonKey()
   final int nbDeposit;
+  @override
+  @JsonKey()
+  final double statsRewardDistributed;
 
   @override
   String toString() {
-    return 'DexFarm(farmAddress: $farmAddress, poolAddress: $poolAddress, apr: $apr, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit)';
+    return 'DexFarm(farmAddress: $farmAddress, poolAddress: $poolAddress, apr: $apr, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit, statsRewardDistributed: $statsRewardDistributed)';
   }
 
   @override
@@ -360,7 +377,9 @@ class _$DexFarmImpl extends _DexFarm {
             (identical(other.lpTokenDeposited, lpTokenDeposited) ||
                 other.lpTokenDeposited == lpTokenDeposited) &&
             (identical(other.nbDeposit, nbDeposit) ||
-                other.nbDeposit == nbDeposit));
+                other.nbDeposit == nbDeposit) &&
+            (identical(other.statsRewardDistributed, statsRewardDistributed) ||
+                other.statsRewardDistributed == statsRewardDistributed));
   }
 
   @override
@@ -377,7 +396,8 @@ class _$DexFarmImpl extends _DexFarm {
       remainingReward,
       remainingRewardInFiat,
       lpTokenDeposited,
-      nbDeposit);
+      nbDeposit,
+      statsRewardDistributed);
 
   @JsonKey(ignore: true)
   @override
@@ -399,7 +419,8 @@ abstract class _DexFarm extends DexFarm {
       final double remainingReward,
       final double remainingRewardInFiat,
       final double lpTokenDeposited,
-      final int nbDeposit}) = _$DexFarmImpl;
+      final int nbDeposit,
+      final double statsRewardDistributed}) = _$DexFarmImpl;
   const _DexFarm._() : super._();
 
   @override
@@ -426,6 +447,8 @@ abstract class _DexFarm extends DexFarm {
   double get lpTokenDeposited;
   @override
   int get nbDeposit;
+  @override
+  double get statsRewardDistributed;
   @override
   @JsonKey(ignore: true)
   _$$DexFarmImplCopyWith<_$DexFarmImpl> get copyWith =>

@@ -4,10 +4,12 @@ import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_details.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,6 +23,8 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final cardKey = GlobalKey<FlipCardState>();
+
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     return Stack(
       children: [
@@ -68,7 +72,19 @@ class PoolListSheet extends ConsumerWidget {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(20),
-                                      child: PoolDetails(pool: pool),
+                                      child: FlipCard(
+                                        key: cardKey,
+                                        flipOnTouch: false,
+                                        fill: Fill.fillBack,
+                                        front: PoolDetailsFront(
+                                          pool: pool,
+                                          cardKey: cardKey,
+                                        ),
+                                        back: PoolDetailsBack(
+                                          pool: pool,
+                                          cardKey: cardKey,
+                                        ),
+                                      ),
                                     ),
                                     const Padding(
                                       padding: EdgeInsets.only(right: 20),

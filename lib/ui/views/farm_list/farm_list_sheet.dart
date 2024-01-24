@@ -3,9 +3,11 @@ import 'dart:ui';
 import 'package:aedex/application/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/farm_list/components/farm_details.dart';
+import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
+import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,6 +21,8 @@ class FarmListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final cardKey = GlobalKey<FlipCardState>();
+
     return ArchethicScrollbar(
       child: Center(
         child: Padding(
@@ -46,7 +50,7 @@ class FarmListSheet extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         elevation: 0,
-                        color: Colors.black.withOpacity(0.4),
+                        color: Colors.black.withOpacity(0.2),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: BackdropFilter(
@@ -55,7 +59,19 @@ class FarmListSheet extends ConsumerWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(20),
-                                  child: FarmDetails(farm: farm),
+                                  child: FlipCard(
+                                    key: cardKey,
+                                    flipOnTouch: false,
+                                    fill: Fill.fillBack,
+                                    front: FarmDetailsFront(
+                                      farm: farm,
+                                      cardKey: cardKey,
+                                    ),
+                                    back: FarmDetailsBack(
+                                      farm: farm,
+                                      cardKey: cardKey,
+                                    ),
+                                  ),
                                 ),
                                 const Padding(
                                   padding: EdgeInsets.only(right: 20),

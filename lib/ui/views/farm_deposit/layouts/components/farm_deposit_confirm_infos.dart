@@ -1,6 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -43,15 +44,15 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   children: [
                     TextSpan(
                       text: 'Please confirm the deposit of ',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     TextSpan(
-                      text: farmDeposit.amount.toString(),
+                      text: farmDeposit.amount.formatNumber(precision: 8),
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: DexThemeBase.secondaryColor,
                           ),

@@ -1,6 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -44,15 +45,16 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   children: [
                     TextSpan(
                       text: 'Please, confirm the removal of ',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     TextSpan(
-                      text: '${liquidityRemove.lpTokenAmount} ',
+                      text:
+                          '${liquidityRemove.lpTokenAmount.formatNumber(precision: 8)} ',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: DexThemeBase.secondaryColor,
                           ),

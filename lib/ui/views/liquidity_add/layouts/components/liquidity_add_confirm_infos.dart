@@ -62,11 +62,12 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      RichText(
-                        text: TextSpan(
+                      Text.rich(
+                        TextSpan(
                           children: [
                             TextSpan(
-                              text: '+ ${liquidityAdd.token1Amount}',
+                              text:
+                                  '+ ${liquidityAdd.token1Amount.formatNumber(precision: 8)}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!

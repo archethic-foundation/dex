@@ -16,6 +16,7 @@ _$GetFarmInfosResponseImpl _$$GetFarmInfosResponseImplFromJson(
       remainingReward: (json['remaining_reward'] as num).toDouble(),
       lpTokenDeposited: (json['lp_token_deposited'] as num).toDouble(),
       nbDeposit: json['nb_deposit'] as int,
+      stats: Stats.fromJson(json['stats'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$GetFarmInfosResponseImplToJson(
@@ -28,4 +29,14 @@ Map<String, dynamic> _$$GetFarmInfosResponseImplToJson(
       'remaining_reward': instance.remainingReward,
       'lp_token_deposited': instance.lpTokenDeposited,
       'nb_deposit': instance.nbDeposit,
+      'stats': instance.stats,
+    };
+
+_$StatsImpl _$$StatsImplFromJson(Map<String, dynamic> json) => _$StatsImpl(
+      rewardDistributed: (json['reward_distributed'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$StatsImplToJson(_$StatsImpl instance) =>
+    <String, dynamic>{
+      'reward_distributed': instance.rewardDistributed,
     };

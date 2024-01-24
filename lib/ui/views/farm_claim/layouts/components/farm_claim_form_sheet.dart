@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,13 +70,13 @@ class FarmClaimFormSheet extends ConsumerWidget {
                         ),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return RichText(
-                              text: TextSpan(
+                            return Text.rich(
+                              TextSpan(
                                 children: [
                                   TextSpan(
                                     text: farmClaim
                                         .dexFarmUserInfo!.rewardAmount
-                                        .toString(),
+                                        .formatNumber(precision: 8),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!

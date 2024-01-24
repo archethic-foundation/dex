@@ -7,27 +7,26 @@ import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
-import 'package:aedex/ui/views/farm_list/components/farm_details_all_info_popup.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_apr_value.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class FarmDetails extends ConsumerWidget {
-  const FarmDetails({
+class FarmDetailsFront extends ConsumerWidget {
+  const FarmDetailsFront({
     super.key,
     required this.farm,
-    this.allInfo = false,
+    required this.cardKey,
   });
   final DexFarm farm;
-  final bool allInfo;
+  final GlobalKey<FlipCardState> cardKey;
 
   @override
   Widget build(
@@ -99,21 +98,6 @@ class FarmDetails extends ConsumerWidget {
                                     ),
                                   ],
                                 ),
-                                if (allInfo)
-                                  FormatAddressLinkCopy(
-                                    address: snapshot.data!.farmAddress
-                                        .toUpperCase(),
-                                    header: '',
-                                    typeAddress: TypeAddressLinkCopy.chain,
-                                    reduceAddress: true,
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .fontSize!,
-                                  ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -153,10 +137,49 @@ class FarmDetails extends ConsumerWidget {
                                 ),
                               ],
                             ),
-                            if (allInfo == false)
-                              Row(
-                                children: [
-                                  SizedBox(
+                            Row(
+                              children: [
+                                SizedBox(
+                                  height: 40,
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color:
+                                            DexThemeBase.backgroundPopupColor,
+                                        width: 0.5,
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    elevation: 0,
+                                    color: ArchethicThemeBase.purple500,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 7,
+                                        bottom: 5,
+                                        left: 10,
+                                        right: 10,
+                                      ),
+                                      child: Text(
+                                        'Farming',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                              color: ArchethicThemeBase
+                                                  .raspberry300,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    cardKey.currentState!.toggleCard();
+                                  },
+                                  child: SizedBox(
                                     height: 40,
                                     child: Card(
                                       shape: RoundedRectangleBorder(
@@ -168,71 +191,26 @@ class FarmDetails extends ConsumerWidget {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       elevation: 0,
-                                      color: ArchethicThemeBase.purple500,
+                                      color: DexThemeBase.backgroundPopupColor,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                          top: 7,
+                                          top: 5,
                                           bottom: 5,
                                           left: 10,
                                           right: 10,
                                         ),
-                                        child: Text(
-                                          'Farming',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                color: ArchethicThemeBase
-                                                    .raspberry300,
-                                              ),
+                                        child: Icon(
+                                          Icons.info_outline,
+                                          size: 16,
+                                          color:
+                                              ArchethicThemeBase.raspberry300,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  InkWell(
-                                    onTap: () async {
-                                      await FarmDetailsAllInfoPopup.getDialog(
-                                        context,
-                                        farm,
-                                      );
-                                    },
-                                    child: SizedBox(
-                                      height: 40,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                            color: DexThemeBase
-                                                .backgroundPopupColor,
-                                            width: 0.5,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        elevation: 0,
-                                        color:
-                                            DexThemeBase.backgroundPopupColor,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 5,
-                                            bottom: 5,
-                                            left: 10,
-                                            right: 10,
-                                          ),
-                                          child: Icon(
-                                            Icons.info_outline,
-                                            size: 16,
-                                            color:
-                                                ArchethicThemeBase.raspberry300,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -261,127 +239,6 @@ class FarmDetails extends ConsumerWidget {
                         ),
                         const SizedBox(
                           height: 10,
-                        ),
-                        if (allInfo)
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Remaining reward',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    '${snapshot.data!.remainingReward.formatNumber()} ${snapshot.data!.rewardToken!.symbol}',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  FutureBuilder<String>(
-                                    future: FiatValue().display(
-                                      ref,
-                                      snapshot.data!.rewardToken!.symbol,
-                                      snapshot.data!.remainingReward,
-                                    ),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        return Text(
-                                          snapshot.data!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        );
-                                      }
-                                      return const SizedBox.shrink();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        if (allInfo)
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        if (allInfo)
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'LP Token deposited',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    '${snapshot.data!.lpTokenDeposited.formatNumber()} ${snapshot.data!.lpTokenDeposited > 1 ? 'LP Tokens' : 'LP Token'}',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  FutureBuilder<String>(
-                                    future: DEXLPTokenFiatValue().display(
-                                      ref,
-                                      farm.lpTokenPair!.token1,
-                                      farm.lpTokenPair!.token2,
-                                      snapshot.data!.lpTokenDeposited,
-                                      farm.poolAddress,
-                                    ),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        return Text(
-                                          snapshot.data!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        );
-                                      }
-                                      return const SizedBox.shrink();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        if (allInfo)
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        if (allInfo)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Nb deposit',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              Text(
-                                snapshot.data!.nbDeposit.toString(),
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
-                        if (allInfo)
-                          const SizedBox(
-                            height: 15,
-                          ),
-                        if (allInfo)
-                          Container(
-                            height: 0.5,
-                            color: Colors.white,
-                          ),
-                        if (allInfo == false)
-                          Container(
-                            height: 1,
-                            decoration: BoxDecoration(
-                              gradient: DexThemeBase.gradientLine,
-                            ),
-                          ),
-                        const SizedBox(
-                          height: 20,
                         ),
                         FutureBuilder<DexFarmUserInfos?>(
                           future: ref.watch(
@@ -437,13 +294,6 @@ class FarmDetails extends ConsumerWidget {
                                               return const SizedBox.shrink();
                                             },
                                           ),
-                                          if (allInfo)
-                                            Text(
-                                              '${snapshot2.data!.depositedAmount * 100 / snapshot.data!.lpTokenDeposited} % of the farm',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
-                                            ),
                                         ],
                                       ),
                                     ],
@@ -578,102 +428,96 @@ class FarmDetails extends ConsumerWidget {
                                                 ),
                                               ],
                                             ),
-                                            if (allInfo == false)
-                                              const SizedBox(
-                                                height: 30,
-                                              ),
-                                            if (allInfo == false)
-                                              Column(
-                                                children: [
-                                                  DexButtonValidate(
-                                                    background:
-                                                        ArchethicThemeBase
-                                                            .purple500,
-                                                    controlOk:
-                                                        snapshot3.data! > 0,
-                                                    labelBtn:
-                                                        'Deposit LP Tokens',
-                                                    onPressed: () {
-                                                      ref
-                                                          .read(
-                                                            MainScreenWidgetDisplayedProviders
-                                                                .mainScreenWidgetDisplayedProvider
-                                                                .notifier,
-                                                          )
-                                                          .setWidget(
-                                                            FarmDepositSheet(
-                                                              farm: snapshot
-                                                                  .data!,
-                                                            ),
-                                                            ref,
-                                                          );
-                                                    },
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 30,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child:
-                                                            DexButtonValidate(
-                                                          background:
-                                                              ArchethicThemeBase
-                                                                  .purple500,
-                                                          controlOk: snapshot
-                                                                  .data!
-                                                                  .lpTokenDeposited >
-                                                              0,
-                                                          labelBtn: 'Withdraw',
-                                                          onPressed: () {
-                                                            ref
-                                                                .read(
-                                                                  MainScreenWidgetDisplayedProviders
-                                                                      .mainScreenWidgetDisplayedProvider
-                                                                      .notifier,
-                                                                )
-                                                                .setWidget(
-                                                                  FarmWithdrawSheet(
-                                                                    farm: snapshot
-                                                                        .data!,
-                                                                  ),
-                                                                  ref,
-                                                                );
-                                                          },
-                                                        ),
+                                            const SizedBox(
+                                              height: 70,
+                                            ),
+                                            Column(
+                                              children: [
+                                                DexButtonValidate(
+                                                  background: ArchethicThemeBase
+                                                      .purple500,
+                                                  controlOk:
+                                                      snapshot3.data! > 0,
+                                                  labelBtn: 'Deposit LP Tokens',
+                                                  onPressed: () {
+                                                    ref
+                                                        .read(
+                                                          MainScreenWidgetDisplayedProviders
+                                                              .mainScreenWidgetDisplayedProvider
+                                                              .notifier,
+                                                        )
+                                                        .setWidget(
+                                                          FarmDepositSheet(
+                                                            farm:
+                                                                snapshot.data!,
+                                                          ),
+                                                          ref,
+                                                        );
+                                                  },
+                                                ),
+                                                const SizedBox(
+                                                  height: 30,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: DexButtonValidate(
+                                                        background:
+                                                            ArchethicThemeBase
+                                                                .purple500,
+                                                        controlOk: snapshot
+                                                                .data!
+                                                                .lpTokenDeposited >
+                                                            0,
+                                                        labelBtn: 'Withdraw',
+                                                        onPressed: () {
+                                                          ref
+                                                              .read(
+                                                                MainScreenWidgetDisplayedProviders
+                                                                    .mainScreenWidgetDisplayedProvider
+                                                                    .notifier,
+                                                              )
+                                                              .setWidget(
+                                                                FarmWithdrawSheet(
+                                                                  farm: snapshot
+                                                                      .data!,
+                                                                ),
+                                                                ref,
+                                                              );
+                                                        },
                                                       ),
-                                                      Expanded(
-                                                        child:
-                                                            DexButtonValidate(
-                                                          background:
-                                                              ArchethicThemeBase
-                                                                  .purple500,
-                                                          controlOk: true,
-                                                          labelBtn: 'Claim',
-                                                          onPressed: () {
-                                                            ref
-                                                                .read(
-                                                                  MainScreenWidgetDisplayedProviders
-                                                                      .mainScreenWidgetDisplayedProvider
-                                                                      .notifier,
-                                                                )
-                                                                .setWidget(
-                                                                  FarmClaimSheet(
-                                                                    farmUserInfo:
-                                                                        snapshot2
-                                                                            .data!,
-                                                                    farm: snapshot
-                                                                        .data!,
-                                                                  ),
-                                                                  ref,
-                                                                );
-                                                          },
-                                                        ),
+                                                    ),
+                                                    Expanded(
+                                                      child: DexButtonValidate(
+                                                        background:
+                                                            ArchethicThemeBase
+                                                                .purple500,
+                                                        controlOk: true,
+                                                        labelBtn: 'Claim',
+                                                        onPressed: () {
+                                                          ref
+                                                              .read(
+                                                                MainScreenWidgetDisplayedProviders
+                                                                    .mainScreenWidgetDisplayedProvider
+                                                                    .notifier,
+                                                              )
+                                                              .setWidget(
+                                                                FarmClaimSheet(
+                                                                  farmUserInfo:
+                                                                      snapshot2
+                                                                          .data!,
+                                                                  farm: snapshot
+                                                                      .data!,
+                                                                ),
+                                                                ref,
+                                                              );
+                                                        },
                                                       ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         );
                                       }

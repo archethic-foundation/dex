@@ -13,6 +13,7 @@ _$GetPoolInfosResponseImpl _$$GetPoolInfosResponseImplFromJson(
       token2: Token.fromJson(json['token2'] as Map<String, dynamic>),
       lpToken: LPToken.fromJson(json['lp_token'] as Map<String, dynamic>),
       fee: (json['fee'] as num).toDouble(),
+      stats: Stats.fromJson(json['stats'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$GetPoolInfosResponseImplToJson(
@@ -22,6 +23,7 @@ Map<String, dynamic> _$$GetPoolInfosResponseImplToJson(
       'token2': instance.token2,
       'lp_token': instance.lpToken,
       'fee': instance.fee,
+      'stats': instance.stats,
     };
 
 _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
@@ -45,4 +47,19 @@ Map<String, dynamic> _$$LPTokenImplToJson(_$LPTokenImpl instance) =>
     <String, dynamic>{
       'address': instance.address,
       'supply': instance.supply,
+    };
+
+_$StatsImpl _$$StatsImplFromJson(Map<String, dynamic> json) => _$StatsImpl(
+      token1TotalFee: (json['token1_total_fee'] as num).toDouble(),
+      token1TotalVolume: json['token1_total_volume'] as int,
+      token2TotalFee: (json['token2_total_fee'] as num).toDouble(),
+      token2TotalVolume: json['token2_total_volume'] as int,
+    );
+
+Map<String, dynamic> _$$StatsImplToJson(_$StatsImpl instance) =>
+    <String, dynamic>{
+      'token1_total_fee': instance.token1TotalFee,
+      'token1_total_volume': instance.token1TotalVolume,
+      'token2_total_fee': instance.token2TotalFee,
+      'token2_total_volume': instance.token2TotalVolume,
     };
