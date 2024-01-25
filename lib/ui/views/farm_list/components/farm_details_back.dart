@@ -287,12 +287,10 @@ class FarmDetailsBack extends ConsumerWidget {
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 FutureBuilder<String>(
-                                  future: DEXLPTokenFiatValue().display(
+                                  future: FiatValue().display(
                                     ref,
-                                    farm.lpTokenPair!.token1,
-                                    farm.lpTokenPair!.token2,
-                                    snapshot.data!.lpTokenDeposited,
-                                    farm.poolAddress,
+                                    snapshot.data!.rewardToken!.symbol,
+                                    snapshot.data!.statsRewardDistributed,
                                   ),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
