@@ -26,9 +26,9 @@ mixin _$DexPool {
   double get estimatePoolTVLInFiat => throw _privateConstructorUsedError;
   bool get lpTokenInUserBalance => throw _privateConstructorUsedError;
   double get token1TotalFee => throw _privateConstructorUsedError;
-  int get token1TotalVolume => throw _privateConstructorUsedError;
+  double get token1TotalVolume => throw _privateConstructorUsedError;
   double get token2TotalFee => throw _privateConstructorUsedError;
-  int get token2TotalVolume => throw _privateConstructorUsedError;
+  double get token2TotalVolume => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexPoolCopyWith<DexPool> get copyWith => throw _privateConstructorUsedError;
@@ -50,9 +50,9 @@ abstract class $DexPoolCopyWith<$Res> {
       double estimatePoolTVLInFiat,
       bool lpTokenInUserBalance,
       double token1TotalFee,
-      int token1TotalVolume,
+      double token1TotalVolume,
       double token2TotalFee,
-      int token2TotalVolume});
+      double token2TotalVolume});
 
   $DexTokenCopyWith<$Res>? get lpToken;
   $DexPairCopyWith<$Res>? get pair;
@@ -129,7 +129,7 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
       token1TotalVolume: null == token1TotalVolume
           ? _value.token1TotalVolume
           : token1TotalVolume // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       token2TotalFee: null == token2TotalFee
           ? _value.token2TotalFee
           : token2TotalFee // ignore: cast_nullable_to_non_nullable
@@ -137,7 +137,7 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
       token2TotalVolume: null == token2TotalVolume
           ? _value.token2TotalVolume
           : token2TotalVolume // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ) as $Val);
   }
 
@@ -184,9 +184,9 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
       double estimatePoolTVLInFiat,
       bool lpTokenInUserBalance,
       double token1TotalFee,
-      int token1TotalVolume,
+      double token1TotalVolume,
       double token2TotalFee,
-      int token2TotalVolume});
+      double token2TotalVolume});
 
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -263,7 +263,7 @@ class __$$DexPoolImplCopyWithImpl<$Res>
       token1TotalVolume: null == token1TotalVolume
           ? _value.token1TotalVolume
           : token1TotalVolume // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       token2TotalFee: null == token2TotalFee
           ? _value.token2TotalFee
           : token2TotalFee // ignore: cast_nullable_to_non_nullable
@@ -271,7 +271,7 @@ class __$$DexPoolImplCopyWithImpl<$Res>
       token2TotalVolume: null == token2TotalVolume
           ? _value.token2TotalVolume
           : token2TotalVolume // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ));
   }
 }
@@ -290,9 +290,9 @@ class _$DexPoolImpl extends _DexPool {
       this.estimatePoolTVLInFiat = 0.0,
       this.lpTokenInUserBalance = false,
       this.token1TotalFee = 0.0,
-      this.token1TotalVolume = 0,
+      this.token1TotalVolume = 0.0,
       this.token2TotalFee = 0.0,
-      this.token2TotalVolume = 0})
+      this.token2TotalVolume = 0.0})
       : super._();
 
   @override
@@ -325,13 +325,13 @@ class _$DexPoolImpl extends _DexPool {
   final double token1TotalFee;
   @override
   @JsonKey()
-  final int token1TotalVolume;
+  final double token1TotalVolume;
   @override
   @JsonKey()
   final double token2TotalFee;
   @override
   @JsonKey()
-  final int token2TotalVolume;
+  final double token2TotalVolume;
 
   @override
   String toString() {
@@ -403,9 +403,9 @@ abstract class _DexPool extends DexPool {
       final double estimatePoolTVLInFiat,
       final bool lpTokenInUserBalance,
       final double token1TotalFee,
-      final int token1TotalVolume,
+      final double token1TotalVolume,
       final double token2TotalFee,
-      final int token2TotalVolume}) = _$DexPoolImpl;
+      final double token2TotalVolume}) = _$DexPoolImpl;
   const _DexPool._() : super._();
 
   @override
@@ -429,11 +429,11 @@ abstract class _DexPool extends DexPool {
   @override
   double get token1TotalFee;
   @override
-  int get token1TotalVolume;
+  double get token1TotalVolume;
   @override
   double get token2TotalFee;
   @override
-  int get token2TotalVolume;
+  double get token2TotalVolume;
   @override
   @JsonKey(ignore: true)
   _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>

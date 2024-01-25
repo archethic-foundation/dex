@@ -44,9 +44,9 @@ class LPToken with _$LPToken {
 class Stats with _$Stats {
   const factory Stats({
     @JsonKey(name: 'token1_total_fee') required double token1TotalFee,
-    @JsonKey(name: 'token1_total_volume') required int token1TotalVolume,
+    @JsonKey(name: 'token1_total_volume') required double token1TotalVolume,
     @JsonKey(name: 'token2_total_fee') required double token2TotalFee,
-    @JsonKey(name: 'token2_total_volume') required int token2TotalVolume,
+    @JsonKey(name: 'token2_total_volume') required double token2TotalVolume,
   }) = _Stats;
 
   factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);

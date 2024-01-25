@@ -596,11 +596,11 @@ mixin _$Stats {
   @JsonKey(name: 'token1_total_fee')
   double get token1TotalFee => throw _privateConstructorUsedError;
   @JsonKey(name: 'token1_total_volume')
-  int get token1TotalVolume => throw _privateConstructorUsedError;
+  double get token1TotalVolume => throw _privateConstructorUsedError;
   @JsonKey(name: 'token2_total_fee')
   double get token2TotalFee => throw _privateConstructorUsedError;
   @JsonKey(name: 'token2_total_volume')
-  int get token2TotalVolume => throw _privateConstructorUsedError;
+  double get token2TotalVolume => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -614,9 +614,9 @@ abstract class $StatsCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'token1_total_fee') double token1TotalFee,
-      @JsonKey(name: 'token1_total_volume') int token1TotalVolume,
+      @JsonKey(name: 'token1_total_volume') double token1TotalVolume,
       @JsonKey(name: 'token2_total_fee') double token2TotalFee,
-      @JsonKey(name: 'token2_total_volume') int token2TotalVolume});
+      @JsonKey(name: 'token2_total_volume') double token2TotalVolume});
 }
 
 /// @nodoc
@@ -645,7 +645,7 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
       token1TotalVolume: null == token1TotalVolume
           ? _value.token1TotalVolume
           : token1TotalVolume // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       token2TotalFee: null == token2TotalFee
           ? _value.token2TotalFee
           : token2TotalFee // ignore: cast_nullable_to_non_nullable
@@ -653,7 +653,7 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
       token2TotalVolume: null == token2TotalVolume
           ? _value.token2TotalVolume
           : token2TotalVolume // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ) as $Val);
   }
 }
@@ -667,9 +667,9 @@ abstract class _$$StatsImplCopyWith<$Res> implements $StatsCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'token1_total_fee') double token1TotalFee,
-      @JsonKey(name: 'token1_total_volume') int token1TotalVolume,
+      @JsonKey(name: 'token1_total_volume') double token1TotalVolume,
       @JsonKey(name: 'token2_total_fee') double token2TotalFee,
-      @JsonKey(name: 'token2_total_volume') int token2TotalVolume});
+      @JsonKey(name: 'token2_total_volume') double token2TotalVolume});
 }
 
 /// @nodoc
@@ -696,7 +696,7 @@ class __$$StatsImplCopyWithImpl<$Res>
       token1TotalVolume: null == token1TotalVolume
           ? _value.token1TotalVolume
           : token1TotalVolume // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       token2TotalFee: null == token2TotalFee
           ? _value.token2TotalFee
           : token2TotalFee // ignore: cast_nullable_to_non_nullable
@@ -704,7 +704,7 @@ class __$$StatsImplCopyWithImpl<$Res>
       token2TotalVolume: null == token2TotalVolume
           ? _value.token2TotalVolume
           : token2TotalVolume // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ));
   }
 }
@@ -726,13 +726,13 @@ class _$StatsImpl implements _Stats {
   final double token1TotalFee;
   @override
   @JsonKey(name: 'token1_total_volume')
-  final int token1TotalVolume;
+  final double token1TotalVolume;
   @override
   @JsonKey(name: 'token2_total_fee')
   final double token2TotalFee;
   @override
   @JsonKey(name: 'token2_total_volume')
-  final int token2TotalVolume;
+  final double token2TotalVolume;
 
   @override
   String toString() {
@@ -777,10 +777,10 @@ abstract class _Stats implements Stats {
   const factory _Stats(
       {@JsonKey(name: 'token1_total_fee') required final double token1TotalFee,
       @JsonKey(name: 'token1_total_volume')
-      required final int token1TotalVolume,
+      required final double token1TotalVolume,
       @JsonKey(name: 'token2_total_fee') required final double token2TotalFee,
       @JsonKey(name: 'token2_total_volume')
-      required final int token2TotalVolume}) = _$StatsImpl;
+      required final double token2TotalVolume}) = _$StatsImpl;
 
   factory _Stats.fromJson(Map<String, dynamic> json) = _$StatsImpl.fromJson;
 
@@ -789,13 +789,13 @@ abstract class _Stats implements Stats {
   double get token1TotalFee;
   @override
   @JsonKey(name: 'token1_total_volume')
-  int get token1TotalVolume;
+  double get token1TotalVolume;
   @override
   @JsonKey(name: 'token2_total_fee')
   double get token2TotalFee;
   @override
   @JsonKey(name: 'token2_total_volume')
-  int get token2TotalVolume;
+  double get token2TotalVolume;
   @override
   @JsonKey(ignore: true)
   _$$StatsImplCopyWith<_$StatsImpl> get copyWith =>

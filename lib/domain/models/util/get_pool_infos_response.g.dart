@@ -51,9 +51,9 @@ Map<String, dynamic> _$$LPTokenImplToJson(_$LPTokenImpl instance) =>
 
 _$StatsImpl _$$StatsImplFromJson(Map<String, dynamic> json) => _$StatsImpl(
       token1TotalFee: (json['token1_total_fee'] as num).toDouble(),
-      token1TotalVolume: json['token1_total_volume'] as int,
+      token1TotalVolume: (json['token1_total_volume'] as num).toDouble(),
       token2TotalFee: (json['token2_total_fee'] as num).toDouble(),
-      token2TotalVolume: json['token2_total_volume'] as int,
+      token2TotalVolume: (json['token2_total_volume'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$StatsImplToJson(_$StatsImpl instance) =>
