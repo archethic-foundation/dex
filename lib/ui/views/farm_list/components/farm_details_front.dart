@@ -14,7 +14,6 @@ import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -23,10 +22,10 @@ class FarmDetailsFront extends ConsumerWidget {
   const FarmDetailsFront({
     super.key,
     required this.farm,
-    required this.cardKey,
+    required this.toggleCard,
   });
   final DexFarm farm;
-  final GlobalKey<FlipCardState> cardKey;
+  final VoidCallback toggleCard;
 
   @override
   Widget build(
@@ -176,9 +175,7 @@ class FarmDetailsFront extends ConsumerWidget {
                                   width: 5,
                                 ),
                                 InkWell(
-                                  onTap: () {
-                                    cardKey.currentState!.toggleCard();
-                                  },
+                                  onTap: toggleCard,
                                   child: SizedBox(
                                     height: 40,
                                     child: Card(

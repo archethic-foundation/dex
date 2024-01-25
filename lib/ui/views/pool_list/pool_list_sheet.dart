@@ -10,6 +10,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,8 +24,6 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final cardKey = GlobalKey<FlipCardState>();
-
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     return Stack(
       children: [
@@ -49,54 +48,14 @@ class PoolListSheet extends ConsumerWidget {
                     return Wrap(
                       spacing: 10,
                       runSpacing: 10,
-                      children: snapshot.data!.map((pool) {
-                        return SizedBox(
-                          width: 500,
-                          height: 510,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: DexThemeBase.backgroundPopupColor,
-                                width: 0.5,
-                              ),
-                              borderRadius: BorderRadius.circular(20),
+                      children: snapshot.data!
+                          .map(
+                            (pool) => PoolListItem(
+                              key: Key(pool.poolAddress),
+                              pool: pool,
                             ),
-                            elevation: 0,
-                            color: Colors.black.withOpacity(0.4),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(20),
-                                      child: FlipCard(
-                                        key: cardKey,
-                                        flipOnTouch: false,
-                                        fill: Fill.fillBack,
-                                        front: PoolDetailsFront(
-                                          pool: pool,
-                                          cardKey: cardKey,
-                                        ),
-                                        back: PoolDetailsBack(
-                                          pool: pool,
-                                          cardKey: cardKey,
-                                        ),
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(right: 20),
-                                      child: DexArchethicOracleUco(),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                          )
+                          .toList(),
                     );
                   }
                   return const SizedBox.shrink();
@@ -110,6 +69,71 @@ class PoolListSheet extends ConsumerWidget {
           child: PoolListSearch(),
         ),
       ],
+    );
+  }
+}
+
+class PoolListItem extends StatefulWidget {
+  PoolListItem({
+    super.key,
+    required this.pool,
+  });
+
+  final DexPool pool;
+
+  @override
+  State<PoolListItem> createState() => _PoolListItemState();
+}
+
+class _PoolListItemState extends State<PoolListItem> {
+  final flipCardController = FlipCardController();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 500,
+      height: 510,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: DexThemeBase.backgroundPopupColor,
+            width: 0.5,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        elevation: 0,
+        color: Colors.black.withOpacity(0.4),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: FlipCard(
+                    controller: flipCardController,
+                    flipOnTouch: false,
+                    fill: Fill.fillBack,
+                    front: PoolDetailsFront(
+                      pool: widget.pool,
+                      toggleCard: flipCardController.toggleCard,
+                    ),
+                    back: PoolDetailsBack(
+                      pool: widget.pool,
+                      toggleCard: flipCardController.toggleCard,
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: DexArchethicOracleUco(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

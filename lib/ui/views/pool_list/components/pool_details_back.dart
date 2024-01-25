@@ -8,7 +8,6 @@ import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,10 +16,10 @@ class PoolDetailsBack extends ConsumerWidget {
   const PoolDetailsBack({
     super.key,
     required this.pool,
-    required this.cardKey,
+    required this.toggleCard,
   });
   final DexPool pool;
-  final GlobalKey<FlipCardState> cardKey;
+  final VoidCallback toggleCard;
 
   @override
   Widget build(
@@ -97,9 +96,7 @@ class PoolDetailsBack extends ConsumerWidget {
                         ],
                       ),
                       InkWell(
-                        onTap: () {
-                          cardKey.currentState!.toggleCard();
-                        },
+                        onTap: toggleCard,
                         child: SizedBox(
                           height: 40,
                           child: Card(
