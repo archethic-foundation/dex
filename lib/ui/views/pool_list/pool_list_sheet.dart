@@ -8,7 +8,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
-import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:aedex/ui/views/util/components/grid_view.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -25,40 +25,40 @@ class PoolListSheet extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
+    final asyncPools = ref.watch(
+      DexPoolProviders.getPoolListFromCache(
+        poolListForm.onlyVerifiedPools,
+        poolListForm.onlyPoolsWithLiquidityPositions,
+      ),
+    );
     return Stack(
       children: [
-        ArchethicScrollbar(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 140,
-                bottom: 100,
-                left: 50,
-                right: 50,
-              ),
-              child: FutureBuilder<List<DexPool>>(
-                future: ref.watch(
-                  DexPoolProviders.getPoolListFromCache(
-                    poolListForm.onlyVerifiedPools,
-                    poolListForm.onlyPoolsWithLiquidityPositions,
-                  ).future,
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 140,
+              bottom: 100,
+            ),
+            child: asyncPools.maybeWhen(
+              orElse: SizedBox.shrink,
+              data: (pools) => GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedSize(
+                  crossAxisExtent: 500,
+                  mainAxisExtent: 510,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
                 ),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: snapshot.data!
-                          .map(
-                            (pool) => PoolListItem(
-                              key: Key(pool.poolAddress),
-                              pool: pool,
-                            ),
-                          )
-                          .toList(),
-                    );
-                  }
-                  return const SizedBox.shrink();
+                padding: const EdgeInsets.only(
+                  left: 50,
+                  right: 50,
+                ),
+                itemCount: pools.length,
+                itemBuilder: (context, index) {
+                  final pool = pools[index];
+                  return PoolListItem(
+                    key: Key(pool.poolAddress),
+                    pool: pool,
+                  );
                 },
               ),
             ),
@@ -74,7 +74,7 @@ class PoolListSheet extends ConsumerWidget {
 }
 
 class PoolListItem extends StatefulWidget {
-  PoolListItem({
+  const PoolListItem({
     super.key,
     required this.pool,
   });
@@ -89,11 +89,7 @@ class _PoolListItemState extends State<PoolListItem> {
   final flipCardController = FlipCardController();
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 500,
-      height: 510,
-      child: Card(
+  Widget build(BuildContext context) => Card(
         shape: RoundedRectangleBorder(
           side: BorderSide(
             color: DexThemeBase.backgroundPopupColor,
@@ -133,7 +129,5 @@ class _PoolListItemState extends State<PoolListItem> {
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
