@@ -259,7 +259,7 @@ class DexPoolsRepository {
       failure: (failure) {},
     );
 
-    return dexPool!;
+    return dexPool;
   }
 }
 
