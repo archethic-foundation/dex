@@ -24,6 +24,14 @@ class HivePoolsListDatasource {
     }
   }
 
+  Future<void> setPool(DexPoolHive v) async {
+    await _box.put(v.poolAddress, v);
+  }
+
+  Future<void> removePool(DexPoolHive v) async {
+    await _box.delete(v.poolAddress);
+  }
+
   List<DexPoolHive> getPoolsList() {
     return _box.values.toList();
   }

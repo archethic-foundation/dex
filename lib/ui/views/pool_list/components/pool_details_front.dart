@@ -1,3 +1,4 @@
+import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
@@ -180,34 +181,82 @@ class PoolDetailsFront extends ConsumerWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Volume',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Text(
-                        'Fees',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '${pool.token1TotalVolume + pool.token2TotalVolume}',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Text(
-                        '${pool.token1TotalFee + pool.token2TotalFee}',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
+                  FutureBuilder<
+                      ({
+                        double volume24h,
+                        double fee24h,
+                        double volumeAllTime,
+                        double feeAllTime
+                      })>(
+                    future:
+                        ref.watch(DexPoolProviders.estimateStats(pool).future),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Volume (24h)',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                Text(
+                                  'Fees (24h)',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '\$${snapshot.data!.volume24h.formatNumber(precision: snapshot.data!.volume24h > 1 ? 2 : 8)}',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                Text(
+                                  '\$${snapshot.data!.fee24h.formatNumber(precision: snapshot.data!.fee24h > 1 ? 2 : 8)}',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Volume (All)',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                Text(
+                                  'Fees (All)',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '\$${snapshot.data!.volumeAllTime.formatNumber(precision: snapshot.data!.volumeAllTime > 1 ? 2 : 8)}',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                Text(
+                                  '\$${snapshot.data!.feeAllTime.formatNumber(precision: snapshot.data!.feeAllTime > 1 ? 2 : 8)}',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
                   ),
                   const SizedBox(
-                    height: 100,
+                    height: 50,
                   ),
                   Column(
                     children: [
