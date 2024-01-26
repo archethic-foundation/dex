@@ -76,6 +76,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                 ),
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text.rich(
@@ -96,14 +97,12 @@ class SwapConfirmInfos extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
                         style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      const SizedBox(
-                        width: 5,
                       ),
                       FutureBuilder<String>(
                         future: FiatValue().display(
@@ -115,7 +114,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                           if (snapshot.hasData) {
                             return Text(
                               snapshot.data!,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             );
                           }
                           return const SizedBox.shrink();
@@ -225,12 +224,13 @@ class SwapConfirmInfos extends ConsumerWidget {
                         ref,
                         swap.tokenToSwap!.symbol,
                         swap.swapFees,
+                        precision: 8,
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Text(
                             snapshot.data!,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           );
                         }
                         return const SizedBox.shrink();
