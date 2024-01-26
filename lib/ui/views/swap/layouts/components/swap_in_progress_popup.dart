@@ -4,6 +4,7 @@ import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/swap.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/swap/layouts/components/swap_final_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
@@ -113,6 +114,20 @@ class SwapInProgressPopup {
                                                   .swapSuccessInfo,
                                         ),
                                         const SwapInProgressTxAddresses(),
+                                        if (swap.recoveryTransactionSwap !=
+                                                null &&
+                                            swap.recoveryTransactionSwap!
+                                                    .address !=
+                                                null &&
+                                            swap.recoveryTransactionSwap!
+                                                    .address!.address !=
+                                                null)
+                                          SwapFinalAmount(
+                                            address: swap
+                                                .recoveryTransactionSwap!
+                                                .address!
+                                                .address!,
+                                          ),
                                         const Spacer(),
                                         DexInProgressResumeBtn(
                                           currentStep: swap.currentStep,

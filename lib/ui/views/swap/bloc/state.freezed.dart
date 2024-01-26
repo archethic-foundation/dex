@@ -36,6 +36,7 @@ mixin _$SwapFormState {
   double get minToReceive => throw _privateConstructorUsedError;
   double get priceImpact => throw _privateConstructorUsedError;
   double get estimatedReceived => throw _privateConstructorUsedError;
+  double? get finalAmount => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
   Transaction? get recoveryTransactionSwap =>
       throw _privateConstructorUsedError;
@@ -73,6 +74,7 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double minToReceive,
       double priceImpact,
       double estimatedReceived,
+      double? finalAmount,
       Failure? failure,
       Transaction? recoveryTransactionSwap,
       DexPool? poolInfos});
@@ -117,6 +119,7 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? minToReceive = null,
     Object? priceImpact = null,
     Object? estimatedReceived = null,
+    Object? finalAmount = freezed,
     Object? failure = freezed,
     Object? recoveryTransactionSwap = freezed,
     Object? poolInfos = freezed,
@@ -202,6 +205,10 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.estimatedReceived
           : estimatedReceived // ignore: cast_nullable_to_non_nullable
               as double,
+      finalAmount: freezed == finalAmount
+          ? _value.finalAmount
+          : finalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -307,6 +314,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
       double minToReceive,
       double priceImpact,
       double estimatedReceived,
+      double? finalAmount,
       Failure? failure,
       Transaction? recoveryTransactionSwap,
       DexPool? poolInfos});
@@ -354,6 +362,7 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
     Object? minToReceive = null,
     Object? priceImpact = null,
     Object? estimatedReceived = null,
+    Object? finalAmount = freezed,
     Object? failure = freezed,
     Object? recoveryTransactionSwap = freezed,
     Object? poolInfos = freezed,
@@ -439,6 +448,10 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
           ? _value.estimatedReceived
           : estimatedReceived // ignore: cast_nullable_to_non_nullable
               as double,
+      finalAmount: freezed == finalAmount
+          ? _value.finalAmount
+          : finalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -479,6 +492,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
       this.minToReceive = 0.0,
       this.priceImpact = 0.0,
       this.estimatedReceived = 0.0,
+      this.finalAmount,
       this.failure,
       this.recoveryTransactionSwap,
       this.poolInfos})
@@ -543,6 +557,8 @@ class _$SwapFormStateImpl extends _SwapFormState {
   @JsonKey()
   final double estimatedReceived;
   @override
+  final double? finalAmount;
+  @override
   final Failure? failure;
   @override
   final Transaction? recoveryTransactionSwap;
@@ -551,7 +567,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
 
   @override
   String toString() {
-    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, poolInfos: $poolInfos)';
+    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, poolInfos: $poolInfos)';
   }
 
   @override
@@ -597,6 +613,8 @@ class _$SwapFormStateImpl extends _SwapFormState {
                 other.priceImpact == priceImpact) &&
             (identical(other.estimatedReceived, estimatedReceived) ||
                 other.estimatedReceived == estimatedReceived) &&
+            (identical(other.finalAmount, finalAmount) ||
+                other.finalAmount == finalAmount) &&
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(
                     other.recoveryTransactionSwap, recoveryTransactionSwap) ||
@@ -628,6 +646,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
         minToReceive,
         priceImpact,
         estimatedReceived,
+        finalAmount,
         failure,
         recoveryTransactionSwap,
         poolInfos
@@ -662,6 +681,7 @@ abstract class _SwapFormState extends SwapFormState {
       final double minToReceive,
       final double priceImpact,
       final double estimatedReceived,
+      final double? finalAmount,
       final Failure? failure,
       final Transaction? recoveryTransactionSwap,
       final DexPool? poolInfos}) = _$SwapFormStateImpl;
@@ -707,6 +727,8 @@ abstract class _SwapFormState extends SwapFormState {
   double get priceImpact;
   @override
   double get estimatedReceived;
+  @override
+  double? get finalAmount;
   @override
   Failure? get failure;
   @override

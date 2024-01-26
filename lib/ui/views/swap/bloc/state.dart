@@ -33,6 +33,7 @@ class SwapFormState with _$SwapFormState {
     @Default(0.0) double minToReceive,
     @Default(0.0) double priceImpact,
     @Default(0.0) double estimatedReceived,
+    double? finalAmount,
     Failure? failure,
     Transaction? recoveryTransactionSwap,
     DexPool? poolInfos,
