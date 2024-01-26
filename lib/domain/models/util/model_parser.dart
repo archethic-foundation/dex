@@ -277,10 +277,34 @@ mixin ModelParser {
     DexPool pool, {
     DexFarm? dexFarmInput,
   }) async {
+    var remainingReward = 0.0;
+    if (getFarmInfosResponse.remainingReward == null) {
+      final transactionChainMap = await sl
+          .get<archethic.ApiService>()
+          .getTransactionChain({farmGenesisAddress: ''});
+      if (transactionChainMap[farmGenesisAddress] != null &&
+          transactionChainMap[farmGenesisAddress]!.isNotEmpty) {
+        final tx = transactionChainMap[farmGenesisAddress]!.first;
+
+        for (final txInput in tx.inputs) {
+          if (txInput.from != tx.address!.address &&
+              (txInput.type == 'UCO' &&
+                      getFarmInfosResponse.rewardToken == 'UCO' ||
+                  txInput.type != 'UCO' &&
+                      getFarmInfosResponse.rewardToken ==
+                          txInput.tokenAddress)) {
+            remainingReward = archethic.fromBigInt(txInput.amount).toDouble();
+          }
+        }
+      }
+    } else {
+      remainingReward = getFarmInfosResponse.remainingReward!;
+    }
+
     DexFarm? dexFarm = DexFarm(
       lpTokenDeposited: getFarmInfosResponse.lpTokenDeposited,
       nbDeposit: getFarmInfosResponse.nbDeposit,
-      remainingReward: getFarmInfosResponse.remainingReward,
+      remainingReward: remainingReward,
       endDate: getFarmInfosResponse.endDate,
       startDate: getFarmInfosResponse.startDate,
       farmAddress: farmGenesisAddress,
