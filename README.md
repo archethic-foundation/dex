@@ -216,7 +216,7 @@ Returns the info of the pool for the 2 tokens address.
 ```json
 {
   "address": "00001234...",
-  "lp_token_address": "00005678..."?
+  "lp_token_address": "00005678..."
 }
 ```
 
