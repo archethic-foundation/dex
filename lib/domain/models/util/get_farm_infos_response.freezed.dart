@@ -254,7 +254,7 @@ class _$GetFarmInfosResponseImpl implements _GetFarmInfosResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetFarmInfosResponseImpl &&
@@ -436,7 +436,7 @@ class _$StatsImpl implements _Stats {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StatsImpl &&

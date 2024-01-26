@@ -227,7 +227,7 @@ class _$GetPoolInfosResponseImpl implements _GetPoolInfosResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetPoolInfosResponseImpl &&
@@ -394,7 +394,7 @@ class _$TokenImpl implements _Token {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TokenImpl &&
@@ -544,7 +544,7 @@ class _$LPTokenImpl implements _LPToken {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LPTokenImpl &&
@@ -740,7 +740,7 @@ class _$StatsImpl implements _Stats {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StatsImpl &&
