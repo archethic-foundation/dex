@@ -21,11 +21,11 @@ GetPoolInfosResponse _$GetPoolInfosResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$GetPoolInfosResponse {
   Token get token1 => throw _privateConstructorUsedError;
-  Token get token2 =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  Token get token2 => throw _privateConstructorUsedError;
   @JsonKey(name: 'lp_token')
   LPToken get lpToken => throw _privateConstructorUsedError;
   double get fee => throw _privateConstructorUsedError;
+  Stats get stats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,11 +43,13 @@ abstract class $GetPoolInfosResponseCopyWith<$Res> {
       {Token token1,
       Token token2,
       @JsonKey(name: 'lp_token') LPToken lpToken,
-      double fee});
+      double fee,
+      Stats stats});
 
   $TokenCopyWith<$Res> get token1;
   $TokenCopyWith<$Res> get token2;
   $LPTokenCopyWith<$Res> get lpToken;
+  $StatsCopyWith<$Res> get stats;
 }
 
 /// @nodoc
@@ -68,6 +70,7 @@ class _$GetPoolInfosResponseCopyWithImpl<$Res,
     Object? token2 = null,
     Object? lpToken = null,
     Object? fee = null,
+    Object? stats = null,
   }) {
     return _then(_value.copyWith(
       token1: null == token1
@@ -86,6 +89,10 @@ class _$GetPoolInfosResponseCopyWithImpl<$Res,
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double,
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as Stats,
     ) as $Val);
   }
 
@@ -112,6 +119,14 @@ class _$GetPoolInfosResponseCopyWithImpl<$Res,
       return _then(_value.copyWith(lpToken: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StatsCopyWith<$Res> get stats {
+    return $StatsCopyWith<$Res>(_value.stats, (value) {
+      return _then(_value.copyWith(stats: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -126,7 +141,8 @@ abstract class _$$GetPoolInfosResponseImplCopyWith<$Res>
       {Token token1,
       Token token2,
       @JsonKey(name: 'lp_token') LPToken lpToken,
-      double fee});
+      double fee,
+      Stats stats});
 
   @override
   $TokenCopyWith<$Res> get token1;
@@ -134,6 +150,8 @@ abstract class _$$GetPoolInfosResponseImplCopyWith<$Res>
   $TokenCopyWith<$Res> get token2;
   @override
   $LPTokenCopyWith<$Res> get lpToken;
+  @override
+  $StatsCopyWith<$Res> get stats;
 }
 
 /// @nodoc
@@ -151,6 +169,7 @@ class __$$GetPoolInfosResponseImplCopyWithImpl<$Res>
     Object? token2 = null,
     Object? lpToken = null,
     Object? fee = null,
+    Object? stats = null,
   }) {
     return _then(_$GetPoolInfosResponseImpl(
       token1: null == token1
@@ -169,6 +188,10 @@ class __$$GetPoolInfosResponseImplCopyWithImpl<$Res>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double,
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as Stats,
     ));
   }
 }
@@ -180,7 +203,8 @@ class _$GetPoolInfosResponseImpl implements _GetPoolInfosResponse {
       {required this.token1,
       required this.token2,
       @JsonKey(name: 'lp_token') required this.lpToken,
-      required this.fee});
+      required this.fee,
+      required this.stats});
 
   factory _$GetPoolInfosResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetPoolInfosResponseImplFromJson(json);
@@ -189,32 +213,35 @@ class _$GetPoolInfosResponseImpl implements _GetPoolInfosResponse {
   final Token token1;
   @override
   final Token token2;
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: 'lp_token')
   final LPToken lpToken;
   @override
   final double fee;
+  @override
+  final Stats stats;
 
   @override
   String toString() {
-    return 'GetPoolInfosResponse(token1: $token1, token2: $token2, lpToken: $lpToken, fee: $fee)';
+    return 'GetPoolInfosResponse(token1: $token1, token2: $token2, lpToken: $lpToken, fee: $fee, stats: $stats)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetPoolInfosResponseImpl &&
             (identical(other.token1, token1) || other.token1 == token1) &&
             (identical(other.token2, token2) || other.token2 == token2) &&
             (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
-            (identical(other.fee, fee) || other.fee == fee));
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.stats, stats) || other.stats == stats));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, token1, token2, lpToken, fee);
+  int get hashCode =>
+      Object.hash(runtimeType, token1, token2, lpToken, fee, stats);
 
   @JsonKey(ignore: true)
   @override
@@ -237,7 +264,8 @@ abstract class _GetPoolInfosResponse implements GetPoolInfosResponse {
       {required final Token token1,
       required final Token token2,
       @JsonKey(name: 'lp_token') required final LPToken lpToken,
-      required final double fee}) = _$GetPoolInfosResponseImpl;
+      required final double fee,
+      required final Stats stats}) = _$GetPoolInfosResponseImpl;
 
   factory _GetPoolInfosResponse.fromJson(Map<String, dynamic> json) =
       _$GetPoolInfosResponseImpl.fromJson;
@@ -246,11 +274,13 @@ abstract class _GetPoolInfosResponse implements GetPoolInfosResponse {
   Token get token1;
   @override
   Token get token2;
-  @override // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'lp_token')
   LPToken get lpToken;
   @override
   double get fee;
+  @override
+  Stats get stats;
   @override
   @JsonKey(ignore: true)
   _$$GetPoolInfosResponseImplCopyWith<_$GetPoolInfosResponseImpl>
@@ -364,7 +394,7 @@ class _$TokenImpl implements _Token {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TokenImpl &&
@@ -514,7 +544,7 @@ class _$LPTokenImpl implements _LPToken {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LPTokenImpl &&
@@ -554,5 +584,220 @@ abstract class _LPToken implements LPToken {
   @override
   @JsonKey(ignore: true)
   _$$LPTokenImplCopyWith<_$LPTokenImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Stats _$StatsFromJson(Map<String, dynamic> json) {
+  return _Stats.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Stats {
+  @JsonKey(name: 'token1_total_fee')
+  double get token1TotalFee => throw _privateConstructorUsedError;
+  @JsonKey(name: 'token1_total_volume')
+  double get token1TotalVolume => throw _privateConstructorUsedError;
+  @JsonKey(name: 'token2_total_fee')
+  double get token2TotalFee => throw _privateConstructorUsedError;
+  @JsonKey(name: 'token2_total_volume')
+  double get token2TotalVolume => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $StatsCopyWith<Stats> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $StatsCopyWith<$Res> {
+  factory $StatsCopyWith(Stats value, $Res Function(Stats) then) =
+      _$StatsCopyWithImpl<$Res, Stats>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'token1_total_fee') double token1TotalFee,
+      @JsonKey(name: 'token1_total_volume') double token1TotalVolume,
+      @JsonKey(name: 'token2_total_fee') double token2TotalFee,
+      @JsonKey(name: 'token2_total_volume') double token2TotalVolume});
+}
+
+/// @nodoc
+class _$StatsCopyWithImpl<$Res, $Val extends Stats>
+    implements $StatsCopyWith<$Res> {
+  _$StatsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token1TotalFee = null,
+    Object? token1TotalVolume = null,
+    Object? token2TotalFee = null,
+    Object? token2TotalVolume = null,
+  }) {
+    return _then(_value.copyWith(
+      token1TotalFee: null == token1TotalFee
+          ? _value.token1TotalFee
+          : token1TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1TotalVolume: null == token1TotalVolume
+          ? _value.token1TotalVolume
+          : token1TotalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalFee: null == token2TotalFee
+          ? _value.token2TotalFee
+          : token2TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalVolume: null == token2TotalVolume
+          ? _value.token2TotalVolume
+          : token2TotalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$StatsImplCopyWith<$Res> implements $StatsCopyWith<$Res> {
+  factory _$$StatsImplCopyWith(
+          _$StatsImpl value, $Res Function(_$StatsImpl) then) =
+      __$$StatsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'token1_total_fee') double token1TotalFee,
+      @JsonKey(name: 'token1_total_volume') double token1TotalVolume,
+      @JsonKey(name: 'token2_total_fee') double token2TotalFee,
+      @JsonKey(name: 'token2_total_volume') double token2TotalVolume});
+}
+
+/// @nodoc
+class __$$StatsImplCopyWithImpl<$Res>
+    extends _$StatsCopyWithImpl<$Res, _$StatsImpl>
+    implements _$$StatsImplCopyWith<$Res> {
+  __$$StatsImplCopyWithImpl(
+      _$StatsImpl _value, $Res Function(_$StatsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token1TotalFee = null,
+    Object? token1TotalVolume = null,
+    Object? token2TotalFee = null,
+    Object? token2TotalVolume = null,
+  }) {
+    return _then(_$StatsImpl(
+      token1TotalFee: null == token1TotalFee
+          ? _value.token1TotalFee
+          : token1TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1TotalVolume: null == token1TotalVolume
+          ? _value.token1TotalVolume
+          : token1TotalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalFee: null == token2TotalFee
+          ? _value.token2TotalFee
+          : token2TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalVolume: null == token2TotalVolume
+          ? _value.token2TotalVolume
+          : token2TotalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StatsImpl implements _Stats {
+  const _$StatsImpl(
+      {@JsonKey(name: 'token1_total_fee') required this.token1TotalFee,
+      @JsonKey(name: 'token1_total_volume') required this.token1TotalVolume,
+      @JsonKey(name: 'token2_total_fee') required this.token2TotalFee,
+      @JsonKey(name: 'token2_total_volume') required this.token2TotalVolume});
+
+  factory _$StatsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StatsImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'token1_total_fee')
+  final double token1TotalFee;
+  @override
+  @JsonKey(name: 'token1_total_volume')
+  final double token1TotalVolume;
+  @override
+  @JsonKey(name: 'token2_total_fee')
+  final double token2TotalFee;
+  @override
+  @JsonKey(name: 'token2_total_volume')
+  final double token2TotalVolume;
+
+  @override
+  String toString() {
+    return 'Stats(token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StatsImpl &&
+            (identical(other.token1TotalFee, token1TotalFee) ||
+                other.token1TotalFee == token1TotalFee) &&
+            (identical(other.token1TotalVolume, token1TotalVolume) ||
+                other.token1TotalVolume == token1TotalVolume) &&
+            (identical(other.token2TotalFee, token2TotalFee) ||
+                other.token2TotalFee == token2TotalFee) &&
+            (identical(other.token2TotalVolume, token2TotalVolume) ||
+                other.token2TotalVolume == token2TotalVolume));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, token1TotalFee,
+      token1TotalVolume, token2TotalFee, token2TotalVolume);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StatsImplCopyWith<_$StatsImpl> get copyWith =>
+      __$$StatsImplCopyWithImpl<_$StatsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StatsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Stats implements Stats {
+  const factory _Stats(
+      {@JsonKey(name: 'token1_total_fee') required final double token1TotalFee,
+      @JsonKey(name: 'token1_total_volume')
+      required final double token1TotalVolume,
+      @JsonKey(name: 'token2_total_fee') required final double token2TotalFee,
+      @JsonKey(name: 'token2_total_volume')
+      required final double token2TotalVolume}) = _$StatsImpl;
+
+  factory _Stats.fromJson(Map<String, dynamic> json) = _$StatsImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'token1_total_fee')
+  double get token1TotalFee;
+  @override
+  @JsonKey(name: 'token1_total_volume')
+  double get token1TotalVolume;
+  @override
+  @JsonKey(name: 'token2_total_fee')
+  double get token2TotalFee;
+  @override
+  @JsonKey(name: 'token2_total_volume')
+  double get token2TotalVolume;
+  @override
+  @JsonKey(ignore: true)
+  _$$StatsImplCopyWith<_$StatsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -58,8 +58,8 @@ class SwapConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   children: [
                     TextSpan(
                       text:
@@ -78,8 +78,8 @@ class SwapConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RichText(
-                    text: TextSpan(
+                  Text.rich(
+                    TextSpan(
                       children: [
                         TextSpan(
                           text:

@@ -15,8 +15,18 @@ class GetFarmInfosResponse with _$GetFarmInfosResponse {
     @JsonKey(name: 'remaining_reward') required double remainingReward,
     @JsonKey(name: 'lp_token_deposited') required double lpTokenDeposited,
     @JsonKey(name: 'nb_deposit') required int nbDeposit,
+    required Stats stats,
   }) = _GetFarmInfosResponse;
 
   factory GetFarmInfosResponse.fromJson(Map<String, dynamic> json) =>
       _$GetFarmInfosResponseFromJson(json);
+}
+
+@freezed
+class Stats with _$Stats {
+  const factory Stats({
+    @JsonKey(name: 'reward_distributed') required double rewardDistributed,
+  }) = _Stats;
+
+  factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
 }

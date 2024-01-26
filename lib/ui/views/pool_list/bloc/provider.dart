@@ -3,13 +3,11 @@ import 'package:aedex/ui/views/pool_list/bloc/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _poolListFormProvider =
-    NotifierProvider.autoDispose<PoolListFormNotifier, PoolListFormState>(
-  () {
-    return PoolListFormNotifier();
-  },
+    NotifierProvider<PoolListFormNotifier, PoolListFormState>(
+  PoolListFormNotifier.new,
 );
 
-class PoolListFormNotifier extends AutoDisposeNotifier<PoolListFormState> {
+class PoolListFormNotifier extends Notifier<PoolListFormState> {
   PoolListFormNotifier();
 
   @override

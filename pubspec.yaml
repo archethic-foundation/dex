@@ -24,6 +24,9 @@ dependencies:
   # The decimal package allows you to deal with decimal numbers without losing precision
   decimal: ^2.3.3
 
+  # A component that provides flip card animation. It could be used for hide and show details of a product.
+  flip_card: ^0.7.0
+
   flutter:
     sdk: flutter
 

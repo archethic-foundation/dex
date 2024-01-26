@@ -4,6 +4,7 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -54,8 +55,8 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                 ),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return RichText(
-                      text: TextSpan(
+                    return Text.rich(
+                      TextSpan(
                         children: [
                           TextSpan(
                             text: 'Please confirm the claim of ',
@@ -63,7 +64,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                           ),
                           TextSpan(
                             text: farmClaim.dexFarmUserInfo!.rewardAmount
-                                .toString(),
+                                .formatNumber(precision: 8),
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       color: DexThemeBase.secondaryColor,

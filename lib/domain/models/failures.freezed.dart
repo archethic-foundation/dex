@@ -246,7 +246,7 @@ class _$LoggedOutImpl extends LoggedOut {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$LoggedOutImpl);
   }
@@ -462,7 +462,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$NetworkFailureImpl);
   }
@@ -696,7 +696,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuotaExceededFailureImpl &&
@@ -929,7 +929,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$ServiceNotFoundImpl);
   }
@@ -1145,7 +1145,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ServiceAlreadyExistsImpl);
@@ -1362,7 +1362,7 @@ class _$PoolAlreadyExistsImpl extends PoolAlreadyExists {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$PoolAlreadyExistsImpl);
   }
@@ -1581,7 +1581,7 @@ class _$LPTokenAmountExceedBalanceImpl extends LPTokenAmountExceedBalance {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LPTokenAmountExceedBalanceImpl);
@@ -1798,7 +1798,7 @@ class _$PoolNotExistsImpl extends PoolNotExists {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$PoolNotExistsImpl);
   }
@@ -2014,7 +2014,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$InsufficientFundsImpl);
   }
@@ -2230,7 +2230,7 @@ class _$UnauthorizedImpl extends Unauthorized {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$UnauthorizedImpl);
   }
@@ -2446,7 +2446,7 @@ class _$InvalidValueImpl extends InvalidValue {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$InvalidValueImpl);
   }
@@ -2680,7 +2680,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WrongNetworkImpl &&
@@ -2909,7 +2909,7 @@ class _$IncompatibleBrowserImpl extends IncompatibleBrowser {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$IncompatibleBrowserImpl);
@@ -3126,7 +3126,7 @@ class _$UserRejectedImpl extends UserRejected {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$UserRejectedImpl);
   }
@@ -3343,7 +3343,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ConnectivityArchethicImpl);
@@ -3560,7 +3560,7 @@ class _$TimeoutImpl extends Timeout {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$TimeoutImpl);
   }
@@ -3800,7 +3800,7 @@ class _$OtherFailureImpl extends OtherFailure {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OtherFailureImpl &&

@@ -34,6 +34,7 @@ mixin _$GetFarmInfosResponse {
   double get lpTokenDeposited => throw _privateConstructorUsedError;
   @JsonKey(name: 'nb_deposit')
   int get nbDeposit => throw _privateConstructorUsedError;
+  Stats get stats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +55,10 @@ abstract class $GetFarmInfosResponseCopyWith<$Res> {
       @JsonKey(name: 'end_date') int endDate,
       @JsonKey(name: 'remaining_reward') double remainingReward,
       @JsonKey(name: 'lp_token_deposited') double lpTokenDeposited,
-      @JsonKey(name: 'nb_deposit') int nbDeposit});
+      @JsonKey(name: 'nb_deposit') int nbDeposit,
+      Stats stats});
+
+  $StatsCopyWith<$Res> get stats;
 }
 
 /// @nodoc
@@ -78,6 +82,7 @@ class _$GetFarmInfosResponseCopyWithImpl<$Res,
     Object? remainingReward = null,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
+    Object? stats = null,
   }) {
     return _then(_value.copyWith(
       lpTokenAddress: null == lpTokenAddress
@@ -108,7 +113,19 @@ class _$GetFarmInfosResponseCopyWithImpl<$Res,
           ? _value.nbDeposit
           : nbDeposit // ignore: cast_nullable_to_non_nullable
               as int,
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as Stats,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StatsCopyWith<$Res> get stats {
+    return $StatsCopyWith<$Res>(_value.stats, (value) {
+      return _then(_value.copyWith(stats: value) as $Val);
+    });
   }
 }
 
@@ -127,7 +144,11 @@ abstract class _$$GetFarmInfosResponseImplCopyWith<$Res>
       @JsonKey(name: 'end_date') int endDate,
       @JsonKey(name: 'remaining_reward') double remainingReward,
       @JsonKey(name: 'lp_token_deposited') double lpTokenDeposited,
-      @JsonKey(name: 'nb_deposit') int nbDeposit});
+      @JsonKey(name: 'nb_deposit') int nbDeposit,
+      Stats stats});
+
+  @override
+  $StatsCopyWith<$Res> get stats;
 }
 
 /// @nodoc
@@ -148,6 +169,7 @@ class __$$GetFarmInfosResponseImplCopyWithImpl<$Res>
     Object? remainingReward = null,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
+    Object? stats = null,
   }) {
     return _then(_$GetFarmInfosResponseImpl(
       lpTokenAddress: null == lpTokenAddress
@@ -178,6 +200,10 @@ class __$$GetFarmInfosResponseImplCopyWithImpl<$Res>
           ? _value.nbDeposit
           : nbDeposit // ignore: cast_nullable_to_non_nullable
               as int,
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as Stats,
     ));
   }
 }
@@ -192,7 +218,8 @@ class _$GetFarmInfosResponseImpl implements _GetFarmInfosResponse {
       @JsonKey(name: 'end_date') required this.endDate,
       @JsonKey(name: 'remaining_reward') required this.remainingReward,
       @JsonKey(name: 'lp_token_deposited') required this.lpTokenDeposited,
-      @JsonKey(name: 'nb_deposit') required this.nbDeposit});
+      @JsonKey(name: 'nb_deposit') required this.nbDeposit,
+      required this.stats});
 
   factory _$GetFarmInfosResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetFarmInfosResponseImplFromJson(json);
@@ -218,14 +245,16 @@ class _$GetFarmInfosResponseImpl implements _GetFarmInfosResponse {
   @override
   @JsonKey(name: 'nb_deposit')
   final int nbDeposit;
+  @override
+  final Stats stats;
 
   @override
   String toString() {
-    return 'GetFarmInfosResponse(lpTokenAddress: $lpTokenAddress, rewardToken: $rewardToken, startDate: $startDate, endDate: $endDate, remainingReward: $remainingReward, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit)';
+    return 'GetFarmInfosResponse(lpTokenAddress: $lpTokenAddress, rewardToken: $rewardToken, startDate: $startDate, endDate: $endDate, remainingReward: $remainingReward, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit, stats: $stats)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetFarmInfosResponseImpl &&
@@ -241,13 +270,14 @@ class _$GetFarmInfosResponseImpl implements _GetFarmInfosResponse {
             (identical(other.lpTokenDeposited, lpTokenDeposited) ||
                 other.lpTokenDeposited == lpTokenDeposited) &&
             (identical(other.nbDeposit, nbDeposit) ||
-                other.nbDeposit == nbDeposit));
+                other.nbDeposit == nbDeposit) &&
+            (identical(other.stats, stats) || other.stats == stats));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, lpTokenAddress, rewardToken,
-      startDate, endDate, remainingReward, lpTokenDeposited, nbDeposit);
+      startDate, endDate, remainingReward, lpTokenDeposited, nbDeposit, stats);
 
   @JsonKey(ignore: true)
   @override
@@ -274,8 +304,8 @@ abstract class _GetFarmInfosResponse implements GetFarmInfosResponse {
       @JsonKey(name: 'remaining_reward') required final double remainingReward,
       @JsonKey(name: 'lp_token_deposited')
       required final double lpTokenDeposited,
-      @JsonKey(name: 'nb_deposit')
-      required final int nbDeposit}) = _$GetFarmInfosResponseImpl;
+      @JsonKey(name: 'nb_deposit') required final int nbDeposit,
+      required final Stats stats}) = _$GetFarmInfosResponseImpl;
 
   factory _GetFarmInfosResponse.fromJson(Map<String, dynamic> json) =
       _$GetFarmInfosResponseImpl.fromJson;
@@ -302,7 +332,148 @@ abstract class _GetFarmInfosResponse implements GetFarmInfosResponse {
   @JsonKey(name: 'nb_deposit')
   int get nbDeposit;
   @override
+  Stats get stats;
+  @override
   @JsonKey(ignore: true)
   _$$GetFarmInfosResponseImplCopyWith<_$GetFarmInfosResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+Stats _$StatsFromJson(Map<String, dynamic> json) {
+  return _Stats.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Stats {
+  @JsonKey(name: 'reward_distributed')
+  double get rewardDistributed => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $StatsCopyWith<Stats> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $StatsCopyWith<$Res> {
+  factory $StatsCopyWith(Stats value, $Res Function(Stats) then) =
+      _$StatsCopyWithImpl<$Res, Stats>;
+  @useResult
+  $Res call({@JsonKey(name: 'reward_distributed') double rewardDistributed});
+}
+
+/// @nodoc
+class _$StatsCopyWithImpl<$Res, $Val extends Stats>
+    implements $StatsCopyWith<$Res> {
+  _$StatsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rewardDistributed = null,
+  }) {
+    return _then(_value.copyWith(
+      rewardDistributed: null == rewardDistributed
+          ? _value.rewardDistributed
+          : rewardDistributed // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$StatsImplCopyWith<$Res> implements $StatsCopyWith<$Res> {
+  factory _$$StatsImplCopyWith(
+          _$StatsImpl value, $Res Function(_$StatsImpl) then) =
+      __$$StatsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: 'reward_distributed') double rewardDistributed});
+}
+
+/// @nodoc
+class __$$StatsImplCopyWithImpl<$Res>
+    extends _$StatsCopyWithImpl<$Res, _$StatsImpl>
+    implements _$$StatsImplCopyWith<$Res> {
+  __$$StatsImplCopyWithImpl(
+      _$StatsImpl _value, $Res Function(_$StatsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rewardDistributed = null,
+  }) {
+    return _then(_$StatsImpl(
+      rewardDistributed: null == rewardDistributed
+          ? _value.rewardDistributed
+          : rewardDistributed // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StatsImpl implements _Stats {
+  const _$StatsImpl(
+      {@JsonKey(name: 'reward_distributed') required this.rewardDistributed});
+
+  factory _$StatsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StatsImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'reward_distributed')
+  final double rewardDistributed;
+
+  @override
+  String toString() {
+    return 'Stats(rewardDistributed: $rewardDistributed)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StatsImpl &&
+            (identical(other.rewardDistributed, rewardDistributed) ||
+                other.rewardDistributed == rewardDistributed));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, rewardDistributed);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StatsImplCopyWith<_$StatsImpl> get copyWith =>
+      __$$StatsImplCopyWithImpl<_$StatsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StatsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Stats implements Stats {
+  const factory _Stats(
+      {@JsonKey(name: 'reward_distributed')
+      required final double rewardDistributed}) = _$StatsImpl;
+
+  factory _Stats.fromJson(Map<String, dynamic> json) = _$StatsImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'reward_distributed')
+  double get rewardDistributed;
+  @override
+  @JsonKey(ignore: true)
+  _$$StatsImplCopyWith<_$StatsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

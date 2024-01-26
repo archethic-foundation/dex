@@ -137,6 +137,10 @@ mixin ModelParser {
       fees: getPoolInfosResponse.fee,
       ratioToken1Token2: ratioToken1Token2,
       ratioToken2Token1: ratioToken2Token1,
+      token1TotalFee: getPoolInfosResponse.stats.token1TotalFee,
+      token1TotalVolume: getPoolInfosResponse.stats.token1TotalVolume,
+      token2TotalFee: getPoolInfosResponse.stats.token2TotalFee,
+      token2TotalVolume: getPoolInfosResponse.stats.token2TotalVolume,
     );
   }
 
@@ -282,6 +286,7 @@ mixin ModelParser {
       farmAddress: farmGenesisAddress,
       poolAddress: pool.poolAddress,
       lpTokenPair: pool.pair,
+      statsRewardDistributed: getFarmInfosResponse.stats.rewardDistributed,
     );
     if (dexFarmInput == null || dexFarmInput.lpToken == null) {
       final adressesToSearch = <String>[getFarmInfosResponse.lpTokenAddress];

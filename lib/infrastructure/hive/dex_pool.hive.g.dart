@@ -26,13 +26,17 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
       ratioToken2Token1: fields[6] as double,
       estimatePoolTVLInFiat: fields[7] as double,
       lpTokenInUserBalance: fields[8] as bool,
+      token1TotalFee: fields[9] as double?,
+      token1TotalVolume: fields[10] as double?,
+      token2TotalFee: fields[11] as double?,
+      token2TotalVolume: fields[12] as double?,
     );
   }
 
   @override
   void write(BinaryWriter writer, DexPoolHive obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.poolAddress)
       ..writeByte(1)
@@ -50,7 +54,15 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
       ..writeByte(7)
       ..write(obj.estimatePoolTVLInFiat)
       ..writeByte(8)
-      ..write(obj.lpTokenInUserBalance);
+      ..write(obj.lpTokenInUserBalance)
+      ..writeByte(9)
+      ..write(obj.token1TotalFee)
+      ..writeByte(10)
+      ..write(obj.token1TotalVolume)
+      ..writeByte(11)
+      ..write(obj.token2TotalFee)
+      ..writeByte(12)
+      ..write(obj.token2TotalVolume);
   }
 
   @override

@@ -25,6 +25,10 @@ mixin _$DexPool {
   double get ratioToken2Token1 => throw _privateConstructorUsedError;
   double get estimatePoolTVLInFiat => throw _privateConstructorUsedError;
   bool get lpTokenInUserBalance => throw _privateConstructorUsedError;
+  double get token1TotalFee => throw _privateConstructorUsedError;
+  double get token1TotalVolume => throw _privateConstructorUsedError;
+  double get token2TotalFee => throw _privateConstructorUsedError;
+  double get token2TotalVolume => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexPoolCopyWith<DexPool> get copyWith => throw _privateConstructorUsedError;
@@ -44,7 +48,11 @@ abstract class $DexPoolCopyWith<$Res> {
       double ratioToken1Token2,
       double ratioToken2Token1,
       double estimatePoolTVLInFiat,
-      bool lpTokenInUserBalance});
+      bool lpTokenInUserBalance,
+      double token1TotalFee,
+      double token1TotalVolume,
+      double token2TotalFee,
+      double token2TotalVolume});
 
   $DexTokenCopyWith<$Res>? get lpToken;
   $DexPairCopyWith<$Res>? get pair;
@@ -72,6 +80,10 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
     Object? ratioToken2Token1 = null,
     Object? estimatePoolTVLInFiat = null,
     Object? lpTokenInUserBalance = null,
+    Object? token1TotalFee = null,
+    Object? token1TotalVolume = null,
+    Object? token2TotalFee = null,
+    Object? token2TotalVolume = null,
   }) {
     return _then(_value.copyWith(
       poolAddress: null == poolAddress
@@ -110,6 +122,22 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
           ? _value.lpTokenInUserBalance
           : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
               as bool,
+      token1TotalFee: null == token1TotalFee
+          ? _value.token1TotalFee
+          : token1TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1TotalVolume: null == token1TotalVolume
+          ? _value.token1TotalVolume
+          : token1TotalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalFee: null == token2TotalFee
+          ? _value.token2TotalFee
+          : token2TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalVolume: null == token2TotalVolume
+          ? _value.token2TotalVolume
+          : token2TotalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 
@@ -154,7 +182,11 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
       double ratioToken1Token2,
       double ratioToken2Token1,
       double estimatePoolTVLInFiat,
-      bool lpTokenInUserBalance});
+      bool lpTokenInUserBalance,
+      double token1TotalFee,
+      double token1TotalVolume,
+      double token2TotalFee,
+      double token2TotalVolume});
 
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -182,6 +214,10 @@ class __$$DexPoolImplCopyWithImpl<$Res>
     Object? ratioToken2Token1 = null,
     Object? estimatePoolTVLInFiat = null,
     Object? lpTokenInUserBalance = null,
+    Object? token1TotalFee = null,
+    Object? token1TotalVolume = null,
+    Object? token2TotalFee = null,
+    Object? token2TotalVolume = null,
   }) {
     return _then(_$DexPoolImpl(
       poolAddress: null == poolAddress
@@ -220,6 +256,22 @@ class __$$DexPoolImplCopyWithImpl<$Res>
           ? _value.lpTokenInUserBalance
           : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
               as bool,
+      token1TotalFee: null == token1TotalFee
+          ? _value.token1TotalFee
+          : token1TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1TotalVolume: null == token1TotalVolume
+          ? _value.token1TotalVolume
+          : token1TotalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalFee: null == token2TotalFee
+          ? _value.token2TotalFee
+          : token2TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalVolume: null == token2TotalVolume
+          ? _value.token2TotalVolume
+          : token2TotalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -236,7 +288,11 @@ class _$DexPoolImpl extends _DexPool {
       this.ratioToken1Token2 = 0.0,
       this.ratioToken2Token1 = 0.0,
       this.estimatePoolTVLInFiat = 0.0,
-      this.lpTokenInUserBalance = false})
+      this.lpTokenInUserBalance = false,
+      this.token1TotalFee = 0.0,
+      this.token1TotalVolume = 0.0,
+      this.token2TotalFee = 0.0,
+      this.token2TotalVolume = 0.0})
       : super._();
 
   @override
@@ -264,14 +320,26 @@ class _$DexPoolImpl extends _DexPool {
   @override
   @JsonKey()
   final bool lpTokenInUserBalance;
+  @override
+  @JsonKey()
+  final double token1TotalFee;
+  @override
+  @JsonKey()
+  final double token1TotalVolume;
+  @override
+  @JsonKey()
+  final double token2TotalFee;
+  @override
+  @JsonKey()
+  final double token2TotalVolume;
 
   @override
   String toString() {
-    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, ranking: $ranking, pair: $pair, fees: $fees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, estimatePoolTVLInFiat: $estimatePoolTVLInFiat, lpTokenInUserBalance: $lpTokenInUserBalance)';
+    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, ranking: $ranking, pair: $pair, fees: $fees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, estimatePoolTVLInFiat: $estimatePoolTVLInFiat, lpTokenInUserBalance: $lpTokenInUserBalance, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DexPoolImpl &&
@@ -288,7 +356,15 @@ class _$DexPoolImpl extends _DexPool {
             (identical(other.estimatePoolTVLInFiat, estimatePoolTVLInFiat) ||
                 other.estimatePoolTVLInFiat == estimatePoolTVLInFiat) &&
             (identical(other.lpTokenInUserBalance, lpTokenInUserBalance) ||
-                other.lpTokenInUserBalance == lpTokenInUserBalance));
+                other.lpTokenInUserBalance == lpTokenInUserBalance) &&
+            (identical(other.token1TotalFee, token1TotalFee) ||
+                other.token1TotalFee == token1TotalFee) &&
+            (identical(other.token1TotalVolume, token1TotalVolume) ||
+                other.token1TotalVolume == token1TotalVolume) &&
+            (identical(other.token2TotalFee, token2TotalFee) ||
+                other.token2TotalFee == token2TotalFee) &&
+            (identical(other.token2TotalVolume, token2TotalVolume) ||
+                other.token2TotalVolume == token2TotalVolume));
   }
 
   @override
@@ -302,7 +378,11 @@ class _$DexPoolImpl extends _DexPool {
       ratioToken1Token2,
       ratioToken2Token1,
       estimatePoolTVLInFiat,
-      lpTokenInUserBalance);
+      lpTokenInUserBalance,
+      token1TotalFee,
+      token1TotalVolume,
+      token2TotalFee,
+      token2TotalVolume);
 
   @JsonKey(ignore: true)
   @override
@@ -321,7 +401,11 @@ abstract class _DexPool extends DexPool {
       final double ratioToken1Token2,
       final double ratioToken2Token1,
       final double estimatePoolTVLInFiat,
-      final bool lpTokenInUserBalance}) = _$DexPoolImpl;
+      final bool lpTokenInUserBalance,
+      final double token1TotalFee,
+      final double token1TotalVolume,
+      final double token2TotalFee,
+      final double token2TotalVolume}) = _$DexPoolImpl;
   const _DexPool._() : super._();
 
   @override
@@ -342,6 +426,14 @@ abstract class _DexPool extends DexPool {
   double get estimatePoolTVLInFiat;
   @override
   bool get lpTokenInUserBalance;
+  @override
+  double get token1TotalFee;
+  @override
+  double get token1TotalVolume;
+  @override
+  double get token2TotalFee;
+  @override
+  double get token2TotalVolume;
   @override
   @JsonKey(ignore: true)
   _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>

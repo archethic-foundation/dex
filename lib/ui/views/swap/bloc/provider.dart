@@ -353,24 +353,13 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       return;
     }
 
-    final apiService = sl.get<ApiService>();
-    final poolRatioResult = await PoolFactory(
-      state.poolGenesisAddress,
-      apiService,
-    ).getPoolRatio(
-      state.tokenToSwap!.address == null ? 'UCO' : state.tokenToSwap!.address!,
+    final ratio = await ref.read(
+      DexPoolProviders.getRatio(
+        state.poolGenesisAddress,
+        state.tokenToSwap!,
+      ).future,
     );
-    var ratio = 0.0;
-    poolRatioResult.map(
-      success: (success) {
-        if (success != null) {
-          ratio = success;
-        }
-      },
-      failure: (failure) {
-        setFailure(Failure.other(cause: 'poolRatioResult error $failure'));
-      },
-    );
+
     state = state.copyWith(ratio: ratio);
   }
 
