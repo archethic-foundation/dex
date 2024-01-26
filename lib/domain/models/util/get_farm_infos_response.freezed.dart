@@ -29,7 +29,7 @@ mixin _$GetFarmInfosResponse {
   @JsonKey(name: 'end_date')
   int get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'remaining_reward')
-  double get remainingReward => throw _privateConstructorUsedError;
+  double? get remainingReward => throw _privateConstructorUsedError;
   @JsonKey(name: 'lp_token_deposited')
   double get lpTokenDeposited => throw _privateConstructorUsedError;
   @JsonKey(name: 'nb_deposit')
@@ -53,7 +53,7 @@ abstract class $GetFarmInfosResponseCopyWith<$Res> {
       @JsonKey(name: 'reward_token') String rewardToken,
       @JsonKey(name: 'start_date') int startDate,
       @JsonKey(name: 'end_date') int endDate,
-      @JsonKey(name: 'remaining_reward') double remainingReward,
+      @JsonKey(name: 'remaining_reward') double? remainingReward,
       @JsonKey(name: 'lp_token_deposited') double lpTokenDeposited,
       @JsonKey(name: 'nb_deposit') int nbDeposit,
       Stats stats});
@@ -79,7 +79,7 @@ class _$GetFarmInfosResponseCopyWithImpl<$Res,
     Object? rewardToken = null,
     Object? startDate = null,
     Object? endDate = null,
-    Object? remainingReward = null,
+    Object? remainingReward = freezed,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
     Object? stats = null,
@@ -101,10 +101,10 @@ class _$GetFarmInfosResponseCopyWithImpl<$Res,
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as int,
-      remainingReward: null == remainingReward
+      remainingReward: freezed == remainingReward
           ? _value.remainingReward
           : remainingReward // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       lpTokenDeposited: null == lpTokenDeposited
           ? _value.lpTokenDeposited
           : lpTokenDeposited // ignore: cast_nullable_to_non_nullable
@@ -142,7 +142,7 @@ abstract class _$$GetFarmInfosResponseImplCopyWith<$Res>
       @JsonKey(name: 'reward_token') String rewardToken,
       @JsonKey(name: 'start_date') int startDate,
       @JsonKey(name: 'end_date') int endDate,
-      @JsonKey(name: 'remaining_reward') double remainingReward,
+      @JsonKey(name: 'remaining_reward') double? remainingReward,
       @JsonKey(name: 'lp_token_deposited') double lpTokenDeposited,
       @JsonKey(name: 'nb_deposit') int nbDeposit,
       Stats stats});
@@ -166,7 +166,7 @@ class __$$GetFarmInfosResponseImplCopyWithImpl<$Res>
     Object? rewardToken = null,
     Object? startDate = null,
     Object? endDate = null,
-    Object? remainingReward = null,
+    Object? remainingReward = freezed,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
     Object? stats = null,
@@ -188,10 +188,10 @@ class __$$GetFarmInfosResponseImplCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as int,
-      remainingReward: null == remainingReward
+      remainingReward: freezed == remainingReward
           ? _value.remainingReward
           : remainingReward // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       lpTokenDeposited: null == lpTokenDeposited
           ? _value.lpTokenDeposited
           : lpTokenDeposited // ignore: cast_nullable_to_non_nullable
@@ -216,7 +216,7 @@ class _$GetFarmInfosResponseImpl implements _GetFarmInfosResponse {
       @JsonKey(name: 'reward_token') required this.rewardToken,
       @JsonKey(name: 'start_date') required this.startDate,
       @JsonKey(name: 'end_date') required this.endDate,
-      @JsonKey(name: 'remaining_reward') required this.remainingReward,
+      @JsonKey(name: 'remaining_reward') this.remainingReward,
       @JsonKey(name: 'lp_token_deposited') required this.lpTokenDeposited,
       @JsonKey(name: 'nb_deposit') required this.nbDeposit,
       required this.stats});
@@ -238,7 +238,7 @@ class _$GetFarmInfosResponseImpl implements _GetFarmInfosResponse {
   final int endDate;
   @override
   @JsonKey(name: 'remaining_reward')
-  final double remainingReward;
+  final double? remainingReward;
   @override
   @JsonKey(name: 'lp_token_deposited')
   final double lpTokenDeposited;
@@ -301,7 +301,7 @@ abstract class _GetFarmInfosResponse implements GetFarmInfosResponse {
       @JsonKey(name: 'reward_token') required final String rewardToken,
       @JsonKey(name: 'start_date') required final int startDate,
       @JsonKey(name: 'end_date') required final int endDate,
-      @JsonKey(name: 'remaining_reward') required final double remainingReward,
+      @JsonKey(name: 'remaining_reward') final double? remainingReward,
       @JsonKey(name: 'lp_token_deposited')
       required final double lpTokenDeposited,
       @JsonKey(name: 'nb_deposit') required final int nbDeposit,
@@ -324,7 +324,7 @@ abstract class _GetFarmInfosResponse implements GetFarmInfosResponse {
   int get endDate;
   @override
   @JsonKey(name: 'remaining_reward')
-  double get remainingReward;
+  double? get remainingReward;
   @override
   @JsonKey(name: 'lp_token_deposited')
   double get lpTokenDeposited;

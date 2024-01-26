@@ -13,7 +13,7 @@ _$GetFarmInfosResponseImpl _$$GetFarmInfosResponseImplFromJson(
       rewardToken: json['reward_token'] as String,
       startDate: json['start_date'] as int,
       endDate: json['end_date'] as int,
-      remainingReward: (json['remaining_reward'] as num).toDouble(),
+      remainingReward: (json['remaining_reward'] as num?)?.toDouble(),
       lpTokenDeposited: (json['lp_token_deposited'] as num).toDouble(),
       nbDeposit: json['nb_deposit'] as int,
       stats: Stats.fromJson(json['stats'] as Map<String, dynamic>),

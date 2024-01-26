@@ -244,15 +244,18 @@ fun calculate_new_rewards() do
 end
 
 export fun get_farm_infos() do
-  reward_token_balance = State.get("reward_token_balance", 0)
-  rewards_reserved = State.get("rewards_reserved", 0)
+  reward_token_balance = State.get("reward_token_balance")
+  remaining_reward = nil
+  if reward_token_balance != nil do
+    remaining_reward = reward_token_balance - State.get("rewards_reserved", 0)
+  end
 
   [
     lp_token_address: @LP_TOKEN_ADDRESS,
     reward_token: @REWARD_TOKEN,
     start_date: @START_DATE,
     end_date: @END_DATE,
-    remaining_reward: reward_token_balance - rewards_reserved,
+    remaining_reward: remaining_reward,
     lp_token_deposited: State.get("lp_token_deposited", 0),
     nb_deposit: Map.size(State.get("deposits", Map.new())),
     stats: [

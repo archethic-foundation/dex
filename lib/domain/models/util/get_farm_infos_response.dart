@@ -12,7 +12,7 @@ class GetFarmInfosResponse with _$GetFarmInfosResponse {
     @JsonKey(name: 'reward_token') required String rewardToken,
     @JsonKey(name: 'start_date') required int startDate,
     @JsonKey(name: 'end_date') required int endDate,
-    @JsonKey(name: 'remaining_reward') required double remainingReward,
+    @JsonKey(name: 'remaining_reward') double? remainingReward,
     @JsonKey(name: 'lp_token_deposited') required double lpTokenDeposited,
     @JsonKey(name: 'nb_deposit') required int nbDeposit,
     required Stats stats,
