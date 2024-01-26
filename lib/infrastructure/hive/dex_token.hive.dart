@@ -26,7 +26,7 @@ class DexTokenHive extends HiveObject {
       balance: dexToken.balance,
       reserve: dexToken.reserve,
       supply: dexToken.supply,
-      verified: dexToken.verified,
+      verified: dexToken.isVerified,
     );
   }
   @HiveField(0)
@@ -62,7 +62,7 @@ class DexTokenHive extends HiveObject {
       balance: balance,
       reserve: reserve,
       supply: supply,
-      verified: verified,
+      isVerified: verified,
     );
   }
 }

@@ -25,5 +25,5 @@ class DexPool with _$DexPool {
   const DexPool._();
 
   bool get isVerified =>
-      pair != null && pair!.token1.verified && pair!.token2.verified;
+      pair != null && pair!.token1.isVerified && pair!.token2.isVerified;
 }

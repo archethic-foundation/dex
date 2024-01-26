@@ -55,20 +55,28 @@ class SingleToken extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 3),
                   child: Row(
                     children: [
-                      Text(
-                        token.symbol,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: VerifiedTokenIcon(
-                          address: token.isUCO ? 'UCO' : token.address!,
-                          iconSize: 12,
+                      if (token.isLpToken == false)
+                        Text(
+                          token.symbol,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                      ),
+                      if (token.isLpToken == false)
+                        const SizedBox(
+                          width: 3,
+                        ),
+                      if (token.isLpToken == false)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: VerifiedTokenIcon(
+                            address: token.isUCO ? 'UCO' : token.address!,
+                            iconSize: 12,
+                          ),
+                        ),
+                      if (token.isLpToken && token.lpTokenPair != null)
+                        Text(
+                          'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol}',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                     ],
                   ),
                 ),

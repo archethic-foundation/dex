@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 
+import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/util/endpoint_util.dart';
@@ -100,9 +101,13 @@ class DexTokensRepository with ModelParser {
 
     final tokenMap = await sl.get<ApiService>().getToken(
           tokenAddressList,
-          request: 'name, id, supply, symbol, type',
+          request: 'name, id, supply, symbol, type, properties',
         );
-    tokenMap.forEach((key, value) {
+
+    for (final entry in tokenMap.entries) {
+      final key = entry.key;
+      final value = entry.value;
+
       final _token = value.copyWith(address: key);
 
       var balanceAmount = 0.0;
@@ -114,17 +119,69 @@ class DexTokensRepository with ModelParser {
         }
       }
 
-      final dexToken = tokenSDKToModel(_token, balanceAmount);
+      var dexToken = tokenSDKToModel(_token, balanceAmount);
 
+      final tokenSymbolSearch = <String>[];
+      if (value.properties.isNotEmpty &&
+          value.properties['token1_address'] != null &&
+          value.properties['token2_address'] != null) {
+        if (value.properties['token1_address'] != 'UCO') {
+          tokenSymbolSearch.add(value.properties['token1_address']);
+        }
+        if (value.properties['token2_address'] != 'UCO') {
+          tokenSymbolSearch.add(value.properties['token2_address']);
+        }
+        final tokensSymbolMap = await sl.get<ApiService>().getToken(
+              tokenSymbolSearch,
+              request: 'name, symbol',
+            );
+
+        dexToken = dexToken.copyWith(
+          isLpToken: true,
+          lpTokenPair: DexPair(
+            token1: value.properties['token1_address'] != 'UCO'
+                ? DexToken(
+                    address: value.properties['token1_address'],
+                    name: tokensSymbolMap[value.properties['token1_address']] !=
+                            null
+                        ? tokensSymbolMap[value.properties['token1_address']]!
+                            .name!
+                        : '',
+                    symbol: tokensSymbolMap[
+                                value.properties['token1_address']] !=
+                            null
+                        ? tokensSymbolMap[value.properties['token1_address']]!
+                            .symbol!
+                        : '',
+                  )
+                : ucoToken,
+            token2: value.properties['token2_address'] != 'UCO'
+                ? DexToken(
+                    address: value.properties['token2_address'],
+                    name: tokensSymbolMap[value.properties['token2_address']] !=
+                            null
+                        ? tokensSymbolMap[value.properties['token2_address']]!
+                            .name!
+                        : '',
+                    symbol: tokensSymbolMap[
+                                value.properties['token2_address']] !=
+                            null
+                        ? tokensSymbolMap[value.properties['token2_address']]!
+                            .symbol!
+                        : '',
+                  )
+                : ucoToken,
+          ),
+        );
+      }
       dexTokens.add(
         dexToken,
       );
-    });
+    }
 
     dexTokens.sort(
       (a, b) => a.symbol.toUpperCase().compareTo(b.symbol.toUpperCase()),
     );
-
     return dexTokens;
   }
 
