@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dex_token.freezed.dart';
@@ -13,7 +14,9 @@ class DexToken with _$DexToken {
     @Default(0.0) double balance,
     @Default(0.0) double reserve,
     @Default(0.0) double supply,
-    @Default(false) bool verified,
+    @Default(false) bool isVerified,
+    @Default(false) bool isLpToken,
+    DexPair? lpTokenPair,
   }) = _DexToken;
   const DexToken._();
 

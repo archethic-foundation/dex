@@ -98,14 +98,14 @@ mixin ModelParser {
         name: token1Name,
         symbol: token1Symbol,
         reserve: getPoolInfosResponse.token1.reserve,
-        verified: token1Verified,
+        isVerified: token1Verified,
       ),
       token2: DexToken(
         address: getPoolInfosResponse.token2.address.toUpperCase(),
         name: token2Name,
         symbol: token2Symbol,
         reserve: getPoolInfosResponse.token2.reserve,
-        verified: token2Verified,
+        isVerified: token2Verified,
       ),
     );
 
@@ -204,13 +204,13 @@ mixin ModelParser {
         address: tokens[0].toUpperCase(),
         name: token1Name,
         symbol: token1Symbol,
-        verified: token1Verified,
+        isVerified: token1Verified,
       ),
       token2: DexToken(
         address: tokens[1].toUpperCase(),
         name: token2Name,
         symbol: token2Symbol,
-        verified: token2Verified,
+        isVerified: token2Verified,
       ),
     );
 

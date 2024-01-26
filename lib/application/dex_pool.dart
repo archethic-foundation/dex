@@ -129,7 +129,7 @@ class DexPoolsRepository {
           if (verifiedTokens!.contains(pool.pair!.token1.address)) {
             pool = pool.copyWith(
               pair: pool.pair!.copyWith(
-                token1: pool.pair!.token1.copyWith(verified: true),
+                token1: pool.pair!.token1.copyWith(isVerified: true),
               ),
             );
           }
@@ -137,7 +137,7 @@ class DexPoolsRepository {
           if (verifiedTokens.contains(pool.pair!.token2.address)) {
             pool = pool.copyWith(
               pair: pool.pair!.copyWith(
-                token1: pool.pair!.token2.copyWith(verified: true),
+                token1: pool.pair!.token2.copyWith(isVerified: true),
               ),
             );
           }
