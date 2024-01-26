@@ -255,7 +255,7 @@ class FarmDetailsFront extends ConsumerWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Deposited amount',
+                                        'Your deposited amount',
                                         style: Theme.of(
                                           context,
                                         ).textTheme.bodyLarge,
