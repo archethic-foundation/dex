@@ -1,6 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
+import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
@@ -141,9 +142,24 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        '+ ${poolAdd.token1Amount.formatNumber()} ${poolAdd.token1!.symbol}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '+ ${poolAdd.token1Amount.formatNumber()}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: DexThemeBase.secondaryColor,
+                                  ),
+                            ),
+                            TextSpan(
+                              text: ' ${poolAdd.token1!.symbol}',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -169,9 +185,25 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            '+ ${poolAdd.token2Amount.formatNumber()} ${poolAdd.token2!.symbol}',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '+ ${poolAdd.token2Amount.formatNumber()}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        color: DexThemeBase.secondaryColor,
+                                      ),
+                                ),
+                                TextSpan(
+                                  text: ' ${poolAdd.token2!.symbol}',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -233,6 +265,79 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                       token1Symbol: poolAdd.token2!.symbol,
                       token2Symbol: poolAdd.token1!.symbol,
                     ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: DexThemeBase.gradient,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.confirmBeforeLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.confirmAfterLbl,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DexTokenBalance(
+                    tokenBalance: poolAdd.token1Balance,
+                    tokenSymbol: poolAdd.token1!.symbol,
+                    height: 20,
+                    fiatVertical: true,
+                    fiatAlignLeft: true,
+                    fiatTextStyleMedium: true,
+                  ),
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                              poolAdd.token1Balance.toString(),
+                            ) -
+                            Decimal.parse(poolAdd.token1Amount.toString()))
+                        .toDouble(),
+                    tokenSymbol: poolAdd.token1!.symbol,
+                    height: 20,
+                    fiatVertical: true,
+                    fiatTextStyleMedium: true,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DexTokenBalance(
+                    tokenBalance: poolAdd.token2Balance,
+                    tokenSymbol: poolAdd.token2!.symbol,
+                    height: 20,
+                    fiatVertical: true,
+                    fiatAlignLeft: true,
+                    fiatTextStyleMedium: true,
+                  ),
+                  DexTokenBalance(
+                    tokenBalance: (Decimal.parse(
+                              poolAdd.token2Balance.toString(),
+                            ) -
+                            Decimal.parse(poolAdd.token2Amount.toString()))
+                        .toDouble(),
+                    tokenSymbol: poolAdd.token2!.symbol,
+                    height: 20,
+                    fiatVertical: true,
+                    fiatTextStyleMedium: true,
+                  ),
                 ],
               ),
             ],
