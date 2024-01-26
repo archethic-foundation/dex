@@ -10,13 +10,14 @@ class FiatValue {
     String symbol,
     double amount, {
     bool withParenthesis = true,
+    int precision = 2,
   }) async {
     if (symbol == 'UCO') {
       final archethicOracleUCO =
           ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
 
       final fiatValue = archethicOracleUCO.usd * amount;
-      return '(\$${fiatValue.formatNumber(precision: 2)})';
+      return '(\$${fiatValue.formatNumber(precision: precision)})';
     } else {
       final price =
           await ref.watch(MarketProviders.getPriceFromSymbol(symbol).future);
@@ -29,9 +30,9 @@ class FiatValue {
       }
       final fiatValue = price * amount;
       if (withParenthesis) {
-        return '(\$${fiatValue.formatNumber(precision: 2)})';
+        return '(\$${fiatValue.formatNumber(precision: precision)})';
       } else {
-        return '\$${fiatValue.formatNumber(precision: 2)}';
+        return '\$${fiatValue.formatNumber(precision: precision)}';
       }
     }
   }

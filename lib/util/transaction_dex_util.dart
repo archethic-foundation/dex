@@ -208,4 +208,22 @@ mixin TransactionDexMixin {
 
     return;
   }
+
+  Future<double> getAmountFromTxInput(
+    String txAddress,
+  ) async {
+    final transactionInputsMap =
+        await sl.get<ApiService>().getTransactionInputs([txAddress]);
+    if (transactionInputsMap[txAddress] == null ||
+        transactionInputsMap[txAddress]!.isEmpty) {
+      return 0.0;
+    }
+
+    transactionInputsMap[txAddress]!
+      ..removeWhere(
+          (item) => item.from!.toUpperCase() == txAddress.toUpperCase())
+      ..sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
+
+    return fromBigInt(transactionInputsMap[txAddress]!.first.amount).toDouble();
+  }
 }
