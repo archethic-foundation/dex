@@ -111,17 +111,25 @@ Future<
           in transaction.validationStamp!.ledgerOperations!.unspentOutputs) {
         if (unspentOutput.state != null) {
           final state = unspentOutput.state;
-          token1TotalVolume24h =
-              Decimal.parse(state!['stats']['token1_total_volume'].toString())
+          token1TotalVolume24h = state!['stats'] == null ||
+                  state['stats']['token1_total_volume'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token1_total_volume'].toString())
                   .toDouble();
-          token2TotalVolume24h =
-              Decimal.parse(state['stats']['token2_total_volume'].toString())
+          token2TotalVolume24h = state['stats'] == null ||
+                  state['stats']['token2_total_volume'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token2_total_volume'].toString())
                   .toDouble();
-          token1TotalFee24h =
-              Decimal.parse(state['stats']['token1_total_fee'].toString())
+          token1TotalFee24h = state['stats'] == null ||
+                  state['stats']['token1_total_fee'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token1_total_fee'].toString())
                   .toDouble();
-          token2TotalFee24h =
-              Decimal.parse(state['stats']['token2_total_fee'].toString())
+          token2TotalFee24h = state['stats'] == null ||
+                  state['stats']['token2_total_fee'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token2_total_fee'].toString())
                   .toDouble();
         }
       }

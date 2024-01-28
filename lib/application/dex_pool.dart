@@ -13,7 +13,6 @@ import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
@@ -32,14 +31,28 @@ DexPoolsRepository _dexPoolsRepository(_DexPoolsRepositoryRef ref) =>
 @riverpod
 Future<List<DexPool>> _getPoolList(
   _GetPoolListRef ref,
-  bool onlyVerified,
+) async {
+  final dexConf =
+      await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
+  final apiService = sl.get<ApiService>();
+  final dexPoolsRepository = ref.watch(_dexPoolsRepositoryProvider);
+  return dexPoolsRepository.getPoolListForUser(
+    dexConf.routerGenesisAddress,
+    apiService,
+    ref,
+  );
+}
+
+@riverpod
+Future<List<DexPool>> _getPoolListForUser(
+  _GetPoolListForUserRef ref,
 ) async {
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
   final apiService = sl.get<ApiService>();
   return ref
       .watch(_dexPoolsRepositoryProvider)
-      .getPoolList(dexConf.routerGenesisAddress, onlyVerified, apiService, ref);
+      .getPoolList(dexConf.routerGenesisAddress, apiService, ref);
 }
 
 @riverpod
@@ -96,11 +109,7 @@ class DexPoolsRepository {
     Ref ref,
   ) async {
     final dexPools = <DexPool>[];
-
-    final resultPoolListFuture = RouterFactory(
-      routerAddress,
-      apiService,
-    ).getPoolList();
+    final poolListFuture = ref.read(DexPoolProviders.getPoolList.future);
 
     final verifiedTokensFuture =
         ref.read(VerifiedTokensProviders.getVerifiedTokensFromNetwork.future);
@@ -116,7 +125,7 @@ class DexPoolsRepository {
     }
 
     final results = await Future.wait(
-      [verifiedTokensFuture, userBalanceFuture, resultPoolListFuture],
+      [verifiedTokensFuture, userBalanceFuture, poolListFuture],
     );
 
     final verifiedTokens = results[0] as List<String>?;
@@ -172,7 +181,6 @@ class DexPoolsRepository {
 
   Future<List<DexPool>> getPoolList(
     String routerAddress,
-    bool onlyVerified,
     ApiService apiService,
     Ref ref,
   ) async {
@@ -185,22 +193,11 @@ class DexPoolsRepository {
     await resultPoolList.map(
       success: (poolList) async {
         for (final pool in poolList) {
-          if (onlyVerified && pool.isVerified == true) {
-            dexPools.add(pool);
-          } else {
-            if (onlyVerified == false) {
-              dexPools.add(pool);
-            }
-          }
+          dexPools.add(pool);
         }
       },
       failure: (failure) {},
     );
-
-    dexPools.sort((a, b) {
-      if (a.isVerified == b.isVerified) return 0;
-      return a.isVerified ? -1 : 1;
-    });
 
     return dexPools;
   }
@@ -224,12 +221,13 @@ class DexPoolsRepository {
 }
 
 abstract class DexPoolProviders {
-  static const getPoolList = _getPoolListProvider;
+  static final getPoolList = _getPoolListProvider;
   static const getPoolInfos = _getPoolInfosProvider;
   static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
   static const estimateTokenInFiat = _estimateTokenInFiatProvider;
   static final putPoolListToCache = _putPoolListToCacheProvider;
-  static const getPoolListFromCache = _getPoolListFromCacheProvider;
+  static final getPoolListForUser = _getPoolListForUserProvider;
+  static final getPoolListFromCache = _getPoolListFromCacheProvider;
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
 }

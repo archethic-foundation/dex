@@ -6,7 +6,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
@@ -50,12 +49,8 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final poolListForm = ref.read(PoolListFormProvider.poolListForm);
       ref.invalidate(
-        DexPoolProviders.getPoolListFromCache(
-          poolListForm.onlyVerifiedPools,
-          poolListForm.onlyPoolsWithLiquidityPositions,
-        ),
+        DexPoolProviders.getPoolListFromCache,
       );
 
       final cacheManagerHive = await HivePoolsListDatasource.getInstance();
@@ -82,7 +77,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {
         await ref.read(DexPoolProviders.putPoolListToCache.future);
-        ref.invalidate(DexPoolProviders.getPoolListFromCache);
+        ref.invalidate(DexPoolProviders.getPoolListForUser);
       });
     });
   }

@@ -6,8 +6,7 @@ part 'state.freezed.dart';
 @freezed
 class PoolListFormState with _$PoolListFormState {
   const factory PoolListFormState({
-    @Default(true) bool onlyVerifiedPools,
-    @Default(false) bool onlyPoolsWithLiquidityPositions,
+    @Default(0) int tabIndexSelected,
   }) = _PoolListFormState;
   const PoolListFormState._();
 }

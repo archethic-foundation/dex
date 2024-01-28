@@ -4,8 +4,6 @@ part of 'dex_pool.dart';
 @riverpod
 Future<List<DexPool>> _getPoolListFromCache(
   _GetPoolListFromCacheRef ref,
-  bool onlyVerified,
-  bool onlyPoolsWithLiquidityPositions,
 ) async {
   final poolListCache = <DexPool>[];
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
@@ -16,11 +14,7 @@ Future<List<DexPool>> _getPoolListFromCache(
 
   for (final poolHive in poolListCached) {
     final pool = poolHive.toDexPool();
-    if ((onlyPoolsWithLiquidityPositions && pool.lpTokenInUserBalance ||
-            !onlyPoolsWithLiquidityPositions) &&
-        (onlyVerified && pool.isVerified || !onlyVerified)) {
-      poolListCache.add(pool);
-    }
+    poolListCache.add(pool);
   }
 
   poolListCache.sort((a, b) {
@@ -56,7 +50,7 @@ Future<void> _putPoolListToCache(
     );
   }
 
-  final poolList = await ref.read(DexPoolProviders.getPoolList(false).future);
+  final poolList = await ref.read(DexPoolProviders.getPoolListForUser.future);
   for (final pool in poolList) {
     var poolInfos =
         await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
@@ -93,11 +87,7 @@ Future<void> _putPoolListToCache(
 
   debugPrint('poolList stored');
   ref.read(SessionProviders.session.notifier).setCacheFirstLoading(false);
-  final poolListForm = ref.read(PoolListFormProvider.poolListForm);
   ref.invalidate(
-    DexPoolProviders.getPoolListFromCache(
-      poolListForm.onlyVerifiedPools,
-      poolListForm.onlyPoolsWithLiquidityPositions,
-    ),
+    DexPoolProviders.getPoolListFromCache,
   );
 }

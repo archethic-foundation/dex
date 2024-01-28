@@ -24,12 +24,8 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     final asyncPools = ref.watch(
-      DexPoolProviders.getPoolListFromCache(
-        poolListForm.onlyVerifiedPools,
-        poolListForm.onlyPoolsWithLiquidityPositions,
-      ),
+      DexPoolProviders.getPoolListFromCache,
     );
     return Stack(
       children: [
@@ -41,26 +37,43 @@ class PoolListSheet extends ConsumerWidget {
             ),
             child: asyncPools.maybeWhen(
               orElse: SizedBox.shrink,
-              data: (pools) => GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedSize(
-                  crossAxisExtent: 500,
-                  mainAxisExtent: 510,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                padding: const EdgeInsets.only(
-                  left: 50,
-                  right: 50,
-                ),
-                itemCount: pools.length,
-                itemBuilder: (context, index) {
-                  final pool = pools[index];
-                  return PoolListItem(
-                    key: Key(pool.poolAddress),
-                    pool: pool,
-                  );
-                },
-              ),
+              data: (pools) {
+                final poolsFiltered = [...pools];
+                final poolListForm =
+                    ref.watch(PoolListFormProvider.poolListForm);
+                switch (poolListForm.tabIndexSelected) {
+                  case 1:
+                    poolsFiltered.removeWhere(
+                      (element) => element.lpTokenInUserBalance == false,
+                    );
+                    break;
+                  default:
+                    poolsFiltered.removeWhere(
+                      (element) => element.isVerified == false,
+                    );
+                }
+
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedSize(
+                    crossAxisExtent: 500,
+                    mainAxisExtent: 510,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  padding: const EdgeInsets.only(
+                    left: 50,
+                    right: 50,
+                  ),
+                  itemCount: poolsFiltered.length,
+                  itemBuilder: (context, index) {
+                    final pool = poolsFiltered[index];
+                    return PoolListItem(
+                      key: Key(pool.poolAddress),
+                      pool: pool,
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),

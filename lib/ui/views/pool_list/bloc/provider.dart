@@ -13,19 +13,11 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
   @override
   PoolListFormState build() => const PoolListFormState();
 
-  void setOnlyVerifiedPools(
-    bool onlyVerifiedPools,
+  void setTabIndexSelected(
+    int tabIndexSelected,
   ) {
     state = state.copyWith(
-      onlyVerifiedPools: onlyVerifiedPools,
-    );
-  }
-
-  void setOnlyPoolsWithLiquidityPositions(
-    bool onlyPoolsWithLiquidityPositions,
-  ) {
-    state = state.copyWith(
-      onlyPoolsWithLiquidityPositions: onlyPoolsWithLiquidityPositions,
+      tabIndexSelected: tabIndexSelected,
     );
   }
 }
