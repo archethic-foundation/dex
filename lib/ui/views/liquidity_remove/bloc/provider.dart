@@ -1,5 +1,5 @@
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/pool_factory.dart';
+import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';

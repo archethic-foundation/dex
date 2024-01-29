@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/oracle/provider.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';

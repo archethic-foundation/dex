@@ -1,4 +1,4 @@
-import 'package:aedex/application/dex_pool.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';

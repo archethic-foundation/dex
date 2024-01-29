@@ -4,7 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:aedex/application/factory.dart';
-import 'package:aedex/application/pool_factory.dart';
+import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';

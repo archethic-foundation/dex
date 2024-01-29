@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'package:aedex/application/dex_pool.dart';
+
 import 'package:aedex/application/dex_token.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/util/browser_util_desktop.dart'

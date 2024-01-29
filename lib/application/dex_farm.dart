@@ -1,9 +1,9 @@
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/farm_factory.dart';
 import 'package:aedex/application/market.dart';
 import 'package:aedex/application/oracle/provider.dart';
-import 'package:aedex/application/pool_factory.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
