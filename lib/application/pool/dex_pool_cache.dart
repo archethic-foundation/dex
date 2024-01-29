@@ -43,19 +43,10 @@ Future<void> _putPoolListToCache(
   final poolListCache = <DexPoolHive>[];
   final poolList = await ref.read(DexPoolProviders.getPoolListForUser.future);
   for (final pool in poolList) {
-    var poolInfos =
+    final poolInfos =
         await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
 
     if (poolInfos != null) {
-      final estimatePoolTVLInFiat = await ref.read(
-        DexPoolProviders.estimatePoolTVLInFiat(
-          poolInfos,
-        ).future,
-      );
-
-      poolInfos =
-          poolInfos.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
-
       poolListCache.add(
         DexPoolHive.fromDexPool(poolInfos),
       );
