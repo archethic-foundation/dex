@@ -20,7 +20,7 @@ condition triggered_by: transaction, on: add_liquidity(token1_min_amount, token2
         final_amounts = [token1: user_amounts.token1, token2: user_amounts.token2]
       end
 
-      if final_amounts.token1 != 0 do
+      if final_amounts.token1 > 0 && final_amounts.token2 > 0 do
         valid_amounts? = true
 
         pool_balances = get_pool_balances()
