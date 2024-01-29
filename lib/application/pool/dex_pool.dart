@@ -57,7 +57,7 @@ Future<List<DexPool>> _getPoolListForUser(
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
   return ref
       .watch(_dexPoolsRepositoryProvider)
-      .getPoolList(dexConf.routerGenesisAddress);
+      .getPoolListForUser(dexConf.routerGenesisAddress, ref);
 }
 
 @riverpod
