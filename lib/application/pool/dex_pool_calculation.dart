@@ -36,7 +36,7 @@ Future<double> _estimatePoolTVLInFiat(
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
     return pool.pair!.token1.reserve * fiatValueToken1 +
-        pool.pair!.token2.reserve * fiatValueToken1;
+        pool.pair!.token2.reserve * fiatValueToken2;
   }
 
   if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
