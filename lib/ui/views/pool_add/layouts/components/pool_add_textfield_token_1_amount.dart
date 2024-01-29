@@ -66,9 +66,12 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
     }
 
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(poolAdd.token1Amount != 0.0 ||
-        tokenAmountController.text == '' ||
-        (textNum != null && textNum == 0))) {
+    if (poolAdd.token1Amount == 0.0 &&
+        tokenAmountController.text != '' &&
+        (textNum == null || textNum != 0)) {
+      _updateAmountTextController();
+    }
+    if (poolAdd.token1Amount != 0.0 && textNum != poolAdd.token1Amount) {
       _updateAmountTextController();
     }
 
