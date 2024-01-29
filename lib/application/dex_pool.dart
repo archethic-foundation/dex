@@ -117,7 +117,7 @@ class DexPoolsRepository {
     final session = ref.read(SessionProviders.session);
     Future<Balance?> userBalanceFuture;
     if (session.isConnected && session.genesisAddress.isNotEmpty) {
-      userBalanceFuture = await ref.read(
+      userBalanceFuture = ref.read(
         BalanceProviders.getUserTokensBalance(session.genesisAddress).future,
       );
     } else {

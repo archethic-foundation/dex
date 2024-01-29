@@ -41,15 +41,6 @@ Future<void> _putPoolListToCache(
   // To gain some time, we are loading the first only verified pools
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
   final poolListCache = <DexPoolHive>[];
-
-  final session = ref.read(SessionProviders.session);
-  Balance? userBalance;
-  if (session.isConnected && session.genesisAddress.isNotEmpty) {
-    userBalance = await ref.read(
-      BalanceProviders.getUserTokensBalance(session.genesisAddress).future,
-    );
-  }
-
   final poolList = await ref.read(DexPoolProviders.getPoolListForUser.future);
   for (final pool in poolList) {
     var poolInfos =
@@ -62,21 +53,8 @@ Future<void> _putPoolListToCache(
         ).future,
       );
 
-      if (userBalance != null) {
-        for (final userTokensBalance in userBalance.token) {
-          if (poolInfos != null &&
-              poolInfos.lpToken != null &&
-              poolInfos.lpToken!.address != null &&
-              poolInfos.lpToken!.address == userTokensBalance.address) {
-            poolInfos = poolInfos.copyWith(
-              lpTokenInUserBalance: true,
-            );
-          }
-        }
-      }
-
       poolInfos =
-          poolInfos!.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
+          poolInfos.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
 
       poolListCache.add(
         DexPoolHive.fromDexPool(poolInfos),
@@ -86,7 +64,6 @@ Future<void> _putPoolListToCache(
   await poolsListDatasource.setPoolsList(poolListCache);
 
   debugPrint('poolList stored');
-  ref.read(SessionProviders.session.notifier).setCacheFirstLoading(false);
   ref.invalidate(
     DexPoolProviders.getPoolListFromCache,
   );

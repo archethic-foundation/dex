@@ -221,7 +221,8 @@ mixin TransactionDexMixin {
 
     transactionInputsMap[txAddress]!
       ..removeWhere(
-          (item) => item.from!.toUpperCase() == txAddress.toUpperCase())
+        (item) => item.from!.toUpperCase() == txAddress.toUpperCase(),
+      )
       ..sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
 
     return fromBigInt(transactionInputsMap[txAddress]!.first.amount).toDouble();
