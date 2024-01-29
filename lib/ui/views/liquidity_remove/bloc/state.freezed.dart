@@ -20,7 +20,7 @@ mixin _$LiquidityRemoveFormState {
       throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
-  String get poolGenesisAddress => throw _privateConstructorUsedError;
+  DexPool? get pool => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get liquidityRemoveOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
@@ -53,7 +53,7 @@ abstract class $LiquidityRemoveFormStateCopyWith<$Res> {
       {LiquidityRemoveProcessStep liquidityRemoveProcessStep,
       bool resumeProcess,
       int currentStep,
-      String poolGenesisAddress,
+      DexPool? pool,
       bool isProcessInProgress,
       bool liquidityRemoveOk,
       bool walletConfirmation,
@@ -70,6 +70,7 @@ abstract class $LiquidityRemoveFormStateCopyWith<$Res> {
       Transaction? transactionRemoveLiquidity,
       Failure? failure});
 
+  $DexPoolCopyWith<$Res>? get pool;
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -94,7 +95,7 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
     Object? liquidityRemoveProcessStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? poolGenesisAddress = null,
+    Object? pool = freezed,
     Object? isProcessInProgress = null,
     Object? liquidityRemoveOk = null,
     Object? walletConfirmation = null,
@@ -124,10 +125,10 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      poolGenesisAddress: null == poolGenesisAddress
-          ? _value.poolGenesisAddress
-          : poolGenesisAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+      pool: freezed == pool
+          ? _value.pool
+          : pool // ignore: cast_nullable_to_non_nullable
+              as DexPool?,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -189,6 +190,18 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexPoolCopyWith<$Res>? get pool {
+    if (_value.pool == null) {
+      return null;
+    }
+
+    return $DexPoolCopyWith<$Res>(_value.pool!, (value) {
+      return _then(_value.copyWith(pool: value) as $Val);
+    });
   }
 
   @override
@@ -266,7 +279,7 @@ abstract class _$$LiquidityRemoveFormStateImplCopyWith<$Res>
       {LiquidityRemoveProcessStep liquidityRemoveProcessStep,
       bool resumeProcess,
       int currentStep,
-      String poolGenesisAddress,
+      DexPool? pool,
       bool isProcessInProgress,
       bool liquidityRemoveOk,
       bool walletConfirmation,
@@ -283,6 +296,8 @@ abstract class _$$LiquidityRemoveFormStateImplCopyWith<$Res>
       Transaction? transactionRemoveLiquidity,
       Failure? failure});
 
+  @override
+  $DexPoolCopyWith<$Res>? get pool;
   @override
   $DexTokenCopyWith<$Res>? get token1;
   @override
@@ -311,7 +326,7 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
     Object? liquidityRemoveProcessStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? poolGenesisAddress = null,
+    Object? pool = freezed,
     Object? isProcessInProgress = null,
     Object? liquidityRemoveOk = null,
     Object? walletConfirmation = null,
@@ -341,10 +356,10 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      poolGenesisAddress: null == poolGenesisAddress
-          ? _value.poolGenesisAddress
-          : poolGenesisAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+      pool: freezed == pool
+          ? _value.pool
+          : pool // ignore: cast_nullable_to_non_nullable
+              as DexPool?,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -416,7 +431,7 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
       {this.liquidityRemoveProcessStep = LiquidityRemoveProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
-      this.poolGenesisAddress = '',
+      this.pool,
       this.isProcessInProgress = false,
       this.liquidityRemoveOk = false,
       this.walletConfirmation = false,
@@ -444,8 +459,7 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   @JsonKey()
   final int currentStep;
   @override
-  @JsonKey()
-  final String poolGenesisAddress;
+  final DexPool? pool;
   @override
   @JsonKey()
   final bool isProcessInProgress;
@@ -489,7 +503,7 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
 
   @override
   String toString() {
-    return 'LiquidityRemoveFormState(liquidityRemoveProcessStep: $liquidityRemoveProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, poolGenesisAddress: $poolGenesisAddress, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, token1Balance: $token1Balance, token2Balance: $token2Balance, transactionRemoveLiquidity: $transactionRemoveLiquidity, failure: $failure)';
+    return 'LiquidityRemoveFormState(liquidityRemoveProcessStep: $liquidityRemoveProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, token1Balance: $token1Balance, token2Balance: $token2Balance, transactionRemoveLiquidity: $transactionRemoveLiquidity, failure: $failure)';
   }
 
   @override
@@ -505,8 +519,7 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
-            (identical(other.poolGenesisAddress, poolGenesisAddress) ||
-                other.poolGenesisAddress == poolGenesisAddress) &&
+            (identical(other.pool, pool) || other.pool == pool) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
                 other.isProcessInProgress == isProcessInProgress) &&
             (identical(other.liquidityRemoveOk, liquidityRemoveOk) ||
@@ -543,7 +556,7 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
         liquidityRemoveProcessStep,
         resumeProcess,
         currentStep,
-        poolGenesisAddress,
+        pool,
         isProcessInProgress,
         liquidityRemoveOk,
         walletConfirmation,
@@ -574,7 +587,7 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
       {final LiquidityRemoveProcessStep liquidityRemoveProcessStep,
       final bool resumeProcess,
       final int currentStep,
-      final String poolGenesisAddress,
+      final DexPool? pool,
       final bool isProcessInProgress,
       final bool liquidityRemoveOk,
       final bool walletConfirmation,
@@ -599,7 +612,7 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
   @override
   int get currentStep;
   @override
-  String get poolGenesisAddress;
+  DexPool? get pool;
   @override
   bool get isProcessInProgress;
   @override

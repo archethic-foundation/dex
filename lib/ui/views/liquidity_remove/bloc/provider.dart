@@ -1,6 +1,8 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/remove_liquidity.dart';
@@ -31,8 +33,12 @@ class LiquidityRemoveFormNotifier
 
   CancelableTask<Map<String, dynamic>>? _calculateRemoveAmountsTask;
 
-  void setPoolGenesisAddress(String poolGenesisAddress) {
-    state = state.copyWith(poolGenesisAddress: poolGenesisAddress);
+  Future<void> setPool(DexPool pool) async {
+    state = state.copyWith(pool: pool);
+
+    final poolPopulated =
+        await ref.read(DexPoolProviders.getPoolInfos(pool).future);
+    state = state.copyWith(pool: poolPopulated);
   }
 
   Future<({double removeAmountToken1, double removeAmountToken2})>
@@ -54,7 +60,7 @@ class LiquidityRemoveFormNotifier
             task: () async {
               var _removeAmounts = <String, dynamic>{};
               final removeAmountsResult =
-                  await PoolFactory(state.poolGenesisAddress, apiService)
+                  await PoolFactory(state.pool!.poolAddress, apiService)
                       .getRemoveAmounts(lpTokenAmount);
 
               removeAmountsResult.map(
@@ -288,7 +294,7 @@ class LiquidityRemoveFormNotifier
     setProcessInProgress(true);
 
     await RemoveLiquidityCase().run(
-      state.poolGenesisAddress,
+      state.pool!.poolAddress,
       ref,
       state.lpToken!.address!,
       state.lpTokenAmount,
@@ -297,6 +303,7 @@ class LiquidityRemoveFormNotifier
     setResumeProcess(false);
     setProcessInProgress(false);
     setLiquidityRemoveOk(true);
+    ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
   }
 }
 

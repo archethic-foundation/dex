@@ -12,7 +12,6 @@ import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -86,7 +85,7 @@ abstract class DexPoolProviders {
   static final putPoolListInfosToCache = _putPoolListInfosToCacheProvider;
   static final userTokenPools = _userTokenPoolsProvider;
   static final verifiedPools = _verifiedPoolsProvider;
-
+  static const updatePoolInCache = _updatePoolInCacheProvider;
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
 

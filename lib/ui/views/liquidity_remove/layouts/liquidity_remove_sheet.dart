@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_pair.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
@@ -14,13 +15,13 @@ import 'package:gradient_borders/gradient_borders.dart';
 
 class LiquidityRemoveSheet extends ConsumerStatefulWidget {
   const LiquidityRemoveSheet({
-    required this.poolGenesisAddress,
+    required this.pool,
     required this.pair,
     required this.lpToken,
     super.key,
   });
 
-  final String poolGenesisAddress;
+  final DexPool pool;
   final DexPair pair;
   final DexToken lpToken;
   @override
@@ -34,7 +35,7 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
     super.initState();
     Future.delayed(Duration.zero, () {
       ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
-        ..setPoolGenesisAddress(widget.poolGenesisAddress)
+        ..setPool(widget.pool)
         ..setToken1(widget.pair.token1)
         ..setToken2(widget.pair.token2)
         ..setLpToken(widget.lpToken)

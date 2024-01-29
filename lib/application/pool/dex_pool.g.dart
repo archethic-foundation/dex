@@ -348,7 +348,7 @@ final _verifiedPoolsProvider =
 
 typedef _VerifiedPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$getPoolListFromCacheHash() =>
-    r'd4f53fb3584c3edfd77f4f37bca00dc66f5c6419';
+    r'd5f243bec2cd32d50eb2593ad2fcb39b54e79162';
 
 /// See also [_getPoolListFromCache].
 @ProviderFor(_getPoolListFromCache)
@@ -365,7 +365,7 @@ final _getPoolListFromCacheProvider =
 
 typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$putPoolListInfosToCacheHash() =>
-    r'f60e723a3ff370033e938676606326cc97ae4b6a';
+    r'4016b4dbec265b278ad706f82c4c9bb9b02ad75f';
 
 /// See also [_putPoolListInfosToCache].
 @ProviderFor(_putPoolListInfosToCache)
@@ -381,6 +381,134 @@ final _putPoolListInfosToCacheProvider =
 );
 
 typedef _PutPoolListInfosToCacheRef = AutoDisposeFutureProviderRef<void>;
+String _$updatePoolInCacheHash() => r'f4b220a85cfa1612e5bd387fce5a1ed4aac409df';
+
+/// See also [_updatePoolInCache].
+@ProviderFor(_updatePoolInCache)
+const _updatePoolInCacheProvider = _UpdatePoolInCacheFamily();
+
+/// See also [_updatePoolInCache].
+class _UpdatePoolInCacheFamily extends Family<AsyncValue<void>> {
+  /// See also [_updatePoolInCache].
+  const _UpdatePoolInCacheFamily();
+
+  /// See also [_updatePoolInCache].
+  _UpdatePoolInCacheProvider call(
+    DexPool pool,
+  ) {
+    return _UpdatePoolInCacheProvider(
+      pool,
+    );
+  }
+
+  @override
+  _UpdatePoolInCacheProvider getProviderOverride(
+    covariant _UpdatePoolInCacheProvider provider,
+  ) {
+    return call(
+      provider.pool,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_updatePoolInCacheProvider';
+}
+
+/// See also [_updatePoolInCache].
+class _UpdatePoolInCacheProvider extends AutoDisposeFutureProvider<void> {
+  /// See also [_updatePoolInCache].
+  _UpdatePoolInCacheProvider(
+    DexPool pool,
+  ) : this._internal(
+          (ref) => _updatePoolInCache(
+            ref as _UpdatePoolInCacheRef,
+            pool,
+          ),
+          from: _updatePoolInCacheProvider,
+          name: r'_updatePoolInCacheProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$updatePoolInCacheHash,
+          dependencies: _UpdatePoolInCacheFamily._dependencies,
+          allTransitiveDependencies:
+              _UpdatePoolInCacheFamily._allTransitiveDependencies,
+          pool: pool,
+        );
+
+  _UpdatePoolInCacheProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.pool,
+  }) : super.internal();
+
+  final DexPool pool;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(_UpdatePoolInCacheRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _UpdatePoolInCacheProvider._internal(
+        (ref) => create(ref as _UpdatePoolInCacheRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        pool: pool,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _UpdatePoolInCacheProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _UpdatePoolInCacheProvider && other.pool == pool;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, pool.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _UpdatePoolInCacheRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `pool` of this provider.
+  DexPool get pool;
+}
+
+class _UpdatePoolInCacheProviderElement
+    extends AutoDisposeFutureProviderElement<void> with _UpdatePoolInCacheRef {
+  _UpdatePoolInCacheProviderElement(super.provider);
+
+  @override
+  DexPool get pool => (origin as _UpdatePoolInCacheProvider).pool;
+}
+
 String _$getRatioHash() => r'354f7dc1b45d6a475670dfcda2997a5f86dec992';
 
 /// See also [_getRatio].

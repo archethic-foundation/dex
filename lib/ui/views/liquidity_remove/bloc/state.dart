@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -16,7 +17,7 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
     LiquidityRemoveProcessStep liquidityRemoveProcessStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
-    @Default('') String poolGenesisAddress,
+    DexPool? pool,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool liquidityRemoveOk,
     @Default(false) bool walletConfirmation,

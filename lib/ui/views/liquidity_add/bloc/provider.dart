@@ -447,7 +447,7 @@ class LiquidityAddFormNotifier
     setResumeProcess(false);
     setProcessInProgress(false);
     setLiquidityAddOk(true);
-    ref.read(DexPoolProviders.invalidateData);
+    ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
   }
 }
 

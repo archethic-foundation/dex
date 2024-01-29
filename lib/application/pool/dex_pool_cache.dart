@@ -38,7 +38,6 @@ Future<List<DexPool>> _getPoolListFromCache(
       )
       .toList();
 
-  debugPrint('poolListCached ${poolListCached.length}');
   return poolListCached;
 }
 
@@ -46,7 +45,6 @@ Future<List<DexPool>> _getPoolListFromCache(
 Future<void> _putPoolListInfosToCache(
   _PutPoolListInfosToCacheRef ref,
 ) async {
-  // To gain some time, we are loading the first only verified pools
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
 
   final poolList = await ref.read(_getPoolListForUserProvider.future);
@@ -58,6 +56,16 @@ Future<void> _putPoolListInfosToCache(
     await poolsListDatasource.setPool(poolWithInfos!.toHive());
   }
 
-  debugPrint('poolList stored');
+  ref.invalidate(_getPoolListFromCacheProvider);
+}
+
+@riverpod
+Future<void> _updatePoolInCache(
+  _UpdatePoolInCacheRef ref,
+  DexPool pool,
+) async {
+  final poolWithInfos = await ref.read(_getPoolInfosProvider(pool).future);
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+  await poolsListDatasource.setPool(poolWithInfos!.toHive());
   ref.invalidate(_getPoolListFromCacheProvider);
 }

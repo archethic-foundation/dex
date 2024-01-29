@@ -325,7 +325,7 @@ class PoolDetailsFront extends ConsumerWidget {
                                     )
                                     .setWidget(
                                       LiquidityRemoveSheet(
-                                        poolGenesisAddress: pool.poolAddress,
+                                        pool: pool,
                                         lpToken: pool.lpToken,
                                         pair: pool.pair,
                                       ),

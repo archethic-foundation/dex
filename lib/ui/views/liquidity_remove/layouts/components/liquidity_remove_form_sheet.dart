@@ -63,8 +63,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                     children: [
                       if (liquidityRemove.token1 != null)
                         PoolInfoCard(
-                          poolGenesisAddress:
-                              liquidityRemove.poolGenesisAddress,
+                          poolGenesisAddress: liquidityRemove.pool!.poolAddress,
                           tokenAddressRatioPrimary:
                               liquidityRemove.token1!.address == null
                                   ? 'UCO'
