@@ -29,7 +29,7 @@ DexPoolsRepository _dexPoolsRepository(_DexPoolsRepositoryRef ref) =>
     DexPoolsRepository();
 
 @riverpod
-void _invalidateDataUseCase(_InvalidateProvidersUseCaseRef ref) {
+void _invalidateDataUseCase(_InvalidateDataUseCaseRef ref) {
   ref
     ..invalidate(_getPoolInfosProvider)
     ..invalidate(_getPoolListProvider)
