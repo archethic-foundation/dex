@@ -36,7 +36,7 @@ class SwapFormState with _$SwapFormState {
     double? finalAmount,
     Failure? failure,
     Transaction? recoveryTransactionSwap,
-    DexPool? poolInfos,
+    DexPool? pool,
   }) = _SwapFormState;
   const SwapFormState._();
 

@@ -2,6 +2,31 @@
 part of 'dex_pool.dart';
 
 @riverpod
+Future<double> _getRatio(
+  _GetRatioRef ref,
+  String poolGenesisAddress,
+  DexToken token,
+) async {
+  final apiService = sl.get<ApiService>();
+  final poolRatioResult = await PoolFactory(
+    poolGenesisAddress,
+    apiService,
+  ).getPoolRatio(
+    token.isUCO ? 'UCO' : token.address!,
+  );
+  var ratio = 0.0;
+  poolRatioResult.map(
+    success: (success) {
+      if (success != null) {
+        ratio = success;
+      }
+    },
+    failure: (failure) {},
+  );
+  return ratio;
+}
+
+@riverpod
 Future<double> _estimateTokenInFiat(
   _EstimateTokenInFiatRef ref,
   DexToken token,
@@ -30,21 +55,21 @@ Future<double> _estimatePoolTVLInFiat(
   var fiatValueToken2 = 0.0;
 
   fiatValueToken1 = await ref
-      .watch(DexPoolProviders.estimateTokenInFiat(pool.pair!.token1).future);
+      .watch(DexPoolProviders.estimateTokenInFiat(pool.pair.token1).future);
   fiatValueToken2 = await ref
-      .watch(DexPoolProviders.estimateTokenInFiat(pool.pair!.token2).future);
+      .watch(DexPoolProviders.estimateTokenInFiat(pool.pair.token2).future);
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
-    return pool.pair!.token1.reserve * fiatValueToken1 +
-        pool.pair!.token2.reserve * fiatValueToken1;
+    return pool.pair.token1.reserve * fiatValueToken1 +
+        pool.pair.token2.reserve * fiatValueToken2;
   }
 
   if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
-    return pool.pair!.token1.reserve * fiatValueToken1 * 2;
+    return pool.pair.token1.reserve * fiatValueToken1 * 2;
   }
 
   if (fiatValueToken1 == 0 && fiatValueToken2 > 0) {
-    return pool.pair!.token2.reserve * fiatValueToken2 * 2;
+    return pool.pair.token2.reserve * fiatValueToken2 * 2;
   }
 
   return 0;
@@ -59,7 +84,7 @@ Future<
       double feeAllTime
     })> _estimateStats(
   _EstimateStatsRef ref,
-  DexPool currentPoolInfos,
+  DexPool pool,
 ) async {
   final apiService = sl.get<ApiService>();
   final fromCriteria = (DateTime.now()
@@ -70,7 +95,7 @@ Future<
           1000)
       .round();
   final transactionChainResult = await apiService.getTransactionChain(
-    {currentPoolInfos.poolAddress: ''},
+    {pool.poolAddress: ''},
     request:
         ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
     fromCriteria: fromCriteria,
@@ -99,10 +124,9 @@ Future<
   var token1TotalFee24hFiat = 0.0;
   var token2TotalFee24hFiat = 0.0;
 
-  if (transactionChainResult[currentPoolInfos.poolAddress] != null &&
-      transactionChainResult[currentPoolInfos.poolAddress]!.isNotEmpty) {
-    final transaction =
-        transactionChainResult[currentPoolInfos.poolAddress]!.first;
+  if (transactionChainResult[pool.poolAddress] != null &&
+      transactionChainResult[pool.poolAddress]!.isNotEmpty) {
+    final transaction = transactionChainResult[pool.poolAddress]!.first;
     if (transaction.validationStamp != null &&
         transaction.validationStamp!.ledgerOperations != null &&
         transaction
@@ -111,17 +135,25 @@ Future<
           in transaction.validationStamp!.ledgerOperations!.unspentOutputs) {
         if (unspentOutput.state != null) {
           final state = unspentOutput.state;
-          token1TotalVolume24h =
-              Decimal.parse(state!['stats']['token1_total_volume'].toString())
+          token1TotalVolume24h = state!['stats'] == null ||
+                  state['stats']['token1_total_volume'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token1_total_volume'].toString())
                   .toDouble();
-          token2TotalVolume24h =
-              Decimal.parse(state['stats']['token2_total_volume'].toString())
+          token2TotalVolume24h = state['stats'] == null ||
+                  state['stats']['token2_total_volume'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token2_total_volume'].toString())
                   .toDouble();
-          token1TotalFee24h =
-              Decimal.parse(state['stats']['token1_total_fee'].toString())
+          token1TotalFee24h = state['stats'] == null ||
+                  state['stats']['token1_total_fee'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token1_total_fee'].toString())
                   .toDouble();
-          token2TotalFee24h =
-              Decimal.parse(state['stats']['token2_total_fee'].toString())
+          token2TotalFee24h = state['stats'] == null ||
+                  state['stats']['token2_total_fee'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token2_total_fee'].toString())
                   .toDouble();
         }
       }
@@ -131,29 +163,27 @@ Future<
   final archethicOracleUCO =
       ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
 
-  if (currentPoolInfos.pair!.token1.symbol == 'UCO') {
+  if (pool.pair.token1.symbol == 'UCO') {
     priceToken1 = archethicOracleUCO.usd;
   } else {
     priceToken1 = await ref.read(
-      MarketProviders.getPriceFromSymbol(currentPoolInfos.pair!.token1.symbol)
-          .future,
+      MarketProviders.getPriceFromSymbol(pool.pair.token1.symbol).future,
     );
   }
 
-  if (currentPoolInfos.pair!.token2.symbol == 'UCO') {
+  if (pool.pair.token2.symbol == 'UCO') {
     priceToken2 = archethicOracleUCO.usd;
   } else {
     priceToken2 = await ref.read(
-      MarketProviders.getPriceFromSymbol(currentPoolInfos.pair!.token2.symbol)
-          .future,
+      MarketProviders.getPriceFromSymbol(pool.pair.token2.symbol).future,
     );
   }
 
   if (priceToken1 == 0 && priceToken2 > 0) {
     final ratio = await ref.read(
       DexPoolProviders.getRatio(
-        currentPoolInfos.poolAddress,
-        currentPoolInfos.pair!.token1,
+        pool.poolAddress,
+        pool.pair.token1,
       ).future,
     );
 
@@ -163,23 +193,26 @@ Future<
   if (priceToken2 == 0 && priceToken1 > 0) {
     final ratio = await ref.read(
       DexPoolProviders.getRatio(
-        currentPoolInfos.poolAddress,
-        currentPoolInfos.pair!.token2,
+        pool.poolAddress,
+        pool.pair.token2,
       ).future,
     );
 
     priceToken2 = ratio * priceToken1;
   }
 
-  token1TotalVolumeCurrentFiat =
-      priceToken1 * currentPoolInfos.token1TotalVolume;
-  token2TotalVolumeCurrentFiat =
-      priceToken2 * currentPoolInfos.token2TotalVolume;
+  final poolDetails = pool.infos;
+  if (poolDetails != null) {
+    token1TotalVolumeCurrentFiat = priceToken1 * poolDetails.token1TotalVolume;
+    token2TotalVolumeCurrentFiat = priceToken2 * poolDetails.token2TotalVolume;
+
+    token1TotalFeeCurrentFiat = priceToken1 * poolDetails.token1TotalFee;
+    token2TotalFeeCurrentFiat = priceToken2 * poolDetails.token2TotalFee;
+  }
+
   token1TotalVolume24hFiat = priceToken1 * token1TotalVolume24h;
   token2TotalVolume24hFiat = priceToken2 * token2TotalVolume24h;
 
-  token1TotalFeeCurrentFiat = priceToken1 * currentPoolInfos.token1TotalFee;
-  token2TotalFeeCurrentFiat = priceToken2 * currentPoolInfos.token2TotalFee;
   token1TotalFee24hFiat = priceToken1 * token1TotalFee24h;
   token2TotalFee24hFiat = priceToken2 * token2TotalFee24h;
 

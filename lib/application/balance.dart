@@ -1,3 +1,4 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/repositories/balance.repository.dart';
 import 'package:aedex/infrastructure/balance.repository.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' show Balance;
@@ -24,15 +25,15 @@ Future<double> _getBalance(
 @riverpod
 Future<Balance?> _getUserTokensBalance(
   _GetUserTokensBalanceRef ref,
-  String address,
 ) async {
+  final session = ref.read(SessionProviders.session);
   return ref.read(_balanceRepositoryProvider).getUserTokensBalance(
-        address,
+        session.genesisAddress,
       );
 }
 
 abstract class BalanceProviders {
   static const getBalance = _getBalanceProvider;
   static final balanceRepository = _balanceRepositoryProvider;
-  static const getUserTokensBalance = _getUserTokensBalanceProvider;
+  static final getUserTokensBalance = _getUserTokensBalanceProvider;
 }

@@ -30,5 +30,6 @@ Future<bool> _isLogsActived(
 abstract class PreferencesProviders {
   static final getPreferences = _getPreferencesProvider;
   static final isLogsActived = _isLogsActivedProvider;
-  static final preferencesRepository = _preferencesRepositoryProvider;
+  static final preferencesRepository =
+      _preferencesRepositoryProvider; //FIXME : Repository should not be exposed. Use a AsyncNotifier Provider to hold the settings. That way, settings changes will correctly notify widgets (ex: [AppBarMainScreen]).
 }

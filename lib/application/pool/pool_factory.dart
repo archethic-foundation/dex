@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
@@ -29,7 +30,7 @@ class PoolFactory with ModelParser {
   ///   },
   ///   "fee": 0.25
   /// }
-  Future<Result<DexPool, Failure>> getPoolInfos() async {
+  Future<Result<DexPool, Failure>> populatePoolInfos(DexPool poolInput) async {
     return Result.guard(
       () async {
         final result = await apiService.callSCFunction(
@@ -45,7 +46,7 @@ class PoolFactory with ModelParser {
         ) as Map<String, dynamic>;
 
         final getPoolInfosResponse = GetPoolInfosResponse.fromJson(result);
-        return poolInfoToModel(factoryAddress, getPoolInfosResponse);
+        return poolInfoToModel(poolInput, factoryAddress, getPoolInfosResponse);
       },
     );
   }

@@ -16,9 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PoolListFormState {
-  bool get onlyVerifiedPools => throw _privateConstructorUsedError;
-  bool get onlyPoolsWithLiquidityPositions =>
-      throw _privateConstructorUsedError;
+  int get tabIndexSelected => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolListFormStateCopyWith<PoolListFormState> get copyWith =>
@@ -31,7 +29,7 @@ abstract class $PoolListFormStateCopyWith<$Res> {
           PoolListFormState value, $Res Function(PoolListFormState) then) =
       _$PoolListFormStateCopyWithImpl<$Res, PoolListFormState>;
   @useResult
-  $Res call({bool onlyVerifiedPools, bool onlyPoolsWithLiquidityPositions});
+  $Res call({int tabIndexSelected});
 }
 
 /// @nodoc
@@ -47,18 +45,13 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? onlyVerifiedPools = null,
-    Object? onlyPoolsWithLiquidityPositions = null,
+    Object? tabIndexSelected = null,
   }) {
     return _then(_value.copyWith(
-      onlyVerifiedPools: null == onlyVerifiedPools
-          ? _value.onlyVerifiedPools
-          : onlyVerifiedPools // ignore: cast_nullable_to_non_nullable
-              as bool,
-      onlyPoolsWithLiquidityPositions: null == onlyPoolsWithLiquidityPositions
-          ? _value.onlyPoolsWithLiquidityPositions
-          : onlyPoolsWithLiquidityPositions // ignore: cast_nullable_to_non_nullable
-              as bool,
+      tabIndexSelected: null == tabIndexSelected
+          ? _value.tabIndexSelected
+          : tabIndexSelected // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -71,7 +64,7 @@ abstract class _$$PoolListFormStateImplCopyWith<$Res>
       __$$PoolListFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool onlyVerifiedPools, bool onlyPoolsWithLiquidityPositions});
+  $Res call({int tabIndexSelected});
 }
 
 /// @nodoc
@@ -85,18 +78,13 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? onlyVerifiedPools = null,
-    Object? onlyPoolsWithLiquidityPositions = null,
+    Object? tabIndexSelected = null,
   }) {
     return _then(_$PoolListFormStateImpl(
-      onlyVerifiedPools: null == onlyVerifiedPools
-          ? _value.onlyVerifiedPools
-          : onlyVerifiedPools // ignore: cast_nullable_to_non_nullable
-              as bool,
-      onlyPoolsWithLiquidityPositions: null == onlyPoolsWithLiquidityPositions
-          ? _value.onlyPoolsWithLiquidityPositions
-          : onlyPoolsWithLiquidityPositions // ignore: cast_nullable_to_non_nullable
-              as bool,
+      tabIndexSelected: null == tabIndexSelected
+          ? _value.tabIndexSelected
+          : tabIndexSelected // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -104,21 +92,15 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PoolListFormStateImpl extends _PoolListFormState {
-  const _$PoolListFormStateImpl(
-      {this.onlyVerifiedPools = true,
-      this.onlyPoolsWithLiquidityPositions = false})
-      : super._();
+  const _$PoolListFormStateImpl({this.tabIndexSelected = 0}) : super._();
 
   @override
   @JsonKey()
-  final bool onlyVerifiedPools;
-  @override
-  @JsonKey()
-  final bool onlyPoolsWithLiquidityPositions;
+  final int tabIndexSelected;
 
   @override
   String toString() {
-    return 'PoolListFormState(onlyVerifiedPools: $onlyVerifiedPools, onlyPoolsWithLiquidityPositions: $onlyPoolsWithLiquidityPositions)';
+    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected)';
   }
 
   @override
@@ -126,17 +108,12 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PoolListFormStateImpl &&
-            (identical(other.onlyVerifiedPools, onlyVerifiedPools) ||
-                other.onlyVerifiedPools == onlyVerifiedPools) &&
-            (identical(other.onlyPoolsWithLiquidityPositions,
-                    onlyPoolsWithLiquidityPositions) ||
-                other.onlyPoolsWithLiquidityPositions ==
-                    onlyPoolsWithLiquidityPositions));
+            (identical(other.tabIndexSelected, tabIndexSelected) ||
+                other.tabIndexSelected == tabIndexSelected));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, onlyVerifiedPools, onlyPoolsWithLiquidityPositions);
+  int get hashCode => Object.hash(runtimeType, tabIndexSelected);
 
   @JsonKey(ignore: true)
   @override
@@ -147,15 +124,12 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
 }
 
 abstract class _PoolListFormState extends PoolListFormState {
-  const factory _PoolListFormState(
-      {final bool onlyVerifiedPools,
-      final bool onlyPoolsWithLiquidityPositions}) = _$PoolListFormStateImpl;
+  const factory _PoolListFormState({final int tabIndexSelected}) =
+      _$PoolListFormStateImpl;
   const _PoolListFormState._() : super._();
 
   @override
-  bool get onlyVerifiedPools;
-  @override
-  bool get onlyPoolsWithLiquidityPositions;
+  int get tabIndexSelected;
   @override
   @JsonKey(ignore: true)
   _$$PoolListFormStateImplCopyWith<_$PoolListFormStateImpl> get copyWith =>

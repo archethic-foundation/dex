@@ -1,9 +1,10 @@
+import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/dex_pool.dart';
 import 'package:aedex/application/farm_factory.dart';
 import 'package:aedex/application/market.dart';
 import 'package:aedex/application/oracle/provider.dart';
-import 'package:aedex/application/pool_factory.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
@@ -29,9 +30,13 @@ Future<List<DexFarm>> _getFarmList(
   final apiService = sl.get<ApiService>();
   var poolList = <DexPool>[];
 
+  final userBalance =
+      await ref.read(BalanceProviders.getUserTokensBalance.future);
+
   final poolListResult =
-      await RouterFactory(dexConf.routerGenesisAddress, apiService)
-          .getPoolList();
+      await RouterFactory(dexConf.routerGenesisAddress, apiService).getPoolList(
+    userBalance!,
+  );
   await poolListResult.map(
     success: (success) async {
       poolList = success;
@@ -54,9 +59,12 @@ Future<DexFarm?> _getFarmInfos(
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
   final apiService = sl.get<ApiService>();
+  final userBalance =
+      await ref.read(BalanceProviders.getUserTokensBalance.future);
+
   final poolListResult =
       await RouterFactory(dexConf.routerGenesisAddress, apiService)
-          .getPoolList();
+          .getPoolList(userBalance!);
   DexPool? pool;
   await poolListResult.map(
     success: (success) async {

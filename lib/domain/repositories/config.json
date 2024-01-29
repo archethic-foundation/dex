@@ -7,8 +7,8 @@
         },
         {
             "name": "testnet",
-            "routerGenesisAddress": "00000dd757ac0a67fd619c1d1c400037a38cdb0471e6496807d8b850dc422e5ca3aa",
-            "factoryGenesisAddress": ""
+            "routerGenesisAddress": "000066cd867da536a73d39cf05174387923358dc0009a29cc7162d4aed00675dab55",
+            "factoryGenesisAddress": "000086e60124c986ebcaa5affb7a3db8213072a132233fe61cf45651fdcf3c4cecea"
         },
         {
             "name": "mainnet",

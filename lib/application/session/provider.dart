@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'package:aedex/application/dex_pool.dart';
+
 import 'package:aedex/application/dex_token.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -33,9 +34,7 @@ class _SessionNotifier extends Notifier<Session> {
       ..invalidate(DexTokensProviders.getTokenFromAccount)
       ..invalidate(DexTokensProviders.getTokenFromAddress)
       ..invalidate(DexTokensProviders.getTokenIcon)
-      ..invalidate(DexPoolProviders.getPoolInfos)
-      ..invalidate(DexPoolProviders.getPoolList)
-      ..invalidate(DexPoolProviders.getPoolListFromCache);
+      ..read(DexPoolProviders.invalidateData);
   }
 
   void connectEndpoint(String env) {
@@ -50,10 +49,6 @@ class _SessionNotifier extends Notifier<Session> {
     }
     setupServiceLocatorApiService(state.endpoint);
     invalidateInfos();
-  }
-
-  void setCacheFirstLoading(bool cacheFirstLoading) {
-    state = state.copyWith(cacheFirstLoading: cacheFirstLoading);
   }
 
   Future<void> connectToWallet({

@@ -7,7 +7,7 @@ part of 'dex_pool.dart';
 // **************************************************************************
 
 String _$dexPoolsRepositoryHash() =>
-    r'92ac8f739c5b4d8ae9289b01e516779284f976f4';
+    r'100f295d126c7ac2fb2b67f836c9d14c12ed2b8a';
 
 /// See also [_dexPoolsRepository].
 @ProviderFor(_dexPoolsRepository)
@@ -23,7 +23,23 @@ final _dexPoolsRepositoryProvider =
 );
 
 typedef _DexPoolsRepositoryRef = AutoDisposeProviderRef<DexPoolsRepository>;
-String _$getPoolListHash() => r'84447390879847710a89a99895a95dc084b1209f';
+String _$invalidateDataUseCaseHash() =>
+    r'38131e0ba0da813e6ad515cfe2e8b7349233bd95';
+
+/// See also [_invalidateDataUseCase].
+@ProviderFor(_invalidateDataUseCase)
+final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
+  _invalidateDataUseCase,
+  name: r'_invalidateDataUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$invalidateDataUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
+String _$getPoolHash() => r'c119ca4279833a4029474933cfd39c43d735d152';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -46,30 +62,30 @@ class _SystemHash {
   }
 }
 
-/// See also [_getPoolList].
-@ProviderFor(_getPoolList)
-const _getPoolListProvider = _GetPoolListFamily();
+/// See also [_getPool].
+@ProviderFor(_getPool)
+const _getPoolProvider = _GetPoolFamily();
 
-/// See also [_getPoolList].
-class _GetPoolListFamily extends Family<AsyncValue<List<DexPool>>> {
-  /// See also [_getPoolList].
-  const _GetPoolListFamily();
+/// See also [_getPool].
+class _GetPoolFamily extends Family<AsyncValue<DexPool?>> {
+  /// See also [_getPool].
+  const _GetPoolFamily();
 
-  /// See also [_getPoolList].
-  _GetPoolListProvider call(
-    bool onlyVerified,
+  /// See also [_getPool].
+  _GetPoolProvider call(
+    String genesisAddress,
   ) {
-    return _GetPoolListProvider(
-      onlyVerified,
+    return _GetPoolProvider(
+      genesisAddress,
     );
   }
 
   @override
-  _GetPoolListProvider getProviderOverride(
-    covariant _GetPoolListProvider provider,
+  _GetPoolProvider getProviderOverride(
+    covariant _GetPoolProvider provider,
   ) {
     return call(
-      provider.onlyVerified,
+      provider.genesisAddress,
     );
   }
 
@@ -85,95 +101,93 @@ class _GetPoolListFamily extends Family<AsyncValue<List<DexPool>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'_getPoolListProvider';
+  String? get name => r'_getPoolProvider';
 }
 
-/// See also [_getPoolList].
-class _GetPoolListProvider extends AutoDisposeFutureProvider<List<DexPool>> {
-  /// See also [_getPoolList].
-  _GetPoolListProvider(
-    bool onlyVerified,
+/// See also [_getPool].
+class _GetPoolProvider extends AutoDisposeFutureProvider<DexPool?> {
+  /// See also [_getPool].
+  _GetPoolProvider(
+    String genesisAddress,
   ) : this._internal(
-          (ref) => _getPoolList(
-            ref as _GetPoolListRef,
-            onlyVerified,
+          (ref) => _getPool(
+            ref as _GetPoolRef,
+            genesisAddress,
           ),
-          from: _getPoolListProvider,
-          name: r'_getPoolListProvider',
+          from: _getPoolProvider,
+          name: r'_getPoolProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$getPoolListHash,
-          dependencies: _GetPoolListFamily._dependencies,
-          allTransitiveDependencies:
-              _GetPoolListFamily._allTransitiveDependencies,
-          onlyVerified: onlyVerified,
+                  : _$getPoolHash,
+          dependencies: _GetPoolFamily._dependencies,
+          allTransitiveDependencies: _GetPoolFamily._allTransitiveDependencies,
+          genesisAddress: genesisAddress,
         );
 
-  _GetPoolListProvider._internal(
+  _GetPoolProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.onlyVerified,
+    required this.genesisAddress,
   }) : super.internal();
 
-  final bool onlyVerified;
+  final String genesisAddress;
 
   @override
   Override overrideWith(
-    FutureOr<List<DexPool>> Function(_GetPoolListRef provider) create,
+    FutureOr<DexPool?> Function(_GetPoolRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: _GetPoolListProvider._internal(
-        (ref) => create(ref as _GetPoolListRef),
+      override: _GetPoolProvider._internal(
+        (ref) => create(ref as _GetPoolRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        onlyVerified: onlyVerified,
+        genesisAddress: genesisAddress,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<DexPool>> createElement() {
-    return _GetPoolListProviderElement(this);
+  AutoDisposeFutureProviderElement<DexPool?> createElement() {
+    return _GetPoolProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is _GetPoolListProvider && other.onlyVerified == onlyVerified;
+    return other is _GetPoolProvider && other.genesisAddress == genesisAddress;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, onlyVerified.hashCode);
+    hash = _SystemHash.combine(hash, genesisAddress.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin _GetPoolListRef on AutoDisposeFutureProviderRef<List<DexPool>> {
-  /// The parameter `onlyVerified` of this provider.
-  bool get onlyVerified;
+mixin _GetPoolRef on AutoDisposeFutureProviderRef<DexPool?> {
+  /// The parameter `genesisAddress` of this provider.
+  String get genesisAddress;
 }
 
-class _GetPoolListProviderElement
-    extends AutoDisposeFutureProviderElement<List<DexPool>>
-    with _GetPoolListRef {
-  _GetPoolListProviderElement(super.provider);
+class _GetPoolProviderElement extends AutoDisposeFutureProviderElement<DexPool?>
+    with _GetPoolRef {
+  _GetPoolProviderElement(super.provider);
 
   @override
-  bool get onlyVerified => (origin as _GetPoolListProvider).onlyVerified;
+  String get genesisAddress => (origin as _GetPoolProvider).genesisAddress;
 }
 
-String _$getPoolInfosHash() => r'3a338779d5e0a7625005347be5240a889bcb93e4';
+String _$getPoolInfosHash() => r'ddefc822cfe21bd471dbe0aba7b5e9c37a088ecb';
 
 /// See also [_getPoolInfos].
 @ProviderFor(_getPoolInfos)
@@ -186,10 +200,10 @@ class _GetPoolInfosFamily extends Family<AsyncValue<DexPool?>> {
 
   /// See also [_getPoolInfos].
   _GetPoolInfosProvider call(
-    String poolGenesisAddress,
+    DexPool poolInput,
   ) {
     return _GetPoolInfosProvider(
-      poolGenesisAddress,
+      poolInput,
     );
   }
 
@@ -198,7 +212,7 @@ class _GetPoolInfosFamily extends Family<AsyncValue<DexPool?>> {
     covariant _GetPoolInfosProvider provider,
   ) {
     return call(
-      provider.poolGenesisAddress,
+      provider.poolInput,
     );
   }
 
@@ -221,11 +235,11 @@ class _GetPoolInfosFamily extends Family<AsyncValue<DexPool?>> {
 class _GetPoolInfosProvider extends AutoDisposeFutureProvider<DexPool?> {
   /// See also [_getPoolInfos].
   _GetPoolInfosProvider(
-    String poolGenesisAddress,
+    DexPool poolInput,
   ) : this._internal(
           (ref) => _getPoolInfos(
             ref as _GetPoolInfosRef,
-            poolGenesisAddress,
+            poolInput,
           ),
           from: _getPoolInfosProvider,
           name: r'_getPoolInfosProvider',
@@ -236,7 +250,7 @@ class _GetPoolInfosProvider extends AutoDisposeFutureProvider<DexPool?> {
           dependencies: _GetPoolInfosFamily._dependencies,
           allTransitiveDependencies:
               _GetPoolInfosFamily._allTransitiveDependencies,
-          poolGenesisAddress: poolGenesisAddress,
+          poolInput: poolInput,
         );
 
   _GetPoolInfosProvider._internal(
@@ -246,10 +260,10 @@ class _GetPoolInfosProvider extends AutoDisposeFutureProvider<DexPool?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.poolGenesisAddress,
+    required this.poolInput,
   }) : super.internal();
 
-  final String poolGenesisAddress;
+  final DexPool poolInput;
 
   @override
   Override overrideWith(
@@ -264,7 +278,7 @@ class _GetPoolInfosProvider extends AutoDisposeFutureProvider<DexPool?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        poolGenesisAddress: poolGenesisAddress,
+        poolInput: poolInput,
       ),
     );
   }
@@ -276,22 +290,21 @@ class _GetPoolInfosProvider extends AutoDisposeFutureProvider<DexPool?> {
 
   @override
   bool operator ==(Object other) {
-    return other is _GetPoolInfosProvider &&
-        other.poolGenesisAddress == poolGenesisAddress;
+    return other is _GetPoolInfosProvider && other.poolInput == poolInput;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, poolGenesisAddress.hashCode);
+    hash = _SystemHash.combine(hash, poolInput.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin _GetPoolInfosRef on AutoDisposeFutureProviderRef<DexPool?> {
-  /// The parameter `poolGenesisAddress` of this provider.
-  String get poolGenesisAddress;
+  /// The parameter `poolInput` of this provider.
+  DexPool get poolInput;
 }
 
 class _GetPoolInfosProviderElement
@@ -299,10 +312,75 @@ class _GetPoolInfosProviderElement
   _GetPoolInfosProviderElement(super.provider);
 
   @override
-  String get poolGenesisAddress =>
-      (origin as _GetPoolInfosProvider).poolGenesisAddress;
+  DexPool get poolInput => (origin as _GetPoolInfosProvider).poolInput;
 }
 
+String _$userTokenPoolsHash() => r'2c7b92618e2c3498800c376227d7b408b7c21d2c';
+
+/// See also [_userTokenPools].
+@ProviderFor(_userTokenPools)
+final _userTokenPoolsProvider =
+    AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _userTokenPools,
+  name: r'_userTokenPoolsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$userTokenPoolsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _UserTokenPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+String _$verifiedPoolsHash() => r'9190cdc02b6c01948bc9ace40e4ad1a732bb14b1';
+
+/// See also [_verifiedPools].
+@ProviderFor(_verifiedPools)
+final _verifiedPoolsProvider =
+    AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _verifiedPools,
+  name: r'_verifiedPoolsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$verifiedPoolsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _VerifiedPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+String _$getPoolListFromCacheHash() =>
+    r'd4f53fb3584c3edfd77f4f37bca00dc66f5c6419';
+
+/// See also [_getPoolListFromCache].
+@ProviderFor(_getPoolListFromCache)
+final _getPoolListFromCacheProvider =
+    AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _getPoolListFromCache,
+  name: r'_getPoolListFromCacheProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getPoolListFromCacheHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+String _$putPoolListInfosToCacheHash() =>
+    r'f60e723a3ff370033e938676606326cc97ae4b6a';
+
+/// See also [_putPoolListInfosToCache].
+@ProviderFor(_putPoolListInfosToCache)
+final _putPoolListInfosToCacheProvider =
+    AutoDisposeFutureProvider<void>.internal(
+  _putPoolListInfosToCache,
+  name: r'_putPoolListInfosToCacheProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$putPoolListInfosToCacheHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _PutPoolListInfosToCacheRef = AutoDisposeFutureProviderRef<void>;
 String _$getRatioHash() => r'354f7dc1b45d6a475670dfcda2997a5f86dec992';
 
 /// See also [_getRatio].
@@ -448,173 +526,6 @@ class _GetRatioProviderElement extends AutoDisposeFutureProviderElement<double>
   DexToken get token => (origin as _GetRatioProvider).token;
 }
 
-String _$getPoolListFromCacheHash() =>
-    r'4225ea7ad93f71d37c9a1356eb8ba9e7c20d8a8e';
-
-/// See also [_getPoolListFromCache].
-@ProviderFor(_getPoolListFromCache)
-const _getPoolListFromCacheProvider = _GetPoolListFromCacheFamily();
-
-/// See also [_getPoolListFromCache].
-class _GetPoolListFromCacheFamily extends Family<AsyncValue<List<DexPool>>> {
-  /// See also [_getPoolListFromCache].
-  const _GetPoolListFromCacheFamily();
-
-  /// See also [_getPoolListFromCache].
-  _GetPoolListFromCacheProvider call(
-    bool onlyVerified,
-    bool onlyPoolsWithLiquidityPositions,
-  ) {
-    return _GetPoolListFromCacheProvider(
-      onlyVerified,
-      onlyPoolsWithLiquidityPositions,
-    );
-  }
-
-  @override
-  _GetPoolListFromCacheProvider getProviderOverride(
-    covariant _GetPoolListFromCacheProvider provider,
-  ) {
-    return call(
-      provider.onlyVerified,
-      provider.onlyPoolsWithLiquidityPositions,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_getPoolListFromCacheProvider';
-}
-
-/// See also [_getPoolListFromCache].
-class _GetPoolListFromCacheProvider
-    extends AutoDisposeFutureProvider<List<DexPool>> {
-  /// See also [_getPoolListFromCache].
-  _GetPoolListFromCacheProvider(
-    bool onlyVerified,
-    bool onlyPoolsWithLiquidityPositions,
-  ) : this._internal(
-          (ref) => _getPoolListFromCache(
-            ref as _GetPoolListFromCacheRef,
-            onlyVerified,
-            onlyPoolsWithLiquidityPositions,
-          ),
-          from: _getPoolListFromCacheProvider,
-          name: r'_getPoolListFromCacheProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getPoolListFromCacheHash,
-          dependencies: _GetPoolListFromCacheFamily._dependencies,
-          allTransitiveDependencies:
-              _GetPoolListFromCacheFamily._allTransitiveDependencies,
-          onlyVerified: onlyVerified,
-          onlyPoolsWithLiquidityPositions: onlyPoolsWithLiquidityPositions,
-        );
-
-  _GetPoolListFromCacheProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.onlyVerified,
-    required this.onlyPoolsWithLiquidityPositions,
-  }) : super.internal();
-
-  final bool onlyVerified;
-  final bool onlyPoolsWithLiquidityPositions;
-
-  @override
-  Override overrideWith(
-    FutureOr<List<DexPool>> Function(_GetPoolListFromCacheRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _GetPoolListFromCacheProvider._internal(
-        (ref) => create(ref as _GetPoolListFromCacheRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        onlyVerified: onlyVerified,
-        onlyPoolsWithLiquidityPositions: onlyPoolsWithLiquidityPositions,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<List<DexPool>> createElement() {
-    return _GetPoolListFromCacheProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _GetPoolListFromCacheProvider &&
-        other.onlyVerified == onlyVerified &&
-        other.onlyPoolsWithLiquidityPositions ==
-            onlyPoolsWithLiquidityPositions;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, onlyVerified.hashCode);
-    hash = _SystemHash.combine(hash, onlyPoolsWithLiquidityPositions.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _GetPoolListFromCacheRef on AutoDisposeFutureProviderRef<List<DexPool>> {
-  /// The parameter `onlyVerified` of this provider.
-  bool get onlyVerified;
-
-  /// The parameter `onlyPoolsWithLiquidityPositions` of this provider.
-  bool get onlyPoolsWithLiquidityPositions;
-}
-
-class _GetPoolListFromCacheProviderElement
-    extends AutoDisposeFutureProviderElement<List<DexPool>>
-    with _GetPoolListFromCacheRef {
-  _GetPoolListFromCacheProviderElement(super.provider);
-
-  @override
-  bool get onlyVerified =>
-      (origin as _GetPoolListFromCacheProvider).onlyVerified;
-  @override
-  bool get onlyPoolsWithLiquidityPositions =>
-      (origin as _GetPoolListFromCacheProvider).onlyPoolsWithLiquidityPositions;
-}
-
-String _$putPoolListToCacheHash() =>
-    r'a7371f5c8e5e80d23104a9bfd70f324bcab2183b';
-
-/// See also [_putPoolListToCache].
-@ProviderFor(_putPoolListToCache)
-final _putPoolListToCacheProvider = AutoDisposeFutureProvider<void>.internal(
-  _putPoolListToCache,
-  name: r'_putPoolListToCacheProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$putPoolListToCacheHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _PutPoolListToCacheRef = AutoDisposeFutureProviderRef<void>;
 String _$estimateTokenInFiatHash() =>
     r'9a71209573d9ea2867e12de00d6309c7a4165fa9';
 
@@ -746,7 +657,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimatePoolTVLInFiatHash() =>
-    r'952cc20b4026e709044cc9f64fdf463a38de7b86';
+    r'd7bbe10781642c0206a5f773b6efe9ce587e86da';
 
 /// See also [_estimatePoolTVLInFiat].
 @ProviderFor(_estimatePoolTVLInFiat)
@@ -875,7 +786,7 @@ class _EstimatePoolTVLInFiatProviderElement
   DexPool get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'64b17ce6009c91745091aee419d8f194ef1df9f4';
+String _$estimateStatsHash() => r'b96d4b1bdae0ca6d2bec4affebab3051ad064d70';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -895,10 +806,10 @@ class _EstimateStatsFamily extends Family<
 
   /// See also [_estimateStats].
   _EstimateStatsProvider call(
-    DexPool currentPoolInfos,
+    DexPool pool,
   ) {
     return _EstimateStatsProvider(
-      currentPoolInfos,
+      pool,
     );
   }
 
@@ -907,7 +818,7 @@ class _EstimateStatsFamily extends Family<
     covariant _EstimateStatsProvider provider,
   ) {
     return call(
-      provider.currentPoolInfos,
+      provider.pool,
     );
   }
 
@@ -936,11 +847,11 @@ class _EstimateStatsProvider extends AutoDisposeFutureProvider<
     })> {
   /// See also [_estimateStats].
   _EstimateStatsProvider(
-    DexPool currentPoolInfos,
+    DexPool pool,
   ) : this._internal(
           (ref) => _estimateStats(
             ref as _EstimateStatsRef,
-            currentPoolInfos,
+            pool,
           ),
           from: _estimateStatsProvider,
           name: r'_estimateStatsProvider',
@@ -951,7 +862,7 @@ class _EstimateStatsProvider extends AutoDisposeFutureProvider<
           dependencies: _EstimateStatsFamily._dependencies,
           allTransitiveDependencies:
               _EstimateStatsFamily._allTransitiveDependencies,
-          currentPoolInfos: currentPoolInfos,
+          pool: pool,
         );
 
   _EstimateStatsProvider._internal(
@@ -961,10 +872,10 @@ class _EstimateStatsProvider extends AutoDisposeFutureProvider<
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.currentPoolInfos,
+    required this.pool,
   }) : super.internal();
 
-  final DexPool currentPoolInfos;
+  final DexPool pool;
 
   @override
   Override overrideWith(
@@ -987,7 +898,7 @@ class _EstimateStatsProvider extends AutoDisposeFutureProvider<
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        currentPoolInfos: currentPoolInfos,
+        pool: pool,
       ),
     );
   }
@@ -1005,14 +916,13 @@ class _EstimateStatsProvider extends AutoDisposeFutureProvider<
 
   @override
   bool operator ==(Object other) {
-    return other is _EstimateStatsProvider &&
-        other.currentPoolInfos == currentPoolInfos;
+    return other is _EstimateStatsProvider && other.pool == pool;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, currentPoolInfos.hashCode);
+    hash = _SystemHash.combine(hash, pool.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -1025,8 +935,8 @@ mixin _EstimateStatsRef on AutoDisposeFutureProviderRef<
       double volumeAllTime,
       double feeAllTime
     })> {
-  /// The parameter `currentPoolInfos` of this provider.
-  DexPool get currentPoolInfos;
+  /// The parameter `pool` of this provider.
+  DexPool get pool;
 }
 
 class _EstimateStatsProviderElement extends AutoDisposeFutureProviderElement<
@@ -1039,8 +949,39 @@ class _EstimateStatsProviderElement extends AutoDisposeFutureProviderElement<
   _EstimateStatsProviderElement(super.provider);
 
   @override
-  DexPool get currentPoolInfos =>
-      (origin as _EstimateStatsProvider).currentPoolInfos;
+  DexPool get pool => (origin as _EstimateStatsProvider).pool;
 }
+
+String _$getPoolListHash() => r'458b882441a4741e96c8783fd00daed48a169f22';
+
+/// See also [_getPoolList].
+@ProviderFor(_getPoolList)
+final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _getPoolList,
+  name: r'_getPoolListProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getPoolListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _GetPoolListRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+String _$getPoolListForUserHash() =>
+    r'8c01e382a405d079f8573241d7b7b9ca020a1b4c';
+
+/// See also [_getPoolListForUser].
+@ProviderFor(_getPoolListForUser)
+final _getPoolListForUserProvider =
+    AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _getPoolListForUser,
+  name: r'_getPoolListForUserProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getPoolListForUserHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _GetPoolListForUserRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

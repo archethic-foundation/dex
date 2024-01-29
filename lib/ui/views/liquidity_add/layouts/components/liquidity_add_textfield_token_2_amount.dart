@@ -61,13 +61,13 @@ class _LiquidityAddToken2AmountState
 
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
     final textNum = double.tryParse(tokenAmountController.text);
-    if (!(liquidityAdd.token2Amount != 0.0 ||
-        tokenAmountController.text == '' ||
-        (textNum != null && textNum == 0))) {
+    if (liquidityAdd.token2Amount == 0.0 &&
+        tokenAmountController.text != '' &&
+        (textNum == null || textNum != 0)) {
       _updateAmountTextController();
     }
-    if (liquidityAdd.token1Amount != 0.0 &&
-        textNum != liquidityAdd.token1Amount) {
+    if (liquidityAdd.token2Amount != 0.0 &&
+        textNum != liquidityAdd.token2Amount) {
       _updateAmountTextController();
     }
 

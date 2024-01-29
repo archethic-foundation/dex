@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -54,7 +55,9 @@ class RouterFactory with ModelParser {
   }
 
   /// Return the infos of all the pools.
-  Future<Result<List<DexPool>, Failure>> getPoolList() async {
+  Future<Result<List<DexPool>, Failure>> getPoolList(
+    Balance userBalance,
+  ) async {
     return Result.guard(
       () async {
         final results = await apiService.callSCFunction(
@@ -74,7 +77,7 @@ class RouterFactory with ModelParser {
         for (final result in results) {
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
-            await poolListToModel(getPoolListResponse),
+            await poolListItemToModel(userBalance, getPoolListResponse),
           );
         }
 
@@ -107,7 +110,7 @@ class RouterFactory with ModelParser {
           final getFarmListResponse = GetFarmListResponse.fromJson(result);
           final dexpool = poolList.singleWhere(
             (pool) =>
-                pool.lpToken!.address!.toUpperCase() ==
+                pool.lpToken.address!.toUpperCase() ==
                 getFarmListResponse.lpTokenAddress.toUpperCase(),
           );
 

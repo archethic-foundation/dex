@@ -20,7 +20,7 @@ class SwapTokenIconRefresh extends ConsumerWidget {
           swap.tokenToSwapAmount,
         );
         await swapNotifier.getRatio();
-        await swapNotifier.getPoolInfos();
+        await swapNotifier.getPool();
       },
       child: const Padding(
         padding: EdgeInsets.only(left: 5, bottom: 4),

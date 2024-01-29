@@ -31,7 +31,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
           Row(
             children: [
               Text(
-                '${liquidityRemove.token1!.symbol}: +${liquidityRemove.token1AmountGetBack.formatNumber()} ${liquidityRemove.token1!.symbol}',
+                '${liquidityRemove.token1!.symbol}: +${liquidityRemove.token1AmountGetBack.formatNumber(precision: 8)} ${liquidityRemove.token1!.symbol}',
                 style: Theme.of(context).textTheme.bodyLarge,
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.end,
@@ -51,7 +51,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
                     if (snapshot.hasData) {
                       return Text(
                         snapshot.data!,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       );
                     }
                     return const SizedBox.shrink();
@@ -62,7 +62,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
           Row(
             children: [
               Text(
-                '${liquidityRemove.token2!.symbol}: +${liquidityRemove.token2AmountGetBack.formatNumber()} ${liquidityRemove.token2!.symbol}',
+                '${liquidityRemove.token2!.symbol}: +${liquidityRemove.token2AmountGetBack.formatNumber(precision: 8)} ${liquidityRemove.token2!.symbol}',
                 style: Theme.of(context).textTheme.bodyLarge,
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.end,
@@ -82,7 +82,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
                     if (snapshot.hasData) {
                       return Text(
                         snapshot.data!,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       );
                     }
                     return const SizedBox.shrink();

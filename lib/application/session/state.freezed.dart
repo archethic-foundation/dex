@@ -26,7 +26,6 @@ mixin _$Session {
   Subscription<Account>? get accountSub => throw _privateConstructorUsedError;
   StreamSubscription<Account>? get accountStreamSub =>
       throw _privateConstructorUsedError;
-  dynamic get cacheFirstLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SessionCopyWith<Session> get copyWith => throw _privateConstructorUsedError;
@@ -46,8 +45,7 @@ abstract class $SessionCopyWith<$Res> {
       String error,
       bool isConnected,
       Subscription<Account>? accountSub,
-      StreamSubscription<Account>? accountStreamSub,
-      dynamic cacheFirstLoading});
+      StreamSubscription<Account>? accountStreamSub});
 
   $SubscriptionCopyWith<Account, $Res>? get accountSub;
 }
@@ -74,7 +72,6 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
     Object? isConnected = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
-    Object? cacheFirstLoading = freezed,
   }) {
     return _then(_value.copyWith(
       envSelected: null == envSelected
@@ -113,10 +110,6 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
           ? _value.accountStreamSub
           : accountStreamSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<Account>?,
-      cacheFirstLoading: freezed == cacheFirstLoading
-          ? _value.cacheFirstLoading
-          : cacheFirstLoading // ignore: cast_nullable_to_non_nullable
-              as dynamic,
     ) as $Val);
   }
 
@@ -149,8 +142,7 @@ abstract class _$$SessionImplCopyWith<$Res> implements $SessionCopyWith<$Res> {
       String error,
       bool isConnected,
       Subscription<Account>? accountSub,
-      StreamSubscription<Account>? accountStreamSub,
-      dynamic cacheFirstLoading});
+      StreamSubscription<Account>? accountStreamSub});
 
   @override
   $SubscriptionCopyWith<Account, $Res>? get accountSub;
@@ -176,7 +168,6 @@ class __$$SessionImplCopyWithImpl<$Res>
     Object? isConnected = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
-    Object? cacheFirstLoading = freezed,
   }) {
     return _then(_$SessionImpl(
       envSelected: null == envSelected
@@ -215,9 +206,6 @@ class __$$SessionImplCopyWithImpl<$Res>
           ? _value.accountStreamSub
           : accountStreamSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<Account>?,
-      cacheFirstLoading: freezed == cacheFirstLoading
-          ? _value.cacheFirstLoading!
-          : cacheFirstLoading,
     ));
   }
 }
@@ -234,8 +222,7 @@ class _$SessionImpl extends _Session {
       this.error = '',
       this.isConnected = false,
       this.accountSub,
-      this.accountStreamSub,
-      this.cacheFirstLoading = false})
+      this.accountStreamSub})
       : super._();
 
   @override
@@ -263,13 +250,10 @@ class _$SessionImpl extends _Session {
   final Subscription<Account>? accountSub;
   @override
   final StreamSubscription<Account>? accountStreamSub;
-  @override
-  @JsonKey()
-  final dynamic cacheFirstLoading;
 
   @override
   String toString() {
-    return 'Session(envSelected: $envSelected, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub, cacheFirstLoading: $cacheFirstLoading)';
+    return 'Session(envSelected: $envSelected, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
   }
 
   @override
@@ -293,9 +277,7 @@ class _$SessionImpl extends _Session {
             (identical(other.accountSub, accountSub) ||
                 other.accountSub == accountSub) &&
             (identical(other.accountStreamSub, accountStreamSub) ||
-                other.accountStreamSub == accountStreamSub) &&
-            const DeepCollectionEquality()
-                .equals(other.cacheFirstLoading, cacheFirstLoading));
+                other.accountStreamSub == accountStreamSub));
   }
 
   @override
@@ -309,8 +291,7 @@ class _$SessionImpl extends _Session {
       error,
       isConnected,
       accountSub,
-      accountStreamSub,
-      const DeepCollectionEquality().hash(cacheFirstLoading));
+      accountStreamSub);
 
   @JsonKey(ignore: true)
   @override
@@ -329,8 +310,7 @@ abstract class _Session extends Session {
       final String error,
       final bool isConnected,
       final Subscription<Account>? accountSub,
-      final StreamSubscription<Account>? accountStreamSub,
-      final dynamic cacheFirstLoading}) = _$SessionImpl;
+      final StreamSubscription<Account>? accountStreamSub}) = _$SessionImpl;
   const _Session._() : super._();
 
   @override
@@ -351,8 +331,6 @@ abstract class _Session extends Session {
   Subscription<Account>? get accountSub;
   @override
   StreamSubscription<Account>? get accountStreamSub;
-  @override
-  dynamic get cacheFirstLoading;
   @override
   @JsonKey(ignore: true)
   _$$SessionImplCopyWith<_$SessionImpl> get copyWith =>

@@ -40,7 +40,7 @@ mixin _$SwapFormState {
   Failure? get failure => throw _privateConstructorUsedError;
   Transaction? get recoveryTransactionSwap =>
       throw _privateConstructorUsedError;
-  DexPool? get poolInfos => throw _privateConstructorUsedError;
+  DexPool? get pool => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SwapFormStateCopyWith<SwapFormState> get copyWith =>
@@ -77,13 +77,13 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double? finalAmount,
       Failure? failure,
       Transaction? recoveryTransactionSwap,
-      DexPool? poolInfos});
+      DexPool? pool});
 
   $DexTokenCopyWith<$Res>? get tokenToSwap;
   $DexTokenCopyWith<$Res>? get tokenSwapped;
   $FailureCopyWith<$Res>? get failure;
   $TransactionCopyWith<$Res>? get recoveryTransactionSwap;
-  $DexPoolCopyWith<$Res>? get poolInfos;
+  $DexPoolCopyWith<$Res>? get pool;
 }
 
 /// @nodoc
@@ -122,7 +122,7 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? finalAmount = freezed,
     Object? failure = freezed,
     Object? recoveryTransactionSwap = freezed,
-    Object? poolInfos = freezed,
+    Object? pool = freezed,
   }) {
     return _then(_value.copyWith(
       swapProcessStep: null == swapProcessStep
@@ -217,9 +217,9 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.recoveryTransactionSwap
           : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
               as Transaction?,
-      poolInfos: freezed == poolInfos
-          ? _value.poolInfos
-          : poolInfos // ignore: cast_nullable_to_non_nullable
+      pool: freezed == pool
+          ? _value.pool
+          : pool // ignore: cast_nullable_to_non_nullable
               as DexPool?,
     ) as $Val);
   }
@@ -274,13 +274,13 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
 
   @override
   @pragma('vm:prefer-inline')
-  $DexPoolCopyWith<$Res>? get poolInfos {
-    if (_value.poolInfos == null) {
+  $DexPoolCopyWith<$Res>? get pool {
+    if (_value.pool == null) {
       return null;
     }
 
-    return $DexPoolCopyWith<$Res>(_value.poolInfos!, (value) {
-      return _then(_value.copyWith(poolInfos: value) as $Val);
+    return $DexPoolCopyWith<$Res>(_value.pool!, (value) {
+      return _then(_value.copyWith(pool: value) as $Val);
     });
   }
 }
@@ -317,7 +317,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
       double? finalAmount,
       Failure? failure,
       Transaction? recoveryTransactionSwap,
-      DexPool? poolInfos});
+      DexPool? pool});
 
   @override
   $DexTokenCopyWith<$Res>? get tokenToSwap;
@@ -328,7 +328,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
   @override
   $TransactionCopyWith<$Res>? get recoveryTransactionSwap;
   @override
-  $DexPoolCopyWith<$Res>? get poolInfos;
+  $DexPoolCopyWith<$Res>? get pool;
 }
 
 /// @nodoc
@@ -365,7 +365,7 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
     Object? finalAmount = freezed,
     Object? failure = freezed,
     Object? recoveryTransactionSwap = freezed,
-    Object? poolInfos = freezed,
+    Object? pool = freezed,
   }) {
     return _then(_$SwapFormStateImpl(
       swapProcessStep: null == swapProcessStep
@@ -460,9 +460,9 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
           ? _value.recoveryTransactionSwap
           : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
               as Transaction?,
-      poolInfos: freezed == poolInfos
-          ? _value.poolInfos
-          : poolInfos // ignore: cast_nullable_to_non_nullable
+      pool: freezed == pool
+          ? _value.pool
+          : pool // ignore: cast_nullable_to_non_nullable
               as DexPool?,
     ));
   }
@@ -495,7 +495,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
       this.finalAmount,
       this.failure,
       this.recoveryTransactionSwap,
-      this.poolInfos})
+      this.pool})
       : super._();
 
   @override
@@ -563,11 +563,11 @@ class _$SwapFormStateImpl extends _SwapFormState {
   @override
   final Transaction? recoveryTransactionSwap;
   @override
-  final DexPool? poolInfos;
+  final DexPool? pool;
 
   @override
   String toString() {
-    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, poolInfos: $poolInfos)';
+    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, pool: $pool)';
   }
 
   @override
@@ -619,8 +619,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
             (identical(
                     other.recoveryTransactionSwap, recoveryTransactionSwap) ||
                 other.recoveryTransactionSwap == recoveryTransactionSwap) &&
-            (identical(other.poolInfos, poolInfos) ||
-                other.poolInfos == poolInfos));
+            (identical(other.pool, pool) || other.pool == pool));
   }
 
   @override
@@ -649,7 +648,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
         finalAmount,
         failure,
         recoveryTransactionSwap,
-        poolInfos
+        pool
       ]);
 
   @JsonKey(ignore: true)
@@ -684,7 +683,7 @@ abstract class _SwapFormState extends SwapFormState {
       final double? finalAmount,
       final Failure? failure,
       final Transaction? recoveryTransactionSwap,
-      final DexPool? poolInfos}) = _$SwapFormStateImpl;
+      final DexPool? pool}) = _$SwapFormStateImpl;
   const _SwapFormState._() : super._();
 
   @override
@@ -734,7 +733,7 @@ abstract class _SwapFormState extends SwapFormState {
   @override
   Transaction? get recoveryTransactionSwap;
   @override
-  DexPool? get poolInfos;
+  DexPool? get pool;
   @override
   @JsonKey(ignore: true)
   _$$SwapFormStateImplCopyWith<_$SwapFormStateImpl> get copyWith =>

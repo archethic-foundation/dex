@@ -17,18 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DexPool {
   String get poolAddress => throw _privateConstructorUsedError;
-  DexToken? get lpToken => throw _privateConstructorUsedError;
-  int get ranking => throw _privateConstructorUsedError;
-  DexPair? get pair => throw _privateConstructorUsedError;
-  double get fees => throw _privateConstructorUsedError;
-  double get ratioToken1Token2 => throw _privateConstructorUsedError;
-  double get ratioToken2Token1 => throw _privateConstructorUsedError;
-  double get estimatePoolTVLInFiat => throw _privateConstructorUsedError;
+  DexToken get lpToken => throw _privateConstructorUsedError;
+  DexPair get pair => throw _privateConstructorUsedError;
   bool get lpTokenInUserBalance => throw _privateConstructorUsedError;
-  double get token1TotalFee => throw _privateConstructorUsedError;
-  double get token1TotalVolume => throw _privateConstructorUsedError;
-  double get token2TotalFee => throw _privateConstructorUsedError;
-  double get token2TotalVolume => throw _privateConstructorUsedError;
+  DexPoolInfos? get infos => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexPoolCopyWith<DexPool> get copyWith => throw _privateConstructorUsedError;
@@ -41,21 +33,14 @@ abstract class $DexPoolCopyWith<$Res> {
   @useResult
   $Res call(
       {String poolAddress,
-      DexToken? lpToken,
-      int ranking,
-      DexPair? pair,
-      double fees,
-      double ratioToken1Token2,
-      double ratioToken2Token1,
-      double estimatePoolTVLInFiat,
+      DexToken lpToken,
+      DexPair pair,
       bool lpTokenInUserBalance,
-      double token1TotalFee,
-      double token1TotalVolume,
-      double token2TotalFee,
-      double token2TotalVolume});
+      DexPoolInfos? infos});
 
-  $DexTokenCopyWith<$Res>? get lpToken;
-  $DexPairCopyWith<$Res>? get pair;
+  $DexTokenCopyWith<$Res> get lpToken;
+  $DexPairCopyWith<$Res> get pair;
+  $DexPoolInfosCopyWith<$Res>? get infos;
 }
 
 /// @nodoc
@@ -72,36 +57,260 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
   @override
   $Res call({
     Object? poolAddress = null,
-    Object? lpToken = freezed,
-    Object? ranking = null,
-    Object? pair = freezed,
-    Object? fees = null,
-    Object? ratioToken1Token2 = null,
-    Object? ratioToken2Token1 = null,
-    Object? estimatePoolTVLInFiat = null,
+    Object? lpToken = null,
+    Object? pair = null,
     Object? lpTokenInUserBalance = null,
-    Object? token1TotalFee = null,
-    Object? token1TotalVolume = null,
-    Object? token2TotalFee = null,
-    Object? token2TotalVolume = null,
+    Object? infos = freezed,
   }) {
     return _then(_value.copyWith(
       poolAddress: null == poolAddress
           ? _value.poolAddress
           : poolAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      lpToken: freezed == lpToken
+      lpToken: null == lpToken
           ? _value.lpToken
           : lpToken // ignore: cast_nullable_to_non_nullable
-              as DexToken?,
-      ranking: null == ranking
-          ? _value.ranking
-          : ranking // ignore: cast_nullable_to_non_nullable
-              as int,
-      pair: freezed == pair
+              as DexToken,
+      pair: null == pair
           ? _value.pair
           : pair // ignore: cast_nullable_to_non_nullable
-              as DexPair?,
+              as DexPair,
+      lpTokenInUserBalance: null == lpTokenInUserBalance
+          ? _value.lpTokenInUserBalance
+          : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
+              as bool,
+      infos: freezed == infos
+          ? _value.infos
+          : infos // ignore: cast_nullable_to_non_nullable
+              as DexPoolInfos?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res> get lpToken {
+    return $DexTokenCopyWith<$Res>(_value.lpToken, (value) {
+      return _then(_value.copyWith(lpToken: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexPairCopyWith<$Res> get pair {
+    return $DexPairCopyWith<$Res>(_value.pair, (value) {
+      return _then(_value.copyWith(pair: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexPoolInfosCopyWith<$Res>? get infos {
+    if (_value.infos == null) {
+      return null;
+    }
+
+    return $DexPoolInfosCopyWith<$Res>(_value.infos!, (value) {
+      return _then(_value.copyWith(infos: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
+  factory _$$DexPoolImplCopyWith(
+          _$DexPoolImpl value, $Res Function(_$DexPoolImpl) then) =
+      __$$DexPoolImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String poolAddress,
+      DexToken lpToken,
+      DexPair pair,
+      bool lpTokenInUserBalance,
+      DexPoolInfos? infos});
+
+  @override
+  $DexTokenCopyWith<$Res> get lpToken;
+  @override
+  $DexPairCopyWith<$Res> get pair;
+  @override
+  $DexPoolInfosCopyWith<$Res>? get infos;
+}
+
+/// @nodoc
+class __$$DexPoolImplCopyWithImpl<$Res>
+    extends _$DexPoolCopyWithImpl<$Res, _$DexPoolImpl>
+    implements _$$DexPoolImplCopyWith<$Res> {
+  __$$DexPoolImplCopyWithImpl(
+      _$DexPoolImpl _value, $Res Function(_$DexPoolImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? poolAddress = null,
+    Object? lpToken = null,
+    Object? pair = null,
+    Object? lpTokenInUserBalance = null,
+    Object? infos = freezed,
+  }) {
+    return _then(_$DexPoolImpl(
+      poolAddress: null == poolAddress
+          ? _value.poolAddress
+          : poolAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      lpToken: null == lpToken
+          ? _value.lpToken
+          : lpToken // ignore: cast_nullable_to_non_nullable
+              as DexToken,
+      pair: null == pair
+          ? _value.pair
+          : pair // ignore: cast_nullable_to_non_nullable
+              as DexPair,
+      lpTokenInUserBalance: null == lpTokenInUserBalance
+          ? _value.lpTokenInUserBalance
+          : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
+              as bool,
+      infos: freezed == infos
+          ? _value.infos
+          : infos // ignore: cast_nullable_to_non_nullable
+              as DexPoolInfos?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DexPoolImpl extends _DexPool {
+  const _$DexPoolImpl(
+      {required this.poolAddress,
+      required this.lpToken,
+      required this.pair,
+      required this.lpTokenInUserBalance,
+      this.infos})
+      : super._();
+
+  @override
+  final String poolAddress;
+  @override
+  final DexToken lpToken;
+  @override
+  final DexPair pair;
+  @override
+  final bool lpTokenInUserBalance;
+  @override
+  final DexPoolInfos? infos;
+
+  @override
+  String toString() {
+    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, pair: $pair, lpTokenInUserBalance: $lpTokenInUserBalance, infos: $infos)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DexPoolImpl &&
+            (identical(other.poolAddress, poolAddress) ||
+                other.poolAddress == poolAddress) &&
+            (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
+            (identical(other.pair, pair) || other.pair == pair) &&
+            (identical(other.lpTokenInUserBalance, lpTokenInUserBalance) ||
+                other.lpTokenInUserBalance == lpTokenInUserBalance) &&
+            (identical(other.infos, infos) || other.infos == infos));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, poolAddress, lpToken, pair, lpTokenInUserBalance, infos);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>
+      __$$DexPoolImplCopyWithImpl<_$DexPoolImpl>(this, _$identity);
+}
+
+abstract class _DexPool extends DexPool {
+  const factory _DexPool(
+      {required final String poolAddress,
+      required final DexToken lpToken,
+      required final DexPair pair,
+      required final bool lpTokenInUserBalance,
+      final DexPoolInfos? infos}) = _$DexPoolImpl;
+  const _DexPool._() : super._();
+
+  @override
+  String get poolAddress;
+  @override
+  DexToken get lpToken;
+  @override
+  DexPair get pair;
+  @override
+  bool get lpTokenInUserBalance;
+  @override
+  DexPoolInfos? get infos;
+  @override
+  @JsonKey(ignore: true)
+  _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$DexPoolInfos {
+// required int ranking, // TODO activate and use this
+  double get fees => throw _privateConstructorUsedError;
+  double get ratioToken1Token2 => throw _privateConstructorUsedError;
+  double get ratioToken2Token1 =>
+      throw _privateConstructorUsedError; // required double estimatePoolTVLInFiat,
+  double get token1TotalFee => throw _privateConstructorUsedError;
+  double get token1TotalVolume => throw _privateConstructorUsedError;
+  double get token2TotalFee => throw _privateConstructorUsedError;
+  double get token2TotalVolume => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $DexPoolInfosCopyWith<DexPoolInfos> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DexPoolInfosCopyWith<$Res> {
+  factory $DexPoolInfosCopyWith(
+          DexPoolInfos value, $Res Function(DexPoolInfos) then) =
+      _$DexPoolInfosCopyWithImpl<$Res, DexPoolInfos>;
+  @useResult
+  $Res call(
+      {double fees,
+      double ratioToken1Token2,
+      double ratioToken2Token1,
+      double token1TotalFee,
+      double token1TotalVolume,
+      double token2TotalFee,
+      double token2TotalVolume});
+}
+
+/// @nodoc
+class _$DexPoolInfosCopyWithImpl<$Res, $Val extends DexPoolInfos>
+    implements $DexPoolInfosCopyWith<$Res> {
+  _$DexPoolInfosCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fees = null,
+    Object? ratioToken1Token2 = null,
+    Object? ratioToken2Token1 = null,
+    Object? token1TotalFee = null,
+    Object? token1TotalVolume = null,
+    Object? token2TotalFee = null,
+    Object? token2TotalVolume = null,
+  }) {
+    return _then(_value.copyWith(
       fees: null == fees
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
@@ -114,14 +323,6 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
           ? _value.ratioToken2Token1
           : ratioToken2Token1 // ignore: cast_nullable_to_non_nullable
               as double,
-      estimatePoolTVLInFiat: null == estimatePoolTVLInFiat
-          ? _value.estimatePoolTVLInFiat
-          : estimatePoolTVLInFiat // ignore: cast_nullable_to_non_nullable
-              as double,
-      lpTokenInUserBalance: null == lpTokenInUserBalance
-          ? _value.lpTokenInUserBalance
-          : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
-              as bool,
       token1TotalFee: null == token1TotalFee
           ? _value.token1TotalFee
           : token1TotalFee // ignore: cast_nullable_to_non_nullable
@@ -140,102 +341,46 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
               as double,
     ) as $Val);
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DexTokenCopyWith<$Res>? get lpToken {
-    if (_value.lpToken == null) {
-      return null;
-    }
-
-    return $DexTokenCopyWith<$Res>(_value.lpToken!, (value) {
-      return _then(_value.copyWith(lpToken: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DexPairCopyWith<$Res>? get pair {
-    if (_value.pair == null) {
-      return null;
-    }
-
-    return $DexPairCopyWith<$Res>(_value.pair!, (value) {
-      return _then(_value.copyWith(pair: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
-abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
-  factory _$$DexPoolImplCopyWith(
-          _$DexPoolImpl value, $Res Function(_$DexPoolImpl) then) =
-      __$$DexPoolImplCopyWithImpl<$Res>;
+abstract class _$$DexPoolInfosImplCopyWith<$Res>
+    implements $DexPoolInfosCopyWith<$Res> {
+  factory _$$DexPoolInfosImplCopyWith(
+          _$DexPoolInfosImpl value, $Res Function(_$DexPoolInfosImpl) then) =
+      __$$DexPoolInfosImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String poolAddress,
-      DexToken? lpToken,
-      int ranking,
-      DexPair? pair,
-      double fees,
+      {double fees,
       double ratioToken1Token2,
       double ratioToken2Token1,
-      double estimatePoolTVLInFiat,
-      bool lpTokenInUserBalance,
       double token1TotalFee,
       double token1TotalVolume,
       double token2TotalFee,
       double token2TotalVolume});
-
-  @override
-  $DexTokenCopyWith<$Res>? get lpToken;
-  @override
-  $DexPairCopyWith<$Res>? get pair;
 }
 
 /// @nodoc
-class __$$DexPoolImplCopyWithImpl<$Res>
-    extends _$DexPoolCopyWithImpl<$Res, _$DexPoolImpl>
-    implements _$$DexPoolImplCopyWith<$Res> {
-  __$$DexPoolImplCopyWithImpl(
-      _$DexPoolImpl _value, $Res Function(_$DexPoolImpl) _then)
+class __$$DexPoolInfosImplCopyWithImpl<$Res>
+    extends _$DexPoolInfosCopyWithImpl<$Res, _$DexPoolInfosImpl>
+    implements _$$DexPoolInfosImplCopyWith<$Res> {
+  __$$DexPoolInfosImplCopyWithImpl(
+      _$DexPoolInfosImpl _value, $Res Function(_$DexPoolInfosImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? poolAddress = null,
-    Object? lpToken = freezed,
-    Object? ranking = null,
-    Object? pair = freezed,
     Object? fees = null,
     Object? ratioToken1Token2 = null,
     Object? ratioToken2Token1 = null,
-    Object? estimatePoolTVLInFiat = null,
-    Object? lpTokenInUserBalance = null,
     Object? token1TotalFee = null,
     Object? token1TotalVolume = null,
     Object? token2TotalFee = null,
     Object? token2TotalVolume = null,
   }) {
-    return _then(_$DexPoolImpl(
-      poolAddress: null == poolAddress
-          ? _value.poolAddress
-          : poolAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      lpToken: freezed == lpToken
-          ? _value.lpToken
-          : lpToken // ignore: cast_nullable_to_non_nullable
-              as DexToken?,
-      ranking: null == ranking
-          ? _value.ranking
-          : ranking // ignore: cast_nullable_to_non_nullable
-              as int,
-      pair: freezed == pair
-          ? _value.pair
-          : pair // ignore: cast_nullable_to_non_nullable
-              as DexPair?,
+    return _then(_$DexPoolInfosImpl(
       fees: null == fees
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
@@ -248,14 +393,6 @@ class __$$DexPoolImplCopyWithImpl<$Res>
           ? _value.ratioToken2Token1
           : ratioToken2Token1 // ignore: cast_nullable_to_non_nullable
               as double,
-      estimatePoolTVLInFiat: null == estimatePoolTVLInFiat
-          ? _value.estimatePoolTVLInFiat
-          : estimatePoolTVLInFiat // ignore: cast_nullable_to_non_nullable
-              as double,
-      lpTokenInUserBalance: null == lpTokenInUserBalance
-          ? _value.lpTokenInUserBalance
-          : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
-              as bool,
       token1TotalFee: null == token1TotalFee
           ? _value.token1TotalFee
           : token1TotalFee // ignore: cast_nullable_to_non_nullable
@@ -278,85 +415,49 @@ class __$$DexPoolImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DexPoolImpl extends _DexPool {
-  const _$DexPoolImpl(
-      {this.poolAddress = '',
-      this.lpToken,
-      this.ranking = 0,
-      this.pair,
-      this.fees = 0.0,
-      this.ratioToken1Token2 = 0.0,
-      this.ratioToken2Token1 = 0.0,
-      this.estimatePoolTVLInFiat = 0.0,
-      this.lpTokenInUserBalance = false,
-      this.token1TotalFee = 0.0,
-      this.token1TotalVolume = 0.0,
-      this.token2TotalFee = 0.0,
-      this.token2TotalVolume = 0.0})
+class _$DexPoolInfosImpl extends _DexPoolInfos {
+  const _$DexPoolInfosImpl(
+      {required this.fees,
+      required this.ratioToken1Token2,
+      required this.ratioToken2Token1,
+      required this.token1TotalFee,
+      required this.token1TotalVolume,
+      required this.token2TotalFee,
+      required this.token2TotalVolume})
       : super._();
 
+// required int ranking, // TODO activate and use this
   @override
-  @JsonKey()
-  final String poolAddress;
-  @override
-  final DexToken? lpToken;
-  @override
-  @JsonKey()
-  final int ranking;
-  @override
-  final DexPair? pair;
-  @override
-  @JsonKey()
   final double fees;
   @override
-  @JsonKey()
   final double ratioToken1Token2;
   @override
-  @JsonKey()
   final double ratioToken2Token1;
+// required double estimatePoolTVLInFiat,
   @override
-  @JsonKey()
-  final double estimatePoolTVLInFiat;
-  @override
-  @JsonKey()
-  final bool lpTokenInUserBalance;
-  @override
-  @JsonKey()
   final double token1TotalFee;
   @override
-  @JsonKey()
   final double token1TotalVolume;
   @override
-  @JsonKey()
   final double token2TotalFee;
   @override
-  @JsonKey()
   final double token2TotalVolume;
 
   @override
   String toString() {
-    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, ranking: $ranking, pair: $pair, fees: $fees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, estimatePoolTVLInFiat: $estimatePoolTVLInFiat, lpTokenInUserBalance: $lpTokenInUserBalance, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
+    return 'DexPoolInfos(fees: $fees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DexPoolImpl &&
-            (identical(other.poolAddress, poolAddress) ||
-                other.poolAddress == poolAddress) &&
-            (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
-            (identical(other.ranking, ranking) || other.ranking == ranking) &&
-            (identical(other.pair, pair) || other.pair == pair) &&
+            other is _$DexPoolInfosImpl &&
             (identical(other.fees, fees) || other.fees == fees) &&
             (identical(other.ratioToken1Token2, ratioToken1Token2) ||
                 other.ratioToken1Token2 == ratioToken1Token2) &&
             (identical(other.ratioToken2Token1, ratioToken2Token1) ||
                 other.ratioToken2Token1 == ratioToken2Token1) &&
-            (identical(other.estimatePoolTVLInFiat, estimatePoolTVLInFiat) ||
-                other.estimatePoolTVLInFiat == estimatePoolTVLInFiat) &&
-            (identical(other.lpTokenInUserBalance, lpTokenInUserBalance) ||
-                other.lpTokenInUserBalance == lpTokenInUserBalance) &&
             (identical(other.token1TotalFee, token1TotalFee) ||
                 other.token1TotalFee == token1TotalFee) &&
             (identical(other.token1TotalVolume, token1TotalVolume) ||
@@ -370,15 +471,9 @@ class _$DexPoolImpl extends _DexPool {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      poolAddress,
-      lpToken,
-      ranking,
-      pair,
       fees,
       ratioToken1Token2,
       ratioToken2Token1,
-      estimatePoolTVLInFiat,
-      lpTokenInUserBalance,
       token1TotalFee,
       token1TotalVolume,
       token2TotalFee,
@@ -387,46 +482,28 @@ class _$DexPoolImpl extends _DexPool {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>
-      __$$DexPoolImplCopyWithImpl<_$DexPoolImpl>(this, _$identity);
+  _$$DexPoolInfosImplCopyWith<_$DexPoolInfosImpl> get copyWith =>
+      __$$DexPoolInfosImplCopyWithImpl<_$DexPoolInfosImpl>(this, _$identity);
 }
 
-abstract class _DexPool extends DexPool {
-  const factory _DexPool(
-      {final String poolAddress,
-      final DexToken? lpToken,
-      final int ranking,
-      final DexPair? pair,
-      final double fees,
-      final double ratioToken1Token2,
-      final double ratioToken2Token1,
-      final double estimatePoolTVLInFiat,
-      final bool lpTokenInUserBalance,
-      final double token1TotalFee,
-      final double token1TotalVolume,
-      final double token2TotalFee,
-      final double token2TotalVolume}) = _$DexPoolImpl;
-  const _DexPool._() : super._();
+abstract class _DexPoolInfos extends DexPoolInfos {
+  const factory _DexPoolInfos(
+      {required final double fees,
+      required final double ratioToken1Token2,
+      required final double ratioToken2Token1,
+      required final double token1TotalFee,
+      required final double token1TotalVolume,
+      required final double token2TotalFee,
+      required final double token2TotalVolume}) = _$DexPoolInfosImpl;
+  const _DexPoolInfos._() : super._();
 
-  @override
-  String get poolAddress;
-  @override
-  DexToken? get lpToken;
-  @override
-  int get ranking;
-  @override
-  DexPair? get pair;
-  @override
+  @override // required int ranking, // TODO activate and use this
   double get fees;
   @override
   double get ratioToken1Token2;
   @override
   double get ratioToken2Token1;
-  @override
-  double get estimatePoolTVLInFiat;
-  @override
-  bool get lpTokenInUserBalance;
-  @override
+  @override // required double estimatePoolTVLInFiat,
   double get token1TotalFee;
   @override
   double get token1TotalVolume;
@@ -436,6 +513,6 @@ abstract class _DexPool extends DexPool {
   double get token2TotalVolume;
   @override
   @JsonKey(ignore: true)
-  _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>
+  _$$DexPoolInfosImplCopyWith<_$DexPoolInfosImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

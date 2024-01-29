@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
@@ -20,6 +21,10 @@ class SwapInfos extends ConsumerWidget {
     }
     final tokenAddressRatioPrimary =
         swap.tokenToSwap!.address == null ? 'UCO' : swap.tokenToSwap!.address!;
+
+    final tvlInFiatAsync = ref.watch(
+      DexPoolProviders.estimatePoolTVLInFiat(swap.pool!),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 5),
@@ -106,25 +111,24 @@ class SwapInfos extends ConsumerWidget {
                 ),
               ],
             ),
-          if (swap.poolInfos != null)
+          if (swap.pool?.infos != null)
             Text(
-              'TVL: \$${swap.poolInfos!.estimatePoolTVLInFiat.formatNumber(precision: 2)}',
+              'TVL: \$${tvlInFiatAsync.valueOrNull?.formatNumber(precision: 2) ?? '...'}',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-          if (swap.poolInfos != null)
+          if (swap.pool?.infos != null)
             DexRatio(
-              ratio: tokenAddressRatioPrimary ==
-                      swap.poolInfos!.pair!.token1.address
-                  ? swap.poolInfos!.ratioToken1Token2
-                  : swap.poolInfos!.ratioToken2Token1,
-              token1Symbol: tokenAddressRatioPrimary ==
-                      swap.poolInfos!.pair!.token1.address
-                  ? swap.poolInfos!.pair!.token1.symbol
-                  : swap.poolInfos!.pair!.token2.symbol,
-              token2Symbol: tokenAddressRatioPrimary ==
-                      swap.poolInfos!.pair!.token1.address
-                  ? swap.poolInfos!.pair!.token2.symbol
-                  : swap.poolInfos!.pair!.token1.symbol,
+              ratio: tokenAddressRatioPrimary == swap.pool?.pair.token1.address
+                  ? swap.pool!.infos!.ratioToken1Token2
+                  : swap.pool!.infos!.ratioToken2Token1,
+              token1Symbol:
+                  tokenAddressRatioPrimary == swap.pool!.pair.token1.address
+                      ? swap.pool!.pair.token1.symbol
+                      : swap.pool!.pair.token2.symbol,
+              token2Symbol:
+                  tokenAddressRatioPrimary == swap.pool!.pair.token1.address
+                      ? swap.pool!.pair.token2.symbol
+                      : swap.pool!.pair.token1.symbol,
             ),
         ],
       ),

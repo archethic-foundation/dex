@@ -1,7 +1,7 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/dex_pool.dart';
-import 'package:aedex/application/pool_factory.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
@@ -40,16 +40,16 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double priceImpact,
       })>? _calculateSwapInfosTask;
 
-  Future<void> getPoolInfos() async {
-    final poolInfos = await ref
-        .read(DexPoolProviders.getPoolInfos(state.poolGenesisAddress).future);
-    if (poolInfos != null) {
-      setPoolInfos(poolInfos);
+  Future<void> getPool() async {
+    final pool = await ref
+        .read(DexPoolProviders.getPool(state.poolGenesisAddress).future);
+    if (pool != null) {
+      setPool(pool);
     }
   }
 
-  void setPoolInfos(DexPool dexPool) {
-    state = state.copyWith(poolInfos: dexPool);
+  void setPool(DexPool pool) {
+    state = state.copyWith(pool: pool);
   }
 
   Future<void> setTokenToSwap(
@@ -87,7 +87,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               await setTokenToSwapAmount(state.tokenToSwapAmount);
               setTokenFormSelected(1);
               await getRatio();
-              await getPoolInfos();
+              await getPool();
             } else {
               setPoolAddress('');
               setFailure(const PoolNotExists());
@@ -319,7 +319,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               await setTokenSwappedAmount(state.tokenSwappedAmount);
               setTokenFormSelected(2);
               await getRatio();
-              await getPoolInfos();
+              await getPool();
             } else {
               setPoolAddress('');
               setFailure(const PoolNotExists());

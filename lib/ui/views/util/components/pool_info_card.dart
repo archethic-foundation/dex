@@ -1,4 +1,4 @@
-import 'package:aedex/application/dex_pool.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/dex_fees.dart';
@@ -35,14 +35,17 @@ class PoolInfoCard extends ConsumerWidget {
     }
 
     return FutureBuilder<DexPool?>(
-      future:
-          ref.watch(DexPoolProviders.getPoolInfos(poolGenesisAddress).future),
+      future: ref.watch(DexPoolProviders.getPool(poolGenesisAddress).future),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final pool = snapshot.data;
           if (pool == null) {
             return const SizedBox(height: cardHeight);
           }
+
+          final tvlInFiatAsync = ref.watch(
+            DexPoolProviders.estimatePoolTVLInFiat(pool),
+          );
           return Container(
             height: cardHeight,
             decoration: BoxDecoration(
@@ -82,15 +85,15 @@ class PoolInfoCard extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           DexTokenIcon(
-                            tokenAddress: pool.pair!.token1.address == null
+                            tokenAddress: pool.pair.token1.address == null
                                 ? 'UCO'
-                                : pool.pair!.token1.address!,
+                                : pool.pair.token1.address!,
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           Text(
-                            pool.pair!.token1.symbol,
+                            pool.pair.token1.symbol,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const Padding(
@@ -98,15 +101,15 @@ class PoolInfoCard extends ConsumerWidget {
                             child: Text('/'),
                           ),
                           DexTokenIcon(
-                            tokenAddress: pool.pair!.token2.address == null
+                            tokenAddress: pool.pair.token2.address == null
                                 ? 'UCO'
-                                : pool.pair!.token2.address!,
+                                : pool.pair.token2.address!,
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           Text(
-                            pool.pair!.token2.symbol,
+                            pool.pair.token2.symbol,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ],
@@ -115,18 +118,18 @@ class PoolInfoCard extends ConsumerWidget {
                         height: 10,
                       ),
                       DexRatio(
-                        ratio: tokenAddressRatioPrimary ==
-                                pool.pair!.token1.address
-                            ? pool.ratioToken1Token2
-                            : pool.ratioToken2Token1,
-                        token1Symbol: tokenAddressRatioPrimary ==
-                                pool.pair!.token1.address
-                            ? pool.pair!.token1.symbol
-                            : pool.pair!.token2.symbol,
-                        token2Symbol: tokenAddressRatioPrimary ==
-                                pool.pair!.token1.address
-                            ? pool.pair!.token2.symbol
-                            : pool.pair!.token1.symbol,
+                        ratio:
+                            tokenAddressRatioPrimary == pool.pair.token1.address
+                                ? pool.infos!.ratioToken1Token2
+                                : pool.infos!.ratioToken2Token1,
+                        token1Symbol:
+                            tokenAddressRatioPrimary == pool.pair.token1.address
+                                ? pool.pair.token1.symbol
+                                : pool.pair.token2.symbol,
+                        token2Symbol:
+                            tokenAddressRatioPrimary == pool.pair.token1.address
+                                ? pool.pair.token2.symbol
+                                : pool.pair.token1.symbol,
                       ),
                       const SizedBox(
                         height: 10,
@@ -166,20 +169,20 @@ class PoolInfoCard extends ConsumerWidget {
                               Row(
                                 children: [
                                   VerifiedTokenIcon(
-                                    address: pool.pair!.token1.address!,
+                                    address: pool.pair.token1.address!,
                                   ),
                                   const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
-                                    '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                    '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol}',
                                   ),
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  if (pool.pair!.token1.isUCO == false)
+                                  if (pool.pair.token1.isUCO == false)
                                     FormatAddressLink(
-                                      address: pool.pair!.token1.address!,
+                                      address: pool.pair.token1.address!,
                                     )
                                   else
                                     const SizedBox(
@@ -190,20 +193,20 @@ class PoolInfoCard extends ConsumerWidget {
                               Row(
                                 children: [
                                   VerifiedTokenIcon(
-                                    address: pool.pair!.token2.address!,
+                                    address: pool.pair.token2.address!,
                                   ),
                                   const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
-                                    '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                    '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol}',
                                   ),
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  if (pool.pair!.token2.isUCO == false)
+                                  if (pool.pair.token2.isUCO == false)
                                     FormatAddressLink(
-                                      address: pool.pair!.token2.address!,
+                                      address: pool.pair.token2.address!,
                                     )
                                   else
                                     const SizedBox(
@@ -216,10 +219,10 @@ class PoolInfoCard extends ConsumerWidget {
                         ],
                       ),
                       Text(
-                        'TVL: \$${pool.estimatePoolTVLInFiat.formatNumber(precision: 2)}',
+                        'TVL: \$${tvlInFiatAsync.valueOrNull?.formatNumber(precision: 2) ?? '...'}',
                       ),
                       DexFees(
-                        fees: pool.fees,
+                        fees: pool.infos!.fees,
                       ),
                     ],
                   ),

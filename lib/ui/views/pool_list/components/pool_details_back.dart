@@ -47,7 +47,7 @@ class PoolDetailsBack extends ConsumerWidget {
                           Row(
                             children: [
                               Text(
-                                '${pool.pair!.token1.symbol}/${pool.pair!.token2.symbol}',
+                                '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
                                 style:
                                     Theme.of(context).textTheme.headlineMedium,
                               ),
@@ -55,13 +55,13 @@ class PoolDetailsBack extends ConsumerWidget {
                                 padding: const EdgeInsets.only(bottom: 3),
                                 child: DexPairIcons(
                                   token1Address:
-                                      pool.pair!.token1.address == null
+                                      pool.pair.token1.address == null
                                           ? 'UCO'
-                                          : pool.pair!.token1.address!,
+                                          : pool.pair.token1.address!,
                                   token2Address:
-                                      pool.pair!.token2.address == null
+                                      pool.pair.token2.address == null
                                           ? 'UCO'
-                                          : pool.pair!.token2.address!,
+                                          : pool.pair.token2.address!,
                                   iconSize: 22,
                                 ),
                               ),
@@ -165,13 +165,13 @@ class PoolDetailsBack extends ConsumerWidget {
                                   Row(
                                     children: [
                                       VerifiedTokenIcon(
-                                        address: pool.pair!.token1.address!,
+                                        address: pool.pair.token1.address!,
                                       ),
                                       const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
-                                        '${pool.pair!.token1.reserve.formatNumber()} ${pool.pair!.token1.symbol}',
+                                        '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge,
@@ -181,8 +181,8 @@ class PoolDetailsBack extends ConsumerWidget {
                                   FutureBuilder<String>(
                                     future: FiatValue().display(
                                       ref,
-                                      pool.pair!.token1.symbol,
-                                      pool.pair!.token1.reserve,
+                                      pool.pair.token1.symbol,
+                                      pool.pair.token1.reserve,
                                     ),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
@@ -204,13 +204,13 @@ class PoolDetailsBack extends ConsumerWidget {
                                   Row(
                                     children: [
                                       VerifiedTokenIcon(
-                                        address: pool.pair!.token2.address!,
+                                        address: pool.pair.token2.address!,
                                       ),
                                       const SizedBox(
                                         width: 5,
                                       ),
                                       Text(
-                                        '${pool.pair!.token2.reserve.formatNumber()} ${pool.pair!.token2.symbol}',
+                                        '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge,
@@ -220,8 +220,8 @@ class PoolDetailsBack extends ConsumerWidget {
                                   FutureBuilder<String>(
                                     future: FiatValue().display(
                                       ref,
-                                      pool.pair!.token2.symbol,
-                                      pool.pair!.token2.reserve,
+                                      pool.pair.token2.symbol,
+                                      pool.pair.token2.reserve,
                                     ),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
@@ -255,7 +255,7 @@ class PoolDetailsBack extends ConsumerWidget {
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Text(
-                        '${pool.fees}%',
+                        '${pool.infos?.fees ?? '-- '}%',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],

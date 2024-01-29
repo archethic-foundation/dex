@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:aedex/application/dex_pool.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
@@ -24,13 +24,11 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
-    final asyncPools = ref.watch(
-      DexPoolProviders.getPoolListFromCache(
-        poolListForm.onlyVerifiedPools,
-        poolListForm.onlyPoolsWithLiquidityPositions,
-      ),
-    );
+    final poolListFormState = ref.watch(PoolListFormProvider.poolListForm);
+    final asyncPools = poolListFormState.isUserTokenPoolsTabSelected
+        ? ref.watch(DexPoolProviders.userTokenPools)
+        : ref.watch(DexPoolProviders.verifiedPools);
+
     return Stack(
       children: [
         Center(
@@ -41,26 +39,28 @@ class PoolListSheet extends ConsumerWidget {
             ),
             child: asyncPools.maybeWhen(
               orElse: SizedBox.shrink,
-              data: (pools) => GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedSize(
-                  crossAxisExtent: 500,
-                  mainAxisExtent: 510,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                padding: const EdgeInsets.only(
-                  left: 50,
-                  right: 50,
-                ),
-                itemCount: pools.length,
-                itemBuilder: (context, index) {
-                  final pool = pools[index];
-                  return PoolListItem(
-                    key: Key(pool.poolAddress),
-                    pool: pool,
-                  );
-                },
-              ),
+              data: (pools) {
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedSize(
+                    crossAxisExtent: 500,
+                    mainAxisExtent: 510,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  padding: const EdgeInsets.only(
+                    left: 50,
+                    right: 50,
+                  ),
+                  itemCount: pools.length,
+                  itemBuilder: (context, index) {
+                    final pool = pools[index];
+                    return PoolListItem(
+                      key: Key(pool.poolAddress),
+                      pool: pool,
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),
