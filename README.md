@@ -65,8 +65,10 @@ Returns infos of the pool as:
   "fee": 0.25,
   "stats": {
     "token1_total_fee": 0.025,
+    "token1_total_protocol_fee": 0.025,
     "token1_total_volume": 10,
     "token2_total_fee": 0.075,
+    "token2_total_protocol_fee": 0.075,
     "token2_total_volume": 30
   }
 }
@@ -101,7 +103,7 @@ Returns the info about a swap: expected output_amount, fee and price impact
 - `amount` Amount of of this token you want to swap
 
 ```json
-{ "fee": 0.006, "output_amount": 1.48073705, "price_impact": 0.997 }
+{ "fee": 0.006, "protocol_fee": 0.003, "output_amount": 1.48073705, "price_impact": 0.997 }
 ```
 
 ```elixir
@@ -138,6 +140,12 @@ This action allow user to swap a token of the pool against the other token. User
 update_code()
 ```
 This action can be triggered only by the Router contract of the dex. It allow the Router to request the pool to update it's code. The pool will request the new code using the function `get_pool_code` of the Factory (see above).
+
+```elixir
+set_protocol_fee(new_protocol_fee)
+```
+This action can be triggered only by the Master chain of the dex. It allow to update the protocol fee of the pool.
+
 
 ### Farm
 

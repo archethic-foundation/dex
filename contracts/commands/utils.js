@@ -85,6 +85,8 @@ export async function sendTransactionWithFunding(tx, keychain, archethic, fundSe
 export function getFactoryCode(keychain) {
   const routerAddress = getServiceGenesisAddress(keychain, "Router")
   const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
+  const protocolFeeAddress = getServiceGenesisAddress(keychain, "ProtocolFee")
+  const masterAddress = getServiceGenesisAddress(keychain, "Master")
 
   let poolCode = fs.readFileSync(poolContractPath, "utf8")
   // Replace pool address
@@ -99,6 +101,10 @@ export function getFactoryCode(keychain) {
   poolCode = poolCode.replaceAll("@ROUTER_ADDRESS", "0x#{router_address}")
   // Replace factory address
   poolCode = poolCode.replaceAll("@FACTORY_ADDRESS", "0x#{factory_address}")
+  // Replace protocol fee address
+  poolCode = poolCode.replaceAll("@PROTOCOL_FEE_ADDRESS", "0x#{protocol_fee_address}")
+  // Replace master address
+  poolCode = poolCode.replaceAll("@MASTER_ADDRESS", "0x#{master_address}")
 
   let farmCode = fs.readFileSync(farmContractPath, "utf8")
   // Replace farm address
@@ -121,6 +127,10 @@ export function getFactoryCode(keychain) {
   factoryCode = factoryCode.replaceAll("@ROUTER_ADDRESS", "0x" + routerAddress)
   // Replace factory address
   factoryCode = factoryCode.replaceAll("@FACTORY_ADDRESS", "0x" + factoryAddress)
+  // Replace protocol fee address
+  factoryCode = factoryCode.replaceAll("@PROTOCOL_FEE_ADDRESS", "0x" + protocolFeeAddress)
+  // Replace pool code
+  factoryCode = factoryCode.replaceAll("@MASTER_ADDRESS", "0x" + masterAddress)
   // Replace pool code
   factoryCode = factoryCode.replaceAll("@POOL_CODE", poolCode)
   // Replace farm code

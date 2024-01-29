@@ -76,6 +76,7 @@ const handler = async function(argv) {
   console.log("Expected output amount:", swapInfos.output_amount)
   console.log("Minimum to receive:", minToReceive)
   console.log("Fee:", swapInfos.fee)
+  console.log("Protocol Fee:", swapInfos.protocol_fee)
   console.log("Price impact", swapInfos.price_impact)
 
   const tx = archethic.transaction.new()

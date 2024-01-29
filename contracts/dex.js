@@ -9,6 +9,7 @@ import deploy_router from './commands/contract_management/deploy_router.js'
 import update_router from './commands/contract_management/update_router.js'
 import update_pools from './commands/contract_management/update_pools.js'
 import update_farms from './commands/contract_management/update_farms.js'
+import update_protocol_fee from './commands/contract_management/update_protocol_fee.js'
 
 import create_tokens from './commands/test/create_tokens.js'
 import deploy_pool from './commands/test/deploy_pool.js'
@@ -29,6 +30,7 @@ y.command(deploy_router).help()
 y.command(update_router).help()
 y.command(update_pools).help()
 y.command(update_farms).help()
+y.command(update_protocol_fee).help()
 
 y.command(create_tokens).help()
 y.command(deploy_pool).help()

@@ -10,6 +10,8 @@ export fun get_pool_code(token1_address, token2_address, pool_address, lp_token_
 
   router_address = @ROUTER_ADDRESS
   factory_address = @FACTORY_ADDRESS
+  master_address = @MASTER_ADDRESS
+  protocol_fee_address = @PROTOCOL_FEE_ADDRESS
 
   if token1_address != token2_address do
     if token1_address > token2_address do
