@@ -4,7 +4,6 @@ import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
-import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/util/custom_logs.dart';
@@ -52,11 +51,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       ref.invalidate(
         DexPoolProviders.getPoolListFromCache,
       );
-
-      final cacheManagerHive = await HivePoolsListDatasource.getInstance();
-      if (cacheManagerHive.getPoolsList().isEmpty) {
-        ref.read(SessionProviders.session.notifier).setCacheFirstLoading(true);
-      }
 
       await ref.read(SessionProviders.session.notifier).connectToWallet(
             forceConnection: false,
