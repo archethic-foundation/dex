@@ -138,46 +138,41 @@ class DexPoolsRepository {
 
     final verifiedTokens = results[0] as List<String>?;
     final userBalance = results[1] as Balance?;
-    final resultPoolList = results[2] as Result<List<DexPool>, Failure>?;
+    final poolList = results[2] as List<DexPool>? ?? [];
 
-    await resultPoolList!.map(
-      success: (poolList) async {
-        for (var pool in poolList) {
-          if (verifiedTokens!.contains(pool.pair!.token1.address)) {
+    for (var pool in poolList) {
+      if (verifiedTokens!.contains(pool.pair!.token1.address)) {
+        pool = pool.copyWith(
+          pair: pool.pair!.copyWith(
+            token1: pool.pair!.token1.copyWith(isVerified: true),
+          ),
+        );
+      }
+
+      if (verifiedTokens.contains(pool.pair!.token2.address)) {
+        pool = pool.copyWith(
+          pair: pool.pair!.copyWith(
+            token1: pool.pair!.token2.copyWith(isVerified: true),
+          ),
+        );
+      }
+
+      if (userBalance != null) {
+        for (final userTokensBalance in userBalance.token) {
+          if (pool.lpToken != null &&
+              pool.lpToken!.address != null &&
+              pool.lpToken!.address == userTokensBalance.address) {
             pool = pool.copyWith(
-              pair: pool.pair!.copyWith(
-                token1: pool.pair!.token1.copyWith(isVerified: true),
-              ),
+              lpTokenInUserBalance: true,
             );
-          }
-
-          if (verifiedTokens.contains(pool.pair!.token2.address)) {
-            pool = pool.copyWith(
-              pair: pool.pair!.copyWith(
-                token1: pool.pair!.token2.copyWith(isVerified: true),
-              ),
-            );
-          }
-
-          if (userBalance != null) {
-            for (final userTokensBalance in userBalance.token) {
-              if (pool.lpToken != null &&
-                  pool.lpToken!.address != null &&
-                  pool.lpToken!.address == userTokensBalance.address) {
-                pool = pool.copyWith(
-                  lpTokenInUserBalance: true,
-                );
-              }
-            }
-          }
-
-          if (pool.isVerified || pool.lpTokenInUserBalance) {
-            dexPools.add(pool);
           }
         }
-      },
-      failure: (failure) {},
-    );
+      }
+
+      if (pool.isVerified || pool.lpTokenInUserBalance) {
+        dexPools.add(pool);
+      }
+    }
 
     dexPools.sort((a, b) {
       if (a.isVerified == b.isVerified) return 0;
