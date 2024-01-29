@@ -350,6 +350,38 @@ class _GetRatioProviderElement extends AutoDisposeFutureProviderElement<double>
   DexToken get token => (origin as _GetRatioProvider).token;
 }
 
+String _$userTokenPoolsHash() => r'a17608fc1e9be23683078ef128d3c1b3be5dea07';
+
+/// See also [_userTokenPools].
+@ProviderFor(_userTokenPools)
+final _userTokenPoolsProvider =
+    AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _userTokenPools,
+  name: r'_userTokenPoolsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$userTokenPoolsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _UserTokenPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+String _$verifiedPoolsHash() => r'9190cdc02b6c01948bc9ace40e4ad1a732bb14b1';
+
+/// See also [_verifiedPools].
+@ProviderFor(_verifiedPools)
+final _verifiedPoolsProvider =
+    AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _verifiedPools,
+  name: r'_verifiedPoolsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$verifiedPoolsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _VerifiedPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$getPoolListFromCacheHash() =>
     r'463b17ec122bda9cf0fb37334eb871c876f16799';
 
@@ -368,7 +400,7 @@ final _getPoolListFromCacheProvider =
 
 typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$putPoolListToCacheHash() =>
-    r'80f79b894de68b011e26f402fb34aa332cd72206';
+    r'617c0b6f244bd36dea5a27b9a6aab41536217adb';
 
 /// See also [_putPoolListToCache].
 @ProviderFor(_putPoolListToCache)

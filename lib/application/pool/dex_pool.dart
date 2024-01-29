@@ -226,8 +226,11 @@ abstract class DexPoolProviders {
   static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
   static const estimateTokenInFiat = _estimateTokenInFiatProvider;
   static final putPoolListToCache = _putPoolListToCacheProvider;
-  static final getPoolListForUser = _getPoolListForUserProvider;
+  static final getPoolListForUser =
+      _getPoolListForUserProvider; // TODO make that provider private to the cache manager
   static final getPoolListFromCache = _getPoolListFromCacheProvider;
+  static final userTokenPools = _userTokenPoolsProvider;
+  static final verifiedPools = _verifiedPoolsProvider;
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
 }

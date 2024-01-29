@@ -24,9 +24,11 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final asyncPools = ref.watch(
-      DexPoolProviders.getPoolListFromCache,
-    );
+    final poolListFormState = ref.watch(PoolListFormProvider.poolListForm);
+    final asyncPools = poolListFormState.isUserTokenPoolsTabSelected
+        ? ref.watch(DexPoolProviders.userTokenPools)
+        : ref.watch(DexPoolProviders.verifiedPools);
+
     return Stack(
       children: [
         Center(
@@ -38,21 +40,6 @@ class PoolListSheet extends ConsumerWidget {
             child: asyncPools.maybeWhen(
               orElse: SizedBox.shrink,
               data: (pools) {
-                final poolsFiltered = [...pools];
-                final poolListForm =
-                    ref.watch(PoolListFormProvider.poolListForm);
-                switch (poolListForm.tabIndexSelected) {
-                  case 1:
-                    poolsFiltered.removeWhere(
-                      (element) => element.lpTokenInUserBalance == false,
-                    );
-                    break;
-                  default:
-                    poolsFiltered.removeWhere(
-                      (element) => element.isVerified == false,
-                    );
-                }
-
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedSize(
                     crossAxisExtent: 500,
@@ -64,9 +51,9 @@ class PoolListSheet extends ConsumerWidget {
                     left: 50,
                     right: 50,
                   ),
-                  itemCount: poolsFiltered.length,
+                  itemCount: pools.length,
                   itemBuilder: (context, index) {
-                    final pool = poolsFiltered[index];
+                    final pool = pools[index];
                     return PoolListItem(
                       key: Key(pool.poolAddress),
                       pool: pool,
