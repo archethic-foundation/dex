@@ -65,7 +65,8 @@ Future<void> _putPoolListToCache(
   // To gain some time, we are loading the first only verified pools
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
   final poolListCache = <DexPoolHive>[];
-  final poolList = await ref.read(DexPoolProviders.getPoolListForUser.future);
+
+  final poolList = await ref.read(_getPoolListForUserProvider.future);
   for (final pool in poolList) {
     final poolInfos =
         await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);

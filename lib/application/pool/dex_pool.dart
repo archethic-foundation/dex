@@ -26,7 +26,9 @@ part 'dex_pool_calculation.dart';
 
 @riverpod
 DexPoolsRepository _dexPoolsRepository(_DexPoolsRepositoryRef ref) =>
-    DexPoolsRepository();
+    DexPoolsRepository(
+      apiService: sl.get<ApiService>(),
+    );
 
 @riverpod
 void _invalidateDataUseCase(_InvalidateDataUseCaseRef ref) {
@@ -42,13 +44,9 @@ Future<List<DexPool>> _getPoolList(
 ) async {
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
-  final apiService = sl.get<ApiService>();
-  final dexPoolsRepository = ref.watch(_dexPoolsRepositoryProvider);
-  return dexPoolsRepository.getPoolList(
-    dexConf.routerGenesisAddress,
-    apiService,
-    ref,
-  );
+  return ref.watch(_dexPoolsRepositoryProvider).getPoolList(
+        dexConf.routerGenesisAddress,
+      );
 }
 
 @riverpod
@@ -57,10 +55,9 @@ Future<List<DexPool>> _getPoolListForUser(
 ) async {
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
-  final apiService = sl.get<ApiService>();
   return ref
       .watch(_dexPoolsRepositoryProvider)
-      .getPoolList(dexConf.routerGenesisAddress, apiService, ref);
+      .getPoolList(dexConf.routerGenesisAddress);
 }
 
 @riverpod
@@ -111,9 +108,12 @@ Future<double> _getRatio(
 }
 
 class DexPoolsRepository {
+  DexPoolsRepository({required this.apiService});
+
+  final ApiService apiService;
+
   Future<List<DexPool>> getPoolListForUser(
     String routerAddress,
-    ApiService apiService,
     Ref ref,
   ) async {
     final dexPools = <DexPool>[];
@@ -189,8 +189,6 @@ class DexPoolsRepository {
 
   Future<List<DexPool>> getPoolList(
     String routerAddress,
-    ApiService apiService,
-    Ref ref,
   ) async {
     final dexPools = <DexPool>[];
     final resultPoolList = await RouterFactory(
@@ -235,8 +233,6 @@ abstract class DexPoolProviders {
   static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
   static const estimateTokenInFiat = _estimateTokenInFiatProvider;
   static final putPoolListToCache = _putPoolListToCacheProvider;
-  static final getPoolListForUser =
-      _getPoolListForUserProvider; // TODO make that provider private to the cache manager
   static final userTokenPools = _userTokenPoolsProvider;
   static final verifiedPools = _verifiedPoolsProvider;
 

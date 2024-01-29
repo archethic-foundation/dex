@@ -7,7 +7,7 @@ part of 'dex_pool.dart';
 // **************************************************************************
 
 String _$dexPoolsRepositoryHash() =>
-    r'92ac8f739c5b4d8ae9289b01e516779284f976f4';
+    r'100f295d126c7ac2fb2b67f836c9d14c12ed2b8a';
 
 /// See also [_dexPoolsRepository].
 @ProviderFor(_dexPoolsRepository)
@@ -54,7 +54,7 @@ final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
 
 typedef _GetPoolListRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$getPoolListForUserHash() =>
-    r'003923d7d723baaa189eb20a3e8e0c943da2fd8a';
+    r'bf78effc51ec498bb663fd148f7660946db2256b';
 
 /// See also [_getPoolListForUser].
 @ProviderFor(_getPoolListForUser)
@@ -416,7 +416,7 @@ final _getPoolListFromCacheProvider =
 
 typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$putPoolListToCacheHash() =>
-    r'cb459ddc978dc1f6867eabe79df99cb2bc16a519';
+    r'e7c3d374dae42926bba665e6ea7a4d9afbbb1810';
 
 /// See also [_putPoolListToCache].
 @ProviderFor(_putPoolListToCache)
