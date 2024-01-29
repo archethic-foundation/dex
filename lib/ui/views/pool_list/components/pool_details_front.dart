@@ -255,7 +255,9 @@ class PoolDetailsFront extends ConsumerWidget {
                           ],
                         );
                       }
-                      return const SizedBox.shrink();
+                      return const SizedBox(
+                        height: 109,
+                      );
                     },
                   ),
                   const SizedBox(
