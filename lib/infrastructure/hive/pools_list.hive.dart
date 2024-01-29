@@ -10,11 +10,22 @@ class HivePoolsListDatasource {
 
   static const String aeSwapPoolsList = 'ae_swap_pool_list';
 
+  bool get shouldBeReloaded => _box.isEmpty;
+
   // This doesn't have to be a singleton.
   // We just want to make sure that the box is open, before we start getting/setting objects on it
   static Future<HivePoolsListDatasource> getInstance() async {
     final box = await Hive.openBox<DexPoolHive>(_poolsListBox);
     return HivePoolsListDatasource._(box);
+  }
+
+  Future<void> setPoolInfos(
+    String poolAddress,
+    DexPoolInfosHive poolInfos,
+  ) async {
+    final pool = _box.get(poolAddress);
+    if (pool == null) return;
+    await _box.put(poolAddress, pool.copyWith(details: poolInfos));
   }
 
   Future<void> setPoolsList(List<DexPoolHive> v) async {
@@ -26,6 +37,10 @@ class HivePoolsListDatasource {
 
   Future<void> setPool(DexPoolHive v) async {
     await _box.put(v.poolAddress, v);
+  }
+
+  DexPoolHive? getPool(String key) {
+    return _box.get(key);
   }
 
   Future<void> removePool(DexPoolHive v) async {

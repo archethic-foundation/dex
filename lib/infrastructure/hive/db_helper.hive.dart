@@ -9,7 +9,8 @@ import 'package:path_provider/path_provider.dart';
 class HiveTypeIds {
   static const cacheManager = 1;
   static const dexPair = 2;
-  static const dexPool = 3;
+  static const dexPool = 5;
+  static const dexPoolInfos = 6;
   static const dexToken = 4;
 }
 

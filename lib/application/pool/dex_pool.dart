@@ -9,9 +9,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
-import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -33,9 +31,30 @@ DexPoolsRepository _dexPoolsRepository(_DexPoolsRepositoryRef ref) =>
 @riverpod
 void _invalidateDataUseCase(_InvalidateDataUseCaseRef ref) {
   ref
+    ..invalidate(_getRatioProvider)
+    ..invalidate(_getPoolListForUserProvider)
     ..invalidate(_getPoolInfosProvider)
     ..invalidate(_getPoolListProvider)
     ..invalidate(_getPoolListFromCacheProvider);
+}
+
+@riverpod
+Future<DexPool?> _getPool(
+  _GetPoolRef ref,
+  String genesisAddress,
+) async {
+  DexPool? pool;
+  await ref.read(_dexPoolsRepositoryProvider).getPool(genesisAddress);
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+  final poolHive = poolsListDatasource.getPool(genesisAddress);
+  if (poolHive != null) {
+    pool = poolHive.toDexPool();
+    final poolInfos = await ref
+        .read(_dexPoolsRepositoryProvider)
+        .getPoolInfos(genesisAddress);
+    pool = pool.copyWith(infos: poolInfos);
+  }
+  return pool;
 }
 
 @riverpod
@@ -61,23 +80,24 @@ Future<List<DexPool>> _getPoolListForUser(
 }
 
 @riverpod
-Future<DexPool?> _getPoolInfos(
+Future<DexPoolInfos?> _getPoolInfos(
   _GetPoolInfosRef ref,
   String poolGenesisAddress,
 ) async {
-  var poolInfos = await ref
+  final poolInfos = await ref
       .watch(_dexPoolsRepositoryProvider)
       .getPoolInfos(poolGenesisAddress);
-  if (poolInfos != null) {
-    final estimatePoolTVLInFiat = await ref.watch(
-      DexPoolProviders.estimatePoolTVLInFiat(
-        poolInfos,
-      ).future,
-    );
 
-    poolInfos =
-        poolInfos.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
-  }
+  // if (poolInfos != null) {
+  //   final estimatePoolTVLInFiat = await ref.watch(
+  //     DexPoolProviders.estimatePoolTVLInFiat(
+  //       poolInfos,
+  //     ).future,
+  //   );
+
+  //   poolInfos =
+  //       poolInfos.copyWith(estimatePoolTVLInFiat: estimatePoolTVLInFiat);
+  // }
 
   return poolInfos;
 }
@@ -112,10 +132,31 @@ class DexPoolsRepository {
 
   final ApiService apiService;
 
+  // Future<DexPool?> getPool(String address) async {
+  //   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+
+  //   if (poolsListDatasource.shouldBeReloaded) {
+  //     await _cachePoolsFromRemote();
+  //   }
+
+  //   return poolsListDatasource.getPool(address)?.toDexPool();
+  // }
+
+  // Future<DexPoolInfos?> getPoolInfos(String address) async {
+  //   //     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+
+  //   // if (poolsListDatasource.shouldBeReloaded) {
+  //   //   await _cachePoolsFromRemote();
+  //   // }
+
+  //   // return poolsListDatasource.getPool(address)?.toDexPool();
+
+  // }
+
   Future<List<DexPool>> getPoolListForUser(
-    String routerAddress,
     Ref ref,
   ) async {
+    await Future.delayed(const Duration(seconds: 3));
     final dexPools = <DexPool>[];
     final poolListFuture = ref.read(_getPoolListProvider.future);
 
@@ -141,27 +182,26 @@ class DexPoolsRepository {
     final poolList = results[2] as List<DexPool>? ?? [];
 
     for (var pool in poolList) {
-      if (verifiedTokens!.contains(pool.pair!.token1.address)) {
+      if (verifiedTokens!.contains(pool.pair.token1.address)) {
         pool = pool.copyWith(
-          pair: pool.pair!.copyWith(
-            token1: pool.pair!.token1.copyWith(isVerified: true),
+          pair: pool.pair.copyWith(
+            token1: pool.pair.token1.copyWith(isVerified: true),
           ),
         );
       }
 
-      if (verifiedTokens.contains(pool.pair!.token2.address)) {
+      if (verifiedTokens.contains(pool.pair.token2.address)) {
         pool = pool.copyWith(
-          pair: pool.pair!.copyWith(
-            token1: pool.pair!.token2.copyWith(isVerified: true),
+          pair: pool.pair.copyWith(
+            token2: pool.pair.token2.copyWith(isVerified: true),
           ),
         );
       }
 
       if (userBalance != null) {
         for (final userTokensBalance in userBalance.token) {
-          if (pool.lpToken != null &&
-              pool.lpToken!.address != null &&
-              pool.lpToken!.address == userTokensBalance.address) {
+          if (pool.lpToken.address != null &&
+              pool.lpToken.address == userTokensBalance.address) {
             pool = pool.copyWith(
               lpTokenInUserBalance: true,
             );
@@ -185,6 +225,7 @@ class DexPoolsRepository {
   Future<List<DexPool>> getPoolList(
     String routerAddress,
   ) async {
+    await Future.delayed(const Duration(seconds: 3));
     final dexPools = <DexPool>[];
     final resultPoolList = await RouterFactory(
       routerAddress,
@@ -203,21 +244,14 @@ class DexPoolsRepository {
     return dexPools;
   }
 
-  Future<DexPool?> getPoolInfos(
+  Future<DexPoolInfos?> getPoolInfos(
     String poolGenesisAddress,
   ) async {
-    DexPool? dexPool;
+    await Future.delayed(const Duration(seconds: 3));
     final apiService = sl.get<ApiService>();
     final poolFactory = PoolFactory(poolGenesisAddress, apiService);
 
-    final poolInfosResult = await poolFactory.getPoolInfos();
-    poolInfosResult.map(
-      success: (success) {
-        dexPool = success;
-      },
-      failure: (failure) {},
-    );
-    return dexPool;
+    return poolFactory.getPoolInfos().valueOrThrow;
   }
 }
 
@@ -227,10 +261,12 @@ abstract class DexPoolProviders {
   static const getPoolInfos = _getPoolInfosProvider;
   static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
   static const estimateTokenInFiat = _estimateTokenInFiatProvider;
-  static final putPoolListToCache = _putPoolListToCacheProvider;
+  static final putPoolListInfosToCache = _putPoolListInfosToCacheProvider;
   static final userTokenPools = _userTokenPoolsProvider;
   static final verifiedPools = _verifiedPoolsProvider;
 
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
+
+  static const getPool = _getPoolProvider;
 }

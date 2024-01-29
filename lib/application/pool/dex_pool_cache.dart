@@ -29,55 +29,61 @@ Future<List<DexPool>> _verifiedPools(
 Future<List<DexPool>> _getPoolListFromCache(
   _GetPoolListFromCacheRef ref,
 ) async {
-  final poolListCache = <DexPool>[];
+  await Future.delayed(const Duration(seconds: 5));
+  // final poolListCache = <DexPool>[];
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
 
-  final poolListCached = poolsListDatasource.getPoolsList();
+  final poolListCached = poolsListDatasource
+      .getPoolsList()
+      .map(
+        (hiveObject) => hiveObject.toDexPool(),
+      )
+      .toList();
 
   debugPrint('poolListCached ${poolListCached.length}');
 
-  for (final poolHive in poolListCached) {
-    final pool = poolHive.toDexPool();
-    poolListCache.add(pool);
-  }
+  // for (final poolHive in poolListCached) {
+  //   final pool = poolHive.toDexPool();
+  //   poolListCache.add(pool);
+  // }
 
-  poolListCache.sort((a, b) {
-    if (a.lpTokenInUserBalance && !b.lpTokenInUserBalance) {
-      return -1;
-    } else if (!a.lpTokenInUserBalance && b.lpTokenInUserBalance) {
-      return 1;
-    }
-    if (a.isVerified && !b.isVerified) {
-      return -1;
-    } else if (!a.isVerified && b.isVerified) {
-      return 1;
-    }
-    return 0;
-  });
+  // poolListCache.sort((a, b) {
+  //   if (a.lpTokenInUserBalance && !b.lpTokenInUserBalance) {
+  //     return -1;
+  //   } else if (!a.lpTokenInUserBalance && b.lpTokenInUserBalance) {
+  //     return 1;
+  //   }
+  //   if (a.isVerified && !b.isVerified) {
+  //     return -1;
+  //   } else if (!a.isVerified && b.isVerified) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
 
-  return poolListCache;
+  return poolListCached;
 }
 
 @riverpod
-Future<void> _putPoolListToCache(
-  _PutPoolListToCacheRef ref,
+Future<void> _putPoolListInfosToCache(
+  _PutPoolListInfosToCacheRef ref,
 ) async {
   // To gain some time, we are loading the first only verified pools
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-  final poolListCache = <DexPoolHive>[];
 
   final poolList = await ref.read(_getPoolListForUserProvider.future);
   for (final pool in poolList) {
-    final poolInfos =
-        await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
+    final poolInfos = await ref.read(
+      DexPoolProviders.getPoolInfos(pool.poolAddress).future,
+    );
 
     if (poolInfos != null) {
-      poolListCache.add(
-        DexPoolHive.fromDexPool(poolInfos),
+      await poolsListDatasource.setPoolInfos(
+        pool.poolAddress,
+        poolInfos.toHive(),
       );
     }
   }
-  await poolsListDatasource.setPoolsList(poolListCache);
 
   debugPrint('poolList stored');
   ref.invalidate(_getPoolListFromCacheProvider);

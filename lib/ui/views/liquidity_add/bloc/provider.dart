@@ -38,7 +38,7 @@ class LiquidityAddFormNotifier
 
     final poolInfos =
         await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
-    state = state.copyWith(pool: poolInfos);
+    state = state.copyWith(pool: state.pool!.copyWith(infos: poolInfos));
   }
 
   Future<void> initBalances() async {
@@ -63,7 +63,7 @@ class LiquidityAddFormNotifier
     final lpTokenBalance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
-        state.pool!.lpToken!.address!,
+        state.pool!.lpToken.address!,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);

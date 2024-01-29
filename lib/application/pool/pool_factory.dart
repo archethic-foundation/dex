@@ -30,7 +30,7 @@ class PoolFactory with ModelParser {
   ///   },
   ///   "fee": 0.25
   /// }
-  Future<Result<DexPool, Failure>> getPoolInfos() async {
+  Future<Result<DexPoolInfos, Failure>> getPoolInfos() async {
     return Result.guard(
       () async {
         final result = await apiService.callSCFunction(

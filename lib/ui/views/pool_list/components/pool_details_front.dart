@@ -1,5 +1,5 @@
-import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/main_screen_widget_displayed.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
@@ -27,6 +27,9 @@ class PoolDetailsFront extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final asyncTvlInFiat = ref.watch(
+      DexPoolProviders.estimatePoolTVLInFiat(pool),
+    );
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -48,7 +51,7 @@ class PoolDetailsFront extends ConsumerWidget {
                           Row(
                             children: [
                               Text(
-                                '${pool.pair!.token1.symbol}/${pool.pair!.token2.symbol}',
+                                '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
                                 style:
                                     Theme.of(context).textTheme.headlineMedium,
                               ),
@@ -56,13 +59,13 @@ class PoolDetailsFront extends ConsumerWidget {
                                 padding: const EdgeInsets.only(bottom: 3),
                                 child: DexPairIcons(
                                   token1Address:
-                                      pool.pair!.token1.address == null
+                                      pool.pair.token1.address == null
                                           ? 'UCO'
-                                          : pool.pair!.token1.address!,
+                                          : pool.pair.token1.address!,
                                   token2Address:
-                                      pool.pair!.token2.address == null
+                                      pool.pair.token2.address == null
                                           ? 'UCO'
-                                          : pool.pair!.token2.address!,
+                                          : pool.pair.token2.address!,
                                   iconSize: 22,
                                 ),
                               ),
@@ -96,7 +99,7 @@ class PoolDetailsFront extends ConsumerWidget {
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               Text(
-                                '\$${pool.estimatePoolTVLInFiat.formatNumber(precision: 2)}',
+                                '\$${asyncTvlInFiat.valueOrNull?.formatNumber(precision: 2) ?? '...'}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium!
@@ -272,8 +275,8 @@ class PoolDetailsFront extends ConsumerWidget {
                               )
                               .setWidget(
                                 SwapSheet(
-                                  tokenToSwap: pool.pair!.token1,
-                                  tokenSwapped: pool.pair!.token2,
+                                  tokenToSwap: pool.pair.token1,
+                                  tokenSwapped: pool.pair.token2,
                                 ),
                                 ref,
                               );
@@ -299,7 +302,7 @@ class PoolDetailsFront extends ConsumerWidget {
                                     .setWidget(
                                       LiquidityAddSheet(
                                         pool: pool,
-                                        pair: pool.pair!,
+                                        pair: pool.pair,
                                       ),
                                       ref,
                                     );
@@ -321,8 +324,8 @@ class PoolDetailsFront extends ConsumerWidget {
                                     .setWidget(
                                       LiquidityRemoveSheet(
                                         poolGenesisAddress: pool.poolAddress,
-                                        lpToken: pool.lpToken!,
-                                        pair: pool.pair!,
+                                        lpToken: pool.lpToken,
+                                        pair: pool.pair,
                                       ),
                                       ref,
                                     );

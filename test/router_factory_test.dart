@@ -19,7 +19,7 @@ void main() {
         result.map(
           success: (success) {
             expect(
-              success[0].pair!.token1.address,
+              success[0].pair.token1.address,
               '000044CD09615DA74933B099FF8FF8CB9CB1423FCD3E86188011457B8B7D2345EC67',
             );
             return;

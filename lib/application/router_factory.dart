@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -107,7 +108,7 @@ class RouterFactory with ModelParser {
           final getFarmListResponse = GetFarmListResponse.fromJson(result);
           final dexpool = poolList.singleWhere(
             (pool) =>
-                pool.lpToken!.address!.toUpperCase() ==
+                pool.lpToken.address!.toUpperCase() ==
                 getFarmListResponse.lpTokenAddress.toUpperCase(),
           );
 

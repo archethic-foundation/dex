@@ -8,22 +8,29 @@ part 'dex_pool.freezed.dart';
 @freezed
 class DexPool with _$DexPool {
   const factory DexPool({
-    @Default('') String poolAddress,
-    DexToken? lpToken,
-    @Default(0) int ranking,
-    DexPair? pair,
-    @Default(0.0) double fees,
-    @Default(0.0) double ratioToken1Token2,
-    @Default(0.0) double ratioToken2Token1,
-    @Default(0.0) double estimatePoolTVLInFiat,
-    @Default(false) bool lpTokenInUserBalance,
-    @Default(0.0) double token1TotalFee,
-    @Default(0.0) double token1TotalVolume,
-    @Default(0.0) double token2TotalFee,
-    @Default(0.0) double token2TotalVolume,
+    required String poolAddress,
+    required DexToken lpToken,
+    required DexPair pair,
+    required bool lpTokenInUserBalance,
+    DexPoolInfos? infos,
   }) = _DexPool;
   const DexPool._();
 
-  bool get isVerified =>
-      pair != null && pair!.token1.isVerified && pair!.token2.isVerified;
+  bool get isVerified => pair.token1.isVerified && pair.token2.isVerified;
+}
+
+@freezed
+class DexPoolInfos with _$DexPoolInfos {
+  const factory DexPoolInfos({
+    // required int ranking, // TODO activate and use this
+    required double fees,
+    required double ratioToken1Token2,
+    required double ratioToken2Token1,
+    // required double estimatePoolTVLInFiat,
+    required double token1TotalFee,
+    required double token1TotalVolume,
+    required double token2TotalFee,
+    required double token2TotalVolume,
+  }) = _DexPoolInfos;
+  const DexPoolInfos._();
 }

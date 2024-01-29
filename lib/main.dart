@@ -62,11 +62,11 @@ class _MyAppState extends ConsumerState<MyApp> {
       await ref
           .read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier)
           .init();
-      await ref.read(DexPoolProviders.putPoolListToCache.future);
+      await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
 
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {
-        await ref.read(DexPoolProviders.putPoolListToCache.future);
+        await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
       });
     });
   }

@@ -11,92 +11,114 @@ class DexPoolHive extends HiveObject {
   DexPoolHive({
     required this.poolAddress,
     required this.lpToken,
-    required this.ranking,
     required this.pair,
-    required this.fees,
-    required this.ratioToken1Token2,
-    required this.ratioToken2Token1,
-    required this.estimatePoolTVLInFiat,
     required this.lpTokenInUserBalance,
-    required this.token1TotalFee,
-    required this.token1TotalVolume,
-    required this.token2TotalFee,
-    required this.token2TotalVolume,
+    this.details,
   });
 
-  factory DexPoolHive.fromDexPool(DexPool dexPool) {
-    return DexPoolHive(
-      poolAddress: dexPool.poolAddress,
-      lpToken: dexPool.lpToken != null
-          ? DexTokenHive.fromModel(dexPool.lpToken!)
-          : null,
-      ranking: dexPool.ranking,
-      pair: dexPool.pair != null ? DexPairHive.fromModel(dexPool.pair!) : null,
-      fees: dexPool.fees,
-      ratioToken1Token2: dexPool.ratioToken1Token2,
-      ratioToken2Token1: dexPool.ratioToken2Token1,
-      estimatePoolTVLInFiat: dexPool.estimatePoolTVLInFiat,
-      lpTokenInUserBalance: dexPool.lpTokenInUserBalance,
-      token1TotalFee: dexPool.token1TotalFee,
-      token1TotalVolume: dexPool.token1TotalVolume,
-      token2TotalFee: dexPool.token2TotalFee,
-      token2TotalVolume: dexPool.token2TotalVolume,
-    );
-  }
+  factory DexPoolHive.fromDexPool(DexPool dexPool) => DexPoolHive(
+        lpTokenInUserBalance: dexPool.lpTokenInUserBalance,
+        poolAddress: dexPool.poolAddress,
+        lpToken: DexTokenHive.fromModel(dexPool.lpToken),
+        pair: DexPairHive.fromModel(dexPool.pair),
+        details: dexPool.infos?.toHive(),
+      );
+
+  DexPoolHive copyWith({
+    DexPoolInfosHive? details,
+  }) =>
+      DexPoolHive(
+        poolAddress: poolAddress,
+        lpToken: lpToken,
+        pair: pair,
+        details: details ?? this.details,
+        lpTokenInUserBalance: lpTokenInUserBalance,
+      );
+
   @HiveField(0)
   String poolAddress;
 
   @HiveField(1)
-  DexTokenHive? lpToken;
+  DexTokenHive lpToken;
 
   @HiveField(2)
-  int ranking;
+  DexPairHive pair;
 
   @HiveField(3)
-  DexPairHive? pair;
-
-  @HiveField(4)
-  double fees;
-
-  @HiveField(5)
-  double ratioToken1Token2;
-
-  @HiveField(6)
-  double ratioToken2Token1;
-
-  @HiveField(7)
-  double estimatePoolTVLInFiat;
-
-  @HiveField(8)
   bool lpTokenInUserBalance;
 
-  @HiveField(9)
-  double? token1TotalFee;
-
-  @HiveField(10)
-  double? token1TotalVolume;
-
-  @HiveField(11)
-  double? token2TotalFee;
-
-  @HiveField(12)
-  double? token2TotalVolume;
+  @HiveField(4)
+  DexPoolInfosHive? details;
 
   DexPool toDexPool() {
     return DexPool(
-      poolAddress: poolAddress,
-      lpToken: lpToken != null ? lpToken!.toModel() : null,
-      ranking: ranking,
-      pair: pair != null ? pair!.toModel() : null,
-      fees: fees,
-      ratioToken1Token2: ratioToken1Token2,
-      ratioToken2Token1: ratioToken2Token1,
-      estimatePoolTVLInFiat: estimatePoolTVLInFiat,
       lpTokenInUserBalance: lpTokenInUserBalance,
-      token1TotalFee: token1TotalFee ?? 0,
-      token1TotalVolume: token1TotalVolume ?? 0,
-      token2TotalFee: token2TotalFee ?? 0,
-      token2TotalVolume: token2TotalVolume ?? 0,
+      poolAddress: poolAddress,
+      lpToken: lpToken.toModel(),
+      pair: pair.toModel(),
+      infos: details?.toModel(),
     );
   }
+}
+
+@HiveType(typeId: HiveTypeIds.dexPoolInfos)
+class DexPoolInfosHive extends HiveObject {
+  DexPoolInfosHive({
+    required this.fees,
+    required this.ratioToken1Token2,
+    required this.ratioToken2Token1,
+    required this.token1TotalFee,
+    required this.token1TotalVolume,
+    required this.token2TotalFee,
+    required this.token2TotalVolume,
+    // required this.estimatePoolTVLInFiat,
+  });
+
+  @HiveField(1)
+  double fees;
+
+  @HiveField(2)
+  double ratioToken1Token2;
+
+  @HiveField(3)
+  double ratioToken2Token1;
+
+  @HiveField(4)
+  double? token1TotalFee;
+
+  @HiveField(5)
+  double? token1TotalVolume;
+
+  @HiveField(6)
+  double? token2TotalFee;
+
+  @HiveField(7)
+  double? token2TotalVolume;
+
+  // @HiveField(8)
+  // double estimatePoolTVLInFiat;
+
+  DexPoolInfos toModel() => DexPoolInfos(
+        fees: fees,
+        // estimatePoolTVLInFiat: estimatePoolTVLInFiat,
+        ratioToken1Token2: ratioToken1Token2,
+        ratioToken2Token1: ratioToken2Token1,
+        token1TotalFee: token1TotalFee ?? 0,
+        token1TotalVolume: token1TotalVolume ?? 0,
+        token2TotalFee: token2TotalFee ?? 0,
+        token2TotalVolume: token2TotalVolume ?? 0,
+      );
+}
+
+extension DexPoolInfosHiveConversionExt on DexPoolInfos {
+  DexPoolInfosHive toHive() => DexPoolInfosHive(
+        fees: fees,
+        // estimatePoolTVLInFiat: estimatePoolTVLInFiat,
+        ratioToken1Token2: ratioToken1Token2,
+        ratioToken2Token1: ratioToken2Token1,
+        token1TotalFee: token1TotalFee,
+        token1TotalVolume: token1TotalVolume,
+        token2TotalFee: token2TotalFee,
+        token2TotalVolume: token2TotalVolume,
+      );
 }
