@@ -1,5 +1,6 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
@@ -242,10 +243,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                   swap.tokenToSwap != null &&
                   swap.tokenSwappedAmount > 0 &&
                   swap.tokenToSwapAmount > 0)
-                Text(
-                  'Price impact: ${swap.priceImpact.formatNumber()}%',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
+                DexPriceImpact(priceImpact: swap.priceImpact),
             ],
           ),
         ),
