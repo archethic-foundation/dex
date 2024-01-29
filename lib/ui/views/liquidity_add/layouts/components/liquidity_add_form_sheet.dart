@@ -66,7 +66,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                     children: [
                       if (liquidityAdd.token1 != null)
                         PoolInfoCard(
-                          poolGenesisAddress: liquidityAdd.poolGenesisAddress,
+                          poolGenesisAddress: liquidityAdd.pool!.poolAddress,
                           tokenAddressRatioPrimary:
                               liquidityAdd.token1!.address == null
                                   ? 'UCO'

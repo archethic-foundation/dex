@@ -24,7 +24,7 @@ final _dexPoolsRepositoryProvider =
 
 typedef _DexPoolsRepositoryRef = AutoDisposeProviderRef<DexPoolsRepository>;
 String _$invalidateDataUseCaseHash() =>
-    r'304bf2cbecdc5e6eb6e75c37635c4122b07cea8c';
+    r'e2ad64a0954a76795afc6f022bdc4158f27c7a24';
 
 /// See also [_invalidateDataUseCase].
 @ProviderFor(_invalidateDataUseCase)
@@ -39,7 +39,7 @@ final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
 );
 
 typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
-String _$getPoolListHash() => r'a7a2dc2521276ae6b48270ce16b8f1be1fb2e271';
+String _$getPoolListHash() => r'857ef4782e904b12d114b4bb14bfe5e0a38806b3';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)
@@ -562,7 +562,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimatePoolTVLInFiatHash() =>
-    r'952cc20b4026e709044cc9f64fdf463a38de7b86';
+    r'360e50cac708f9442c8a4f60d0b4a14d3c33b756';
 
 /// See also [_estimatePoolTVLInFiat].
 @ProviderFor(_estimatePoolTVLInFiat)

@@ -17,7 +17,6 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     LiquidityAddProcessStep liquidityAddProcessStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
-    @Default('') String poolGenesisAddress,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool liquidityAddOk,
     @Default(false) bool walletConfirmation,

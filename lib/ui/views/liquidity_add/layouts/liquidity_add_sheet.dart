@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_pair.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
@@ -13,12 +14,12 @@ import 'package:gradient_borders/gradient_borders.dart';
 
 class LiquidityAddSheet extends ConsumerStatefulWidget {
   const LiquidityAddSheet({
-    required this.poolGenesisAddress,
+    required this.pool,
     required this.pair,
     super.key,
   });
 
-  final String poolGenesisAddress;
+  final DexPool pool;
   final DexPair pair;
   @override
   ConsumerState<LiquidityAddSheet> createState() => _LiquidityAddSheetState();
@@ -30,7 +31,7 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
     super.initState();
     Future.delayed(Duration.zero, () {
       ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-        ..setPoolGenesisAddress(widget.poolGenesisAddress)
+        ..setPool(widget.pool)
         ..setToken1(widget.pair.token1)
         ..setToken2(widget.pair.token2)
         ..initBalances()

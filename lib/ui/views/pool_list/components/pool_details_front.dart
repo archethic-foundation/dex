@@ -298,7 +298,7 @@ class PoolDetailsFront extends ConsumerWidget {
                                     )
                                     .setWidget(
                                       LiquidityAddSheet(
-                                        poolGenesisAddress: pool.poolAddress,
+                                        pool: pool,
                                         pair: pool.pair!,
                                       ),
                                       ref,

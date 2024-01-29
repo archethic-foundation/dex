@@ -2,6 +2,7 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_liquidity.dart';
@@ -32,11 +33,11 @@ class LiquidityAddFormNotifier
 
   CancelableTask<double?>? _calculateEquivalentAmountTask;
 
-  Future<void> setPoolGenesisAddress(String poolGenesisAddress) async {
-    state = state.copyWith(poolGenesisAddress: poolGenesisAddress);
+  Future<void> setPool(DexPool pool) async {
+    state = state.copyWith(pool: pool);
 
-    final poolInfos = await ref
-        .read(DexPoolProviders.getPoolInfos(poolGenesisAddress).future);
+    final poolInfos =
+        await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
     state = state.copyWith(pool: poolInfos);
   }
 
@@ -71,7 +72,7 @@ class LiquidityAddFormNotifier
   Future<void> initRatio() async {
     final apiService = sl.get<ApiService>();
     final equivalentAmounResult =
-        await PoolFactory(state.poolGenesisAddress, apiService)
+        await PoolFactory(state.pool!.poolAddress, apiService)
             .getEquivalentAmount(
       state.token1!.isUCO ? 'UCO' : state.token1!.address!,
       1,
@@ -130,7 +131,7 @@ class LiquidityAddFormNotifier
     await setToken1Amount(state.token1Balance);
     final feesUCO = await AddLiquidityCase().estimateFees(
       ref,
-      state.poolGenesisAddress,
+      state.pool!.poolAddress,
       state.token1!,
       state.token1Amount,
       state.token2!,
@@ -144,7 +145,7 @@ class LiquidityAddFormNotifier
     await setToken2Amount(state.token2Balance);
     final feesUCO = await AddLiquidityCase().estimateFees(
       ref,
-      state.poolGenesisAddress,
+      state.pool!.poolAddress,
       state.token1!,
       state.token1Amount,
       state.token2!,
@@ -176,7 +177,7 @@ class LiquidityAddFormNotifier
     }
     final apiService = sl.get<ApiService>();
     final expectedTokenLPResult = await PoolFactory(
-      state.poolGenesisAddress,
+      state.pool!.poolAddress,
       apiService,
     ).getLPTokenToMint(state.token1Amount, state.token2Amount);
     expectedTokenLPResult.map(
@@ -208,7 +209,7 @@ class LiquidityAddFormNotifier
             task: () async {
               var _equivalentAmount = 0.0;
               final equivalentAmountResult =
-                  await PoolFactory(state.poolGenesisAddress, apiService)
+                  await PoolFactory(state.pool!.poolAddress, apiService)
                       .getEquivalentAmount(tokenAddress, amount);
 
               equivalentAmountResult.map(
@@ -434,7 +435,7 @@ class LiquidityAddFormNotifier
 
     await AddLiquidityCase().run(
       ref,
-      state.poolGenesisAddress,
+      state.pool!.poolAddress,
       state.token1!,
       state.token1Amount,
       state.token2!,
