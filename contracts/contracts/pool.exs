@@ -436,7 +436,7 @@ fun get_user_transfers_amount(tx) do
 
   token1_amount = 0
   token2_amount = 0
-  transfers = Map.get(tx.token_transfers, contract_address)
+  transfers = Map.get(tx.token_transfers, contract_address, [])
 
   uco_amount = Map.get(tx.uco_transfers, contract_address)
   if uco_amount != nil do
