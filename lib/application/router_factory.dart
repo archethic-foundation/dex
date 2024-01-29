@@ -55,7 +55,9 @@ class RouterFactory with ModelParser {
   }
 
   /// Return the infos of all the pools.
-  Future<Result<List<DexPool>, Failure>> getPoolList() async {
+  Future<Result<List<DexPool>, Failure>> getPoolList(
+    Balance userBalance,
+  ) async {
     return Result.guard(
       () async {
         final results = await apiService.callSCFunction(
@@ -75,7 +77,7 @@ class RouterFactory with ModelParser {
         for (final result in results) {
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
-            await poolListToModel(getPoolListResponse),
+            await poolListItemToModel(userBalance, getPoolListResponse),
           );
         }
 

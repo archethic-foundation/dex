@@ -33,7 +33,8 @@ mixin ModelParser {
     );
   }
 
-  Future<DexPoolInfos> poolInfoToModel(
+  Future<DexPool> poolInfoToModel(
+    DexPool poolInput,
     String poolAddress,
     GetPoolInfosResponse getPoolInfosResponse,
   ) async {
@@ -55,18 +56,40 @@ mixin ModelParser {
           getPoolInfosResponse.token2.reserve;
     }
 
-    return DexPoolInfos(
-      fees: getPoolInfosResponse.fee,
-      ratioToken1Token2: ratioToken1Token2,
-      ratioToken2Token1: ratioToken2Token1,
-      token1TotalFee: getPoolInfosResponse.stats.token1TotalFee,
-      token1TotalVolume: getPoolInfosResponse.stats.token1TotalVolume,
-      token2TotalFee: getPoolInfosResponse.stats.token2TotalFee,
-      token2TotalVolume: getPoolInfosResponse.stats.token2TotalVolume,
+    final token1 = poolInput.pair.token1.copyWith(
+      reserve: getPoolInfosResponse.token1.reserve,
+    );
+
+    final token2 = poolInput.pair.token2.copyWith(
+      reserve: getPoolInfosResponse.token2.reserve,
+    );
+
+    final dexPair = poolInput.pair.copyWith(
+      token1: token1,
+      token2: token2,
+    );
+
+    final lpToken = poolInput.lpToken.copyWith(
+      supply: getPoolInfosResponse.lpToken.supply,
+    );
+
+    return poolInput.copyWith(
+      pair: dexPair,
+      lpToken: lpToken,
+      infos: DexPoolInfos(
+        fees: getPoolInfosResponse.fee,
+        ratioToken1Token2: ratioToken1Token2,
+        ratioToken2Token1: ratioToken2Token1,
+        token1TotalFee: getPoolInfosResponse.stats.token1TotalFee,
+        token1TotalVolume: getPoolInfosResponse.stats.token1TotalVolume,
+        token2TotalFee: getPoolInfosResponse.stats.token2TotalFee,
+        token2TotalVolume: getPoolInfosResponse.stats.token2TotalVolume,
+      ),
     );
   }
 
-  Future<DexPool> poolListToModel(
+  Future<DexPool> poolListItemToModel(
+    archethic.Balance userBalance,
     GetPoolListResponse getPoolListResponse,
   ) async {
     final tokens = getPoolListResponse.tokens.split('/');
@@ -121,6 +144,13 @@ mixin ModelParser {
     final token2Verified = await VerifiedTokensRepository()
         .isVerifiedToken(tokens[1].toUpperCase());
 
+    var lpTokenInUserBalance = false;
+    for (final userTokensBalance in userBalance.token) {
+      if (getPoolListResponse.lpTokenAddress == userTokensBalance.address) {
+        lpTokenInUserBalance = true;
+      }
+    }
+
     final dexPair = DexPair(
       token1: DexToken(
         address: tokens[0].toUpperCase(),
@@ -146,6 +176,7 @@ mixin ModelParser {
       poolAddress: getPoolListResponse.address,
       pair: dexPair,
       lpToken: lpToken,
+      lpTokenInUserBalance: lpTokenInUserBalance,
     );
   }
 

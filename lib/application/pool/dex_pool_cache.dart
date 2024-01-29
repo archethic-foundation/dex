@@ -29,8 +29,6 @@ Future<List<DexPool>> _verifiedPools(
 Future<List<DexPool>> _getPoolListFromCache(
   _GetPoolListFromCacheRef ref,
 ) async {
-  await Future.delayed(const Duration(seconds: 5));
-  // final poolListCache = <DexPool>[];
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
 
   final poolListCached = poolsListDatasource
@@ -41,26 +39,6 @@ Future<List<DexPool>> _getPoolListFromCache(
       .toList();
 
   debugPrint('poolListCached ${poolListCached.length}');
-
-  // for (final poolHive in poolListCached) {
-  //   final pool = poolHive.toDexPool();
-  //   poolListCache.add(pool);
-  // }
-
-  // poolListCache.sort((a, b) {
-  //   if (a.lpTokenInUserBalance && !b.lpTokenInUserBalance) {
-  //     return -1;
-  //   } else if (!a.lpTokenInUserBalance && b.lpTokenInUserBalance) {
-  //     return 1;
-  //   }
-  //   if (a.isVerified && !b.isVerified) {
-  //     return -1;
-  //   } else if (!a.isVerified && b.isVerified) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
-
   return poolListCached;
 }
 
@@ -73,16 +51,11 @@ Future<void> _putPoolListInfosToCache(
 
   final poolList = await ref.read(_getPoolListForUserProvider.future);
   for (final pool in poolList) {
-    final poolInfos = await ref.read(
-      DexPoolProviders.getPoolInfos(pool.poolAddress).future,
+    final poolWithInfos = await ref.read(
+      DexPoolProviders.getPoolInfos(pool).future,
     );
 
-    if (poolInfos != null) {
-      await poolsListDatasource.setPoolInfos(
-        pool.poolAddress,
-        poolInfos.toHive(),
-      );
-    }
+    await poolsListDatasource.setPool(poolWithInfos!.toHive());
   }
 
   debugPrint('poolList stored');

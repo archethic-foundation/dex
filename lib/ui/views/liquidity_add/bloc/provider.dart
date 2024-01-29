@@ -36,9 +36,9 @@ class LiquidityAddFormNotifier
   Future<void> setPool(DexPool pool) async {
     state = state.copyWith(pool: pool);
 
-    final poolInfos =
-        await ref.read(DexPoolProviders.getPoolInfos(pool.poolAddress).future);
-    state = state.copyWith(pool: state.pool!.copyWith(infos: poolInfos));
+    final poolPopulated =
+        await ref.read(DexPoolProviders.getPoolInfos(pool).future);
+    state = state.copyWith(pool: poolPopulated);
   }
 
   Future<void> initBalances() async {

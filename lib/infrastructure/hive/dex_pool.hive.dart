@@ -16,14 +16,6 @@ class DexPoolHive extends HiveObject {
     this.details,
   });
 
-  factory DexPoolHive.fromDexPool(DexPool dexPool) => DexPoolHive(
-        lpTokenInUserBalance: dexPool.lpTokenInUserBalance,
-        poolAddress: dexPool.poolAddress,
-        lpToken: DexTokenHive.fromModel(dexPool.lpToken),
-        pair: DexPairHive.fromModel(dexPool.pair),
-        details: dexPool.infos?.toHive(),
-      );
-
   DexPoolHive copyWith({
     DexPoolInfosHive? details,
   }) =>
@@ -71,7 +63,6 @@ class DexPoolInfosHive extends HiveObject {
     required this.token1TotalVolume,
     required this.token2TotalFee,
     required this.token2TotalVolume,
-    // required this.estimatePoolTVLInFiat,
   });
 
   @HiveField(1)
@@ -100,7 +91,6 @@ class DexPoolInfosHive extends HiveObject {
 
   DexPoolInfos toModel() => DexPoolInfos(
         fees: fees,
-        // estimatePoolTVLInFiat: estimatePoolTVLInFiat,
         ratioToken1Token2: ratioToken1Token2,
         ratioToken2Token1: ratioToken2Token1,
         token1TotalFee: token1TotalFee ?? 0,
@@ -113,12 +103,21 @@ class DexPoolInfosHive extends HiveObject {
 extension DexPoolInfosHiveConversionExt on DexPoolInfos {
   DexPoolInfosHive toHive() => DexPoolInfosHive(
         fees: fees,
-        // estimatePoolTVLInFiat: estimatePoolTVLInFiat,
         ratioToken1Token2: ratioToken1Token2,
         ratioToken2Token1: ratioToken2Token1,
         token1TotalFee: token1TotalFee,
         token1TotalVolume: token1TotalVolume,
         token2TotalFee: token2TotalFee,
         token2TotalVolume: token2TotalVolume,
+      );
+}
+
+extension DexPoolHiveConversionExt on DexPool {
+  DexPoolHive toHive() => DexPoolHive(
+        lpTokenInUserBalance: lpTokenInUserBalance,
+        poolAddress: poolAddress,
+        lpToken: DexTokenHive.fromModel(lpToken),
+        pair: DexPairHive.fromModel(pair),
+        details: infos?.toHive(),
       );
 }

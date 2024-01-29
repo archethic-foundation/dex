@@ -26,6 +26,7 @@ class DBHelper {
     Hive
       ..registerAdapter(DexPairHiveAdapter())
       ..registerAdapter(DexPoolHiveAdapter())
+      ..registerAdapter(DexPoolInfosHiveAdapter())
       ..registerAdapter(DexTokenHiveAdapter());
   }
 }

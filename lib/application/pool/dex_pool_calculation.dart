@@ -2,6 +2,31 @@
 part of 'dex_pool.dart';
 
 @riverpod
+Future<double> _getRatio(
+  _GetRatioRef ref,
+  String poolGenesisAddress,
+  DexToken token,
+) async {
+  final apiService = sl.get<ApiService>();
+  final poolRatioResult = await PoolFactory(
+    poolGenesisAddress,
+    apiService,
+  ).getPoolRatio(
+    token.isUCO ? 'UCO' : token.address!,
+  );
+  var ratio = 0.0;
+  poolRatioResult.map(
+    success: (success) {
+      if (success != null) {
+        ratio = success;
+      }
+    },
+    failure: (failure) {},
+  );
+  return ratio;
+}
+
+@riverpod
 Future<double> _estimateTokenInFiat(
   _EstimateTokenInFiatRef ref,
   DexToken token,
@@ -176,7 +201,7 @@ Future<
     priceToken2 = ratio * priceToken1;
   }
 
-  final poolDetails = pool.details;
+  final poolDetails = pool.infos;
   if (poolDetails != null) {
     token1TotalVolumeCurrentFiat = priceToken1 * poolDetails.token1TotalVolume;
     token2TotalVolumeCurrentFiat = priceToken2 * poolDetails.token2TotalVolume;

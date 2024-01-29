@@ -23,7 +23,7 @@ final _dexFarmsRepositoryProvider =
 );
 
 typedef _DexFarmsRepositoryRef = AutoDisposeProviderRef<DexFarmsRepository>;
-String _$getFarmListHash() => r'cb907feee29bfc1128884961e318bc2de449cbe5';
+String _$getFarmListHash() => r'0842f3192a93c900029f78c5ff283b4eedcf77d1';
 
 /// See also [_getFarmList].
 @ProviderFor(_getFarmList)
@@ -37,7 +37,7 @@ final _getFarmListProvider = AutoDisposeFutureProvider<List<DexFarm>>.internal(
 );
 
 typedef _GetFarmListRef = AutoDisposeFutureProviderRef<List<DexFarm>>;
-String _$getFarmInfosHash() => r'6253460f96dd284bd57b8bc1297588889f9de3de';
+String _$getFarmInfosHash() => r'7c6f00a7c1ddc413b6d94cfafe4390f98e982396';
 
 /// Copied from Dart SDK
 class _SystemHash {
