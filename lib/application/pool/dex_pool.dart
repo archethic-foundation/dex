@@ -44,8 +44,7 @@ Future<List<DexPool>> _getPoolList(
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
   final apiService = sl.get<ApiService>();
   final dexPoolsRepository = ref.watch(_dexPoolsRepositoryProvider);
-  return dexPoolsRepository.getPoolListForUser(
-    // FIXME cyclic relation between repository and provider
+  return dexPoolsRepository.getPoolList(
     dexConf.routerGenesisAddress,
     apiService,
     ref,
@@ -118,7 +117,7 @@ class DexPoolsRepository {
     Ref ref,
   ) async {
     final dexPools = <DexPool>[];
-    final poolListFuture = ref.read(DexPoolProviders.getPoolList.future);
+    final poolListFuture = ref.read(_getPoolListProvider.future);
 
     final verifiedTokensFuture =
         ref.read(VerifiedTokensProviders.getVerifiedTokensFromNetwork.future);
@@ -232,7 +231,6 @@ class DexPoolsRepository {
 abstract class DexPoolProviders {
   static final invalidateData = _invalidateDataUseCaseProvider;
 
-  static final getPoolList = _getPoolListProvider;
   static const getPoolInfos = _getPoolInfosProvider;
   static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
   static const estimateTokenInFiat = _estimateTokenInFiatProvider;
