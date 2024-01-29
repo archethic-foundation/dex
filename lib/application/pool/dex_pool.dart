@@ -29,6 +29,14 @@ DexPoolsRepository _dexPoolsRepository(_DexPoolsRepositoryRef ref) =>
     DexPoolsRepository();
 
 @riverpod
+void _invalidateDataUseCase(_InvalidateProvidersUseCaseRef ref) {
+  ref
+    ..invalidate(_getPoolInfosProvider)
+    ..invalidate(_getPoolListProvider)
+    ..invalidate(_getPoolListFromCacheProvider);
+}
+
+@riverpod
 Future<List<DexPool>> _getPoolList(
   _GetPoolListRef ref,
 ) async {
@@ -37,6 +45,7 @@ Future<List<DexPool>> _getPoolList(
   final apiService = sl.get<ApiService>();
   final dexPoolsRepository = ref.watch(_dexPoolsRepositoryProvider);
   return dexPoolsRepository.getPoolListForUser(
+    // FIXME cyclic relation between repository and provider
     dexConf.routerGenesisAddress,
     apiService,
     ref,
@@ -221,6 +230,8 @@ class DexPoolsRepository {
 }
 
 abstract class DexPoolProviders {
+  static final invalidateData = _invalidateDataUseCaseProvider;
+
   static final getPoolList = _getPoolListProvider;
   static const getPoolInfos = _getPoolInfosProvider;
   static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
@@ -228,9 +239,9 @@ abstract class DexPoolProviders {
   static final putPoolListToCache = _putPoolListToCacheProvider;
   static final getPoolListForUser =
       _getPoolListForUserProvider; // TODO make that provider private to the cache manager
-  static final getPoolListFromCache = _getPoolListFromCacheProvider;
   static final userTokenPools = _userTokenPoolsProvider;
   static final verifiedPools = _verifiedPoolsProvider;
+
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
 }

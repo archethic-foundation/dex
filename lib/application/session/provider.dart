@@ -34,9 +34,7 @@ class _SessionNotifier extends Notifier<Session> {
       ..invalidate(DexTokensProviders.getTokenFromAccount)
       ..invalidate(DexTokensProviders.getTokenFromAddress)
       ..invalidate(DexTokensProviders.getTokenIcon)
-      ..invalidate(DexPoolProviders.getPoolInfos)
-      ..invalidate(DexPoolProviders.getPoolList)
-      ..invalidate(DexPoolProviders.getPoolListFromCache);
+      ..read(DexPoolProviders.invalidateData);
   }
 
   void connectEndpoint(String env) {

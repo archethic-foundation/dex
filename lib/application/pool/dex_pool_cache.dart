@@ -79,7 +79,5 @@ Future<void> _putPoolListToCache(
   await poolsListDatasource.setPoolsList(poolListCache);
 
   debugPrint('poolList stored');
-  ref.invalidate(
-    DexPoolProviders.getPoolListFromCache,
-  );
+  ref.invalidate(_getPoolListFromCacheProvider);
 }

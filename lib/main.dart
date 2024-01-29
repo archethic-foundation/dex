@@ -48,10 +48,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ref.invalidate(
-        DexPoolProviders.getPoolListFromCache,
-      );
-
       await ref.read(SessionProviders.session.notifier).connectToWallet(
             forceConnection: false,
           );
@@ -71,7 +67,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {
         await ref.read(DexPoolProviders.putPoolListToCache.future);
-        ref.invalidate(DexPoolProviders.getPoolListForUser);
       });
     });
   }
