@@ -7,6 +7,7 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
 
     token1_address = String.to_uppercase(token1_address)
     token2_address = String.to_uppercase(token2_address)
+    pool_creation_address = String.to_hex(pool_creation_address)
 
     pool_exists? = get_pool_addresses(token1_address, token2_address) != nil
 
@@ -56,6 +57,7 @@ condition triggered_by: transaction, on: add_pool(token1_address, token2_address
 actions triggered_by: transaction, on: add_pool(token1_address, token2_address, pool_creation_address) do
   token1_address = String.to_uppercase(token1_address)
   token2_address = String.to_uppercase(token2_address)
+  pool_creation_address = String.to_hex(pool_creation_address)
 
   pool_genesis_address = Chain.get_genesis_address(pool_creation_address)
   pool_id = get_pool_id(token1_address, token2_address)
