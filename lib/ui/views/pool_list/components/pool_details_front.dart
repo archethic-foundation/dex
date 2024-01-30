@@ -204,7 +204,7 @@ class PoolDetailsFront extends ConsumerWidget {
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           Text(
-                            '\$${asyncTvlInFiat.valueOrNull?.apr.formatNumber(precision: 2) ?? '...'}',
+                            '${asyncTvlInFiat.valueOrNull?.apr.formatNumber(precision: 2) ?? '...'}%',
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium!
