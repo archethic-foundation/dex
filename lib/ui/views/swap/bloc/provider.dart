@@ -38,6 +38,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double outputAmount,
         double fees,
         double priceImpact,
+        double protocolFees,
       })>? _calculateSwapInfosTask;
 
   Future<void> getPool() async {
@@ -108,6 +109,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double outputAmount,
         double fees,
         double priceImpact,
+        double protocolFees,
       })> calculateSwapInfos(
     String tokenAddress,
     double amount, {
@@ -118,6 +120,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         outputAmount: 0.0,
         fees: 0.0,
         priceImpact: 0.0,
+        protocolFees: 0.0,
       );
     }
     final apiService = sl.get<ApiService>();
@@ -125,6 +128,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       double fees,
       double outputAmount,
       double priceImpact,
+      double protocolFees,
     }) result;
     try {
       result = await Future<
@@ -132,6 +136,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             double outputAmount,
             double fees,
             double priceImpact,
+            double protocolFees,
           })>(
         () async {
           if (amount <= 0) {
@@ -139,6 +144,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               outputAmount: 0.0,
               fees: 0.0,
               priceImpact: 0.0,
+              protocolFees: 0.0,
             );
           }
 
@@ -148,11 +154,13 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 double outputAmount,
                 double fees,
                 double priceImpact,
+                double protocolFees,
               })>(
             task: () async {
               var _outputAmount = 0.0;
               var _fees = 0.0;
               var _priceImpact = 0.0;
+              var _protocolFees = 0.0;
 
               final getSwapInfosResult = await PoolFactory(
                 state.poolGenesisAddress,
@@ -165,6 +173,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                     _outputAmount = success['output_amount'] ?? 0;
                     _fees = success['fee'] ?? 0;
                     _priceImpact = success['price_impact'] ?? 0;
+                    _protocolFees = success['protocol_fee'] ?? 0;
                   }
                 },
                 failure: (failure) {
@@ -179,6 +188,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 outputAmount: _outputAmount,
                 fees: _fees,
                 priceImpact: _priceImpact,
+                protocolFees: _protocolFees,
               );
             },
           );
@@ -189,6 +199,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             outputAmount: __result == null ? 0.0 : __result.outputAmount,
             fees: __result == null ? 0.0 : __result.fees,
             priceImpact: __result == null ? 0.0 : __result.priceImpact,
+            protocolFees: __result == null ? 0.0 : __result.protocolFees,
           );
         },
       );
@@ -197,12 +208,14 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         outputAmount: 0.0,
         fees: 0.0,
         priceImpact: 0.0,
+        protocolFees: 0.0,
       );
     }
     return (
       outputAmount: result.outputAmount,
       fees: result.fees,
       priceImpact: result.priceImpact,
+      protocolFees: result.protocolFees,
     );
   }
 
@@ -235,6 +248,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       tokenSwappedAmount: swapInfos.outputAmount,
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
+      swapProtocolFees: swapInfos.protocolFees,
       minToReceive: minToReceive,
     );
   }
@@ -268,6 +282,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       tokenToSwapAmount: swapInfos.outputAmount,
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
+      swapProtocolFees: swapInfos.protocolFees,
       minToReceive: minToReceive,
     );
   }
@@ -401,6 +416,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       tokenSwappedAmount: swapInfos.outputAmount,
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
+      swapProtocolFees: swapInfos.protocolFees,
       minToReceive: minToReceive,
     );
   }
@@ -418,6 +434,14 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   ) {
     state = state.copyWith(
       priceImpact: priceImpact,
+    );
+  }
+
+  void setSwapProtocolFees(
+    double swapProtocolFees,
+  ) {
+    state = state.copyWith(
+      swapProtocolFees: swapProtocolFees,
     );
   }
 

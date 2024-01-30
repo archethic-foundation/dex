@@ -161,16 +161,20 @@ actions triggered_by: transaction, on: swap(_min_to_receive) do
   token2_volume = 0
   token1_fee = 0
   token2_fee = 0
+  token1_protocol_fee = 0
+  token2_protocol_fee = 0
   if transfer.token_address == @TOKEN1 do
     pool_balances = Map.set(pool_balances, "token2", pool_balances.token2 - swap.output_amount)
     token_to_send = @TOKEN2
     token1_volume = transfer.amount
     token1_fee = swap.fee
+    token1_protocol_fee = swap.protocol_fee
   else
     pool_balances = Map.set(pool_balances, "token1", pool_balances.token1 - swap.output_amount)
     token_to_send = @TOKEN1
     token2_volume = transfer.amount
     token2_fee = swap.fee
+    token2_protocol_fee = swap.protocol_fee
   end
 
   State.set("reserves", [token1: pool_balances.token1, token2: pool_balances.token2])
@@ -179,25 +183,33 @@ actions triggered_by: transaction, on: swap(_min_to_receive) do
     token1_total_fee: 0,
     token2_total_fee: 0,
     token1_total_volume: 0,
-    token2_total_volume: 0
+    token2_total_volume: 0,
+    token1_total_protocol_fee: 0,
+    token2_total_protocol_fee: 0,
   ])
 
   token1_total_fee = Map.get(stats, "token1_total_fee") + token1_fee
   token2_total_fee = Map.get(stats, "token2_total_fee") + token2_fee
   token1_total_volume = Map.get(stats, "token1_total_volume") + token1_volume
   token2_total_volume = Map.get(stats, "token2_total_volume") + token2_volume
+  token1_total_protocol_fee = Map.get(stats, "token1_total_protocol_fee") + token1_protocol_fee
+  token2_total_protocol_fee = Map.get(stats, "token2_total_protocol_fee") + token2_protocol_fee
 
   stats = Map.set(stats, "token1_total_fee", token1_total_fee)
   stats = Map.set(stats, "token2_total_fee", token2_total_fee)
   stats = Map.set(stats, "token1_total_volume", token1_total_volume)
   stats = Map.set(stats, "token2_total_volume", token2_total_volume)
+  stats = Map.set(stats, "token1_total_protocol_fee", token1_total_protocol_fee)
+  stats = Map.set(stats, "token2_total_protocol_fee", token2_total_protocol_fee)
 
   State.set("stats", stats)
 
   Contract.set_type("transfer")
   if token_to_send == "UCO" do
+    Contract.add_uco_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee)
     Contract.add_uco_transfer(to: transaction.address, amount: swap.output_amount)
   else
+    Contract.add_token_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee, token_address: token_to_send)
     Contract.add_token_transfer(to: transaction.address, amount: swap.output_amount, token_address: token_to_send)
   end
 end
@@ -227,6 +239,22 @@ actions triggered_by: transaction, on: update_code() do
     Contract.set_type("contract")
     Contract.set_code(new_code)
   end
+end
+
+condition triggered_by: transaction, on: set_protocol_fee(new_protocol_fee), as: [
+  content: new_protocol_fee <= 1 && new_protocol_fee >= 0,
+  previous_public_key: (
+    # Pool code can only be updated from the master contract of the dex
+
+    # Transaction is not yet validated so we need to use previous address
+    # to get the genesis address
+    previous_address = Chain.get_previous_address()
+    Chain.get_genesis_address(previous_address) == @MASTER_ADDRESS
+  )
+]
+
+actions triggered_by: transaction, on: set_protocol_fee(new_protocol_fee) do
+  State.set("protocol_fee", new_protocol_fee)
 end
 
 export fun get_ratio(token_address) do
@@ -284,6 +312,7 @@ end
 export fun get_swap_infos(token_address, amount) do
   output_amount = 0
   fee = 0
+  protocol_fee = 0
   price_impact = 0
 
   reserves = State.get("reserves", [token1: 0, token2: 0])
@@ -291,7 +320,8 @@ export fun get_swap_infos(token_address, amount) do
 
   if reserves.token1 > 0 && reserves.token2 > 0 do
     fee = amount * 0.0025
-    amount_with_fee = amount - fee
+    protocol_fee = amount * State.get("protocol_fee", 0.25) / 100
+    amount_with_fee = amount - fee - protocol_fee
 
     market_price = 0
 
@@ -322,6 +352,7 @@ export fun get_swap_infos(token_address, amount) do
   [
     output_amount: output_amount,
     fee: fee,
+    protocol_fee: protocol_fee,
     price_impact: price_impact
   ]
 end
@@ -347,7 +378,9 @@ export fun get_pool_infos() do
     token1_total_fee: 0,
     token2_total_fee: 0,
     token1_total_volume: 0,
-    token2_total_volume: 0
+    token2_total_volume: 0,
+    token1_total_protocol_fee: 0,
+    token2_total_protocol_fee: 0,
   ])
 
   [
@@ -364,6 +397,7 @@ export fun get_pool_infos() do
       supply: State.get("lp_token_supply", 0)
     ],
     fee: 0.25,
+    protocol_fee: State.get("protocol_fee", 0.25),
     stats: stats
   ]
 end

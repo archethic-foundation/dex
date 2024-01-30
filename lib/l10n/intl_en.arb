@@ -153,6 +153,7 @@
   "swapProcessStep3": "Swapping",
   "swapProcessStep4": "Process finished",
   "swapFeesLbl": "Swap fees",
+  "swapProtocolFeesLbl": "Swap protocol fees",
   "feesLbl": "Fees",
   "swapFromLbl": "From",
   "swapToEstimatedLbl": "To (estimated)",

@@ -2,8 +2,8 @@
 part of 'dex_pool.dart';
 
 @riverpod
-Future<List<DexPool>> _userTokenPools(
-  _UserTokenPoolsRef ref,
+Future<List<DexPool>> _myPools(
+  _MyPoolsRef ref,
 ) async {
   final pools = await ref.watch(_getPoolListFromCacheProvider.future);
   return pools
@@ -26,8 +26,8 @@ Future<List<DexPool>> _verifiedPools(
 }
 
 @riverpod
-Future<List<DexPool>> _myPools(
-  _VerifiedPoolsRef ref,
+Future<List<DexPool>> _favoritePools(
+  _FavoritePoolsRef ref,
 ) async {
   final pools = await ref.watch(_getPoolListFromCacheProvider.future);
   return pools;

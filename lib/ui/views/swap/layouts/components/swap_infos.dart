@@ -24,7 +24,7 @@ class SwapInfos extends ConsumerWidget {
         swap.tokenToSwap!.address == null ? 'UCO' : swap.tokenToSwap!.address!;
 
     final tvlInFiatAsync = ref.watch(
-      DexPoolProviders.estimatePoolTVLInFiat(swap.pool!),
+      DexPoolProviders.estimatePoolTVLandAPRInFiat(swap.pool!),
     );
 
     return Padding(
@@ -48,11 +48,11 @@ class SwapInfos extends ConsumerWidget {
           const SizedBox(
             height: 5,
           ),
-          if (swap.swapFees > 0 && swap.tokenToSwap != null)
+          if (swap.swapTotalFees > 0 && swap.tokenToSwap != null)
             Row(
               children: [
                 Text(
-                  'Fees: ${swap.swapFees.formatNumber()} UCO',
+                  'Fees: ${swap.swapTotalFees.formatNumber()} UCO',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(
@@ -62,7 +62,7 @@ class SwapInfos extends ConsumerWidget {
                   future: FiatValue().display(
                     ref,
                     swap.tokenToSwap!.symbol,
-                    swap.swapFees,
+                    swap.swapTotalFees,
                   ),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -111,7 +111,7 @@ class SwapInfos extends ConsumerWidget {
             ),
           if (swap.pool?.infos != null)
             Text(
-              'TVL: \$${tvlInFiatAsync.valueOrNull?.formatNumber(precision: 2) ?? '...'}',
+              'TVL: \$${tvlInFiatAsync.valueOrNull?.tvl.formatNumber(precision: 2) ?? '...'}',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           if (swap.pool?.infos != null)

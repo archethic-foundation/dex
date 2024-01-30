@@ -29,6 +29,7 @@ class SwapFormState with _$SwapFormState {
     @Default(0) double tokenSwappedAmount,
     @Default(0.0) double ratio,
     @Default(0.0) double swapFees,
+    @Default(0.0) double swapProtocolFees,
     @Default(0.5) double slippageTolerance,
     @Default(0.0) double minToReceive,
     @Default(0.0) double priceImpact,
@@ -39,6 +40,8 @@ class SwapFormState with _$SwapFormState {
     DexPool? pool,
   }) = _SwapFormState;
   const SwapFormState._();
+
+  double get swapTotalFees => swapFees + swapProtocolFees;
 
   bool get isControlsOk =>
       tokenToSwap != null &&

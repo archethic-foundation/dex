@@ -210,7 +210,7 @@ class SwapConfirmInfos extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              if (swap.swapFees > 0 && swap.tokenToSwap != null)
+              if (swap.swapTotalFees > 0 && swap.tokenToSwap != null)
                 Row(
                   children: [
                     Text(
@@ -224,7 +224,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                       future: FiatValue().display(
                         ref,
                         swap.tokenToSwap!.symbol,
-                        swap.swapFees,
+                        swap.swapTotalFees,
                         precision: 8,
                       ),
                       builder: (context, snapshot) {

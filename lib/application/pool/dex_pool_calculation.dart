@@ -47,32 +47,41 @@ Future<double> _estimateTokenInFiat(
 }
 
 @riverpod
-Future<double> _estimatePoolTVLInFiat(
-  _EstimatePoolTVLInFiatRef ref,
+Future<({double tvl, double apr})> _estimatePoolTVLandAPRInFiat(
+  _EstimatePoolTVLandAPRInFiatRef ref,
   DexPool pool,
 ) async {
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
-
+  var tvl = 0.0;
+  var apr = 0.0;
   fiatValueToken1 = await ref
       .watch(DexPoolProviders.estimateTokenInFiat(pool.pair.token1).future);
   fiatValueToken2 = await ref
       .watch(DexPoolProviders.estimateTokenInFiat(pool.pair.token2).future);
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
-    return pool.pair.token1.reserve * fiatValueToken1 +
+    tvl = pool.pair.token1.reserve * fiatValueToken1 +
         pool.pair.token2.reserve * fiatValueToken2;
   }
 
   if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
-    return pool.pair.token1.reserve * fiatValueToken1 * 2;
+    tvl = pool.pair.token1.reserve * fiatValueToken1 * 2;
   }
 
   if (fiatValueToken1 == 0 && fiatValueToken2 > 0) {
-    return pool.pair.token2.reserve * fiatValueToken2 * 2;
+    tvl = pool.pair.token2.reserve * fiatValueToken2 * 2;
   }
 
-  return 0;
+  if (tvl > 0 && pool.infos != null) {
+    final archethicOracleUCO =
+        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+
+    final fiatFee = archethicOracleUCO.usd * pool.infos!.fees;
+    apr = fiatFee * 365 / tvl;
+  }
+
+  return (tvl: tvl, apr: apr);
 }
 
 @riverpod

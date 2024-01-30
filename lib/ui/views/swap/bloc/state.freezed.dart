@@ -32,6 +32,7 @@ mixin _$SwapFormState {
   double get tokenSwappedAmount => throw _privateConstructorUsedError;
   double get ratio => throw _privateConstructorUsedError;
   double get swapFees => throw _privateConstructorUsedError;
+  double get swapProtocolFees => throw _privateConstructorUsedError;
   double get slippageTolerance => throw _privateConstructorUsedError;
   double get minToReceive => throw _privateConstructorUsedError;
   double get priceImpact => throw _privateConstructorUsedError;
@@ -70,6 +71,7 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double tokenSwappedAmount,
       double ratio,
       double swapFees,
+      double swapProtocolFees,
       double slippageTolerance,
       double minToReceive,
       double priceImpact,
@@ -115,6 +117,7 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? tokenSwappedAmount = null,
     Object? ratio = null,
     Object? swapFees = null,
+    Object? swapProtocolFees = null,
     Object? slippageTolerance = null,
     Object? minToReceive = null,
     Object? priceImpact = null,
@@ -188,6 +191,10 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
       swapFees: null == swapFees
           ? _value.swapFees
           : swapFees // ignore: cast_nullable_to_non_nullable
+              as double,
+      swapProtocolFees: null == swapProtocolFees
+          ? _value.swapProtocolFees
+          : swapProtocolFees // ignore: cast_nullable_to_non_nullable
               as double,
       slippageTolerance: null == slippageTolerance
           ? _value.slippageTolerance
@@ -310,6 +317,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
       double tokenSwappedAmount,
       double ratio,
       double swapFees,
+      double swapProtocolFees,
       double slippageTolerance,
       double minToReceive,
       double priceImpact,
@@ -358,6 +366,7 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
     Object? tokenSwappedAmount = null,
     Object? ratio = null,
     Object? swapFees = null,
+    Object? swapProtocolFees = null,
     Object? slippageTolerance = null,
     Object? minToReceive = null,
     Object? priceImpact = null,
@@ -432,6 +441,10 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
           ? _value.swapFees
           : swapFees // ignore: cast_nullable_to_non_nullable
               as double,
+      swapProtocolFees: null == swapProtocolFees
+          ? _value.swapProtocolFees
+          : swapProtocolFees // ignore: cast_nullable_to_non_nullable
+              as double,
       slippageTolerance: null == slippageTolerance
           ? _value.slippageTolerance
           : slippageTolerance // ignore: cast_nullable_to_non_nullable
@@ -488,6 +501,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
       this.tokenSwappedAmount = 0,
       this.ratio = 0.0,
       this.swapFees = 0.0,
+      this.swapProtocolFees = 0.0,
       this.slippageTolerance = 0.5,
       this.minToReceive = 0.0,
       this.priceImpact = 0.0,
@@ -546,6 +560,9 @@ class _$SwapFormStateImpl extends _SwapFormState {
   final double swapFees;
   @override
   @JsonKey()
+  final double swapProtocolFees;
+  @override
+  @JsonKey()
   final double slippageTolerance;
   @override
   @JsonKey()
@@ -567,7 +584,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
 
   @override
   String toString() {
-    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, pool: $pool)';
+    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, pool: $pool)';
   }
 
   @override
@@ -605,6 +622,8 @@ class _$SwapFormStateImpl extends _SwapFormState {
             (identical(other.ratio, ratio) || other.ratio == ratio) &&
             (identical(other.swapFees, swapFees) ||
                 other.swapFees == swapFees) &&
+            (identical(other.swapProtocolFees, swapProtocolFees) ||
+                other.swapProtocolFees == swapProtocolFees) &&
             (identical(other.slippageTolerance, slippageTolerance) ||
                 other.slippageTolerance == slippageTolerance) &&
             (identical(other.minToReceive, minToReceive) ||
@@ -641,6 +660,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
         tokenSwappedAmount,
         ratio,
         swapFees,
+        swapProtocolFees,
         slippageTolerance,
         minToReceive,
         priceImpact,
@@ -676,6 +696,7 @@ abstract class _SwapFormState extends SwapFormState {
       final double tokenSwappedAmount,
       final double ratio,
       final double swapFees,
+      final double swapProtocolFees,
       final double slippageTolerance,
       final double minToReceive,
       final double priceImpact,
@@ -718,6 +739,8 @@ abstract class _SwapFormState extends SwapFormState {
   double get ratio;
   @override
   double get swapFees;
+  @override
+  double get swapProtocolFees;
   @override
   double get slippageTolerance;
   @override
