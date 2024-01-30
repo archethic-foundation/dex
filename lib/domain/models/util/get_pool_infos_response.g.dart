@@ -13,6 +13,7 @@ _$GetPoolInfosResponseImpl _$$GetPoolInfosResponseImplFromJson(
       token2: Token.fromJson(json['token2'] as Map<String, dynamic>),
       lpToken: LPToken.fromJson(json['lp_token'] as Map<String, dynamic>),
       fee: (json['fee'] as num).toDouble(),
+      protocolFee: (json['protocol_fee'] as num).toDouble(),
       stats: Stats.fromJson(json['stats'] as Map<String, dynamic>),
     );
 
@@ -23,6 +24,7 @@ Map<String, dynamic> _$$GetPoolInfosResponseImplToJson(
       'token2': instance.token2,
       'lp_token': instance.lpToken,
       'fee': instance.fee,
+      'protocol_fee': instance.protocolFee,
       'stats': instance.stats,
     };
 

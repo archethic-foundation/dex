@@ -64,6 +64,7 @@ class DexPoolInfosHiveAdapter extends TypeAdapter<DexPoolInfosHive> {
     };
     return DexPoolInfosHive(
       fees: fields[1] as double,
+      protocolFees: fields[9] as double,
       ratioToken1Token2: fields[2] as double,
       ratioToken2Token1: fields[3] as double,
       token1TotalFee: fields[4] as double?,
@@ -76,7 +77,7 @@ class DexPoolInfosHiveAdapter extends TypeAdapter<DexPoolInfosHive> {
   @override
   void write(BinaryWriter writer, DexPoolInfosHive obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(1)
       ..write(obj.fees)
       ..writeByte(2)
@@ -90,7 +91,9 @@ class DexPoolInfosHiveAdapter extends TypeAdapter<DexPoolInfosHive> {
       ..writeByte(6)
       ..write(obj.token2TotalFee)
       ..writeByte(7)
-      ..write(obj.token2TotalVolume);
+      ..write(obj.token2TotalVolume)
+      ..writeByte(9)
+      ..write(obj.protocolFees);
   }
 
   @override

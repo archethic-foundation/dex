@@ -23,6 +23,7 @@ class DexPool with _$DexPool {
 class DexPoolInfos with _$DexPoolInfos {
   const factory DexPoolInfos({
     required double fees,
+    required double protocolFees,
     required double ratioToken1Token2,
     required double ratioToken2Token1,
     required double token1TotalFee,

@@ -57,6 +57,7 @@ class DexPoolHive extends HiveObject {
 class DexPoolInfosHive extends HiveObject {
   DexPoolInfosHive({
     required this.fees,
+    required this.protocolFees,
     required this.ratioToken1Token2,
     required this.ratioToken2Token1,
     required this.token1TotalFee,
@@ -89,8 +90,12 @@ class DexPoolInfosHive extends HiveObject {
   // @HiveField(8)
   // double estimatePoolTVLInFiat;
 
+  @HiveField(9)
+  double protocolFees;
+
   DexPoolInfos toModel() => DexPoolInfos(
         fees: fees,
+        protocolFees: protocolFees,
         ratioToken1Token2: ratioToken1Token2,
         ratioToken2Token1: ratioToken2Token1,
         token1TotalFee: token1TotalFee ?? 0,
@@ -103,6 +108,7 @@ class DexPoolInfosHive extends HiveObject {
 extension DexPoolInfosHiveConversionExt on DexPoolInfos {
   DexPoolInfosHive toHive() => DexPoolInfosHive(
         fees: fees,
+        protocolFees: protocolFees,
         ratioToken1Token2: ratioToken1Token2,
         ratioToken2Token1: ratioToken2Token1,
         token1TotalFee: token1TotalFee,

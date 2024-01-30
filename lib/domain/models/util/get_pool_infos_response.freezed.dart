@@ -25,6 +25,8 @@ mixin _$GetPoolInfosResponse {
   @JsonKey(name: 'lp_token')
   LPToken get lpToken => throw _privateConstructorUsedError;
   double get fee => throw _privateConstructorUsedError;
+  @JsonKey(name: 'protocol_fee')
+  double get protocolFee => throw _privateConstructorUsedError;
   Stats get stats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,6 +46,7 @@ abstract class $GetPoolInfosResponseCopyWith<$Res> {
       Token token2,
       @JsonKey(name: 'lp_token') LPToken lpToken,
       double fee,
+      @JsonKey(name: 'protocol_fee') double protocolFee,
       Stats stats});
 
   $TokenCopyWith<$Res> get token1;
@@ -70,6 +73,7 @@ class _$GetPoolInfosResponseCopyWithImpl<$Res,
     Object? token2 = null,
     Object? lpToken = null,
     Object? fee = null,
+    Object? protocolFee = null,
     Object? stats = null,
   }) {
     return _then(_value.copyWith(
@@ -88,6 +92,10 @@ class _$GetPoolInfosResponseCopyWithImpl<$Res,
       fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
+              as double,
+      protocolFee: null == protocolFee
+          ? _value.protocolFee
+          : protocolFee // ignore: cast_nullable_to_non_nullable
               as double,
       stats: null == stats
           ? _value.stats
@@ -142,6 +150,7 @@ abstract class _$$GetPoolInfosResponseImplCopyWith<$Res>
       Token token2,
       @JsonKey(name: 'lp_token') LPToken lpToken,
       double fee,
+      @JsonKey(name: 'protocol_fee') double protocolFee,
       Stats stats});
 
   @override
@@ -169,6 +178,7 @@ class __$$GetPoolInfosResponseImplCopyWithImpl<$Res>
     Object? token2 = null,
     Object? lpToken = null,
     Object? fee = null,
+    Object? protocolFee = null,
     Object? stats = null,
   }) {
     return _then(_$GetPoolInfosResponseImpl(
@@ -188,6 +198,10 @@ class __$$GetPoolInfosResponseImplCopyWithImpl<$Res>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double,
+      protocolFee: null == protocolFee
+          ? _value.protocolFee
+          : protocolFee // ignore: cast_nullable_to_non_nullable
+              as double,
       stats: null == stats
           ? _value.stats
           : stats // ignore: cast_nullable_to_non_nullable
@@ -204,6 +218,7 @@ class _$GetPoolInfosResponseImpl implements _GetPoolInfosResponse {
       required this.token2,
       @JsonKey(name: 'lp_token') required this.lpToken,
       required this.fee,
+      @JsonKey(name: 'protocol_fee') required this.protocolFee,
       required this.stats});
 
   factory _$GetPoolInfosResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -219,11 +234,14 @@ class _$GetPoolInfosResponseImpl implements _GetPoolInfosResponse {
   @override
   final double fee;
   @override
+  @JsonKey(name: 'protocol_fee')
+  final double protocolFee;
+  @override
   final Stats stats;
 
   @override
   String toString() {
-    return 'GetPoolInfosResponse(token1: $token1, token2: $token2, lpToken: $lpToken, fee: $fee, stats: $stats)';
+    return 'GetPoolInfosResponse(token1: $token1, token2: $token2, lpToken: $lpToken, fee: $fee, protocolFee: $protocolFee, stats: $stats)';
   }
 
   @override
@@ -235,13 +253,15 @@ class _$GetPoolInfosResponseImpl implements _GetPoolInfosResponse {
             (identical(other.token2, token2) || other.token2 == token2) &&
             (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
             (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.protocolFee, protocolFee) ||
+                other.protocolFee == protocolFee) &&
             (identical(other.stats, stats) || other.stats == stats));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, token1, token2, lpToken, fee, stats);
+  int get hashCode => Object.hash(
+      runtimeType, token1, token2, lpToken, fee, protocolFee, stats);
 
   @JsonKey(ignore: true)
   @override
@@ -265,6 +285,7 @@ abstract class _GetPoolInfosResponse implements GetPoolInfosResponse {
       required final Token token2,
       @JsonKey(name: 'lp_token') required final LPToken lpToken,
       required final double fee,
+      @JsonKey(name: 'protocol_fee') required final double protocolFee,
       required final Stats stats}) = _$GetPoolInfosResponseImpl;
 
   factory _GetPoolInfosResponse.fromJson(Map<String, dynamic> json) =
@@ -279,6 +300,9 @@ abstract class _GetPoolInfosResponse implements GetPoolInfosResponse {
   LPToken get lpToken;
   @override
   double get fee;
+  @override
+  @JsonKey(name: 'protocol_fee')
+  double get protocolFee;
   @override
   Stats get stats;
   @override

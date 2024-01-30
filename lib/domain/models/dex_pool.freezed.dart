@@ -259,6 +259,7 @@ abstract class _DexPool extends DexPool {
 /// @nodoc
 mixin _$DexPoolInfos {
   double get fees => throw _privateConstructorUsedError;
+  double get protocolFees => throw _privateConstructorUsedError;
   double get ratioToken1Token2 => throw _privateConstructorUsedError;
   double get ratioToken2Token1 => throw _privateConstructorUsedError;
   double get token1TotalFee => throw _privateConstructorUsedError;
@@ -279,6 +280,7 @@ abstract class $DexPoolInfosCopyWith<$Res> {
   @useResult
   $Res call(
       {double fees,
+      double protocolFees,
       double ratioToken1Token2,
       double ratioToken2Token1,
       double token1TotalFee,
@@ -301,6 +303,7 @@ class _$DexPoolInfosCopyWithImpl<$Res, $Val extends DexPoolInfos>
   @override
   $Res call({
     Object? fees = null,
+    Object? protocolFees = null,
     Object? ratioToken1Token2 = null,
     Object? ratioToken2Token1 = null,
     Object? token1TotalFee = null,
@@ -312,6 +315,10 @@ class _$DexPoolInfosCopyWithImpl<$Res, $Val extends DexPoolInfos>
       fees: null == fees
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
+              as double,
+      protocolFees: null == protocolFees
+          ? _value.protocolFees
+          : protocolFees // ignore: cast_nullable_to_non_nullable
               as double,
       ratioToken1Token2: null == ratioToken1Token2
           ? _value.ratioToken1Token2
@@ -351,6 +358,7 @@ abstract class _$$DexPoolInfosImplCopyWith<$Res>
   @useResult
   $Res call(
       {double fees,
+      double protocolFees,
       double ratioToken1Token2,
       double ratioToken2Token1,
       double token1TotalFee,
@@ -371,6 +379,7 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fees = null,
+    Object? protocolFees = null,
     Object? ratioToken1Token2 = null,
     Object? ratioToken2Token1 = null,
     Object? token1TotalFee = null,
@@ -382,6 +391,10 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
       fees: null == fees
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
+              as double,
+      protocolFees: null == protocolFees
+          ? _value.protocolFees
+          : protocolFees // ignore: cast_nullable_to_non_nullable
               as double,
       ratioToken1Token2: null == ratioToken1Token2
           ? _value.ratioToken1Token2
@@ -416,6 +429,7 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
 class _$DexPoolInfosImpl extends _DexPoolInfos {
   const _$DexPoolInfosImpl(
       {required this.fees,
+      required this.protocolFees,
       required this.ratioToken1Token2,
       required this.ratioToken2Token1,
       required this.token1TotalFee,
@@ -426,6 +440,8 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
 
   @override
   final double fees;
+  @override
+  final double protocolFees;
   @override
   final double ratioToken1Token2;
   @override
@@ -441,7 +457,7 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
 
   @override
   String toString() {
-    return 'DexPoolInfos(fees: $fees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
+    return 'DexPoolInfos(fees: $fees, protocolFees: $protocolFees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
   }
 
   @override
@@ -450,6 +466,8 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
         (other.runtimeType == runtimeType &&
             other is _$DexPoolInfosImpl &&
             (identical(other.fees, fees) || other.fees == fees) &&
+            (identical(other.protocolFees, protocolFees) ||
+                other.protocolFees == protocolFees) &&
             (identical(other.ratioToken1Token2, ratioToken1Token2) ||
                 other.ratioToken1Token2 == ratioToken1Token2) &&
             (identical(other.ratioToken2Token1, ratioToken2Token1) ||
@@ -468,6 +486,7 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
   int get hashCode => Object.hash(
       runtimeType,
       fees,
+      protocolFees,
       ratioToken1Token2,
       ratioToken2Token1,
       token1TotalFee,
@@ -485,6 +504,7 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
 abstract class _DexPoolInfos extends DexPoolInfos {
   const factory _DexPoolInfos(
       {required final double fees,
+      required final double protocolFees,
       required final double ratioToken1Token2,
       required final double ratioToken2Token1,
       required final double token1TotalFee,
@@ -495,6 +515,8 @@ abstract class _DexPoolInfos extends DexPoolInfos {
 
   @override
   double get fees;
+  @override
+  double get protocolFees;
   @override
   double get ratioToken1Token2;
   @override

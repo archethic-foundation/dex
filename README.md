@@ -63,6 +63,7 @@ Returns infos of the pool as:
     "supply": 950.45645
   },
   "fee": 0.25,
+  "protocol_fee": 0.25,
   "stats": {
     "token1_total_fee": 0.025,
     "token1_total_protocol_fee": 0.025,

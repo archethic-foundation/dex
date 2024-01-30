@@ -78,6 +78,7 @@ mixin ModelParser {
       lpToken: lpToken,
       infos: DexPoolInfos(
         fees: getPoolInfosResponse.fee,
+        protocolFees: getPoolInfosResponse.protocolFee,
         ratioToken1Token2: ratioToken1Token2,
         ratioToken2Token1: ratioToken2Token1,
         token1TotalFee: getPoolInfosResponse.stats.token1TotalFee,

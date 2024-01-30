@@ -12,6 +12,7 @@ class GetPoolInfosResponse with _$GetPoolInfosResponse {
     required Token token2,
     @JsonKey(name: 'lp_token') required LPToken lpToken,
     required double fee,
+    @JsonKey(name: 'protocol_fee') required double protocolFee,
     required Stats stats,
   }) = _GetPoolInfosResponse;
 
