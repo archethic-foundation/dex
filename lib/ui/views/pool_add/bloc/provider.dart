@@ -304,12 +304,13 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   Future<void> add(BuildContext context, WidgetRef ref) async {
+    setProcessInProgress(true);
     setPoolAddOk(false);
     final _control = await control(context);
     if (_control == false) {
+      setProcessInProgress(false);
       return;
     }
-    setProcessInProgress(true);
 
     final dexConfig =
         await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
@@ -330,9 +331,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       recoveryTransactionAddPoolLiquidity:
           state.recoveryTransactionAddPoolLiquidity,
     );
-    setResumeProcess(false);
-    setProcessInProgress(false);
-    setPoolAddOk(true);
+
     ref.read(
       DexPoolProviders.putPoolToCache(state.recoveryPoolGenesisAddress!),
     );

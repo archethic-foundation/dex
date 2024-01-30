@@ -219,15 +219,32 @@ class AddPoolCase with TransactionDexMixin {
         return;
       }
 
-      await sendTransactions(
-        <archethic.Transaction>[
-          transactionAddPoolLiquidity!,
-        ],
-      );
+      try {
+        await sendTransactions(
+          <archethic.Transaction>[
+            transactionAddPoolLiquidity!,
+          ],
+        );
+        poolAddNotifier
+          ..setCurrentStep(6)
+          ..setResumeProcess(false)
+          ..setProcessInProgress(false)
+          ..setPoolAddOk(true);
+        unawaited(refreshCurrentAccountInfoWallet());
+      } catch (e) {
+        sl.get<LogManager>().log(
+              'TransactionAddPoolLiquidity sendTx failed $e',
+              level: LogLevel.error,
+              name: 'TransactionDexMixin - sendTransactions',
+            );
 
-      poolAddNotifier.setCurrentStep(6);
-
-      unawaited(refreshCurrentAccountInfoWallet());
+        poolAddNotifier.setFailure(
+          Failure.other(
+            cause: e.toString(),
+          ),
+        );
+        return;
+      }
     }
   }
 
