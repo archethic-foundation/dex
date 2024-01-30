@@ -34,109 +34,83 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsets.only(top: 2),
       width: 250,
-      child: Row(
+      height: 31,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          20,
+        ),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          width: 0.5,
+        ),
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.background.withOpacity(1),
+            Theme.of(context).colorScheme.background.withOpacity(0.3),
+          ],
+          stops: const [0, 1],
+        ),
+      ),
+      child: Stack(
+        alignment: AlignmentDirectional.centerStart,
         children: [
-          Expanded(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+          const Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Icon(
+              Iconsax.search_normal,
+              size: 12,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 10,
+              bottom: 6,
+            ),
+            child: TextField(
+              style: TextStyle(
+                fontFamily: DexThemeBase.addressFont,
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 2),
-                      height: 31,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          20,
-                        ),
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          width: 0.5,
-                        ),
-                        gradient: LinearGradient(
-                          colors: [
-                            Theme.of(context)
-                                .colorScheme
-                                .background
-                                .withOpacity(1),
-                            Theme.of(context)
-                                .colorScheme
-                                .background
-                                .withOpacity(0.3),
-                          ],
-                          stops: const [0, 1],
-                        ),
-                      ),
-                      child: Stack(
-                        alignment: AlignmentDirectional.centerStart,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Icon(
-                              Iconsax.search_normal,
-                              size: 12,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 30,
-                              right: 10,
-                              bottom: 6,
-                            ),
-                            child: TextField(
-                              style: TextStyle(
-                                fontFamily: DexThemeBase.addressFont,
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              autocorrect: false,
-                              controller: searchController,
-                              onChanged: (text) {
-                                ref
-                                    .read(
-                                      PoolListFormProvider
-                                          .poolListForm.notifier,
-                                    )
-                                    .setSearchText(text);
-                                if (text.isNotEmpty) {
-                                  ref
-                                      .read(
-                                        PoolListFormProvider
-                                            .poolListForm.notifier,
-                                      )
-                                      .setTabIndexSelected(3);
-                                }
-                              },
-                              focusNode: searchFocus,
-                              textAlign: TextAlign.left,
-                              textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.text,
-                              inputFormatters: <TextInputFormatter>[
-                                LengthLimitingTextInputFormatter(68),
-                                UpperCaseTextFormatter(),
-                              ],
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Search by pool address',
-                                hintStyle: TextStyle(
-                                  fontFamily: DexThemeBase.mainFont,
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              autocorrect: false,
+              controller: searchController,
+              onChanged: (text) {
+                ref
+                    .read(
+                      PoolListFormProvider.poolListForm.notifier,
+                    )
+                    .setSearchText(text);
+                if (text.isNotEmpty) {
+                  ref
+                      .read(
+                        PoolListFormProvider.poolListForm.notifier,
+                      )
+                      .setTabIndexSelected(4);
+                }
+              },
+              focusNode: searchFocus,
+              textAlign: TextAlign.left,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.text,
+              inputFormatters: <TextInputFormatter>[
+                LengthLimitingTextInputFormatter(68),
+                UpperCaseTextFormatter(),
+              ],
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Search by pool address',
+                contentPadding: const EdgeInsets.only(bottom: 15),
+                hintStyle: TextStyle(
+                  fontFamily: DexThemeBase.mainFont,
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           ),
