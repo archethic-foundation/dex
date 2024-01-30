@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -214,7 +215,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      'Fees: ${swap.swapFees.formatNumber()} UCO',
+                      'Fees: ${(swap.swapTotalFees * swap.tokenToSwapAmount / 100).formatNumber()} ${swap.tokenToSwap!.symbol}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(
@@ -224,8 +225,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                       future: FiatValue().display(
                         ref,
                         swap.tokenToSwap!.symbol,
-                        swap.swapTotalFees,
-                        precision: 8,
+                        swap.swapTotalFees * swap.tokenToSwapAmount / 100,
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -236,6 +236,20 @@ class SwapConfirmInfos extends ConsumerWidget {
                         }
                         return const SizedBox.shrink();
                       },
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Tooltip(
+                      message:
+                          'Liquidity Provider fees: ${swap.swapFees}%, Protocol fees: ${swap.swapProtocolFees}%',
+                      child: const Padding(
+                        padding: EdgeInsets.only(bottom: 2),
+                        child: Icon(
+                          Iconsax.info_circle,
+                          size: 13,
+                        ),
+                      ),
                     ),
                   ],
                 ),

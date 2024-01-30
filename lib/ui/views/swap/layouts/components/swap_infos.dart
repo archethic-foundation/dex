@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -52,7 +53,7 @@ class SwapInfos extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  'Fees: ${swap.swapTotalFees.formatNumber()} UCO',
+                  'Fees: ${(swap.swapTotalFees * swap.tokenToSwapAmount / 100).formatNumber()} ${swap.tokenToSwap!.symbol}',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(
@@ -62,7 +63,7 @@ class SwapInfos extends ConsumerWidget {
                   future: FiatValue().display(
                     ref,
                     swap.tokenToSwap!.symbol,
-                    swap.swapTotalFees,
+                    swap.swapTotalFees * swap.tokenToSwapAmount / 100,
                   ),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -73,6 +74,20 @@ class SwapInfos extends ConsumerWidget {
                     }
                     return const SizedBox.shrink();
                   },
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Tooltip(
+                  message:
+                      'Liquidity Provider fees: ${swap.swapFees}%, Protocol fees: ${swap.swapProtocolFees}%',
+                  child: const Padding(
+                    padding: EdgeInsets.only(bottom: 2),
+                    child: Icon(
+                      Iconsax.info_circle,
+                      size: 13,
+                    ),
+                  ),
                 ),
               ],
             ),
