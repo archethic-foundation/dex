@@ -83,7 +83,7 @@ class PoolDetailsFront extends ConsumerWidget {
                                 isVerified: pool.isVerified,
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 17,
                                 width: 5,
                               ),
                               LiquidityPositionsIcon(

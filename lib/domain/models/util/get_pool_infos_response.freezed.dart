@@ -595,10 +595,14 @@ Stats _$StatsFromJson(Map<String, dynamic> json) {
 mixin _$Stats {
   @JsonKey(name: 'token1_total_fee')
   double get token1TotalFee => throw _privateConstructorUsedError;
+  @JsonKey(name: 'token1_total_protocol_fee')
+  double get token1TotalProtocolFee => throw _privateConstructorUsedError;
   @JsonKey(name: 'token1_total_volume')
   double get token1TotalVolume => throw _privateConstructorUsedError;
   @JsonKey(name: 'token2_total_fee')
   double get token2TotalFee => throw _privateConstructorUsedError;
+  @JsonKey(name: 'token2_total_protocol_fee')
+  double get token2TotalProtocolFee => throw _privateConstructorUsedError;
   @JsonKey(name: 'token2_total_volume')
   double get token2TotalVolume => throw _privateConstructorUsedError;
 
@@ -614,8 +618,10 @@ abstract class $StatsCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'token1_total_fee') double token1TotalFee,
+      @JsonKey(name: 'token1_total_protocol_fee') double token1TotalProtocolFee,
       @JsonKey(name: 'token1_total_volume') double token1TotalVolume,
       @JsonKey(name: 'token2_total_fee') double token2TotalFee,
+      @JsonKey(name: 'token2_total_protocol_fee') double token2TotalProtocolFee,
       @JsonKey(name: 'token2_total_volume') double token2TotalVolume});
 }
 
@@ -633,14 +639,20 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
   @override
   $Res call({
     Object? token1TotalFee = null,
+    Object? token1TotalProtocolFee = null,
     Object? token1TotalVolume = null,
     Object? token2TotalFee = null,
+    Object? token2TotalProtocolFee = null,
     Object? token2TotalVolume = null,
   }) {
     return _then(_value.copyWith(
       token1TotalFee: null == token1TotalFee
           ? _value.token1TotalFee
           : token1TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1TotalProtocolFee: null == token1TotalProtocolFee
+          ? _value.token1TotalProtocolFee
+          : token1TotalProtocolFee // ignore: cast_nullable_to_non_nullable
               as double,
       token1TotalVolume: null == token1TotalVolume
           ? _value.token1TotalVolume
@@ -649,6 +661,10 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
       token2TotalFee: null == token2TotalFee
           ? _value.token2TotalFee
           : token2TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalProtocolFee: null == token2TotalProtocolFee
+          ? _value.token2TotalProtocolFee
+          : token2TotalProtocolFee // ignore: cast_nullable_to_non_nullable
               as double,
       token2TotalVolume: null == token2TotalVolume
           ? _value.token2TotalVolume
@@ -667,8 +683,10 @@ abstract class _$$StatsImplCopyWith<$Res> implements $StatsCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'token1_total_fee') double token1TotalFee,
+      @JsonKey(name: 'token1_total_protocol_fee') double token1TotalProtocolFee,
       @JsonKey(name: 'token1_total_volume') double token1TotalVolume,
       @JsonKey(name: 'token2_total_fee') double token2TotalFee,
+      @JsonKey(name: 'token2_total_protocol_fee') double token2TotalProtocolFee,
       @JsonKey(name: 'token2_total_volume') double token2TotalVolume});
 }
 
@@ -684,14 +702,20 @@ class __$$StatsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? token1TotalFee = null,
+    Object? token1TotalProtocolFee = null,
     Object? token1TotalVolume = null,
     Object? token2TotalFee = null,
+    Object? token2TotalProtocolFee = null,
     Object? token2TotalVolume = null,
   }) {
     return _then(_$StatsImpl(
       token1TotalFee: null == token1TotalFee
           ? _value.token1TotalFee
           : token1TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token1TotalProtocolFee: null == token1TotalProtocolFee
+          ? _value.token1TotalProtocolFee
+          : token1TotalProtocolFee // ignore: cast_nullable_to_non_nullable
               as double,
       token1TotalVolume: null == token1TotalVolume
           ? _value.token1TotalVolume
@@ -700,6 +724,10 @@ class __$$StatsImplCopyWithImpl<$Res>
       token2TotalFee: null == token2TotalFee
           ? _value.token2TotalFee
           : token2TotalFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2TotalProtocolFee: null == token2TotalProtocolFee
+          ? _value.token2TotalProtocolFee
+          : token2TotalProtocolFee // ignore: cast_nullable_to_non_nullable
               as double,
       token2TotalVolume: null == token2TotalVolume
           ? _value.token2TotalVolume
@@ -714,8 +742,12 @@ class __$$StatsImplCopyWithImpl<$Res>
 class _$StatsImpl implements _Stats {
   const _$StatsImpl(
       {@JsonKey(name: 'token1_total_fee') required this.token1TotalFee,
+      @JsonKey(name: 'token1_total_protocol_fee')
+      required this.token1TotalProtocolFee,
       @JsonKey(name: 'token1_total_volume') required this.token1TotalVolume,
       @JsonKey(name: 'token2_total_fee') required this.token2TotalFee,
+      @JsonKey(name: 'token2_total_protocol_fee')
+      required this.token2TotalProtocolFee,
       @JsonKey(name: 'token2_total_volume') required this.token2TotalVolume});
 
   factory _$StatsImpl.fromJson(Map<String, dynamic> json) =>
@@ -725,18 +757,24 @@ class _$StatsImpl implements _Stats {
   @JsonKey(name: 'token1_total_fee')
   final double token1TotalFee;
   @override
+  @JsonKey(name: 'token1_total_protocol_fee')
+  final double token1TotalProtocolFee;
+  @override
   @JsonKey(name: 'token1_total_volume')
   final double token1TotalVolume;
   @override
   @JsonKey(name: 'token2_total_fee')
   final double token2TotalFee;
   @override
+  @JsonKey(name: 'token2_total_protocol_fee')
+  final double token2TotalProtocolFee;
+  @override
   @JsonKey(name: 'token2_total_volume')
   final double token2TotalVolume;
 
   @override
   String toString() {
-    return 'Stats(token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
+    return 'Stats(token1TotalFee: $token1TotalFee, token1TotalProtocolFee: $token1TotalProtocolFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalProtocolFee: $token2TotalProtocolFee, token2TotalVolume: $token2TotalVolume)';
   }
 
   @override
@@ -746,18 +784,28 @@ class _$StatsImpl implements _Stats {
             other is _$StatsImpl &&
             (identical(other.token1TotalFee, token1TotalFee) ||
                 other.token1TotalFee == token1TotalFee) &&
+            (identical(other.token1TotalProtocolFee, token1TotalProtocolFee) ||
+                other.token1TotalProtocolFee == token1TotalProtocolFee) &&
             (identical(other.token1TotalVolume, token1TotalVolume) ||
                 other.token1TotalVolume == token1TotalVolume) &&
             (identical(other.token2TotalFee, token2TotalFee) ||
                 other.token2TotalFee == token2TotalFee) &&
+            (identical(other.token2TotalProtocolFee, token2TotalProtocolFee) ||
+                other.token2TotalProtocolFee == token2TotalProtocolFee) &&
             (identical(other.token2TotalVolume, token2TotalVolume) ||
                 other.token2TotalVolume == token2TotalVolume));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, token1TotalFee,
-      token1TotalVolume, token2TotalFee, token2TotalVolume);
+  int get hashCode => Object.hash(
+      runtimeType,
+      token1TotalFee,
+      token1TotalProtocolFee,
+      token1TotalVolume,
+      token2TotalFee,
+      token2TotalProtocolFee,
+      token2TotalVolume);
 
   @JsonKey(ignore: true)
   @override
@@ -776,9 +824,13 @@ class _$StatsImpl implements _Stats {
 abstract class _Stats implements Stats {
   const factory _Stats(
       {@JsonKey(name: 'token1_total_fee') required final double token1TotalFee,
+      @JsonKey(name: 'token1_total_protocol_fee')
+      required final double token1TotalProtocolFee,
       @JsonKey(name: 'token1_total_volume')
       required final double token1TotalVolume,
       @JsonKey(name: 'token2_total_fee') required final double token2TotalFee,
+      @JsonKey(name: 'token2_total_protocol_fee')
+      required final double token2TotalProtocolFee,
       @JsonKey(name: 'token2_total_volume')
       required final double token2TotalVolume}) = _$StatsImpl;
 
@@ -788,11 +840,17 @@ abstract class _Stats implements Stats {
   @JsonKey(name: 'token1_total_fee')
   double get token1TotalFee;
   @override
+  @JsonKey(name: 'token1_total_protocol_fee')
+  double get token1TotalProtocolFee;
+  @override
   @JsonKey(name: 'token1_total_volume')
   double get token1TotalVolume;
   @override
   @JsonKey(name: 'token2_total_fee')
   double get token2TotalFee;
+  @override
+  @JsonKey(name: 'token2_total_protocol_fee')
+  double get token2TotalProtocolFee;
   @override
   @JsonKey(name: 'token2_total_volume')
   double get token2TotalVolume;
