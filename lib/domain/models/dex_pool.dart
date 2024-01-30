@@ -22,11 +22,9 @@ class DexPool with _$DexPool {
 @freezed
 class DexPoolInfos with _$DexPoolInfos {
   const factory DexPoolInfos({
-    // required int ranking, // TODO activate and use this
     required double fees,
     required double ratioToken1Token2,
     required double ratioToken2Token1,
-    // required double estimatePoolTVLInFiat,
     required double token1TotalFee,
     required double token1TotalVolume,
     required double token2TotalFee,

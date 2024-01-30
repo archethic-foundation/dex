@@ -76,6 +76,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                 isVerified: pool.isVerified,
                               ),
                               const SizedBox(
+                                height: 20,
                                 width: 5,
                               ),
                               LiquidityPositionsIcon(

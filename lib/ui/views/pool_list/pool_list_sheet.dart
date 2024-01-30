@@ -27,7 +27,15 @@ class PoolListSheet extends ConsumerWidget {
     final poolListFormState = ref.watch(PoolListFormProvider.poolListForm);
     final asyncPools = poolListFormState.isUserTokenPoolsTabSelected
         ? ref.watch(DexPoolProviders.userTokenPools)
-        : ref.watch(DexPoolProviders.verifiedPools);
+        : poolListFormState.isVerifiedPoolsTabSelected
+            ? ref.watch(DexPoolProviders.verifiedPools)
+            : poolListFormState.isMyPoolsTabSelected
+                ? ref.watch(DexPoolProviders.myPools)
+                : ref.watch(
+                    DexPoolProviders.getPoolListForSearch(
+                      poolListFormState.searchText,
+                    ),
+                  );
 
     return Stack(
       children: [

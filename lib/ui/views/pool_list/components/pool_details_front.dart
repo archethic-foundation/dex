@@ -4,6 +4,8 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_add_in_cache_icon.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
@@ -27,6 +29,7 @@ class PoolDetailsFront extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     final asyncTvlInFiat = ref.watch(
       DexPoolProviders.estimatePoolTVLInFiat(pool),
     );
@@ -80,6 +83,7 @@ class PoolDetailsFront extends ConsumerWidget {
                                 isVerified: pool.isVerified,
                               ),
                               const SizedBox(
+                                height: 20,
                                 width: 5,
                               ),
                               LiquidityPositionsIcon(
@@ -177,6 +181,13 @@ class PoolDetailsFront extends ConsumerWidget {
                               ),
                             ),
                           ),
+                          if (poolListForm.isResultTabSelected)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: PoolAddInCacheIcon(
+                                poolAddress: pool.poolAddress,
+                              ),
+                            ),
                         ],
                       ),
                     ],
