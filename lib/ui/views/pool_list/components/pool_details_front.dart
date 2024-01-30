@@ -195,7 +195,7 @@ class PoolDetailsFront extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      Column(
+                      /*Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -213,7 +213,7 @@ class PoolDetailsFront extends ConsumerWidget {
                                 ),
                           ),
                         ],
-                      ),
+                      ),*/
                     ],
                   ),
                   const SizedBox(
