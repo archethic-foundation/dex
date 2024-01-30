@@ -31,11 +31,13 @@ class PoolListSheet extends ConsumerWidget {
             ? ref.watch(DexPoolProviders.myPools)
             : poolListFormState.isFavoritePoolsTabSelected
                 ? ref.watch(DexPoolProviders.favoritePools)
-                : ref.watch(
-                    DexPoolProviders.getPoolListForSearch(
-                      poolListFormState.searchText,
-                    ),
-                  );
+                : poolListFormState.isAllPoolsTabSelected
+                    ? ref.watch(DexPoolProviders.getPoolList)
+                    : ref.watch(
+                        DexPoolProviders.getPoolListForSearch(
+                          poolListFormState.searchText,
+                        ),
+                      );
 
     return Stack(
       children: [

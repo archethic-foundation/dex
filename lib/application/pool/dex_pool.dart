@@ -93,6 +93,7 @@ abstract class DexPoolProviders {
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
   static const getPoolListForSearch = _getPoolListForSearchProvider;
+  static final getPoolList = _getPoolListProvider;
   static const getPool = _getPoolProvider;
   static final getPoolListFromCache = _getPoolListFromCacheProvider;
 }

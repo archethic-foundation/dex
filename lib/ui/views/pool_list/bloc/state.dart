@@ -14,5 +14,6 @@ class PoolListFormState with _$PoolListFormState {
   bool get isVerifiedPoolsTabSelected => tabIndexSelected == 0;
   bool get isMyPoolsTabSelected => tabIndexSelected == 1;
   bool get isFavoritePoolsTabSelected => tabIndexSelected == 2;
-  bool get isResultTabSelected => tabIndexSelected == 3;
+  bool get isAllPoolsTabSelected => tabIndexSelected == 3;
+  bool get isResultTabSelected => tabIndexSelected == 4;
 }
