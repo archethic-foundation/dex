@@ -6,6 +6,7 @@ import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
@@ -85,9 +86,12 @@ abstract class DexPoolProviders {
   static final putPoolListInfosToCache = _putPoolListInfosToCacheProvider;
   static final userTokenPools = _userTokenPoolsProvider;
   static final verifiedPools = _verifiedPoolsProvider;
+  static final myPools = _myPoolsProvider;
   static const updatePoolInCache = _updatePoolInCacheProvider;
+  static const putPoolToCache = _putPoolToCacheProvider;
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
-
+  static const getPoolListForSearch = _getPoolListForSearchProvider;
   static const getPool = _getPoolProvider;
+  static final getPoolListFromCache = _getPoolListFromCacheProvider;
 }

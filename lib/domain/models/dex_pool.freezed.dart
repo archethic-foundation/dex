@@ -258,11 +258,9 @@ abstract class _DexPool extends DexPool {
 
 /// @nodoc
 mixin _$DexPoolInfos {
-// required int ranking, // TODO activate and use this
   double get fees => throw _privateConstructorUsedError;
   double get ratioToken1Token2 => throw _privateConstructorUsedError;
-  double get ratioToken2Token1 =>
-      throw _privateConstructorUsedError; // required double estimatePoolTVLInFiat,
+  double get ratioToken2Token1 => throw _privateConstructorUsedError;
   double get token1TotalFee => throw _privateConstructorUsedError;
   double get token1TotalVolume => throw _privateConstructorUsedError;
   double get token2TotalFee => throw _privateConstructorUsedError;
@@ -426,14 +424,12 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
       required this.token2TotalVolume})
       : super._();
 
-// required int ranking, // TODO activate and use this
   @override
   final double fees;
   @override
   final double ratioToken1Token2;
   @override
   final double ratioToken2Token1;
-// required double estimatePoolTVLInFiat,
   @override
   final double token1TotalFee;
   @override
@@ -497,13 +493,13 @@ abstract class _DexPoolInfos extends DexPoolInfos {
       required final double token2TotalVolume}) = _$DexPoolInfosImpl;
   const _DexPoolInfos._() : super._();
 
-  @override // required int ranking, // TODO activate and use this
+  @override
   double get fees;
   @override
   double get ratioToken1Token2;
   @override
   double get ratioToken2Token1;
-  @override // required double estimatePoolTVLInFiat,
+  @override
   double get token1TotalFee;
   @override
   double get token1TotalVolume;

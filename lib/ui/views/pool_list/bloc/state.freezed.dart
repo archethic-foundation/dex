@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PoolListFormState {
   int get tabIndexSelected => throw _privateConstructorUsedError;
+  String get searchText => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolListFormStateCopyWith<PoolListFormState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $PoolListFormStateCopyWith<$Res> {
           PoolListFormState value, $Res Function(PoolListFormState) then) =
       _$PoolListFormStateCopyWithImpl<$Res, PoolListFormState>;
   @useResult
-  $Res call({int tabIndexSelected});
+  $Res call({int tabIndexSelected, String searchText});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
   @override
   $Res call({
     Object? tabIndexSelected = null,
+    Object? searchText = null,
   }) {
     return _then(_value.copyWith(
       tabIndexSelected: null == tabIndexSelected
           ? _value.tabIndexSelected
           : tabIndexSelected // ignore: cast_nullable_to_non_nullable
               as int,
+      searchText: null == searchText
+          ? _value.searchText
+          : searchText // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$PoolListFormStateImplCopyWith<$Res>
       __$$PoolListFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int tabIndexSelected});
+  $Res call({int tabIndexSelected, String searchText});
 }
 
 /// @nodoc
@@ -79,12 +85,17 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? tabIndexSelected = null,
+    Object? searchText = null,
   }) {
     return _then(_$PoolListFormStateImpl(
       tabIndexSelected: null == tabIndexSelected
           ? _value.tabIndexSelected
           : tabIndexSelected // ignore: cast_nullable_to_non_nullable
               as int,
+      searchText: null == searchText
+          ? _value.searchText
+          : searchText // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -92,15 +103,20 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PoolListFormStateImpl extends _PoolListFormState {
-  const _$PoolListFormStateImpl({this.tabIndexSelected = 0}) : super._();
+  const _$PoolListFormStateImpl(
+      {this.tabIndexSelected = 0, this.searchText = ''})
+      : super._();
 
   @override
   @JsonKey()
   final int tabIndexSelected;
+  @override
+  @JsonKey()
+  final String searchText;
 
   @override
   String toString() {
-    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected)';
+    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected, searchText: $searchText)';
   }
 
   @override
@@ -109,11 +125,13 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
         (other.runtimeType == runtimeType &&
             other is _$PoolListFormStateImpl &&
             (identical(other.tabIndexSelected, tabIndexSelected) ||
-                other.tabIndexSelected == tabIndexSelected));
+                other.tabIndexSelected == tabIndexSelected) &&
+            (identical(other.searchText, searchText) ||
+                other.searchText == searchText));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tabIndexSelected);
+  int get hashCode => Object.hash(runtimeType, tabIndexSelected, searchText);
 
   @JsonKey(ignore: true)
   @override
@@ -124,12 +142,15 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
 }
 
 abstract class _PoolListFormState extends PoolListFormState {
-  const factory _PoolListFormState({final int tabIndexSelected}) =
-      _$PoolListFormStateImpl;
+  const factory _PoolListFormState(
+      {final int tabIndexSelected,
+      final String searchText}) = _$PoolListFormStateImpl;
   const _PoolListFormState._() : super._();
 
   @override
   int get tabIndexSelected;
+  @override
+  String get searchText;
   @override
   @JsonKey(ignore: true)
   _$$PoolListFormStateImplCopyWith<_$PoolListFormStateImpl> get copyWith =>

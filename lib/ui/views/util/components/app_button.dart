@@ -10,12 +10,14 @@ class AppButton extends StatefulWidget {
     this.height = 40,
     this.disabled = false,
     this.background = const Color(0xFF3D1D63),
+    this.fontSize = 16,
   });
   final String labelBtn;
   final Function? onPressed;
   final bool disabled;
   final double height;
   final Color background;
+  final double fontSize;
 
   @override
   AppButtonState createState() => AppButtonState();
@@ -88,7 +90,7 @@ class AppButtonState extends State<AppButton> {
               color: widget.disabled
                   ? Colors.white.withOpacity(0.5)
                   : Colors.white,
-              fontSize: 16,
+              fontSize: widget.fontSize,
               fontWeight: FontWeight.w400,
             ),
             maxLines: 1,

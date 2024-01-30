@@ -333,8 +333,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     setResumeProcess(false);
     setProcessInProgress(false);
     setPoolAddOk(true);
-    // TODO: Plutôt appeler putPoolToCache avec pool address
-    ref.invalidate(DexPoolProviders.putPoolListInfosToCache);
+    ref.read(
+      DexPoolProviders.putPoolToCache(state.recoveryPoolGenesisAddress!),
+    );
   }
 }
 

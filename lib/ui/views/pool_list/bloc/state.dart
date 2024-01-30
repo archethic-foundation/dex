@@ -7,9 +7,12 @@ part 'state.freezed.dart';
 class PoolListFormState with _$PoolListFormState {
   const factory PoolListFormState({
     @Default(0) int tabIndexSelected,
+    @Default('') String searchText,
   }) = _PoolListFormState;
   const PoolListFormState._();
 
   bool get isVerifiedPoolsTabSelected => tabIndexSelected == 0;
   bool get isUserTokenPoolsTabSelected => tabIndexSelected == 1;
+  bool get isMyPoolsTabSelected => tabIndexSelected == 2;
+  bool get isResultTabSelected => tabIndexSelected == 3;
 }

@@ -20,6 +20,10 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
       tabIndexSelected: tabIndexSelected,
     );
   }
+
+  void setSearchText(String searchText) {
+    state = state.copyWith(searchText: searchText);
+  }
 }
 
 abstract class PoolListFormProvider {

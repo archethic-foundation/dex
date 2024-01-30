@@ -49,3 +49,22 @@ Future<List<DexPool>> _getPoolListForUser(
 
   return dexPools;
 }
+
+@riverpod
+Future<List<DexPool>> _getPoolListForSearch(
+  _GetPoolListForUserRef ref,
+  String searchText,
+) async {
+  final dexPools = <DexPool>[];
+  final poolList = await ref.read(_getPoolListProvider.future);
+
+  for (final pool in poolList) {
+    if (pool.poolAddress.toUpperCase() == searchText.toUpperCase()) {
+      final poolWithInfos = await ref.read(
+        DexPoolProviders.getPoolInfos(pool).future,
+      );
+      dexPools.add(poolWithInfos!);
+    }
+  }
+  return dexPools;
+}

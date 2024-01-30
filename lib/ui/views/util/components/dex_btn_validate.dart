@@ -11,6 +11,8 @@ class DexButtonValidate extends ConsumerWidget {
     required this.labelBtn,
     required this.onPressed,
     this.background = const Color(0xFF3D1D63),
+    this.height = 40,
+    this.fontSize = 16,
     super.key,
   });
 
@@ -18,6 +20,8 @@ class DexButtonValidate extends ConsumerWidget {
   final String labelBtn;
   final Function onPressed;
   final Color background;
+  final double height;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,6 +35,8 @@ class DexButtonValidate extends ConsumerWidget {
         background: background,
         labelBtn: labelBtn,
         disabled: true,
+        height: height,
+        fontSize: fontSize,
       );
     }
 
@@ -38,6 +44,8 @@ class DexButtonValidate extends ConsumerWidget {
       background: background,
       labelBtn: labelBtn,
       onPressed: onPressed,
+      height: height,
+      fontSize: fontSize,
     );
   }
 }

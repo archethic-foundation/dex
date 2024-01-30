@@ -26,6 +26,14 @@ Future<List<DexPool>> _verifiedPools(
 }
 
 @riverpod
+Future<List<DexPool>> _myPools(
+  _VerifiedPoolsRef ref,
+) async {
+  final pools = await ref.watch(_getPoolListFromCacheProvider.future);
+  return pools;
+}
+
+@riverpod
 Future<List<DexPool>> _getPoolListFromCache(
   _GetPoolListFromCacheRef ref,
 ) async {
@@ -67,5 +75,23 @@ Future<void> _updatePoolInCache(
   final poolWithInfos = await ref.read(_getPoolInfosProvider(pool).future);
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
   await poolsListDatasource.setPool(poolWithInfos!.toHive());
+  ref.invalidate(_getPoolListFromCacheProvider);
+}
+
+@riverpod
+Future<void> _putPoolToCache(
+  _PutPoolToCacheRef ref,
+  String poolGenesisAddress,
+) async {
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+
+  final poolList = await ref.read(_getPoolListProvider.future);
+
+  final pool = poolList.firstWhere(
+    (element) =>
+        element.poolAddress.toUpperCase() == poolGenesisAddress.toUpperCase(),
+    orElse: () => throw const Failure.poolNotExists(),
+  );
+  await poolsListDatasource.setPool(pool.toHive());
   ref.invalidate(_getPoolListFromCacheProvider);
 }
