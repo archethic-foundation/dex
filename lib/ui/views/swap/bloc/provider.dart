@@ -582,10 +582,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
   Future<void> swap(BuildContext context, WidgetRef ref) async {
     setSwapOk(false);
+    setProcessInProgress(true);
+
     if (control(context) == false) {
+      setProcessInProgress(false);
       return;
     }
-    setProcessInProgress(true);
 
     await SwapCase().run(
       ref,

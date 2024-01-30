@@ -30,20 +30,26 @@ class PoolFactory with ModelParser {
   ///   },
   ///   "fee": 0.25
   /// }
+  Future<Map<String, dynamic>> getPoolInfos() async {
+    final result = await apiService.callSCFunction(
+      jsonRPCRequest: SCCallFunctionRequest(
+        method: 'contract_fun',
+        params: SCCallFunctionParams(
+          contract: factoryAddress.toUpperCase(),
+          function: 'get_pool_infos',
+          args: [],
+        ),
+      ),
+      resultMap: true,
+    ) as Map<String, dynamic>;
+
+    return result;
+  }
+
   Future<Result<DexPool, Failure>> populatePoolInfos(DexPool poolInput) async {
     return Result.guard(
       () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_pool_infos',
-              args: [],
-            ),
-          ),
-          resultMap: true,
-        ) as Map<String, dynamic>;
+        final result = await getPoolInfos();
 
         final getPoolInfosResponse = GetPoolInfosResponse.fromJson(result);
         return poolInfoToModel(poolInput, factoryAddress, getPoolInfosResponse);
