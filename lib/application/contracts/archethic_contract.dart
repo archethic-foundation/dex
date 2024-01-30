@@ -171,13 +171,36 @@ class ArchethicContract with TransactionDexMixin {
         failure: (failure) {},
       );
 
+      final poolInfos = await PoolFactory(
+        poolGenesisAddress,
+        apiService,
+      ).getPoolInfos();
+
+      // Sort token to match pool order
+      var token1AmountSorted = 0.0;
+      var token2AmountSorted = 0.0;
+      DexToken? token1Sorted;
+      DexToken? token2Sorted;
+      if (token1.address!.toUpperCase() ==
+          poolInfos['token1']['address'].toString().toUpperCase()) {
+        token1AmountSorted = token1Amount;
+        token2AmountSorted = token2Amount;
+        token1Sorted = token1;
+        token2Sorted = token2;
+      } else {
+        token2AmountSorted = token1Amount;
+        token1AmountSorted = token2Amount;
+        token2Sorted = token1;
+        token1Sorted = token2;
+      }
+
       final slippagePourcent =
           (Decimal.parse('100') - Decimal.parse('$slippage')) /
               Decimal.parse('100');
       final token1minAmount =
-          Decimal.parse('$token1Amount') * slippagePourcent.toDecimal();
+          Decimal.parse('$token1AmountSorted') * slippagePourcent.toDecimal();
       final token2minAmount =
-          Decimal.parse('$token2Amount') * slippagePourcent.toDecimal();
+          Decimal.parse('$token2AmountSorted') * slippagePourcent.toDecimal();
 
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
@@ -198,35 +221,35 @@ class ArchethicContract with TransactionDexMixin {
         routerAddress,
         action: 'add_pool',
         args: [
-          if (token1.isUCO) 'UCO' else token1.address!,
-          if (token2.isUCO) 'UCO' else token2.address!,
+          if (token1Sorted.isUCO) 'UCO' else token1Sorted.address!,
+          if (token2Sorted.isUCO) 'UCO' else token2Sorted.address!,
           transactionPoolAddress.toUpperCase(),
         ],
       );
 
-      if (token1.isUCO) {
+      if (token1Sorted.isUCO) {
         transactionAdd.addUCOTransfer(
           poolGenesisAddress,
-          archethic.toBigInt(token1Amount),
+          archethic.toBigInt(token1AmountSorted),
         );
       } else {
         transactionAdd.addTokenTransfer(
           poolGenesisAddress,
-          archethic.toBigInt(token1Amount),
-          token1.address!,
+          archethic.toBigInt(token1AmountSorted),
+          token1Sorted.address!,
         );
       }
 
-      if (token2.isUCO) {
+      if (token2Sorted.isUCO) {
         transactionAdd.addUCOTransfer(
           poolGenesisAddress,
-          archethic.toBigInt(token2Amount),
+          archethic.toBigInt(token2AmountSorted),
         );
       } else {
         transactionAdd.addTokenTransfer(
           poolGenesisAddress,
-          archethic.toBigInt(token2Amount),
-          token2.address!,
+          archethic.toBigInt(token2AmountSorted),
+          token2Sorted.address!,
         );
       }
       return transactionAdd;
@@ -264,17 +287,40 @@ class ArchethicContract with TransactionDexMixin {
         );
       }
 
-      final blockchainTxVersion = int.parse(
-        (await apiService.getBlockchainVersion()).version.transaction,
-      );
+      final poolInfos = await PoolFactory(
+        poolGenesisAddress,
+        apiService,
+      ).getPoolInfos();
+
+      // Sort token to match pool order
+      var token1AmountSorted = 0.0;
+      var token2AmountSorted = 0.0;
+      DexToken? token1Sorted;
+      DexToken? token2Sorted;
+      if (token1.address!.toUpperCase() ==
+          poolInfos['token1']['address'].toString().toUpperCase()) {
+        token1AmountSorted = token1Amount;
+        token2AmountSorted = token2Amount;
+        token1Sorted = token1;
+        token2Sorted = token2;
+      } else {
+        token2AmountSorted = token1Amount;
+        token1AmountSorted = token2Amount;
+        token2Sorted = token1;
+        token1Sorted = token2;
+      }
 
       final slippagePourcent =
           (Decimal.parse('100') - Decimal.parse('$slippage')) /
               Decimal.parse('100');
       final token1minAmount =
-          Decimal.parse('$token1Amount') * slippagePourcent.toDecimal();
+          Decimal.parse('$token1AmountSorted') * slippagePourcent.toDecimal();
       final token2minAmount =
-          Decimal.parse('$token2Amount') * slippagePourcent.toDecimal();
+          Decimal.parse('$token2AmountSorted') * slippagePourcent.toDecimal();
+
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
 
       final transactionLiquidity = archethic.Transaction(
         type: 'transfer',
@@ -289,29 +335,29 @@ class ArchethicContract with TransactionDexMixin {
         ],
       );
 
-      if (token1.isUCO) {
+      if (token1Sorted.isUCO) {
         transactionLiquidity.addUCOTransfer(
           poolGenesisAddress,
-          archethic.toBigInt(token1Amount),
+          archethic.toBigInt(token1AmountSorted),
         );
       } else {
         transactionLiquidity.addTokenTransfer(
           poolGenesisAddress,
-          archethic.toBigInt(token1Amount),
-          token1.address!,
+          archethic.toBigInt(token1AmountSorted),
+          token1Sorted.address!,
         );
       }
 
-      if (token2.isUCO) {
+      if (token2Sorted.isUCO) {
         transactionLiquidity.addUCOTransfer(
           poolGenesisAddress,
-          archethic.toBigInt(token2Amount),
+          archethic.toBigInt(token2AmountSorted),
         );
       } else {
         transactionLiquidity.addTokenTransfer(
           poolGenesisAddress,
-          archethic.toBigInt(token2Amount),
-          token2.address!,
+          archethic.toBigInt(token2AmountSorted),
+          token2Sorted.address!,
         );
       }
       return transactionLiquidity;
