@@ -118,18 +118,18 @@ class PoolInfoCard extends ConsumerWidget {
                         height: 10,
                       ),
                       DexRatio(
-                        ratio:
-                            tokenAddressRatioPrimary == pool.pair.token1.address
-                                ? pool.infos!.ratioToken1Token2
-                                : pool.infos!.ratioToken2Token1,
-                        token1Symbol:
-                            tokenAddressRatioPrimary == pool.pair.token1.address
-                                ? pool.pair.token1.symbol
-                                : pool.pair.token2.symbol,
-                        token2Symbol:
-                            tokenAddressRatioPrimary == pool.pair.token1.address
-                                ? pool.pair.token2.symbol
-                                : pool.pair.token1.symbol,
+                        ratio: tokenAddressRatioPrimary.toUpperCase() ==
+                                pool.pair.token1.address!.toUpperCase()
+                            ? pool.infos!.ratioToken1Token2
+                            : pool.infos!.ratioToken2Token1,
+                        token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                                pool.pair.token1.address!.toUpperCase()
+                            ? pool.pair.token1.symbol
+                            : pool.pair.token2.symbol,
+                        token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                                pool.pair.token1.address!.toUpperCase()
+                            ? pool.pair.token2.symbol
+                            : pool.pair.token1.symbol,
                       ),
                       const SizedBox(
                         height: 10,

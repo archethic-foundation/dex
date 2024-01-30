@@ -9,6 +9,7 @@ import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:flutter/material.dart';
 
 mixin ModelParser {
   archethic.Token tokenModelToSDK(
@@ -146,7 +147,8 @@ mixin ModelParser {
 
     var lpTokenInUserBalance = false;
     for (final userTokensBalance in userBalance.token) {
-      if (getPoolListResponse.lpTokenAddress == userTokensBalance.address) {
+      if (getPoolListResponse.lpTokenAddress.toUpperCase() ==
+          userTokensBalance.address!.toUpperCase()) {
         lpTokenInUserBalance = true;
       }
     }

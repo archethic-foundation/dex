@@ -116,17 +116,18 @@ class SwapInfos extends ConsumerWidget {
             ),
           if (swap.pool?.infos != null)
             DexRatio(
-              ratio: tokenAddressRatioPrimary == swap.pool?.pair.token1.address
+              ratio: tokenAddressRatioPrimary.toUpperCase() ==
+                      swap.pool?.pair.token1.address!.toUpperCase()
                   ? swap.pool!.infos!.ratioToken1Token2
                   : swap.pool!.infos!.ratioToken2Token1,
-              token1Symbol:
-                  tokenAddressRatioPrimary == swap.pool!.pair.token1.address
-                      ? swap.pool!.pair.token1.symbol
-                      : swap.pool!.pair.token2.symbol,
-              token2Symbol:
-                  tokenAddressRatioPrimary == swap.pool!.pair.token1.address
-                      ? swap.pool!.pair.token2.symbol
-                      : swap.pool!.pair.token1.symbol,
+              token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                      swap.pool!.pair.token1.address!.toUpperCase()
+                  ? swap.pool!.pair.token1.symbol
+                  : swap.pool!.pair.token2.symbol,
+              token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                      swap.pool!.pair.token1.address!.toUpperCase()
+                  ? swap.pool!.pair.token2.symbol
+                  : swap.pool!.pair.token1.symbol,
             ),
         ],
       ),
