@@ -153,11 +153,12 @@ class FarmDepositFormNotifier
 
   Future<void> deposit(BuildContext context, WidgetRef ref) async {
     setFarmDepositOk(false);
+    setProcessInProgress(true);
 
     if (control(context) == false) {
+      setProcessInProgress(false);
       return;
     }
-    setProcessInProgress(true);
 
     await DepositFarmCase().run(
       ref,

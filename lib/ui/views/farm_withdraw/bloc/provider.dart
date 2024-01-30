@@ -152,11 +152,12 @@ class FarmWithdrawFormNotifier
 
   Future<void> withdraw(BuildContext context, WidgetRef ref) async {
     setFarmWithdrawOk(false);
+    setProcessInProgress(true);
 
     if (control(context) == false) {
+      setProcessInProgress(false);
       return;
     }
-    setProcessInProgress(true);
 
     await WithdrawFarmCase().run(
       ref,

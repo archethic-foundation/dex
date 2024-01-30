@@ -287,11 +287,12 @@ class LiquidityRemoveFormNotifier
 
   Future<void> remove(BuildContext context, WidgetRef ref) async {
     setLiquidityRemoveOk(false);
+    setProcessInProgress(true);
 
     if (control(context) == false) {
+      setProcessInProgress(false);
       return;
     }
-    setProcessInProgress(true);
 
     await RemoveLiquidityCase().run(
       state.pool!.poolAddress,

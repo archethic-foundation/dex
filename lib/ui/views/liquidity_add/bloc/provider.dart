@@ -427,11 +427,12 @@ class LiquidityAddFormNotifier
 
   Future<void> add(BuildContext context, WidgetRef ref) async {
     setLiquidityAddOk(false);
+    setProcessInProgress(true);
 
     if (control(context) == false) {
+      setProcessInProgress(false);
       return;
     }
-    setProcessInProgress(true);
 
     await AddLiquidityCase().run(
       ref,

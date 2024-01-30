@@ -102,11 +102,12 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
 
   Future<void> claim(BuildContext context, WidgetRef ref) async {
     setFarmClaimOk(false);
+    setProcessInProgress(true);
 
     if (control(context) == false) {
+      setProcessInProgress(false);
       return;
     }
-    setProcessInProgress(true);
 
     await ClaimFarmCase().run(ref, state.dexFarm!.farmAddress);
 
