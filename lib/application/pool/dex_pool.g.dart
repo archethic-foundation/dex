@@ -315,22 +315,20 @@ class _GetPoolInfosProviderElement
   DexPool get poolInput => (origin as _GetPoolInfosProvider).poolInput;
 }
 
-String _$userTokenPoolsHash() => r'2c7b92618e2c3498800c376227d7b408b7c21d2c';
+String _$myPoolsHash() => r'b941edfb7caff23b932c6085737e2b35c1f7a6e8';
 
-/// See also [_userTokenPools].
-@ProviderFor(_userTokenPools)
-final _userTokenPoolsProvider =
-    AutoDisposeFutureProvider<List<DexPool>>.internal(
-  _userTokenPools,
-  name: r'_userTokenPoolsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$userTokenPoolsHash,
+/// See also [_myPools].
+@ProviderFor(_myPools)
+final _myPoolsProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _myPools,
+  name: r'_myPoolsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$myPoolsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _UserTokenPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+typedef _MyPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$verifiedPoolsHash() => r'9190cdc02b6c01948bc9ace40e4ad1a732bb14b1';
 
 /// See also [_verifiedPools].
@@ -347,20 +345,22 @@ final _verifiedPoolsProvider =
 );
 
 typedef _VerifiedPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
-String _$myPoolsHash() => r'3d662d7dc7b004461136819f0d63ccc2d83dbf94';
+String _$favoritePoolsHash() => r'd4e6ca8677e70b3ac51a878f35d9c46b4c66de16';
 
-/// See also [_myPools].
-@ProviderFor(_myPools)
-final _myPoolsProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
-  _myPools,
-  name: r'_myPoolsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$myPoolsHash,
+/// See also [_favoritePools].
+@ProviderFor(_favoritePools)
+final _favoritePoolsProvider =
+    AutoDisposeFutureProvider<List<DexPool>>.internal(
+  _favoritePools,
+  name: r'_favoritePoolsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$favoritePoolsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _MyPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+typedef _FavoritePoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$getPoolListFromCacheHash() =>
     r'd5f243bec2cd32d50eb2593ad2fcb39b54e79162';
 
@@ -928,30 +928,32 @@ class _EstimateTokenInFiatProviderElement
   DexToken get token => (origin as _EstimateTokenInFiatProvider).token;
 }
 
-String _$estimatePoolTVLInFiatHash() =>
-    r'd7bbe10781642c0206a5f773b6efe9ce587e86da';
+String _$estimatePoolTVLandAPRInFiatHash() =>
+    r'329003c691c67a5bcfde52f140a32f7fd26e7cf3';
 
-/// See also [_estimatePoolTVLInFiat].
-@ProviderFor(_estimatePoolTVLInFiat)
-const _estimatePoolTVLInFiatProvider = _EstimatePoolTVLInFiatFamily();
+/// See also [_estimatePoolTVLandAPRInFiat].
+@ProviderFor(_estimatePoolTVLandAPRInFiat)
+const _estimatePoolTVLandAPRInFiatProvider =
+    _EstimatePoolTVLandAPRInFiatFamily();
 
-/// See also [_estimatePoolTVLInFiat].
-class _EstimatePoolTVLInFiatFamily extends Family<AsyncValue<double>> {
-  /// See also [_estimatePoolTVLInFiat].
-  const _EstimatePoolTVLInFiatFamily();
+/// See also [_estimatePoolTVLandAPRInFiat].
+class _EstimatePoolTVLandAPRInFiatFamily
+    extends Family<AsyncValue<({double tvl, double apr})>> {
+  /// See also [_estimatePoolTVLandAPRInFiat].
+  const _EstimatePoolTVLandAPRInFiatFamily();
 
-  /// See also [_estimatePoolTVLInFiat].
-  _EstimatePoolTVLInFiatProvider call(
+  /// See also [_estimatePoolTVLandAPRInFiat].
+  _EstimatePoolTVLandAPRInFiatProvider call(
     DexPool pool,
   ) {
-    return _EstimatePoolTVLInFiatProvider(
+    return _EstimatePoolTVLandAPRInFiatProvider(
       pool,
     );
   }
 
   @override
-  _EstimatePoolTVLInFiatProvider getProviderOverride(
-    covariant _EstimatePoolTVLInFiatProvider provider,
+  _EstimatePoolTVLandAPRInFiatProvider getProviderOverride(
+    covariant _EstimatePoolTVLandAPRInFiatProvider provider,
   ) {
     return call(
       provider.pool,
@@ -970,32 +972,33 @@ class _EstimatePoolTVLInFiatFamily extends Family<AsyncValue<double>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'_estimatePoolTVLInFiatProvider';
+  String? get name => r'_estimatePoolTVLandAPRInFiatProvider';
 }
 
-/// See also [_estimatePoolTVLInFiat].
-class _EstimatePoolTVLInFiatProvider extends AutoDisposeFutureProvider<double> {
-  /// See also [_estimatePoolTVLInFiat].
-  _EstimatePoolTVLInFiatProvider(
+/// See also [_estimatePoolTVLandAPRInFiat].
+class _EstimatePoolTVLandAPRInFiatProvider
+    extends AutoDisposeFutureProvider<({double tvl, double apr})> {
+  /// See also [_estimatePoolTVLandAPRInFiat].
+  _EstimatePoolTVLandAPRInFiatProvider(
     DexPool pool,
   ) : this._internal(
-          (ref) => _estimatePoolTVLInFiat(
-            ref as _EstimatePoolTVLInFiatRef,
+          (ref) => _estimatePoolTVLandAPRInFiat(
+            ref as _EstimatePoolTVLandAPRInFiatRef,
             pool,
           ),
-          from: _estimatePoolTVLInFiatProvider,
-          name: r'_estimatePoolTVLInFiatProvider',
+          from: _estimatePoolTVLandAPRInFiatProvider,
+          name: r'_estimatePoolTVLandAPRInFiatProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$estimatePoolTVLInFiatHash,
-          dependencies: _EstimatePoolTVLInFiatFamily._dependencies,
+                  : _$estimatePoolTVLandAPRInFiatHash,
+          dependencies: _EstimatePoolTVLandAPRInFiatFamily._dependencies,
           allTransitiveDependencies:
-              _EstimatePoolTVLInFiatFamily._allTransitiveDependencies,
+              _EstimatePoolTVLandAPRInFiatFamily._allTransitiveDependencies,
           pool: pool,
         );
 
-  _EstimatePoolTVLInFiatProvider._internal(
+  _EstimatePoolTVLandAPRInFiatProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -1009,12 +1012,14 @@ class _EstimatePoolTVLInFiatProvider extends AutoDisposeFutureProvider<double> {
 
   @override
   Override overrideWith(
-    FutureOr<double> Function(_EstimatePoolTVLInFiatRef provider) create,
+    FutureOr<({double tvl, double apr})> Function(
+            _EstimatePoolTVLandAPRInFiatRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: _EstimatePoolTVLInFiatProvider._internal(
-        (ref) => create(ref as _EstimatePoolTVLInFiatRef),
+      override: _EstimatePoolTVLandAPRInFiatProvider._internal(
+        (ref) => create(ref as _EstimatePoolTVLandAPRInFiatRef),
         from: from,
         name: null,
         dependencies: null,
@@ -1026,13 +1031,13 @@ class _EstimatePoolTVLInFiatProvider extends AutoDisposeFutureProvider<double> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<double> createElement() {
-    return _EstimatePoolTVLInFiatProviderElement(this);
+  AutoDisposeFutureProviderElement<({double tvl, double apr})> createElement() {
+    return _EstimatePoolTVLandAPRInFiatProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is _EstimatePoolTVLInFiatProvider && other.pool == pool;
+    return other is _EstimatePoolTVLandAPRInFiatProvider && other.pool == pool;
   }
 
   @override
@@ -1044,18 +1049,19 @@ class _EstimatePoolTVLInFiatProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
-mixin _EstimatePoolTVLInFiatRef on AutoDisposeFutureProviderRef<double> {
+mixin _EstimatePoolTVLandAPRInFiatRef
+    on AutoDisposeFutureProviderRef<({double tvl, double apr})> {
   /// The parameter `pool` of this provider.
   DexPool get pool;
 }
 
-class _EstimatePoolTVLInFiatProviderElement
-    extends AutoDisposeFutureProviderElement<double>
-    with _EstimatePoolTVLInFiatRef {
-  _EstimatePoolTVLInFiatProviderElement(super.provider);
+class _EstimatePoolTVLandAPRInFiatProviderElement
+    extends AutoDisposeFutureProviderElement<({double tvl, double apr})>
+    with _EstimatePoolTVLandAPRInFiatRef {
+  _EstimatePoolTVLandAPRInFiatProviderElement(super.provider);
 
   @override
-  DexPool get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
+  DexPool get pool => (origin as _EstimatePoolTVLandAPRInFiatProvider).pool;
 }
 
 String _$estimateStatsHash() => r'b96d4b1bdae0ca6d2bec4affebab3051ad064d70';

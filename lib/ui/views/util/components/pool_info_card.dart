@@ -44,7 +44,7 @@ class PoolInfoCard extends ConsumerWidget {
           }
 
           final tvlInFiatAsync = ref.watch(
-            DexPoolProviders.estimatePoolTVLInFiat(pool),
+            DexPoolProviders.estimatePoolTVLandAPRInFiat(pool),
           );
           return Container(
             height: cardHeight,
@@ -219,7 +219,7 @@ class PoolInfoCard extends ConsumerWidget {
                         ],
                       ),
                       Text(
-                        'TVL: \$${tvlInFiatAsync.valueOrNull?.formatNumber(precision: 2) ?? '...'}',
+                        'TVL: \$${tvlInFiatAsync.valueOrNull?.tvl.formatNumber(precision: 2) ?? '...'}',
                       ),
                       DexFees(
                         fees: pool.infos!.fees,

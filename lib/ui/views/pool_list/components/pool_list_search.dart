@@ -58,8 +58,8 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
               ),
               labels: const [
                 'Verified pools',
-                'Pools with positions',
                 'My pools',
+                'Favorites',
                 'Results',
               ],
               selectedLabelIndex: (index) {

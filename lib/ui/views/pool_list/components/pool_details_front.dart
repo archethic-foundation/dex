@@ -31,7 +31,7 @@ class PoolDetailsFront extends ConsumerWidget {
   ) {
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     final asyncTvlInFiat = ref.watch(
-      DexPoolProviders.estimatePoolTVLInFiat(pool),
+      DexPoolProviders.estimatePoolTVLandAPRInFiat(pool),
     );
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,28 +88,6 @@ class PoolDetailsFront extends ConsumerWidget {
                               ),
                               LiquidityPositionsIcon(
                                 lpTokenInUserBalance: pool.lpTokenInUserBalance,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'TVL',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              Text(
-                                '\$${asyncTvlInFiat.valueOrNull?.formatNumber(precision: 2) ?? '...'}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium!
-                                    .copyWith(
-                                      color: DexThemeBase.secondaryColor,
-                                    ),
                               ),
                             ],
                           ),
@@ -188,6 +166,52 @@ class PoolDetailsFront extends ConsumerWidget {
                                 poolAddress: pool.poolAddress,
                               ),
                             ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'TVL',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          Text(
+                            '\$${asyncTvlInFiat.valueOrNull?.tvl.formatNumber(precision: 2) ?? '...'}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .copyWith(
+                                  color: DexThemeBase.secondaryColor,
+                                ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'APR',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          Text(
+                            '\$${asyncTvlInFiat.valueOrNull?.apr.formatNumber(precision: 2) ?? '...'}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .copyWith(
+                                  color: DexThemeBase.secondaryColor,
+                                ),
+                          ),
                         ],
                       ),
                     ],

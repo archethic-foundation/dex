@@ -21,7 +21,6 @@ class PoolAddInCacheIcon extends ConsumerWidget {
     return ref.watch(DexPoolProviders.getPoolListFromCache).maybeWhen(
           orElse: SizedBox.shrink,
           data: (pools) {
-            print(pools);
             var exists = false;
             for (final pool in pools) {
               if (pool.poolAddress.toUpperCase() == poolAddress.toUpperCase()) {
