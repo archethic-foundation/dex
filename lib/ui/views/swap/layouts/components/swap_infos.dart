@@ -80,7 +80,7 @@ class SwapInfos extends ConsumerWidget {
                 ),
                 Tooltip(
                   message:
-                      'Liquidity Provider fees: ${swap.swapFees}%, Protocol fees: ${swap.swapProtocolFees}%',
+                      'Liquidity Provider fees (${swap.swapFees}%): ${swap.swapFees * swap.tokenToSwapAmount / 100} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.swapProtocolFees}%): ${swap.swapProtocolFees * swap.tokenToSwapAmount / 100} ${swap.tokenToSwap!.symbol}',
                   child: const Padding(
                     padding: EdgeInsets.only(bottom: 2),
                     child: Icon(
