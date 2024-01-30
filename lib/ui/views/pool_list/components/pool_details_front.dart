@@ -290,8 +290,120 @@ class PoolDetailsFront extends ConsumerWidget {
                           ],
                         );
                       }
-                      return const SizedBox(
-                        height: 109,
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Volume (24h)',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              Text(
+                                'Fees (24h)',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 3, bottom: 5),
+                                child: SizedBox(
+                                  width: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  height: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 0.5,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 3, bottom: 5),
+                                child: SizedBox(
+                                  width: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  height: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 0.5,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Volume (All)',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              Text(
+                                'Fees (All)',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 3, bottom: 5),
+                                child: SizedBox(
+                                  width: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  height: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 0.5,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 3, bottom: 5),
+                                child: SizedBox(
+                                  width: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  height: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 0.5,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
                   ),
