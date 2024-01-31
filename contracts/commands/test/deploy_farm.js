@@ -35,6 +35,16 @@ const builder = {
     describe: "Farming end date (default in 1 month)",
     demandOption: false,
     type: "number"
+  },
+  access_seed: {
+    describe: "The Keychain access seed (default in env config)",
+    demandOption: false,
+    type: "string"
+  },
+  env: {
+    describe: "The environment config to use (default to local)",
+    demandOption: false,
+    type: "string"
   }
 }
 
@@ -100,7 +110,7 @@ const handler = async function(argv) {
 
   // Deploy pool
   console.log("Create farm contract")
-  await sendTransactionWithFunding(farmTx, null, archethic, env.userSeed)
+  await sendTransactionWithFunding(farmTx, keychain, archethic)
 
   console.log("=======================")
   console.log("Send reward and add farm to router")
