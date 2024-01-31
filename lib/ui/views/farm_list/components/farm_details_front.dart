@@ -111,10 +111,11 @@ class FarmDetailsFront extends ConsumerWidget {
                                       future: DEXAprValue().display(
                                         ref,
                                         farm.farmAddress,
-                                        snapshot.data!.remainingReward,
+                                        snapshot.data!.remainingRewardInFiat,
                                         snapshot.data!.lpTokenPair!.token1,
                                         snapshot.data!.lpTokenPair!.token2,
                                         snapshot.data!.lpTokenDeposited,
+                                        farm.endDate,
                                         farm.poolAddress,
                                       ),
                                       builder: (context, snapshot) {

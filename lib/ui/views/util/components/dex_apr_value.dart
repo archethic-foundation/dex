@@ -13,6 +13,7 @@ class DEXAprValue {
     DexToken token1,
     DexToken token2,
     double lpTokenDeposited,
+    int endDate,
     String poolAddress,
   ) async {
     final lpTokenDepositedInFiatResult = ref.watch(
@@ -23,14 +24,19 @@ class DEXAprValue {
         poolAddress,
       ),
     );
-    var apr = 0.0;
     return lpTokenDepositedInFiatResult.map(
       data: (data) {
-        if (remainingRewardInFiat > 0) {
-          apr = (Decimal.parse('${data.value}') /
-                  Decimal.parse('$remainingRewardInFiat'))
+        final now =
+            (DateTime.now().toUtc().millisecondsSinceEpoch / 1000).truncate();
+
+        if (remainingRewardInFiat > 0 && now < endDate) {
+          // 31 536 000 second in a year
+          final rewardScalledToYear =
+              remainingRewardInFiat * ((endDate - now) / 31536000);
+          final apr = (Decimal.parse('$rewardScalledToYear') /
+                  Decimal.parse('${data.value}'))
               .toDouble();
-          return '${apr.formatNumber(precision: 4)}%';
+          return '${(apr * 100).formatNumber(precision: 4)}%';
         }
         return '0%';
       },
