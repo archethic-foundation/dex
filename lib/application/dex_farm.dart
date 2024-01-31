@@ -137,7 +137,7 @@ Future<double> _estimateLPTokenInFiat(
   );
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
-    return amountToken1 * fiatValueToken1 + amountToken2 * fiatValueToken1;
+    return amountToken1 * fiatValueToken1 + amountToken2 * fiatValueToken2;
   }
 
   if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
