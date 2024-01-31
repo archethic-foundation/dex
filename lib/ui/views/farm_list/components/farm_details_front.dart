@@ -12,6 +12,7 @@ import 'package:aedex/ui/views/util/components/dex_apr_value.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
+import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -131,6 +132,37 @@ class FarmDetailsFront extends ConsumerWidget {
                                         }
                                         return const SizedBox.shrink();
                                       },
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Earn ${farm.rewardToken!.symbol}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineSmall,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 3),
+                                          child: DexTokenIcon(
+                                            tokenAddress: farm
+                                                        .rewardToken!.address ==
+                                                    null
+                                                ? 'UCO'
+                                                : farm.rewardToken!.address!,
+                                            iconSize: 22,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -426,7 +458,7 @@ class FarmDetailsFront extends ConsumerWidget {
                                               ],
                                             ),
                                             const SizedBox(
-                                              height: 70,
+                                              height: 40,
                                             ),
                                             Column(
                                               children: [
