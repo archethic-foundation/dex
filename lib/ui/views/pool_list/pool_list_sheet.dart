@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
@@ -24,20 +23,7 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final poolListFormState = ref.watch(PoolListFormProvider.poolListForm);
-    final asyncPools = poolListFormState.isVerifiedPoolsTabSelected
-        ? ref.watch(DexPoolProviders.verifiedPools)
-        : poolListFormState.isMyPoolsTabSelected
-            ? ref.watch(DexPoolProviders.myPools)
-            : poolListFormState.isFavoritePoolsTabSelected
-                ? ref.watch(DexPoolProviders.favoritePools)
-                : poolListFormState.isAllPoolsTabSelected
-                    ? ref.watch(DexPoolProviders.getPoolList)
-                    : ref.watch(
-                        DexPoolProviders.getPoolListForSearch(
-                          poolListFormState.searchText,
-                        ),
-                      );
+    final asyncPools = ref.watch(PoolListFormProvider.poolsToDisplay);
 
     return Stack(
       children: [
@@ -48,6 +34,8 @@ class PoolListSheet extends ConsumerWidget {
               bottom: 100,
             ),
             child: asyncPools.maybeWhen(
+              skipLoadingOnRefresh: true,
+              skipLoadingOnReload: true,
               orElse: SizedBox.shrink,
               data: (pools) {
                 return GridView.builder(
