@@ -34,6 +34,8 @@ class PoolListSheet extends ConsumerWidget {
               bottom: 100,
             ),
             child: asyncPools.maybeWhen(
+              skipLoadingOnRefresh: true,
+              skipLoadingOnReload: true,
               orElse: SizedBox.shrink,
               data: (pools) {
                 return GridView.builder(
