@@ -596,10 +596,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       state.tokenToSwapAmount,
       state.slippageTolerance,
     );
-
-    setResumeProcess(false);
-    setProcessInProgress(false);
-    setSwapOk(true);
     ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
   }
 }

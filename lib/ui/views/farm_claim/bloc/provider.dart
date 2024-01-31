@@ -110,10 +110,6 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
     }
 
     await ClaimFarmCase().run(ref, state.dexFarm!.farmAddress);
-
-    setResumeProcess(false);
-    setProcessInProgress(false);
-    setFarmClaimOk(true);
   }
 }
 

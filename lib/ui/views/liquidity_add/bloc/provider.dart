@@ -444,10 +444,6 @@ class LiquidityAddFormNotifier
       state.slippageTolerance,
       recoveryStep: state.currentStep,
     );
-
-    setResumeProcess(false);
-    setProcessInProgress(false);
-    setLiquidityAddOk(true);
     ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
   }
 }

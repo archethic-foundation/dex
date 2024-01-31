@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
+import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
@@ -76,15 +78,34 @@ class RemoveLiquidityCase with TransactionDexMixin {
       }
     }
 
-    await sendTransactions(
-      <archethic.Transaction>[
-        transactionRemoveLiquidity!,
-      ],
-    );
+    try {
+      await sendTransactions(
+        <archethic.Transaction>[
+          transactionRemoveLiquidity!,
+        ],
+      );
 
-    liquidityRemoveNotifier.setCurrentStep(3);
+      liquidityRemoveNotifier
+        ..setCurrentStep(3)
+        ..setResumeProcess(false)
+        ..setProcessInProgress(false)
+        ..setLiquidityRemoveOk(true);
 
-    unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet());
+    } catch (e) {
+      sl.get<LogManager>().log(
+            'TransactionRemoveLiquidity sendTx failed $e',
+            level: LogLevel.error,
+            name: 'TransactionDexMixin - sendTransactions',
+          );
+
+      liquidityRemoveNotifier.setFailure(
+        Failure.other(
+          cause: e.toString(),
+        ),
+      );
+      return;
+    }
   }
 
   String getAEStepLabel(

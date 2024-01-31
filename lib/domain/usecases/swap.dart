@@ -5,6 +5,8 @@ import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
@@ -123,15 +125,34 @@ class SwapCase with TransactionDexMixin {
       return;
     }
 
-    await sendTransactions(
-      <archethic.Transaction>[
-        transactionSwap!,
-      ],
-    );
+    try {
+      await sendTransactions(
+        <archethic.Transaction>[
+          transactionSwap!,
+        ],
+      );
 
-    swapNotifier.setCurrentStep(4);
+      swapNotifier
+        ..setCurrentStep(4)
+        ..setResumeProcess(false)
+        ..setProcessInProgress(false)
+        ..setSwapOk(true);
 
-    unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet());
+    } catch (e) {
+      sl.get<LogManager>().log(
+            'TransactionSwap sendTx failed $e',
+            level: LogLevel.error,
+            name: 'TransactionDexMixin - sendTransactions',
+          );
+
+      swapNotifier.setFailure(
+        Failure.other(
+          cause: e.toString(),
+        ),
+      );
+      return;
+    }
   }
 
   String getAEStepLabel(

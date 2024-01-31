@@ -166,10 +166,6 @@ class FarmDepositFormNotifier
       state.dexFarmInfo!.lpToken!.address!,
       state.amount,
     );
-
-    setResumeProcess(false);
-    setProcessInProgress(false);
-    setFarmDepositOk(true);
   }
 }
 

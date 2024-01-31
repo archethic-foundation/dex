@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
+import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
@@ -83,15 +85,33 @@ class ClaimFarmCase with TransactionDexMixin {
       return;
     }
 
-    await sendTransactions(
-      <archethic.Transaction>[
-        transactionClaim!,
-      ],
-    );
+    try {
+      await sendTransactions(
+        <archethic.Transaction>[
+          transactionClaim!,
+        ],
+      );
 
-    farmClaimNotifier.setCurrentStep(3);
+      farmClaimNotifier
+        ..setCurrentStep(3)
+        ..setResumeProcess(false)
+        ..setProcessInProgress(false)
+        ..setFarmClaimOk(true);
+      unawaited(refreshCurrentAccountInfoWallet());
+    } catch (e) {
+      sl.get<LogManager>().log(
+            'TransactionFarmClaim sendTx failed $e',
+            level: LogLevel.error,
+            name: 'TransactionDexMixin - sendTransactions',
+          );
 
-    unawaited(refreshCurrentAccountInfoWallet());
+      farmClaimNotifier.setFailure(
+        Failure.other(
+          cause: e.toString(),
+        ),
+      );
+      return;
+    }
   }
 
   String getAEStepLabel(
