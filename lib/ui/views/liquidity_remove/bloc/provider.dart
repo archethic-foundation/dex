@@ -301,9 +301,6 @@ class LiquidityRemoveFormNotifier
       state.lpTokenAmount,
       recoveryStep: state.currentStep,
     );
-    setResumeProcess(false);
-    setProcessInProgress(false);
-    setLiquidityRemoveOk(true);
     ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
   }
 }

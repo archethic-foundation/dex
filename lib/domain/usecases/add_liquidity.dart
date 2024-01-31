@@ -5,6 +5,8 @@ import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
+import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
@@ -83,15 +85,33 @@ class AddLiquidityCase with TransactionDexMixin {
       }
     }
 
-    await sendTransactions(
-      <archethic.Transaction>[
-        transactionAddLiquidity!,
-      ],
-    );
+    try {
+      await sendTransactions(
+        <archethic.Transaction>[
+          transactionAddLiquidity!,
+        ],
+      );
 
-    liquidityAddNotifier.setCurrentStep(3);
+      liquidityAddNotifier
+        ..setCurrentStep(3)
+        ..setResumeProcess(false)
+        ..setProcessInProgress(false)
+        ..setLiquidityAddOk(true);
+      unawaited(refreshCurrentAccountInfoWallet());
+    } catch (e) {
+      sl.get<LogManager>().log(
+            'TransactionAddLiquidity sendTx failed $e',
+            level: LogLevel.error,
+            name: 'TransactionDexMixin - sendTransactions',
+          );
 
-    unawaited(refreshCurrentAccountInfoWallet());
+      liquidityAddNotifier.setFailure(
+        Failure.other(
+          cause: e.toString(),
+        ),
+      );
+      return;
+    }
   }
 
   Future<double> estimateFees(

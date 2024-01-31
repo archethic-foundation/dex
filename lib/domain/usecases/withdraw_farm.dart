@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
+import 'package:aedex/util/custom_logs.dart';
+import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
@@ -86,15 +88,34 @@ class WithdrawFarmCase with TransactionDexMixin {
       return;
     }
 
-    await sendTransactions(
-      <archethic.Transaction>[
-        transactionWithdraw!,
-      ],
-    );
+    try {
+      await sendTransactions(
+        <archethic.Transaction>[
+          transactionWithdraw!,
+        ],
+      );
 
-    farmWithdrawNotifier.setCurrentStep(3);
+      farmWithdrawNotifier
+        ..setCurrentStep(3)
+        ..setResumeProcess(false)
+        ..setProcessInProgress(false)
+        ..setFarmWithdrawOk(true);
 
-    unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet());
+    } catch (e) {
+      sl.get<LogManager>().log(
+            'TransactionWithdrawFarm sendTx failed $e',
+            level: LogLevel.error,
+            name: 'TransactionDexMixin - sendTransactions',
+          );
+
+      farmWithdrawNotifier.setFailure(
+        Failure.other(
+          cause: e.toString(),
+        ),
+      );
+      return;
+    }
   }
 
   String getAEStepLabel(
