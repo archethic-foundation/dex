@@ -33,9 +33,13 @@ class DEXAprValue {
           // 31 536 000 second in a year
           final rewardScalledToYear =
               remainingRewardInFiat * ((endDate - now) / 31536000);
-          final apr = (Decimal.parse('$rewardScalledToYear') /
-                  Decimal.parse('${data.value}'))
-              .toDouble();
+          var apr = 0.0;
+          if (data.value > 0) {
+            apr = (Decimal.parse('$rewardScalledToYear') /
+                    Decimal.parse('${data.value}'))
+                .toDouble();
+          }
+
           return '${(apr * 100).formatNumber(precision: 4)}%';
         }
         return '0%';
