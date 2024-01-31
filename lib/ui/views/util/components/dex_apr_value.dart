@@ -29,16 +29,14 @@ class DEXAprValue {
         final now =
             (DateTime.now().toUtc().millisecondsSinceEpoch / 1000).truncate();
 
-        if (remainingRewardInFiat > 0 && now < endDate) {
+        if (remainingRewardInFiat > 0 && data.value > 0 && now < endDate) {
           // 31 536 000 second in a year
           final rewardScalledToYear =
-              remainingRewardInFiat * ((endDate - now) / 31536000);
-          var apr = 0.0;
-          if (data.value > 0) {
-            apr = (Decimal.parse('$rewardScalledToYear') /
-                    Decimal.parse('${data.value}'))
-                .toDouble();
-          }
+              remainingRewardInFiat * (31536000 / (endDate - now));
+
+          final apr = (Decimal.parse('$rewardScalledToYear') /
+                  Decimal.parse('${data.value}'))
+              .toDouble();
 
           return '${(apr * 100).formatNumber(precision: 4)}%';
         }
