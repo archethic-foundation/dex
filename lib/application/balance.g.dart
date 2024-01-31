@@ -21,7 +21,7 @@ final _balanceRepositoryProvider = Provider<BalanceRepository>.internal(
 );
 
 typedef _BalanceRepositoryRef = ProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'3df2019d13d61850bd3da6f42576356eb0da2b3c';
+String _$getBalanceHash() => r'674952bdad70b137bd8f679e3499d6cea0cd64a4';
 
 /// Copied from Dart SDK
 class _SystemHash {

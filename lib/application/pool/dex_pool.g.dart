@@ -1410,7 +1410,7 @@ final _getPoolListProvider = FutureProvider<List<DexPool>>.internal(
 
 typedef _GetPoolListRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForUserHash() =>
-    r'07befb7ff67c3924a79b2a59da5e556ddd986a29';
+    r'8c01e382a405d079f8573241d7b7b9ca020a1b4c';
 
 /// See also [_getPoolListForUser].
 @ProviderFor(_getPoolListForUser)

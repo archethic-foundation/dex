@@ -37,7 +37,11 @@ final _getFarmListProvider = AutoDisposeFutureProvider<List<DexFarm>>.internal(
 );
 
 typedef _GetFarmListRef = AutoDisposeFutureProviderRef<List<DexFarm>>;
+<<<<<<< HEAD
 String _$getFarmInfosHash() => r'a3b06e1d4ed65500741659c05ecc1ce7b46942df';
+=======
+String _$getFarmInfosHash() => r'4df58b3e5f1698f8cc6c8c21ee39a5064c9fa7d6';
+>>>>>>> cab69ca (Fix to avoid errors during putPoolsToCache.)
 
 /// Copied from Dart SDK
 class _SystemHash {
