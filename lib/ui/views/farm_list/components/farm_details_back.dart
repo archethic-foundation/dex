@@ -228,25 +228,15 @@ class FarmDetailsBack extends ConsumerWidget {
                                   '${snapshot.data!.lpTokenDeposited.formatNumber()} ${snapshot.data!.lpTokenDeposited > 1 ? 'LP Tokens' : 'LP Token'}',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
-                                FutureBuilder<String>(
-                                  future: DEXLPTokenFiatValue().display(
+                                Text(
+                                  DEXLPTokenFiatValue().display(
                                     ref,
                                     farm.lpTokenPair!.token1,
                                     farm.lpTokenPair!.token2,
                                     snapshot.data!.lpTokenDeposited,
                                     farm.poolAddress,
                                   ),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return Text(
-                                        snapshot.data!,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      );
-                                    }
-                                    return const SizedBox.shrink();
-                                  },
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ],
                             ),

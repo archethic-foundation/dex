@@ -13,8 +13,8 @@ class DexFarm with _$DexFarm {
     @Default(0) double apr,
     DexToken? lpToken,
     DexPair? lpTokenPair,
-    @Default(0) int startDate,
-    @Default(0) int endDate,
+    @Default(0) int startDate, // FIXME : this should be a DaateTime
+    @Default(0) int endDate, // FIXME : this should be a DaateTime
     DexToken? rewardToken,
     @Default(0) double remainingReward,
     @Default(0) double remainingRewardInFiat,
@@ -23,4 +23,11 @@ class DexFarm with _$DexFarm {
     @Default(0.0) double statsRewardDistributed,
   }) = _DexFarm;
   const DexFarm._();
+}
+
+extension TimestampExt on int {
+  DateTime get dateTime => DateTime.fromMillisecondsSinceEpoch(
+        this * 1000,
+        isUtc: true,
+      );
 }

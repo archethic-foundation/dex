@@ -5,14 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 class DEXLPTokenFiatValue {
-  Future<String> display(
+  String display(
     WidgetRef ref,
     DexToken token1,
     DexToken token2,
     double lpTokenAmount,
     String poolAddress, {
     bool withParenthesis = true,
-  }) async {
+  }) {
     final estimateLPTokenInFiat = ref.watch(
       DexFarmProviders.estimateLPTokenInFiat(
         token1,

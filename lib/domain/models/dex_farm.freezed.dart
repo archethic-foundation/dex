@@ -21,8 +21,10 @@ mixin _$DexFarm {
   double get apr => throw _privateConstructorUsedError;
   DexToken? get lpToken => throw _privateConstructorUsedError;
   DexPair? get lpTokenPair => throw _privateConstructorUsedError;
-  int get startDate => throw _privateConstructorUsedError;
-  int get endDate => throw _privateConstructorUsedError;
+  int get startDate =>
+      throw _privateConstructorUsedError; // FIXME : this should be a DaateTime
+  int get endDate =>
+      throw _privateConstructorUsedError; // FIXME : this should be a DaateTime
   DexToken? get rewardToken => throw _privateConstructorUsedError;
   double get remainingReward => throw _privateConstructorUsedError;
   double get remainingRewardInFiat => throw _privateConstructorUsedError;
@@ -326,9 +328,11 @@ class _$DexFarmImpl extends _DexFarm {
   @override
   @JsonKey()
   final int startDate;
+// FIXME : this should be a DaateTime
   @override
   @JsonKey()
   final int endDate;
+// FIXME : this should be a DaateTime
   @override
   final DexToken? rewardToken;
   @override
@@ -435,9 +439,9 @@ abstract class _DexFarm extends DexFarm {
   DexPair? get lpTokenPair;
   @override
   int get startDate;
-  @override
+  @override // FIXME : this should be a DaateTime
   int get endDate;
-  @override
+  @override // FIXME : this should be a DaateTime
   DexToken? get rewardToken;
   @override
   double get remainingReward;

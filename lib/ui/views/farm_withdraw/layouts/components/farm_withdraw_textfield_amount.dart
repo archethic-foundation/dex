@@ -149,23 +149,15 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                 const SizedBox(
                   width: 5,
                 ),
-                FutureBuilder<String>(
-                  future: DEXLPTokenFiatValue().display(
+                Text(
+                  DEXLPTokenFiatValue().display(
                     ref,
                     farmWithdraw.dexFarmInfo!.lpTokenPair!.token1,
                     farmWithdraw.dexFarmInfo!.lpTokenPair!.token2,
                     farmWithdraw.dexFarmUserInfo!.depositedAmount,
                     farmWithdraw.dexFarmInfo!.poolAddress,
                   ),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(
-                        snapshot.data!,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
