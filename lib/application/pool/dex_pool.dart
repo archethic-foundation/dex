@@ -64,6 +64,20 @@ class DexPoolsRepository {
 
   Future<DexPool?> getPool(Ref ref, String address) async {
     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+
+    final poolHive = poolsListDatasource.getPool(address);
+    if (poolHive == null) {
+      final poolListResult = await ref.read(
+          DexPoolProviders.getPoolListForSearch(address.toUpperCase()).future);
+      if (poolListResult.isNotEmpty) {
+        final pool = poolListResult.firstWhere(
+          (element) =>
+              element.poolAddress.toUpperCase() == address.toUpperCase(),
+        );
+        return ref.read(DexPoolProviders.getPoolInfos(pool).future);
+      }
+    }
+
     return poolsListDatasource.getPool(address)?.toDexPool();
   }
 
