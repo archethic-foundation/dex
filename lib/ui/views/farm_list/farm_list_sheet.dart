@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/grid_view.dart';
+import 'package:aedex/ui/views/util/components/loading.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,10 @@ class FarmListSheet extends ConsumerWidget {
           bottom: 100,
         ),
         child: asyncFarms.maybeWhen(
+          skipLoadingOnRefresh: true,
+          skipLoadingOnReload: true,
           orElse: SizedBox.shrink,
+          loading: Loading.new,
           data: (farms) => GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedSize(
               crossAxisExtent: 500,
