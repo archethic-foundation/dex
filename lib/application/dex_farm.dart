@@ -28,21 +28,8 @@ Future<List<DexFarm>> _getFarmList(
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
   final apiService = sl.get<ApiService>();
-  var poolList = <DexPool>[];
 
-  final userBalance =
-      await ref.read(BalanceProviders.getUserTokensBalance.future);
-
-  final poolListResult =
-      await RouterFactory(dexConf.routerGenesisAddress, apiService).getPoolList(
-    userBalance,
-  );
-  await poolListResult.map(
-    success: (success) async {
-      poolList = success;
-    },
-    failure: (failure) {},
-  );
+  final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
 
   return ref
       .watch(_dexFarmsRepositoryProvider)

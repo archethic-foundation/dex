@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 part of 'dex_pool.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<DexPool>> _getPoolList(
   _GetPoolListRef ref,
 ) async {
@@ -34,7 +34,7 @@ Future<List<DexPool>> _getPoolListForUser(
   _GetPoolListForUserRef ref,
 ) async {
   final dexPools = <DexPool>[];
-  final poolList = await ref.read(_getPoolListProvider.future);
+  final poolList = await ref.watch(_getPoolListProvider.future);
 
   for (final pool in poolList) {
     if (pool.isVerified || pool.lpTokenInUserBalance) {

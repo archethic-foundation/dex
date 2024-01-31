@@ -23,7 +23,7 @@ final _dexFarmsRepositoryProvider =
 );
 
 typedef _DexFarmsRepositoryRef = AutoDisposeProviderRef<DexFarmsRepository>;
-String _$getFarmListHash() => r'4a83f65058a3ec73689504c0006ddd84ec0afd12';
+String _$getFarmListHash() => r'6adde458e64b4c175a666acedbe99d227932d4a0';
 
 /// See also [_getFarmList].
 @ProviderFor(_getFarmList)

@@ -1230,6 +1230,7 @@ class _EstimateStatsProviderElement extends AutoDisposeFutureProviderElement<
   DexPool get pool => (origin as _EstimateStatsProvider).pool;
 }
 
+<<<<<<< HEAD
 String _$populatePoolInfosWithTokenStats24hHash() =>
     r'c7a18f0e4649033f533bd61c8d7c638f6067e1e8';
 
@@ -1384,10 +1385,13 @@ class _PopulatePoolInfosWithTokenStats24hProviderElement
 }
 
 String _$getPoolListHash() => r'4fee5d25b221f7e9cbeae7e454f52c5a18888c1d';
+=======
+String _$getPoolListHash() => r'f6f0d967a167d02edb84122689536755503148e4';
+>>>>>>> 71fd59b (Improves Farm list load time)
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)
-final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
+final _getPoolListProvider = FutureProvider<List<DexPool>>.internal(
   _getPoolList,
   name: r'_getPoolListProvider',
   debugGetCreateSourceHash:
@@ -1396,7 +1400,7 @@ final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _GetPoolListRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+typedef _GetPoolListRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForUserHash() =>
     r'8c01e382a405d079f8573241d7b7b9ca020a1b4c';
 

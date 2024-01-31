@@ -53,6 +53,8 @@ Future<List<DexPool>> _getPoolListFromCache(
 Future<void> _putPoolListInfosToCache(
   _PutPoolListInfosToCacheRef ref,
 ) async {
+  ref.invalidate(_getPoolListProvider);
+
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
 
   final poolList = await ref.read(_getPoolListForUserProvider.future);
