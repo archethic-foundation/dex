@@ -207,11 +207,15 @@ actions triggered_by: transaction, on: swap(_min_to_receive) do
 
   Contract.set_type("transfer")
   if token_to_send == "UCO" do
-    Contract.add_uco_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee)
     Contract.add_uco_transfer(to: transaction.address, amount: swap.output_amount)
   else
-    Contract.add_token_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee, token_address: token_to_send)
     Contract.add_token_transfer(to: transaction.address, amount: swap.output_amount, token_address: token_to_send)
+  end
+
+  if transfer.token_address == "UCO" do
+    Contract.add_uco_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee)
+  else
+    Contract.add_token_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee, token_address: transfer.token_address)
   end
 end
 
