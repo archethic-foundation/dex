@@ -30,6 +30,16 @@ const builder = {
     describe: "Second token initial amount",
     demandOption: true,
     type: "number"
+  },
+  access_seed: {
+    describe: "The Keychain access seed (default in env config)",
+    demandOption: false,
+    type: "string"
+  },
+  env: {
+    describe: "The environment config to use (default to local)",
+    demandOption: false,
+    type: "string"
   }
 }
 
