@@ -68,7 +68,8 @@ class DexPoolsRepository {
     final poolHive = poolsListDatasource.getPool(address);
     if (poolHive == null) {
       final poolListResult = await ref.read(
-          DexPoolProviders.getPoolListForSearch(address.toUpperCase()).future);
+        DexPoolProviders.getPoolListForSearch(address.toUpperCase()).future,
+      );
       if (poolListResult.isNotEmpty) {
         final pool = poolListResult.firstWhere(
           (element) =>

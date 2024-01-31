@@ -90,7 +90,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
                       .read(
                         PoolListFormProvider.poolListForm.notifier,
                       )
-                      .setTabIndexSelected(4);
+                      .setTabIndexSelected(PoolsListTab.searchPool);
                 }
               },
               focusNode: searchFocus,

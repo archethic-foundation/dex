@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PoolListFormState {
-  int get tabIndexSelected => throw _privateConstructorUsedError;
+  PoolsListTab get tabIndexSelected => throw _privateConstructorUsedError;
   String get searchText => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,7 @@ abstract class $PoolListFormStateCopyWith<$Res> {
           PoolListFormState value, $Res Function(PoolListFormState) then) =
       _$PoolListFormStateCopyWithImpl<$Res, PoolListFormState>;
   @useResult
-  $Res call({int tabIndexSelected, String searchText});
+  $Res call({PoolsListTab tabIndexSelected, String searchText});
 }
 
 /// @nodoc
@@ -53,7 +53,7 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
       tabIndexSelected: null == tabIndexSelected
           ? _value.tabIndexSelected
           : tabIndexSelected // ignore: cast_nullable_to_non_nullable
-              as int,
+              as PoolsListTab,
       searchText: null == searchText
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
@@ -70,7 +70,7 @@ abstract class _$$PoolListFormStateImplCopyWith<$Res>
       __$$PoolListFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int tabIndexSelected, String searchText});
+  $Res call({PoolsListTab tabIndexSelected, String searchText});
 }
 
 /// @nodoc
@@ -91,7 +91,7 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
       tabIndexSelected: null == tabIndexSelected
           ? _value.tabIndexSelected
           : tabIndexSelected // ignore: cast_nullable_to_non_nullable
-              as int,
+              as PoolsListTab,
       searchText: null == searchText
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
@@ -104,12 +104,12 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
 
 class _$PoolListFormStateImpl extends _PoolListFormState {
   const _$PoolListFormStateImpl(
-      {this.tabIndexSelected = 0, this.searchText = ''})
+      {this.tabIndexSelected = PoolsListTab.verified, this.searchText = ''})
       : super._();
 
   @override
   @JsonKey()
-  final int tabIndexSelected;
+  final PoolsListTab tabIndexSelected;
   @override
   @JsonKey()
   final String searchText;
@@ -143,12 +143,12 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
 
 abstract class _PoolListFormState extends PoolListFormState {
   const factory _PoolListFormState(
-      {final int tabIndexSelected,
+      {final PoolsListTab tabIndexSelected,
       final String searchText}) = _$PoolListFormStateImpl;
   const _PoolListFormState._() : super._();
 
   @override
-  int get tabIndexSelected;
+  PoolsListTab get tabIndexSelected;
   @override
   String get searchText;
   @override

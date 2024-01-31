@@ -40,8 +40,10 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
               ],
               borderRadius: 20,
               height: 30,
-              selectedIndex:
-                  ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected,
+              selectedIndex: ref
+                  .watch(PoolListFormProvider.poolListForm)
+                  .tabIndexSelected
+                  .index,
               selectedBackgroundColors: [
                 ArchethicThemeBase.purple500,
                 ArchethicThemeBase.purple500,
@@ -67,7 +69,8 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
                 setState(() {
                   ref
                       .read(PoolListFormProvider.poolListForm.notifier)
-                      .setTabIndexSelected(index);
+                      .setTabIndexSelected(PoolsListTab.values[index]);
+                  ref.invalidate(PoolListFormProvider.poolsToDisplay);
                 });
               },
               isScroll: false,
