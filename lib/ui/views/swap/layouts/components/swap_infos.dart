@@ -25,7 +25,7 @@ class SwapInfos extends ConsumerWidget {
         swap.tokenToSwap!.address == null ? 'UCO' : swap.tokenToSwap!.address!;
 
     final tvlInFiatAsync = ref.watch(
-      DexPoolProviders.estimatePoolTVLandAPRInFiat(swap.pool!),
+      DexPoolProviders.estimatePoolTVLandAPRInFiat(swap.pool),
     );
 
     return Padding(
@@ -78,17 +78,18 @@ class SwapInfos extends ConsumerWidget {
                 const SizedBox(
                   width: 5,
                 ),
-                Tooltip(
-                  message:
-                      'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${(swap.swapFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${(swap.swapProtocolFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol}',
-                  child: const Padding(
-                    padding: EdgeInsets.only(bottom: 2),
-                    child: Icon(
-                      Iconsax.info_circle,
-                      size: 13,
+                if (swap.pool != null)
+                  Tooltip(
+                    message:
+                        'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${(swap.swapFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${(swap.swapProtocolFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol}',
+                    child: const Padding(
+                      padding: EdgeInsets.only(bottom: 2),
+                      child: Icon(
+                        Iconsax.info_circle,
+                        size: 13,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           if (swap.tokenSwapped != null &&

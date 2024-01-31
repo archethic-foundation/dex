@@ -49,8 +49,10 @@ Future<double> _estimateTokenInFiat(
 @riverpod
 Future<({double tvl, double apr})> _estimatePoolTVLandAPRInFiat(
   _EstimatePoolTVLandAPRInFiatRef ref,
-  DexPool pool,
+  DexPool? pool,
 ) async {
+  if (pool == null) return (tvl: 0.0, apr: 0.0);
+
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
   var tvl = 0.0;

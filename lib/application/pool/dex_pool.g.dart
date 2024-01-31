@@ -929,7 +929,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimatePoolTVLandAPRInFiatHash() =>
-    r'329003c691c67a5bcfde52f140a32f7fd26e7cf3';
+    r'b22bee3d51652b9024a5daa469a1cd796d97cd3c';
 
 /// See also [_estimatePoolTVLandAPRInFiat].
 @ProviderFor(_estimatePoolTVLandAPRInFiat)
@@ -944,7 +944,7 @@ class _EstimatePoolTVLandAPRInFiatFamily
 
   /// See also [_estimatePoolTVLandAPRInFiat].
   _EstimatePoolTVLandAPRInFiatProvider call(
-    DexPool pool,
+    DexPool? pool,
   ) {
     return _EstimatePoolTVLandAPRInFiatProvider(
       pool,
@@ -980,7 +980,7 @@ class _EstimatePoolTVLandAPRInFiatProvider
     extends AutoDisposeFutureProvider<({double tvl, double apr})> {
   /// See also [_estimatePoolTVLandAPRInFiat].
   _EstimatePoolTVLandAPRInFiatProvider(
-    DexPool pool,
+    DexPool? pool,
   ) : this._internal(
           (ref) => _estimatePoolTVLandAPRInFiat(
             ref as _EstimatePoolTVLandAPRInFiatRef,
@@ -1008,7 +1008,7 @@ class _EstimatePoolTVLandAPRInFiatProvider
     required this.pool,
   }) : super.internal();
 
-  final DexPool pool;
+  final DexPool? pool;
 
   @override
   Override overrideWith(
@@ -1052,7 +1052,7 @@ class _EstimatePoolTVLandAPRInFiatProvider
 mixin _EstimatePoolTVLandAPRInFiatRef
     on AutoDisposeFutureProviderRef<({double tvl, double apr})> {
   /// The parameter `pool` of this provider.
-  DexPool get pool;
+  DexPool? get pool;
 }
 
 class _EstimatePoolTVLandAPRInFiatProviderElement
@@ -1061,7 +1061,7 @@ class _EstimatePoolTVLandAPRInFiatProviderElement
   _EstimatePoolTVLandAPRInFiatProviderElement(super.provider);
 
   @override
-  DexPool get pool => (origin as _EstimatePoolTVLandAPRInFiatProvider).pool;
+  DexPool? get pool => (origin as _EstimatePoolTVLandAPRInFiatProvider).pool;
 }
 
 String _$estimateStatsHash() => r'b96d4b1bdae0ca6d2bec4affebab3051ad064d70';
