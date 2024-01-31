@@ -159,7 +159,8 @@ class PoolDetailsFront extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          if (poolListForm.isResultTabSelected)
+                          if (poolListForm.tabIndexSelected ==
+                              PoolsListTab.searchPool)
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: PoolAddInCacheIcon(

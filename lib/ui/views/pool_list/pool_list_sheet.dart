@@ -23,7 +23,11 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final asyncPools = ref.watch(PoolListFormProvider.poolsToDisplay);
+    final asyncPools = ref.watch(
+      PoolListFormProvider.poolsToDisplay(
+        ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected,
+      ),
+    );
 
     return Stack(
       children: [
@@ -87,45 +91,47 @@ class _PoolListItemState extends State<PoolListItem> {
   final flipCardController = FlipCardController();
 
   @override
-  Widget build(BuildContext context) => Card(
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: DexThemeBase.backgroundPopupColor,
-            width: 0.5,
-          ),
-          borderRadius: BorderRadius.circular(20),
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: DexThemeBase.backgroundPopupColor,
+          width: 0.5,
         ),
-        elevation: 0,
-        color: Colors.black.withOpacity(0.4),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: FlipCard(
-                    controller: flipCardController,
-                    flipOnTouch: false,
-                    fill: Fill.fillBack,
-                    front: PoolDetailsFront(
-                      pool: widget.pool,
-                      toggleCard: flipCardController.toggleCard,
-                    ),
-                    back: PoolDetailsBack(
-                      pool: widget.pool,
-                      toggleCard: flipCardController.toggleCard,
-                    ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 0,
+      color: Colors.black.withOpacity(0.4),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: FlipCard(
+                  controller: flipCardController,
+                  flipOnTouch: false,
+                  fill: Fill.fillBack,
+                  front: PoolDetailsFront(
+                    pool: widget.pool,
+                    toggleCard: flipCardController.toggleCard,
+                  ),
+                  back: PoolDetailsBack(
+                    pool: widget.pool,
+                    toggleCard: flipCardController.toggleCard,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: DexArchethicOracleUco(),
-                ),
-              ],
-            ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: DexArchethicOracleUco(),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }
