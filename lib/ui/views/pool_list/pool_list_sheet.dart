@@ -1,12 +1,14 @@
 import 'dart:ui';
 
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
+import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/grid_view.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
@@ -38,10 +40,9 @@ class PoolListSheet extends ConsumerWidget {
               top: 140,
               bottom: 100,
             ),
-            child: asyncPools.maybeWhen(
+            child: asyncPools.when(
               skipLoadingOnRefresh: true,
               skipLoadingOnReload: true,
-              orElse: SizedBox.shrink,
               loading: () => Stack(
                 alignment: Alignment.centerLeft,
                 children: [
@@ -88,6 +89,8 @@ class PoolListSheet extends ConsumerWidget {
                   ),
                 ],
               ),
+              error: (error, stackTrace) =>
+                  DexErrorMessage(failure: Failure.fromError(error)),
               data: (pools) {
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedSize(

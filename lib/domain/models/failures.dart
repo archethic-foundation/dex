@@ -45,6 +45,12 @@ class Failure with _$Failure implements Exception {
     String? stack,
   }) = OtherFailure;
 
+  factory Failure.fromError(Object error) {
+    if (error is Failure) return error;
+
+    return const Failure.other();
+  }
+
   factory Failure.fromJson(Map<String, dynamic> json) =>
       _$FailureFromJson(json);
 }

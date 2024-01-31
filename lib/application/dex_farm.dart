@@ -10,6 +10,7 @@ import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,6 @@ Future<List<DexFarm>> _getFarmList(
   final apiService = sl.get<ApiService>();
 
   final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
-
   return ref
       .watch(_dexFarmsRepositoryProvider)
       .getFarmList(dexConf.routerGenesisAddress, apiService, ref, poolList);
@@ -144,21 +144,11 @@ class DexFarmsRepository {
     ApiService apiService,
     Ref ref,
     List<DexPool> poolList,
-  ) async {
-    final resultFarmList = await RouterFactory(
-      routerAddress,
-      apiService,
-    ).getFarmList(poolList);
-
-    return resultFarmList.map(
-      success: (farmList) async {
-        return farmList;
-      },
-      failure: (failure) {
-        return <DexFarm>[];
-      },
-    );
-  }
+  ) async =>
+      RouterFactory(
+        routerAddress,
+        apiService,
+      ).getFarmList(poolList).valueOrThrow;
 
   Future<DexFarm?> getFarmInfos(
     String farmGenesisAddress,
