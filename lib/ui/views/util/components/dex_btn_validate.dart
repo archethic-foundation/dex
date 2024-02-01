@@ -13,6 +13,7 @@ class DexButtonValidate extends ConsumerWidget {
     this.background = const Color(0xFF3D1D63),
     this.height = 40,
     this.fontSize = 16,
+    this.displayWalletConnect = false,
     super.key,
   });
 
@@ -22,12 +23,16 @@ class DexButtonValidate extends ConsumerWidget {
   final Color background;
   final double height;
   final double fontSize;
+  final bool displayWalletConnect;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(SessionProviders.session);
     if (session.isConnected == false) {
-      return const WelcomeConnectWalletBtn();
+      if (displayWalletConnect) {
+        return const WelcomeConnectWalletBtn();
+      }
+      return SizedBox(width: 10, height: height);
     }
 
     if (controlOk == false) {

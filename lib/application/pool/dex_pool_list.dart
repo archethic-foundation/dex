@@ -15,7 +15,7 @@ Future<List<DexPool>> _getPoolList(
   final resultPoolList = await RouterFactory(
     dexConf.routerGenesisAddress,
     apiService,
-  ).getPoolList(userBalance!);
+  ).getPoolList(userBalance);
 
   await resultPoolList.map(
     success: (poolList) async {

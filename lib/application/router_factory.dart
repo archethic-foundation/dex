@@ -56,7 +56,7 @@ class RouterFactory with ModelParser {
 
   /// Return the infos of all the pools.
   Future<Result<List<DexPool>, Failure>> getPoolList(
-    Balance userBalance,
+    Balance? userBalance,
   ) async {
     return Result.guard(
       () async {

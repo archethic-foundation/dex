@@ -90,7 +90,7 @@ mixin ModelParser {
   }
 
   Future<DexPool> poolListItemToModel(
-    archethic.Balance userBalance,
+    archethic.Balance? userBalance,
     GetPoolListResponse getPoolListResponse,
   ) async {
     final tokens = getPoolListResponse.tokens.split('/');
@@ -146,10 +146,12 @@ mixin ModelParser {
         .isVerifiedToken(tokens[1].toUpperCase());
 
     var lpTokenInUserBalance = false;
-    for (final userTokensBalance in userBalance.token) {
-      if (getPoolListResponse.lpTokenAddress.toUpperCase() ==
-          userTokensBalance.address!.toUpperCase()) {
-        lpTokenInUserBalance = true;
+    if (userBalance != null) {
+      for (final userTokensBalance in userBalance.token) {
+        if (getPoolListResponse.lpTokenAddress.toUpperCase() ==
+            userTokensBalance.address!.toUpperCase()) {
+          lpTokenInUserBalance = true;
+        }
       }
     }
 

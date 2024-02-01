@@ -69,6 +69,7 @@ class SwapFormSheet extends ConsumerWidget {
                         onPressed: () => ref
                             .read(SwapFormProvider.swapForm.notifier)
                             .validateForm(context),
+                        displayWalletConnect: true,
                       ),
                     ],
                   ),
