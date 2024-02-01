@@ -86,7 +86,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             if (success != null && success['address'] != null) {
               setPoolAddress(success['address']);
               await setTokenToSwapAmount(state.tokenToSwapAmount);
-              setTokenFormSelected(1);
               await getRatio();
               await getPool();
             } else {
@@ -332,7 +331,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             if (success != null && success['address'] != null) {
               setPoolAddress(success['address']);
               await setTokenSwappedAmount(state.tokenSwappedAmount);
-              setTokenFormSelected(2);
               await getRatio();
               await getPool();
             } else {
