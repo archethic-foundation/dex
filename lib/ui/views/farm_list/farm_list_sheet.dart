@@ -2,11 +2,14 @@ import 'dart:ui';
 
 import 'package:aedex/application/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
+import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/grid_view.dart';
+import 'package:aedex/ui/views/util/components/loading.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +35,12 @@ class FarmListSheet extends ConsumerWidget {
           top: 120,
           bottom: 100,
         ),
-        child: asyncFarms.maybeWhen(
-          orElse: SizedBox.shrink,
+        child: asyncFarms.when(
+          skipLoadingOnRefresh: true,
+          skipLoadingOnReload: true,
+          error: (error, stackTrace) =>
+              DexErrorMessage(failure: Failure.fromError(error)),
+          loading: Loading.new,
           data: (farms) => GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedSize(
               crossAxisExtent: 500,

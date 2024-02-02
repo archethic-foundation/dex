@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 class DEXAprValue {
-  Future<String> display(
+  String display(
     WidgetRef ref,
     String farmGenesisAddress,
     double remainingRewardInFiat,
@@ -15,7 +15,7 @@ class DEXAprValue {
     double lpTokenDeposited,
     int endDate,
     String poolAddress,
-  ) async {
+  ) {
     final lpTokenDepositedInFiatResult = ref.watch(
       DexFarmProviders.estimateLPTokenInFiat(
         token1,

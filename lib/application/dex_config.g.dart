@@ -7,12 +7,11 @@ part of 'dex_config.dart';
 // **************************************************************************
 
 String _$dexConfigRepositoryHash() =>
-    r'af0987a74aa7fa5a1f7c1febb0da296e475eee37';
+    r'7ef5122267e82dcc5ef7f9474d2184be24e3dfb9';
 
 /// See also [_dexConfigRepository].
 @ProviderFor(_dexConfigRepository)
-final _dexConfigRepositoryProvider =
-    AutoDisposeProvider<DexConfigRepository>.internal(
+final _dexConfigRepositoryProvider = Provider<DexConfigRepository>.internal(
   _dexConfigRepository,
   name: r'_dexConfigRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +21,6 @@ final _dexConfigRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _DexConfigRepositoryRef = AutoDisposeProviderRef<DexConfigRepository>;
+typedef _DexConfigRepositoryRef = ProviderRef<DexConfigRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

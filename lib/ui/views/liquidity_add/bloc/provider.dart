@@ -129,7 +129,7 @@ class LiquidityAddFormNotifier
 
   Future<void> setToken1AmountMax(WidgetRef ref) async {
     await setToken1Amount(state.token1Balance);
-    final feesUCO = await AddLiquidityCase().estimateFees(
+    await AddLiquidityCase().estimateFees(
       ref,
       state.pool!.poolAddress,
       state.token1!,
@@ -138,12 +138,11 @@ class LiquidityAddFormNotifier
       state.token2Amount,
       state.slippageTolerance,
     );
-    debugPrint('feesUCO: $feesUCO');
   }
 
   Future<void> setToken2AmountMax(WidgetRef ref) async {
     await setToken2Amount(state.token2Balance);
-    final feesUCO = await AddLiquidityCase().estimateFees(
+    await AddLiquidityCase().estimateFees(
       ref,
       state.pool!.poolAddress,
       state.token1!,
@@ -152,7 +151,6 @@ class LiquidityAddFormNotifier
       state.token2Amount,
       state.slippageTolerance,
     );
-    debugPrint('feesUCO: $feesUCO');
   }
 
   void setToken1AmountHalf() {

@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:aedex/domain/models/crypto_price.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,7 +25,6 @@ class _CoinPriceNotifier extends Notifier<CryptoPrice> {
     state = (await fetchPrices())!;
     _timer = Timer.periodic(const Duration(minutes: 1), (_) async {
       state = (await fetchPrices())!;
-      debugPrint('$state');
     });
   }
 
@@ -82,7 +80,6 @@ Future<double> _coinPriceFromSymbol(
   final coinPrice = ref.read(
     CoinPriceProviders.coinPrice,
   );
-  debugPrint('$coinPrice');
   switch (symbol) {
     case 'ETH':
     case 'aeETH':

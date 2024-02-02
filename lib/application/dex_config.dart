@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_config.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 DexConfigRepository _dexConfigRepository(
   _DexConfigRepositoryRef ref,
 ) =>

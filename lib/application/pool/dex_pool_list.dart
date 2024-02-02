@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 part of 'dex_pool.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<DexPool>> _getPoolList(
   _GetPoolListRef ref,
 ) async {

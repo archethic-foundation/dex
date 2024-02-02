@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'balance.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 BalanceRepository _balanceRepository(_BalanceRepositoryRef ref) =>
     BalanceRepositoryImpl();
 
@@ -16,18 +16,18 @@ Future<double> _getBalance(
   String address,
   String tokenAddress,
 ) async {
-  return ref.read(_balanceRepositoryProvider).getBalance(
+  return ref.watch(_balanceRepositoryProvider).getBalance(
         address,
         tokenAddress,
       );
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<Balance?> _getUserTokensBalance(
   _GetUserTokensBalanceRef ref,
 ) async {
-  final session = ref.read(SessionProviders.session);
-  return ref.read(_balanceRepositoryProvider).getUserTokensBalance(
+  final session = ref.watch(SessionProviders.session);
+  return ref.watch(_balanceRepositoryProvider).getUserTokensBalance(
         session.genesisAddress,
       );
 }

@@ -10,8 +10,10 @@ import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -28,22 +30,8 @@ Future<List<DexFarm>> _getFarmList(
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
   final apiService = sl.get<ApiService>();
-  var poolList = <DexPool>[];
 
-  final userBalance =
-      await ref.read(BalanceProviders.getUserTokensBalance.future);
-
-  final poolListResult =
-      await RouterFactory(dexConf.routerGenesisAddress, apiService).getPoolList(
-    userBalance,
-  );
-  await poolListResult.map(
-    success: (success) async {
-      poolList = success;
-    },
-    failure: (failure) {},
-  );
-
+  final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
   return ref
       .watch(_dexFarmsRepositoryProvider)
       .getFarmList(dexConf.routerGenesisAddress, apiService, ref, poolList);
@@ -56,29 +44,21 @@ Future<DexFarm?> _getFarmInfos(
   String poolAddress, {
   DexFarm? dexFarmInput,
 }) async {
-  final dexConf =
-      await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
-  final apiService = sl.get<ApiService>();
   final userBalance =
-      await ref.read(BalanceProviders.getUserTokensBalance.future);
+      await ref.watch(BalanceProviders.getUserTokensBalance.future);
+  if (userBalance == null) return null;
 
-  final poolListResult =
-      await RouterFactory(dexConf.routerGenesisAddress, apiService)
-          .getPoolList(userBalance);
-  DexPool? pool;
-  await poolListResult.map(
-    success: (success) async {
-      pool = success.singleWhere(
-        (poolSelect) =>
-            poolSelect.poolAddress.toUpperCase() == poolAddress.toUpperCase(),
-      );
-    },
-    failure: (failure) {},
+  final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
+
+  final pool = poolList.firstWhereOrNull(
+    (poolSelect) =>
+        poolSelect.poolAddress.toUpperCase() == poolAddress.toUpperCase(),
   );
+  if (pool == null) return null;
 
   final farmInfos = await ref.watch(_dexFarmsRepositoryProvider).getFarmInfos(
         farmGenesisAddress,
-        pool!,
+        pool,
         ref,
         dexFarmInput: dexFarmInput,
       );
@@ -157,21 +137,11 @@ class DexFarmsRepository {
     ApiService apiService,
     Ref ref,
     List<DexPool> poolList,
-  ) async {
-    final resultFarmList = await RouterFactory(
-      routerAddress,
-      apiService,
-    ).getFarmList(poolList);
-
-    return resultFarmList.map(
-      success: (farmList) async {
-        return farmList;
-      },
-      failure: (failure) {
-        return <DexFarm>[];
-      },
-    );
-  }
+  ) async =>
+      RouterFactory(
+        routerAddress,
+        apiService,
+      ).getFarmList(poolList).valueOrThrow;
 
   Future<DexFarm?> getFarmInfos(
     String farmGenesisAddress,

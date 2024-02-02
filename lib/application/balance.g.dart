@@ -6,12 +6,11 @@ part of 'balance.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$balanceRepositoryHash() => r'694ad0789c371d8ff21073c2834711009024d9ae';
+String _$balanceRepositoryHash() => r'50a858e6f9ddaa6aab974587bd97cd2f5c8d571d';
 
 /// See also [_balanceRepository].
 @ProviderFor(_balanceRepository)
-final _balanceRepositoryProvider =
-    AutoDisposeProvider<BalanceRepository>.internal(
+final _balanceRepositoryProvider = Provider<BalanceRepository>.internal(
   _balanceRepository,
   name: r'_balanceRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,8 +20,8 @@ final _balanceRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'3df2019d13d61850bd3da6f42576356eb0da2b3c';
+typedef _BalanceRepositoryRef = ProviderRef<BalanceRepository>;
+String _$getBalanceHash() => r'674952bdad70b137bd8f679e3499d6cea0cd64a4';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -189,12 +188,11 @@ class _GetBalanceProviderElement
 }
 
 String _$getUserTokensBalanceHash() =>
-    r'4ec44989213cbbcc4c14ba979138bede0b8e5175';
+    r'8a304ca5a9341e8fb587c1c2b78913b3d5f34a8b';
 
 /// See also [_getUserTokensBalance].
 @ProviderFor(_getUserTokensBalance)
-final _getUserTokensBalanceProvider =
-    AutoDisposeFutureProvider<Balance?>.internal(
+final _getUserTokensBalanceProvider = FutureProvider<Balance?>.internal(
   _getUserTokensBalance,
   name: r'_getUserTokensBalanceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -204,6 +202,6 @@ final _getUserTokensBalanceProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _GetUserTokensBalanceRef = AutoDisposeFutureProviderRef<Balance?>;
+typedef _GetUserTokensBalanceRef = FutureProviderRef<Balance?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

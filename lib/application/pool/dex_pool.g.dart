@@ -379,7 +379,7 @@ final _getPoolListFromCacheProvider =
 
 typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$putPoolListInfosToCacheHash() =>
-    r'82706195961df7375182bc612db0e071bcb88dce';
+    r'27cd679f0a48250a0cfdff498b8256c2989f61a1';
 
 /// See also [_putPoolListInfosToCache].
 @ProviderFor(_putPoolListInfosToCache)
@@ -1383,11 +1383,11 @@ class _PopulatePoolInfosWithTokenStats24hProviderElement
           .transactionChainResult;
 }
 
-String _$getPoolListHash() => r'4fee5d25b221f7e9cbeae7e454f52c5a18888c1d';
+String _$getPoolListHash() => r'1daa1e01352e4141d199744c7cfcd53fb4c35d6e';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)
-final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
+final _getPoolListProvider = FutureProvider<List<DexPool>>.internal(
   _getPoolList,
   name: r'_getPoolListProvider',
   debugGetCreateSourceHash:
@@ -1396,7 +1396,7 @@ final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _GetPoolListRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+typedef _GetPoolListRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForUserHash() =>
     r'8c01e382a405d079f8573241d7b7b9ca020a1b4c';
 
