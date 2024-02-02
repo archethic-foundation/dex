@@ -1,5 +1,4 @@
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
@@ -16,10 +15,8 @@ class PoolDetailsBack extends ConsumerWidget {
   const PoolDetailsBack({
     super.key,
     required this.pool,
-    required this.toggleCard,
   });
   final DexPool pool;
-  final VoidCallback toggleCard;
 
   @override
   Widget build(
@@ -95,36 +92,6 @@ class PoolDetailsBack extends ConsumerWidget {
                                 .fontSize!,
                           ),
                         ],
-                      ),
-                      InkWell(
-                        onTap: toggleCard,
-                        child: SizedBox(
-                          height: 40,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: DexThemeBase.backgroundPopupColor,
-                                width: 0.5,
-                              ),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            elevation: 0,
-                            color: DexThemeBase.backgroundPopupColor,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 5,
-                                bottom: 5,
-                                left: 10,
-                                right: 10,
-                              ),
-                              child: Icon(
-                                Icons.home,
-                                size: 16,
-                                color: ArchethicThemeBase.raspberry300,
-                              ),
-                            ),
-                          ),
-                        ),
                       ),
                     ],
                   ),

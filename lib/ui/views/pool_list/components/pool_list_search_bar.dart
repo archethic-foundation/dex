@@ -36,7 +36,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 2),
-      width: 250,
+      width: 300,
       height: 31,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
@@ -103,7 +103,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               ],
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Search by pool address',
+                hintText: 'Search by pool or token address',
                 contentPadding: const EdgeInsets.only(bottom: 15),
                 hintStyle: TextStyle(
                   fontFamily: DexThemeBase.mainFont,

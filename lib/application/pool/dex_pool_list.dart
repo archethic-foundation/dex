@@ -59,7 +59,9 @@ Future<List<DexPool>> _getPoolListForSearch(
   final poolList = await ref.read(_getPoolListProvider.future);
 
   for (final pool in poolList) {
-    if (pool.poolAddress.toUpperCase() == searchText.toUpperCase()) {
+    if (pool.poolAddress.toUpperCase() == searchText.toUpperCase() ||
+        pool.pair.token1.address!.toUpperCase() == searchText.toUpperCase() ||
+        pool.pair.token2.address!.toUpperCase() == searchText.toUpperCase()) {
       final poolWithInfos = await ref.read(
         DexPoolProviders.getPoolInfos(pool).future,
       );

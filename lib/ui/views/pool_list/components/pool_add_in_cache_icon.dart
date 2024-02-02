@@ -36,7 +36,7 @@ class PoolAddInCacheIcon extends ConsumerWidget {
                   );
                 },
                 child: Tooltip(
-                  message: 'Add this pool in my pools tab',
+                  message: 'Add this pool in my favorites tab',
                   child: SizedBox(
                     height: 40,
                     child: Card(

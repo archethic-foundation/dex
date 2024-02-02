@@ -4,12 +4,14 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_add_in_cache_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/grid_view.dart';
+import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +38,9 @@ class PoolListSheet extends ConsumerWidget {
       children: [
         Center(
           child: Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               top: 140,
-              bottom: 100,
+              bottom: Responsive.isDesktop(context) ? 0 : 80,
             ),
             child: asyncPools.when(
               skipLoadingOnRefresh: true,
@@ -95,8 +97,8 @@ class PoolListSheet extends ConsumerWidget {
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedSize(
                     crossAxisExtent: 500,
-                    mainAxisExtent: 510,
-                    crossAxisSpacing: 10,
+                    mainAxisExtent: 530,
+                    crossAxisSpacing: 20,
                     mainAxisSpacing: 10,
                   ),
                   padding: const EdgeInsets.only(
@@ -125,7 +127,7 @@ class PoolListSheet extends ConsumerWidget {
   }
 }
 
-class PoolListItem extends StatefulWidget {
+class PoolListItem extends ConsumerStatefulWidget {
   const PoolListItem({
     super.key,
     required this.pool,
@@ -134,54 +136,142 @@ class PoolListItem extends StatefulWidget {
   final DexPool pool;
 
   @override
-  State<PoolListItem> createState() => _PoolListItemState();
+  ConsumerState<PoolListItem> createState() => _PoolListItemState();
 }
 
-class _PoolListItemState extends State<PoolListItem> {
+class _PoolListItemState extends ConsumerState<PoolListItem> {
   final flipCardController = FlipCardController();
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: DexThemeBase.backgroundPopupColor,
-          width: 0.5,
+    final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: DexThemeBase.backgroundPopupColor,
+                width: 0.5,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            elevation: 0,
+            color: Colors.black.withOpacity(0.4),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FlipCard(
+                        controller: flipCardController,
+                        flipOnTouch: false,
+                        fill: Fill.fillBack,
+                        front: PoolDetailsFront(
+                          pool: widget.pool,
+                        ),
+                        back: PoolDetailsBack(
+                          pool: widget.pool,
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: DexArchethicOracleUco(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      elevation: 0,
-      color: Colors.black.withOpacity(0.4),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Column(
+        Positioned(
+          top: 5,
+          right: 20,
+          child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: FlipCard(
-                  controller: flipCardController,
-                  flipOnTouch: false,
-                  fill: Fill.fillBack,
-                  front: PoolDetailsFront(
-                    pool: widget.pool,
-                    toggleCard: flipCardController.toggleCard,
+              SizedBox(
+                height: 40,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: DexThemeBase.backgroundPopupColor,
+                      width: 0.5,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  back: PoolDetailsBack(
-                    pool: widget.pool,
-                    toggleCard: flipCardController.toggleCard,
+                  elevation: 0,
+                  color: ArchethicThemeBase.purple500,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 7,
+                      bottom: 5,
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: Text(
+                      'Pool',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: ArchethicThemeBase.raspberry300,
+                          ),
+                    ),
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: DexArchethicOracleUco(),
+              const SizedBox(
+                width: 5,
               ),
+              InkWell(
+                onTap: () async {
+                  await flipCardController.toggleCard();
+                  setState(() {});
+                },
+                child: SizedBox(
+                  height: 40,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: DexThemeBase.backgroundPopupColor,
+                        width: 0.5,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 0,
+                    color: DexThemeBase.backgroundPopupColor,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 10,
+                        right: 10,
+                      ),
+                      child: Icon(
+                        flipCardController.state != null &&
+                                flipCardController.state!.isFront == true
+                            ? Icons.home
+                            : Icons.info_outline,
+                        size: 16,
+                        color: ArchethicThemeBase.raspberry300,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              if (poolListForm.tabIndexSelected == PoolsListTab.searchPool)
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: PoolAddInCacheIcon(
+                    poolAddress: widget.pool.poolAddress,
+                  ),
+                ),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
