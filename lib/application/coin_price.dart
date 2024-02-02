@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:aedex/domain/models/crypto_price.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

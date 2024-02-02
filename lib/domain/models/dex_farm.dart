@@ -13,8 +13,8 @@ class DexFarm with _$DexFarm {
     @Default(0) double apr,
     DexToken? lpToken,
     DexPair? lpTokenPair,
-    @Default(0) int startDate, // FIXME : this should be a DaateTime
-    @Default(0) int endDate, // FIXME : this should be a DaateTime
+    @Default(0) int startDate, // FIXME : this should be a DateTime
+    @Default(0) int endDate, // FIXME : this should be a DateTime
     DexToken? rewardToken,
     @Default(0) double remainingReward,
     @Default(0) double remainingRewardInFiat,

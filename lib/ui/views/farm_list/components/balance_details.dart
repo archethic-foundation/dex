@@ -2,7 +2,6 @@ part of 'farm_details_front.dart';
 
 class _BalanceDetails extends ConsumerWidget {
   const _BalanceDetails({
-    super.key,
     required this.farm,
   });
 
