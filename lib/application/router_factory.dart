@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -8,6 +9,8 @@ import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
+import 'package:aedex/infrastructure/hive/dex_token.hive.dart';
+import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -74,10 +77,52 @@ class RouterFactory with ModelParser {
 
         final poolList = <DexPool>[];
 
+        final tokensListDatasource =
+            await HiveTokensListDatasource.getInstance();
+        final tokensAddresses = <String>[];
+        for (final result in results) {
+          final getPoolListResponse = GetPoolListResponse.fromJson(result);
+          final tokens = getPoolListResponse.tokens.split('/');
+          if (tokens[0] != 'UCO') {
+            if (tokensListDatasource.getToken(tokens[0]) == null) {
+              tokensAddresses.add(tokens[0]);
+            }
+          }
+          if (tokens[1] != 'UCO') {
+            if (tokensListDatasource.getToken(tokens[1]) == null) {
+              tokensAddresses.add(tokens[1]);
+            }
+          }
+          if (tokensListDatasource
+                  .getToken(getPoolListResponse.lpTokenAddress) ==
+              null) {
+            tokensAddresses.add(getPoolListResponse.lpTokenAddress);
+          }
+        }
+        final tokenResultMap = await sl.get<ApiService>().getToken(
+              tokensAddresses.toSet().toList(),
+              request: 'name, symbol',
+            );
+
+        for (final entry in tokenResultMap.entries) {
+          final address = entry.key.toUpperCase();
+          var tokenResult = tokenSDKToModel(entry.value, 0);
+
+          final tokenVerified =
+              await VerifiedTokensRepository().isVerifiedToken(address);
+
+          tokenResult =
+              tokenResult.copyWith(address: address, isVerified: tokenVerified);
+          await tokensListDatasource.setToken(tokenResult.toHive());
+        }
+
         for (final result in results) {
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
-            await poolListItemToModel(userBalance, getPoolListResponse),
+            await poolListItemToModel(
+              userBalance,
+              getPoolListResponse,
+            ),
           );
         }
 

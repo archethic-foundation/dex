@@ -1,7 +1,7 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/coin_price.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/farm_factory.dart';
-import 'package:aedex/application/market.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
@@ -198,7 +198,7 @@ class DexFarmsRepository {
               archethicOracleUCO.usd * dexFarm!.remainingReward;
         } else {
           final price = await ref.read(
-            MarketProviders.getPriceFromSymbol(dexFarm!.rewardToken!.symbol)
+            CoinPriceProviders.coinPriceFromSymbol(dexFarm!.rewardToken!.symbol)
                 .future,
           );
 

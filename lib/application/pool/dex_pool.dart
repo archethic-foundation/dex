@@ -1,6 +1,6 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/coin_price.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/market.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
@@ -111,4 +111,6 @@ abstract class DexPoolProviders {
   static final getPoolList = _getPoolListProvider;
   static const getPool = _getPoolProvider;
   static final getPoolListFromCache = _getPoolListFromCacheProvider;
+  static const populatePoolInfosWithTokenStats24h =
+      _populatePoolInfosWithTokenStats24hProvider;
 }

@@ -69,38 +69,8 @@ class TokenList extends ConsumerWidget {
         ],
       );
     }
-    final tokens = ref.watch(
-      DexTokensProviders.getTokenFromAddress(
-        tokenSelectionForm.searchText,
-        session.genesisAddress,
-      ),
-    );
-    return SizedBox(
-      child: tokens.map(
-        data: (data) {
-          return _TokensList(tokens: data.value);
-        },
-        error: (error) => const SizedBox(
-          height: 200,
-        ),
-        loading: (loading) => const Stack(
-          children: [
-            SizedBox(
-              height: 200,
-            ),
-            SizedBox(
-              height: 20,
-              width: 20,
-              child: Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 1,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+
+    return _TokensList(tokens: tokenSelectionForm.result!);
   }
 }
 

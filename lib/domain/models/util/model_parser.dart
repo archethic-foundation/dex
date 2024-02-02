@@ -1,4 +1,3 @@
-import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
@@ -7,6 +6,7 @@ import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
 import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
+import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 
@@ -38,14 +38,6 @@ mixin ModelParser {
     String poolAddress,
     GetPoolInfosResponse getPoolInfosResponse,
   ) async {
-    final adressesToSearch = <String>[getPoolInfosResponse.lpToken.address];
-    if (getPoolInfosResponse.token1.address != 'UCO') {
-      adressesToSearch.add(getPoolInfosResponse.token1.address);
-    }
-    if (getPoolInfosResponse.token2.address != 'UCO') {
-      adressesToSearch.add(getPoolInfosResponse.token2.address);
-    }
-
     var ratioToken1Token2 = 0.0;
     var ratioToken2Token1 = 0.0;
     if (getPoolInfosResponse.token1.reserve > 0 &&
@@ -94,29 +86,22 @@ mixin ModelParser {
     GetPoolListResponse getPoolListResponse,
   ) async {
     final tokens = getPoolListResponse.tokens.split('/');
+    final tokensListDatasource = await HiveTokensListDatasource.getInstance();
 
-    final adressesToSearch = <String>[getPoolListResponse.lpTokenAddress];
-    if (tokens[0] != 'UCO') {
-      adressesToSearch.add(tokens[0]);
-    }
-    if (tokens[1] != 'UCO') {
-      adressesToSearch.add(tokens[1]);
-    }
-
-    // TODO(reddwarf03): Check cache
-
-    final tokenResultMap =
-        await sl.get<archethic.ApiService>().getToken(adressesToSearch);
     var token1Name = '';
     var token1Symbol = '';
-
+    var token1Verified = false;
+    var token2Verified = false;
     if (tokens[0] == 'UCO') {
       token1Name = 'Universal Coin';
       token1Symbol = 'UCO';
+      token1Verified = true;
     } else {
-      if (tokenResultMap[tokens[0]] != null) {
-        token1Name = tokenResultMap[tokens[0]]!.name!;
-        token1Symbol = tokenResultMap[tokens[0]]!.symbol!;
+      final token1 = tokensListDatasource.getToken(tokens[0]);
+      if (token1 != null) {
+        token1Name = token1.name;
+        token1Symbol = token1.symbol;
+        token1Verified = token1.verified;
       }
     }
 
@@ -125,25 +110,24 @@ mixin ModelParser {
     if (tokens[1] == 'UCO') {
       token2Name = 'Universal Coin';
       token2Symbol = 'UCO';
+      token2Verified = true;
     } else {
-      if (tokenResultMap[tokens[1]] != null) {
-        token2Name = tokenResultMap[tokens[1]]!.name!;
-        token2Symbol = tokenResultMap[tokens[1]]!.symbol!;
+      final token2 = tokensListDatasource.getToken(tokens[1]);
+      if (token2 != null) {
+        token2Name = token2.name;
+        token2Symbol = token2.symbol;
+        token2Verified = token2.verified;
       }
     }
 
     var lpTokenName = '';
     var lpTokenSymbol = '';
-    if (tokenResultMap[getPoolListResponse.lpTokenAddress] != null) {
-      lpTokenName = tokenResultMap[getPoolListResponse.lpTokenAddress]!.name!;
-      lpTokenSymbol =
-          tokenResultMap[getPoolListResponse.lpTokenAddress]!.symbol!;
+    final lpToken =
+        tokensListDatasource.getToken(getPoolListResponse.lpTokenAddress);
+    if (lpToken != null) {
+      lpTokenName = lpToken.name;
+      lpTokenSymbol = lpToken.symbol;
     }
-
-    final token1Verified = await VerifiedTokensRepository()
-        .isVerifiedToken(tokens[0].toUpperCase());
-    final token2Verified = await VerifiedTokensRepository()
-        .isVerifiedToken(tokens[1].toUpperCase());
 
     var lpTokenInUserBalance = false;
     if (userBalance != null) {
@@ -170,16 +154,14 @@ mixin ModelParser {
       ),
     );
 
-    final lpToken = DexToken(
-      address: getPoolListResponse.lpTokenAddress.toUpperCase(),
-      name: lpTokenName,
-      symbol: lpTokenSymbol,
-    );
-
     return DexPool(
       poolAddress: getPoolListResponse.address,
       pair: dexPair,
-      lpToken: lpToken,
+      lpToken: DexToken(
+        address: getPoolListResponse.lpTokenAddress.toUpperCase(),
+        name: lpTokenName,
+        symbol: lpTokenSymbol,
+      ),
       lpTokenInUserBalance: lpTokenInUserBalance,
     );
   }

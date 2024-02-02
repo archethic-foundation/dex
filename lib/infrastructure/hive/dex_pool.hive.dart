@@ -64,6 +64,10 @@ class DexPoolInfosHive extends HiveObject {
     required this.token1TotalVolume,
     required this.token2TotalFee,
     required this.token2TotalVolume,
+    required this.token1TotalVolume24h,
+    required this.token2TotalVolume24h,
+    required this.token1TotalFee24h,
+    required this.token2TotalFee24h,
   });
 
   @HiveField(1)
@@ -93,6 +97,18 @@ class DexPoolInfosHive extends HiveObject {
   @HiveField(9)
   double protocolFees;
 
+  @HiveField(10)
+  double? token1TotalVolume24h;
+
+  @HiveField(11)
+  double? token2TotalVolume24h;
+
+  @HiveField(12)
+  double? token1TotalFee24h;
+
+  @HiveField(13)
+  double? token2TotalFee24h;
+
   DexPoolInfos toModel() => DexPoolInfos(
         fees: fees,
         protocolFees: protocolFees,
@@ -102,6 +118,10 @@ class DexPoolInfosHive extends HiveObject {
         token1TotalVolume: token1TotalVolume ?? 0,
         token2TotalFee: token2TotalFee ?? 0,
         token2TotalVolume: token2TotalVolume ?? 0,
+        token1TotalFee24h: token1TotalFee24h ?? 0,
+        token1TotalVolume24h: token1TotalVolume24h ?? 0,
+        token2TotalFee24h: token2TotalFee24h ?? 0,
+        token2TotalVolume24h: token2TotalVolume24h ?? 0,
       );
 }
 
@@ -115,6 +135,10 @@ extension DexPoolInfosHiveConversionExt on DexPoolInfos {
         token1TotalVolume: token1TotalVolume,
         token2TotalFee: token2TotalFee,
         token2TotalVolume: token2TotalVolume,
+        token1TotalFee24h: token1TotalFee24h,
+        token1TotalVolume24h: token1TotalVolume24h,
+        token2TotalFee24h: token2TotalFee24h,
+        token2TotalVolume24h: token2TotalVolume24h,
       );
 }
 
