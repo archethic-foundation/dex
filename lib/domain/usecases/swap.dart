@@ -141,7 +141,7 @@ class SwapCase with TransactionDexMixin {
       unawaited(refreshCurrentAccountInfoWallet());
     } catch (e) {
       sl.get<LogManager>().log(
-            'TransactionSwap sendTx failed $e',
+            'TransactionSwap sendTx failed $e ($transactionSwap)',
             level: LogLevel.error,
             name: 'TransactionDexMixin - sendTransactions',
           );

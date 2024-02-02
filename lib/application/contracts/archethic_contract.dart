@@ -420,7 +420,10 @@ class ArchethicContract with TransactionDexMixin {
         (await apiService.getBlockchainVersion()).version.transaction,
       );
 
-      final minToReceive = outputAmount * ((100 - slippage) / 100);
+      final minToReceive = (Decimal.parse(outputAmount.toString()) *
+              (Decimal.parse('100') - Decimal.parse(slippage.toString())) /
+              Decimal.parse('100'))
+          .toDouble();
 
       final transactionSwap = archethic.Transaction(
         type: 'transfer',
