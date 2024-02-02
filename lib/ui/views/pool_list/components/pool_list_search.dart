@@ -62,7 +62,6 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
                 'Verified pools',
                 'My pools',
                 'Favorites',
-                'All',
                 'Results',
               ],
               selectedLabelIndex: (index) {
