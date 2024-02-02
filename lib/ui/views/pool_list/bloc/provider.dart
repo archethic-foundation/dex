@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
-enum PoolsListTab { verified, myPools, favoritePools, allPools, searchPool }
+enum PoolsListTab { verified, myPools, favoritePools, searchPool }
 
 @riverpod
 Future<List<DexPool>> _poolsToDisplay(
@@ -17,8 +17,6 @@ Future<List<DexPool>> _poolsToDisplay(
 ) async {
   Future<List<DexPool>> getDexPoolForTab(PoolsListTab currentTab) {
     switch (currentTab) {
-      case PoolsListTab.allPools:
-        return ref.watch(DexPoolProviders.getPoolList.future);
       case PoolsListTab.favoritePools:
         return ref.watch(DexPoolProviders.favoritePools.future);
       case PoolsListTab.verified:
