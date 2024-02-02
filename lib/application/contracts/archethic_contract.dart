@@ -152,25 +152,6 @@ class ArchethicContract with TransactionDexMixin {
   ) async {
     return Result.guard(() async {
       final apiService = sl.get<archethic.ApiService>();
-      final tokensAmmountMult =
-          Decimal.parse('$token1Amount') * Decimal.parse('$token2Amount');
-
-      // TODO(reddwarf03): A quoi ça sert ici ?
-      // ignore: unused_local_variable
-      var expectedTokenLP = sqrt(tokensAmmountMult.toDouble());
-      final expectedTokenLPResult = await PoolFactory(
-        poolGenesisAddress,
-        apiService,
-      ).getLPTokenToMint(token1Amount, token2Amount);
-      expectedTokenLPResult.map(
-        success: (success) {
-          if (success != null) {
-            expectedTokenLP = success;
-          }
-        },
-        failure: (failure) {},
-      );
-
       final poolInfos = await PoolFactory(
         poolGenesisAddress,
         apiService,

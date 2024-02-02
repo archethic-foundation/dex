@@ -521,7 +521,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
   bool control(BuildContext context) {
     setFailure(null);
-
     if (kIsWeb &&
         (BrowserUtil().isEdgeBrowser() ||
             BrowserUtil().isInternetExplorerBrowser())) {

@@ -88,8 +88,8 @@ class TokenSelectionSearchBarState
                               ),
                               autocorrect: false,
                               controller: searchController,
-                              onChanged: (text) {
-                                ref
+                              onChanged: (text) async {
+                                await ref
                                     .read(
                                       TokenSelectionFormProvider
                                           .tokenSelectionForm.notifier,

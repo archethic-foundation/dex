@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aedex/application/coin_price.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
@@ -63,7 +64,6 @@ class _MyAppState extends ConsumerState<MyApp> {
           .read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier)
           .init();
       await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
-
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {
         await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
@@ -79,6 +79,8 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    ref.read(CoinPriceProviders.coinPrice.notifier).init();
+
     // GoRouter configuration
     final _router = GoRouter(
       routes: RoutesPath().aeDexRoutes(ref),

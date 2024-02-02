@@ -9,6 +9,7 @@ class PoolListFormState with _$PoolListFormState {
   const factory PoolListFormState({
     @Default(PoolsListTab.verified) PoolsListTab tabIndexSelected,
     @Default('') String searchText,
+    @Default(false) isLoading,
   }) = _PoolListFormState;
   const PoolListFormState._();
 }

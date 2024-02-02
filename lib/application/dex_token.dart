@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
+import 'package:aedex/infrastructure/hive/dex_token.hive.dart';
+import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
 import 'package:aedex/util/endpoint_util.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -22,9 +24,7 @@ Future<List<DexToken>> _getTokenFromAddress(
   address,
   accountAddress,
 ) async {
-  return ref
-      .watch(_dexTokensRepositoryProvider)
-      .getTokenFromAddress(address, accountAddress);
+  return ref.watch(_dexTokensRepositoryProvider).getTokenFromAddress(address);
 }
 
 @riverpod
@@ -48,33 +48,29 @@ Future<String?> _getTokenIcon(
 class DexTokensRepository with ModelParser {
   Future<List<DexToken>> getTokenFromAddress(
     String address,
-    String accountAddress,
   ) async {
-    final tokenMap = await sl.get<ApiService>().getToken(
-      [address],
-      request: 'name, id, supply, symbol, type',
-    );
-    if (tokenMap[address] == null) {
+    DexToken? token;
+    final tokensListDatasource = await HiveTokensListDatasource.getInstance();
+    final tokenHive = tokensListDatasource.getToken(address);
+    if (tokenHive == null) {
+      final tokenMap = await sl.get<ApiService>().getToken(
+        [address],
+        request: 'name, symbol',
+      );
+      if (tokenMap[address] != null) {
+        token = tokenSDKToModel(tokenMap[address]!, 0);
+        token = token.copyWith(address: address);
+        await tokensListDatasource.setToken(token.toHive());
+      }
+    } else {
+      token = tokenHive.toModel();
+    }
+
+    if (token == null) {
       return [];
     }
 
-    var token = tokenMap[address];
-    token = token!.copyWith(address: address);
-
-    final balanceMap =
-        await sl.get<ApiService>().fetchBalance([accountAddress]);
-    final balance = balanceMap[accountAddress];
-    var balanceAmount = 0.0;
-    if (balance != null) {
-      for (final tokenBalance in balance.token) {
-        if (tokenBalance.address!.toUpperCase() == address.toUpperCase()) {
-          balanceAmount = fromBigInt(tokenBalance.amount).toDouble();
-          break;
-        }
-      }
-    }
-    final dexToken = tokenSDKToModel(token, balanceAmount);
-    return <DexToken>[dexToken];
+    return <DexToken>[token];
   }
 
   Future<List<DexToken>> getTokensFromAccount(
@@ -101,7 +97,7 @@ class DexTokensRepository with ModelParser {
 
     final tokenMap = await sl.get<ApiService>().getToken(
           tokenAddressList,
-          request: 'name, id, supply, symbol, type, properties',
+          request: 'name, symbol, properties',
         );
 
     for (final entry in tokenMap.entries) {

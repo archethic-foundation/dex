@@ -56,9 +56,31 @@ Future<void> _putPoolListInfosToCache(
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
 
   final poolList = await ref.read(_getPoolListForUserProvider.future);
+  final tx24hAddress = <String, String>{};
   for (final pool in poolList) {
-    final poolWithInfos = await ref.read(
+    tx24hAddress[pool.poolAddress] = '';
+  }
+
+  final fromCriteria =
+      (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
+              1000)
+          .round();
+  final transactionChainResult = await sl.get<ApiService>().getTransactionChain(
+        tx24hAddress,
+        request:
+            ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
+        fromCriteria: fromCriteria,
+      );
+
+  for (final pool in poolList) {
+    var poolWithInfos = await ref.read(
       DexPoolProviders.getPoolInfos(pool).future,
+    );
+    poolWithInfos = ref.read(
+      DexPoolProviders.populatePoolInfosWithTokenStats24h(
+        poolWithInfos!,
+        transactionChainResult,
+      ),
     );
 
     await poolsListDatasource.setPool(poolWithInfos!.toHive());
@@ -92,6 +114,27 @@ Future<void> _putPoolToCache(
         element.poolAddress.toUpperCase() == poolGenesisAddress.toUpperCase(),
     orElse: () => throw const Failure.poolNotExists(),
   );
-  await poolsListDatasource.setPool(pool.toHive());
+
+  final fromCriteria =
+      (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
+              1000)
+          .round();
+  final transactionChainResult = await sl.get<ApiService>().getTransactionChain(
+    {pool.poolAddress: ''},
+    request:
+        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
+    fromCriteria: fromCriteria,
+  );
+  var poolWithInfos = await ref.read(
+    DexPoolProviders.getPoolInfos(pool).future,
+  );
+  poolWithInfos = ref.read(
+    DexPoolProviders.populatePoolInfosWithTokenStats24h(
+      poolWithInfos!,
+      transactionChainResult,
+    ),
+  );
+
+  await poolsListDatasource.setPool(poolWithInfos!.toHive());
   ref.invalidate(_getPoolListFromCacheProvider);
 }

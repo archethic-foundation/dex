@@ -30,6 +30,10 @@ class DexPoolInfos with _$DexPoolInfos {
     required double token1TotalVolume,
     required double token2TotalFee,
     required double token2TotalVolume,
+    double? token1TotalVolume24h,
+    double? token2TotalVolume24h,
+    double? token1TotalFee24h,
+    double? token2TotalFee24h,
   }) = _DexPoolInfos;
   const DexPoolInfos._();
 }

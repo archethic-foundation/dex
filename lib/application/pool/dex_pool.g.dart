@@ -379,7 +379,7 @@ final _getPoolListFromCacheProvider =
 
 typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$putPoolListInfosToCacheHash() =>
-    r'4016b4dbec265b278ad706f82c4c9bb9b02ad75f';
+    r'82706195961df7375182bc612db0e071bcb88dce';
 
 /// See also [_putPoolListInfosToCache].
 @ProviderFor(_putPoolListInfosToCache)
@@ -523,7 +523,7 @@ class _UpdatePoolInCacheProviderElement
   DexPool get pool => (origin as _UpdatePoolInCacheProvider).pool;
 }
 
-String _$putPoolToCacheHash() => r'204e41089c1f3619612199c39767d7013b31c011';
+String _$putPoolToCacheHash() => r'7540c62c1a9fea22ef3de3f78943b8d38f7f5833';
 
 /// See also [_putPoolToCache].
 @ProviderFor(_putPoolToCache)
@@ -799,7 +799,7 @@ class _GetRatioProviderElement extends AutoDisposeFutureProviderElement<double>
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'9a71209573d9ea2867e12de00d6309c7a4165fa9';
+    r'a02b2760eefc28465cbf92aa776483f7a56060e6';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)
@@ -1064,7 +1064,7 @@ class _EstimatePoolTVLandAPRInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLandAPRInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'b96d4b1bdae0ca6d2bec4affebab3051ad064d70';
+String _$estimateStatsHash() => r'd040588ef69c528a36874e181d0e3d15a2ec788b';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -1230,7 +1230,160 @@ class _EstimateStatsProviderElement extends AutoDisposeFutureProviderElement<
   DexPool get pool => (origin as _EstimateStatsProvider).pool;
 }
 
-String _$getPoolListHash() => r'458b882441a4741e96c8783fd00daed48a169f22';
+String _$populatePoolInfosWithTokenStats24hHash() =>
+    r'c7a18f0e4649033f533bd61c8d7c638f6067e1e8';
+
+/// See also [_populatePoolInfosWithTokenStats24h].
+@ProviderFor(_populatePoolInfosWithTokenStats24h)
+const _populatePoolInfosWithTokenStats24hProvider =
+    _PopulatePoolInfosWithTokenStats24hFamily();
+
+/// See also [_populatePoolInfosWithTokenStats24h].
+class _PopulatePoolInfosWithTokenStats24hFamily extends Family<DexPool> {
+  /// See also [_populatePoolInfosWithTokenStats24h].
+  const _PopulatePoolInfosWithTokenStats24hFamily();
+
+  /// See also [_populatePoolInfosWithTokenStats24h].
+  _PopulatePoolInfosWithTokenStats24hProvider call(
+    DexPool pool,
+    Map<String, List<Transaction>> transactionChainResult,
+  ) {
+    return _PopulatePoolInfosWithTokenStats24hProvider(
+      pool,
+      transactionChainResult,
+    );
+  }
+
+  @override
+  _PopulatePoolInfosWithTokenStats24hProvider getProviderOverride(
+    covariant _PopulatePoolInfosWithTokenStats24hProvider provider,
+  ) {
+    return call(
+      provider.pool,
+      provider.transactionChainResult,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_populatePoolInfosWithTokenStats24hProvider';
+}
+
+/// See also [_populatePoolInfosWithTokenStats24h].
+class _PopulatePoolInfosWithTokenStats24hProvider
+    extends AutoDisposeProvider<DexPool> {
+  /// See also [_populatePoolInfosWithTokenStats24h].
+  _PopulatePoolInfosWithTokenStats24hProvider(
+    DexPool pool,
+    Map<String, List<Transaction>> transactionChainResult,
+  ) : this._internal(
+          (ref) => _populatePoolInfosWithTokenStats24h(
+            ref as _PopulatePoolInfosWithTokenStats24hRef,
+            pool,
+            transactionChainResult,
+          ),
+          from: _populatePoolInfosWithTokenStats24hProvider,
+          name: r'_populatePoolInfosWithTokenStats24hProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$populatePoolInfosWithTokenStats24hHash,
+          dependencies: _PopulatePoolInfosWithTokenStats24hFamily._dependencies,
+          allTransitiveDependencies: _PopulatePoolInfosWithTokenStats24hFamily
+              ._allTransitiveDependencies,
+          pool: pool,
+          transactionChainResult: transactionChainResult,
+        );
+
+  _PopulatePoolInfosWithTokenStats24hProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.pool,
+    required this.transactionChainResult,
+  }) : super.internal();
+
+  final DexPool pool;
+  final Map<String, List<Transaction>> transactionChainResult;
+
+  @override
+  Override overrideWith(
+    DexPool Function(_PopulatePoolInfosWithTokenStats24hRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _PopulatePoolInfosWithTokenStats24hProvider._internal(
+        (ref) => create(ref as _PopulatePoolInfosWithTokenStats24hRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        pool: pool,
+        transactionChainResult: transactionChainResult,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<DexPool> createElement() {
+    return _PopulatePoolInfosWithTokenStats24hProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _PopulatePoolInfosWithTokenStats24hProvider &&
+        other.pool == pool &&
+        other.transactionChainResult == transactionChainResult;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, pool.hashCode);
+    hash = _SystemHash.combine(hash, transactionChainResult.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _PopulatePoolInfosWithTokenStats24hRef
+    on AutoDisposeProviderRef<DexPool> {
+  /// The parameter `pool` of this provider.
+  DexPool get pool;
+
+  /// The parameter `transactionChainResult` of this provider.
+  Map<String, List<Transaction>> get transactionChainResult;
+}
+
+class _PopulatePoolInfosWithTokenStats24hProviderElement
+    extends AutoDisposeProviderElement<DexPool>
+    with _PopulatePoolInfosWithTokenStats24hRef {
+  _PopulatePoolInfosWithTokenStats24hProviderElement(super.provider);
+
+  @override
+  DexPool get pool =>
+      (origin as _PopulatePoolInfosWithTokenStats24hProvider).pool;
+  @override
+  Map<String, List<Transaction>> get transactionChainResult =>
+      (origin as _PopulatePoolInfosWithTokenStats24hProvider)
+          .transactionChainResult;
+}
+
+String _$getPoolListHash() => r'4fee5d25b221f7e9cbeae7e454f52c5a18888c1d';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)

@@ -1,4 +1,4 @@
-import 'package:aedex/application/market.dart';
+import 'package:aedex/application/coin_price.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,8 +19,23 @@ class FiatValue {
       final fiatValue = archethicOracleUCO.usd * amount;
       return '(\$${fiatValue.formatNumber(precision: precision)})';
     } else {
-      final price =
-          await ref.watch(MarketProviders.getPriceFromSymbol(symbol).future);
+      final prices = ref.watch(CoinPriceProviders.coinPrice);
+      var price = 0.0;
+
+      switch (symbol) {
+        case 'ETH':
+        case 'aeETH':
+          price = price = prices.ethereum;
+          break;
+        case 'BNB':
+        case 'aeBNB':
+          price = price = prices.bsc;
+          break;
+        case 'MATIC':
+        case 'aeMATIC':
+          price = price = prices.polygon;
+          break;
+      }
       if (price == 0) {
         if (withParenthesis) {
           return r'($--)';

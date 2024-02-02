@@ -17,9 +17,9 @@ class TokenSelectionFormNotifier
   @override
   TokenSelectionFormState build() => const TokenSelectionFormState();
 
-  void setSearchText(
+  Future<void> setSearchText(
     String searchText,
-  ) {
+  ) async {
     state = state.copyWith(
       searchText: searchText,
       result: [],
@@ -27,21 +27,17 @@ class TokenSelectionFormNotifier
 
     if (state.isAddress) {
       final session = ref.read(SessionProviders.session);
-      final token = ref
-          .read(
-            DexTokensProviders.getTokenFromAddress(
-              searchText,
-              session.genesisAddress,
-            ),
-          )
-          .valueOrNull;
-      if (token != null) {
-        state = state.copyWith(
-          result: token,
-        );
-      }
+      final token = await ref.read(
+        DexTokensProviders.getTokenFromAddress(
+          searchText,
+          session.genesisAddress,
+        ).future,
+      );
+
+      state = state.copyWith(
+        result: token,
+      );
     }
-    return;
   }
 }
 

@@ -39,7 +39,7 @@ Future<double> _estimateTokenInFiat(
     fiatValue = archethicOracleUCO.usd;
   } else {
     final price = await ref
-        .watch(MarketProviders.getPriceFromSymbol(token.symbol).future);
+        .watch(CoinPriceProviders.coinPriceFromSymbol(token.symbol).future);
 
     fiatValue = price;
   }
@@ -92,26 +92,11 @@ Future<
       double volume24h,
       double fee24h,
       double volumeAllTime,
-      double feeAllTime
+      double feeAllTime,
     })> _estimateStats(
   _EstimateStatsRef ref,
   DexPool pool,
 ) async {
-  final apiService = sl.get<ApiService>();
-  final fromCriteria = (DateTime.now()
-              .subtract(
-                const Duration(days: 1),
-              )
-              .millisecondsSinceEpoch /
-          1000)
-      .round();
-  final transactionChainResult = await apiService.getTransactionChain(
-    {pool.poolAddress: ''},
-    request:
-        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
-    fromCriteria: fromCriteria,
-  );
-
   var volume24h = 0.0;
   var fee24h = 0.0;
   var volumeAllTime = 0.0;
@@ -119,11 +104,6 @@ Future<
 
   var priceToken1 = 0.0;
   var priceToken2 = 0.0;
-
-  var token1TotalVolume24h = 0.0;
-  var token2TotalVolume24h = 0.0;
-  var token1TotalFee24h = 0.0;
-  var token2TotalFee24h = 0.0;
 
   var token1TotalVolumeCurrentFiat = 0.0;
   var token2TotalVolumeCurrentFiat = 0.0;
@@ -135,81 +115,35 @@ Future<
   var token1TotalFee24hFiat = 0.0;
   var token2TotalFee24hFiat = 0.0;
 
-  if (transactionChainResult[pool.poolAddress] != null &&
-      transactionChainResult[pool.poolAddress]!.isNotEmpty) {
-    final transaction = transactionChainResult[pool.poolAddress]!.first;
-    if (transaction.validationStamp != null &&
-        transaction.validationStamp!.ledgerOperations != null &&
-        transaction
-            .validationStamp!.ledgerOperations!.unspentOutputs.isNotEmpty) {
-      for (final unspentOutput
-          in transaction.validationStamp!.ledgerOperations!.unspentOutputs) {
-        if (unspentOutput.state != null) {
-          final state = unspentOutput.state;
-          token1TotalVolume24h = state!['stats'] == null ||
-                  state['stats']['token1_total_volume'] == null
-              ? 0
-              : Decimal.parse(state['stats']['token1_total_volume'].toString())
-                  .toDouble();
-          token2TotalVolume24h = state['stats'] == null ||
-                  state['stats']['token2_total_volume'] == null
-              ? 0
-              : Decimal.parse(state['stats']['token2_total_volume'].toString())
-                  .toDouble();
-          token1TotalFee24h = state['stats'] == null ||
-                  state['stats']['token1_total_fee'] == null
-              ? 0
-              : Decimal.parse(state['stats']['token1_total_fee'].toString())
-                  .toDouble();
-          token2TotalFee24h = state['stats'] == null ||
-                  state['stats']['token2_total_fee'] == null
-              ? 0
-              : Decimal.parse(state['stats']['token2_total_fee'].toString())
-                  .toDouble();
-        }
-      }
-    }
-  }
-
   final archethicOracleUCO =
       ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
 
   if (pool.pair.token1.symbol == 'UCO') {
     priceToken1 = archethicOracleUCO.usd;
   } else {
-    priceToken1 = await ref.read(
-      MarketProviders.getPriceFromSymbol(pool.pair.token1.symbol).future,
+    priceToken1 = await ref.watch(
+      CoinPriceProviders.coinPriceFromSymbol(pool.pair.token1.symbol).future,
     );
   }
 
   if (pool.pair.token2.symbol == 'UCO') {
     priceToken2 = archethicOracleUCO.usd;
   } else {
-    priceToken2 = await ref.read(
-      MarketProviders.getPriceFromSymbol(pool.pair.token2.symbol).future,
+    priceToken2 = await ref.watch(
+      CoinPriceProviders.coinPriceFromSymbol(pool.pair.token2.symbol).future,
     );
   }
 
   if (priceToken1 == 0 && priceToken2 > 0) {
-    final ratio = await ref.read(
-      DexPoolProviders.getRatio(
-        pool.poolAddress,
-        pool.pair.token1,
-      ).future,
-    );
-
-    priceToken1 = ratio * priceToken2;
+    priceToken1 = (Decimal.parse('${pool.infos!.ratioToken1Token2}') *
+            Decimal.parse('$priceToken2'))
+        .toDouble();
   }
 
   if (priceToken2 == 0 && priceToken1 > 0) {
-    final ratio = await ref.read(
-      DexPoolProviders.getRatio(
-        pool.poolAddress,
-        pool.pair.token2,
-      ).future,
-    );
-
-    priceToken2 = ratio * priceToken1;
+    priceToken2 = (Decimal.parse('${pool.infos!.ratioToken2Token1}') *
+            Decimal.parse('$priceToken1'))
+        .toDouble();
   }
 
   final poolDetails = pool.infos;
@@ -219,13 +153,15 @@ Future<
 
     token1TotalFeeCurrentFiat = priceToken1 * poolDetails.token1TotalFee;
     token2TotalFeeCurrentFiat = priceToken2 * poolDetails.token2TotalFee;
+
+    token1TotalVolume24hFiat =
+        priceToken1 * (poolDetails.token1TotalVolume24h ?? 0);
+    token2TotalVolume24hFiat =
+        priceToken2 * (poolDetails.token2TotalVolume24h ?? 0);
+
+    token1TotalFee24hFiat = priceToken1 * (poolDetails.token1TotalFee24h ?? 0);
+    token2TotalFee24hFiat = priceToken2 * (poolDetails.token2TotalFee24h ?? 0);
   }
-
-  token1TotalVolume24hFiat = priceToken1 * token1TotalVolume24h;
-  token2TotalVolume24hFiat = priceToken2 * token2TotalVolume24h;
-
-  token1TotalFee24hFiat = priceToken1 * token1TotalFee24h;
-  token2TotalFee24hFiat = priceToken2 * token2TotalFee24h;
 
   volumeAllTime = token1TotalVolumeCurrentFiat + token2TotalVolumeCurrentFiat;
 
@@ -242,4 +178,62 @@ Future<
     volumeAllTime: volumeAllTime,
     feeAllTime: feeAllTime
   );
+}
+
+@riverpod
+DexPool _populatePoolInfosWithTokenStats24h(
+  _PopulatePoolInfosWithTokenStats24hRef ref,
+  DexPool pool,
+  Map<String, List<Transaction>> transactionChainResult,
+) {
+  var token1TotalVolume24h = 0.0;
+  var token2TotalVolume24h = 0.0;
+  var token1TotalFee24h = 0.0;
+  var token2TotalFee24h = 0.0;
+  if (transactionChainResult[pool.poolAddress] != null &&
+      transactionChainResult[pool.poolAddress]!.isNotEmpty) {
+    final transaction = transactionChainResult[pool.poolAddress]!.first;
+    if (transaction.validationStamp != null &&
+        transaction.validationStamp!.ledgerOperations != null &&
+        transaction
+            .validationStamp!.ledgerOperations!.unspentOutputs.isNotEmpty) {
+      for (final unspentOutput
+          in transaction.validationStamp!.ledgerOperations!.unspentOutputs) {
+        if (unspentOutput.state != null) {
+          final state = unspentOutput.state;
+          token1TotalVolume24h = state!['stats'] == null ||
+                  state['stats']['token1_total_volume'] == null
+              ? 0
+              : Decimal.parse(
+                  state['stats']['token1_total_volume'].toString(),
+                ).toDouble();
+          token2TotalVolume24h = state['stats'] == null ||
+                  state['stats']['token2_total_volume'] == null
+              ? 0
+              : Decimal.parse(
+                  state['stats']['token2_total_volume'].toString(),
+                ).toDouble();
+          token1TotalFee24h = state['stats'] == null ||
+                  state['stats']['token1_total_fee'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token1_total_fee'].toString())
+                  .toDouble();
+          token2TotalFee24h = state['stats'] == null ||
+                  state['stats']['token2_total_fee'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token2_total_fee'].toString())
+                  .toDouble();
+        }
+      }
+    }
+  }
+
+  var poolInfos = pool.infos!;
+  poolInfos = poolInfos.copyWith(
+    token1TotalVolume24h: token1TotalVolume24h,
+    token2TotalVolume24h: token2TotalVolume24h,
+    token1TotalFee24h: token1TotalFee24h,
+    token2TotalFee24h: token2TotalFee24h,
+  );
+  return pool.copyWith(infos: poolInfos);
 }

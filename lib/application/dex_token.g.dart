@@ -24,7 +24,7 @@ final _dexTokensRepositoryProvider =
 
 typedef _DexTokensRepositoryRef = AutoDisposeProviderRef<DexTokensRepository>;
 String _$getTokenFromAddressHash() =>
-    r'68bf216bd4ad98c4729a6b9f7e52313e2b66c28d';
+    r'989e930de7c534599970029d9f7c74b3459f5e81';
 
 /// Copied from Dart SDK
 class _SystemHash {

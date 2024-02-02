@@ -66,3 +66,16 @@ class DexTokenHive extends HiveObject {
     );
   }
 }
+
+extension DexTokenHiveConversionExt on DexToken {
+  DexTokenHive toHive() => DexTokenHive(
+        address: address,
+        balance: balance,
+        icon: icon,
+        name: name,
+        reserve: reserve,
+        supply: supply,
+        symbol: symbol,
+        verified: isVerified,
+      );
+}
