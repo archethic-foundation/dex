@@ -379,11 +379,7 @@ final _getPoolListFromCacheProvider =
 
 typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$putPoolListInfosToCacheHash() =>
-<<<<<<< HEAD
-    r'82706195961df7375182bc612db0e071bcb88dce';
-=======
-    r'c8bdf0f184c3d4a683642100096f77f5d42e5ccd';
->>>>>>> aa234d4 (Add forgotten generated code.)
+    r'27cd679f0a48250a0cfdff498b8256c2989f61a1';
 
 /// See also [_putPoolListInfosToCache].
 @ProviderFor(_putPoolListInfosToCache)
@@ -1234,8 +1230,6 @@ class _EstimateStatsProviderElement extends AutoDisposeFutureProviderElement<
   DexPool get pool => (origin as _EstimateStatsProvider).pool;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 String _$populatePoolInfosWithTokenStats24hHash() =>
     r'c7a18f0e4649033f533bd61c8d7c638f6067e1e8';
 
@@ -1389,13 +1383,7 @@ class _PopulatePoolInfosWithTokenStats24hProviderElement
           .transactionChainResult;
 }
 
-String _$getPoolListHash() => r'4fee5d25b221f7e9cbeae7e454f52c5a18888c1d';
-=======
-String _$getPoolListHash() => r'f6f0d967a167d02edb84122689536755503148e4';
->>>>>>> 71fd59b (Improves Farm list load time)
-=======
-String _$getPoolListHash() => r'e34cd91aed37fc6f499aec1c5aba48dd51f8f20e';
->>>>>>> aa234d4 (Add forgotten generated code.)
+String _$getPoolListHash() => r'1daa1e01352e4141d199744c7cfcd53fb4c35d6e';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)
