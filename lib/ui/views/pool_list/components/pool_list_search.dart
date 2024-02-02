@@ -33,7 +33,7 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
           Padding(
             padding: const EdgeInsets.only(top: 1),
             child: FlutterToggleTab(
-              width: 40,
+              width: 30,
               unSelectedBackgroundColors: [
                 ArchethicThemeBase.purple500.withOpacity(0.5),
                 ArchethicThemeBase.purple500.withOpacity(0.5),
