@@ -109,7 +109,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                       FutureBuilder<String>(
                         future: FiatValue().display(
                           ref,
-                          swap.tokenSwapped!.symbol,
+                          swap.tokenSwapped!,
                           swap.minToReceive,
                         ),
                         builder: (context, snapshot) {
@@ -156,7 +156,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: swap.tokenToSwapBalance,
-                    tokenSymbol: swap.tokenToSwap!.symbol,
+                    token: swap.tokenToSwap,
                     fiatVertical: true,
                     fiatAlignLeft: true,
                     fiatTextStyleMedium: true,
@@ -168,7 +168,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                             ) -
                             Decimal.parse(swap.tokenToSwapAmount.toString()))
                         .toDouble(),
-                    tokenSymbol: swap.tokenToSwap!.symbol,
+                    token: swap.tokenToSwap,
                     fiatVertical: true,
                     fiatTextStyleMedium: true,
                     height: 20,
@@ -180,7 +180,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: swap.tokenSwappedBalance,
-                    tokenSymbol: swap.tokenSwapped!.symbol,
+                    token: swap.tokenSwapped,
                     fiatVertical: true,
                     fiatAlignLeft: true,
                     fiatTextStyleMedium: true,
@@ -192,7 +192,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                             ) +
                             Decimal.parse(swap.tokenSwappedAmount.toString()))
                         .toDouble(),
-                    tokenSymbol: swap.tokenSwapped!.symbol,
+                    token: swap.tokenSwapped,
                     fiatVertical: true,
                     fiatTextStyleMedium: true,
                     height: 20,
@@ -224,7 +224,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                     FutureBuilder<String>(
                       future: FiatValue().display(
                         ref,
-                        swap.tokenToSwap!.symbol,
+                        swap.tokenToSwap!,
                         swap.swapTotalFees * swap.tokenToSwapAmount / 100,
                       ),
                       builder: (context, snapshot) {

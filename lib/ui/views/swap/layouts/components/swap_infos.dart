@@ -27,7 +27,7 @@ class SwapInfos extends ConsumerWidget {
     final tokenAddressRatioPrimary =
         swap.tokenToSwap!.address == null ? 'UCO' : swap.tokenToSwap!.address!;
 
-    final tvlInFiatAsync = ref.watch(
+    final tvlAndApr = ref.watch(
       DexPoolProviders.estimatePoolTVLandAPRInFiat(swap.pool),
     );
 
@@ -65,7 +65,7 @@ class SwapInfos extends ConsumerWidget {
                 FutureBuilder<String>(
                   future: FiatValue().display(
                     ref,
-                    swap.tokenToSwap!.symbol,
+                    swap.tokenToSwap!,
                     swap.swapTotalFees * swap.tokenToSwapAmount / 100,
                   ),
                   builder: (context, snapshot) {
@@ -113,7 +113,7 @@ class SwapInfos extends ConsumerWidget {
                 FutureBuilder<String>(
                   future: FiatValue().display(
                     ref,
-                    swap.tokenSwapped!.symbol,
+                    swap.tokenSwapped!,
                     swap.minToReceive,
                   ),
                   builder: (context, snapshot) {
@@ -130,7 +130,7 @@ class SwapInfos extends ConsumerWidget {
             ),
           if (swap.pool?.infos != null)
             Text(
-              'TVL: \$${tvlInFiatAsync.valueOrNull?.tvl.formatNumber(precision: 2) ?? '...'}',
+              'TVL: \$${tvlAndApr.tvl.formatNumber(precision: 2)}',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           if (swap.pool?.infos != null)

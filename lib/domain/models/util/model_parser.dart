@@ -161,6 +161,7 @@ mixin ModelParser {
         address: getPoolListResponse.lpTokenAddress.toUpperCase(),
         name: lpTokenName,
         symbol: lpTokenSymbol,
+        isLpToken: true,
       ),
       lpTokenInUserBalance: lpTokenInUserBalance,
     );
@@ -183,6 +184,7 @@ mixin ModelParser {
         address: getFarmListResponse.lpTokenAddress.toUpperCase(),
         name: tokenResultMap[getFarmListResponse.lpTokenAddress]!.name!,
         symbol: tokenResultMap[getFarmListResponse.lpTokenAddress]!.symbol!,
+        isLpToken: true,
       );
     }
 
@@ -261,6 +263,7 @@ mixin ModelParser {
           address: getFarmInfosResponse.lpTokenAddress.toUpperCase(),
           name: tokenResultMap[getFarmInfosResponse.lpTokenAddress]!.name!,
           symbol: tokenResultMap[getFarmInfosResponse.lpTokenAddress]!.symbol!,
+          isLpToken: true,
         );
         dexFarm = dexFarm.copyWith(lpToken: lpToken);
       }

@@ -149,9 +149,7 @@ class _LiquidityAddToken2AmountState
           children: [
             DexTokenBalance(
               tokenBalance: liquidityAdd.token2Balance,
-              tokenSymbol: liquidityAdd.token2 == null
-                  ? ''
-                  : liquidityAdd.token2!.symbol,
+              token: liquidityAdd.token2,
             ),
             Row(
               children: [

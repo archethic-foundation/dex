@@ -167,7 +167,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                           FutureBuilder<String>(
                             future: FiatValue().display(
                               ref,
-                              poolAdd.token1!.symbol,
+                              poolAdd.token1!,
                               poolAdd.token1Amount,
                             ),
                             builder: (context, snapshot) {
@@ -211,7 +211,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                               FutureBuilder<String>(
                                 future: FiatValue().display(
                                   ref,
-                                  poolAdd.token2!.symbol,
+                                  poolAdd.token2!,
                                   poolAdd.token2Amount,
                                 ),
                                 builder: (context, snapshot) {
@@ -297,7 +297,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: poolAdd.token1Balance,
-                    tokenSymbol: poolAdd.token1!.symbol,
+                    token: poolAdd.token1,
                     height: 20,
                     fiatVertical: true,
                     fiatAlignLeft: true,
@@ -309,7 +309,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             ) -
                             Decimal.parse(poolAdd.token1Amount.toString()))
                         .toDouble(),
-                    tokenSymbol: poolAdd.token1!.symbol,
+                    token: poolAdd.token1,
                     height: 20,
                     fiatVertical: true,
                     fiatTextStyleMedium: true,
@@ -321,7 +321,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: poolAdd.token2Balance,
-                    tokenSymbol: poolAdd.token2!.symbol,
+                    token: poolAdd.token2,
                     height: 20,
                     fiatVertical: true,
                     fiatAlignLeft: true,
@@ -333,7 +333,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             ) -
                             Decimal.parse(poolAdd.token2Amount.toString()))
                         .toDouble(),
-                    tokenSymbol: poolAdd.token2!.symbol,
+                    token: poolAdd.token2,
                     height: 20,
                     fiatVertical: true,
                     fiatTextStyleMedium: true,

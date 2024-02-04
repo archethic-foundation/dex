@@ -8,8 +8,6 @@ import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
 import 'package:aedex/domain/models/util/get_user_infos_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
-import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 /// Farm is a factory allowing users to deposit lp token from a pool and to receive reward for a period of time.
@@ -20,36 +18,39 @@ class FarmFactory with ModelParser {
   final ApiService apiService;
 
   /// Returns the informations of the farm
-  Future<Result<DexFarm, Failure>> getFarmInfos(
+  Future<Map<String, dynamic>> getFarmInfos(
     DexPool pool, {
     DexFarm? dexFarmInput,
   }) async {
+    final result = await apiService.callSCFunction(
+      jsonRPCRequest: SCCallFunctionRequest(
+        method: 'contract_fun',
+        params: SCCallFunctionParams(
+          contract: factoryAddress.toUpperCase(),
+          function: 'get_farm_infos',
+          args: [],
+        ),
+      ),
+      resultMap: true,
+    ) as Map<String, dynamic>;
+
+    return result;
+  }
+
+  Future<Result<DexFarm, Failure>> populateFarmInfos(
+    DexPool pool,
+    DexFarm farmInput,
+  ) async {
     return Result.guard(
       () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_farm_infos',
-              args: [],
-            ),
-          ),
-          resultMap: true,
-        ) as Map<String, dynamic>?;
-        if (result == null) {
-          sl.get<LogManager>().log(
-                'result null',
-                level: LogLevel.error,
-                name: 'getFarmInfos',
-              );
-        }
-        final getFarmInfosResponse = GetFarmInfosResponse.fromJson(result!);
+        final result = await getFarmInfos(pool, dexFarmInput: farmInput);
+
+        final getFarmInfosResponse = GetFarmInfosResponse.fromJson(result);
         return farmInfosToModel(
           factoryAddress,
           getFarmInfosResponse,
           pool,
-          dexFarmInput: dexFarmInput,
+          dexFarmInput: farmInput,
         );
       },
     );

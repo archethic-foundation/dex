@@ -73,10 +73,10 @@ class _CoinPriceNotifier extends Notifier<CryptoPrice> {
 }
 
 @riverpod
-Future<double> _coinPriceFromSymbol(
+double _coinPriceFromSymbol(
   _CoinPriceFromSymbolRef ref,
   String symbol,
-) async {
+) {
   final coinPrice = ref.read(
     CoinPriceProviders.coinPrice,
   );

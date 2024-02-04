@@ -65,7 +65,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                       FutureBuilder<String>(
                         future: FiatValue().display(
                           ref,
-                          farmClaim.dexFarm!.rewardToken!.symbol,
+                          farmClaim.dexFarm!.rewardToken!,
                           farmClaim.dexFarmUserInfo!.rewardAmount,
                         ),
                         builder: (context, snapshot) {

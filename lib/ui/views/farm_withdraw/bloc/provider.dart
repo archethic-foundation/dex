@@ -1,4 +1,4 @@
-import 'package:aedex/application/dex_farm.dart';
+import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/failures.dart';

@@ -105,9 +105,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: farmDeposit.lpTokenBalance,
-                    tokenSymbol: farmDeposit.lpTokenBalance > 1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: farmDeposit.dexFarmInfo!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),
@@ -119,16 +117,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                               farmDeposit.amount.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: (Decimal.parse(
-                                      farmDeposit.lpTokenBalance.toString(),
-                                    ) -
-                                    Decimal.parse(
-                                      farmDeposit.amount.toString(),
-                                    ))
-                                .toDouble() >
-                            1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: farmDeposit.dexFarmInfo!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),
@@ -174,9 +163,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: farmDeposit.dexFarmInfo!.lpTokenDeposited,
-                    tokenSymbol: farmDeposit.dexFarmInfo!.lpTokenDeposited > 1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: farmDeposit.dexFarmInfo!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),
@@ -189,17 +176,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                               farmDeposit.amount.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: (Decimal.parse(
-                                      farmDeposit.dexFarmInfo!.lpTokenDeposited
-                                          .toString(),
-                                    ) +
-                                    Decimal.parse(
-                                      farmDeposit.amount.toString(),
-                                    ))
-                                .toDouble() >
-                            1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: farmDeposit.dexFarmInfo!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),

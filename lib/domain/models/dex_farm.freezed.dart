@@ -22,14 +22,15 @@ mixin _$DexFarm {
   DexToken? get lpToken => throw _privateConstructorUsedError;
   DexPair? get lpTokenPair => throw _privateConstructorUsedError;
   int get startDate =>
-      throw _privateConstructorUsedError; // FIXME : this should be a DaateTime
+      throw _privateConstructorUsedError; // FIXME : this should be a DateTime
   int get endDate =>
-      throw _privateConstructorUsedError; // FIXME : this should be a DaateTime
+      throw _privateConstructorUsedError; // FIXME : this should be a DateTime
   DexToken? get rewardToken => throw _privateConstructorUsedError;
   double get remainingReward => throw _privateConstructorUsedError;
   double get remainingRewardInFiat => throw _privateConstructorUsedError;
   double get lpTokenDeposited => throw _privateConstructorUsedError;
   int get nbDeposit => throw _privateConstructorUsedError;
+  double get estimateLPTokenInFiat => throw _privateConstructorUsedError;
   double get statsRewardDistributed => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -54,6 +55,7 @@ abstract class $DexFarmCopyWith<$Res> {
       double remainingRewardInFiat,
       double lpTokenDeposited,
       int nbDeposit,
+      double estimateLPTokenInFiat,
       double statsRewardDistributed});
 
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -86,6 +88,7 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
     Object? remainingRewardInFiat = null,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
+    Object? estimateLPTokenInFiat = null,
     Object? statsRewardDistributed = null,
   }) {
     return _then(_value.copyWith(
@@ -137,6 +140,10 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
           ? _value.nbDeposit
           : nbDeposit // ignore: cast_nullable_to_non_nullable
               as int,
+      estimateLPTokenInFiat: null == estimateLPTokenInFiat
+          ? _value.estimateLPTokenInFiat
+          : estimateLPTokenInFiat // ignore: cast_nullable_to_non_nullable
+              as double,
       statsRewardDistributed: null == statsRewardDistributed
           ? _value.statsRewardDistributed
           : statsRewardDistributed // ignore: cast_nullable_to_non_nullable
@@ -201,6 +208,7 @@ abstract class _$$DexFarmImplCopyWith<$Res> implements $DexFarmCopyWith<$Res> {
       double remainingRewardInFiat,
       double lpTokenDeposited,
       int nbDeposit,
+      double estimateLPTokenInFiat,
       double statsRewardDistributed});
 
   @override
@@ -234,6 +242,7 @@ class __$$DexFarmImplCopyWithImpl<$Res>
     Object? remainingRewardInFiat = null,
     Object? lpTokenDeposited = null,
     Object? nbDeposit = null,
+    Object? estimateLPTokenInFiat = null,
     Object? statsRewardDistributed = null,
   }) {
     return _then(_$DexFarmImpl(
@@ -285,6 +294,10 @@ class __$$DexFarmImplCopyWithImpl<$Res>
           ? _value.nbDeposit
           : nbDeposit // ignore: cast_nullable_to_non_nullable
               as int,
+      estimateLPTokenInFiat: null == estimateLPTokenInFiat
+          ? _value.estimateLPTokenInFiat
+          : estimateLPTokenInFiat // ignore: cast_nullable_to_non_nullable
+              as double,
       statsRewardDistributed: null == statsRewardDistributed
           ? _value.statsRewardDistributed
           : statsRewardDistributed // ignore: cast_nullable_to_non_nullable
@@ -309,6 +322,7 @@ class _$DexFarmImpl extends _DexFarm {
       this.remainingRewardInFiat = 0,
       this.lpTokenDeposited = 0,
       this.nbDeposit = 0,
+      this.estimateLPTokenInFiat = 0,
       this.statsRewardDistributed = 0.0})
       : super._();
 
@@ -328,11 +342,11 @@ class _$DexFarmImpl extends _DexFarm {
   @override
   @JsonKey()
   final int startDate;
-// FIXME : this should be a DaateTime
+// FIXME : this should be a DateTime
   @override
   @JsonKey()
   final int endDate;
-// FIXME : this should be a DaateTime
+// FIXME : this should be a DateTime
   @override
   final DexToken? rewardToken;
   @override
@@ -349,11 +363,14 @@ class _$DexFarmImpl extends _DexFarm {
   final int nbDeposit;
   @override
   @JsonKey()
+  final double estimateLPTokenInFiat;
+  @override
+  @JsonKey()
   final double statsRewardDistributed;
 
   @override
   String toString() {
-    return 'DexFarm(farmAddress: $farmAddress, poolAddress: $poolAddress, apr: $apr, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit, statsRewardDistributed: $statsRewardDistributed)';
+    return 'DexFarm(farmAddress: $farmAddress, poolAddress: $poolAddress, apr: $apr, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit, estimateLPTokenInFiat: $estimateLPTokenInFiat, statsRewardDistributed: $statsRewardDistributed)';
   }
 
   @override
@@ -382,6 +399,8 @@ class _$DexFarmImpl extends _DexFarm {
                 other.lpTokenDeposited == lpTokenDeposited) &&
             (identical(other.nbDeposit, nbDeposit) ||
                 other.nbDeposit == nbDeposit) &&
+            (identical(other.estimateLPTokenInFiat, estimateLPTokenInFiat) ||
+                other.estimateLPTokenInFiat == estimateLPTokenInFiat) &&
             (identical(other.statsRewardDistributed, statsRewardDistributed) ||
                 other.statsRewardDistributed == statsRewardDistributed));
   }
@@ -401,6 +420,7 @@ class _$DexFarmImpl extends _DexFarm {
       remainingRewardInFiat,
       lpTokenDeposited,
       nbDeposit,
+      estimateLPTokenInFiat,
       statsRewardDistributed);
 
   @JsonKey(ignore: true)
@@ -424,6 +444,7 @@ abstract class _DexFarm extends DexFarm {
       final double remainingRewardInFiat,
       final double lpTokenDeposited,
       final int nbDeposit,
+      final double estimateLPTokenInFiat,
       final double statsRewardDistributed}) = _$DexFarmImpl;
   const _DexFarm._() : super._();
 
@@ -439,9 +460,9 @@ abstract class _DexFarm extends DexFarm {
   DexPair? get lpTokenPair;
   @override
   int get startDate;
-  @override // FIXME : this should be a DaateTime
+  @override // FIXME : this should be a DateTime
   int get endDate;
-  @override // FIXME : this should be a DaateTime
+  @override // FIXME : this should be a DateTime
   DexToken? get rewardToken;
   @override
   double get remainingReward;
@@ -451,6 +472,8 @@ abstract class _DexFarm extends DexFarm {
   double get lpTokenDeposited;
   @override
   int get nbDeposit;
+  @override
+  double get estimateLPTokenInFiat;
   @override
   double get statsRewardDistributed;
   @override

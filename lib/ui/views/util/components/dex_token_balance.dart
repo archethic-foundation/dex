@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class DexTokenBalance extends ConsumerWidget {
   const DexTokenBalance({
     required this.tokenBalance,
-    required this.tokenSymbol,
+    this.token,
     this.withFiat = true,
     this.fiatVertical = false,
     this.fiatAlignLeft = false,
@@ -19,7 +20,7 @@ class DexTokenBalance extends ConsumerWidget {
   });
 
   final double tokenBalance;
-  final String tokenSymbol;
+  final DexToken? token;
   final bool withFiat;
   final double height;
   final bool fiatVertical;
@@ -31,7 +32,7 @@ class DexTokenBalance extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    if (tokenSymbol.isEmpty) {
+    if (token == null || token!.symbol.isEmpty) {
       return SizedBox(
         height: height,
       );
@@ -63,7 +64,7 @@ class DexTokenBalance extends ConsumerWidget {
                   Opacity(
                     opacity: opacity,
                     child: Text(
-                      '${tokenBalance.formatNumber(precision: 8)} $tokenSymbol',
+                      '${tokenBalance.formatNumber(precision: 8)} ${getSymbolDisplay(token!, tokenBalance)}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
@@ -76,7 +77,7 @@ class DexTokenBalance extends ConsumerWidget {
                     FutureBuilder<String>(
                       future: FiatValue().display(
                         ref,
-                        tokenSymbol,
+                        token!,
                         tokenBalance,
                       ),
                       builder: (context, snapshot) {
@@ -123,7 +124,7 @@ class DexTokenBalance extends ConsumerWidget {
                 Opacity(
                   opacity: opacity,
                   child: Text(
-                    '${tokenBalance.formatNumber(precision: 8)} $tokenSymbol',
+                    '${tokenBalance.formatNumber(precision: 8)} ${getSymbolDisplay(token!, tokenBalance)}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
@@ -131,7 +132,7 @@ class DexTokenBalance extends ConsumerWidget {
                   FutureBuilder<String>(
                     future: FiatValue().display(
                       ref,
-                      tokenSymbol,
+                      token!,
                       tokenBalance,
                     ),
                     builder: (context, snapshot) {
@@ -164,5 +165,16 @@ class DexTokenBalance extends ConsumerWidget {
             .scale(
               duration: const Duration(milliseconds: 200),
             );
+  }
+
+  String getSymbolDisplay(DexToken token, double balance) {
+    if (token.isLpToken == true) {
+      if (balance > 1) {
+        return 'LP Tokens';
+      } else {
+        return 'LP Token';
+      }
+    }
+    return token.symbol;
   }
 }

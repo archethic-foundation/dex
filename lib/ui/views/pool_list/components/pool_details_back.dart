@@ -149,7 +149,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                   FutureBuilder<String>(
                                     future: FiatValue().display(
                                       ref,
-                                      pool.pair.token1.symbol,
+                                      pool.pair.token1,
                                       pool.pair.token1.reserve,
                                     ),
                                     builder: (context, snapshot) {
@@ -188,7 +188,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                   FutureBuilder<String>(
                                     future: FiatValue().display(
                                       ref,
-                                      pool.pair.token2.symbol,
+                                      pool.pair.token2,
                                       pool.pair.token2.reserve,
                                     ),
                                     builder: (context, snapshot) {

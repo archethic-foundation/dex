@@ -184,7 +184,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
           children: [
             DexTokenBalance(
               tokenBalance: poolAdd.token1Balance,
-              tokenSymbol: poolAdd.token1 == null ? '' : poolAdd.token1!.symbol,
+              token: poolAdd.token1,
             ),
             if (poolAdd.token1Balance > 0)
               Row(

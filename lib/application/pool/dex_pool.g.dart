@@ -6,23 +6,22 @@ part of 'dex_pool.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dexPoolsRepositoryHash() =>
-    r'100f295d126c7ac2fb2b67f836c9d14c12ed2b8a';
+String _$dexPoolRepositoryHash() => r'99ce0e0d50aee1c33445aeaead3791ada1bfbc89';
 
-/// See also [_dexPoolsRepository].
-@ProviderFor(_dexPoolsRepository)
-final _dexPoolsRepositoryProvider =
-    AutoDisposeProvider<DexPoolsRepository>.internal(
-  _dexPoolsRepository,
-  name: r'_dexPoolsRepositoryProvider',
+/// See also [_dexPoolRepository].
+@ProviderFor(_dexPoolRepository)
+final _dexPoolRepositoryProvider =
+    AutoDisposeProvider<DexPoolRepositoryImpl>.internal(
+  _dexPoolRepository,
+  name: r'_dexPoolRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$dexPoolsRepositoryHash,
+      : _$dexPoolRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _DexPoolsRepositoryRef = AutoDisposeProviderRef<DexPoolsRepository>;
+typedef _DexPoolRepositoryRef = AutoDisposeProviderRef<DexPoolRepositoryImpl>;
 String _$invalidateDataUseCaseHash() =>
     r'38131e0ba0da813e6ad515cfe2e8b7349233bd95';
 
@@ -39,7 +38,7 @@ final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
 );
 
 typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
-String _$getPoolHash() => r'c119ca4279833a4029474933cfd39c43d735d152';
+String _$getPoolHash() => r'7cfec911fabe07e1cb1dba7d31cafe613ef654fc';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -187,7 +186,7 @@ class _GetPoolProviderElement extends AutoDisposeFutureProviderElement<DexPool?>
   String get genesisAddress => (origin as _GetPoolProvider).genesisAddress;
 }
 
-String _$getPoolInfosHash() => r'ddefc822cfe21bd471dbe0aba7b5e9c37a088ecb';
+String _$getPoolInfosHash() => r'1bc7f25e7cdba4946109b73e9bc090b6412d4f1f';
 
 /// See also [_getPoolInfos].
 @ProviderFor(_getPoolInfos)
@@ -798,138 +797,8 @@ class _GetRatioProviderElement extends AutoDisposeFutureProviderElement<double>
   DexToken get token => (origin as _GetRatioProvider).token;
 }
 
-String _$estimateTokenInFiatHash() =>
-    r'a02b2760eefc28465cbf92aa776483f7a56060e6';
-
-/// See also [_estimateTokenInFiat].
-@ProviderFor(_estimateTokenInFiat)
-const _estimateTokenInFiatProvider = _EstimateTokenInFiatFamily();
-
-/// See also [_estimateTokenInFiat].
-class _EstimateTokenInFiatFamily extends Family<AsyncValue<double>> {
-  /// See also [_estimateTokenInFiat].
-  const _EstimateTokenInFiatFamily();
-
-  /// See also [_estimateTokenInFiat].
-  _EstimateTokenInFiatProvider call(
-    DexToken token,
-  ) {
-    return _EstimateTokenInFiatProvider(
-      token,
-    );
-  }
-
-  @override
-  _EstimateTokenInFiatProvider getProviderOverride(
-    covariant _EstimateTokenInFiatProvider provider,
-  ) {
-    return call(
-      provider.token,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_estimateTokenInFiatProvider';
-}
-
-/// See also [_estimateTokenInFiat].
-class _EstimateTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
-  /// See also [_estimateTokenInFiat].
-  _EstimateTokenInFiatProvider(
-    DexToken token,
-  ) : this._internal(
-          (ref) => _estimateTokenInFiat(
-            ref as _EstimateTokenInFiatRef,
-            token,
-          ),
-          from: _estimateTokenInFiatProvider,
-          name: r'_estimateTokenInFiatProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$estimateTokenInFiatHash,
-          dependencies: _EstimateTokenInFiatFamily._dependencies,
-          allTransitiveDependencies:
-              _EstimateTokenInFiatFamily._allTransitiveDependencies,
-          token: token,
-        );
-
-  _EstimateTokenInFiatProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.token,
-  }) : super.internal();
-
-  final DexToken token;
-
-  @override
-  Override overrideWith(
-    FutureOr<double> Function(_EstimateTokenInFiatRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _EstimateTokenInFiatProvider._internal(
-        (ref) => create(ref as _EstimateTokenInFiatRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        token: token,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<double> createElement() {
-    return _EstimateTokenInFiatProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _EstimateTokenInFiatProvider && other.token == token;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, token.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _EstimateTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
-  /// The parameter `token` of this provider.
-  DexToken get token;
-}
-
-class _EstimateTokenInFiatProviderElement
-    extends AutoDisposeFutureProviderElement<double>
-    with _EstimateTokenInFiatRef {
-  _EstimateTokenInFiatProviderElement(super.provider);
-
-  @override
-  DexToken get token => (origin as _EstimateTokenInFiatProvider).token;
-}
-
 String _$estimatePoolTVLandAPRInFiatHash() =>
-    r'b22bee3d51652b9024a5daa469a1cd796d97cd3c';
+    r'14a3bb04f65e292d65c0d5415c72a94c5a8a182e';
 
 /// See also [_estimatePoolTVLandAPRInFiat].
 @ProviderFor(_estimatePoolTVLandAPRInFiat)
@@ -938,7 +807,7 @@ const _estimatePoolTVLandAPRInFiatProvider =
 
 /// See also [_estimatePoolTVLandAPRInFiat].
 class _EstimatePoolTVLandAPRInFiatFamily
-    extends Family<AsyncValue<({double tvl, double apr})>> {
+    extends Family<({double tvl, double apr})> {
   /// See also [_estimatePoolTVLandAPRInFiat].
   const _EstimatePoolTVLandAPRInFiatFamily();
 
@@ -977,7 +846,7 @@ class _EstimatePoolTVLandAPRInFiatFamily
 
 /// See also [_estimatePoolTVLandAPRInFiat].
 class _EstimatePoolTVLandAPRInFiatProvider
-    extends AutoDisposeFutureProvider<({double tvl, double apr})> {
+    extends AutoDisposeProvider<({double tvl, double apr})> {
   /// See also [_estimatePoolTVLandAPRInFiat].
   _EstimatePoolTVLandAPRInFiatProvider(
     DexPool? pool,
@@ -1012,7 +881,7 @@ class _EstimatePoolTVLandAPRInFiatProvider
 
   @override
   Override overrideWith(
-    FutureOr<({double tvl, double apr})> Function(
+    ({double tvl, double apr}) Function(
             _EstimatePoolTVLandAPRInFiatRef provider)
         create,
   ) {
@@ -1031,7 +900,7 @@ class _EstimatePoolTVLandAPRInFiatProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<({double tvl, double apr})> createElement() {
+  AutoDisposeProviderElement<({double tvl, double apr})> createElement() {
     return _EstimatePoolTVLandAPRInFiatProviderElement(this);
   }
 
@@ -1050,13 +919,13 @@ class _EstimatePoolTVLandAPRInFiatProvider
 }
 
 mixin _EstimatePoolTVLandAPRInFiatRef
-    on AutoDisposeFutureProviderRef<({double tvl, double apr})> {
+    on AutoDisposeProviderRef<({double tvl, double apr})> {
   /// The parameter `pool` of this provider.
   DexPool? get pool;
 }
 
 class _EstimatePoolTVLandAPRInFiatProviderElement
-    extends AutoDisposeFutureProviderElement<({double tvl, double apr})>
+    extends AutoDisposeProviderElement<({double tvl, double apr})>
     with _EstimatePoolTVLandAPRInFiatRef {
   _EstimatePoolTVLandAPRInFiatProviderElement(super.provider);
 
@@ -1064,7 +933,7 @@ class _EstimatePoolTVLandAPRInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLandAPRInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'd040588ef69c528a36874e181d0e3d15a2ec788b';
+String _$estimateStatsHash() => r'5feca959245c42b889bdcd7fe5fb97dd351f319a';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -1072,13 +941,12 @@ const _estimateStatsProvider = _EstimateStatsFamily();
 
 /// See also [_estimateStats].
 class _EstimateStatsFamily extends Family<
-    AsyncValue<
-        ({
-          double volume24h,
-          double fee24h,
-          double volumeAllTime,
-          double feeAllTime
-        })>> {
+    ({
+      double volume24h,
+      double fee24h,
+      double volumeAllTime,
+      double feeAllTime
+    })> {
   /// See also [_estimateStats].
   const _EstimateStatsFamily();
 
@@ -1116,7 +984,7 @@ class _EstimateStatsFamily extends Family<
 }
 
 /// See also [_estimateStats].
-class _EstimateStatsProvider extends AutoDisposeFutureProvider<
+class _EstimateStatsProvider extends AutoDisposeProvider<
     ({
       double volume24h,
       double fee24h,
@@ -1157,13 +1025,7 @@ class _EstimateStatsProvider extends AutoDisposeFutureProvider<
 
   @override
   Override overrideWith(
-    FutureOr<
-                ({
-                  double volume24h,
-                  double fee24h,
-                  double volumeAllTime,
-                  double feeAllTime
-                })>
+    ({double volume24h, double fee24h, double volumeAllTime, double feeAllTime})
             Function(_EstimateStatsRef provider)
         create,
   ) {
@@ -1182,7 +1044,7 @@ class _EstimateStatsProvider extends AutoDisposeFutureProvider<
   }
 
   @override
-  AutoDisposeFutureProviderElement<
+  AutoDisposeProviderElement<
       ({
         double volume24h,
         double fee24h,
@@ -1206,7 +1068,7 @@ class _EstimateStatsProvider extends AutoDisposeFutureProvider<
   }
 }
 
-mixin _EstimateStatsRef on AutoDisposeFutureProviderRef<
+mixin _EstimateStatsRef on AutoDisposeProviderRef<
     ({
       double volume24h,
       double fee24h,
@@ -1217,7 +1079,7 @@ mixin _EstimateStatsRef on AutoDisposeFutureProviderRef<
   DexPool get pool;
 }
 
-class _EstimateStatsProviderElement extends AutoDisposeFutureProviderElement<
+class _EstimateStatsProviderElement extends AutoDisposeProviderElement<
     ({
       double volume24h,
       double fee24h,
@@ -1415,7 +1277,7 @@ final _getPoolListForUserProvider =
 
 typedef _GetPoolListForUserRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$getPoolListForSearchHash() =>
-    r'11f084c03d262afa45698cb8b327d14f7bc3bf4f';
+    r'06b630958a8072508554105d4c081bde9410228b';
 
 /// See also [_getPoolListForSearch].
 @ProviderFor(_getPoolListForSearch)

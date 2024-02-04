@@ -27,40 +27,20 @@ Future<double> _getRatio(
 }
 
 @riverpod
-Future<double> _estimateTokenInFiat(
-  _EstimateTokenInFiatRef ref,
-  DexToken token,
-) async {
-  var fiatValue = 0.0;
-  if (token.symbol == 'UCO') {
-    final archethicOracleUCO =
-        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
-
-    fiatValue = archethicOracleUCO.usd;
-  } else {
-    final price = await ref
-        .watch(CoinPriceProviders.coinPriceFromSymbol(token.symbol).future);
-
-    fiatValue = price;
-  }
-  return fiatValue;
-}
-
-@riverpod
-Future<({double tvl, double apr})> _estimatePoolTVLandAPRInFiat(
+({double tvl, double apr}) _estimatePoolTVLandAPRInFiat(
   _EstimatePoolTVLandAPRInFiatRef ref,
   DexPool? pool,
-) async {
+) {
   if (pool == null) return (tvl: 0.0, apr: 0.0);
 
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
   var tvl = 0.0;
   var apr = 0.0;
-  fiatValueToken1 = await ref
-      .watch(DexPoolProviders.estimateTokenInFiat(pool.pair.token1).future);
-  fiatValueToken2 = await ref
-      .watch(DexPoolProviders.estimateTokenInFiat(pool.pair.token2).future);
+  fiatValueToken1 =
+      ref.watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token1));
+  fiatValueToken2 =
+      ref.watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token2));
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
     tvl = pool.pair.token1.reserve * fiatValueToken1 +
@@ -87,16 +67,15 @@ Future<({double tvl, double apr})> _estimatePoolTVLandAPRInFiat(
 }
 
 @riverpod
-Future<
-    ({
-      double volume24h,
-      double fee24h,
-      double volumeAllTime,
-      double feeAllTime,
-    })> _estimateStats(
+({
+  double volume24h,
+  double fee24h,
+  double volumeAllTime,
+  double feeAllTime,
+}) _estimateStats(
   _EstimateStatsRef ref,
   DexPool pool,
-) async {
+) {
   var volume24h = 0.0;
   var fee24h = 0.0;
   var volumeAllTime = 0.0;
@@ -121,16 +100,16 @@ Future<
   if (pool.pair.token1.symbol == 'UCO') {
     priceToken1 = archethicOracleUCO.usd;
   } else {
-    priceToken1 = await ref.watch(
-      CoinPriceProviders.coinPriceFromSymbol(pool.pair.token1.symbol).future,
+    priceToken1 = ref.watch(
+      CoinPriceProviders.coinPriceFromSymbol(pool.pair.token1.symbol),
     );
   }
 
   if (pool.pair.token2.symbol == 'UCO') {
     priceToken2 = archethicOracleUCO.usd;
   } else {
-    priceToken2 = await ref.watch(
-      CoinPriceProviders.coinPriceFromSymbol(pool.pair.token2.symbol).future,
+    priceToken2 = ref.watch(
+      CoinPriceProviders.coinPriceFromSymbol(pool.pair.token2.symbol),
     );
   }
 
