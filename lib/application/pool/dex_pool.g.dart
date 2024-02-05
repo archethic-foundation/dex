@@ -522,7 +522,7 @@ class _UpdatePoolInCacheProviderElement
   DexPool get pool => (origin as _UpdatePoolInCacheProvider).pool;
 }
 
-String _$putPoolToCacheHash() => r'7540c62c1a9fea22ef3de3f78943b8d38f7f5833';
+String _$putPoolToCacheHash() => r'0585aaf6f3e4c4cc47f9de9fc481824499c7640b';
 
 /// See also [_putPoolToCache].
 @ProviderFor(_putPoolToCache)
@@ -535,10 +535,12 @@ class _PutPoolToCacheFamily extends Family<AsyncValue<void>> {
 
   /// See also [_putPoolToCache].
   _PutPoolToCacheProvider call(
-    String poolGenesisAddress,
-  ) {
+    String poolGenesisAddress, {
+    bool isFavorite = false,
+  }) {
     return _PutPoolToCacheProvider(
       poolGenesisAddress,
+      isFavorite: isFavorite,
     );
   }
 
@@ -548,6 +550,7 @@ class _PutPoolToCacheFamily extends Family<AsyncValue<void>> {
   ) {
     return call(
       provider.poolGenesisAddress,
+      isFavorite: provider.isFavorite,
     );
   }
 
@@ -570,11 +573,13 @@ class _PutPoolToCacheFamily extends Family<AsyncValue<void>> {
 class _PutPoolToCacheProvider extends AutoDisposeFutureProvider<void> {
   /// See also [_putPoolToCache].
   _PutPoolToCacheProvider(
-    String poolGenesisAddress,
-  ) : this._internal(
+    String poolGenesisAddress, {
+    bool isFavorite = false,
+  }) : this._internal(
           (ref) => _putPoolToCache(
             ref as _PutPoolToCacheRef,
             poolGenesisAddress,
+            isFavorite: isFavorite,
           ),
           from: _putPoolToCacheProvider,
           name: r'_putPoolToCacheProvider',
@@ -586,6 +591,7 @@ class _PutPoolToCacheProvider extends AutoDisposeFutureProvider<void> {
           allTransitiveDependencies:
               _PutPoolToCacheFamily._allTransitiveDependencies,
           poolGenesisAddress: poolGenesisAddress,
+          isFavorite: isFavorite,
         );
 
   _PutPoolToCacheProvider._internal(
@@ -596,9 +602,11 @@ class _PutPoolToCacheProvider extends AutoDisposeFutureProvider<void> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.poolGenesisAddress,
+    required this.isFavorite,
   }) : super.internal();
 
   final String poolGenesisAddress;
+  final bool isFavorite;
 
   @override
   Override overrideWith(
@@ -614,6 +622,7 @@ class _PutPoolToCacheProvider extends AutoDisposeFutureProvider<void> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         poolGenesisAddress: poolGenesisAddress,
+        isFavorite: isFavorite,
       ),
     );
   }
@@ -626,6 +635,144 @@ class _PutPoolToCacheProvider extends AutoDisposeFutureProvider<void> {
   @override
   bool operator ==(Object other) {
     return other is _PutPoolToCacheProvider &&
+        other.poolGenesisAddress == poolGenesisAddress &&
+        other.isFavorite == isFavorite;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, poolGenesisAddress.hashCode);
+    hash = _SystemHash.combine(hash, isFavorite.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _PutPoolToCacheRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `poolGenesisAddress` of this provider.
+  String get poolGenesisAddress;
+
+  /// The parameter `isFavorite` of this provider.
+  bool get isFavorite;
+}
+
+class _PutPoolToCacheProviderElement
+    extends AutoDisposeFutureProviderElement<void> with _PutPoolToCacheRef {
+  _PutPoolToCacheProviderElement(super.provider);
+
+  @override
+  String get poolGenesisAddress =>
+      (origin as _PutPoolToCacheProvider).poolGenesisAddress;
+  @override
+  bool get isFavorite => (origin as _PutPoolToCacheProvider).isFavorite;
+}
+
+String _$removePoolFromCacheHash() =>
+    r'2c3a7ff93cc9d5a168f841d0875173318b5ab9a4';
+
+/// See also [_removePoolFromCache].
+@ProviderFor(_removePoolFromCache)
+const _removePoolFromCacheProvider = _RemovePoolFromCacheFamily();
+
+/// See also [_removePoolFromCache].
+class _RemovePoolFromCacheFamily extends Family<AsyncValue<void>> {
+  /// See also [_removePoolFromCache].
+  const _RemovePoolFromCacheFamily();
+
+  /// See also [_removePoolFromCache].
+  _RemovePoolFromCacheProvider call(
+    String poolGenesisAddress,
+  ) {
+    return _RemovePoolFromCacheProvider(
+      poolGenesisAddress,
+    );
+  }
+
+  @override
+  _RemovePoolFromCacheProvider getProviderOverride(
+    covariant _RemovePoolFromCacheProvider provider,
+  ) {
+    return call(
+      provider.poolGenesisAddress,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_removePoolFromCacheProvider';
+}
+
+/// See also [_removePoolFromCache].
+class _RemovePoolFromCacheProvider extends AutoDisposeFutureProvider<void> {
+  /// See also [_removePoolFromCache].
+  _RemovePoolFromCacheProvider(
+    String poolGenesisAddress,
+  ) : this._internal(
+          (ref) => _removePoolFromCache(
+            ref as _RemovePoolFromCacheRef,
+            poolGenesisAddress,
+          ),
+          from: _removePoolFromCacheProvider,
+          name: r'_removePoolFromCacheProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$removePoolFromCacheHash,
+          dependencies: _RemovePoolFromCacheFamily._dependencies,
+          allTransitiveDependencies:
+              _RemovePoolFromCacheFamily._allTransitiveDependencies,
+          poolGenesisAddress: poolGenesisAddress,
+        );
+
+  _RemovePoolFromCacheProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.poolGenesisAddress,
+  }) : super.internal();
+
+  final String poolGenesisAddress;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(_RemovePoolFromCacheRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _RemovePoolFromCacheProvider._internal(
+        (ref) => create(ref as _RemovePoolFromCacheRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        poolGenesisAddress: poolGenesisAddress,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _RemovePoolFromCacheProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _RemovePoolFromCacheProvider &&
         other.poolGenesisAddress == poolGenesisAddress;
   }
 
@@ -638,18 +785,19 @@ class _PutPoolToCacheProvider extends AutoDisposeFutureProvider<void> {
   }
 }
 
-mixin _PutPoolToCacheRef on AutoDisposeFutureProviderRef<void> {
+mixin _RemovePoolFromCacheRef on AutoDisposeFutureProviderRef<void> {
   /// The parameter `poolGenesisAddress` of this provider.
   String get poolGenesisAddress;
 }
 
-class _PutPoolToCacheProviderElement
-    extends AutoDisposeFutureProviderElement<void> with _PutPoolToCacheRef {
-  _PutPoolToCacheProviderElement(super.provider);
+class _RemovePoolFromCacheProviderElement
+    extends AutoDisposeFutureProviderElement<void>
+    with _RemovePoolFromCacheRef {
+  _RemovePoolFromCacheProviderElement(super.provider);
 
   @override
   String get poolGenesisAddress =>
-      (origin as _PutPoolToCacheProvider).poolGenesisAddress;
+      (origin as _RemovePoolFromCacheProvider).poolGenesisAddress;
 }
 
 String _$getRatioHash() => r'354f7dc1b45d6a475670dfcda2997a5f86dec992';

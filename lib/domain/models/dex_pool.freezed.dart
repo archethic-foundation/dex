@@ -20,6 +20,7 @@ mixin _$DexPool {
   DexToken get lpToken => throw _privateConstructorUsedError;
   DexPair get pair => throw _privateConstructorUsedError;
   bool get lpTokenInUserBalance => throw _privateConstructorUsedError;
+  bool get isFavorite => throw _privateConstructorUsedError;
   DexPoolInfos? get infos => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -36,6 +37,7 @@ abstract class $DexPoolCopyWith<$Res> {
       DexToken lpToken,
       DexPair pair,
       bool lpTokenInUserBalance,
+      bool isFavorite,
       DexPoolInfos? infos});
 
   $DexTokenCopyWith<$Res> get lpToken;
@@ -60,6 +62,7 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
     Object? lpToken = null,
     Object? pair = null,
     Object? lpTokenInUserBalance = null,
+    Object? isFavorite = null,
     Object? infos = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +81,10 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
       lpTokenInUserBalance: null == lpTokenInUserBalance
           ? _value.lpTokenInUserBalance
           : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFavorite: null == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
               as bool,
       infos: freezed == infos
           ? _value.infos
@@ -127,6 +134,7 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
       DexToken lpToken,
       DexPair pair,
       bool lpTokenInUserBalance,
+      bool isFavorite,
       DexPoolInfos? infos});
 
   @override
@@ -152,6 +160,7 @@ class __$$DexPoolImplCopyWithImpl<$Res>
     Object? lpToken = null,
     Object? pair = null,
     Object? lpTokenInUserBalance = null,
+    Object? isFavorite = null,
     Object? infos = freezed,
   }) {
     return _then(_$DexPoolImpl(
@@ -171,6 +180,10 @@ class __$$DexPoolImplCopyWithImpl<$Res>
           ? _value.lpTokenInUserBalance
           : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
               as bool,
+      isFavorite: null == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
       infos: freezed == infos
           ? _value.infos
           : infos // ignore: cast_nullable_to_non_nullable
@@ -187,6 +200,7 @@ class _$DexPoolImpl extends _DexPool {
       required this.lpToken,
       required this.pair,
       required this.lpTokenInUserBalance,
+      required this.isFavorite,
       this.infos})
       : super._();
 
@@ -199,11 +213,13 @@ class _$DexPoolImpl extends _DexPool {
   @override
   final bool lpTokenInUserBalance;
   @override
+  final bool isFavorite;
+  @override
   final DexPoolInfos? infos;
 
   @override
   String toString() {
-    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, pair: $pair, lpTokenInUserBalance: $lpTokenInUserBalance, infos: $infos)';
+    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, pair: $pair, lpTokenInUserBalance: $lpTokenInUserBalance, isFavorite: $isFavorite, infos: $infos)';
   }
 
   @override
@@ -217,12 +233,14 @@ class _$DexPoolImpl extends _DexPool {
             (identical(other.pair, pair) || other.pair == pair) &&
             (identical(other.lpTokenInUserBalance, lpTokenInUserBalance) ||
                 other.lpTokenInUserBalance == lpTokenInUserBalance) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite) &&
             (identical(other.infos, infos) || other.infos == infos));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, poolAddress, lpToken, pair, lpTokenInUserBalance, infos);
+  int get hashCode => Object.hash(runtimeType, poolAddress, lpToken, pair,
+      lpTokenInUserBalance, isFavorite, infos);
 
   @JsonKey(ignore: true)
   @override
@@ -237,6 +255,7 @@ abstract class _DexPool extends DexPool {
       required final DexToken lpToken,
       required final DexPair pair,
       required final bool lpTokenInUserBalance,
+      required final bool isFavorite,
       final DexPoolInfos? infos}) = _$DexPoolImpl;
   const _DexPool._() : super._();
 
@@ -248,6 +267,8 @@ abstract class _DexPool extends DexPool {
   DexPair get pair;
   @override
   bool get lpTokenInUserBalance;
+  @override
+  bool get isFavorite;
   @override
   DexPoolInfos? get infos;
   @override

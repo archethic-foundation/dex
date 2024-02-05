@@ -105,8 +105,9 @@ Future<void> _updatePoolInCache(
 @riverpod
 Future<void> _putPoolToCache(
   _PutPoolToCacheRef ref,
-  String poolGenesisAddress,
-) async {
+  String poolGenesisAddress, {
+  bool isFavorite = false,
+}) async {
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
 
   final poolList = await ref.read(_getPoolListProvider.future);
@@ -136,7 +137,18 @@ Future<void> _putPoolToCache(
       transactionChainResult,
     ),
   );
+  poolWithInfos = poolWithInfos!.copyWith(isFavorite: isFavorite);
 
-  await poolsListDatasource.setPool(poolWithInfos!.toHive());
+  await poolsListDatasource.setPool(poolWithInfos.toHive());
+  ref.invalidate(_getPoolListFromCacheProvider);
+}
+
+@riverpod
+Future<void> _removePoolFromCache(
+  _RemovePoolFromCacheRef ref,
+  String poolGenesisAddress,
+) async {
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+  await poolsListDatasource.removePool(poolGenesisAddress);
   ref.invalidate(_getPoolListFromCacheProvider);
 }

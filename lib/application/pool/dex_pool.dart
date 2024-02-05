@@ -69,6 +69,7 @@ abstract class DexPoolProviders {
   static final favoritePools = _favoritePoolsProvider;
   static const updatePoolInCache = _updatePoolInCacheProvider;
   static const putPoolToCache = _putPoolToCacheProvider;
+  static const removePoolFromCache = _removePoolFromCacheProvider;
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
   static const getPoolListForSearch = _getPoolListForSearchProvider;

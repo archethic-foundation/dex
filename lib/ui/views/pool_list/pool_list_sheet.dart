@@ -4,7 +4,8 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_add_in_cache_icon.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_add_add_cache_icon.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_add_remove_cache_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
@@ -264,7 +265,14 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
               if (poolListForm.tabIndexSelected == PoolsListTab.searchPool)
                 Padding(
                   padding: const EdgeInsets.only(left: 5),
-                  child: PoolAddInCacheIcon(
+                  child: PoolAddAddCacheIcon(
+                    poolAddress: widget.pool.poolAddress,
+                  ),
+                ),
+              if (widget.pool.isFavorite)
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: PoolAddRemoveCacheIcon(
                     poolAddress: widget.pool.poolAddress,
                   ),
                 ),
