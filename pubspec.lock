@@ -145,14 +145,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.9.0"
-  busy:
-    dependency: "direct main"
-    description:
-      name: busy
-      sha256: "09ef663cd4c33c904a10aa137eaeefdadee8b647d8bef1d1f87fb662761058ac"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
   characters:
     dependency: transitive
     description:

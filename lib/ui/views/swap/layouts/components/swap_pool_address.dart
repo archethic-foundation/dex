@@ -23,7 +23,7 @@ class SwapPoolAddress extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SelectableText(
             AppLocalizations.of(context)!.swap_pool_address,
           ),
           SelectableText(

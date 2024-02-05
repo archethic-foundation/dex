@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SwapFormState {
   SwapProcessStep get swapProcessStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
+  bool get calculateAmountToSwap => throw _privateConstructorUsedError;
+  bool get calculateAmountSwapped => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
   int get tokenFormSelected => throw _privateConstructorUsedError;
   String get poolGenesisAddress => throw _privateConstructorUsedError;
@@ -57,6 +59,8 @@ abstract class $SwapFormStateCopyWith<$Res> {
   $Res call(
       {SwapProcessStep swapProcessStep,
       bool resumeProcess,
+      bool calculateAmountToSwap,
+      bool calculateAmountSwapped,
       int currentStep,
       int tokenFormSelected,
       String poolGenesisAddress,
@@ -103,6 +107,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
   $Res call({
     Object? swapProcessStep = null,
     Object? resumeProcess = null,
+    Object? calculateAmountToSwap = null,
+    Object? calculateAmountSwapped = null,
     Object? currentStep = null,
     Object? tokenFormSelected = null,
     Object? poolGenesisAddress = null,
@@ -135,6 +141,14 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      calculateAmountToSwap: null == calculateAmountToSwap
+          ? _value.calculateAmountToSwap
+          : calculateAmountToSwap // ignore: cast_nullable_to_non_nullable
+              as bool,
+      calculateAmountSwapped: null == calculateAmountSwapped
+          ? _value.calculateAmountSwapped
+          : calculateAmountSwapped // ignore: cast_nullable_to_non_nullable
               as bool,
       currentStep: null == currentStep
           ? _value.currentStep
@@ -303,6 +317,8 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
   $Res call(
       {SwapProcessStep swapProcessStep,
       bool resumeProcess,
+      bool calculateAmountToSwap,
+      bool calculateAmountSwapped,
       int currentStep,
       int tokenFormSelected,
       String poolGenesisAddress,
@@ -352,6 +368,8 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
   $Res call({
     Object? swapProcessStep = null,
     Object? resumeProcess = null,
+    Object? calculateAmountToSwap = null,
+    Object? calculateAmountSwapped = null,
     Object? currentStep = null,
     Object? tokenFormSelected = null,
     Object? poolGenesisAddress = null,
@@ -384,6 +402,14 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      calculateAmountToSwap: null == calculateAmountToSwap
+          ? _value.calculateAmountToSwap
+          : calculateAmountToSwap // ignore: cast_nullable_to_non_nullable
+              as bool,
+      calculateAmountSwapped: null == calculateAmountSwapped
+          ? _value.calculateAmountSwapped
+          : calculateAmountSwapped // ignore: cast_nullable_to_non_nullable
               as bool,
       currentStep: null == currentStep
           ? _value.currentStep
@@ -487,6 +513,8 @@ class _$SwapFormStateImpl extends _SwapFormState {
   const _$SwapFormStateImpl(
       {this.swapProcessStep = SwapProcessStep.form,
       this.resumeProcess = false,
+      this.calculateAmountToSwap = false,
+      this.calculateAmountSwapped = false,
       this.currentStep = 0,
       this.tokenFormSelected = 1,
       this.poolGenesisAddress = '',
@@ -518,6 +546,12 @@ class _$SwapFormStateImpl extends _SwapFormState {
   @override
   @JsonKey()
   final bool resumeProcess;
+  @override
+  @JsonKey()
+  final bool calculateAmountToSwap;
+  @override
+  @JsonKey()
+  final bool calculateAmountSwapped;
   @override
   @JsonKey()
   final int currentStep;
@@ -584,7 +618,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
 
   @override
   String toString() {
-    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, pool: $pool)';
+    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, calculateAmountToSwap: $calculateAmountToSwap, calculateAmountSwapped: $calculateAmountSwapped, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, pool: $pool)';
   }
 
   @override
@@ -596,6 +630,10 @@ class _$SwapFormStateImpl extends _SwapFormState {
                 other.swapProcessStep == swapProcessStep) &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
+            (identical(other.calculateAmountToSwap, calculateAmountToSwap) ||
+                other.calculateAmountToSwap == calculateAmountToSwap) &&
+            (identical(other.calculateAmountSwapped, calculateAmountSwapped) ||
+                other.calculateAmountSwapped == calculateAmountSwapped) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
             (identical(other.tokenFormSelected, tokenFormSelected) ||
@@ -646,6 +684,8 @@ class _$SwapFormStateImpl extends _SwapFormState {
         runtimeType,
         swapProcessStep,
         resumeProcess,
+        calculateAmountToSwap,
+        calculateAmountSwapped,
         currentStep,
         tokenFormSelected,
         poolGenesisAddress,
@@ -682,6 +722,8 @@ abstract class _SwapFormState extends SwapFormState {
   const factory _SwapFormState(
       {final SwapProcessStep swapProcessStep,
       final bool resumeProcess,
+      final bool calculateAmountToSwap,
+      final bool calculateAmountSwapped,
       final int currentStep,
       final int tokenFormSelected,
       final String poolGenesisAddress,
@@ -711,6 +753,10 @@ abstract class _SwapFormState extends SwapFormState {
   SwapProcessStep get swapProcessStep;
   @override
   bool get resumeProcess;
+  @override
+  bool get calculateAmountToSwap;
+  @override
+  bool get calculateAmountSwapped;
   @override
   int get currentStep;
   @override

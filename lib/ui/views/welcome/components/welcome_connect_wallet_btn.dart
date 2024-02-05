@@ -2,8 +2,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/router.dart';
-import 'package:aedex/ui/views/welcome/bloc/providers.dart';
-import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,37 +21,29 @@ class WelcomeConnectWalletBtnState
   Widget build(BuildContext context) {
     return AppButton(
       labelBtn: AppLocalizations.of(context)!.connectionWalletConnect,
-      onPressed: () {
-        startBusyContext(
-          () async {
-            final sessionNotifier = ref.read(SessionProviders.session.notifier);
-            await sessionNotifier.connectToWallet();
+      onPressed: () async {
+        final sessionNotifier = ref.read(SessionProviders.session.notifier);
+        await sessionNotifier.connectToWallet();
 
-            final session = ref.read(SessionProviders.session);
-            if (session.error.isNotEmpty) {
-              if (!context.mounted) return;
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor:
-                      Theme.of(context).snackBarTheme.backgroundColor,
-                  content: Text(
-                    session.error,
-                    style: Theme.of(context).snackBarTheme.contentTextStyle,
-                  ),
-                  duration: const Duration(seconds: 2),
-                ),
-              );
-            } else {
-              if (!context.mounted) return;
-              context.go(
-                RoutesPath().main(),
-              );
-            }
-          },
-          isBusyValueChanged: (isBusy) {
-            ref.read(isLoadingWelcomeScreenProvider.notifier).state = isBusy;
-          },
-        );
+        final session = ref.read(SessionProviders.session);
+        if (session.error.isNotEmpty) {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
+              content: SelectableText(
+                session.error,
+                style: Theme.of(context).snackBarTheme.contentTextStyle,
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          if (!context.mounted) return;
+          context.go(
+            RoutesPath().main(),
+          );
+        }
       },
     );
   }

@@ -81,10 +81,11 @@ class _SwapTokenSwappedAmountState
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text(
+        SelectableText(
           AppLocalizations.of(context)!.swapToEstimatedLbl,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         Stack(
           alignment: Alignment.centerLeft,
@@ -135,55 +136,77 @@ class _SwapTokenSwappedAmountState
                                       left: 160,
                                       right: 70,
                                     ),
-                                    child: TextField(
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                      autocorrect: false,
-                                      controller: tokenAmountController,
-                                      onChanged: (text) async {
-                                        ref
-                                            .read(
-                                              SwapFormProvider
-                                                  .swapForm.notifier,
-                                            )
-                                            .setTokenFormSelected(2);
-                                        await swapNotifier
-                                            .setTokenSwappedAmount(
-                                          double.tryParse(
-                                                text.replaceAll(' ', ''),
-                                              ) ??
-                                              0,
-                                        );
-                                      },
-                                      onTap: () {
-                                        ref
-                                            .read(
-                                              SwapFormProvider
-                                                  .swapForm.notifier,
-                                            )
-                                            .setTokenFormSelected(2);
-                                      },
-                                      focusNode: tokenAmountFocusNode,
-                                      textAlign: TextAlign.left,
-                                      textInputAction: TextInputAction.next,
-                                      keyboardType: TextInputType.text,
-                                      inputFormatters: <TextInputFormatter>[
-                                        AmountTextInputFormatter(precision: 8),
-                                        LengthLimitingTextInputFormatter(
-                                          swap.tokenSwappedBalance
-                                                  .formatNumber(precision: 0)
-                                                  .length +
-                                              8 +
-                                              1,
-                                        ),
-                                      ],
-                                      decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        contentPadding:
-                                            EdgeInsets.only(left: 10),
-                                      ),
-                                    ),
+                                    child: swap.calculateAmountSwapped
+                                        ? const SizedBox(
+                                            width: 10,
+                                            height: 48,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                left: 10,
+                                                right: 330,
+                                                top: 15,
+                                                bottom: 15,
+                                              ),
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 1,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )
+                                        : TextField(
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                            autocorrect: false,
+                                            controller: tokenAmountController,
+                                            onChanged: (text) async {
+                                              ref
+                                                  .read(
+                                                    SwapFormProvider
+                                                        .swapForm.notifier,
+                                                  )
+                                                  .setTokenFormSelected(2);
+                                              await swapNotifier
+                                                  .setTokenSwappedAmount(
+                                                double.tryParse(
+                                                      text.replaceAll(' ', ''),
+                                                    ) ??
+                                                    0,
+                                              );
+                                            },
+                                            onTap: () {
+                                              ref
+                                                  .read(
+                                                    SwapFormProvider
+                                                        .swapForm.notifier,
+                                                  )
+                                                  .setTokenFormSelected(2);
+                                            },
+                                            focusNode: tokenAmountFocusNode,
+                                            textAlign: TextAlign.left,
+                                            textInputAction:
+                                                TextInputAction.next,
+                                            keyboardType: TextInputType.text,
+                                            inputFormatters: <TextInputFormatter>[
+                                              AmountTextInputFormatter(
+                                                precision: 8,
+                                              ),
+                                              LengthLimitingTextInputFormatter(
+                                                swap.tokenSwappedBalance
+                                                        .formatNumber(
+                                                          precision: 0,
+                                                        )
+                                                        .length +
+                                                    8 +
+                                                    1,
+                                              ),
+                                            ],
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                              contentPadding:
+                                                  EdgeInsets.only(left: 10),
+                                            ),
+                                          ),
                                   ),
                                 ),
                               ),
@@ -196,7 +219,7 @@ class _SwapTokenSwappedAmountState
                 ),
                 if (swap.tokenSwapped != null)
                   Positioned(
-                    top: 14,
+                    top: 12,
                     right: 10,
                     child: FutureBuilder<String>(
                       future: FiatValue().display(
@@ -206,7 +229,7 @@ class _SwapTokenSwappedAmountState
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text(
+                          return SelectableText(
                             snapshot.data!,
                             style: Theme.of(context).textTheme.bodyLarge,
                           );

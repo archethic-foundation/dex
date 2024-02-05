@@ -37,7 +37,7 @@ class WelcomeInfoVersion extends ConsumerWidget {
           const SizedBox(
             height: 5,
           ),
-          Text(
+          SelectableText(
             asyncVersionString.asData?.value ?? '',
             style: Theme.of(context).textTheme.labelSmall,
           ),

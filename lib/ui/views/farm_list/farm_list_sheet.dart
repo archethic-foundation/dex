@@ -45,7 +45,7 @@ class FarmListSheet extends ConsumerWidget {
           data: (farms) => GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedSize(
               crossAxisExtent: 500,
-              mainAxisExtent: 615,
+              mainAxisExtent: 655,
               mainAxisSpacing: 20,
               crossAxisSpacing: 10,
             ),
@@ -190,7 +190,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                       left: 10,
                       right: 10,
                     ),
-                    child: Text(
+                    child: SelectableText(
                       'Farming',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: ArchethicThemeBase.raspberry300,

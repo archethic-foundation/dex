@@ -114,7 +114,7 @@ class SwapSettingsSlippageToleranceState
             ),
             Padding(
               padding: const EdgeInsets.only(left: 5),
-              child: Text(
+              child: SelectableText(
                 '%',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),

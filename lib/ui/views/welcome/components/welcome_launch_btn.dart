@@ -1,7 +1,5 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/router.dart';
-import 'package:aedex/ui/views/welcome/bloc/providers.dart';
-import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -46,17 +44,9 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                 ),
                 onPressed: () {
-                  startBusyContext(
-                    () {
-                      if (!context.mounted) return;
-                      context.go(
-                        RoutesPath().main(),
-                      );
-                    },
-                    isBusyValueChanged: (isBusy) {
-                      ref.read(isLoadingWelcomeScreenProvider.notifier).state =
-                          isBusy;
-                    },
+                  if (!context.mounted) return;
+                  context.go(
+                    RoutesPath().main(),
                   );
                 },
                 child: Container(

@@ -15,6 +15,8 @@ class SwapFormState with _$SwapFormState {
   const factory SwapFormState({
     @Default(SwapProcessStep.form) SwapProcessStep swapProcessStep,
     @Default(false) bool resumeProcess,
+    @Default(false) bool calculateAmountToSwap,
+    @Default(false) bool calculateAmountSwapped,
     @Default(0) int currentStep,
     @Default(1) int tokenFormSelected,
     @Default('') String poolGenesisAddress,

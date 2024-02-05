@@ -36,7 +36,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
-                    child: Text(
+                    child: SelectableText(
                       AppLocalizations.of(context)!.farmWithdrawFormTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
@@ -63,7 +63,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      SelectableText(
                         'You can withdraw all or part of your deposited LP tokens. At the same time, this will claim your rewards.',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
@@ -77,15 +77,15 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                           if (snapshot.hasData) {
                             return Row(
                               children: [
-                                Text(
+                                SelectableText(
                                   '${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
-                                Text(
+                                SelectableText(
                                   '${snapshot.data}',
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                Text(
+                                SelectableText(
                                   ' are available for claiming.',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),

@@ -110,28 +110,49 @@ class _LiquidityAddToken2AmountState
                               stops: const [0, 1],
                             ),
                           ),
-                          child: TextField(
-                            style: Theme.of(context).textTheme.titleMedium,
-                            autocorrect: false,
-                            controller: tokenAmountController,
-                            onChanged: (text) async {
-                              await liquidityAddNotifier.setToken2Amount(
-                                double.tryParse(text.replaceAll(' ', '')) ?? 0,
-                              );
-                            },
-                            focusNode: tokenAmountFocusNode,
-                            textAlign: TextAlign.left,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            inputFormatters: <TextInputFormatter>[
-                              AmountTextInputFormatter(precision: 8),
-                              LengthLimitingTextInputFormatter(10),
-                            ],
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.only(left: 10),
-                            ),
-                          ),
+                          child: liquidityAdd.calculateToken2
+                              ? const SizedBox(
+                                  width: 10,
+                                  height: 48,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 10,
+                                      right: 560,
+                                      top: 15,
+                                      bottom: 15,
+                                    ),
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 1,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : TextField(
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                  autocorrect: false,
+                                  controller: tokenAmountController,
+                                  onChanged: (text) async {
+                                    await liquidityAddNotifier.setToken2Amount(
+                                      double.tryParse(
+                                            text.replaceAll(' ', ''),
+                                          ) ??
+                                          0,
+                                    );
+                                  },
+                                  focusNode: tokenAmountFocusNode,
+                                  textAlign: TextAlign.left,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.text,
+                                  inputFormatters: <TextInputFormatter>[
+                                    AmountTextInputFormatter(precision: 8),
+                                    LengthLimitingTextInputFormatter(10),
+                                  ],
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(left: 10),
+                                  ),
+                                ),
                         ),
                       ),
                     ],

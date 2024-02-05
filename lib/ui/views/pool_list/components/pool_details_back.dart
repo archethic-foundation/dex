@@ -43,7 +43,7 @@ class PoolDetailsBack extends ConsumerWidget {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              SelectableText(
                                 '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
                                 style:
                                     Theme.of(context).textTheme.headlineMedium,
@@ -104,7 +104,7 @@ class PoolDetailsBack extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          SelectableText(
                             'Deposited',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
@@ -138,7 +138,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                       const SizedBox(
                                         width: 5,
                                       ),
-                                      Text(
+                                      SelectableText(
                                         '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol}',
                                         style: Theme.of(context)
                                             .textTheme
@@ -154,7 +154,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                     ),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return Text(
+                                        return SelectableText(
                                           snapshot.data!,
                                           style: Theme.of(context)
                                               .textTheme
@@ -177,7 +177,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                       const SizedBox(
                                         width: 5,
                                       ),
-                                      Text(
+                                      SelectableText(
                                         '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol}',
                                         style: Theme.of(context)
                                             .textTheme
@@ -193,7 +193,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                     ),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return Text(
+                                        return SelectableText(
                                           snapshot.data!,
                                           style: Theme.of(context)
                                               .textTheme
@@ -218,11 +218,11 @@ class PoolDetailsBack extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'Swap fees',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
+                      SelectableText(
                         '${pool.infos?.fees ?? '-- '}%',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
@@ -232,11 +232,11 @@ class PoolDetailsBack extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'Protocol fees',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
+                      SelectableText(
                         '${pool.infos?.protocolFees ?? '-- '}%',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),

@@ -54,7 +54,7 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Text(
+                SelectableText(
                   EndpointUtil.getEnvironnementLabel(session.endpoint),
                 ),
                 const SizedBox(width: 5),
@@ -100,7 +100,7 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Text(
+                    SelectableText(
                       EndpointUtil.getEnvironnementLabel(
                         'https://testnet.archethic.net',
                       ),
@@ -156,7 +156,7 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Text(
+                    SelectableText(
                       EndpointUtil.getEnvironnementLabel(
                         'https://mainnet.archethic.net',
                       ),

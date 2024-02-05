@@ -169,10 +169,18 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               getSwapInfosResult.map(
                 success: (success) {
                   if (success != null) {
-                    _outputAmount = success['output_amount'] ?? 0;
-                    _fees = success['fee'] ?? 0;
-                    _priceImpact = success['price_impact'] ?? 0;
-                    _protocolFees = success['protocol_fee'] ?? 0;
+                    _outputAmount = success['output_amount'] is int
+                        ? double.parse(success['output_amount'].toString())
+                        : success['output_amount'] ?? 0;
+                    _fees = success['fee'] is int
+                        ? double.parse(success['fee'].toString())
+                        : success['fee'] ?? 0;
+                    _priceImpact = success['price_impact'] is int
+                        ? double.parse(success['price_impact'].toString())
+                        : success['price_impact'] ?? 0;
+                    _protocolFees = success['protocol_fee'] is int
+                        ? double.parse(success['price_impact'].toString())
+                        : success['protocol_fee'] ?? 0;
                   }
                 },
                 failure: (failure) {
@@ -229,10 +237,35 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenToSwap == null) {
       return;
     }
-    final swapInfos = await calculateSwapInfos(
-      state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-      tokenToSwapAmount,
-    );
+
+    var swapInfos =
+        (fees: 0.0, outputAmount: 0.0, priceImpact: 0.0, protocolFees: 0.0);
+
+    if (tokenToSwapAmount > 0) {
+      state = state.copyWith(
+        calculateAmountSwapped: true,
+      );
+      swapInfos = await calculateSwapInfos(
+        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+        tokenToSwapAmount,
+      );
+      state = state.copyWith(
+        tokenSwappedAmount: swapInfos.outputAmount,
+      );
+    } else {
+      if (state.tokenSwapped != null && state.tokenSwappedAmount > 0) {
+        state = state.copyWith(
+          calculateAmountToSwap: true,
+        );
+        swapInfos = await calculateSwapInfos(
+          state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+          state.tokenSwappedAmount,
+        );
+        state = state.copyWith(
+          tokenToSwapAmount: swapInfos.outputAmount,
+        );
+      }
+    }
 
     final minToReceive = (Decimal.parse(swapInfos.outputAmount.toString()) *
             (((Decimal.parse('100') -
@@ -244,11 +277,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         .toDouble();
 
     state = state.copyWith(
-      tokenSwappedAmount: swapInfos.outputAmount,
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
       swapProtocolFees: swapInfos.protocolFees,
       minToReceive: minToReceive,
+      calculateAmountSwapped: false,
+      calculateAmountToSwap: false,
     );
   }
 
@@ -263,12 +297,36 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenSwapped == null) {
       return;
     }
-    final swapInfos = await calculateSwapInfos(
-      state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
-      tokenSwappedAmount,
-    );
 
-    final minToReceive = (Decimal.parse(tokenSwappedAmount.toString()) *
+    var swapInfos =
+        (fees: 0.0, outputAmount: 0.0, priceImpact: 0.0, protocolFees: 0.0);
+    if (tokenSwappedAmount > 0) {
+      state = state.copyWith(
+        calculateAmountToSwap: true,
+      );
+      swapInfos = await calculateSwapInfos(
+        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+        tokenSwappedAmount,
+      );
+      state = state.copyWith(
+        tokenToSwapAmount: swapInfos.outputAmount,
+      );
+    } else {
+      if (state.tokenToSwap != null && state.tokenToSwapAmount > 0) {
+        state = state.copyWith(
+          calculateAmountSwapped: true,
+        );
+        swapInfos = await calculateSwapInfos(
+          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+          state.tokenToSwapAmount,
+        );
+        state = state.copyWith(
+          tokenSwappedAmount: swapInfos.outputAmount,
+        );
+      }
+    }
+
+    final minToReceive = (Decimal.parse(swapInfos.outputAmount.toString()) *
             (((Decimal.parse('100') -
                         Decimal.parse(
                           state.slippageTolerance.toString(),
@@ -278,11 +336,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         .toDouble();
 
     state = state.copyWith(
-      tokenToSwapAmount: swapInfos.outputAmount,
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
       swapProtocolFees: swapInfos.protocolFees,
       minToReceive: minToReceive,
+      calculateAmountSwapped: false,
+      calculateAmountToSwap: false,
     );
   }
 
@@ -345,6 +404,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         );
       }
     }
+
     return;
   }
 

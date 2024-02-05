@@ -1,10 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
-import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +29,7 @@ class _ConnectionToWalletStatusState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
-            content: Text(
+            content: SelectableText(
               AppLocalizations.of(context)!.changeCurrentAccountWarning,
               style: Theme.of(context).snackBarTheme.contentTextStyle,
             ),
@@ -44,33 +42,25 @@ class _ConnectionToWalletStatusState
 
     if (session.isConnected == false) {
       return IconButton(
-        onPressed: () {
-          startBusyContext(
-            () async {
-              final sessionNotifier =
-                  ref.watch(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-              if (ref.read(SessionProviders.session).error.isNotEmpty) {
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor:
-                        Theme.of(context).snackBarTheme.backgroundColor,
-                    content: Text(
-                      ref.read(SessionProviders.session).error,
-                      style: Theme.of(context).snackBarTheme.contentTextStyle,
-                    ),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-            },
-            isBusyValueChanged: (isBusy) {
-              ref.read(isLoadingMainScreenProvider.notifier).state = isBusy;
-            },
-          );
+        onPressed: () async {
+          final sessionNotifier = ref.watch(SessionProviders.session.notifier);
+          await sessionNotifier.connectToWallet();
+          if (ref.read(SessionProviders.session).error.isNotEmpty) {
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor:
+                    Theme.of(context).snackBarTheme.backgroundColor,
+                content: SelectableText(
+                  ref.read(SessionProviders.session).error,
+                  style: Theme.of(context).snackBarTheme.contentTextStyle,
+                ),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          }
         },
-        icon: Text(
+        icon: SelectableText(
           AppLocalizations.of(context)!.btn_connect_wallet,
           style: TextStyle(
             fontSize: 16,
@@ -139,7 +129,7 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
           child: Column(
             children: [
               Center(
-                child: Text(
+                child: SelectableText(
                   session.nameAccount,
                   textAlign: TextAlign.center,
                 ),

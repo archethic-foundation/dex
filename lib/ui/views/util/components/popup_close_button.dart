@@ -54,7 +54,7 @@ class PopupCloseButton extends StatelessWidget {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(10),
-                              child: Text(
+                              child: SelectableText(
                                 AppLocalizations.of(context)!
                                     .confirmationPopupTitle,
                                 style: Theme.of(context).textTheme.titleMedium,
@@ -62,7 +62,7 @@ class PopupCloseButton extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10),
-                              child: Text(
+                              child: SelectableText(
                                 warningCloseLabel,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),

@@ -38,13 +38,13 @@ class PrivacyPopup extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Information - Testnet'),
+                const SelectableText('Information - Testnet'),
                 const SizedBox(height: 40),
-                const Text(
+                const SelectableText(
                   'During the testnet phase, Archethic collects logs, both functional and technical, to analyze anomalies in the Apps operation.',
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                const SelectableText(
                   'These logs may contain information related to the transactions performed but do not in any way allow us to alter or interfere with the transactions. These logs do not contain sensitive information such as seed or private keys.',
                 ),
                 const SizedBox(height: 20),

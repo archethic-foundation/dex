@@ -34,6 +34,7 @@ class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
           setState(() {
             finalAmount = amount;
           });
+          unawaited(refreshCurrentAccountInfoWallet());
           timer?.cancel();
         }
         // ignore: empty_catches
@@ -53,12 +54,12 @@ class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
     if (swap.swapOk == false) return const SizedBox.shrink();
 
     return finalAmount != null
-        ? Text(
+        ? SelectableText(
             'Final amount swapped: ${finalAmount!.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
           )
         : const Row(
             children: [
-              Text(
+              SelectableText(
                 'Final amount swapped: ',
               ),
               SizedBox(

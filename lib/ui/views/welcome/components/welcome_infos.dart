@@ -54,14 +54,14 @@ class WelcomeInfos extends StatelessWidget {
         child: SizedBox(
           child: Column(
             children: [
-              Text(
+              SelectableText(
                 welcomeArgTitle,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(
                 height: 10,
               ),
-              Text(
+              SelectableText(
                 welcomeArgDesc,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),

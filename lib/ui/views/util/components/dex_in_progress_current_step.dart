@@ -13,7 +13,7 @@ class DexInProgressCurrentStep extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.only(bottom: 10),
-      child: Text(
+      child: SelectableText(
         steplabel,
         style: const TextStyle(fontSize: 11),
       ),

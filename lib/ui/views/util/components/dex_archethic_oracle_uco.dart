@@ -46,7 +46,7 @@ class DexArchethicOracleUco extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(
+            SelectableText(
               '1 UCO = \$${archethicOracleUCO.usd.formatNumber(precision: 2)} ($timestamp)',
               style: TextStyle(
                 fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
