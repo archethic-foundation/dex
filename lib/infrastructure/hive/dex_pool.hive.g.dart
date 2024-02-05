@@ -21,7 +21,7 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
       lpToken: fields[1] as DexTokenHive,
       pair: fields[2] as DexPairHive,
       lpTokenInUserBalance: fields[3] as bool,
-      isFavorite: fields[5] as bool,
+      isFavorite: fields[5] as bool?,
       details: fields[4] as DexPoolInfosHive?,
     );
   }
