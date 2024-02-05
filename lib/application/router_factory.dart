@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
-import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -11,6 +10,7 @@ import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/infrastructure/hive/dex_token.hive.dart';
 import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
+import 'package:aedex/infrastructure/verified_tokens.repository.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -109,7 +109,7 @@ class RouterFactory with ModelParser {
           var tokenResult = tokenSDKToModel(entry.value, 0);
 
           final tokenVerified =
-              await VerifiedTokensRepository().isVerifiedToken(address);
+              await VerifiedTokensRepositoryImpl().isVerifiedToken(address);
 
           tokenResult =
               tokenResult.copyWith(address: address, isVerified: tokenVerified);
