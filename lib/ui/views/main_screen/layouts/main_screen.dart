@@ -16,7 +16,6 @@ import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -89,52 +88,48 @@ class MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _closeSubMenu,
-      child: BusyScaffold(
-        isBusy: ref.watch(isLoadingMainScreenProvider),
-        scaffold: Scaffold(
-          extendBodyBehindAppBar: true,
-          extendBody: true,
-          backgroundColor: DexThemeBase.backgroundColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(70),
-            child: ClipRRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: AppBarMainScreen(
-                  onAEMenuTapped: _toggleSubMenu,
-                ),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        backgroundColor: DexThemeBase.backgroundColor,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: AppBarMainScreen(
+                onAEMenuTapped: _toggleSubMenu,
               ),
             ),
           ),
-          body: Stack(
-            alignment: Alignment.topRight,
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  const DexBackground(),
-                  Body(
-                    listNavigationLabelIcon: listNavigationLabelIcon,
-                    navDrawerIndex:
-                        ref.watch(navigationIndexMainScreenProvider),
-                  ),
-                  if (_isSubMenuOpen) const DexMainMenuApp(),
-                ],
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 80, right: 20),
-                child: DexEnv(),
-              ),
-            ],
-          ),
-          bottomNavigationBar: Responsive.isMobile(context) ||
-                  Responsive.isTablet(context)
-              ? BottomNavigationBarMainScreen(
+        ),
+        body: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                const DexBackground(),
+                Body(
                   listNavigationLabelIcon: listNavigationLabelIcon,
                   navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
-                )
-              : null,
+                ),
+                if (_isSubMenuOpen) const DexMainMenuApp(),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 80, right: 20),
+              child: DexEnv(),
+            ),
+          ],
         ),
+        bottomNavigationBar: Responsive.isMobile(context) ||
+                Responsive.isTablet(context)
+            ? BottomNavigationBarMainScreen(
+                listNavigationLabelIcon: listNavigationLabelIcon,
+                navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
+              )
+            : null,
       ),
     );
   }

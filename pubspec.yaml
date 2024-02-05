@@ -15,9 +15,6 @@ dependencies:
   #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
   #    ref: dev
 
-  # Centralized loading widget management
-  busy: ^1.0.3
-
   # Collections and utilities functions and classes related to collections.
   collection: ^1.17.0
 
