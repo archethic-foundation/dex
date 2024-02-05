@@ -5,6 +5,7 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
@@ -199,9 +200,8 @@ class PoolDetailsFront extends ConsumerWidget {
               ),
               Column(
                 children: [
-                  DexButtonValidate(
+                  AppButton(
                     background: ArchethicThemeBase.purple500,
-                    controlOk: true,
                     labelBtn: 'Swap these tokens',
                     onPressed: () {
                       ref
