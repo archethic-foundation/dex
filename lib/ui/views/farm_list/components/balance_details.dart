@@ -1,4 +1,4 @@
-part of 'farm_details_front.dart';
+part of 'farm_details_user_info.dart';
 
 class _BalanceDetails extends ConsumerWidget {
   const _BalanceDetails({
@@ -66,8 +66,8 @@ class _BalanceDetails extends ConsumerWidget {
                 ],
               )
             else
-              const SizedBox(
-                height: 240,
+              SizedBox(
+                height: session.isConnected ? 240 : 190,
               ),
             Column(
               children: [
@@ -88,6 +88,7 @@ class _BalanceDetails extends ConsumerWidget {
                           ref,
                         );
                   },
+                  displayWalletConnect: true,
                 ),
                 const SizedBox(
                   height: 30,

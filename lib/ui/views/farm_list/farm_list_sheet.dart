@@ -45,7 +45,7 @@ class FarmListSheet extends ConsumerWidget {
           data: (farms) => GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedSize(
               crossAxisExtent: 500,
-              mainAxisExtent: 600,
+              mainAxisExtent: 615,
               mainAxisSpacing: 20,
               crossAxisSpacing: 10,
             ),

@@ -1,24 +1,12 @@
-import 'package:aedex/application/main_screen_widget_displayed.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
-import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
-import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_list/components/loading_field_indicator.dart';
-import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
+import 'package:aedex/ui/views/farm_list/components/farm_details_user_info.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
-import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
-part 'balance_details.dart';
 
 class FarmDetailsFront extends ConsumerWidget {
   const FarmDetailsFront({
@@ -134,6 +122,27 @@ class FarmDetailsFront extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      if (farm.startDate.dateTime.isAfter(DateTime.now()))
+                        Text(
+                          'Farm will start at',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        )
+                      else
+                        Text(
+                          'Farm started since',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      Text(
+                        DateFormat.yMd(
+                          Localizations.localeOf(context).languageCode,
+                        ).add_Hm().format(farm.startDate.dateTime.toLocal()),
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       if (farm.endDate.dateTime.isAfter(DateTime.now()))
                         Text(
                           'Farm ends at',
@@ -153,120 +162,9 @@ class FarmDetailsFront extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 9,
                   ),
-                  FutureBuilder<DexFarmUserInfos?>(
-                    future: ref.watch(
-                      FarmListProvider.userInfos(
-                        farm,
-                      ).future,
-                    ),
-                    builder: (context, userInfosSnapshot) {
-                      final userInfos = userInfosSnapshot.data;
-
-                      return Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Your deposited amount',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.bodyLarge,
-                              ),
-                              if (userInfos == null)
-                                const LoadingFieldIndicator()
-                              else
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '${userInfos.depositedAmount.formatNumber()} ${userInfos.depositedAmount > 1 ? 'LP Tokens' : 'LP Token'}',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
-                                    ),
-                                    Text(
-                                      DEXLPTokenFiatValue().display(
-                                        ref,
-                                        farm.lpTokenPair!.token1,
-                                        farm.lpTokenPair!.token2,
-                                        userInfos.depositedAmount,
-                                        farm.poolAddress,
-                                      ),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Your reward amount',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.bodyLarge,
-                              ),
-                              if (userInfos == null)
-                                const LoadingFieldIndicator()
-                              else
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '${userInfos.rewardAmount.formatNumber(precision: 8)} ${farm.rewardToken!.symbol}',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge!.copyWith(
-                                            color: DexThemeBase.secondaryColor,
-                                          ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    FutureBuilder<String>(
-                                      future: FiatValue().display(
-                                        ref,
-                                        farm.rewardToken!,
-                                        userInfos.rewardAmount,
-                                      ),
-                                      builder: (context, fiatSnapshot) {
-                                        if (!fiatSnapshot.hasData) {
-                                          return const SizedBox.shrink();
-                                        }
-
-                                        final fiatValue = fiatSnapshot.data!;
-
-                                        return Text(
-                                          fiatValue,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          _BalanceDetails(farm: farm),
-                        ],
-                      );
-                    },
-                  ),
+                  FarmDetailsUserInfo(farm: farm),
                 ],
               ),
             ),
