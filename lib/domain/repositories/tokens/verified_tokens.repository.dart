@@ -4,4 +4,10 @@ import 'package:aedex/domain/models/verified_tokens.dart';
 
 abstract class VerifiedTokensRepositoryInterface {
   Future<VerifiedTokens> getVerifiedTokens();
+
+  Future<List<String>> getVerifiedTokensFromNetwork();
+
+  Future<bool> isVerifiedToken(
+    String address,
+  );
 }

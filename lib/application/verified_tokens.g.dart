@@ -7,12 +7,12 @@ part of 'verified_tokens.dart';
 // **************************************************************************
 
 String _$verifiedTokensRepositoryHash() =>
-    r'a5536a493a63ddbd1102cb6e91c31a402641f749';
+    r'987a9d6bf9496249eaf45b2163561f0c1cca7ac8';
 
 /// See also [_verifiedTokensRepository].
 @ProviderFor(_verifiedTokensRepository)
 final _verifiedTokensRepositoryProvider =
-    Provider<VerifiedTokensRepository>.internal(
+    Provider<VerifiedTokensRepositoryImpl>.internal(
   _verifiedTokensRepository,
   name: r'_verifiedTokensRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,7 +22,8 @@ final _verifiedTokensRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _VerifiedTokensRepositoryRef = ProviderRef<VerifiedTokensRepository>;
+typedef _VerifiedTokensRepositoryRef
+    = ProviderRef<VerifiedTokensRepositoryImpl>;
 String _$getVerifiedTokensHash() => r'fdd8866488e517f410a06ff21dbafbbdc420d431';
 
 /// See also [_getVerifiedTokens].

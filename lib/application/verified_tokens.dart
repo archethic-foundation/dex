@@ -1,15 +1,14 @@
 import 'package:aedex/domain/models/verified_tokens.dart';
-import 'package:aedex/infrastructure/verified_tokens_list.dart';
-import 'package:aedex/util/endpoint_util.dart';
+import 'package:aedex/infrastructure/verified_tokens.repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'verified_tokens.g.dart';
 
 @Riverpod(keepAlive: true)
-VerifiedTokensRepository _verifiedTokensRepository(
+VerifiedTokensRepositoryImpl _verifiedTokensRepository(
   _VerifiedTokensRepositoryRef ref,
 ) =>
-    VerifiedTokensRepository();
+    VerifiedTokensRepositoryImpl();
 
 @Riverpod(keepAlive: true)
 Future<VerifiedTokens> _getVerifiedTokens(
@@ -36,41 +35,6 @@ Future<bool> _isVerifiedToken(
   String address,
 ) async {
   return ref.watch(_verifiedTokensRepositoryProvider).isVerifiedToken(address);
-}
-
-class VerifiedTokensRepository {
-  Future<VerifiedTokens> getVerifiedTokens() async {
-    return VerifiedTokensList().getVerifiedTokens();
-  }
-
-  Future<List<String>> getVerifiedTokensFromNetwork() async {
-    final verifiedTokens = await getVerifiedTokens();
-    final network = EndpointUtil.getEnvironnement();
-
-    switch (network) {
-      case 'testnet':
-        return verifiedTokens.testnet;
-      case 'mainnet':
-        return verifiedTokens.mainnet;
-      case 'devnet':
-        return verifiedTokens.devnet;
-      default:
-        return [];
-    }
-  }
-
-  Future<bool> isVerifiedToken(
-    String address,
-  ) async {
-    if (address == 'UCO') {
-      return true;
-    }
-    final verifiedTokens = await getVerifiedTokensFromNetwork();
-    if (verifiedTokens.contains(address.toUpperCase())) {
-      return true;
-    }
-    return false;
-  }
 }
 
 abstract class VerifiedTokensProviders {

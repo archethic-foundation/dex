@@ -4,6 +4,7 @@ import 'package:aedex/application/coin_price.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/ucids_tokens.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/views/util/router.dart';
@@ -63,6 +64,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       await ref
           .read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier)
           .init();
+      await ref.read(UcidsTokensProviders.ucidsTokens.notifier).init(ref);
       await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {

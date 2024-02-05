@@ -53,7 +53,7 @@ double _estimateTokenInFiat(
     fiatValue = archethicOracleUCO.usd;
   } else {
     final price =
-        ref.watch(CoinPriceProviders.coinPriceFromSymbol(token.symbol));
+        ref.watch(CoinPriceProviders.coinPriceFromAddress(token.address!));
 
     fiatValue = price;
   }
