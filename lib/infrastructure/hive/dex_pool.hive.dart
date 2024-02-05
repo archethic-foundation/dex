@@ -45,12 +45,12 @@ class DexPoolHive extends HiveObject {
   DexPoolInfosHive? details;
 
   @HiveField(5)
-  bool isFavorite;
+  bool? isFavorite;
 
   DexPool toDexPool() {
     return DexPool(
       lpTokenInUserBalance: lpTokenInUserBalance,
-      isFavorite: isFavorite,
+      isFavorite: isFavorite ?? false,
       poolAddress: poolAddress,
       lpToken: lpToken.toModel(),
       pair: pair.toModel(),
