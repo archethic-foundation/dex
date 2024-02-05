@@ -5,27 +5,57 @@ import 'package:flutter/material.dart';
 class DexPriceImpact extends StatelessWidget {
   const DexPriceImpact({
     required this.priceImpact,
+    this.withLabel = true,
+    this.textStyle,
     super.key,
   });
 
   final double priceImpact;
+  final bool? withLabel;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'Price impact: ${priceImpact.formatNumber()}%',
-          style: priceImpact > 5
-              ? Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: ArchethicThemeBase.systemDanger500,
-                  )
-              : priceImpact > 1
-                  ? Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: ArchethicThemeBase.systemWarning800,
-                      )
-                  : Theme.of(context).textTheme.bodyLarge,
-        ),
+        if (withLabel!)
+          Text(
+            'Price impact: ${priceImpact.formatNumber()}%',
+            style: priceImpact > 5
+                ? textStyle?.copyWith(
+                      color: ArchethicThemeBase.systemDanger500,
+                    ) ??
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: ArchethicThemeBase.systemDanger500,
+                        )
+                : priceImpact > 1
+                    ? textStyle?.copyWith(
+                          color: ArchethicThemeBase.systemWarning800,
+                        ) ??
+                        Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: ArchethicThemeBase.systemWarning800,
+                            )
+                    : textStyle ?? Theme.of(context).textTheme.bodyLarge,
+          )
+        else
+          Text(
+            '${priceImpact.formatNumber()}%',
+            style: priceImpact > 5
+                ? textStyle?.copyWith(
+                      color: ArchethicThemeBase.systemDanger500,
+                    ) ??
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: ArchethicThemeBase.systemDanger500,
+                        )
+                : priceImpact > 1
+                    ? textStyle?.copyWith(
+                          color: ArchethicThemeBase.systemWarning800,
+                        ) ??
+                        Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: ArchethicThemeBase.systemWarning800,
+                            )
+                    : textStyle ?? Theme.of(context).textTheme.bodyLarge,
+          ),
         if (priceImpact > 1)
           Padding(
             padding: const EdgeInsets.only(left: 5),

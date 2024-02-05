@@ -7,12 +7,14 @@ class DexRatio extends StatelessWidget {
     required this.ratio,
     required this.token1Symbol,
     required this.token2Symbol,
+    this.textStyle,
     super.key,
   });
 
   final double ratio;
   final String token1Symbol;
   final String token2Symbol;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class DexRatio extends StatelessWidget {
     return SizedBox(
       child: Text(
         '${double.parse('1').formatNumber()} $token1Symbol = ${ratio.formatNumber()} $token2Symbol',
-        style: Theme.of(context).textTheme.bodyLarge,
+        style: textStyle ?? Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }

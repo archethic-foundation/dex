@@ -54,99 +54,149 @@ class SwapInfos extends ConsumerWidget {
           ),
           if (swap.swapTotalFees > 0 && swap.tokenToSwap != null)
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Fees: ${(swap.swapTotalFees * swap.tokenToSwapAmount / 100).formatNumber()} ${swap.tokenToSwap!.symbol}',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  'Fees',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                FutureBuilder<String>(
-                  future: FiatValue().display(
-                    ref,
-                    swap.tokenToSwap!,
-                    swap.swapTotalFees * swap.tokenToSwapAmount / 100,
-                  ),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(
-                        snapshot.data!,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                if (swap.pool != null)
-                  Tooltip(
-                    message:
-                        'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${(swap.swapFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${(swap.swapProtocolFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol}',
-                    child: const Padding(
-                      padding: EdgeInsets.only(bottom: 2),
-                      child: Icon(
-                        Iconsax.info_circle,
-                        size: 13,
-                      ),
+                Row(
+                  children: [
+                    Text(
+                      '${(swap.swapTotalFees * swap.tokenToSwapAmount / 100).formatNumber()} ${swap.tokenToSwap!.symbol}',
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                  ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        swap.tokenToSwap!,
+                        swap.swapTotalFees * swap.tokenToSwapAmount / 100,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    if (swap.pool != null)
+                      Tooltip(
+                        message:
+                            'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${(swap.swapFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${(swap.swapProtocolFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol}',
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 2),
+                          child: Icon(
+                            Iconsax.info_circle,
+                            size: 13,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
           if (swap.tokenSwapped != null &&
               swap.tokenToSwap != null &&
               swap.tokenSwappedAmount > 0 &&
               swap.tokenToSwapAmount > 0)
-            DexPriceImpact(priceImpact: swap.priceImpact),
-          if (swap.minToReceive > 0 && swap.tokenSwapped != null)
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Minimum received: ${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  'Price impact',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                const SizedBox(
-                  width: 5,
+                DexPriceImpact(
+                  priceImpact: swap.priceImpact,
+                  withLabel: false,
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
                 ),
-                FutureBuilder<String>(
-                  future: FiatValue().display(
-                    ref,
-                    swap.tokenSwapped!,
-                    swap.minToReceive,
-                  ),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(
-                        snapshot.data!,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
+              ],
+            ),
+          if (swap.minToReceive > 0 && swap.tokenSwapped != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Minimum received',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        swap.tokenSwapped!,
+                        swap.minToReceive,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
           if (swap.pool?.infos != null)
-            Text(
-              'TVL: \$${tvlAndApr.tvl.formatNumber(precision: 2)}',
-              style: Theme.of(context).textTheme.bodyLarge,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'TVL',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  '\$${tvlAndApr.tvl.formatNumber(precision: 2)}',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
             ),
           if (swap.pool?.infos != null)
-            DexRatio(
-              ratio: tokenAddressRatioPrimary.toUpperCase() ==
-                      swap.pool?.pair.token1.address!.toUpperCase()
-                  ? swap.pool!.infos!.ratioToken1Token2
-                  : swap.pool!.infos!.ratioToken2Token1,
-              token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                      swap.pool!.pair.token1.address!.toUpperCase()
-                  ? swap.pool!.pair.token1.symbol
-                  : swap.pool!.pair.token2.symbol,
-              token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                      swap.pool!.pair.token1.address!.toUpperCase()
-                  ? swap.pool!.pair.token2.symbol
-                  : swap.pool!.pair.token1.symbol,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Ratio',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                DexRatio(
+                  ratio: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool?.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.infos!.ratioToken1Token2
+                      : swap.pool!.infos!.ratioToken2Token1,
+                  token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool!.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.pair.token1.symbol
+                      : swap.pool!.pair.token2.symbol,
+                  token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool!.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.pair.token2.symbol
+                      : swap.pool!.pair.token1.symbol,
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
             ),
         ],
       ),
