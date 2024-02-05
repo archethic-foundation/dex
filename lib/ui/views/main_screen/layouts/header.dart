@@ -47,7 +47,7 @@ class Header extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(left: 5, bottom: 20),
           child: SelectableText(
-            'Alpha',
+            'Beta',
             style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
