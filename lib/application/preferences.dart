@@ -1,6 +1,6 @@
 import 'package:aedex/domain/repositories/preferences.repository.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
-import 'package:aedex/infrastructure/preferences.respository.dart';
+import 'package:aedex/infrastructure/preferences.repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'preferences.g.dart';
