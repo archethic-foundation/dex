@@ -169,10 +169,18 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               getSwapInfosResult.map(
                 success: (success) {
                   if (success != null) {
-                    _outputAmount = success['output_amount'] ?? 0;
-                    _fees = success['fee'] ?? 0;
-                    _priceImpact = success['price_impact'] ?? 0;
-                    _protocolFees = success['protocol_fee'] ?? 0;
+                    _outputAmount = success['output_amount'] is int
+                        ? double.parse(success['output_amount'].toString())
+                        : success['output_amount'] ?? 0;
+                    _fees = success['fee'] is int
+                        ? double.parse(success['fee'].toString())
+                        : success['fee'] ?? 0;
+                    _priceImpact = success['price_impact'] is int
+                        ? double.parse(success['price_impact'].toString())
+                        : success['price_impact'] ?? 0;
+                    _protocolFees = success['protocol_fee'] is int
+                        ? double.parse(success['price_impact'].toString())
+                        : success['protocol_fee'] ?? 0;
                   }
                 },
                 failure: (failure) {
