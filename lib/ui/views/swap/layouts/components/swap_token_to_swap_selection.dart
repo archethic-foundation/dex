@@ -67,21 +67,27 @@ class SwapTokenToSwapSelection extends ConsumerWidget {
                       padding: const EdgeInsets.only(
                         left: 10,
                       ),
-                      child: Row(
-                        children: [
-                          DexTokenIcon(
-                            tokenAddress: swap.tokenToSwap!.address == null
-                                ? 'UCO'
-                                : swap.tokenToSwap!.address!,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: SelectableText(
-                              swap.tokenToSwap!.symbol,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                      child: SizedBox(
+                        width: 100,
+                        child: Row(
+                          children: [
+                            DexTokenIcon(
+                              tokenAddress: swap.tokenToSwap!.address == null
+                                  ? 'UCO'
+                                  : swap.tokenToSwap!.address!,
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                swap.tokenToSwap!.symbol,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                 ],

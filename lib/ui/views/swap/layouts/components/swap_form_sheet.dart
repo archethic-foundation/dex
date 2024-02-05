@@ -45,7 +45,7 @@ class SwapFormSheet extends ConsumerWidget {
                           swap.tokenToSwap!.address !=
                               swap.tokenSwapped!.address)
                         TextButton.icon(
-                          label: const SelectableText('Create this pool'),
+                          label: const Text('Create this pool'),
                           onPressed: () {
                             ref
                                 .read(

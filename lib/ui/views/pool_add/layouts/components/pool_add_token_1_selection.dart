@@ -68,21 +68,27 @@ class PoolAddToken1Selection extends ConsumerWidget {
                     padding: const EdgeInsets.only(
                       left: 10,
                     ),
-                    child: Row(
-                      children: [
-                        DexTokenIcon(
-                          tokenAddress: poolAdd.token1!.address == null
-                              ? 'UCO'
-                              : poolAdd.token1!.address!,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2, left: 10),
-                          child: SelectableText(
-                            poolAdd.token1!.symbol,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                    child: SizedBox(
+                      width: 100,
+                      child: Row(
+                        children: [
+                          DexTokenIcon(
+                            tokenAddress: poolAdd.token1!.address == null
+                                ? 'UCO'
+                                : poolAdd.token1!.address!,
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              poolAdd.token1!.symbol,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
               ],
