@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:convert';
+import 'package:aedex/application/ucids_tokens.dart';
 import 'package:aedex/domain/models/crypto_price.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -73,29 +74,32 @@ class _CoinPriceNotifier extends Notifier<CryptoPrice> {
 }
 
 @riverpod
-double _coinPriceFromSymbol(
-  _CoinPriceFromSymbolRef ref,
-  String symbol,
+double _coinPriceFromAddress(
+  _CoinPriceFromAddressRef ref,
+  String address,
 ) {
   final coinPrice = ref.read(
     CoinPriceProviders.coinPrice,
   );
-  switch (symbol) {
-    case 'ETH':
-    case 'aeETH':
-      return coinPrice.ethereum;
-    case 'BNB':
-    case 'aeBNB':
-      return coinPrice.bsc;
-    case 'MATIC':
-    case 'aeMATIC':
-      return coinPrice.polygon;
-    default:
-      return 0;
+  final ucidsList = ref.read(UcidsTokensProviders.ucidsTokens);
+
+  final ucid = ucidsList[address] ?? 0;
+  if (ucid != 0) {
+    switch (ucid) {
+      case 1027:
+        return coinPrice.ethereum;
+      case 1839:
+        return coinPrice.bsc;
+      case 3890:
+        return coinPrice.polygon;
+      default:
+        return 0;
+    }
   }
+  return 0;
 }
 
 abstract class CoinPriceProviders {
   static final coinPrice = _coinPriceNotifierProvider;
-  static const coinPriceFromSymbol = _coinPriceFromSymbolProvider;
+  static const coinPriceFromAddress = _coinPriceFromAddressProvider;
 }

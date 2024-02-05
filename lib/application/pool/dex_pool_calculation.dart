@@ -101,7 +101,7 @@ Future<double> _getRatio(
     priceToken1 = archethicOracleUCO.usd;
   } else {
     priceToken1 = ref.watch(
-      CoinPriceProviders.coinPriceFromSymbol(pool.pair.token1.symbol),
+      CoinPriceProviders.coinPriceFromAddress(pool.pair.token1.address!),
     );
   }
 
@@ -109,7 +109,7 @@ Future<double> _getRatio(
     priceToken2 = archethicOracleUCO.usd;
   } else {
     priceToken2 = ref.watch(
-      CoinPriceProviders.coinPriceFromSymbol(pool.pair.token2.symbol),
+      CoinPriceProviders.coinPriceFromAddress(pool.pair.token2.address!),
     );
   }
 
