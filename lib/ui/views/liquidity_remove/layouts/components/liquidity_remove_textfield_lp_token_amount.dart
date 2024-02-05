@@ -148,6 +148,7 @@ class _LiquidityRemoveLPTokenAmountState
               DexTokenBalance(
                 tokenBalance: liquidityRemove.lpTokenBalance,
                 token: liquidityRemove.pool!.lpToken,
+                pool: liquidityRemove.pool,
               ),
             Row(
               children: [

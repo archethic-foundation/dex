@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
@@ -16,11 +18,13 @@ class DexTokenBalance extends ConsumerWidget {
     this.fiatAlignLeft = false,
     this.fiatTextStyleMedium = false,
     this.height = 30,
+    this.pool,
     super.key,
   });
 
   final double tokenBalance;
   final DexToken? token;
+  final DexPool? pool;
   final bool withFiat;
   final double height;
   final bool fiatVertical;
@@ -74,27 +78,49 @@ class DexTokenBalance extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (withFiat)
-                    FutureBuilder<String>(
-                      future: FiatValue().display(
-                        ref,
-                        token!,
-                        tokenBalance,
-                      ),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Opacity(
-                            opacity: opacity,
-                            child: Text(
-                              snapshot.data!,
-                              style: fiatTextStyleMedium
-                                  ? Theme.of(context).textTheme.bodyMedium
-                                  : Theme.of(context).textTheme.bodyLarge,
+                    if (token != null && pool != null && token!.isLpToken)
+                      Opacity(
+                        opacity: opacity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 5,
+                          ),
+                          child: Text(
+                            DEXLPTokenFiatValue().display(
+                              ref,
+                              pool!.pair.token1,
+                              pool!.pair.token2,
+                              tokenBalance,
+                              pool!.poolAddress,
                             ),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
-                    ),
+                            style: fiatTextStyleMedium
+                                ? Theme.of(context).textTheme.bodyMedium
+                                : Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ),
+                      )
+                    else
+                      FutureBuilder<String>(
+                        future: FiatValue().display(
+                          ref,
+                          token!,
+                          tokenBalance,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Opacity(
+                              opacity: opacity,
+                              child: Text(
+                                snapshot.data!,
+                                style: fiatTextStyleMedium
+                                    ? Theme.of(context).textTheme.bodyMedium
+                                    : Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
                 ],
               ),
             ],
@@ -129,32 +155,54 @@ class DexTokenBalance extends ConsumerWidget {
                   ),
                 ),
                 if (withFiat)
-                  FutureBuilder<String>(
-                    future: FiatValue().display(
-                      ref,
-                      token!,
-                      tokenBalance,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Opacity(
-                          opacity: opacity,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 5,
-                            ),
-                            child: Text(
-                              snapshot.data!,
-                              style: fiatTextStyleMedium
-                                  ? Theme.of(context).textTheme.bodyMedium
-                                  : Theme.of(context).textTheme.bodyLarge,
-                            ),
+                  if (token != null && pool != null && token!.isLpToken)
+                    Opacity(
+                      opacity: opacity,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 5,
+                        ),
+                        child: Text(
+                          DEXLPTokenFiatValue().display(
+                            ref,
+                            pool!.pair.token1,
+                            pool!.pair.token2,
+                            tokenBalance,
+                            pool!.poolAddress,
                           ),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
+                          style: fiatTextStyleMedium
+                              ? Theme.of(context).textTheme.bodyMedium
+                              : Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    )
+                  else
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        token!,
+                        tokenBalance,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Opacity(
+                            opacity: opacity,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 5,
+                              ),
+                              child: Text(
+                                snapshot.data!,
+                                style: fiatTextStyleMedium
+                                    ? Theme.of(context).textTheme.bodyMedium
+                                    : Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
               ],
             ),
           )
