@@ -2,6 +2,7 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
+import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -147,7 +148,13 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                   width: 5,
                 ),
                 Text(
-                  '(\$${farmWithdraw.dexFarmInfo!.estimateLPTokenInFiat.formatNumber(precision: 2)})',
+                  DEXLPTokenFiatValue().display(
+                    ref,
+                    farmWithdraw.dexFarmInfo!.lpTokenPair!.token1,
+                    farmWithdraw.dexFarmInfo!.lpTokenPair!.token2,
+                    farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                    farmWithdraw.dexFarmInfo!.poolAddress,
+                  ),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
