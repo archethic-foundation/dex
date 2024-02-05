@@ -18,61 +18,45 @@ class PoolAddAddCacheIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(DexPoolProviders.getPoolListFromCache).maybeWhen(
-          orElse: SizedBox.shrink,
-          data: (pools) {
-            var exists = false;
-            for (final pool in pools) {
-              if (pool.poolAddress.toUpperCase() == poolAddress.toUpperCase()) {
-                exists = true;
-                break;
-              }
-            }
-            if (exists == false) {
-              return InkWell(
-                onTap: () {
-                  ref.read(
-                    DexPoolProviders.putPoolToCache(
-                      poolAddress,
-                      isFavorite: true,
-                    ),
-                  );
-                },
-                child: Tooltip(
-                  message: 'Add this pool in my favorites tab',
-                  child: SizedBox(
-                    height: 40,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: DexThemeBase.backgroundPopupColor,
-                          width: 0.5,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      elevation: 0,
-                      color: DexThemeBase.backgroundPopupColor,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 5,
-                          bottom: 5,
-                          left: 10,
-                          right: 10,
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          size: 16,
-                          color: ArchethicThemeBase.raspberry300,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
+    return InkWell(
+      onTap: () {
+        ref.read(
+          DexPoolProviders.putPoolToCache(
+            poolAddress,
+            isFavorite: true,
+          ),
         );
+      },
+      child: Tooltip(
+        message: 'Add this pool in my favorites tab',
+        child: SizedBox(
+          height: 40,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: DexThemeBase.backgroundPopupColor,
+                width: 0.5,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            elevation: 0,
+            color: DexThemeBase.backgroundPopupColor,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 5,
+                bottom: 5,
+                left: 10,
+                right: 10,
+              ),
+              child: Icon(
+                Icons.add,
+                size: 16,
+                color: ArchethicThemeBase.raspberry300,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

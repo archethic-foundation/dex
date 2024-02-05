@@ -13,6 +13,7 @@ import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/grid_view.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class PoolListSheet extends ConsumerWidget {
         ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected,
       ),
     );
-
+    final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     return Stack(
       children: [
         Center(
@@ -95,6 +96,28 @@ class PoolListSheet extends ConsumerWidget {
               error: (error, stackTrace) =>
                   DexErrorMessage(failure: Failure.fromError(error)),
               data: (pools) {
+                if (pools.isEmpty &&
+                    poolListForm.tabIndexSelected ==
+                        PoolsListTab.favoritePools) {
+                  return const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'To add your favorite pools to this tab, please click on the',
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: Icon(
+                          Icons.add,
+                          size: 14,
+                        ),
+                      ),
+                      Text(
+                        'icon in the pool cards header.',
+                      ),
+                    ],
+                  );
+                }
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedSize(
                     crossAxisExtent: 500,
@@ -145,7 +168,6 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     return Stack(
       children: [
         Padding(
@@ -251,10 +273,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                         right: 10,
                       ),
                       child: Icon(
-                        flipCardController.state != null &&
-                                flipCardController.state!.isFront == true
-                            ? Icons.home
-                            : Icons.info_outline,
+                        Iconsax.convertshape,
                         size: 16,
                         color: ArchethicThemeBase.raspberry300,
                       ),
@@ -262,17 +281,17 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                   ),
                 ),
               ),
-              if (poolListForm.tabIndexSelected == PoolsListTab.searchPool)
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: PoolAddAddCacheIcon(
-                    poolAddress: widget.pool.poolAddress,
-                  ),
-                ),
               if (widget.pool.isFavorite)
                 Padding(
                   padding: const EdgeInsets.only(left: 5),
                   child: PoolAddRemoveCacheIcon(
+                    poolAddress: widget.pool.poolAddress,
+                  ),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: PoolAddAddCacheIcon(
                     poolAddress: widget.pool.poolAddress,
                   ),
                 ),

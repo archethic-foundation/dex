@@ -57,6 +57,25 @@ Future<DexPool?> _getPoolInfos(
   return poolInfos;
 }
 
+@riverpod
+Future<void> _removePoolFromFavorite(
+  _RemovePoolFromFavoriteRef ref,
+  String poolGenesisAddress,
+) async {
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+  final poolHive = poolsListDatasource.getPool(poolGenesisAddress);
+  var pool = poolHive!.toDexPool();
+
+  if (pool.isVerified || pool.lpTokenInUserBalance) {
+    pool = pool.copyWith(isFavorite: false);
+    await poolsListDatasource.setPool(pool.toHive());
+  } else {
+    await poolsListDatasource.removePool(poolGenesisAddress);
+  }
+
+  ref.invalidate(_getPoolListFromCacheProvider);
+}
+
 abstract class DexPoolProviders {
   static final invalidateData = _invalidateDataUseCaseProvider;
 
@@ -69,7 +88,7 @@ abstract class DexPoolProviders {
   static final favoritePools = _favoritePoolsProvider;
   static const updatePoolInCache = _updatePoolInCacheProvider;
   static const putPoolToCache = _putPoolToCacheProvider;
-  static const removePoolFromCache = _removePoolFromCacheProvider;
+  static const removePoolFromFavorite = _removePoolFromFavoriteProvider;
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
   static const getPoolListForSearch = _getPoolListForSearchProvider;

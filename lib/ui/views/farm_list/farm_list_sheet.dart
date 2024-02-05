@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/grid_view.dart';
 import 'package:aedex/ui/views/util/components/loading.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class FarmListSheet extends ConsumerWidget {
     return Center(
       child: Padding(
         padding: EdgeInsets.only(
-          top: 140,
+          top: 100,
           bottom: Responsive.isDesktop(context) ? 0 : 80,
         ),
         child: asyncFarms.when(
@@ -227,10 +228,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                         right: 10,
                       ),
                       child: Icon(
-                        flipCardController.state != null &&
-                                flipCardController.state!.isFront == true
-                            ? Icons.home
-                            : Icons.info_outline,
+                        Iconsax.convertshape,
                         size: 16,
                         color: ArchethicThemeBase.raspberry300,
                       ),

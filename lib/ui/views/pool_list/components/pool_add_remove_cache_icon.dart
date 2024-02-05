@@ -94,7 +94,7 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
                                         onPressed: () async {
                                           ref.read(
                                             DexPoolProviders
-                                                .removePoolFromCache(
+                                                .removePoolFromFavorite(
                                               poolAddress,
                                             ),
                                           );

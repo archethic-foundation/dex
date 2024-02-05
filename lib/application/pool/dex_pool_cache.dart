@@ -30,7 +30,11 @@ Future<List<DexPool>> _favoritePools(
   _FavoritePoolsRef ref,
 ) async {
   final pools = await ref.watch(_getPoolListFromCacheProvider.future);
-  return pools;
+  return pools
+      .where(
+        (element) => element.isFavorite,
+      )
+      .toList();
 }
 
 @riverpod
@@ -140,15 +144,5 @@ Future<void> _putPoolToCache(
   poolWithInfos = poolWithInfos!.copyWith(isFavorite: isFavorite);
 
   await poolsListDatasource.setPool(poolWithInfos.toHive());
-  ref.invalidate(_getPoolListFromCacheProvider);
-}
-
-@riverpod
-Future<void> _removePoolFromCache(
-  _RemovePoolFromCacheRef ref,
-  String poolGenesisAddress,
-) async {
-  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-  await poolsListDatasource.removePool(poolGenesisAddress);
   ref.invalidate(_getPoolListFromCacheProvider);
 }
