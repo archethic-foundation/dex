@@ -9,6 +9,7 @@ import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/components/loading_field_indicator.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
@@ -188,7 +189,13 @@ class FarmDetailsFront extends ConsumerWidget {
                                       ).textTheme.bodyLarge,
                                     ),
                                     Text(
-                                      '(\$${farm.estimateLPTokenInFiat.formatNumber(precision: 2)})',
+                                      DEXLPTokenFiatValue().display(
+                                        ref,
+                                        farm.lpTokenPair!.token1,
+                                        farm.lpTokenPair!.token2,
+                                        userInfos.depositedAmount,
+                                        farm.poolAddress,
+                                      ),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium,

@@ -45,7 +45,13 @@ class _BalanceDetails extends ConsumerWidget {
                               ).textTheme.bodyLarge,
                             ),
                             Text(
-                              '(\$${farm.estimateLPTokenInFiat.formatNumber(precision: 2)})',
+                              DEXLPTokenFiatValue().display(
+                                ref,
+                                farm.lpTokenPair!.token1,
+                                farm.lpTokenPair!.token2,
+                                balance,
+                                farm.poolAddress,
+                              ),
                               style: Theme.of(
                                 context,
                               ).textTheme.bodyMedium,
