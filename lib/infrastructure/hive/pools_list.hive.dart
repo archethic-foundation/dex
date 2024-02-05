@@ -43,8 +43,8 @@ class HivePoolsListDatasource {
     return _box.get(key);
   }
 
-  Future<void> removePool(DexPoolHive v) async {
-    await _box.delete(v.poolAddress);
+  Future<void> removePool(String poolAddress) async {
+    await _box.delete(poolAddress);
   }
 
   List<DexPoolHive> getPoolsList() {

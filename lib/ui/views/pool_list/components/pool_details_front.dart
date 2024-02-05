@@ -9,6 +9,7 @@ import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
+import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -74,12 +75,11 @@ class PoolDetailsFront extends ConsumerWidget {
                           VerifiedPoolIcon(
                             isVerified: pool.isVerified,
                           ),
-                          const SizedBox(
-                            height: 17,
-                            width: 5,
-                          ),
                           LiquidityPositionsIcon(
                             lpTokenInUserBalance: pool.lpTokenInUserBalance,
+                          ),
+                          LiquidityFavoriteIcon(
+                            isFavorite: pool.isFavorite,
                           ),
                         ],
                       ),

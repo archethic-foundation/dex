@@ -164,6 +164,9 @@ mixin ModelParser {
         isLpToken: true,
       ),
       lpTokenInUserBalance: lpTokenInUserBalance,
+      isFavorite: lpTokenInUserBalance == false &&
+          dexPair.token1.isVerified == false &&
+          dexPair.token2.isVerified == false,
     );
   }
 

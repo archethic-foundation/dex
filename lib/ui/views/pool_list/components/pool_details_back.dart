@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
+import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
@@ -72,12 +73,11 @@ class PoolDetailsBack extends ConsumerWidget {
                               VerifiedPoolIcon(
                                 isVerified: pool.isVerified,
                               ),
-                              const SizedBox(
-                                height: 17,
-                                width: 5,
-                              ),
                               LiquidityPositionsIcon(
                                 lpTokenInUserBalance: pool.lpTokenInUserBalance,
+                              ),
+                              LiquidityFavoriteIcon(
+                                isFavorite: pool.isFavorite,
                               ),
                             ],
                           ),

@@ -21,6 +21,7 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
       lpToken: fields[1] as DexTokenHive,
       pair: fields[2] as DexPairHive,
       lpTokenInUserBalance: fields[3] as bool,
+      isFavorite: fields[5] as bool,
       details: fields[4] as DexPoolInfosHive?,
     );
   }
@@ -28,7 +29,7 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
   @override
   void write(BinaryWriter writer, DexPoolHive obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.poolAddress)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
       ..writeByte(3)
       ..write(obj.lpTokenInUserBalance)
       ..writeByte(4)
-      ..write(obj.details);
+      ..write(obj.details)
+      ..writeByte(5)
+      ..write(obj.isFavorite);
   }
 
   @override

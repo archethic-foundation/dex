@@ -4,8 +4,8 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PoolAddInCacheIcon extends ConsumerWidget {
-  const PoolAddInCacheIcon({
+class PoolAddAddCacheIcon extends ConsumerWidget {
+  const PoolAddAddCacheIcon({
     required this.poolAddress,
     this.iconSize = 14,
     this.withLabel = false,
@@ -32,7 +32,10 @@ class PoolAddInCacheIcon extends ConsumerWidget {
               return InkWell(
                 onTap: () {
                   ref.read(
-                    DexPoolProviders.putPoolToCache(poolAddress),
+                    DexPoolProviders.putPoolToCache(
+                      poolAddress,
+                      isFavorite: true,
+                    ),
                   );
                 },
                 child: Tooltip(

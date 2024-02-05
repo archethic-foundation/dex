@@ -32,7 +32,7 @@ class VerifiedPoolIcon extends ConsumerWidget {
             ),
           ),
         Padding(
-          padding: const EdgeInsets.only(bottom: 3),
+          padding: const EdgeInsets.only(bottom: 3, right: 3),
           child: Tooltip(
             message: 'This pool has been verified by Archethic',
             child: Icon(
