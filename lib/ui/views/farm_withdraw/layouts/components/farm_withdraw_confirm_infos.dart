@@ -123,8 +123,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                       children: [
                         DexTokenBalance(
                           tokenBalance: snapshot.data!,
-                          tokenSymbol:
-                              snapshot.data! > 1 ? 'LP Tokens' : 'LP Token',
+                          token: farmWithdraw.dexFarmInfo!.lpToken,
                           withFiat: false,
                           height: 20,
                         ),
@@ -136,16 +135,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                                     farmWithdraw.amount.toString(),
                                   ))
                               .toDouble(),
-                          tokenSymbol: (Decimal.parse(
-                                            snapshot.data!.toString(),
-                                          ) +
-                                          Decimal.parse(
-                                            farmWithdraw.amount.toString(),
-                                          ))
-                                      .toDouble() >
-                                  1
-                              ? 'LP Tokens'
-                              : 'LP Token',
+                          token: farmWithdraw.dexFarmInfo!.lpToken,
                           withFiat: false,
                           height: 20,
                         ),
@@ -195,9 +185,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: farmWithdraw.dexFarmInfo!.lpTokenDeposited,
-                    tokenSymbol: farmWithdraw.dexFarmInfo!.lpTokenDeposited > 1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: farmWithdraw.dexFarmInfo!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),
@@ -210,17 +198,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                               farmWithdraw.amount.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: (Decimal.parse(
-                                      farmWithdraw.dexFarmInfo!.lpTokenDeposited
-                                          .toString(),
-                                    ) -
-                                    Decimal.parse(
-                                      farmWithdraw.amount.toString(),
-                                    ))
-                                .toDouble() >
-                            1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: farmWithdraw.dexFarmInfo!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),
@@ -251,7 +229,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
               FutureBuilder<String>(
                 future: FiatValue().display(
                   ref,
-                  farmWithdraw.dexFarmInfo!.rewardToken!.symbol,
+                  farmWithdraw.dexFarmInfo!.rewardToken!,
                   farmWithdraw.dexFarmUserInfo!.rewardAmount,
                 ),
                 builder: (context, snapshot) {

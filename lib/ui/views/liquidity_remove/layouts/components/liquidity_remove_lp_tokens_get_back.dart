@@ -44,7 +44,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
                 FutureBuilder<String>(
                   future: FiatValue().display(
                     ref,
-                    liquidityRemove.token1!.symbol,
+                    liquidityRemove.token1!,
                     liquidityRemove.token1AmountGetBack,
                   ),
                   builder: (context, snapshot) {
@@ -75,7 +75,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
                 FutureBuilder<String>(
                   future: FiatValue().display(
                     ref,
-                    liquidityRemove.token2!.symbol,
+                    liquidityRemove.token2!,
                     liquidityRemove.token2AmountGetBack,
                   ),
                   builder: (context, snapshot) {

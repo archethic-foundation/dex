@@ -15,6 +15,7 @@ class DexTokenHive extends HiveObject {
     required this.reserve,
     required this.supply,
     required this.verified,
+    required this.isLpToken,
   });
 
   factory DexTokenHive.fromModel(DexToken dexToken) {
@@ -27,6 +28,7 @@ class DexTokenHive extends HiveObject {
       reserve: dexToken.reserve,
       supply: dexToken.supply,
       verified: dexToken.isVerified,
+      isLpToken: dexToken.isLpToken,
     );
   }
   @HiveField(0)
@@ -53,6 +55,9 @@ class DexTokenHive extends HiveObject {
   @HiveField(7)
   bool verified;
 
+  @HiveField(8)
+  bool? isLpToken;
+
   DexToken toModel() {
     return DexToken(
       name: name,
@@ -63,6 +68,7 @@ class DexTokenHive extends HiveObject {
       reserve: reserve,
       supply: supply,
       isVerified: verified,
+      isLpToken: isLpToken ?? false,
     );
   }
 }
@@ -77,5 +83,6 @@ extension DexTokenHiveConversionExt on DexToken {
         supply: supply,
         symbol: symbol,
         verified: isVerified,
+        isLpToken: isLpToken,
       );
 }

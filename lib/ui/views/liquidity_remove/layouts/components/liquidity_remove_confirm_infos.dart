@@ -98,7 +98,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: liquidityRemove.token1Balance,
-                    tokenSymbol: liquidityRemove.token1!.symbol,
+                    token: liquidityRemove.token1,
                     height: 20,
                     fiatAlignLeft: true,
                     fiatTextStyleMedium: true,
@@ -112,7 +112,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                               liquidityRemove.token1AmountGetBack.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: liquidityRemove.token1!.symbol,
+                    token: liquidityRemove.token1,
                     height: 20,
                     fiatTextStyleMedium: true,
                     fiatVertical: true,
@@ -124,7 +124,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: liquidityRemove.token2Balance,
-                    tokenSymbol: liquidityRemove.token2!.symbol,
+                    token: liquidityRemove.token2,
                     height: 20,
                     fiatAlignLeft: true,
                     fiatTextStyleMedium: true,
@@ -138,7 +138,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                               liquidityRemove.token2AmountGetBack.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: liquidityRemove.token2!.symbol,
+                    token: liquidityRemove.token2,
                     height: 20,
                     fiatTextStyleMedium: true,
                     fiatVertical: true,
@@ -175,9 +175,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: liquidityRemove.lpTokenBalance,
-                    tokenSymbol: liquidityRemove.lpTokenBalance > 1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: liquidityRemove.pool!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),
@@ -189,16 +187,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                               liquidityRemove.lpTokenAmount.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: (Decimal.parse(
-                                      liquidityRemove.lpTokenBalance.toString(),
-                                    ) -
-                                    Decimal.parse(
-                                      liquidityRemove.lpTokenAmount.toString(),
-                                    ))
-                                .toDouble() >
-                            1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: liquidityRemove.pool!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),

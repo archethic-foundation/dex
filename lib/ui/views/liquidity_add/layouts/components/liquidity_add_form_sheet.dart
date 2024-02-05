@@ -106,7 +106,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                     child: FutureBuilder<String>(
                                       future: FiatValue().display(
                                         ref,
-                                        liquidityAdd.token1!.symbol,
+                                        liquidityAdd.token1!,
                                         liquidityAdd.token1Amount,
                                       ),
                                       builder: (context, snapshot) {
@@ -157,7 +157,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                     child: FutureBuilder<String>(
                                       future: FiatValue().display(
                                         ref,
-                                        liquidityAdd.token2!.symbol,
+                                        liquidityAdd.token2!,
                                         liquidityAdd.token2Amount,
                                       ),
                                       builder: (context, snapshot) {

@@ -70,7 +70,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                       FutureBuilder<String>(
                         future: FiatValue().display(
                           ref,
-                          farmWithdraw.dexFarmInfo!.rewardToken!.symbol,
+                          farmWithdraw.dexFarmInfo!.rewardToken!,
                           farmWithdraw.dexFarmUserInfo!.rewardAmount,
                         ),
                         builder: (context, snapshot) {

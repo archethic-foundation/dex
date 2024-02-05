@@ -50,7 +50,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
               FutureBuilder<String>(
                 future: FiatValue().display(
                   ref,
-                  farmClaim.dexFarm!.rewardToken!.symbol,
+                  farmClaim.dexFarm!.rewardToken!,
                   farmClaim.dexFarmUserInfo!.rewardAmount,
                 ),
                 builder: (context, snapshot) {
@@ -129,7 +129,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                       children: [
                         DexTokenBalance(
                           tokenBalance: snapshot.data!,
-                          tokenSymbol: farmClaim.dexFarm!.rewardToken!.symbol,
+                          token: farmClaim.dexFarm!.rewardToken,
                           withFiat: false,
                           height: 20,
                         ),
@@ -142,7 +142,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                                         .toString(),
                                   ))
                               .toDouble(),
-                          tokenSymbol: farmClaim.dexFarm!.rewardToken!.symbol,
+                          token: farmClaim.dexFarm!.rewardToken,
                           withFiat: false,
                           height: 20,
                         ),

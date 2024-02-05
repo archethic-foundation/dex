@@ -1,19 +1,19 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/coin_price.dart';
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/models/result.dart';
+import 'package:aedex/infrastructure/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_pool.g.dart';
@@ -22,8 +22,8 @@ part 'dex_pool_calculation.dart';
 part 'dex_pool_list.dart';
 
 @riverpod
-DexPoolsRepository _dexPoolsRepository(_DexPoolsRepositoryRef ref) =>
-    DexPoolsRepository(
+DexPoolRepositoryImpl _dexPoolRepository(_DexPoolRepositoryRef ref) =>
+    DexPoolRepositoryImpl(
       apiService: sl.get<ApiService>(),
     );
 
@@ -43,7 +43,7 @@ Future<DexPool?> _getPool(
   _GetPoolRef ref,
   String genesisAddress,
 ) async {
-  return ref.read(_dexPoolsRepositoryProvider).getPool(ref, genesisAddress);
+  return ref.read(_dexPoolRepositoryProvider).getPool(ref, genesisAddress);
 }
 
 @riverpod
@@ -52,44 +52,9 @@ Future<DexPool?> _getPoolInfos(
   DexPool poolInput,
 ) async {
   final poolInfos =
-      await ref.watch(_dexPoolsRepositoryProvider).populatePoolInfos(poolInput);
+      await ref.watch(_dexPoolRepositoryProvider).populatePoolInfos(poolInput);
 
   return poolInfos;
-}
-
-class DexPoolsRepository {
-  DexPoolsRepository({required this.apiService});
-
-  final ApiService apiService;
-
-  Future<DexPool?> getPool(Ref ref, String address) async {
-    final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-
-    final poolHive = poolsListDatasource.getPool(address);
-    if (poolHive == null) {
-      final poolListResult = await ref.read(
-        DexPoolProviders.getPoolListForSearch(address.toUpperCase()).future,
-      );
-      if (poolListResult.isNotEmpty) {
-        final pool = poolListResult.firstWhere(
-          (element) =>
-              element.poolAddress.toUpperCase() == address.toUpperCase(),
-        );
-        return ref.read(DexPoolProviders.getPoolInfos(pool).future);
-      }
-    }
-
-    return poolsListDatasource.getPool(address)?.toDexPool();
-  }
-
-  Future<DexPool> populatePoolInfos(
-    DexPool poolInput,
-  ) async {
-    final apiService = sl.get<ApiService>();
-    final poolFactory = PoolFactory(poolInput.poolAddress, apiService);
-
-    return poolFactory.populatePoolInfos(poolInput).valueOrThrow;
-  }
 }
 
 abstract class DexPoolProviders {
@@ -98,7 +63,6 @@ abstract class DexPoolProviders {
   static const getPoolInfos = _getPoolInfosProvider;
   static const estimatePoolTVLandAPRInFiat =
       _estimatePoolTVLandAPRInFiatProvider;
-  static const estimateTokenInFiat = _estimateTokenInFiatProvider;
   static final putPoolListInfosToCache = _putPoolListInfosToCacheProvider;
   static final myPools = _myPoolsProvider;
   static final verifiedPools = _verifiedPoolsProvider;

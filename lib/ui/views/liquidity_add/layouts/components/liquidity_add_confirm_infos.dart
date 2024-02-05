@@ -143,7 +143,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: liquidityAdd.token1Balance,
-                    tokenSymbol: liquidityAdd.token1!.symbol,
+                    token: liquidityAdd.token1,
                     height: 20,
                     fiatVertical: true,
                     fiatAlignLeft: true,
@@ -155,7 +155,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                             ) -
                             Decimal.parse(liquidityAdd.token1Amount.toString()))
                         .toDouble(),
-                    tokenSymbol: liquidityAdd.token1!.symbol,
+                    token: liquidityAdd.token1,
                     height: 20,
                     fiatVertical: true,
                     fiatTextStyleMedium: true,
@@ -167,7 +167,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: liquidityAdd.token2Balance,
-                    tokenSymbol: liquidityAdd.token2!.symbol,
+                    token: liquidityAdd.token2,
                     height: 20,
                     fiatVertical: true,
                     fiatAlignLeft: true,
@@ -179,7 +179,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                             ) -
                             Decimal.parse(liquidityAdd.token2Amount.toString()))
                         .toDouble(),
-                    tokenSymbol: liquidityAdd.token2!.symbol,
+                    token: liquidityAdd.token2,
                     height: 20,
                     fiatVertical: true,
                     fiatTextStyleMedium: true,
@@ -232,9 +232,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: liquidityAdd.lpTokenBalance,
-                    tokenSymbol: liquidityAdd.lpTokenBalance > 1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: liquidityAdd.pool!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),
@@ -246,16 +244,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                               liquidityAdd.expectedTokenLP.toString(),
                             ))
                         .toDouble(),
-                    tokenSymbol: (Decimal.parse(
-                                      liquidityAdd.lpTokenBalance.toString(),
-                                    ) +
-                                    Decimal.parse(
-                                      liquidityAdd.expectedTokenLP.toString(),
-                                    ))
-                                .toDouble() >
-                            1
-                        ? 'LP Tokens'
-                        : 'LP Token',
+                    token: liquidityAdd.pool!.lpToken,
                     withFiat: false,
                     height: 20,
                   ),

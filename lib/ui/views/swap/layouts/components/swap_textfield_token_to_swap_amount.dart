@@ -224,7 +224,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                     child: FutureBuilder<String>(
                       future: FiatValue().display(
                         ref,
-                        swap.tokenToSwap!.symbol,
+                        swap.tokenToSwap!,
                         swap.tokenToSwapAmount,
                       ),
                       builder: (context, snapshot) {
@@ -253,8 +253,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
           children: [
             DexTokenBalance(
               tokenBalance: swap.tokenToSwapBalance,
-              tokenSymbol:
-                  swap.tokenToSwap == null ? '' : swap.tokenToSwap!.symbol,
+              token: swap.tokenToSwap,
             ),
             if (swap.tokenToSwapBalance > 0)
               Row(

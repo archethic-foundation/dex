@@ -1,22 +1,17 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:convert';
-
-import 'package:aedex/domain/models/dex_pair.dart';
+import 'package:aedex/application/coin_price.dart';
+import 'package:aedex/application/oracle/provider.dart';
+import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/util/model_parser.dart';
-import 'package:aedex/infrastructure/hive/dex_token.hive.dart';
-import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
-import 'package:aedex/util/endpoint_util.dart';
+import 'package:aedex/infrastructure/dex_token.repository.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_token.g.dart';
 
 @riverpod
-DexTokensRepository _dexTokensRepository(_DexTokensRepositoryRef ref) =>
-    DexTokensRepository();
+DexTokenRepositoryImpl _dexTokenRepository(_DexTokenRepositoryRef ref) =>
+    DexTokenRepositoryImpl();
 
 @riverpod
 Future<List<DexToken>> _getTokenFromAddress(
@@ -24,7 +19,7 @@ Future<List<DexToken>> _getTokenFromAddress(
   address,
   accountAddress,
 ) async {
-  return ref.watch(_dexTokensRepositoryProvider).getTokenFromAddress(address);
+  return ref.watch(_dexTokenRepositoryProvider).getTokenFromAddress(address);
 }
 
 @riverpod
@@ -33,7 +28,7 @@ Future<List<DexToken>> _getTokenFromAccount(
   accountAddress,
 ) async {
   return ref
-      .watch(_dexTokensRepositoryProvider)
+      .watch(_dexTokenRepositoryProvider)
       .getTokensFromAccount(accountAddress);
 }
 
@@ -42,171 +37,83 @@ Future<String?> _getTokenIcon(
   _GetTokenIconRef ref,
   address,
 ) async {
-  return ref.watch(_dexTokensRepositoryProvider).getTokenIcon(address);
+  return ref.watch(_dexTokenRepositoryProvider).getTokenIcon(address);
 }
 
-class DexTokensRepository with ModelParser {
-  Future<List<DexToken>> getTokenFromAddress(
-    String address,
-  ) async {
-    DexToken? token;
-    final tokensListDatasource = await HiveTokensListDatasource.getInstance();
-    final tokenHive = tokensListDatasource.getToken(address);
-    if (tokenHive == null) {
-      final tokenMap = await sl.get<ApiService>().getToken(
-        [address],
-        request: 'name, symbol',
-      );
-      if (tokenMap[address] != null) {
-        token = tokenSDKToModel(tokenMap[address]!, 0);
-        token = token.copyWith(address: address);
-        await tokensListDatasource.setToken(token.toHive());
-      }
-    } else {
-      token = tokenHive.toModel();
-    }
+@riverpod
+double _estimateTokenInFiat(
+  _EstimateTokenInFiatRef ref,
+  DexToken token,
+) {
+  var fiatValue = 0.0;
+  if (token.symbol == 'UCO') {
+    final archethicOracleUCO =
+        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
 
-    if (token == null) {
-      return [];
-    }
+    fiatValue = archethicOracleUCO.usd;
+  } else {
+    final price =
+        ref.watch(CoinPriceProviders.coinPriceFromSymbol(token.symbol));
 
-    return <DexToken>[token];
+    fiatValue = price;
+  }
+  return fiatValue;
+}
+
+@riverpod
+Future<double> _estimateLPTokenInFiat(
+  _EstimateLPTokenInFiatRef ref,
+  DexToken token1,
+  DexToken token2,
+  double lpTokenAmount,
+  String poolAddress,
+) async {
+  var fiatValueToken1 = 0.0;
+  var fiatValueToken2 = 0.0;
+
+  fiatValueToken1 = ref.read(DexTokensProviders.estimateTokenInFiat(token1));
+  fiatValueToken2 = ref.read(DexTokensProviders.estimateTokenInFiat(token2));
+
+  if (fiatValueToken1 == 0 && fiatValueToken2 == 0) {
+    throw Exception();
   }
 
-  Future<List<DexToken>> getTokensFromAccount(
-    String accountAddress,
-  ) async {
-    final dexTokens = <DexToken>[];
-    final balanceMap =
-        await sl.get<ApiService>().fetchBalance([accountAddress]);
-    final balance = balanceMap[accountAddress];
-    if (balance == null) {
-      return [];
-    }
-
-    final tokenAddressList = <String>[];
-    for (final token in balance.token) {
-      if (token.tokenId == 0) tokenAddressList.add(token.address!);
-    }
-
-    final dexTokenUCO = ucoToken.copyWith(
-      balance: fromBigInt(balance.uco).toDouble(),
-      icon: 'Archethic.svg',
-    );
-    dexTokens.add(dexTokenUCO);
-
-    final tokenMap = await sl.get<ApiService>().getToken(
-          tokenAddressList,
-          request: 'name, symbol, properties',
-        );
-
-    for (final entry in tokenMap.entries) {
-      final key = entry.key;
-      final value = entry.value;
-
-      final _token = value.copyWith(address: key);
-
-      var balanceAmount = 0.0;
-      for (final tokenBalance in balance.token) {
-        if (tokenBalance.address!.toUpperCase() ==
-            _token.address!.toUpperCase()) {
-          balanceAmount = fromBigInt(tokenBalance.amount).toDouble();
-          break;
-        }
+  final apiService = sl.get<ApiService>();
+  final amountsResult = await PoolFactory(poolAddress, apiService)
+      .getRemoveAmounts(lpTokenAmount);
+  var amountToken1 = 0.0;
+  var amountToken2 = 0.0;
+  amountsResult.map(
+    success: (success) {
+      if (success != null) {
+        amountToken1 =
+            success['token1'] == null ? 0.0 : success['token1'] as double;
+        amountToken2 =
+            success['token2'] == null ? 0.0 : success['token2'] as double;
       }
+    },
+    failure: (failure) {},
+  );
 
-      var dexToken = tokenSDKToModel(_token, balanceAmount);
-
-      final tokenSymbolSearch = <String>[];
-      if (value.properties.isNotEmpty &&
-          value.properties['token1_address'] != null &&
-          value.properties['token2_address'] != null) {
-        if (value.properties['token1_address'] != 'UCO') {
-          tokenSymbolSearch.add(value.properties['token1_address']);
-        }
-        if (value.properties['token2_address'] != 'UCO') {
-          tokenSymbolSearch.add(value.properties['token2_address']);
-        }
-        final tokensSymbolMap = await sl.get<ApiService>().getToken(
-              tokenSymbolSearch,
-              request: 'name, symbol',
-            );
-
-        dexToken = dexToken.copyWith(
-          isLpToken: true,
-          lpTokenPair: DexPair(
-            token1: value.properties['token1_address'] != 'UCO'
-                ? DexToken(
-                    address: value.properties['token1_address'],
-                    name: tokensSymbolMap[value.properties['token1_address']] !=
-                            null
-                        ? tokensSymbolMap[value.properties['token1_address']]!
-                            .name!
-                        : '',
-                    symbol: tokensSymbolMap[
-                                value.properties['token1_address']] !=
-                            null
-                        ? tokensSymbolMap[value.properties['token1_address']]!
-                            .symbol!
-                        : '',
-                  )
-                : ucoToken,
-            token2: value.properties['token2_address'] != 'UCO'
-                ? DexToken(
-                    address: value.properties['token2_address'],
-                    name: tokensSymbolMap[value.properties['token2_address']] !=
-                            null
-                        ? tokensSymbolMap[value.properties['token2_address']]!
-                            .name!
-                        : '',
-                    symbol: tokensSymbolMap[
-                                value.properties['token2_address']] !=
-                            null
-                        ? tokensSymbolMap[value.properties['token2_address']]!
-                            .symbol!
-                        : '',
-                  )
-                : ucoToken,
-          ),
-        );
-      }
-      dexTokens.add(
-        dexToken,
-      );
-    }
-
-    dexTokens.sort(
-      (a, b) => a.symbol.toUpperCase().compareTo(b.symbol.toUpperCase()),
-    );
-    return dexTokens;
+  if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
+    return amountToken1 * fiatValueToken1 + amountToken2 * fiatValueToken2;
   }
 
-  Future<String?> getTokenIcon(String address) async {
-    final jsonContent = await rootBundle
-        .loadString('lib/domain/repositories/common_bases.json');
-
-    final jsonData = jsonDecode(jsonContent);
-
-    final currentEnvironment = EndpointUtil.getEnvironnement();
-    try {
-      final tokens = jsonData['tokens'][currentEnvironment] as List<dynamic>;
-      String? tokenIcon;
-      for (final token in tokens) {
-        if (token['address'].toString().toUpperCase() ==
-            address.toUpperCase()) {
-          tokenIcon = token['icon'];
-          break;
-        }
-      }
-      return tokenIcon;
-    } catch (e) {
-      return null;
-    }
+  if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
+    return (amountToken1 + amountToken2) * fiatValueToken1;
   }
+
+  if (fiatValueToken1 == 0 && fiatValueToken2 > 0) {
+    return (amountToken1 + amountToken2) * fiatValueToken2;
+  }
+
+  return 0;
 }
 
 abstract class DexTokensProviders {
   static const getTokenFromAddress = _getTokenFromAddressProvider;
   static const getTokenFromAccount = _getTokenFromAccountProvider;
   static const getTokenIcon = _getTokenIconProvider;
+  static const estimateTokenInFiat = _estimateTokenInFiatProvider;
+  static const estimateLPTokenInFiat = _estimateLPTokenInFiatProvider;
 }

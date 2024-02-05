@@ -83,7 +83,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                   FutureBuilder<String>(
                     future: FiatValue().display(
                       ref,
-                      poolAdd.token1!.symbol,
+                      poolAdd.token1!,
                       poolAdd.token1Balance,
                     ),
                     builder: (context, snapshot) {
@@ -99,7 +99,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                   FutureBuilder<String>(
                     future: FiatValue().display(
                       ref,
-                      poolAdd.token1!.symbol,
+                      poolAdd.token1!,
                       (Decimal.parse(poolAdd.token1Balance.toString()) -
                               Decimal.parse(poolAdd.token1Amount.toString()))
                           .toDouble(),
@@ -133,7 +133,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                   FutureBuilder<String>(
                     future: FiatValue().display(
                       ref,
-                      poolAdd.token2!.symbol,
+                      poolAdd.token2!,
                       poolAdd.token2Balance,
                     ),
                     builder: (context, snapshot) {
@@ -149,7 +149,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                   FutureBuilder<String>(
                     future: FiatValue().display(
                       ref,
-                      poolAdd.token2!.symbol,
+                      poolAdd.token2!,
                       (Decimal.parse(poolAdd.token2Balance.toString()) -
                               Decimal.parse(poolAdd.token2Amount.toString()))
                           .toDouble(),

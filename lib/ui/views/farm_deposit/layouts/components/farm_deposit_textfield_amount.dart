@@ -2,7 +2,6 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
-import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -141,21 +140,14 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
               children: [
                 DexTokenBalance(
                   tokenBalance: farmDeposit.lpTokenBalance,
-                  tokenSymbol:
-                      farmDeposit.lpTokenBalance > 1 ? 'LP Tokens' : 'LP Token',
+                  token: farmDeposit.dexFarmInfo!.lpToken,
                   withFiat: false,
                 ),
                 const SizedBox(
                   width: 5,
                 ),
                 Text(
-                  DEXLPTokenFiatValue().display(
-                    ref,
-                    farmDeposit.dexFarmInfo!.lpTokenPair!.token1,
-                    farmDeposit.dexFarmInfo!.lpTokenPair!.token2,
-                    farmDeposit.lpTokenBalance,
-                    farmDeposit.dexFarmInfo!.poolAddress,
-                  ),
+                  '(\$${farmDeposit.dexFarmInfo!.estimateLPTokenInFiat.formatNumber(precision: 2)})',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],

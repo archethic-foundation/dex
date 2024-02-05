@@ -1,4 +1,4 @@
-import 'package:aedex/application/dex_farm.dart';
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +14,7 @@ class DEXLPTokenFiatValue {
     bool withParenthesis = true,
   }) {
     final estimateLPTokenInFiat = ref.watch(
-      DexFarmProviders.estimateLPTokenInFiat(
+      DexTokensProviders.estimateLPTokenInFiat(
         token1,
         token2,
         lpTokenAmount,

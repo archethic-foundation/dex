@@ -144,11 +144,11 @@ class _LiquidityRemoveLPTokenAmountState
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            DexTokenBalance(
-              tokenBalance: liquidityRemove.lpTokenBalance,
-              tokenSymbol:
-                  liquidityRemove.lpTokenBalance > 1 ? 'LP Tokens' : 'LP Token',
-            ),
+            if (liquidityRemove.pool != null)
+              DexTokenBalance(
+                tokenBalance: liquidityRemove.lpTokenBalance,
+                token: liquidityRemove.pool!.lpToken,
+              ),
             Row(
               children: [
                 DexButtonHalf(

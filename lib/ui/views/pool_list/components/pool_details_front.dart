@@ -25,9 +25,11 @@ class PoolDetailsFront extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final asyncTvlInFiat = ref.watch(
+    final tvlAndApr = ref.watch(
       DexPoolProviders.estimatePoolTVLandAPRInFiat(pool),
     );
+
+    final stats = ref.watch(DexPoolProviders.estimateStats(pool));
     return Column(
       children: [
         Padding(
@@ -99,7 +101,7 @@ class PoolDetailsFront extends ConsumerWidget {
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Text(
-                        '\$${asyncTvlInFiat.valueOrNull?.tvl.formatNumber(precision: 2) ?? '...'}',
+                        '\$${tvlAndApr.tvl.formatNumber(precision: 2)}',
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
@@ -133,188 +135,64 @@ class PoolDetailsFront extends ConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
-              FutureBuilder<
-                  ({
-                    double volume24h,
-                    double fee24h,
-                    double volumeAllTime,
-                    double feeAllTime
-                  })>(
-                future: ref.watch(DexPoolProviders.estimateStats(pool).future),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Volume (24h)',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              'Fees (24h)',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '\$${snapshot.data!.volume24h.formatNumber(precision: snapshot.data!.volume24h > 1 ? 2 : 8)}',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              '\$${snapshot.data!.fee24h.formatNumber(precision: snapshot.data!.fee24h > 1 ? 2 : 8)}',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Volume (All)',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              'Fees (All)',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '\$${snapshot.data!.volumeAllTime.formatNumber(precision: snapshot.data!.volumeAllTime > 1 ? 2 : 8)}',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              '\$${snapshot.data!.feeAllTime.formatNumber(precision: snapshot.data!.feeAllTime > 1 ? 2 : 8)}',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  }
-                  return Column(
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Volume (24h)',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          Text(
-                            'Fees (24h)',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
+                      Text(
+                        'Volume (24h)',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3, bottom: 5),
-                            child: SizedBox(
-                              width: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .fontSize,
-                              height: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .fontSize,
-                              child: const CircularProgressIndicator(
-                                strokeWidth: 0.5,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3, bottom: 5),
-                            child: SizedBox(
-                              width: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .fontSize,
-                              height: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .fontSize,
-                              child: const CircularProgressIndicator(
-                                strokeWidth: 0.5,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Volume (All)',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          Text(
-                            'Fees (All)',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3, bottom: 5),
-                            child: SizedBox(
-                              width: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .fontSize,
-                              height: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .fontSize,
-                              child: const CircularProgressIndicator(
-                                strokeWidth: 0.5,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3, bottom: 5),
-                            child: SizedBox(
-                              width: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .fontSize,
-                              height: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .fontSize,
-                              child: const CircularProgressIndicator(
-                                strokeWidth: 0.5,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        'Fees (24h)',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
-                  );
-                },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '\$${stats.volume24h.formatNumber(precision: stats.volume24h > 1 ? 2 : 8)}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      Text(
+                        '\$${stats.fee24h.formatNumber(precision: stats.fee24h > 1 ? 2 : 8)}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Volume (All)',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      Text(
+                        'Fees (All)',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '\$${stats.volumeAllTime.formatNumber(precision: stats.volumeAllTime > 1 ? 2 : 8)}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      Text(
+                        '\$${stats.feeAllTime.formatNumber(precision: stats.feeAllTime > 1 ? 2 : 8)}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 50,

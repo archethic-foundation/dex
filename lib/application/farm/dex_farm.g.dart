@@ -6,38 +6,23 @@ part of 'dex_farm.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dexFarmsRepositoryHash() =>
-    r'67a2a31cdb14f830e94d4d1b43d3dd176e3017c8';
+String _$dexFarmRepositoryHash() => r'f295867c279e664b85311f7001dd026c3a2be22f';
 
-/// See also [_dexFarmsRepository].
-@ProviderFor(_dexFarmsRepository)
-final _dexFarmsRepositoryProvider =
-    AutoDisposeProvider<DexFarmsRepository>.internal(
-  _dexFarmsRepository,
-  name: r'_dexFarmsRepositoryProvider',
+/// See also [_dexFarmRepository].
+@ProviderFor(_dexFarmRepository)
+final _dexFarmRepositoryProvider =
+    AutoDisposeProvider<DexFarmRepositoryImpl>.internal(
+  _dexFarmRepository,
+  name: r'_dexFarmRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$dexFarmsRepositoryHash,
+      : _$dexFarmRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _DexFarmsRepositoryRef = AutoDisposeProviderRef<DexFarmsRepository>;
-String _$getFarmListHash() => r'6adde458e64b4c175a666acedbe99d227932d4a0';
-
-/// See also [_getFarmList].
-@ProviderFor(_getFarmList)
-final _getFarmListProvider = AutoDisposeFutureProvider<List<DexFarm>>.internal(
-  _getFarmList,
-  name: r'_getFarmListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getFarmListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _GetFarmListRef = AutoDisposeFutureProviderRef<List<DexFarm>>;
-String _$getFarmInfosHash() => r'4df58b3e5f1698f8cc6c8c21ee39a5064c9fa7d6';
+typedef _DexFarmRepositoryRef = AutoDisposeProviderRef<DexFarmRepositoryImpl>;
+String _$getFarmInfosHash() => r'b639a5ac7881bc1d2578a3f4b738c4d349ab474c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -220,7 +205,7 @@ class _GetFarmInfosProviderElement
   DexFarm? get dexFarmInput => (origin as _GetFarmInfosProvider).dexFarmInput;
 }
 
-String _$getUserInfosHash() => r'30afc5e195f93e0675a5bd22e6ea9087d8ce4e4a';
+String _$getUserInfosHash() => r'3d0d27ade16181e5df87c29457886f8c0b1ed239';
 
 /// See also [_getUserInfos].
 @ProviderFor(_getUserInfos)
@@ -369,185 +354,19 @@ class _GetUserInfosProviderElement
       (origin as _GetUserInfosProvider).userGenesisAddress;
 }
 
-String _$estimateLPTokenInFiatHash() =>
-    r'211a4940b3106e5cd9225c4dfd9573894e056cc5';
+String _$getFarmListHash() => r'c43313ef288cfce89358dfeb599db2caa09fb027';
 
-/// See also [_estimateLPTokenInFiat].
-@ProviderFor(_estimateLPTokenInFiat)
-const _estimateLPTokenInFiatProvider = _EstimateLPTokenInFiatFamily();
+/// See also [_getFarmList].
+@ProviderFor(_getFarmList)
+final _getFarmListProvider = FutureProvider<List<DexFarm>>.internal(
+  _getFarmList,
+  name: r'_getFarmListProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getFarmListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [_estimateLPTokenInFiat].
-class _EstimateLPTokenInFiatFamily extends Family<AsyncValue<double>> {
-  /// See also [_estimateLPTokenInFiat].
-  const _EstimateLPTokenInFiatFamily();
-
-  /// See also [_estimateLPTokenInFiat].
-  _EstimateLPTokenInFiatProvider call(
-    DexToken token1,
-    DexToken token2,
-    double lpTokenAmount,
-    String poolAddress,
-  ) {
-    return _EstimateLPTokenInFiatProvider(
-      token1,
-      token2,
-      lpTokenAmount,
-      poolAddress,
-    );
-  }
-
-  @override
-  _EstimateLPTokenInFiatProvider getProviderOverride(
-    covariant _EstimateLPTokenInFiatProvider provider,
-  ) {
-    return call(
-      provider.token1,
-      provider.token2,
-      provider.lpTokenAmount,
-      provider.poolAddress,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_estimateLPTokenInFiatProvider';
-}
-
-/// See also [_estimateLPTokenInFiat].
-class _EstimateLPTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
-  /// See also [_estimateLPTokenInFiat].
-  _EstimateLPTokenInFiatProvider(
-    DexToken token1,
-    DexToken token2,
-    double lpTokenAmount,
-    String poolAddress,
-  ) : this._internal(
-          (ref) => _estimateLPTokenInFiat(
-            ref as _EstimateLPTokenInFiatRef,
-            token1,
-            token2,
-            lpTokenAmount,
-            poolAddress,
-          ),
-          from: _estimateLPTokenInFiatProvider,
-          name: r'_estimateLPTokenInFiatProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$estimateLPTokenInFiatHash,
-          dependencies: _EstimateLPTokenInFiatFamily._dependencies,
-          allTransitiveDependencies:
-              _EstimateLPTokenInFiatFamily._allTransitiveDependencies,
-          token1: token1,
-          token2: token2,
-          lpTokenAmount: lpTokenAmount,
-          poolAddress: poolAddress,
-        );
-
-  _EstimateLPTokenInFiatProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.token1,
-    required this.token2,
-    required this.lpTokenAmount,
-    required this.poolAddress,
-  }) : super.internal();
-
-  final DexToken token1;
-  final DexToken token2;
-  final double lpTokenAmount;
-  final String poolAddress;
-
-  @override
-  Override overrideWith(
-    FutureOr<double> Function(_EstimateLPTokenInFiatRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _EstimateLPTokenInFiatProvider._internal(
-        (ref) => create(ref as _EstimateLPTokenInFiatRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        token1: token1,
-        token2: token2,
-        lpTokenAmount: lpTokenAmount,
-        poolAddress: poolAddress,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<double> createElement() {
-    return _EstimateLPTokenInFiatProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _EstimateLPTokenInFiatProvider &&
-        other.token1 == token1 &&
-        other.token2 == token2 &&
-        other.lpTokenAmount == lpTokenAmount &&
-        other.poolAddress == poolAddress;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, token1.hashCode);
-    hash = _SystemHash.combine(hash, token2.hashCode);
-    hash = _SystemHash.combine(hash, lpTokenAmount.hashCode);
-    hash = _SystemHash.combine(hash, poolAddress.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _EstimateLPTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
-  /// The parameter `token1` of this provider.
-  DexToken get token1;
-
-  /// The parameter `token2` of this provider.
-  DexToken get token2;
-
-  /// The parameter `lpTokenAmount` of this provider.
-  double get lpTokenAmount;
-
-  /// The parameter `poolAddress` of this provider.
-  String get poolAddress;
-}
-
-class _EstimateLPTokenInFiatProviderElement
-    extends AutoDisposeFutureProviderElement<double>
-    with _EstimateLPTokenInFiatRef {
-  _EstimateLPTokenInFiatProviderElement(super.provider);
-
-  @override
-  DexToken get token1 => (origin as _EstimateLPTokenInFiatProvider).token1;
-  @override
-  DexToken get token2 => (origin as _EstimateLPTokenInFiatProvider).token2;
-  @override
-  double get lpTokenAmount =>
-      (origin as _EstimateLPTokenInFiatProvider).lpTokenAmount;
-  @override
-  String get poolAddress =>
-      (origin as _EstimateLPTokenInFiatProvider).poolAddress;
-}
+typedef _GetFarmListRef = FutureProviderRef<List<DexFarm>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -201,7 +201,7 @@ class _SwapTokenSwappedAmountState
                     child: FutureBuilder<String>(
                       future: FiatValue().display(
                         ref,
-                        swap.tokenSwapped!.symbol,
+                        swap.tokenSwapped!,
                         swap.tokenSwappedAmount,
                       ),
                       builder: (context, snapshot) {
@@ -230,8 +230,7 @@ class _SwapTokenSwappedAmountState
           children: [
             DexTokenBalance(
               tokenBalance: swap.tokenSwappedBalance,
-              tokenSymbol:
-                  swap.tokenSwapped == null ? '' : swap.tokenSwapped!.symbol,
+              token: swap.tokenSwapped,
             ),
             if (swap.tokenSwappedBalance > 0)
               Row(

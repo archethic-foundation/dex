@@ -7,7 +7,7 @@ part of 'coin_price.dart';
 // **************************************************************************
 
 String _$coinPriceFromSymbolHash() =>
-    r'597f23c43454e23443b079c78c3693da2ca0b2c5';
+    r'3475c666308eb899cea62c30db7c0ec81082747f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -35,7 +35,7 @@ class _SystemHash {
 const _coinPriceFromSymbolProvider = _CoinPriceFromSymbolFamily();
 
 /// See also [_coinPriceFromSymbol].
-class _CoinPriceFromSymbolFamily extends Family<AsyncValue<double>> {
+class _CoinPriceFromSymbolFamily extends Family<double> {
   /// See also [_coinPriceFromSymbol].
   const _CoinPriceFromSymbolFamily();
 
@@ -73,7 +73,7 @@ class _CoinPriceFromSymbolFamily extends Family<AsyncValue<double>> {
 }
 
 /// See also [_coinPriceFromSymbol].
-class _CoinPriceFromSymbolProvider extends AutoDisposeFutureProvider<double> {
+class _CoinPriceFromSymbolProvider extends AutoDisposeProvider<double> {
   /// See also [_coinPriceFromSymbol].
   _CoinPriceFromSymbolProvider(
     String symbol,
@@ -108,7 +108,7 @@ class _CoinPriceFromSymbolProvider extends AutoDisposeFutureProvider<double> {
 
   @override
   Override overrideWith(
-    FutureOr<double> Function(_CoinPriceFromSymbolRef provider) create,
+    double Function(_CoinPriceFromSymbolRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -125,7 +125,7 @@ class _CoinPriceFromSymbolProvider extends AutoDisposeFutureProvider<double> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<double> createElement() {
+  AutoDisposeProviderElement<double> createElement() {
     return _CoinPriceFromSymbolProviderElement(this);
   }
 
@@ -143,21 +143,20 @@ class _CoinPriceFromSymbolProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
-mixin _CoinPriceFromSymbolRef on AutoDisposeFutureProviderRef<double> {
+mixin _CoinPriceFromSymbolRef on AutoDisposeProviderRef<double> {
   /// The parameter `symbol` of this provider.
   String get symbol;
 }
 
 class _CoinPriceFromSymbolProviderElement
-    extends AutoDisposeFutureProviderElement<double>
-    with _CoinPriceFromSymbolRef {
+    extends AutoDisposeProviderElement<double> with _CoinPriceFromSymbolRef {
   _CoinPriceFromSymbolProviderElement(super.provider);
 
   @override
   String get symbol => (origin as _CoinPriceFromSymbolProvider).symbol;
 }
 
-String _$coinPriceNotifierHash() => r'f6a23db9eca646e33b4e71b15641a6edc75add75';
+String _$coinPriceNotifierHash() => r'ff36016167b22c11a63a1aa63ec71e39f425c30f';
 
 /// See also [_CoinPriceNotifier].
 @ProviderFor(_CoinPriceNotifier)

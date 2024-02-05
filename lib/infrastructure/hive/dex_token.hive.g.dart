@@ -25,13 +25,14 @@ class DexTokenHiveAdapter extends TypeAdapter<DexTokenHive> {
       reserve: fields[5] as double,
       supply: fields[6] as double,
       verified: fields[7] as bool,
+      isLpToken: fields[8] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, DexTokenHive obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class DexTokenHiveAdapter extends TypeAdapter<DexTokenHive> {
       ..writeByte(6)
       ..write(obj.supply)
       ..writeByte(7)
-      ..write(obj.verified);
+      ..write(obj.verified)
+      ..writeByte(8)
+      ..write(obj.isLpToken);
   }
 
   @override
