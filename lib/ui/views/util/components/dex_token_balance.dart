@@ -55,19 +55,16 @@ class DexTokenBalance extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 3),
-                    child: Icon(
-                      Iconsax.empty_wallet,
-                      size: 14,
-                    ),
+                  const Icon(
+                    Iconsax.empty_wallet,
+                    size: 14,
                   ),
                   const SizedBox(
                     width: 5,
                   ),
                   Opacity(
                     opacity: opacity,
-                    child: Text(
+                    child: SelectableText(
                       '${tokenBalance.formatNumber(precision: 8)} ${getSymbolDisplay(token!, tokenBalance)}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
@@ -85,7 +82,7 @@ class DexTokenBalance extends ConsumerWidget {
                           padding: const EdgeInsets.only(
                             left: 5,
                           ),
-                          child: Text(
+                          child: SelectableText(
                             DEXLPTokenFiatValue().display(
                               ref,
                               pool!.pair.token1,
@@ -110,7 +107,7 @@ class DexTokenBalance extends ConsumerWidget {
                           if (snapshot.hasData) {
                             return Opacity(
                               opacity: opacity,
-                              child: Text(
+                              child: SelectableText(
                                 snapshot.data!,
                                 style: fiatTextStyleMedium
                                     ? Theme.of(context).textTheme.bodyMedium
@@ -137,19 +134,16 @@ class DexTokenBalance extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 3),
-                  child: Icon(
-                    Iconsax.empty_wallet,
-                    size: 14,
-                  ),
+                const Icon(
+                  Iconsax.empty_wallet,
+                  size: 14,
                 ),
                 const SizedBox(
                   width: 5,
                 ),
                 Opacity(
                   opacity: opacity,
-                  child: Text(
+                  child: SelectableText(
                     '${tokenBalance.formatNumber(precision: 8)} ${getSymbolDisplay(token!, tokenBalance)}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -162,7 +156,7 @@ class DexTokenBalance extends ConsumerWidget {
                         padding: const EdgeInsets.only(
                           left: 5,
                         ),
-                        child: Text(
+                        child: SelectableText(
                           DEXLPTokenFiatValue().display(
                             ref,
                             pool!.pair.token1,
@@ -191,7 +185,7 @@ class DexTokenBalance extends ConsumerWidget {
                               padding: const EdgeInsets.only(
                                 left: 5,
                               ),
-                              child: Text(
+                              child: SelectableText(
                                 snapshot.data!,
                                 style: fiatTextStyleMedium
                                     ? Theme.of(context).textTheme.bodyMedium

@@ -27,7 +27,7 @@ class VerifiedPoolIcon extends ConsumerWidget {
         if (withLabel)
           Padding(
             padding: const EdgeInsets.only(right: 5),
-            child: Text(
+            child: SelectableText(
               AppLocalizations.of(context)!.poolCardPoolVerified,
             ),
           ),

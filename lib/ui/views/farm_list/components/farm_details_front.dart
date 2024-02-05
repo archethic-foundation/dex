@@ -40,7 +40,7 @@ class FarmDetailsFront extends ConsumerWidget {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              SelectableText(
                                 '${farm.lpTokenPair!.token1.symbol}/${farm.lpTokenPair!.token2.symbol}',
                                 style:
                                     Theme.of(context).textTheme.headlineMedium,
@@ -68,11 +68,11 @@ class FarmDetailsFront extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              SelectableText(
                                 'Current APR',
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
-                              Text(
+                              SelectableText(
                                 '${(farm.apr * 100).formatNumber(precision: 4)}%',
                                 style: Theme.of(context)
                                     .textTheme
@@ -89,7 +89,7 @@ class FarmDetailsFront extends ConsumerWidget {
                             children: [
                               Row(
                                 children: [
-                                  Text(
+                                  SelectableText(
                                     'Earn ${farm.rewardToken!.symbol}',
                                     style: Theme.of(context)
                                         .textTheme
@@ -123,16 +123,16 @@ class FarmDetailsFront extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       if (farm.startDate.dateTime.isAfter(DateTime.now()))
-                        Text(
+                        SelectableText(
                           'Farm will start at',
                           style: Theme.of(context).textTheme.bodyLarge,
                         )
                       else
-                        Text(
+                        SelectableText(
                           'Farm started since',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                      Text(
+                      SelectableText(
                         DateFormat.yMd(
                           Localizations.localeOf(context).languageCode,
                         ).add_Hm().format(farm.startDate.dateTime.toLocal()),
@@ -144,16 +144,16 @@ class FarmDetailsFront extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       if (farm.endDate.dateTime.isAfter(DateTime.now()))
-                        Text(
+                        SelectableText(
                           'Farm ends at',
                           style: Theme.of(context).textTheme.bodyLarge,
                         )
                       else
-                        Text(
+                        SelectableText(
                           'Farm ended',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                      Text(
+                      SelectableText(
                         DateFormat.yMd(
                           Localizations.localeOf(context).languageCode,
                         ).add_Hm().format(farm.endDate.dateTime.toLocal()),

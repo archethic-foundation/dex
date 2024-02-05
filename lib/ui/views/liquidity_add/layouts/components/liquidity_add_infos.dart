@@ -25,10 +25,11 @@ class LiquidityAddInfos extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              SelectableText(
                 'Mininum amount for ${liquidityAdd.token1!.symbol}: ',
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 5,
@@ -40,10 +41,11 @@ class LiquidityAddInfos extends ConsumerWidget {
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              SelectableText(
                 'Mininum amount for ${liquidityAdd.token2!.symbol}: ',
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 5,
@@ -55,10 +57,11 @@ class LiquidityAddInfos extends ConsumerWidget {
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              SelectableText(
                 'Expected LP Token: ',
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
                 height: 5,
@@ -76,17 +79,44 @@ class LiquidityAddInfos extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Mininum amount for ${liquidityAdd.token1!.symbol}: +${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
-          style: Theme.of(context).textTheme.bodyLarge,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SelectableText(
+              'Mininum amount for ${liquidityAdd.token1!.symbol}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            SelectableText(
+              '+ ${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
         ),
-        Text(
-          'Mininum amount for ${liquidityAdd.token2!.symbol}: +${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
-          style: Theme.of(context).textTheme.bodyLarge,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SelectableText(
+              'Mininum amount for ${liquidityAdd.token2!.symbol}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            SelectableText(
+              '+ ${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
         ),
-        Text(
-          'Expected LP Token: +${liquidityAdd.expectedTokenLP.formatNumber()}',
-          style: Theme.of(context).textTheme.bodyLarge,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SelectableText(
+              'Expected LP Token',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            SelectableText(
+              '+ ${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
         ),
       ],
     );

@@ -21,7 +21,7 @@ class InProgressBanner extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.only(bottom: 10),
-          child: Text(
+          child: SelectableText(
             stepLabel,
             style: const TextStyle(fontSize: 11),
           ),

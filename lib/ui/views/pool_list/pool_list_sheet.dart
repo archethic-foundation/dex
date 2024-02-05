@@ -75,7 +75,7 @@ class PoolListSheet extends ConsumerWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Loading in progress. Please wait'),
+                      SelectableText('Loading in progress. Please wait'),
                       SizedBox(
                         width: 10,
                       ),
@@ -97,7 +97,7 @@ class PoolListSheet extends ConsumerWidget {
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedSize(
                     crossAxisExtent: 500,
-                    mainAxisExtent: 530,
+                    mainAxisExtent: 550,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 10,
                   ),
@@ -213,7 +213,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                       left: 10,
                       right: 10,
                     ),
-                    child: Text(
+                    child: SelectableText(
                       'Pool',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: ArchethicThemeBase.raspberry300,

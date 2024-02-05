@@ -16,7 +16,7 @@ class DexButtonConfirmBack extends StatelessWidget {
     return Stack(
       children: [
         Center(
-          child: Text(
+          child: SelectableText(
             title,
             style: Theme.of(context).textTheme.titleLarge,
           ),

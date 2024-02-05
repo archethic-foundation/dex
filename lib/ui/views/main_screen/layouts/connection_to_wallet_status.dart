@@ -29,7 +29,7 @@ class _ConnectionToWalletStatusState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
-            content: Text(
+            content: SelectableText(
               AppLocalizations.of(context)!.changeCurrentAccountWarning,
               style: Theme.of(context).snackBarTheme.contentTextStyle,
             ),
@@ -51,7 +51,7 @@ class _ConnectionToWalletStatusState
               SnackBar(
                 backgroundColor:
                     Theme.of(context).snackBarTheme.backgroundColor,
-                content: Text(
+                content: SelectableText(
                   ref.read(SessionProviders.session).error,
                   style: Theme.of(context).snackBarTheme.contentTextStyle,
                 ),
@@ -60,7 +60,7 @@ class _ConnectionToWalletStatusState
             );
           }
         },
-        icon: Text(
+        icon: SelectableText(
           AppLocalizations.of(context)!.btn_connect_wallet,
           style: TextStyle(
             fontSize: 16,
@@ -129,7 +129,7 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
           child: Column(
             children: [
               Center(
-                child: Text(
+                child: SelectableText(
                   session.nameAccount,
                   textAlign: TextAlign.center,
                 ),

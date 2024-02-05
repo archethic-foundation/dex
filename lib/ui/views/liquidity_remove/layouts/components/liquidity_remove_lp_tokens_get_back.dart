@@ -24,70 +24,90 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SelectableText(
             AppLocalizations.of(context)!.liquidityRemoveTokensGetBackHeader,
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${liquidityRemove.token1!.symbol}: +${liquidityRemove.token1AmountGetBack.formatNumber(precision: 8)} ${liquidityRemove.token1!.symbol}',
-                style: Theme.of(context).textTheme.bodyLarge,
+                liquidityRemove.token1!.symbol,
+                style: Theme.of(context).textTheme.bodyMedium,
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.end,
               ),
-              const SizedBox(
-                width: 5,
-              ),
-              if (liquidityRemove.token1 != null &&
-                  liquidityRemove.token1AmountGetBack > 0)
-                FutureBuilder<String>(
-                  future: FiatValue().display(
-                    ref,
-                    liquidityRemove.token1!,
-                    liquidityRemove.token1AmountGetBack,
+              Row(
+                children: [
+                  SelectableText(
+                    '+ ${liquidityRemove.token1AmountGetBack.formatNumber(precision: 8)} ${liquidityRemove.token1!.symbol}',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.end,
                   ),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(
-                        snapshot.data!,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  if (liquidityRemove.token1 != null &&
+                      liquidityRemove.token1AmountGetBack > 0)
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        liquidityRemove.token1!,
+                        liquidityRemove.token1AmountGetBack,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SelectableText(
+                            snapshot.data!,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                ],
+              ),
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${liquidityRemove.token2!.symbol}: +${liquidityRemove.token2AmountGetBack.formatNumber(precision: 8)} ${liquidityRemove.token2!.symbol}',
-                style: Theme.of(context).textTheme.bodyLarge,
+                liquidityRemove.token2!.symbol,
+                style: Theme.of(context).textTheme.bodyMedium,
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.end,
               ),
-              const SizedBox(
-                width: 5,
-              ),
-              if (liquidityRemove.token2 != null &&
-                  liquidityRemove.token2AmountGetBack > 0)
-                FutureBuilder<String>(
-                  future: FiatValue().display(
-                    ref,
-                    liquidityRemove.token2!,
-                    liquidityRemove.token2AmountGetBack,
+              Row(
+                children: [
+                  SelectableText(
+                    '+ ${liquidityRemove.token2AmountGetBack.formatNumber(precision: 8)} ${liquidityRemove.token2!.symbol}',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.end,
                   ),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(
-                        snapshot.data!,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  if (liquidityRemove.token2 != null &&
+                      liquidityRemove.token2AmountGetBack > 0)
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        liquidityRemove.token2!,
+                        liquidityRemove.token2AmountGetBack,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SelectableText(
+                            snapshot.data!,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                ],
+              ),
             ],
           ),
         ],

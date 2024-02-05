@@ -75,8 +75,8 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                                 : swap.tokenSwapped!.address!,
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 2, left: 10),
-                            child: Text(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: SelectableText(
                               swap.tokenSwapped!.symbol,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),

@@ -87,7 +87,7 @@ class InfoBanner extends StatelessWidget {
                                   Padding(
                                     padding:
                                         const EdgeInsets.only(top: 2, right: 5),
-                                    child: Text(
+                                    child: SelectableText(
                                       message,
                                       style: TextStyle(
                                         color: infoBannerType ==

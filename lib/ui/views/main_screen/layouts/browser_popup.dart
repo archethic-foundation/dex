@@ -37,9 +37,9 @@ class BrowserPopup extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Warning'),
+                const SelectableText('Warning'),
                 const SizedBox(height: 40),
-                Text(
+                SelectableText(
                   AppLocalizations.of(context)!.failureIncompatibleBrowser,
                 ),
                 const SizedBox(height: 40),

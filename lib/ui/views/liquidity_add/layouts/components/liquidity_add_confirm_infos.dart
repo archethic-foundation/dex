@@ -47,11 +47,11 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     'Add liquidity in the pool',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     'Mininum amount',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -84,7 +84,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  Text(
+                  SelectableText(
                     '+${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -95,19 +95,19 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
+                      SelectableText(
                         '+ ${liquidityAdd.token2Amount}',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: DexThemeBase.secondaryColor,
                             ),
                       ),
-                      Text(
+                      SelectableText(
                         ' ${liquidityAdd.token2!.symbol}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   ),
-                  Text(
+                  SelectableText(
                     '+${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -128,11 +128,11 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -200,13 +200,13 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  Text(
+                  SelectableText(
                     '+${liquidityAdd.expectedTokenLP.formatNumber()} ',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: DexThemeBase.secondaryColor,
                         ),
                   ),
-                  Text(
+                  SelectableText(
                     liquidityAdd.expectedTokenLP > 1
                         ? 'LP Tokens expected'
                         : 'LP Token expected',
@@ -217,11 +217,11 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),

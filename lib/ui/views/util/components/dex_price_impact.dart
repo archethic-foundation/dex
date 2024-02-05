@@ -19,7 +19,7 @@ class DexPriceImpact extends StatelessWidget {
     return Row(
       children: [
         if (withLabel!)
-          Text(
+          SelectableText(
             'Price impact: ${priceImpact.formatNumber()}%',
             style: priceImpact > 5
                 ? textStyle?.copyWith(
@@ -38,7 +38,7 @@ class DexPriceImpact extends StatelessWidget {
                     : textStyle ?? Theme.of(context).textTheme.bodyLarge,
           )
         else
-          Text(
+          SelectableText(
             '${priceImpact.formatNumber()}%',
             style: priceImpact > 5
                 ? textStyle?.copyWith(

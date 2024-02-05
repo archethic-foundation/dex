@@ -38,7 +38,7 @@ class FarmDetailsBack extends ConsumerWidget {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              SelectableText(
                                 '${farm.lpTokenPair!.token1.symbol}/${farm.lpTokenPair!.token2.symbol}',
                                 style:
                                     Theme.of(context).textTheme.headlineMedium,
@@ -86,14 +86,14 @@ class FarmDetailsBack extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'Remaining reward',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
+                          SelectableText(
                             '${farm.remainingReward.formatNumber()} ${farm.rewardToken!.symbol}',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
@@ -105,7 +105,7 @@ class FarmDetailsBack extends ConsumerWidget {
                             ),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return Text(
+                                return SelectableText(
                                   snapshot.data!,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 );
@@ -124,18 +124,18 @@ class FarmDetailsBack extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'LP Token deposited',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
+                          SelectableText(
                             '${farm.lpTokenDeposited.formatNumber()} ${farm.lpTokenDeposited > 1 ? 'LP Tokens' : 'LP Token'}',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          Text(
+                          SelectableText(
                             '(\$${farm.estimateLPTokenInFiat.formatNumber(precision: 2)})',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
@@ -149,11 +149,11 @@ class FarmDetailsBack extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'Nb deposit',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
+                      SelectableText(
                         farm.nbDeposit.toString(),
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
@@ -166,14 +166,14 @@ class FarmDetailsBack extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'Distributed rewards',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
+                          SelectableText(
                             '${farm.statsRewardDistributed.formatNumber(precision: 2)} ${farm.rewardToken!.symbol}',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
@@ -185,7 +185,7 @@ class FarmDetailsBack extends ConsumerWidget {
                             ),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return Text(
+                                return SelectableText(
                                   snapshot.data!,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 );

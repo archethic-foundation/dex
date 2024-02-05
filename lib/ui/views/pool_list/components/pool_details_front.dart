@@ -48,7 +48,7 @@ class PoolDetailsFront extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          SelectableText(
                             '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
@@ -97,11 +97,11 @@ class PoolDetailsFront extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      SelectableText(
                         'TVL',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
+                      SelectableText(
                         '\$${tvlAndApr.tvl.formatNumber(precision: 2)}',
                         style: Theme.of(context)
                             .textTheme
@@ -116,11 +116,11 @@ class PoolDetailsFront extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          SelectableText(
                             'APR',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          Text(
+                          SelectableText(
                             '${asyncTvlInFiat.valueOrNull?.apr.formatNumber(precision: 2) ?? '...'}%',
                             style: Theme.of(context)
                                 .textTheme
@@ -141,11 +141,11 @@ class PoolDetailsFront extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'Volume (24h)',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
+                      SelectableText(
                         'Fees (24h)',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
@@ -154,11 +154,11 @@ class PoolDetailsFront extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         '\$${stats.volume24h.formatNumber(precision: stats.volume24h > 1 ? 2 : 8)}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
+                      SelectableText(
                         '\$${stats.fee24h.formatNumber(precision: stats.fee24h > 1 ? 2 : 8)}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
@@ -170,11 +170,11 @@ class PoolDetailsFront extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'Volume (All)',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
+                      SelectableText(
                         'Fees (All)',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
@@ -183,11 +183,11 @@ class PoolDetailsFront extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         '\$${stats.volumeAllTime.formatNumber(precision: stats.volumeAllTime > 1 ? 2 : 8)}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
+                      SelectableText(
                         '\$${stats.feeAllTime.formatNumber(precision: stats.feeAllTime > 1 ? 2 : 8)}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),

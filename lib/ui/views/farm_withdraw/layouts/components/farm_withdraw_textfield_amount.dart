@@ -147,7 +147,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                 const SizedBox(
                   width: 5,
                 ),
-                Text(
+                SelectableText(
                   DEXLPTokenFiatValue().display(
                     ref,
                     farmWithdraw.dexFarmInfo!.lpTokenPair!.token1,

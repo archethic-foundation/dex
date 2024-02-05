@@ -28,7 +28,7 @@ class PoolInfoCard extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    const cardHeight = 115.0;
+    const cardHeight = 125.0;
 
     if (poolGenesisAddress.isEmpty) {
       return const SizedBox(height: cardHeight);
@@ -92,13 +92,13 @@ class PoolInfoCard extends ConsumerWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(
+                          SelectableText(
                             pool.pair.token1.symbol,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const Padding(
                             padding: EdgeInsets.only(left: 10, right: 10),
-                            child: Text('/'),
+                            child: SelectableText('/'),
                           ),
                           DexTokenIcon(
                             tokenAddress: pool.pair.token2.address == null
@@ -108,7 +108,7 @@ class PoolInfoCard extends ConsumerWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(
+                          SelectableText(
                             pool.pair.token2.symbol,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
@@ -146,7 +146,7 @@ class PoolInfoCard extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          SelectableText(
                             AppLocalizations.of(context)!.poolCardPooled,
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
@@ -174,7 +174,7 @@ class PoolInfoCard extends ConsumerWidget {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Text(
+                                  SelectableText(
                                     '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol}',
                                   ),
                                   const SizedBox(
@@ -198,7 +198,7 @@ class PoolInfoCard extends ConsumerWidget {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Text(
+                                  SelectableText(
                                     '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol}',
                                   ),
                                   const SizedBox(
@@ -218,7 +218,7 @@ class PoolInfoCard extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      Text(
+                      SelectableText(
                         'TVL: \$${tvlAndApr.tvl.formatNumber(precision: 2)}',
                       ),
                       DexFees(

@@ -50,11 +50,11 @@ class SwapConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     'Swap',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     'Mininum received',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -102,7 +102,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
+                      SelectableText(
                         '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
@@ -114,7 +114,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                         ),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return Text(
+                            return SelectableText(
                               snapshot.data!,
                               style: Theme.of(context).textTheme.bodyMedium,
                             );
@@ -141,11 +141,11 @@ class SwapConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -214,7 +214,7 @@ class SwapConfirmInfos extends ConsumerWidget {
               if (swap.swapTotalFees > 0 && swap.tokenToSwap != null)
                 Row(
                   children: [
-                    Text(
+                    SelectableText(
                       'Fees: ${(swap.swapTotalFees * swap.tokenToSwapAmount / 100).formatNumber()} ${swap.tokenToSwap!.symbol}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
@@ -229,7 +229,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text(
+                          return SelectableText(
                             snapshot.data!,
                             style: Theme.of(context).textTheme.bodyMedium,
                           );

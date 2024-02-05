@@ -65,7 +65,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
               SnackBar(
                 backgroundColor:
                     Theme.of(context).snackBarTheme.backgroundColor,
-                content: Text(
+                content: SelectableText(
                   AppLocalizations.of(context)!.addressCopied,
                   style: Theme.of(context).snackBarTheme.contentTextStyle,
                 ),

@@ -35,7 +35,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
-                    child: Text(
+                    child: SelectableText(
                       AppLocalizations.of(context)!.farmClaimFormTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),

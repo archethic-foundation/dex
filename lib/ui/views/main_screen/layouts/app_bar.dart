@@ -98,7 +98,9 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(AppLocalizations.of(context)!.menu_documentation),
+                      Text(
+                        AppLocalizations.of(context)!.menu_documentation,
+                      ),
                       const SizedBox(
                         width: 8,
                       ),
@@ -129,7 +131,9 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(AppLocalizations.of(context)!.menu_sourceCode),
+                      Text(
+                        AppLocalizations.of(context)!.menu_sourceCode,
+                      ),
                       const SizedBox(
                         width: 8,
                       ),
@@ -307,7 +311,9 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(AppLocalizations.of(context)!.menu_privacy_policy),
+                      Text(
+                        AppLocalizations.of(context)!.menu_privacy_policy,
+                      ),
                       const SizedBox(
                         width: 8,
                       ),

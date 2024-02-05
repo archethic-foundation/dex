@@ -32,7 +32,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
-                    child: Text(
+                    child: SelectableText(
                       AppLocalizations.of(context)!.poolAddFormTitle,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),

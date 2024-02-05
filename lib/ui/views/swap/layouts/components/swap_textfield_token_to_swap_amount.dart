@@ -89,14 +89,14 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            SelectableText(
               AppLocalizations.of(context)!.swapFromLbl,
               style: Theme.of(context).textTheme.bodySmall,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
+                SelectableText(
                   '${AppLocalizations.of(context)!.slippage_tolerance} ${swap.slippageTolerance}%',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
@@ -213,7 +213,8 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                                             keyboardType: TextInputType.text,
                                             inputFormatters: <TextInputFormatter>[
                                               AmountTextInputFormatter(
-                                                  precision: 8),
+                                                precision: 8,
+                                              ),
                                               LengthLimitingTextInputFormatter(
                                                 swap.tokenToSwapBalance
                                                         .formatNumber(
@@ -242,7 +243,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                 ),
                 if (swap.tokenToSwap != null)
                   Positioned(
-                    top: 14,
+                    top: 12,
                     right: 10,
                     child: FutureBuilder<String>(
                       future: FiatValue().display(
@@ -252,7 +253,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text(
+                          return SelectableText(
                             snapshot.data!,
                             style: Theme.of(context).textTheme.bodyLarge,
                           );

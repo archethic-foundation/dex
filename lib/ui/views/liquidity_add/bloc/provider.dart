@@ -245,6 +245,7 @@ class LiquidityAddFormNotifier
       failure: null,
       token1Amount: amount,
       calculationInProgress: true,
+      calculateToken2: true,
     );
 
     final equivalentAmount = await _calculateEquivalentAmount(
@@ -260,6 +261,7 @@ class LiquidityAddFormNotifier
 
     state = state.copyWith(
       calculationInProgress: false,
+      calculateToken2: false,
     );
   }
 
@@ -270,6 +272,7 @@ class LiquidityAddFormNotifier
       failure: null,
       token2Amount: amount,
       calculationInProgress: true,
+      calculateToken1: true,
     );
     final equivalentAmount = await _calculateEquivalentAmount(
       state.token2!.isUCO ? 'UCO' : state.token2!.address!,
@@ -284,6 +287,7 @@ class LiquidityAddFormNotifier
 
     state = state.copyWith(
       calculationInProgress: false,
+      calculateToken1: false,
     );
   }
 

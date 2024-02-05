@@ -46,7 +46,7 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     'Your deposited amount',
                     style: Theme.of(
                       context,
@@ -58,13 +58,13 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
+                        SelectableText(
                           '${userInfos.depositedAmount.formatNumber()} ${userInfos.depositedAmount > 1 ? 'LP Tokens' : 'LP Token'}',
                           style: Theme.of(
                             context,
                           ).textTheme.bodyLarge,
                         ),
-                        Text(
+                        SelectableText(
                           DEXLPTokenFiatValue().display(
                             ref,
                             farm.lpTokenPair!.token1,
@@ -85,7 +85,7 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     'Your reward amount',
                     style: Theme.of(
                       context,
@@ -97,7 +97,7 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
+                        SelectableText(
                           '${userInfos.rewardAmount.formatNumber(precision: 8)} ${farm.rewardToken!.symbol}',
                           style: Theme.of(
                             context,
@@ -121,7 +121,7 @@ class FarmDetailsUserInfo extends ConsumerWidget {
 
                             final fiatValue = fiatSnapshot.data!;
 
-                            return Text(
+                            return SelectableText(
                               fiatValue,
                               style: Theme.of(context).textTheme.bodyMedium,
                             );

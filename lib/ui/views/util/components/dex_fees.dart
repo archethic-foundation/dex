@@ -28,11 +28,11 @@ class DexFees extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: withLabel
-          ? Text(
+          ? SelectableText(
               '${AppLocalizations.of(context)!.feesLbl}: $fees%',
               style: Theme.of(context).textTheme.labelSmall,
             )
-          : Text(
+          : SelectableText(
               '$fees%',
               style: Theme.of(context).textTheme.labelSmall,
             ),

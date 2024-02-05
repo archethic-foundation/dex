@@ -56,13 +56,13 @@ class SwapInfos extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                SelectableText(
                   'Fees',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Row(
                   children: [
-                    Text(
+                    SelectableText(
                       '${(swap.swapTotalFees * swap.tokenToSwapAmount / 100).formatNumber()} ${swap.tokenToSwap!.symbol}',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
@@ -77,7 +77,7 @@ class SwapInfos extends ConsumerWidget {
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text(
+                          return SelectableText(
                             snapshot.data!,
                             style: Theme.of(context).textTheme.bodyMedium,
                           );
@@ -111,7 +111,7 @@ class SwapInfos extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                SelectableText(
                   'Price impact',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
@@ -126,13 +126,13 @@ class SwapInfos extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                SelectableText(
                   'Minimum received',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Row(
                   children: [
-                    Text(
+                    SelectableText(
                       '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
@@ -147,7 +147,7 @@ class SwapInfos extends ConsumerWidget {
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text(
+                          return SelectableText(
                             snapshot.data!,
                             style: Theme.of(context).textTheme.bodyMedium,
                           );
@@ -163,11 +163,11 @@ class SwapInfos extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                SelectableText(
                   'TVL',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                Text(
+                SelectableText(
                   '\$${tvlAndApr.tvl.formatNumber(precision: 2)}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
@@ -177,7 +177,7 @@ class SwapInfos extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                SelectableText(
                   'Ratio',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),

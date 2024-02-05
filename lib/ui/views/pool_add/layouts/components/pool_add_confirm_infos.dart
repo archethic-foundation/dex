@@ -50,11 +50,11 @@ class PoolAddConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.poolAddConfirmNewPoolLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!
                         .poolAddConfirmWithLiquidityLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
@@ -73,7 +73,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          SelectableText(
                             poolAdd.token1!.symbol,
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -102,13 +102,13 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      Text(
+                      SelectableText(
                         ' ',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Row(
                         children: [
-                          Text(
+                          SelectableText(
                             poolAdd.token2!.symbol,
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -172,7 +172,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             ),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return Text(
+                                return SelectableText(
                                   snapshot.data!,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 );
@@ -216,7 +216,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                                 ),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    return Text(
+                                    return SelectableText(
                                       snapshot.data!,
                                       style: Theme.of(context)
                                           .textTheme
@@ -246,27 +246,28 @@ class PoolAddConfirmInfos extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (poolAdd.token1Amount > 0)
-                    DexRatio(
-                      ratio: (Decimal.parse(poolAdd.token2Amount.toString()) /
-                              Decimal.parse(poolAdd.token1Amount.toString()))
-                          .toDouble(),
-                      token1Symbol: poolAdd.token1!.symbol,
-                      token2Symbol: poolAdd.token2!.symbol,
-                    ),
-                  if (poolAdd.token2Amount > 0)
-                    DexRatio(
-                      ratio: (Decimal.parse(poolAdd.token1Amount.toString()) /
-                              Decimal.parse(poolAdd.token2Amount.toString()))
-                          .toDouble(),
-                      token1Symbol: poolAdd.token2!.symbol,
-                      token2Symbol: poolAdd.token1!.symbol,
-                    ),
-                ],
-              ),
+              if (poolAdd.token1Amount > 0)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: DexRatio(
+                    ratio: (Decimal.parse(poolAdd.token2Amount.toString()) /
+                            Decimal.parse(poolAdd.token1Amount.toString()))
+                        .toDouble(),
+                    token1Symbol: poolAdd.token1!.symbol,
+                    token2Symbol: poolAdd.token2!.symbol,
+                  ),
+                ),
+              if (poolAdd.token2Amount > 0)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: DexRatio(
+                    ratio: (Decimal.parse(poolAdd.token1Amount.toString()) /
+                            Decimal.parse(poolAdd.token2Amount.toString()))
+                        .toDouble(),
+                    token1Symbol: poolAdd.token2!.symbol,
+                    token2Symbol: poolAdd.token1!.symbol,
+                  ),
+                ),
               const SizedBox(
                 height: 10,
               ),
@@ -282,11 +283,11 @@ class PoolAddConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),

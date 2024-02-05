@@ -100,11 +100,11 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -149,7 +149,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                       ],
                     );
                   }
-                  return const Row(children: [Text('')]);
+                  return const Row(children: [SelectableText('')]);
                 },
               ),
             ],

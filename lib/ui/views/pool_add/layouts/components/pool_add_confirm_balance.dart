@@ -52,15 +52,17 @@ class PoolAddConfirmBalance extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              Text(AppLocalizations.of(context)!.confirmYourBalanceLbl),
+              SelectableText(
+                AppLocalizations.of(context)!.confirmYourBalanceLbl,
+              ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                   ),
                 ],
@@ -69,10 +71,10 @@ class PoolAddConfirmBalance extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     '${poolAdd.token1Balance.formatNumber()} ${poolAdd.token1!.symbol}',
                   ),
-                  Text(
+                  SelectableText(
                     '${(Decimal.parse(poolAdd.token1Balance.toString()) - Decimal.parse(poolAdd.token1Amount.toString())).toDouble().formatNumber()} ${poolAdd.token1!.symbol}',
                   ),
                 ],
@@ -88,7 +90,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                     ),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Text(
+                        return SelectableText(
                           snapshot.data!,
                           style: Theme.of(context).textTheme.labelSmall,
                         );
@@ -106,7 +108,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                     ),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Text(
+                        return SelectableText(
                           snapshot.data!,
                           style: Theme.of(context).textTheme.labelSmall,
                         );
@@ -119,10 +121,10 @@ class PoolAddConfirmBalance extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     '${poolAdd.token2Balance.formatNumber()} ${poolAdd.token2!.symbol}',
                   ),
-                  Text(
+                  SelectableText(
                     '${(Decimal.parse(poolAdd.token2Balance.toString()) - Decimal.parse(poolAdd.token2Amount.toString())).toDouble().formatNumber()} ${poolAdd.token2!.symbol}',
                   ),
                 ],
@@ -138,7 +140,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                     ),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Text(
+                        return SelectableText(
                           snapshot.data!,
                           style: Theme.of(context).textTheme.labelSmall,
                         );
@@ -156,7 +158,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
                     ),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Text(
+                        return SelectableText(
                           snapshot.data!,
                           style: Theme.of(context).textTheme.labelSmall,
                         );

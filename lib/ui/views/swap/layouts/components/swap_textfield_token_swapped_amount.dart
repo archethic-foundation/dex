@@ -83,7 +83,7 @@ class _SwapTokenSwappedAmountState
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text(
+        SelectableText(
           AppLocalizations.of(context)!.swapToEstimatedLbl,
           style: Theme.of(context).textTheme.bodySmall,
         ),
@@ -189,11 +189,13 @@ class _SwapTokenSwappedAmountState
                                             keyboardType: TextInputType.text,
                                             inputFormatters: <TextInputFormatter>[
                                               AmountTextInputFormatter(
-                                                  precision: 8),
+                                                precision: 8,
+                                              ),
                                               LengthLimitingTextInputFormatter(
                                                 swap.tokenSwappedBalance
                                                         .formatNumber(
-                                                            precision: 0)
+                                                          precision: 0,
+                                                        )
                                                         .length +
                                                     8 +
                                                     1,
@@ -217,7 +219,7 @@ class _SwapTokenSwappedAmountState
                 ),
                 if (swap.tokenSwapped != null)
                   Positioned(
-                    top: 14,
+                    top: 12,
                     right: 10,
                     child: FutureBuilder<String>(
                       future: FiatValue().display(
@@ -227,7 +229,7 @@ class _SwapTokenSwappedAmountState
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text(
+                          return SelectableText(
                             snapshot.data!,
                             style: Theme.of(context).textTheme.bodyLarge,
                           );

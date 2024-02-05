@@ -70,7 +70,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  Text(
+                  SelectableText(
                     'Your balance',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -90,11 +90,11 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -128,7 +128,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  Text(
+                  SelectableText(
                     "Farm's balance",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -148,11 +148,11 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),

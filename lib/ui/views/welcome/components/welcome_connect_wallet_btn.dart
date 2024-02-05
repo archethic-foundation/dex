@@ -31,7 +31,7 @@ class WelcomeConnectWalletBtnState
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
-              content: Text(
+              content: SelectableText(
                 session.error,
                 style: Theme.of(context).snackBarTheme.contentTextStyle,
               ),

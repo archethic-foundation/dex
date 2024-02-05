@@ -26,7 +26,7 @@ class _BalanceDetails extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      SelectableText(
                         'Your available LP Tokens',
                         style: Theme.of(
                           context,
@@ -38,13 +38,13 @@ class _BalanceDetails extends ConsumerWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
+                            SelectableText(
                               '${balance.formatNumber()} ${balance > 1 ? 'LP Tokens' : 'LP Token'}',
                               style: Theme.of(
                                 context,
                               ).textTheme.bodyLarge,
                             ),
-                            Text(
+                            SelectableText(
                               DEXLPTokenFiatValue().display(
                                 ref,
                                 farm.lpTokenPair!.token1,

@@ -146,7 +146,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                 const SizedBox(
                   width: 5,
                 ),
-                Text(
+                SelectableText(
                   '(\$${farmDeposit.dexFarmInfo!.estimateLPTokenInFiat.formatNumber(precision: 2)})',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),

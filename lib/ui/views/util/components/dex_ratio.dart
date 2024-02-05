@@ -23,7 +23,7 @@ class DexRatio extends StatelessWidget {
     }
 
     return SizedBox(
-      child: Text(
+      child: SelectableText(
         '${double.parse('1').formatNumber()} $token1Symbol = ${ratio.formatNumber()} $token2Symbol',
         style: textStyle ?? Theme.of(context).textTheme.bodyLarge,
       ),

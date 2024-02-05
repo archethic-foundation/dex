@@ -37,7 +37,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
-                    child: Text(
+                    child: SelectableText(
                       AppLocalizations.of(context)!.liquidityAddFormTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
@@ -78,7 +78,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
+                          SelectableText(
                             '${AppLocalizations.of(context)!.slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
@@ -111,7 +111,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                       ),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
-                                          return Text(
+                                          return SelectableText(
                                             snapshot.data!,
                                             style: Theme.of(context)
                                                 .textTheme
@@ -162,7 +162,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                       ),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
-                                          return Text(
+                                          return SelectableText(
                                             snapshot.data!,
                                             style: Theme.of(context)
                                                 .textTheme
@@ -186,6 +186,9 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             ),
                           ),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       const LiquidityAddInfos(),
                     ],

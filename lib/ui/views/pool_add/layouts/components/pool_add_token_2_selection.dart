@@ -77,7 +77,7 @@ class PoolAddToken2Selection extends ConsumerWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 2, left: 10),
-                          child: Text(
+                          child: SelectableText(
                             poolAdd.token2!.symbol,
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),

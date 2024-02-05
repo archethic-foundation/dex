@@ -38,7 +38,7 @@ class WelcomeTitle extends StatelessWidget {
                       begin: const Offset(-16, 0),
                       curve: Curves.easeOutQuad,
                     ),
-                Text(
+                SelectableText(
                   ' assets on-chain,',
                   style: const TextStyle(
                     fontSize: 40,
@@ -60,7 +60,7 @@ class WelcomeTitle extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                SelectableText(
                   'add liquidity & access yield farming',
                   style: const TextStyle(
                     fontSize: 40,

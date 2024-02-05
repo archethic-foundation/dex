@@ -36,7 +36,7 @@ class Header extends ConsumerWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 5),
-          child: Text(
+          child: SelectableText(
             'aeSwap',
             style: TextStyle(
               fontSize: 30,
@@ -46,7 +46,7 @@ class Header extends ConsumerWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 5, bottom: 20),
-          child: Text(
+          child: SelectableText(
             'Alpha',
             style: Theme.of(context).textTheme.labelMedium,
           ),
