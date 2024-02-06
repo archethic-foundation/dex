@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,11 @@ class LiquidityPositionsIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (lpTokenInUserBalance == false) {
-      return const SizedBox.shrink();
+    final session = ref.watch(SessionProviders.session);
+    if (lpTokenInUserBalance == false || session.isConnected == false) {
+      return const SizedBox(
+        height: 16,
+      );
     }
     return Row(
       children: [
