@@ -146,7 +146,7 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
               child: Icon(
                 Iconsax.star_slash,
                 size: 16,
-                color: ArchethicThemeBase.raspberry300,
+                color: ArchethicThemeBase.raspberry200,
               ),
             ),
           ),

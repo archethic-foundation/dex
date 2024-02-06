@@ -35,7 +35,7 @@ class Header extends ConsumerWidget {
           width: 8,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 5),
+          padding: const EdgeInsets.only(bottom: 4),
           child: SelectableText(
             'aeSwap',
             style: TextStyle(
@@ -45,7 +45,7 @@ class Header extends ConsumerWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 5, bottom: 20),
+          padding: const EdgeInsets.only(left: 5, bottom: 26),
           child: SelectableText(
             'Beta',
             style: Theme.of(context).textTheme.labelMedium,
@@ -60,75 +60,120 @@ class Header extends ConsumerWidget {
                 width: 50,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton(
-                  onPressed: () {
-                    ref.read(navigationIndexMainScreenProvider.notifier).state =
-                        0;
-                    ref
-                        .read(
-                          MainScreenWidgetDisplayedProviders
-                              .mainScreenWidgetDisplayedProvider.notifier,
-                        )
-                        .setWidget(const SwapSheet(), ref);
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.menu_swap,
-                    style: TextStyle(
-                      fontSize: 18,
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        ref
+                            .read(navigationIndexMainScreenProvider.notifier)
+                            .state = 0;
+                        ref
+                            .read(
+                              MainScreenWidgetDisplayedProviders
+                                  .mainScreenWidgetDisplayedProvider.notifier,
+                            )
+                            .setWidget(const SwapSheet(), ref);
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.menu_swap,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: indexMenu == 0
+                              ? ArchethicThemeBase.raspberry200
+                              : ArchethicThemeBase.neutral0,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      height: 0.5,
+                      width: 70,
                       color: indexMenu == 0
-                          ? ArchethicThemeBase.blue50
-                          : ArchethicThemeBase.blue200,
+                          ? ArchethicThemeBase.raspberry200
+                          : Colors.transparent,
                     ),
-                  ),
+                  ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton(
-                  onPressed: () {
-                    ref.read(navigationIndexMainScreenProvider.notifier).state =
-                        1;
-                    ref
-                        .read(
-                          MainScreenWidgetDisplayedProviders
-                              .mainScreenWidgetDisplayedProvider.notifier,
-                        )
-                        .setWidget(const PoolListSheet(), ref);
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.menu_liquidity,
-                    style: TextStyle(
-                      fontSize: 18,
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        ref
+                            .read(navigationIndexMainScreenProvider.notifier)
+                            .state = 1;
+                        ref
+                            .read(
+                              MainScreenWidgetDisplayedProviders
+                                  .mainScreenWidgetDisplayedProvider.notifier,
+                            )
+                            .setWidget(const PoolListSheet(), ref);
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.menu_liquidity,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: indexMenu == 1
+                              ? ArchethicThemeBase.raspberry200
+                              : ArchethicThemeBase.neutral0,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      height: 0.5,
+                      width: 90,
                       color: indexMenu == 1
-                          ? ArchethicThemeBase.blue50
-                          : ArchethicThemeBase.blue200,
+                          ? ArchethicThemeBase.raspberry200
+                          : Colors.transparent,
                     ),
-                  ),
+                  ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton(
-                  onPressed: () {
-                    ref.read(navigationIndexMainScreenProvider.notifier).state =
-                        2;
-                    ref
-                        .read(
-                          MainScreenWidgetDisplayedProviders
-                              .mainScreenWidgetDisplayedProvider.notifier,
-                        )
-                        .setWidget(const FarmListSheet(), ref);
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.menu_farm,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: indexMenu == 2
-                          ? ArchethicThemeBase.blue50
-                          : ArchethicThemeBase.blue200,
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        ref
+                            .read(navigationIndexMainScreenProvider.notifier)
+                            .state = 2;
+                        ref
+                            .read(
+                              MainScreenWidgetDisplayedProviders
+                                  .mainScreenWidgetDisplayedProvider.notifier,
+                            )
+                            .setWidget(const FarmListSheet(), ref);
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.menu_farm,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: indexMenu == 2
+                              ? ArchethicThemeBase.raspberry200
+                              : ArchethicThemeBase.neutral0,
+                        ),
+                      ),
                     ),
-                  ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      height: 0.5,
+                      width: 70,
+                      color: indexMenu == 2
+                          ? ArchethicThemeBase.raspberry200
+                          : Colors.transparent,
+                    ),
+                  ],
                 ),
               ),
             ],

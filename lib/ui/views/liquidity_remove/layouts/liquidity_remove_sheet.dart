@@ -55,7 +55,7 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
           border: GradientBoxBorder(
             gradient: DexThemeBase.gradientSheetBorder,
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(20),
           image: const DecorationImage(
             image: AssetImage(
               'assets/images/background-sheet.png',

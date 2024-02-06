@@ -44,7 +44,7 @@ class PoolListSheet extends ConsumerWidget {
           child: Padding(
             padding: EdgeInsets.only(
               top: 140,
-              bottom: Responsive.isDesktop(context) ? 0 : 80,
+              bottom: Responsive.isDesktop(context) ? 40 : 80,
             ),
             child: asyncPools.when(
               skipLoadingOnRefresh: true,
@@ -160,7 +160,9 @@ class PoolListSheet extends ConsumerWidget {
           ),
         ),
         const Padding(
-          padding: EdgeInsets.only(top: 60),
+          padding: EdgeInsets.only(
+            top: 60,
+          ),
           child: PoolListSearch(),
         ),
       ],
@@ -270,7 +272,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                     child: SelectableText(
                       'Pool',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: ArchethicThemeBase.raspberry300,
+                            color: ArchethicThemeBase.raspberry200,
                           ),
                     ),
                   ),
@@ -306,7 +308,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                       child: Icon(
                         Iconsax.convertshape,
                         size: 16,
-                        color: ArchethicThemeBase.raspberry300,
+                        color: ArchethicThemeBase.raspberry200,
                       ),
                     ),
                   ),

@@ -1,4 +1,3 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -53,7 +52,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                   alignment: Alignment.center,
                   height: 50,
                   decoration: ShapeDecoration(
-                    color: ArchethicThemeBase.purple300,
+                    color: const Color(0xFF3D1D63),
                     shape: const StadiumBorder(),
                     shadows: [
                       BoxShadow(

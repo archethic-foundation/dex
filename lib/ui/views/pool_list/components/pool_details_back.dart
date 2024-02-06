@@ -50,7 +50,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                     Theme.of(context).textTheme.headlineMedium,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 3),
+                                padding: const EdgeInsets.only(top: 2),
                                 child: DexPairIcons(
                                   token1Address:
                                       pool.pair.token1.address == null
@@ -62,9 +62,6 @@ class PoolDetailsBack extends ConsumerWidget {
                                           : pool.pair.token2.address!,
                                   iconSize: 22,
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
                               ),
                             ],
                           ),

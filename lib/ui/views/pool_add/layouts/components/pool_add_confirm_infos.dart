@@ -32,7 +32,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: ArchethicThemeBase.blue800,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
               color: ArchethicThemeBase.neutral900,

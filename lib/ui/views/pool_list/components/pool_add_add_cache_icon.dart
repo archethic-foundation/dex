@@ -52,7 +52,7 @@ class PoolAddAddCacheIcon extends ConsumerWidget {
               child: Icon(
                 Iconsax.star,
                 size: 16,
-                color: ArchethicThemeBase.raspberry300,
+                color: ArchethicThemeBase.raspberry200,
               ),
             ),
           ),

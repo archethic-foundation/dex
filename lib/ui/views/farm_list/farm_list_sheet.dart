@@ -194,7 +194,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                     child: SelectableText(
                       'Farming',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: ArchethicThemeBase.raspberry300,
+                            color: ArchethicThemeBase.raspberry200,
                           ),
                     ),
                   ),
@@ -230,7 +230,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                       child: Icon(
                         Iconsax.convertshape,
                         size: 16,
-                        color: ArchethicThemeBase.raspberry300,
+                        color: ArchethicThemeBase.raspberry200,
                       ),
                     ),
                   ),
