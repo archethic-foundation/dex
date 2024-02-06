@@ -60,7 +60,7 @@ class _ConnectionToWalletStatusState
             );
           }
         },
-        icon: SelectableText(
+        icon: Text(
           AppLocalizations.of(context)!.btn_connect_wallet,
           style: TextStyle(
             fontSize: 16,
