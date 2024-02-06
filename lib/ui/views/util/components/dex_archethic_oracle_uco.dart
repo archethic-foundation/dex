@@ -37,7 +37,7 @@ class DexArchethicOracleUco extends ConsumerWidget {
           onPressed: () {
             launchUrl(
               Uri.parse(
-                'https://wiki.archethic.net/category/faq/dex#how-is-the-price-of-uco-estimated',
+                'https://wiki.archethic.net/FAQ/dex/#how-is-the-price-of-uco-estimated',
               ),
             );
           },
