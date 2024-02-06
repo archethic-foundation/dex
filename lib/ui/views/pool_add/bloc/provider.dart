@@ -258,6 +258,15 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return false;
     }
 
+    if (state.token1!.address == state.token2!.address) {
+      setFailure(
+        Failure.other(
+          cause: AppLocalizations.of(context)!.poolAddControlSameTokens,
+        ),
+      );
+      return false;
+    }
+
     if (state.token1Amount <= 0) {
       setFailure(
         Failure.other(

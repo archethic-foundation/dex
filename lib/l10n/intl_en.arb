@@ -110,6 +110,7 @@
   "poolAddControlToken2AmountEmpty": "Please enter the amount of token 2",
   "poolAddControlToken1AmountExceedBalance": "The amount entered for token 1 exceeds your balance.",
   "poolAddControlToken2AmountExceedBalance": "The amount entered for token 2 exceeds your balance.",
+  "poolAddControlSameTokens": "You cannot create a pool with the same 2 tokens",
   "poolAddConfirmToken1Lbl": "Token 1",
   "poolAddConfirmToken2Lbl": "Token 2",
   "addPoolProcessStep0": "Process not started",

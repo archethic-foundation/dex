@@ -42,6 +42,5 @@ class PoolAddFormState with _$PoolAddFormState {
       token1Balance > 0 &&
       token2Balance > 0 &&
       token1Amount > 0 &&
-      token2Amount > 0 &&
-      token1!.address != token2!.address;
+      token2Amount > 0;
 }

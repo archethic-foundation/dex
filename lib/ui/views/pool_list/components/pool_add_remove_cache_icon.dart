@@ -2,6 +2,7 @@
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -143,7 +144,7 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
                 right: 10,
               ),
               child: Icon(
-                Icons.remove,
+                Iconsax.star_slash,
                 size: 16,
                 color: ArchethicThemeBase.raspberry300,
               ),

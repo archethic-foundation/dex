@@ -17,7 +17,9 @@ class LiquidityFavoriteIcon extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (isFavorite == false) {
-      return const SizedBox.shrink();
+      return const SizedBox(
+        height: 16,
+      );
     }
     return Row(
       children: [

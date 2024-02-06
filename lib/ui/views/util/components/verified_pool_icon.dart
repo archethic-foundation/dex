@@ -20,7 +20,9 @@ class VerifiedPoolIcon extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (isVerified == false) {
-      return const SizedBox.shrink();
+      return const SizedBox(
+        height: 16,
+      );
     }
     return Row(
       children: [
