@@ -30,13 +30,13 @@ class SwapConfirmSheet extends ConsumerWidget {
             onPressed: swap.tokenToSwap == null
                 ? null
                 : () {
-                    ref
-                        .read(
-                          SwapFormProvider.swapForm.notifier,
-                        )
-                        .setSwapProcessStep(
-                          SwapProcessStep.form,
-                        );
+                    ref.read(
+                      SwapFormProvider.swapForm.notifier,
+                    )
+                      ..setSwapProcessStep(
+                        SwapProcessStep.form,
+                      )
+                      ..setMessageMaxHalfUCO(false);
                   },
           ),
           const SizedBox(height: 15),

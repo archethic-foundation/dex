@@ -24,6 +24,7 @@ mixin _$PoolAddFormState {
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get poolAddOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
+  bool get messageMaxHalfUCO => throw _privateConstructorUsedError;
   DexToken? get token1 => throw _privateConstructorUsedError;
   DexToken? get token2 => throw _privateConstructorUsedError;
   double get slippage => throw _privateConstructorUsedError;
@@ -60,6 +61,7 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
       bool isProcessInProgress,
       bool poolAddOk,
       bool walletConfirmation,
+      bool messageMaxHalfUCO,
       DexToken? token1,
       DexToken? token2,
       double slippage,
@@ -102,6 +104,7 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     Object? isProcessInProgress = null,
     Object? poolAddOk = null,
     Object? walletConfirmation = null,
+    Object? messageMaxHalfUCO = null,
     Object? token1 = freezed,
     Object? token2 = freezed,
     Object? slippage = null,
@@ -144,6 +147,10 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
       walletConfirmation: null == walletConfirmation
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as bool,
+      messageMaxHalfUCO: null == messageMaxHalfUCO
+          ? _value.messageMaxHalfUCO
+          : messageMaxHalfUCO // ignore: cast_nullable_to_non_nullable
               as bool,
       token1: freezed == token1
           ? _value.token1
@@ -296,6 +303,7 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
       bool isProcessInProgress,
       bool poolAddOk,
       bool walletConfirmation,
+      bool messageMaxHalfUCO,
       DexToken? token1,
       DexToken? token2,
       double slippage,
@@ -342,6 +350,7 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
     Object? isProcessInProgress = null,
     Object? poolAddOk = null,
     Object? walletConfirmation = null,
+    Object? messageMaxHalfUCO = null,
     Object? token1 = freezed,
     Object? token2 = freezed,
     Object? slippage = null,
@@ -384,6 +393,10 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
       walletConfirmation: null == walletConfirmation
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as bool,
+      messageMaxHalfUCO: null == messageMaxHalfUCO
+          ? _value.messageMaxHalfUCO
+          : messageMaxHalfUCO // ignore: cast_nullable_to_non_nullable
               as bool,
       token1: freezed == token1
           ? _value.token1
@@ -454,6 +467,7 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
       this.isProcessInProgress = false,
       this.poolAddOk = false,
       this.walletConfirmation = false,
+      this.messageMaxHalfUCO = false,
       this.token1,
       this.token2,
       this.slippage = 2.0,
@@ -491,6 +505,9 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
   @JsonKey()
   final bool walletConfirmation;
   @override
+  @JsonKey()
+  final bool messageMaxHalfUCO;
+  @override
   final DexToken? token1;
   @override
   final DexToken? token2;
@@ -525,7 +542,7 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
 
   @override
   String toString() {
-    return 'PoolAddFormState(poolAddProcessStep: $poolAddProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, recoveryTransactionAddPool: $recoveryTransactionAddPool, recoveryTransactionAddPoolTransfer: $recoveryTransactionAddPoolTransfer, recoveryTransactionAddPoolLiquidity: $recoveryTransactionAddPoolLiquidity, recoveryPoolGenesisAddress: $recoveryPoolGenesisAddress, failure: $failure)';
+    return 'PoolAddFormState(poolAddProcessStep: $poolAddProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, recoveryTransactionAddPool: $recoveryTransactionAddPool, recoveryTransactionAddPoolTransfer: $recoveryTransactionAddPoolTransfer, recoveryTransactionAddPoolLiquidity: $recoveryTransactionAddPoolLiquidity, recoveryPoolGenesisAddress: $recoveryPoolGenesisAddress, failure: $failure)';
   }
 
   @override
@@ -547,6 +564,8 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
                 other.poolAddOk == poolAddOk) &&
             (identical(other.walletConfirmation, walletConfirmation) ||
                 other.walletConfirmation == walletConfirmation) &&
+            (identical(other.messageMaxHalfUCO, messageMaxHalfUCO) ||
+                other.messageMaxHalfUCO == messageMaxHalfUCO) &&
             (identical(other.token1, token1) || other.token1 == token1) &&
             (identical(other.token2, token2) || other.token2 == token2) &&
             (identical(other.slippage, slippage) ||
@@ -590,6 +609,7 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
         isProcessInProgress,
         poolAddOk,
         walletConfirmation,
+        messageMaxHalfUCO,
         token1,
         token2,
         slippage,
@@ -622,6 +642,7 @@ abstract class _PoolAddFormState extends PoolAddFormState {
       final bool isProcessInProgress,
       final bool poolAddOk,
       final bool walletConfirmation,
+      final bool messageMaxHalfUCO,
       final DexToken? token1,
       final DexToken? token2,
       final double slippage,
@@ -651,6 +672,8 @@ abstract class _PoolAddFormState extends PoolAddFormState {
   bool get poolAddOk;
   @override
   bool get walletConfirmation;
+  @override
+  bool get messageMaxHalfUCO;
   @override
   DexToken? get token1;
   @override

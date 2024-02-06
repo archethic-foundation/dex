@@ -22,6 +22,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(false) bool isProcessInProgress,
     @Default(false) bool liquidityAddOk,
     @Default(false) bool walletConfirmation,
+    @Default(false) bool messageMaxHalfUCO,
     DexToken? token1,
     DexToken? token2,
     @Default(0.0) double ratio,

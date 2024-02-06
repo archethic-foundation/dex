@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
+import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
@@ -146,7 +147,8 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: '+ ${poolAdd.token1Amount.formatNumber()}',
+                              text:
+                                  '+ ${poolAdd.token1Amount.formatNumber(precision: 8)}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
@@ -190,7 +192,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                               children: [
                                 TextSpan(
                                   text:
-                                      '+ ${poolAdd.token2Amount.formatNumber()}',
+                                      '+ ${poolAdd.token2Amount.formatNumber(precision: 8)}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
@@ -341,6 +343,17 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
+              if (poolAdd.messageMaxHalfUCO)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: SizedBox(
+                    height: 45,
+                    child: InfoBanner(
+                      r'The UCO amount you entered has been reduced by $0.5 to include transaction fees.',
+                      InfoBannerType.request,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

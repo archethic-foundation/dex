@@ -1,5 +1,6 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
@@ -7,7 +8,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/usecases/swap.dart';
+import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -58,6 +59,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   ) async {
     state = state.copyWith(
       failure: null,
+      messageMaxHalfUCO: false,
       tokenToSwap: tokenToSwap,
     );
 
@@ -231,6 +233,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   ) async {
     state = state.copyWith(
       failure: null,
+      messageMaxHalfUCO: false,
       tokenToSwapAmount: tokenToSwapAmount,
     );
 
@@ -567,8 +570,16 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
+  void setMessageMaxHalfUCO(
+    bool messageMaxHalfUCO,
+  ) {
+    state = state.copyWith(
+      messageMaxHalfUCO: messageMaxHalfUCO,
+    );
+  }
+
   Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+    if (await control(context) == false) {
       return;
     }
 
@@ -577,7 +588,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
-  bool control(BuildContext context) {
+  Future<bool> control(BuildContext context) async {
+    setMessageMaxHalfUCO(false);
     setFailure(null);
     if (kIsWeb &&
         (BrowserUtil().isEdgeBrowser() ||
@@ -634,6 +646,33 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       return false;
     }
 
+    var estimateFees = 0.0;
+    if (state.tokenToSwap != null && state.tokenToSwap!.isUCO) {
+      final archethicOracleUCO =
+          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+      if (archethicOracleUCO.usd > 0) {
+        estimateFees = 0.5 / archethicOracleUCO.usd;
+      }
+      if (estimateFees > 0) {
+        if (estimateFees > state.tokenToSwapAmount) {
+          state = state.copyWith(messageMaxHalfUCO: true);
+          setFailure(const Failure.insufficientFunds());
+          return false;
+        }
+        if (state.tokenToSwapAmount + estimateFees > state.tokenToSwapBalance) {
+          final adjustedAmount = state.tokenToSwapBalance - estimateFees;
+          if (adjustedAmount < 0) {
+            state = state.copyWith(messageMaxHalfUCO: true);
+            setFailure(const Failure.insufficientFunds());
+            return false;
+          } else {
+            await setTokenToSwapAmount(adjustedAmount);
+            state = state.copyWith(messageMaxHalfUCO: true);
+          }
+        }
+      }
+    }
+
     return true;
   }
 
@@ -641,7 +680,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     setSwapOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (await control(context) == false) {
       setProcessInProgress(false);
       return;
     }

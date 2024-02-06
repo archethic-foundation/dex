@@ -30,11 +30,11 @@ class PoolAddConfirmSheet extends ConsumerWidget {
             onPressed: poolAdd.token1 == null
                 ? null
                 : () {
-                    ref
-                        .read(PoolAddFormProvider.poolAddForm.notifier)
-                        .setPoolAddProcessStep(
-                          PoolAddProcessStep.form,
-                        );
+                    ref.read(PoolAddFormProvider.poolAddForm.notifier)
+                      ..setPoolAddProcessStep(
+                        PoolAddProcessStep.form,
+                      )
+                      ..setMessageMaxHalfUCO(false);
                   },
           ),
           const SizedBox(height: 15),

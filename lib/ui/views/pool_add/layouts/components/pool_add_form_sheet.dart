@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
+import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,6 +65,17 @@ class PoolAddFormSheet extends ConsumerWidget {
                         height: 10,
                       ),
                       const PoolAddToken2Amount(),
+                      if (poolAdd.messageMaxHalfUCO)
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: SizedBox(
+                            height: 40,
+                            child: InfoBanner(
+                              r'This process requires a maximum of $0.5 in transaction fees to be completed.',
+                              InfoBannerType.request,
+                            ),
+                          ),
+                        ),
                       DexErrorMessage(failure: poolAdd.failure),
                     ],
                   ),

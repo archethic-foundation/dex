@@ -172,4 +172,64 @@ class SwapCase with TransactionDexMixin {
         return AppLocalizations.of(context)!.swapProcessStep0;
     }
   }
+
+  // TODO(redDwarf03): Wait for https://github.com/archethic-foundation/archethic-node/issues/1418
+  Future<double> estimateFees(
+    WidgetRef ref,
+    String poolGenesisAddress,
+    DexToken tokenToSwap,
+    double tokenToSwapAmount,
+    double slippage,
+  ) async {
+    final archethicContract = ArchethicContract();
+    archethic.Transaction? transactionSwap;
+    var outputAmount = 0.0;
+
+    try {
+      final outputAmountMap = await archethicContract.getOutputAmount(
+        tokenToSwap,
+        tokenToSwapAmount,
+        poolGenesisAddress,
+      );
+
+      outputAmountMap.map(
+        success: (success) {
+          outputAmount = success;
+
+          if (outputAmount <= 0) {
+            return 0.0;
+          }
+        },
+        failure: (failure) {
+          return 0.0;
+        },
+      );
+    } catch (e) {
+      return 0.0;
+    }
+
+    try {
+      final transactionSwapMap = await archethicContract.getSwapTx(
+        tokenToSwap,
+        tokenToSwapAmount,
+        poolGenesisAddress,
+        slippage,
+        outputAmount,
+      );
+
+      transactionSwapMap.map(
+        success: (success) async {
+          transactionSwap = success;
+          final fees = await calculateFees(transactionSwap!, slippage: 1.1);
+          return fees;
+        },
+        failure: (failure) {
+          return 0.0;
+        },
+      );
+    } catch (e) {
+      return 0.0;
+    }
+    return 0.0;
+  }
 }

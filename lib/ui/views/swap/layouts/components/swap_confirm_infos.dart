@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:decimal/decimal.dart';
@@ -258,6 +259,17 @@ class SwapConfirmInfos extends ConsumerWidget {
                   swap.tokenSwappedAmount > 0 &&
                   swap.tokenToSwapAmount > 0)
                 DexPriceImpact(priceImpact: swap.priceImpact),
+              if (swap.messageMaxHalfUCO)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: SizedBox(
+                    height: 45,
+                    child: InfoBanner(
+                      r'The UCO amount you entered has been reduced by $0.5 to include transaction fees.',
+                      InfoBannerType.request,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

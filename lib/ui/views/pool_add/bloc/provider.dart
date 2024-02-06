@@ -1,11 +1,12 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/usecases/add_pool.dart';
+import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
@@ -35,6 +36,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   ) async {
     state = state.copyWith(
       failure: null,
+      messageMaxHalfUCO: false,
       token1: token,
     );
 
@@ -53,6 +55,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   ) async {
     state = state.copyWith(
       failure: null,
+      messageMaxHalfUCO: false,
       token2: token,
     );
 
@@ -109,6 +112,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   ) {
     state = state.copyWith(
       failure: null,
+      messageMaxHalfUCO: false,
       token1Amount: amount,
     );
   }
@@ -118,6 +122,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   ) {
     state = state.copyWith(
       failure: null,
+      messageMaxHalfUCO: false,
       token2Amount: amount,
     );
   }
@@ -142,6 +147,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
   void setPoolAddOk(bool poolAddOk) {
     state = state.copyWith(
+      messageMaxHalfUCO: false,
       failure: null,
       poolAddOk: poolAddOk,
     );
@@ -168,7 +174,11 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   void setTokenFormSelected(int tokenFormSelected) {
-    state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
+    state = state.copyWith(
+      failure: null,
+      messageMaxHalfUCO: false,
+      tokenFormSelected: tokenFormSelected,
+    );
   }
 
   void setRecoveryTransactionAddPool(Transaction? recoveryTransactionAddPool) {
@@ -198,6 +208,14 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
+  void setMessageMaxHalfUCO(
+    bool messageMaxHalfUCO,
+  ) {
+    state = state.copyWith(
+      messageMaxHalfUCO: messageMaxHalfUCO,
+    );
+  }
+
   Future<void> validateForm(BuildContext context) async {
     final _control = await control(context);
     if (_control == false) {
@@ -210,6 +228,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   Future<bool> control(BuildContext context) async {
+    setMessageMaxHalfUCO(false);
     setFailure(null);
 
     if (kIsWeb &&
@@ -298,6 +317,58 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.failure != null) {
       return false;
+    }
+
+    var estimateFees = 0.0;
+    if (state.token1 != null && state.token1!.isUCO) {
+      final archethicOracleUCO =
+          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+      if (archethicOracleUCO.usd > 0) {
+        estimateFees = 0.5 / archethicOracleUCO.usd;
+      }
+      if (estimateFees > 0) {
+        if (estimateFees > state.token1Amount) {
+          state = state.copyWith(messageMaxHalfUCO: true);
+          setFailure(const Failure.insufficientFunds());
+          return false;
+        }
+        if (state.token1Amount + estimateFees > state.token1Balance) {
+          final adjustedAmount = state.token1Balance - estimateFees;
+          if (adjustedAmount < 0) {
+            state = state.copyWith(messageMaxHalfUCO: true);
+            setFailure(const Failure.insufficientFunds());
+            return false;
+          } else {
+            setToken1Amount(adjustedAmount);
+            state = state.copyWith(messageMaxHalfUCO: true);
+          }
+        }
+      }
+    }
+    if (state.token2 != null && state.token2!.isUCO) {
+      final archethicOracleUCO =
+          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+      if (archethicOracleUCO.usd > 0) {
+        estimateFees = 0.5 / archethicOracleUCO.usd;
+      }
+      if (estimateFees > 0) {
+        if (estimateFees > state.token2Amount) {
+          state = state.copyWith(messageMaxHalfUCO: true);
+          setFailure(const Failure.insufficientFunds());
+          return false;
+        }
+        if (state.token2Amount + estimateFees > state.token2Balance) {
+          final adjustedAmount = state.token2Balance - estimateFees;
+          if (adjustedAmount < 0) {
+            state = state.copyWith(messageMaxHalfUCO: true);
+            setFailure(const Failure.insufficientFunds());
+            return false;
+          } else {
+            setToken2Amount(adjustedAmount);
+            state = state.copyWith(messageMaxHalfUCO: true);
+          }
+        }
+      }
     }
 
     return true;

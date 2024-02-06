@@ -30,13 +30,13 @@ class LiquidityAddConfirmSheet extends ConsumerWidget {
             onPressed: liquidityAdd.token1 == null
                 ? null
                 : () {
-                    ref
-                        .read(
-                          LiquidityAddFormProvider.liquidityAddForm.notifier,
-                        )
-                        .setLiquidityAddProcessStep(
-                          LiquidityAddProcessStep.form,
-                        );
+                    ref.read(
+                      LiquidityAddFormProvider.liquidityAddForm.notifier,
+                    )
+                      ..setLiquidityAddProcessStep(
+                        LiquidityAddProcessStep.form,
+                      )
+                      ..setMessageMaxHalfUCO(false);
                   },
           ),
           const SizedBox(height: 15),

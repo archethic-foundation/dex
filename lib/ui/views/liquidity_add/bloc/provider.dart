@@ -1,4 +1,5 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
@@ -129,28 +130,10 @@ class LiquidityAddFormNotifier
 
   Future<void> setToken1AmountMax(WidgetRef ref) async {
     await setToken1Amount(state.token1Balance);
-    await AddLiquidityCase().estimateFees(
-      ref,
-      state.pool!.poolAddress,
-      state.token1!,
-      state.token1Amount,
-      state.token2!,
-      state.token2Amount,
-      state.slippageTolerance,
-    );
   }
 
   Future<void> setToken2AmountMax(WidgetRef ref) async {
     await setToken2Amount(state.token2Balance);
-    await AddLiquidityCase().estimateFees(
-      ref,
-      state.pool!.poolAddress,
-      state.token1!,
-      state.token1Amount,
-      state.token2!,
-      state.token2Amount,
-      state.slippageTolerance,
-    );
   }
 
   void setToken1AmountHalf() {
@@ -243,6 +226,7 @@ class LiquidityAddFormNotifier
   ) async {
     state = state.copyWith(
       failure: null,
+      messageMaxHalfUCO: false,
       token1Amount: amount,
       calculationInProgress: true,
       calculateToken2: true,
@@ -270,6 +254,7 @@ class LiquidityAddFormNotifier
   ) async {
     state = state.copyWith(
       failure: null,
+      messageMaxHalfUCO: false,
       token2Amount: amount,
       calculationInProgress: true,
       calculateToken1: true,
@@ -365,7 +350,7 @@ class LiquidityAddFormNotifier
   }
 
   Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+    if (await control(context) == false) {
       return;
     }
 
@@ -374,8 +359,17 @@ class LiquidityAddFormNotifier
     );
   }
 
-  bool control(BuildContext context) {
+  void setMessageMaxHalfUCO(
+    bool messageMaxHalfUCO,
+  ) {
+    state = state.copyWith(
+      messageMaxHalfUCO: messageMaxHalfUCO,
+    );
+  }
+
+  Future<bool> control(BuildContext context) async {
     setFailure(null);
+    setMessageMaxHalfUCO(false);
 
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
@@ -424,6 +418,59 @@ class LiquidityAddFormNotifier
       );
       return false;
     }
+
+    var estimateFees = 0.0;
+    if (state.token1 != null && state.token1!.isUCO) {
+      final archethicOracleUCO =
+          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+      if (archethicOracleUCO.usd > 0) {
+        estimateFees = 0.5 / archethicOracleUCO.usd;
+      }
+      if (estimateFees > 0) {
+        if (estimateFees > state.token1Amount) {
+          state = state.copyWith(messageMaxHalfUCO: true);
+          setFailure(const Failure.insufficientFunds());
+          return false;
+        }
+        if (state.token1Amount + estimateFees > state.token1Balance) {
+          final adjustedAmount = state.token1Balance - estimateFees;
+          if (adjustedAmount < 0) {
+            state = state.copyWith(messageMaxHalfUCO: true);
+            setFailure(const Failure.insufficientFunds());
+            return false;
+          } else {
+            await setToken1Amount(adjustedAmount);
+            state = state.copyWith(messageMaxHalfUCO: true);
+          }
+        }
+      }
+    }
+    if (state.token2 != null && state.token2!.isUCO) {
+      final archethicOracleUCO =
+          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+      if (archethicOracleUCO.usd > 0) {
+        estimateFees = 0.5 / archethicOracleUCO.usd;
+      }
+      if (estimateFees > 0) {
+        if (estimateFees > state.token2Amount) {
+          state = state.copyWith(messageMaxHalfUCO: true);
+          setFailure(const Failure.insufficientFunds());
+          return false;
+        }
+        if (state.token2Amount + estimateFees > state.token2Balance) {
+          final adjustedAmount = state.token2Balance - estimateFees;
+          if (adjustedAmount < 0) {
+            state = state.copyWith(messageMaxHalfUCO: true);
+            setFailure(const Failure.insufficientFunds());
+            return false;
+          } else {
+            await setToken2Amount(adjustedAmount);
+            state = state.copyWith(messageMaxHalfUCO: true);
+          }
+        }
+      }
+    }
+
     return true;
   }
 
@@ -431,7 +478,7 @@ class LiquidityAddFormNotifier
     setLiquidityAddOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (await control(context) == false) {
       setProcessInProgress(false);
       return;
     }
