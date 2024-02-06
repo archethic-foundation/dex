@@ -1425,7 +1425,7 @@ final _getPoolListForUserProvider =
 
 typedef _GetPoolListForUserRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$getPoolListForSearchHash() =>
-    r'06b630958a8072508554105d4c081bde9410228b';
+    r'30fcedbac646399b8e46c31fc93f4e2ca721fb30';
 
 /// See also [_getPoolListForSearch].
 @ProviderFor(_getPoolListForSearch)

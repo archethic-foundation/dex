@@ -57,16 +57,27 @@ Future<List<DexPool>> _getPoolListForSearch(
 ) async {
   final dexPools = <DexPool>[];
   final poolList = await ref.read(_getPoolListProvider.future);
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
 
   for (final pool in poolList) {
-    if (pool.poolAddress.toUpperCase() == searchText.toUpperCase() ||
-        pool.pair.token1.address!.toUpperCase() == searchText.toUpperCase() ||
-        pool.pair.token2.address!.toUpperCase() == searchText.toUpperCase()) {
-      final poolWithInfos = await ref.read(
-        DexPoolProviders.getPoolInfos(pool).future,
-      );
-      dexPools.add(poolWithInfos!);
+    if ((pool.poolAddress.toUpperCase() == searchText.toUpperCase() ||
+            pool.pair.token1.address!.toUpperCase() ==
+                searchText.toUpperCase() ||
+            pool.pair.token2.address!.toUpperCase() ==
+                searchText.toUpperCase()) ||
+        (searchText.toUpperCase() == 'UCO' &&
+            (pool.pair.token1.isUCO || pool.pair.token2.isUCO))) {
+      final poolHive = poolsListDatasource.getPool(pool.poolAddress);
+      if (poolHive == null) {
+        final poolWithInfos = await ref.read(
+          DexPoolProviders.getPoolInfos(pool).future,
+        );
+        dexPools.add(poolWithInfos!);
+      } else {
+        dexPools.add(poolHive.toDexPool());
+      }
     }
   }
+
   return dexPools;
 }
