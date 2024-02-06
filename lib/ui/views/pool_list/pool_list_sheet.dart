@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
@@ -36,6 +37,7 @@ class PoolListSheet extends ConsumerWidget {
       ),
     );
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
+    final session = ref.watch(SessionProviders.session);
     return Stack(
       children: [
         Center(
@@ -96,24 +98,39 @@ class PoolListSheet extends ConsumerWidget {
               error: (error, stackTrace) =>
                   DexErrorMessage(failure: Failure.fromError(error)),
               data: (pools) {
+                if (session.isConnected == false &&
+                    poolListForm.tabIndexSelected == PoolsListTab.myPools) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SelectableText(
+                        'Please, connect your wallet to list your pools with position.',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  );
+                }
+
                 if (pools.isEmpty &&
                     poolListForm.tabIndexSelected ==
                         PoolsListTab.favoritePools) {
-                  return const Row(
+                  return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      SelectableText(
                         'To add your favorite pools to this tab, please click on the',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 2, right: 5),
                         child: Icon(
-                          Icons.add,
+                          Iconsax.star,
                           size: 14,
                         ),
                       ),
-                      Text(
+                      SelectableText(
                         'icon in the pool cards header.',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   );
@@ -217,6 +234,20 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
           right: 20,
           child: Row(
             children: [
+              if (widget.pool.isFavorite)
+                Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: PoolAddRemoveCacheIcon(
+                    poolAddress: widget.pool.poolAddress,
+                  ),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: PoolAddAddCacheIcon(
+                    poolAddress: widget.pool.poolAddress,
+                  ),
+                ),
               SizedBox(
                 height: 40,
                 child: Card(
@@ -281,20 +312,6 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                   ),
                 ),
               ),
-              if (widget.pool.isFavorite)
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: PoolAddRemoveCacheIcon(
-                    poolAddress: widget.pool.poolAddress,
-                  ),
-                )
-              else
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: PoolAddAddCacheIcon(
-                    poolAddress: widget.pool.poolAddress,
-                  ),
-                ),
             ],
           ),
         ),
