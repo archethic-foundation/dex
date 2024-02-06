@@ -5,7 +5,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/usecases/remove_liquidity.dart';
+import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/browser_util_desktop.dart'

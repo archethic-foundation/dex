@@ -114,6 +114,7 @@ class AddLiquidityCase with TransactionDexMixin {
     }
   }
 
+  // TODO(redDwarf03): Wait for https://github.com/archethic-foundation/archethic-node/issues/1418
   Future<double> estimateFees(
     WidgetRef ref,
     String poolGenesisAddress,

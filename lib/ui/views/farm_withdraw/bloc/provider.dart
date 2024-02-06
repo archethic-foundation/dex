@@ -2,7 +2,7 @@ import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/usecases/withdraw_farm.dart';
+import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';

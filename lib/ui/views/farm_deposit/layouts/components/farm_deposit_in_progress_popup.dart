@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:aedex/application/main_screen_widget_displayed.dart';
-import 'package:aedex/domain/usecases/deposit_farm.dart';
+import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_tx_addresses.dart';

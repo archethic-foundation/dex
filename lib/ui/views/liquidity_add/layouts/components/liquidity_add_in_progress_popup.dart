@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:aedex/application/main_screen_widget_displayed.dart';
-import 'package:aedex/domain/usecases/add_liquidity.dart';
+import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_tx_addresses.dart';

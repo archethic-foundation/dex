@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -196,6 +197,17 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (liquidityAdd.messageMaxHalfUCO)
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: SizedBox(
+                            height: 40,
+                            child: InfoBanner(
+                              r'This process requires a maximum of $0.5 in transaction fees to be completed.',
+                              InfoBannerType.request,
+                            ),
+                          ),
+                        ),
                       DexErrorMessage(failure: liquidityAdd.failure),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

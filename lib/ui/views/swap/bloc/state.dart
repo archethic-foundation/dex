@@ -24,6 +24,7 @@ class SwapFormState with _$SwapFormState {
     @Default(false) bool isProcessInProgress,
     @Default(false) bool swapOk,
     @Default(false) bool walletConfirmation,
+    @Default(false) bool messageMaxHalfUCO,
     @Default(0) double tokenToSwapBalance,
     @Default(0) double tokenToSwapAmount,
     DexToken? tokenSwapped,

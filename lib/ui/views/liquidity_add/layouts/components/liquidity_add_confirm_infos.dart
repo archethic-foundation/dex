@@ -1,6 +1,7 @@
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
+import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -250,6 +251,17 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
+              if (liquidityAdd.messageMaxHalfUCO)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: SizedBox(
+                    height: 45,
+                    child: InfoBanner(
+                      r'The UCO amount you entered has been reduced by $0.5 to include transaction fees.',
+                      InfoBannerType.request,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

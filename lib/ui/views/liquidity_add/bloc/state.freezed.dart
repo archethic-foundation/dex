@@ -25,6 +25,7 @@ mixin _$LiquidityAddFormState {
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get liquidityAddOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
+  bool get messageMaxHalfUCO => throw _privateConstructorUsedError;
   DexToken? get token1 => throw _privateConstructorUsedError;
   DexToken? get token2 => throw _privateConstructorUsedError;
   double get ratio => throw _privateConstructorUsedError;
@@ -64,6 +65,7 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       bool isProcessInProgress,
       bool liquidityAddOk,
       bool walletConfirmation,
+      bool messageMaxHalfUCO,
       DexToken? token1,
       DexToken? token2,
       double ratio,
@@ -111,6 +113,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     Object? isProcessInProgress = null,
     Object? liquidityAddOk = null,
     Object? walletConfirmation = null,
+    Object? messageMaxHalfUCO = null,
     Object? token1 = freezed,
     Object? token2 = freezed,
     Object? ratio = null,
@@ -161,6 +164,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
       walletConfirmation: null == walletConfirmation
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as bool,
+      messageMaxHalfUCO: null == messageMaxHalfUCO
+          ? _value.messageMaxHalfUCO
+          : messageMaxHalfUCO // ignore: cast_nullable_to_non_nullable
               as bool,
       token1: freezed == token1
           ? _value.token1
@@ -312,6 +319,7 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       bool isProcessInProgress,
       bool liquidityAddOk,
       bool walletConfirmation,
+      bool messageMaxHalfUCO,
       DexToken? token1,
       DexToken? token2,
       double ratio,
@@ -362,6 +370,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
     Object? isProcessInProgress = null,
     Object? liquidityAddOk = null,
     Object? walletConfirmation = null,
+    Object? messageMaxHalfUCO = null,
     Object? token1 = freezed,
     Object? token2 = freezed,
     Object? ratio = null,
@@ -412,6 +421,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
       walletConfirmation: null == walletConfirmation
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as bool,
+      messageMaxHalfUCO: null == messageMaxHalfUCO
+          ? _value.messageMaxHalfUCO
+          : messageMaxHalfUCO // ignore: cast_nullable_to_non_nullable
               as bool,
       token1: freezed == token1
           ? _value.token1
@@ -497,6 +510,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
       this.isProcessInProgress = false,
       this.liquidityAddOk = false,
       this.walletConfirmation = false,
+      this.messageMaxHalfUCO = false,
       this.token1,
       this.token2,
       this.ratio = 0.0,
@@ -540,6 +554,9 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   @override
   @JsonKey()
   final bool walletConfirmation;
+  @override
+  @JsonKey()
+  final bool messageMaxHalfUCO;
   @override
   final DexToken? token1;
   @override
@@ -589,7 +606,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, failure: $failure)';
+    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, failure: $failure)';
   }
 
   @override
@@ -614,6 +631,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
                 other.liquidityAddOk == liquidityAddOk) &&
             (identical(other.walletConfirmation, walletConfirmation) ||
                 other.walletConfirmation == walletConfirmation) &&
+            (identical(other.messageMaxHalfUCO, messageMaxHalfUCO) ||
+                other.messageMaxHalfUCO == messageMaxHalfUCO) &&
             (identical(other.token1, token1) || other.token1 == token1) &&
             (identical(other.token2, token2) || other.token2 == token2) &&
             (identical(other.ratio, ratio) || other.ratio == ratio) &&
@@ -657,6 +676,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
         isProcessInProgress,
         liquidityAddOk,
         walletConfirmation,
+        messageMaxHalfUCO,
         token1,
         token2,
         ratio,
@@ -694,6 +714,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final bool isProcessInProgress,
       final bool liquidityAddOk,
       final bool walletConfirmation,
+      final bool messageMaxHalfUCO,
       final DexToken? token1,
       final DexToken? token2,
       final double ratio,
@@ -729,6 +750,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   bool get liquidityAddOk;
   @override
   bool get walletConfirmation;
+  @override
+  bool get messageMaxHalfUCO;
   @override
   DexToken? get token1;
   @override
