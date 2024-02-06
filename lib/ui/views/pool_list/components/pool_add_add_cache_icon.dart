@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,7 +50,7 @@ class PoolAddAddCacheIcon extends ConsumerWidget {
                 right: 10,
               ),
               child: Icon(
-                Icons.add,
+                Iconsax.star,
                 size: 16,
                 color: ArchethicThemeBase.raspberry300,
               ),
