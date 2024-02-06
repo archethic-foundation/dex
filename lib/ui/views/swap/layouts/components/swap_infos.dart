@@ -63,7 +63,7 @@ class SwapInfos extends ConsumerWidget {
                 Row(
                   children: [
                     SelectableText(
-                      '${(swap.swapTotalFees * swap.tokenToSwapAmount / 100).formatNumber()} ${swap.tokenToSwap!.symbol}',
+                      '${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(
@@ -73,7 +73,7 @@ class SwapInfos extends ConsumerWidget {
                       future: FiatValue().display(
                         ref,
                         swap.tokenToSwap!,
-                        swap.swapTotalFees * swap.tokenToSwapAmount / 100,
+                        swap.swapTotalFees,
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -91,7 +91,7 @@ class SwapInfos extends ConsumerWidget {
                     if (swap.pool != null)
                       Tooltip(
                         message:
-                            'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${(swap.swapFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${(swap.swapProtocolFees * swap.tokenToSwapAmount / 100).toStringAsFixed(8)} ${swap.tokenToSwap!.symbol}',
+                            'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
                         child: const Padding(
                           padding: EdgeInsets.only(bottom: 2),
                           child: Icon(
