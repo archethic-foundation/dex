@@ -16,20 +16,12 @@ class PoolListSearchBar extends ConsumerStatefulWidget {
 }
 
 class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
-  late final TextEditingController searchController = TextEditingController();
   late final FocusNode searchFocus;
-  // ignore: unused_field
-  String _searchText = '';
 
   @override
   void initState() {
     super.initState();
     searchFocus = FocusNode();
-    searchController.addListener(() {
-      setState(() {
-        _searchText = searchController.text;
-      });
-    });
   }
 
   @override
@@ -78,7 +70,6 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
                 fontWeight: FontWeight.w400,
               ),
               autocorrect: false,
-              controller: searchController,
               onChanged: (text) {
                 ref
                     .read(
@@ -121,7 +112,6 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
 
   @override
   void dispose() {
-    searchController.dispose();
     searchFocus.dispose();
     super.dispose();
   }
