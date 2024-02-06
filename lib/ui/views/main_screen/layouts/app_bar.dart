@@ -178,7 +178,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                 onPressed: () {
                   launchUrl(
                     Uri.parse(
-                      'https://wiki.archethic.net/category/FAQ',
+                      'https://wiki.archethic.net/FAQ/dex',
                     ),
                   );
                 },
@@ -209,7 +209,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                 onPressed: () {
                   launchUrl(
                     Uri.parse(
-                      'https://wiki.archethic.net',
+                      'https://wiki.archethic.net/participate/dex/usage/aeSwap',
                     ),
                   );
                 },
