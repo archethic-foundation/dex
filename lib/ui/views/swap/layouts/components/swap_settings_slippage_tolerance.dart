@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,17 +59,6 @@ class SwapSettingsSlippageToleranceState
                     TextSpan(
                       text: AppLocalizations.of(context)!.slippage_tolerance,
                       style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: IconButtonAnimated(
-                        icon: Icon(
-                          Icons.help,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        onPressed: () {},
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                      ),
                     ),
                   ],
                 ),
