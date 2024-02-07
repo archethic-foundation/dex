@@ -117,7 +117,15 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
                               AmountTextInputFormatter(precision: 8),
-                              LengthLimitingTextInputFormatter(10),
+                              LengthLimitingTextInputFormatter(
+                                farmDeposit.lpTokenBalance
+                                        .formatNumber(
+                                          precision: 0,
+                                        )
+                                        .length +
+                                    8 +
+                                    1,
+                              ),
                             ],
                             decoration: const InputDecoration(
                               border: InputBorder.none,
