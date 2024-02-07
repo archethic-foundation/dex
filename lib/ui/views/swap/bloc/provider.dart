@@ -654,11 +654,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
       if (estimateFees > 0) {
-        if (estimateFees > state.tokenToSwapAmount) {
-          state = state.copyWith(messageMaxHalfUCO: true);
-          setFailure(const Failure.insufficientFunds());
-          return false;
-        }
         if (state.tokenToSwapAmount + estimateFees > state.tokenToSwapBalance) {
           final adjustedAmount = state.tokenToSwapBalance - estimateFees;
           if (adjustedAmount < 0) {

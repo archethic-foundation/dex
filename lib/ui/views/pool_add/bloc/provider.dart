@@ -336,11 +336,6 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
       if (estimateFees > 0) {
-        if (estimateFees > state.token1Amount) {
-          state = state.copyWith(messageMaxHalfUCO: true);
-          setFailure(const Failure.insufficientFunds());
-          return false;
-        }
         if (state.token1Amount + estimateFees > state.token1Balance) {
           final adjustedAmount = state.token1Balance - estimateFees;
           if (adjustedAmount < 0) {
@@ -361,11 +356,6 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
       if (estimateFees > 0) {
-        if (estimateFees > state.token2Amount) {
-          state = state.copyWith(messageMaxHalfUCO: true);
-          setFailure(const Failure.insufficientFunds());
-          return false;
-        }
         if (state.token2Amount + estimateFees > state.token2Balance) {
           final adjustedAmount = state.token2Balance - estimateFees;
           if (adjustedAmount < 0) {
