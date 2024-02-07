@@ -181,7 +181,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                         ? double.parse(success['price_impact'].toString())
                         : success['price_impact'] ?? 0;
                     _protocolFees = success['protocol_fee'] is int
-                        ? double.parse(success['price_impact'].toString())
+                        ? double.parse(success['protocol_fee'].toString())
                         : success['protocol_fee'] ?? 0;
                   }
                 },
