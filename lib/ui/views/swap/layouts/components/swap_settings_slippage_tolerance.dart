@@ -2,6 +2,7 @@
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/icon_button_animated.dart';
+import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -97,10 +98,11 @@ class SwapSettingsSlippageToleranceState
                   controller: slippageToleranceController,
                   focusNode: slippageToleranceFocusNode,
                   textAlign: TextAlign.center,
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.none,
+                  keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
-                    LengthLimitingTextInputFormatter(10),
+                    AmountTextInputFormatter(),
+                    LengthLimitingTextInputFormatter(5),
                   ],
                   onChanged: (_) {
                     setState(() {});
