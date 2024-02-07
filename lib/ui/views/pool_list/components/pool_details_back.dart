@@ -80,7 +80,7 @@ class PoolDetailsBack extends ConsumerWidget {
                           ),
                           FormatAddressLinkCopy(
                             address: pool.poolAddress.toUpperCase(),
-                            header: '',
+                            header: 'Pool address: ',
                             typeAddress: TypeAddressLinkCopy.chain,
                             reduceAddress: true,
                             fontSize: Theme.of(context)
@@ -88,6 +88,60 @@ class PoolDetailsBack extends ConsumerWidget {
                                 .bodyMedium!
                                 .fontSize!,
                           ),
+                          if (pool.pair.token1.isUCO == false)
+                            Row(
+                              children: [
+                                FormatAddressLinkCopy(
+                                  header:
+                                      'Token ${pool.pair.token1.symbol} address: ',
+                                  address:
+                                      pool.pair.token1.address!.toUpperCase(),
+                                  typeAddress: TypeAddressLinkCopy.transaction,
+                                  reduceAddress: true,
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .fontSize!,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                VerifiedTokenIcon(
+                                  address: pool.pair.token1.address!,
+                                ),
+                              ],
+                            )
+                          else
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          if (pool.pair.token2.isUCO == false)
+                            Row(
+                              children: [
+                                FormatAddressLinkCopy(
+                                  header:
+                                      'Token ${pool.pair.token2.symbol} address: ',
+                                  address:
+                                      pool.pair.token2.address!.toUpperCase(),
+                                  typeAddress: TypeAddressLinkCopy.transaction,
+                                  reduceAddress: true,
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .fontSize!,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                VerifiedTokenIcon(
+                                  address: pool.pair.token2.address!,
+                                ),
+                              ],
+                            )
+                          else
+                            const SizedBox(
+                              height: 20,
+                            ),
                         ],
                       ),
                     ],
@@ -129,12 +183,6 @@ class PoolDetailsBack extends ConsumerWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      VerifiedTokenIcon(
-                                        address: pool.pair.token1.address!,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
                                       SelectableText(
                                         '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol}',
                                         style: Theme.of(context)
@@ -168,12 +216,6 @@ class PoolDetailsBack extends ConsumerWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      VerifiedTokenIcon(
-                                        address: pool.pair.token2.address!,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
                                       SelectableText(
                                         '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol}',
                                         style: Theme.of(context)
