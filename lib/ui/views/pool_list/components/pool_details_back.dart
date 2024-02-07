@@ -88,6 +88,20 @@ class PoolDetailsBack extends ConsumerWidget {
                                 .bodyMedium!
                                 .fontSize!,
                           ),
+                          Row(
+                            children: [
+                              FormatAddressLinkCopy(
+                                header: 'LP Token address: ',
+                                address: pool.lpToken.address!.toUpperCase(),
+                                typeAddress: TypeAddressLinkCopy.transaction,
+                                reduceAddress: true,
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .fontSize!,
+                              ),
+                            ],
+                          ),
                           if (pool.pair.token1.isUCO == false)
                             Row(
                               children: [
