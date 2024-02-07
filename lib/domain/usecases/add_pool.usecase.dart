@@ -137,7 +137,9 @@ class AddPoolCase with TransactionDexMixin {
         );
       } catch (e) {
         if (e is Failure) {
-          poolAddNotifier.setFailure(e);
+          poolAddNotifier
+            ..setFailure(e)
+            ..setProcessInProgress(false);
           return;
         }
         poolAddNotifier.setFailure(Failure.other(cause: e.toString()));
@@ -211,10 +213,16 @@ class AddPoolCase with TransactionDexMixin {
               name: 'TransactionDexMixin - sendTransactions',
             );
         if (e is Failure) {
-          poolAddNotifier.setFailure(e);
+          poolAddNotifier
+            ..setFailure(e)
+            ..setProcessInProgress(false);
+
           return;
         }
-        poolAddNotifier.setFailure(Failure.other(cause: e.toString()));
+        poolAddNotifier
+          ..setFailure(Failure.other(cause: e.toString()))
+          ..setProcessInProgress(false);
+        ;
 
         return;
       }
@@ -238,11 +246,13 @@ class AddPoolCase with TransactionDexMixin {
               name: 'TransactionDexMixin - sendTransactions',
             );
 
-        poolAddNotifier.setFailure(
-          Failure.other(
-            cause: e.toString(),
-          ),
-        );
+        poolAddNotifier
+          ..setFailure(
+            Failure.other(
+              cause: e.toString(),
+            ),
+          )
+          ..setProcessInProgress(false);
         return;
       }
     }
