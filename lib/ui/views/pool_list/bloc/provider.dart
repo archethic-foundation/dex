@@ -8,7 +8,15 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
-enum PoolsListTab { verified, myPools, favoritePools, searchPool }
+enum PoolsListTab {
+  verified(true),
+  myPools(true),
+  favoritePools(true),
+  searchPool(false);
+
+  const PoolsListTab(this.skipLoadingOnReload);
+  final bool skipLoadingOnReload;
+}
 
 @riverpod
 Future<List<DexPool>> _poolsToDisplay(
@@ -100,10 +108,6 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
 
   void setSearchText(String searchText) {
     state = state.copyWith(searchText: searchText);
-  }
-
-  void setLoading(bool isLoading) {
-    state = state.copyWith(isLoading: isLoading);
   }
 }
 

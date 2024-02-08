@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PoolListFormState {
   PoolsListTab get tabIndexSelected => throw _privateConstructorUsedError;
   String get searchText => throw _privateConstructorUsedError;
-  dynamic get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolListFormStateCopyWith<PoolListFormState> get copyWith =>
@@ -31,8 +30,7 @@ abstract class $PoolListFormStateCopyWith<$Res> {
           PoolListFormState value, $Res Function(PoolListFormState) then) =
       _$PoolListFormStateCopyWithImpl<$Res, PoolListFormState>;
   @useResult
-  $Res call(
-      {PoolsListTab tabIndexSelected, String searchText, dynamic isLoading});
+  $Res call({PoolsListTab tabIndexSelected, String searchText});
 }
 
 /// @nodoc
@@ -50,7 +48,6 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
   $Res call({
     Object? tabIndexSelected = null,
     Object? searchText = null,
-    Object? isLoading = freezed,
   }) {
     return _then(_value.copyWith(
       tabIndexSelected: null == tabIndexSelected
@@ -61,10 +58,6 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
               as String,
-      isLoading: freezed == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as dynamic,
     ) as $Val);
   }
 }
@@ -77,8 +70,7 @@ abstract class _$$PoolListFormStateImplCopyWith<$Res>
       __$$PoolListFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {PoolsListTab tabIndexSelected, String searchText, dynamic isLoading});
+  $Res call({PoolsListTab tabIndexSelected, String searchText});
 }
 
 /// @nodoc
@@ -94,7 +86,6 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
   $Res call({
     Object? tabIndexSelected = null,
     Object? searchText = null,
-    Object? isLoading = freezed,
   }) {
     return _then(_$PoolListFormStateImpl(
       tabIndexSelected: null == tabIndexSelected
@@ -105,7 +96,6 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
               as String,
-      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
     ));
   }
 }
@@ -114,9 +104,7 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
 
 class _$PoolListFormStateImpl extends _PoolListFormState {
   const _$PoolListFormStateImpl(
-      {this.tabIndexSelected = PoolsListTab.verified,
-      this.searchText = '',
-      this.isLoading = false})
+      {this.tabIndexSelected = PoolsListTab.verified, this.searchText = ''})
       : super._();
 
   @override
@@ -125,13 +113,10 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
   @override
   @JsonKey()
   final String searchText;
-  @override
-  @JsonKey()
-  final dynamic isLoading;
 
   @override
   String toString() {
-    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected, searchText: $searchText, isLoading: $isLoading)';
+    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected, searchText: $searchText)';
   }
 
   @override
@@ -142,13 +127,11 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
             (identical(other.tabIndexSelected, tabIndexSelected) ||
                 other.tabIndexSelected == tabIndexSelected) &&
             (identical(other.searchText, searchText) ||
-                other.searchText == searchText) &&
-            const DeepCollectionEquality().equals(other.isLoading, isLoading));
+                other.searchText == searchText));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tabIndexSelected, searchText,
-      const DeepCollectionEquality().hash(isLoading));
+  int get hashCode => Object.hash(runtimeType, tabIndexSelected, searchText);
 
   @JsonKey(ignore: true)
   @override
@@ -161,16 +144,13 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
 abstract class _PoolListFormState extends PoolListFormState {
   const factory _PoolListFormState(
       {final PoolsListTab tabIndexSelected,
-      final String searchText,
-      final dynamic isLoading}) = _$PoolListFormStateImpl;
+      final String searchText}) = _$PoolListFormStateImpl;
   const _PoolListFormState._() : super._();
 
   @override
   PoolsListTab get tabIndexSelected;
   @override
   String get searchText;
-  @override
-  dynamic get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$PoolListFormStateImplCopyWith<_$PoolListFormStateImpl> get copyWith =>

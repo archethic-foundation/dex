@@ -31,10 +31,10 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final selectedTab =
+        ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
     final asyncPools = ref.watch(
-      PoolListFormProvider.poolsToDisplay(
-        ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected,
-      ),
+      PoolListFormProvider.poolsToDisplay(selectedTab),
     );
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     final session = ref.watch(SessionProviders.session);
@@ -47,8 +47,7 @@ class PoolListSheet extends ConsumerWidget {
               bottom: Responsive.isDesktop(context) ? 40 : 80,
             ),
             child: asyncPools.when(
-              skipLoadingOnRefresh: true,
-              skipLoadingOnReload: true,
+              skipLoadingOnReload: selectedTab.skipLoadingOnReload,
               loading: () => Stack(
                 alignment: Alignment.centerLeft,
                 children: [
