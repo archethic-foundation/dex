@@ -44,12 +44,11 @@ packages:
   archethic_wallet_client:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "fix/connect_result"
-      resolved-ref: "27a40a2b8e5ba405f959d942e8d074c941029b49"
-      url: "https://github.com/archethic-foundation/archethic-wallet-client-dart.git"
-    source: git
-    version: "1.0.9"
+      name: archethic_wallet_client
+      sha256: a2a8cd52e9262e07e19dc4995b6351362cb691ec716c75bea2dc532e9797c911
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.10"
   archive:
     dependency: transitive
     description:
@@ -437,10 +436,10 @@ packages:
     dependency: transitive
     description:
       name: gql
-      sha256: "0bdd22c3a9464970ae590559e4f0568769b219dda9e94cb10c4cf999a3e263f7"
+      sha256: "5b39e4f5262e0a9675a97da1da3adae6a33eaa935513b074a2e5940327ffc058"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1705114622973"
+    version: "1.0.1-alpha+1706372327764"
   gql_dedupe_link:
     dependency: transitive
     description:
@@ -477,10 +476,10 @@ packages:
     dependency: transitive
     description:
       name: gql_link
-      sha256: "63941513a688d856546f0c3218e7ad94d47fc6e04662dcdb06de92a4cde2d7db"
+      sha256: e97f41d0841ed7e40c766f2b9037af2c5adf36166e28c634fceb695b2a7a9ea7
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1705114622987"
+    version: "1.0.1-alpha+1706372327781"
   gql_transform_link:
     dependency: transitive
     description:
