@@ -5,6 +5,7 @@ import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_final_amount.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
@@ -116,6 +117,24 @@ class FarmWithdrawInProgressPopup {
                                                   .farmWithdrawSuccessInfo,
                                         ),
                                         const FarmWithdrawInProgressTxAddresses(),
+                                        if (farmWithdraw
+                                                    .transactionWithdrawFarm !=
+                                                null &&
+                                            farmWithdraw
+                                                    .transactionWithdrawFarm!
+                                                    .address !=
+                                                null &&
+                                            farmWithdraw
+                                                    .transactionWithdrawFarm!
+                                                    .address!
+                                                    .address !=
+                                                null)
+                                          FarmWithdrawFinalAmount(
+                                            address: farmWithdraw
+                                                .transactionWithdrawFarm!
+                                                .address!
+                                                .address!,
+                                          ),
                                         const Spacer(),
                                         DexInProgressResumeBtn(
                                           currentStep: farmWithdraw.currentStep,

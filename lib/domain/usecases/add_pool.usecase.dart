@@ -222,8 +222,6 @@ class AddPoolCase with TransactionDexMixin {
         poolAddNotifier
           ..setFailure(Failure.other(cause: e.toString()))
           ..setProcessInProgress(false);
-        ;
-
         return;
       }
 

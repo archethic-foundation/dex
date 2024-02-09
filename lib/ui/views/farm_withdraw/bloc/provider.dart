@@ -165,6 +165,18 @@ class FarmWithdrawFormNotifier
       state.dexFarmInfo!.lpToken!.address!,
       state.amount,
     );
+
+    final session = ref.watch(SessionProviders.session);
+    ref
+      ..invalidate(
+        DexFarmProviders.getFarmList,
+      )
+      ..invalidate(
+        DexFarmProviders.getUserInfos(
+          state.dexFarmInfo!.farmAddress,
+          session.genesisAddress,
+        ),
+      );
   }
 }
 

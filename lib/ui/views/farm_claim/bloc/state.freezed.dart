@@ -27,6 +27,7 @@ mixin _$FarmClaimFormState {
   bool get walletConfirmation => throw _privateConstructorUsedError;
   Transaction? get transactionClaimFarm => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
+  double? get finalAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FarmClaimFormStateCopyWith<FarmClaimFormState> get copyWith =>
@@ -49,7 +50,8 @@ abstract class $FarmClaimFormStateCopyWith<$Res> {
       bool farmClaimOk,
       bool walletConfirmation,
       Transaction? transactionClaimFarm,
-      Failure? failure});
+      Failure? failure,
+      double? finalAmount});
 
   $DexFarmCopyWith<$Res>? get dexFarm;
   $DexFarmUserInfosCopyWith<$Res>? get dexFarmUserInfo;
@@ -80,6 +82,7 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     Object? walletConfirmation = null,
     Object? transactionClaimFarm = freezed,
     Object? failure = freezed,
+    Object? finalAmount = freezed,
   }) {
     return _then(_value.copyWith(
       farmClaimProcessStep: null == farmClaimProcessStep
@@ -122,6 +125,10 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      finalAmount: freezed == finalAmount
+          ? _value.finalAmount
+          : finalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -192,7 +199,8 @@ abstract class _$$FarmClaimFormStateImplCopyWith<$Res>
       bool farmClaimOk,
       bool walletConfirmation,
       Transaction? transactionClaimFarm,
-      Failure? failure});
+      Failure? failure,
+      double? finalAmount});
 
   @override
   $DexFarmCopyWith<$Res>? get dexFarm;
@@ -225,6 +233,7 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
     Object? walletConfirmation = null,
     Object? transactionClaimFarm = freezed,
     Object? failure = freezed,
+    Object? finalAmount = freezed,
   }) {
     return _then(_$FarmClaimFormStateImpl(
       farmClaimProcessStep: null == farmClaimProcessStep
@@ -267,6 +276,10 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      finalAmount: freezed == finalAmount
+          ? _value.finalAmount
+          : finalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -284,7 +297,8 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       this.farmClaimOk = false,
       this.walletConfirmation = false,
       this.transactionClaimFarm,
-      this.failure})
+      this.failure,
+      this.finalAmount})
       : super._();
 
   @override
@@ -313,10 +327,12 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   final Transaction? transactionClaimFarm;
   @override
   final Failure? failure;
+  @override
+  final double? finalAmount;
 
   @override
   String toString() {
-    return 'FarmClaimFormState(farmClaimProcessStep: $farmClaimProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarm: $dexFarm, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure)';
+    return 'FarmClaimFormState(farmClaimProcessStep: $farmClaimProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarm: $dexFarm, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount)';
   }
 
   @override
@@ -341,7 +357,9 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
                 other.walletConfirmation == walletConfirmation) &&
             (identical(other.transactionClaimFarm, transactionClaimFarm) ||
                 other.transactionClaimFarm == transactionClaimFarm) &&
-            (identical(other.failure, failure) || other.failure == failure));
+            (identical(other.failure, failure) || other.failure == failure) &&
+            (identical(other.finalAmount, finalAmount) ||
+                other.finalAmount == finalAmount));
   }
 
   @override
@@ -356,7 +374,8 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       farmClaimOk,
       walletConfirmation,
       transactionClaimFarm,
-      failure);
+      failure,
+      finalAmount);
 
   @JsonKey(ignore: true)
   @override
@@ -377,7 +396,8 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
       final bool farmClaimOk,
       final bool walletConfirmation,
       final Transaction? transactionClaimFarm,
-      final Failure? failure}) = _$FarmClaimFormStateImpl;
+      final Failure? failure,
+      final double? finalAmount}) = _$FarmClaimFormStateImpl;
   const _FarmClaimFormState._() : super._();
 
   @override
@@ -400,6 +420,8 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   Transaction? get transactionClaimFarm;
   @override
   Failure? get failure;
+  @override
+  double? get finalAmount;
   @override
   @JsonKey(ignore: true)
   _$$FarmClaimFormStateImplCopyWith<_$FarmClaimFormStateImpl> get copyWith =>

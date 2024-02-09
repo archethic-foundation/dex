@@ -41,7 +41,7 @@ Future<DexFarm?> _getFarmInfos(
           );
 
   var apr = 0.0;
-  final estimateLPTokenInFiat = await ref.read(
+  final estimateLPTokenInFiat = await ref.watch(
     DexTokensProviders.estimateLPTokenInFiat(
       farmInfos.lpTokenPair!.token1,
       farmInfos.lpTokenPair!.token2,
@@ -52,7 +52,7 @@ Future<DexFarm?> _getFarmInfos(
   final now = (DateTime.now().toUtc().millisecondsSinceEpoch / 1000).truncate();
 
   final priceTokenInFiat =
-      ref.read(DexTokensProviders.estimateTokenInFiat(farmInfos.rewardToken!));
+      ref.watch(DexTokensProviders.estimateTokenInFiat(farmInfos.rewardToken!));
 
   final remainingRewardInFiat = (Decimal.parse('$priceTokenInFiat') *
           Decimal.parse('${farmInfos.remainingReward}'))

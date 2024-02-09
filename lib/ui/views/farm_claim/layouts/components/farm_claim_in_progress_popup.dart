@@ -6,6 +6,7 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
+import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_final_amount.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
@@ -116,6 +117,20 @@ class FarmClaimInProgressPopup {
                                                   .farmClaimSuccessInfo,
                                         ),
                                         const FarmClaimInProgressTxAddresses(),
+                                        if (farmClaim.transactionClaimFarm !=
+                                                null &&
+                                            farmClaim.transactionClaimFarm!
+                                                    .address !=
+                                                null &&
+                                            farmClaim.transactionClaimFarm!
+                                                    .address!.address !=
+                                                null)
+                                          FarmWithdrawFinalAmount(
+                                            address: farmClaim
+                                                .transactionClaimFarm!
+                                                .address!
+                                                .address!,
+                                          ),
                                         const Spacer(),
                                         DexInProgressResumeBtn(
                                           currentStep: farmClaim.currentStep,

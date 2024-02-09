@@ -1,3 +1,5 @@
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -110,6 +112,18 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
     }
 
     await ClaimFarmCase().run(ref, state.dexFarm!.farmAddress);
+
+    final session = ref.watch(SessionProviders.session);
+    ref
+      ..invalidate(
+        DexFarmProviders.getFarmList,
+      )
+      ..invalidate(
+        DexFarmProviders.getUserInfos(
+          state.dexFarm!.farmAddress,
+          session.genesisAddress,
+        ),
+      );
   }
 }
 
