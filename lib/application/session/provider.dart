@@ -93,11 +93,6 @@ class _SessionNotifier extends Notifier<Session> {
       await endpointResponse.when(
         failure: (failure) {
           _handleConnectionFailure(isBrave);
-
-          // FIXME(reddwarf03): really useful ?
-          // if (failure.code != awc.Failure.connectivity().code) {
-          //   throw const Failure.connectivityArchethic();
-          // }
         },
         success: (result) async {
           state = state.copyWith(endpoint: result.endpointUrl);
@@ -155,19 +150,6 @@ class _SessionNotifier extends Notifier<Session> {
                 isConnected: true,
                 envSelected: EndpointUtil.getEnvironnement(),
                 accountStreamSub: success.updates.listen((event) {
-                  // FIXME(reddwarf03): really useful ?
-                  // if (event.name.isEmpty && event.genesisAddress.isEmpty) {
-                  //   state = state.copyWith(
-                  //     oldNameAccount: state.nameAccount,
-                  //     genesisAddress: event.genesisAddress,
-                  //     nameAccount: event.name,
-                  //     error: isBrave
-                  //         ? "Please, open your Archethic Wallet and disable Brave's shield."
-                  //         : 'Please, open your Archethic Wallet.',
-                  //     isConnected: false,
-                  //   );
-                  //   return;
-                  // }
                   state = state.copyWith(
                     oldNameAccount: state.nameAccount,
                     genesisAddress: event.genesisAddress,
