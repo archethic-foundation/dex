@@ -51,14 +51,19 @@ class _SessionNotifier extends Notifier<Session> {
     invalidateInfos();
   }
 
+  void _handleConnectionFailure(bool isBrave) {
+    state = state.copyWith(
+      isConnected: false,
+      error: isBrave
+          ? "Please, open your Archethic Wallet and disable Brave's shield."
+          : 'Please, open your Archethic Wallet.',
+    );
+  }
+
   Future<void> connectToWallet({
     bool forceConnection = true,
   }) async {
-    var isBrave = false;
-
-    if (BrowserUtil().isBraveBrowser()) {
-      isBrave = true;
-    }
+    final isBrave = BrowserUtil().isBraveBrowser();
 
     try {
       state = state.copyWith(
@@ -87,24 +92,7 @@ class _SessionNotifier extends Notifier<Session> {
 
       await endpointResponse.when(
         failure: (failure) {
-          switch (failure.code) {
-            case 4901:
-              state = state.copyWith(
-                isConnected: false,
-                error: isBrave
-                    ? "Please, open your Archethic Wallet and disable Brave's shield."
-                    : 'Please, open your Archethic Wallet.',
-              );
-              break;
-            default:
-              state = state.copyWith(
-                isConnected: false,
-                error: isBrave
-                    ? "Please, open your Archethic Wallet and disable Brave's shield."
-                    : 'Please, open your Archethic Wallet.',
-              );
-              throw const Failure.connectivityArchethic();
-          }
+          _handleConnectionFailure(isBrave);
         },
         success: (result) async {
           state = state.copyWith(endpoint: result.endpointUrl);
@@ -162,18 +150,6 @@ class _SessionNotifier extends Notifier<Session> {
                 isConnected: true,
                 envSelected: EndpointUtil.getEnvironnement(),
                 accountStreamSub: success.updates.listen((event) {
-                  if (event.name.isEmpty && event.genesisAddress.isEmpty) {
-                    state = state.copyWith(
-                      oldNameAccount: state.nameAccount,
-                      genesisAddress: event.genesisAddress,
-                      nameAccount: event.name,
-                      error: isBrave
-                          ? "Please, open your Archethic Wallet and disable Brave's shield."
-                          : 'Please, open your Archethic Wallet.',
-                      isConnected: false,
-                    );
-                    return;
-                  }
                   state = state.copyWith(
                     oldNameAccount: state.nameAccount,
                     genesisAddress: event.genesisAddress,
@@ -193,12 +169,7 @@ class _SessionNotifier extends Notifier<Session> {
       );
     } catch (e) {
       if (forceConnection == false) {
-        state = state.copyWith(
-          isConnected: false,
-          error: isBrave
-              ? "Please, open your Archethic Wallet and disable Brave's shield."
-              : 'Please, open your Archethic Wallet.',
-        );
+        _handleConnectionFailure(isBrave);
       }
     }
   }
