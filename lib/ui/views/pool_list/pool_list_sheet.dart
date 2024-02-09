@@ -31,10 +31,10 @@ class PoolListSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final selectedTab =
+        ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
     final asyncPools = ref.watch(
-      PoolListFormProvider.poolsToDisplay(
-        ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected,
-      ),
+      PoolListFormProvider.poolsToDisplay(selectedTab),
     );
     final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
     final session = ref.watch(SessionProviders.session);
@@ -47,8 +47,7 @@ class PoolListSheet extends ConsumerWidget {
               bottom: Responsive.isDesktop(context) ? 40 : 80,
             ),
             child: asyncPools.when(
-              skipLoadingOnRefresh: true,
-              skipLoadingOnReload: true,
+              skipLoadingOnReload: selectedTab.skipLoadingOnReload,
               loading: () => Stack(
                 alignment: Alignment.centerLeft,
                 children: [
@@ -76,14 +75,17 @@ class PoolListSheet extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SelectableText('Loading in progress. Please wait'),
-                      SizedBox(
+                      SelectableText(
+                        'Loading in progress. Please wait',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const SizedBox(
                         width: 10,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                         width: 10,
                         child: CircularProgressIndicator(
@@ -110,7 +112,30 @@ class PoolListSheet extends ConsumerWidget {
                     ],
                   );
                 }
-
+                if (pools.isEmpty &&
+                    poolListForm.tabIndexSelected == PoolsListTab.searchPool) {
+                  if (poolListForm.searchText.isEmpty) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SelectableText(
+                          'Please enter your search criteria.',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SelectableText(
+                          'No results found.',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
+                    );
+                  }
+                }
                 if (pools.isEmpty &&
                     poolListForm.tabIndexSelected ==
                         PoolsListTab.favoritePools) {
