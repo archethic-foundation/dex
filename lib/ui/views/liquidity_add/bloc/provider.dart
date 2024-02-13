@@ -128,28 +128,6 @@ class LiquidityAddFormNotifier
     );
   }
 
-  Future<void> setToken1AmountMax(WidgetRef ref) async {
-    await setToken1Amount(state.token1Balance);
-  }
-
-  Future<void> setToken2AmountMax(WidgetRef ref) async {
-    await setToken2Amount(state.token2Balance);
-  }
-
-  void setToken1AmountHalf() {
-    setToken1Amount(
-      (Decimal.parse(state.token1Balance.toString()) / Decimal.fromInt(2))
-          .toDouble(),
-    );
-  }
-
-  void setToken2AmountHalf() {
-    setToken2Amount(
-      (Decimal.parse(state.token2Balance.toString()) / Decimal.fromInt(2))
-          .toDouble(),
-    );
-  }
-
   Future<void> setExpectedTokenLP() async {
     state = state.copyWith(expectedTokenLP: 0);
 
@@ -221,6 +199,43 @@ class LiquidityAddFormNotifier
     return equivalentAmount;
   }
 
+  Future<void> calculateTokenInfos() async {
+    if (state.tokenFormSelected == 1) {
+      state = state.copyWith(
+        calculateToken2: true,
+        calculationInProgress: true,
+      );
+      final equivalentAmount = await _calculateEquivalentAmount(
+        state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+        state.token1Amount,
+      );
+      state = state.copyWith(
+        token2Amount: equivalentAmount,
+        calculateToken2: false,
+      );
+    } else {
+      state = state.copyWith(
+        calculateToken1: true,
+        calculationInProgress: true,
+      );
+      final equivalentAmount = await _calculateEquivalentAmount(
+        state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+        state.token2Amount,
+      );
+      state = state.copyWith(
+        token1Amount: equivalentAmount,
+        calculateToken1: false,
+      );
+    }
+
+    await setExpectedTokenLP();
+    estimateTokenMinAmounts();
+
+    state = state.copyWith(
+      calculationInProgress: false,
+    );
+  }
+
   Future<void> setToken1Amount(
     double amount,
   ) async {
@@ -228,25 +243,9 @@ class LiquidityAddFormNotifier
       failure: null,
       messageMaxHalfUCO: false,
       token1Amount: amount,
-      calculationInProgress: true,
-      calculateToken2: true,
     );
 
-    final equivalentAmount = await _calculateEquivalentAmount(
-      state.token1!.isUCO ? 'UCO' : state.token1!.address!,
-      amount,
-    );
-    state = state.copyWith(
-      token2Amount: equivalentAmount,
-    );
-
-    await setExpectedTokenLP();
-    estimateTokenMinAmounts();
-
-    state = state.copyWith(
-      calculationInProgress: false,
-      calculateToken2: false,
-    );
+    await calculateTokenInfos();
   }
 
   Future<void> setToken2Amount(
@@ -256,24 +255,9 @@ class LiquidityAddFormNotifier
       failure: null,
       messageMaxHalfUCO: false,
       token2Amount: amount,
-      calculationInProgress: true,
-      calculateToken1: true,
-    );
-    final equivalentAmount = await _calculateEquivalentAmount(
-      state.token2!.isUCO ? 'UCO' : state.token2!.address!,
-      amount,
-    );
-    state = state.copyWith(
-      token1Amount: equivalentAmount,
     );
 
-    await setExpectedTokenLP();
-    estimateTokenMinAmounts();
-
-    state = state.copyWith(
-      calculationInProgress: false,
-      calculateToken1: false,
-    );
+    await calculateTokenInfos();
   }
 
   void estimateTokenMinAmounts() {
@@ -296,6 +280,10 @@ class LiquidityAddFormNotifier
     state = state.copyWith(
       networkFees: 0,
     );
+  }
+
+  void setTokenFormSelected(int tokenFormSelected) {
+    state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
   }
 
   void setFailure(Failure? failure) {

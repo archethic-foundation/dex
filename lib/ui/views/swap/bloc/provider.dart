@@ -228,46 +228,34 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
-  Future<void> setTokenToSwapAmount(
-    double tokenToSwapAmount,
-  ) async {
-    state = state.copyWith(
-      failure: null,
-      messageMaxHalfUCO: false,
-      tokenToSwapAmount: tokenToSwapAmount,
-    );
-
-    if (state.tokenToSwap == null) {
-      return;
-    }
-
+  Future<void> calculateOutputAmount() async {
     var swapInfos =
         (fees: 0.0, outputAmount: 0.0, priceImpact: 0.0, protocolFees: 0.0);
 
-    if (tokenToSwapAmount > 0) {
+    if (state.tokenFormSelected == 1) {
       state = state.copyWith(
         calculateAmountSwapped: true,
+        calculationInProgress: true,
       );
       swapInfos = await calculateSwapInfos(
         state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-        tokenToSwapAmount,
+        state.tokenToSwapAmount,
       );
       state = state.copyWith(
         tokenSwappedAmount: swapInfos.outputAmount,
       );
     } else {
-      if (state.tokenSwapped != null && state.tokenSwappedAmount > 0) {
-        state = state.copyWith(
-          calculateAmountToSwap: true,
-        );
-        swapInfos = await calculateSwapInfos(
-          state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
-          state.tokenSwappedAmount,
-        );
-        state = state.copyWith(
-          tokenToSwapAmount: swapInfos.outputAmount,
-        );
-      }
+      state = state.copyWith(
+        calculateAmountToSwap: true,
+        calculationInProgress: true,
+      );
+      swapInfos = await calculateSwapInfos(
+        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+        state.tokenSwappedAmount,
+      );
+      state = state.copyWith(
+        tokenToSwapAmount: swapInfos.outputAmount,
+      );
     }
 
     final minToReceive = (Decimal.parse(swapInfos.outputAmount.toString()) *
@@ -286,7 +274,24 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       minToReceive: minToReceive,
       calculateAmountSwapped: false,
       calculateAmountToSwap: false,
+      calculationInProgress: false,
     );
+  }
+
+  Future<void> setTokenToSwapAmount(
+    double tokenToSwapAmount,
+  ) async {
+    state = state.copyWith(
+      failure: null,
+      messageMaxHalfUCO: false,
+      tokenToSwapAmount: tokenToSwapAmount,
+    );
+
+    if (state.tokenToSwap == null) {
+      return;
+    }
+
+    await calculateOutputAmount();
   }
 
   Future<void> setTokenSwappedAmount(
@@ -301,51 +306,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       return;
     }
 
-    var swapInfos =
-        (fees: 0.0, outputAmount: 0.0, priceImpact: 0.0, protocolFees: 0.0);
-    if (tokenSwappedAmount > 0) {
-      state = state.copyWith(
-        calculateAmountToSwap: true,
-      );
-      swapInfos = await calculateSwapInfos(
-        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
-        tokenSwappedAmount,
-      );
-      state = state.copyWith(
-        tokenToSwapAmount: swapInfos.outputAmount,
-      );
-    } else {
-      if (state.tokenToSwap != null && state.tokenToSwapAmount > 0) {
-        state = state.copyWith(
-          calculateAmountSwapped: true,
-        );
-        swapInfos = await calculateSwapInfos(
-          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-          state.tokenToSwapAmount,
-        );
-        state = state.copyWith(
-          tokenSwappedAmount: swapInfos.outputAmount,
-        );
-      }
-    }
-
-    final minToReceive = (Decimal.parse(swapInfos.outputAmount.toString()) *
-            (((Decimal.parse('100') -
-                        Decimal.parse(
-                          state.slippageTolerance.toString(),
-                        )) /
-                    Decimal.parse('100'))
-                .toDecimal()))
-        .toDouble();
-
-    state = state.copyWith(
-      swapFees: swapInfos.fees,
-      priceImpact: swapInfos.priceImpact,
-      swapProtocolFees: swapInfos.protocolFees,
-      minToReceive: minToReceive,
-      calculateAmountSwapped: false,
-      calculateAmountToSwap: false,
-    );
+    await calculateOutputAmount();
   }
 
   void setWalletConfirmation(bool walletConfirmation) {
@@ -503,28 +464,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   ) {
     state = state.copyWith(
       swapProtocolFees: swapProtocolFees,
-    );
-  }
-
-  void setTokenToSwapAmountMax() {
-    setTokenToSwapAmount(state.tokenToSwapBalance);
-  }
-
-  void setTokenSwappedAmountMax() {
-    setTokenSwappedAmount(state.tokenSwappedBalance);
-  }
-
-  void setTokenToSwapAmountHalf() {
-    setTokenToSwapAmount(
-      (Decimal.parse(state.tokenToSwapBalance.toString()) / Decimal.fromInt(2))
-          .toDouble(),
-    );
-  }
-
-  void setTokenSwappedAmountHalf() {
-    setTokenSwappedAmount(
-      (Decimal.parse(state.tokenSwappedBalance.toString()) / Decimal.fromInt(2))
-          .toDouble(),
     );
   }
 

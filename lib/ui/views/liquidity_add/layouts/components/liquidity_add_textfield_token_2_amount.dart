@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,21 +29,24 @@ class _LiquidityAddToken2AmountState
   void initState() {
     super.initState();
     tokenAmountFocusNode = FocusNode();
+    tokenAmountController = TextEditingController();
     _updateAmountTextController();
   }
 
   void _updateAmountTextController() {
     final liquidityAdd = ref.read(LiquidityAddFormProvider.liquidityAddForm);
-    tokenAmountController = TextEditingController();
-    tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
-      TextEditingValue.empty,
-      TextEditingValue(
-        text: liquidityAdd.token2Amount == 0
-            ? ''
-            : liquidityAdd.token2Amount.toString(),
-      ),
-    );
+    if (liquidityAdd.tokenFormSelected == 1) {
+      tokenAmountController = TextEditingController();
+      tokenAmountController.value =
+          AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        TextEditingValue.empty,
+        TextEditingValue(
+          text: liquidityAdd.token2Amount == 0
+              ? ''
+              : liquidityAdd.token2Amount.toString(),
+        ),
+      );
+    }
   }
 
   @override
@@ -60,16 +64,14 @@ class _LiquidityAddToken2AmountState
         ref.watch(LiquidityAddFormProvider.liquidityAddForm.notifier);
 
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
-    final textNum = double.tryParse(tokenAmountController.text);
-    if (liquidityAdd.token2Amount == 0.0 &&
-        tokenAmountController.text != '' &&
-        (textNum == null || textNum != 0)) {
-      _updateAmountTextController();
+
+    if (liquidityAdd.tokenFormSelected == 2) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        tokenAmountFocusNode.requestFocus();
+      });
     }
-    if (liquidityAdd.token2Amount != 0.0 &&
-        textNum != liquidityAdd.token2Amount) {
-      _updateAmountTextController();
-    }
+
+    _updateAmountTextController();
 
     return Column(
       children: [
@@ -133,6 +135,8 @@ class _LiquidityAddToken2AmountState
                                   autocorrect: false,
                                   controller: tokenAmountController,
                                   onChanged: (text) async {
+                                    liquidityAddNotifier
+                                        .setTokenFormSelected(2);
                                     await liquidityAddNotifier.setToken2Amount(
                                       double.tryParse(
                                             text.replaceAll(' ', ''),
@@ -140,13 +144,25 @@ class _LiquidityAddToken2AmountState
                                           0,
                                     );
                                   },
+                                  onTap: () {
+                                    liquidityAddNotifier
+                                        .setTokenFormSelected(2);
+                                  },
                                   focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
                                     AmountTextInputFormatter(precision: 8),
-                                    LengthLimitingTextInputFormatter(10),
+                                    LengthLimitingTextInputFormatter(
+                                      liquidityAdd.token2Balance
+                                              .formatNumber(
+                                                precision: 0,
+                                              )
+                                              .length +
+                                          8 +
+                                          1,
+                                    ),
                                   ],
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
@@ -176,22 +192,46 @@ class _LiquidityAddToken2AmountState
               children: [
                 DexButtonHalf(
                   balanceAmount: liquidityAdd.token2Balance,
-                  onTap: () => ref
-                      .read(
-                        LiquidityAddFormProvider.liquidityAddForm.notifier,
-                      )
-                      .setToken2AmountHalf(),
+                  onTap: () async {
+                    tokenAmountController.value =
+                        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+                      TextEditingValue.empty,
+                      TextEditingValue(
+                        text: (Decimal.parse(
+                                  liquidityAdd.token2Balance.toString(),
+                                ) /
+                                Decimal.fromInt(2))
+                            .toDouble()
+                            .toString(),
+                      ),
+                    );
+                    liquidityAddNotifier.setTokenFormSelected(2);
+                    await liquidityAddNotifier.setToken2Amount(
+                      (Decimal.parse(
+                                liquidityAdd.token2Balance.toString(),
+                              ) /
+                              Decimal.fromInt(2))
+                          .toDouble(),
+                    );
+                  },
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 DexButtonMax(
                   balanceAmount: liquidityAdd.token2Balance,
-                  onTap: () => ref
-                      .read(
-                        LiquidityAddFormProvider.liquidityAddForm.notifier,
-                      )
-                      .setToken2AmountMax(ref),
+                  onTap: () async {
+                    tokenAmountController.value =
+                        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+                      TextEditingValue.empty,
+                      TextEditingValue(
+                        text: liquidityAdd.token2Balance.toString(),
+                      ),
+                    );
+                    liquidityAddNotifier.setTokenFormSelected(2);
+                    await liquidityAddNotifier
+                        .setToken2Amount(liquidityAdd.token2Balance);
+                  },
                 ),
               ],
             ),
