@@ -63,6 +63,8 @@ class RoutesPath {
 
           if (session.endpoint.isNotEmpty) {
             return const MainScreen();
+          } else {
+            ref.invalidate(SessionProviders.session);
           }
 
           return const WelcomeScreen();
