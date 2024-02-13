@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +33,30 @@ class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
-        final amount = await getAmountFromTxInput(widget.address);
+        final farmClaim = ref.read(FarmClaimFormProvider.farmClaimForm);
+
+        final amount = await getAmountFromTxInput(
+          widget.address,
+          farmClaim.dexFarm!.rewardToken!.address,
+        );
         if (amount > 0) {
           setState(() {
             finalAmount = amount;
           });
+          final session = ref.read(SessionProviders.session);
+          ref
+            ..invalidate(
+              DexFarmProviders.getFarmList,
+            )
+            ..invalidate(
+              DexFarmProviders.getUserInfos(
+                farmClaim.dexFarm!.farmAddress,
+                session.genesisAddress,
+              ),
+            )
+            ..invalidate(
+              FarmListProvider.balance(farmClaim.dexFarm!.lpToken!.address),
+            );
           unawaited(refreshCurrentAccountInfoWallet());
           timer?.cancel();
         }
@@ -57,7 +79,7 @@ class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
 
     return finalAmount != null
         ? SelectableText(
-            'Amount claimed: ${finalAmount!.formatNumber(precision: 8)} ${finalAmount! > 1 ? 'LP Tokens' : 'LP Token'}',
+            'Amount claimed: ${finalAmount!.formatNumber(precision: 8)} ${farmClaim.dexFarm!.rewardToken!.symbol}',
           )
         : const Row(
             children: [

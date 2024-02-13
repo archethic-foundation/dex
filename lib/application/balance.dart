@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'balance.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 BalanceRepository _balanceRepository(_BalanceRepositoryRef ref) =>
     BalanceRepositoryImpl();
 
@@ -22,7 +22,7 @@ Future<double> _getBalance(
       );
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<Balance?> _getUserTokensBalance(
   _GetUserTokensBalanceRef ref,
 ) async {

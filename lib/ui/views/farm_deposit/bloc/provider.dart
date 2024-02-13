@@ -1,5 +1,4 @@
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/failures.dart';
@@ -167,18 +166,6 @@ class FarmDepositFormNotifier
       state.dexFarmInfo!.lpToken!.address!,
       state.amount,
     );
-
-    final session = ref.watch(SessionProviders.session);
-    ref
-      ..invalidate(
-        DexFarmProviders.getFarmList,
-      )
-      ..invalidate(
-        DexFarmProviders.getUserInfos(
-          state.dexFarmInfo!.farmAddress,
-          session.genesisAddress,
-        ),
-      );
   }
 }
 

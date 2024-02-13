@@ -156,7 +156,7 @@ class _UserInfosProviderElement
   DexFarm get farm => (origin as _UserInfosProvider).farm;
 }
 
-String _$balanceHash() => r'b52b9ead4a0af09243abe6c54cc130f086ac29b1';
+String _$balanceHash() => r'216c931d3ca7c067aa7ee4de8de44b3bd9088751';
 
 /// See also [_balance].
 @ProviderFor(_balance)
@@ -169,10 +169,10 @@ class _BalanceFamily extends Family<AsyncValue<double>> {
 
   /// See also [_balance].
   _BalanceProvider call(
-    DexFarm farm,
+    String? lpTokenAddress,
   ) {
     return _BalanceProvider(
-      farm,
+      lpTokenAddress,
     );
   }
 
@@ -181,7 +181,7 @@ class _BalanceFamily extends Family<AsyncValue<double>> {
     covariant _BalanceProvider provider,
   ) {
     return call(
-      provider.farm,
+      provider.lpTokenAddress,
     );
   }
 
@@ -204,11 +204,11 @@ class _BalanceFamily extends Family<AsyncValue<double>> {
 class _BalanceProvider extends AutoDisposeFutureProvider<double> {
   /// See also [_balance].
   _BalanceProvider(
-    DexFarm farm,
+    String? lpTokenAddress,
   ) : this._internal(
           (ref) => _balance(
             ref as _BalanceRef,
-            farm,
+            lpTokenAddress,
           ),
           from: _balanceProvider,
           name: r'_balanceProvider',
@@ -218,7 +218,7 @@ class _BalanceProvider extends AutoDisposeFutureProvider<double> {
                   : _$balanceHash,
           dependencies: _BalanceFamily._dependencies,
           allTransitiveDependencies: _BalanceFamily._allTransitiveDependencies,
-          farm: farm,
+          lpTokenAddress: lpTokenAddress,
         );
 
   _BalanceProvider._internal(
@@ -228,10 +228,10 @@ class _BalanceProvider extends AutoDisposeFutureProvider<double> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.farm,
+    required this.lpTokenAddress,
   }) : super.internal();
 
-  final DexFarm farm;
+  final String? lpTokenAddress;
 
   @override
   Override overrideWith(
@@ -246,7 +246,7 @@ class _BalanceProvider extends AutoDisposeFutureProvider<double> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        farm: farm,
+        lpTokenAddress: lpTokenAddress,
       ),
     );
   }
@@ -258,21 +258,21 @@ class _BalanceProvider extends AutoDisposeFutureProvider<double> {
 
   @override
   bool operator ==(Object other) {
-    return other is _BalanceProvider && other.farm == farm;
+    return other is _BalanceProvider && other.lpTokenAddress == lpTokenAddress;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, farm.hashCode);
+    hash = _SystemHash.combine(hash, lpTokenAddress.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin _BalanceRef on AutoDisposeFutureProviderRef<double> {
-  /// The parameter `farm` of this provider.
-  DexFarm get farm;
+  /// The parameter `lpTokenAddress` of this provider.
+  String? get lpTokenAddress;
 }
 
 class _BalanceProviderElement extends AutoDisposeFutureProviderElement<double>
@@ -280,7 +280,7 @@ class _BalanceProviderElement extends AutoDisposeFutureProviderElement<double>
   _BalanceProviderElement(super.provider);
 
   @override
-  DexFarm get farm => (origin as _BalanceProvider).farm;
+  String? get lpTokenAddress => (origin as _BalanceProvider).lpTokenAddress;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

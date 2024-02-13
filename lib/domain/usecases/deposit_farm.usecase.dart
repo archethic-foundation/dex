@@ -101,8 +101,6 @@ class DepositFarmCase with TransactionDexMixin {
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
         ..setFarmDepositOk(true);
-
-      unawaited(refreshCurrentAccountInfoWallet());
     } catch (e) {
       sl.get<LogManager>().log(
             'TransactionFarmDeposit sendTx failed $e',

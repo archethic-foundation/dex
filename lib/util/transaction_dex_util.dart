@@ -211,6 +211,7 @@ mixin TransactionDexMixin {
 
   Future<double> getAmountFromTxInput(
     String txAddress,
+    String? tokenAddress,
   ) async {
     final transactionMap =
         await sl.get<ApiService>().getTransaction([txAddress]);
@@ -225,11 +226,43 @@ mixin TransactionDexMixin {
     // ignore: cascade_invocations
 
     transactionInputs.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
-    if (transactionInputs.first.timestamp! <=
-        transactionMap[txAddress]!.validationStamp!.timestamp!) {
-      return 0.0;
+    var amount = 0;
+    for (final txInput in transactionInputs) {
+      if ((tokenAddress == null || tokenAddress == 'UCO') &&
+          txInput.type == 'UCO' &&
+          txInput.timestamp! >
+              transactionMap[txAddress]!.validationStamp!.timestamp!) {
+        amount = txInput.amount!;
+        break;
+      } else {
+        if (tokenAddress != null &&
+            txInput.type == 'token' &&
+            txInput.tokenAddress != null &&
+            txInput.tokenAddress!.toUpperCase() == tokenAddress.toUpperCase() &&
+            txInput.timestamp! >
+                transactionMap[txAddress]!.validationStamp!.timestamp!) {
+          amount = txInput.amount!;
+          break;
+        }
+      }
     }
 
-    return fromBigInt(transactionInputs.first.amount).toDouble();
+    return fromBigInt(amount).toDouble();
+  }
+
+  Future<double> getAmountFromTx(
+    String txAddress,
+  ) async {
+    final transactionMap = await sl.get<ApiService>().getTransaction(
+      [txAddress],
+      request: ' data {ledger {token { transfers { amount } } } }',
+    );
+    final transfers = transactionMap[txAddress]?.data?.ledger?.token?.transfers;
+    if (transfers == null ||
+        transfers.isEmpty ||
+        transfers.first.amount == null) {
+      return 0.0;
+    }
+    return fromBigInt(transfers.first.amount).toDouble();
   }
 }

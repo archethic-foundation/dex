@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
@@ -18,7 +21,8 @@ class FarmWithdrawFinalAmount extends ConsumerStatefulWidget {
 
 class _FarmWithdrawFinalAmountState
     extends ConsumerState<FarmWithdrawFinalAmount> with TransactionDexMixin {
-  double? finalAmount;
+  double? finalAmountReward;
+  double? finalAmountWithdraw;
   Timer? timer;
 
   @override
@@ -30,11 +34,44 @@ class _FarmWithdrawFinalAmountState
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
-        final amount = await getAmountFromTxInput(widget.address);
-        if (amount > 0) {
+        final farmWithdraw =
+            ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
+        final results = await Future.wait([
+          getAmountFromTxInput(
+            widget.address,
+            farmWithdraw.dexFarmInfo!.rewardToken!.address,
+          ),
+          getAmountFromTxInput(
+            widget.address,
+            farmWithdraw.dexFarmInfo!.lpToken!.address,
+          ),
+        ]);
+
+        final amountReward = results[0];
+        final amountWithdraw = results[1];
+
+        if (amountReward > 0 && amountWithdraw > 0) {
           setState(() {
-            finalAmount = amount;
+            finalAmountReward = amountReward;
+            finalAmountWithdraw = amountWithdraw;
           });
+
+          final session = ref.read(SessionProviders.session);
+          ref
+            ..invalidate(
+              FarmListProvider.balance(
+                farmWithdraw.dexFarmInfo!.lpToken!.address,
+              ),
+            )
+            ..invalidate(
+              DexFarmProviders.getUserInfos(
+                farmWithdraw.dexFarmInfo!.farmAddress,
+                session.genesisAddress,
+              ),
+            )
+            ..invalidate(
+              DexFarmProviders.getFarmList,
+            );
           unawaited(refreshCurrentAccountInfoWallet());
           timer?.cancel();
         }
@@ -55,11 +92,15 @@ class _FarmWithdrawFinalAmountState
 
     if (farmWithdraw.farmWithdrawOk == false) return const SizedBox.shrink();
 
-    return finalAmount != null
-        ? SelectableText(
-            'Amount withdrawed: ${finalAmount!.formatNumber(precision: 8)} ${finalAmount! > 1 ? 'LP Tokens' : 'LP Token'}',
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (finalAmountWithdraw != null)
+          SelectableText(
+            'Amount withdrawed: ${finalAmountWithdraw!.formatNumber(precision: 8)} ${finalAmountWithdraw! > 1 ? 'LP Tokens' : 'LP Token'}',
           )
-        : const Row(
+        else
+          const Row(
             children: [
               SelectableText(
                 'Amount withdrawed: ',
@@ -70,6 +111,25 @@ class _FarmWithdrawFinalAmountState
                 child: CircularProgressIndicator(strokeWidth: 1),
               ),
             ],
-          );
+          ),
+        if (finalAmountReward != null)
+          SelectableText(
+            'Amount rewarded: ${finalAmountReward!.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
+          )
+        else
+          const Row(
+            children: [
+              SelectableText(
+                'Amount rewarded: ',
+              ),
+              SizedBox(
+                height: 10,
+                width: 10,
+                child: CircularProgressIndicator(strokeWidth: 1),
+              ),
+            ],
+          ),
+      ],
+    );
   }
 }

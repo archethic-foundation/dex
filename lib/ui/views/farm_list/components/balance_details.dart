@@ -10,10 +10,9 @@ class _BalanceDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(SessionProviders.session);
-
     return FutureBuilder<double>(
       future: ref.watch(
-        FarmListProvider.balance(farm).future,
+        FarmListProvider.balance(farm.lpToken!.address).future,
       ),
       builder: (context, balanceSnapshot) {
         final balance = balanceSnapshot.data;

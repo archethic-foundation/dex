@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +33,29 @@ class _FarmDepositFinalAmountState extends ConsumerState<FarmDepositFinalAmount>
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
-        final amount = await getAmountFromTxInput(widget.address);
+        final amount = await getAmountFromTx(widget.address);
         if (amount > 0) {
           setState(() {
             finalAmount = amount;
           });
+          final session = ref.read(SessionProviders.session);
+          final farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
+          ref
+            ..invalidate(
+              DexFarmProviders.getFarmList,
+            )
+            ..invalidate(
+              DexFarmProviders.getUserInfos(
+                farmDeposit.dexFarmInfo!.farmAddress,
+                session.genesisAddress,
+              ),
+            )
+            ..invalidate(
+              FarmListProvider.balance(
+                farmDeposit.dexFarmInfo!.lpToken!.address,
+              ),
+            );
+
           unawaited(refreshCurrentAccountInfoWallet());
           timer?.cancel();
         }
