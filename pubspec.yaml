@@ -30,6 +30,9 @@ dependencies:
   # Add beautiful animated effects & builders in Flutter, via an easy, customizable, unified API.
   flutter_animate: ^4.2.0+1
 
+  # Makes in-text links clickable
+  flutter_linkify: ^6.0.0
+
   flutter_localizations:
     sdk: flutter
 
@@ -39,7 +42,7 @@ dependencies:
   # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
   flutter_svg: ^2.0.9
 
-  #
+  # Library to create Beautiful and Customized Tab/Toggle Widget on Flutter
   flutter_toggle_tab: ^1.4.1
 
   # Annotations for freezed

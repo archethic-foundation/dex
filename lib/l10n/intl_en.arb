@@ -89,7 +89,7 @@
   "failureTimeout": "Timeout occurred.",
   "failurePoolAlreadyExists": "Pool already exists for this pair",
   "failurePoolNotExists": "No pool for this pair",
-  "failureIncompatibleBrowser": "Sorry, but your browser is not compatible with the app.\nPlease refer to the FAQ for more information.",
+  "failureIncompatibleBrowser": "Sorry, but your browser is not compatible with the app.\n\nPlease refer to the FAQ for more information.\nhttps://wiki.archethic.net/FAQ/dex#what-web-browsers-are-not-supported",
   "removeLiquidity": "Remove liquidity",
   "btn_liquidity_remove": "Remove liquidity",
   "btn_confirm_liquidity_remove": "Confirm",
