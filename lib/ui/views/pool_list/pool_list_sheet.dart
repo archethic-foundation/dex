@@ -78,10 +78,16 @@ class PoolListSheet extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SelectableText(
-                        'Loading in progress. Please wait',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
+                      if (selectedTab == PoolsListTab.searchPool)
+                        SelectableText(
+                          'Searching in progress. Please wait',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        )
+                      else
+                        SelectableText(
+                          'Loading in progress. Please wait',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       const SizedBox(
                         width: 10,
                       ),
