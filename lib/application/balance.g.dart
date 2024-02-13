@@ -6,11 +6,12 @@ part of 'balance.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$balanceRepositoryHash() => r'50a858e6f9ddaa6aab974587bd97cd2f5c8d571d';
+String _$balanceRepositoryHash() => r'694ad0789c371d8ff21073c2834711009024d9ae';
 
 /// See also [_balanceRepository].
 @ProviderFor(_balanceRepository)
-final _balanceRepositoryProvider = Provider<BalanceRepository>.internal(
+final _balanceRepositoryProvider =
+    AutoDisposeProvider<BalanceRepository>.internal(
   _balanceRepository,
   name: r'_balanceRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,7 +21,7 @@ final _balanceRepositoryProvider = Provider<BalanceRepository>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _BalanceRepositoryRef = ProviderRef<BalanceRepository>;
+typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
 String _$getBalanceHash() => r'674952bdad70b137bd8f679e3499d6cea0cd64a4';
 
 /// Copied from Dart SDK
@@ -188,11 +189,12 @@ class _GetBalanceProviderElement
 }
 
 String _$getUserTokensBalanceHash() =>
-    r'8a304ca5a9341e8fb587c1c2b78913b3d5f34a8b';
+    r'1ff331ab1a62f0d5d9fff06ae4e26a708f06f8cc';
 
 /// See also [_getUserTokensBalance].
 @ProviderFor(_getUserTokensBalance)
-final _getUserTokensBalanceProvider = FutureProvider<Balance?>.internal(
+final _getUserTokensBalanceProvider =
+    AutoDisposeFutureProvider<Balance?>.internal(
   _getUserTokensBalance,
   name: r'_getUserTokensBalanceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -202,6 +204,6 @@ final _getUserTokensBalanceProvider = FutureProvider<Balance?>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _GetUserTokensBalanceRef = FutureProviderRef<Balance?>;
+typedef _GetUserTokensBalanceRef = AutoDisposeFutureProviderRef<Balance?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

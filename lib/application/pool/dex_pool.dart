@@ -80,8 +80,7 @@ abstract class DexPoolProviders {
   static final invalidateData = _invalidateDataUseCaseProvider;
 
   static const getPoolInfos = _getPoolInfosProvider;
-  static const estimatePoolTVLandAPRInFiat =
-      _estimatePoolTVLandAPRInFiatProvider;
+  static const estimatePoolTVLInFiat = _estimatePoolTVLInFiatProvider;
   static final putPoolListInfosToCache = _putPoolListInfosToCacheProvider;
   static final myPools = _myPoolsProvider;
   static final verifiedPools = _verifiedPoolsProvider;

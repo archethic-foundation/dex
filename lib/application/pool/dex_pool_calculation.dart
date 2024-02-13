@@ -27,16 +27,15 @@ Future<double> _getRatio(
 }
 
 @riverpod
-({double tvl, double apr}) _estimatePoolTVLandAPRInFiat(
-  _EstimatePoolTVLandAPRInFiatRef ref,
+double _estimatePoolTVLInFiat(
+  _EstimatePoolTVLInFiatRef ref,
   DexPool? pool,
 ) {
-  if (pool == null) return (tvl: 0.0, apr: 0.0);
+  if (pool == null) return 0;
 
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
   var tvl = 0.0;
-  var apr = 0.0;
   fiatValueToken1 =
       ref.watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token1));
   fiatValueToken2 =
@@ -55,15 +54,7 @@ Future<double> _getRatio(
     tvl = pool.pair.token2.reserve * fiatValueToken2 * 2;
   }
 
-  if (tvl > 0 && pool.infos != null) {
-    final archethicOracleUCO =
-        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
-
-    final fiatFee = archethicOracleUCO.usd * pool.infos!.fees;
-    apr = fiatFee * 365 / tvl;
-  }
-
-  return (tvl: tvl, apr: apr);
+  return tvl;
 }
 
 @riverpod
