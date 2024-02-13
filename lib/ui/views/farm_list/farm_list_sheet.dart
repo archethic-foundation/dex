@@ -35,7 +35,7 @@ class FarmListSheet extends ConsumerWidget {
       child: Padding(
         padding: EdgeInsets.only(
           top: 100,
-          bottom: Responsive.isDesktop(context) ? 0 : 80,
+          bottom: Responsive.isDesktop(context) ? 40 : 80,
         ),
         child: asyncFarms.when(
           skipLoadingOnRefresh: true,
@@ -46,7 +46,7 @@ class FarmListSheet extends ConsumerWidget {
           data: (farms) => GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedSize(
               crossAxisExtent: 500,
-              mainAxisExtent: 635,
+              mainAxisExtent: 640,
               mainAxisSpacing: 20,
               crossAxisSpacing: 10,
             ),
