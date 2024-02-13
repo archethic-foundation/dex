@@ -7,11 +7,13 @@ class GradientText extends StatelessWidget {
     super.key,
     required this.gradient,
     this.style,
+    this.selectable = true,
   });
 
   final String text;
   final TextStyle? style;
   final Gradient gradient;
+  final bool selectable;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +22,17 @@ class GradientText extends StatelessWidget {
       shaderCallback: (bounds) => gradient.createShader(
         Rect.fromLTWH(0, 0, bounds.width, bounds.height),
       ),
-      child: SelectableText(
-        text,
-        style: style,
-        textScaleFactor: ScaleSize.textScaleFactor(context),
-      ),
+      child: selectable
+          ? SelectableText(
+              text,
+              style: style,
+              textScaleFactor: ScaleSize.textScaleFactor(context),
+            )
+          : Text(
+              text,
+              style: style,
+              textScaleFactor: ScaleSize.textScaleFactor(context),
+            ),
     );
   }
 }

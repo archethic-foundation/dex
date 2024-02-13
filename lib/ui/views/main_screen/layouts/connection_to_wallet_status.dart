@@ -2,6 +2,7 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
+import 'package:aedex/ui/views/util/components/gradient_text.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -60,12 +61,13 @@ class _ConnectionToWalletStatusState
             );
           }
         },
-        icon: Text(
+        icon: GradientText(
           AppLocalizations.of(context)!.btn_connect_wallet,
-          style: TextStyle(
-            fontSize: 16,
-            color: ArchethicThemeBase.blue400,
+          gradient: DexThemeBase.gradientWelcomeTxt,
+          style: const TextStyle(
+            fontSize: 8,
           ),
+          selectable: false,
         ),
       );
     }
