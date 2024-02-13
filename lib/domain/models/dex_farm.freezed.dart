@@ -21,10 +21,8 @@ mixin _$DexFarm {
   double get apr => throw _privateConstructorUsedError;
   DexToken? get lpToken => throw _privateConstructorUsedError;
   DexPair? get lpTokenPair => throw _privateConstructorUsedError;
-  int get startDate =>
-      throw _privateConstructorUsedError; // FIXME : this should be a DateTime
-  int get endDate =>
-      throw _privateConstructorUsedError; // FIXME : this should be a DateTime
+  DateTime? get startDate => throw _privateConstructorUsedError;
+  DateTime? get endDate => throw _privateConstructorUsedError;
   DexToken? get rewardToken => throw _privateConstructorUsedError;
   double get remainingReward => throw _privateConstructorUsedError;
   double get remainingRewardInFiat => throw _privateConstructorUsedError;
@@ -48,8 +46,8 @@ abstract class $DexFarmCopyWith<$Res> {
       double apr,
       DexToken? lpToken,
       DexPair? lpTokenPair,
-      int startDate,
-      int endDate,
+      DateTime? startDate,
+      DateTime? endDate,
       DexToken? rewardToken,
       double remainingReward,
       double remainingRewardInFiat,
@@ -81,8 +79,8 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
     Object? apr = null,
     Object? lpToken = freezed,
     Object? lpTokenPair = freezed,
-    Object? startDate = null,
-    Object? endDate = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? rewardToken = freezed,
     Object? remainingReward = null,
     Object? remainingRewardInFiat = null,
@@ -112,14 +110,14 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
           ? _value.lpTokenPair
           : lpTokenPair // ignore: cast_nullable_to_non_nullable
               as DexPair?,
-      startDate: null == startDate
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as int,
-      endDate: null == endDate
+              as DateTime?,
+      endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime?,
       rewardToken: freezed == rewardToken
           ? _value.rewardToken
           : rewardToken // ignore: cast_nullable_to_non_nullable
@@ -201,8 +199,8 @@ abstract class _$$DexFarmImplCopyWith<$Res> implements $DexFarmCopyWith<$Res> {
       double apr,
       DexToken? lpToken,
       DexPair? lpTokenPair,
-      int startDate,
-      int endDate,
+      DateTime? startDate,
+      DateTime? endDate,
       DexToken? rewardToken,
       double remainingReward,
       double remainingRewardInFiat,
@@ -235,8 +233,8 @@ class __$$DexFarmImplCopyWithImpl<$Res>
     Object? apr = null,
     Object? lpToken = freezed,
     Object? lpTokenPair = freezed,
-    Object? startDate = null,
-    Object? endDate = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? rewardToken = freezed,
     Object? remainingReward = null,
     Object? remainingRewardInFiat = null,
@@ -266,14 +264,14 @@ class __$$DexFarmImplCopyWithImpl<$Res>
           ? _value.lpTokenPair
           : lpTokenPair // ignore: cast_nullable_to_non_nullable
               as DexPair?,
-      startDate: null == startDate
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as int,
-      endDate: null == endDate
+              as DateTime?,
+      endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime?,
       rewardToken: freezed == rewardToken
           ? _value.rewardToken
           : rewardToken // ignore: cast_nullable_to_non_nullable
@@ -315,8 +313,8 @@ class _$DexFarmImpl extends _DexFarm {
       this.apr = 0,
       this.lpToken,
       this.lpTokenPair,
-      this.startDate = 0,
-      this.endDate = 0,
+      this.startDate,
+      this.endDate,
       this.rewardToken,
       this.remainingReward = 0,
       this.remainingRewardInFiat = 0,
@@ -340,13 +338,9 @@ class _$DexFarmImpl extends _DexFarm {
   @override
   final DexPair? lpTokenPair;
   @override
-  @JsonKey()
-  final int startDate;
-// FIXME : this should be a DateTime
+  final DateTime? startDate;
   @override
-  @JsonKey()
-  final int endDate;
-// FIXME : this should be a DateTime
+  final DateTime? endDate;
   @override
   final DexToken? rewardToken;
   @override
@@ -437,8 +431,8 @@ abstract class _DexFarm extends DexFarm {
       final double apr,
       final DexToken? lpToken,
       final DexPair? lpTokenPair,
-      final int startDate,
-      final int endDate,
+      final DateTime? startDate,
+      final DateTime? endDate,
       final DexToken? rewardToken,
       final double remainingReward,
       final double remainingRewardInFiat,
@@ -459,10 +453,10 @@ abstract class _DexFarm extends DexFarm {
   @override
   DexPair? get lpTokenPair;
   @override
-  int get startDate;
-  @override // FIXME : this should be a DateTime
-  int get endDate;
-  @override // FIXME : this should be a DateTime
+  DateTime? get startDate;
+  @override
+  DateTime? get endDate;
+  @override
   DexToken? get rewardToken;
   @override
   double get remainingReward;

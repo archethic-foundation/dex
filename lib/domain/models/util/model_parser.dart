@@ -205,8 +205,12 @@ mixin ModelParser {
     }
 
     return DexFarm(
-      startDate: getFarmListResponse.startDate,
-      endDate: getFarmListResponse.endDate,
+      startDate: DateTime.fromMillisecondsSinceEpoch(
+        getFarmListResponse.startDate * 1000,
+      ),
+      endDate: DateTime.fromMillisecondsSinceEpoch(
+        getFarmListResponse.endDate * 1000,
+      ),
       farmAddress: getFarmListResponse.address,
       rewardToken: rewardToken,
       lpToken: lpToken,
@@ -249,8 +253,12 @@ mixin ModelParser {
       lpTokenDeposited: getFarmInfosResponse.lpTokenDeposited,
       nbDeposit: getFarmInfosResponse.nbDeposit,
       remainingReward: remainingReward,
-      endDate: getFarmInfosResponse.endDate,
-      startDate: getFarmInfosResponse.startDate,
+      startDate: DateTime.fromMillisecondsSinceEpoch(
+        getFarmInfosResponse.startDate * 1000,
+      ),
+      endDate: DateTime.fromMillisecondsSinceEpoch(
+        getFarmInfosResponse.endDate * 1000,
+      ),
       farmAddress: farmGenesisAddress,
       poolAddress: pool.poolAddress,
       lpTokenPair: pool.pair,
