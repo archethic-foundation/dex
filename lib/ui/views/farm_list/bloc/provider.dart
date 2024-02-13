@@ -17,7 +17,6 @@ Future<DexFarmUserInfos> _userInfos(_UserInfosRef ref, DexFarm farm) async {
       session.genesisAddress,
     ).future,
   );
-  print('FarmListProvider userInfos $userInfos');
   return userInfos!;
 }
 

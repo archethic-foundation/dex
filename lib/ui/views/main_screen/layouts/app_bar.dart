@@ -1,6 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:ui';
-
 import 'package:aedex/application/preferences.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/version.dart';
