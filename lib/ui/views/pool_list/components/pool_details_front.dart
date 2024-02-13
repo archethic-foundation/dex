@@ -133,15 +133,26 @@ class PoolDetailsFront extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      SelectableText(
-                        '${(Decimal.parse(stats.fee24h.toString()) * Decimal.parse('365') * Decimal.parse('100') / Decimal.parse(tvl.toString())).toDouble().formatNumber(precision: 2)}%',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .copyWith(
-                              color: DexThemeBase.secondaryColor,
-                            ),
-                      ),
+                      if (tvl > 0)
+                        SelectableText(
+                          '${(Decimal.parse(stats.fee24h.toString()) * Decimal.parse('365') * Decimal.parse('100') / Decimal.parse(tvl.toString())).toDouble().formatNumber(precision: 2)}%',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .copyWith(
+                                color: DexThemeBase.secondaryColor,
+                              ),
+                        )
+                      else
+                        SelectableText(
+                          '0.00%',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .copyWith(
+                                color: DexThemeBase.secondaryColor,
+                              ),
+                        ),
                     ],
                   ),
                 ],
