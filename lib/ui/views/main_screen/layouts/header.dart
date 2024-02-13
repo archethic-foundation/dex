@@ -9,6 +9,7 @@ import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Header extends ConsumerWidget {
   const Header({
@@ -27,9 +28,9 @@ class Header extends ConsumerWidget {
         const SizedBox(
           width: 16,
         ),
-        Image.asset(
-          'assets/images/logo_crystal.png',
-          height: 50,
+        SvgPicture.asset(
+          'assets/images/AELogo.svg',
+          height: 34,
         ),
         const SizedBox(
           width: 8,
@@ -39,8 +40,8 @@ class Header extends ConsumerWidget {
           child: SelectableText(
             'aeSwap',
             style: TextStyle(
-              fontSize: 30,
-              color: ArchethicThemeBase.blue200,
+              fontSize: 34,
+              color: ArchethicThemeBase.neutral0,
             ),
           ),
         ),

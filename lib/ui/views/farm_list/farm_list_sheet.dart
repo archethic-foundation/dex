@@ -46,7 +46,7 @@ class FarmListSheet extends ConsumerWidget {
           data: (farms) => GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedSize(
               crossAxisExtent: 500,
-              mainAxisExtent: 655,
+              mainAxisExtent: 635,
               mainAxisSpacing: 20,
               crossAxisSpacing: 10,
             ),
@@ -90,20 +90,18 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: DexThemeBase.backgroundPopupColor,
-                width: 0.5,
-              ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            elevation: 0,
-            color: Colors.black.withOpacity(0.2),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: DexThemeBase.sheetBackgroundTertiary,
+                  border: Border.all(
+                    color: DexThemeBase.sheetBorderTertiary,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: FutureBuilder<DexFarm?>(
                   future: ref.watch(
                     DexFarmProviders.getFarmInfos(
@@ -177,13 +175,15 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                 child: Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      color: DexThemeBase.backgroundPopupColor,
+                      color: ArchethicThemeBase.brightPurpleHoverBorder
+                          .withOpacity(1),
                       width: 0.5,
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   elevation: 0,
-                  color: ArchethicThemeBase.purple500,
+                  color: ArchethicThemeBase.brightPurpleHoverBackground
+                      .withOpacity(1),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       top: 7,
@@ -213,13 +213,15 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                   child: Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
-                        color: DexThemeBase.backgroundPopupColor,
+                        color: ArchethicThemeBase.brightPurpleHoverBorder
+                            .withOpacity(1),
                         width: 0.5,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 0,
-                    color: DexThemeBase.backgroundPopupColor,
+                    color: ArchethicThemeBase.brightPurpleHoverBackground
+                        .withOpacity(1),
                     child: Padding(
                       padding: const EdgeInsets.only(
                         top: 5,

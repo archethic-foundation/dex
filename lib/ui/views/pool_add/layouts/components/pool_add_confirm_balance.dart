@@ -32,7 +32,7 @@ class PoolAddConfirmBalance extends ConsumerWidget {
       ),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: ArchethicThemeBase.blue800,
+          color: ArchethicThemeBase.blue700,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(

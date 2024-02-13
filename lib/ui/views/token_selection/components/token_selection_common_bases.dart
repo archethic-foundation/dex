@@ -44,16 +44,16 @@ class TokenSelectionCommonBases extends ConsumerWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    ArchethicThemeBase.purple500,
-                    ArchethicThemeBase.purple500.withOpacity(0.4),
+                    DexThemeBase.sheetBackgroundTertiary.withOpacity(0.4),
+                    DexThemeBase.sheetBackgroundTertiary,
                   ],
                   stops: const [0, 1],
                 ),
                 border: GradientBoxBorder(
                   gradient: LinearGradient(
                     colors: [
-                      ArchethicThemeBase.plum300,
-                      ArchethicThemeBase.plum300.withOpacity(0.4),
+                      DexThemeBase.sheetBorderTertiary.withOpacity(0.4),
+                      DexThemeBase.sheetBorderTertiary,
                     ],
                     stops: const [0, 1],
                   ),

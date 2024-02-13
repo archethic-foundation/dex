@@ -1,6 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 part 'archethic_theme_base.dart';
@@ -17,7 +15,7 @@ class DexThemeBase {
   static Color backgroundPopupColor = ArchethicThemeBase.purple500;
 
   static Color statusOK = ArchethicThemeBase.systemPositive500;
-  static Color statusKO = ArchethicThemeBase.systemDanger800;
+  static Color statusKO = ArchethicThemeBase.systemDanger600;
   static Color statusInProgress = ArchethicThemeBase.raspberry300;
 
   static Gradient gradient = LinearGradient(
@@ -28,47 +26,32 @@ class DexThemeBase {
     stops: const [0, 1],
   );
 
-  static Gradient gradientMainScreen = const LinearGradient(
-    colors: [
-      Color(0xFFCC00FF),
-      Color(0x003C89B9),
-    ],
-    stops: [0, 1],
-  );
-
-  static Gradient gradientShimmer = LinearGradient(
-    colors: [
-      const Color(0xFF562FED).withOpacity(0.2),
-      const Color(0xFFD55CFF).withOpacity(0.2),
-    ],
-  );
-
   static Gradient gradientWelcomeTxt = LinearGradient(
     colors: [
-      const Color(0xFF562FED).withOpacity(0.8),
-      const Color(0xFFD55CFF).withOpacity(0.8),
+      ArchethicThemeBase.raspberry300,
+      ArchethicThemeBase.raspberry500,
     ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.bottomRight,
+    end: Alignment.topLeft,
   );
 
   static Gradient gradientBtn = LinearGradient(
     colors: <Color>[
-      ArchethicThemeBase.blue500,
-      ArchethicThemeBase.raspberry300,
+      ArchethicThemeBase.blue400,
+      ArchethicThemeBase.blue600,
     ],
-    transform: const GradientRotation(pi / 9),
   );
 
-  static Gradient gradientSheetBackground = LinearGradient(
-    colors: [
-      ArchethicThemeBase.purple500.withOpacity(1),
-      ArchethicThemeBase.purple500.withOpacity(1),
-    ],
-    stops: const [0, 1],
-    begin: Alignment.topLeft,
-    end: Alignment.center,
-  );
+  static Color sheetBackground = ArchethicThemeBase.brightPurpleBackground;
+  static Color sheetBorder = ArchethicThemeBase.brightPurpleBorder;
+
+  static Color sheetBackgroundSecondary =
+      ArchethicThemeBase.paleTransparentBackground;
+  static Color sheetBorderSecondary = ArchethicThemeBase.paleTransparentBorder;
+
+  static Color sheetBackgroundTertiary =
+      ArchethicThemeBase.palePurpleBackground;
+  static Color sheetBorderTertiary = ArchethicThemeBase.palePurpleBorder;
 
   static Gradient gradientLine = LinearGradient(
     colors: [
@@ -78,14 +61,6 @@ class DexThemeBase {
     stops: const [0, 1],
     begin: Alignment.topLeft,
     end: Alignment.center,
-  );
-
-  static Gradient gradientSheetBorder = LinearGradient(
-    colors: [
-      ArchethicThemeBase.neutral900.withOpacity(0.7),
-      ArchethicThemeBase.neutral900.withOpacity(1),
-    ],
-    stops: const [0, 1],
   );
 
   static Gradient gradientInputFormBackground = LinearGradient(
@@ -107,7 +82,7 @@ class DexThemeBase {
   static Gradient gradientCircularStepProgressIndicator = LinearGradient(
     colors: [
       statusInProgress,
-      ArchethicThemeBase.systemWarning800,
+      ArchethicThemeBase.systemInfo500,
     ],
     stops: const [0, 1],
   );
@@ -116,14 +91,14 @@ class DexThemeBase {
       LinearGradient(
     colors: [
       statusOK,
-      ArchethicThemeBase.systemPositive800,
+      ArchethicThemeBase.systemPositive600,
     ],
     stops: const [0, 1],
   );
 
   static Gradient gradientCircularStepProgressIndicatorError = LinearGradient(
     colors: [
-      ArchethicThemeBase.systemDanger800,
+      ArchethicThemeBase.systemDanger600,
       statusKO,
     ],
     stops: const [0, 1],

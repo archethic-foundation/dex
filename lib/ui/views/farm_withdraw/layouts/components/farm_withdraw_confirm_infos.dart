@@ -30,16 +30,11 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: ArchethicThemeBase.blue800,
+          color: DexThemeBase.sheetBackgroundSecondary,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: ArchethicThemeBase.neutral900,
-              blurRadius: 7,
-              spreadRadius: 1,
-              offset: const Offset(0, 5),
-            ),
-          ],
+          border: Border.all(
+            color: DexThemeBase.sheetBorderSecondary,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(

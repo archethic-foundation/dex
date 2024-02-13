@@ -40,7 +40,9 @@ class DexInProgressCircularStepProgressIndicator extends StatelessWidget {
                       ? DexThemeBase
                           .gradientCircularStepProgressIndicatorFinished
                       : DexThemeBase.gradientCircularStepProgressIndicatorError
-                  : DexThemeBase.gradientCircularStepProgressIndicator,
+                  : failure == null
+                      ? DexThemeBase.gradientCircularStepProgressIndicator
+                      : DexThemeBase.gradientCircularStepProgressIndicatorError,
               selectedColor: Colors.white,
               unselectedColor: Colors.white.withOpacity(0.2),
               removeRoundedCapExtraAngle: true,
@@ -48,7 +50,7 @@ class DexInProgressCircularStepProgressIndicator extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                if (isProcessInProgress)
+                if (isProcessInProgress && failure == null)
                   SizedBox(
                     width: 25,
                     height: 25,
