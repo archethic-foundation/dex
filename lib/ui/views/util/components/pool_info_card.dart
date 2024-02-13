@@ -43,8 +43,8 @@ class PoolInfoCard extends ConsumerWidget {
             return const SizedBox(height: cardHeight);
           }
 
-          final tvlAndApr = ref.watch(
-            DexPoolProviders.estimatePoolTVLandAPRInFiat(pool),
+          final tvl = ref.watch(
+            DexPoolProviders.estimatePoolTVLInFiat(pool),
           );
           return Container(
             height: cardHeight,
@@ -205,7 +205,7 @@ class PoolInfoCard extends ConsumerWidget {
                         ],
                       ),
                       SelectableText(
-                        'TVL: \$${tvlAndApr.tvl.formatNumber(precision: 2)}',
+                        'TVL: \$${tvl.formatNumber(precision: 2)}',
                       ),
                       DexFees(
                         fees: pool.infos!.fees,

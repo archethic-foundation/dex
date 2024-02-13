@@ -27,8 +27,8 @@ class SwapInfos extends ConsumerWidget {
     final tokenAddressRatioPrimary =
         swap.tokenToSwap!.address == null ? 'UCO' : swap.tokenToSwap!.address!;
 
-    final tvlAndApr = ref.watch(
-      DexPoolProviders.estimatePoolTVLandAPRInFiat(swap.pool),
+    final tvl = ref.watch(
+      DexPoolProviders.estimatePoolTVLInFiat(swap.pool),
     );
 
     return Padding(
@@ -168,7 +168,7 @@ class SwapInfos extends ConsumerWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 SelectableText(
-                  '\$${tvlAndApr.tvl.formatNumber(precision: 2)}',
+                  '\$${tvl.formatNumber(precision: 2)}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],

@@ -156,7 +156,7 @@ class _UserInfosProviderElement
   DexFarm get farm => (origin as _UserInfosProvider).farm;
 }
 
-String _$balanceHash() => r'216c931d3ca7c067aa7ee4de8de44b3bd9088751';
+String _$balanceHash() => r'4a67a5dc4ae2a54ceaf1a149c68699c2c047f5cc';
 
 /// See also [_balance].
 @ProviderFor(_balance)

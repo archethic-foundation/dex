@@ -122,7 +122,8 @@ class LiquidityRemoveInProgressPopup {
                                                   AppLocalizations.of(context)!
                                                       .liquidityRemoveInProgressConfirmAEWallet,
                                               successTxt: AppLocalizations.of(
-                                                      context)!
+                                                context,
+                                              )!
                                                   .liquidityRemoveSuccessInfo,
                                             ),
                                             const LiquidityRemoveInProgressTxAddresses(),

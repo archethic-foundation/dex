@@ -12,6 +12,7 @@ import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,8 +28,8 @@ class PoolDetailsFront extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final tvlAndApr = ref.watch(
-      DexPoolProviders.estimatePoolTVLandAPRInFiat(pool),
+    final tvl = ref.watch(
+      DexPoolProviders.estimatePoolTVLInFiat(pool),
     );
 
     final stats = ref.watch(DexPoolProviders.estimateStats(pool));
@@ -99,7 +100,7 @@ class PoolDetailsFront extends ConsumerWidget {
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       SelectableText(
-                        '\$${tvlAndApr.tvl.formatNumber(precision: 2)}',
+                        '\$${tvl.formatNumber(precision: 2)}',
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
@@ -109,25 +110,40 @@ class PoolDetailsFront extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  /*Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Stack(
+                        alignment: Alignment.centerRight,
                         children: [
-                          SelectableText(
-                            'APR',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SelectableText(
+                              '24h',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
                           ),
-                          SelectableText(
-                            '${asyncTvlInFiat.valueOrNull?.apr.formatNumber(precision: 2) ?? '...'}%',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium!
-                                .copyWith(
-                                  color: DexThemeBase.secondaryColor,
-                                ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 25),
+                            child: SelectableText(
+                              'APR',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                           ),
                         ],
-                      ),*/
+                      ),
+                      SelectableText(
+                        '${(Decimal.parse(stats.fee24h.toString()) * Decimal.parse('365') * Decimal.parse('100') / Decimal.parse(tvl.toString())).toDouble().formatNumber(precision: 2)}%',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                              color: DexThemeBase.secondaryColor,
+                            ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(
@@ -138,13 +154,43 @@ class PoolDetailsFront extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SelectableText(
-                        'Volume (24h)',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SelectableText(
+                              '24h',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 25),
+                            child: SelectableText(
+                              'Volume',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ],
                       ),
-                      SelectableText(
-                        'Fees (24h)',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SelectableText(
+                              '24h',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 25),
+                            child: SelectableText(
+                              'Fees',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -167,13 +213,43 @@ class PoolDetailsFront extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SelectableText(
-                        'Volume (All)',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SelectableText(
+                              'All',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 17),
+                            child: SelectableText(
+                              'Volume',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ],
                       ),
-                      SelectableText(
-                        'Fees (All)',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SelectableText(
+                              'All',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 17),
+                            child: SelectableText(
+                              'Fees',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
