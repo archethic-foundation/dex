@@ -60,7 +60,7 @@ class LiquidityAddInfos extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SelectableText(
-                'Expected LP Token: ',
+                'Expected LP Token',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(

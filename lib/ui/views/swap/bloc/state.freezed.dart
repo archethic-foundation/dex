@@ -44,6 +44,7 @@ mixin _$SwapFormState {
   Failure? get failure => throw _privateConstructorUsedError;
   Transaction? get recoveryTransactionSwap =>
       throw _privateConstructorUsedError;
+  bool get calculationInProgress => throw _privateConstructorUsedError;
   DexPool? get pool => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -85,6 +86,7 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double? finalAmount,
       Failure? failure,
       Transaction? recoveryTransactionSwap,
+      bool calculationInProgress,
       DexPool? pool});
 
   $DexTokenCopyWith<$Res>? get tokenToSwap;
@@ -134,6 +136,7 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? finalAmount = freezed,
     Object? failure = freezed,
     Object? recoveryTransactionSwap = freezed,
+    Object? calculationInProgress = null,
     Object? pool = freezed,
   }) {
     return _then(_value.copyWith(
@@ -245,6 +248,10 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.recoveryTransactionSwap
           : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
               as Transaction?,
+      calculationInProgress: null == calculationInProgress
+          ? _value.calculationInProgress
+          : calculationInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
       pool: freezed == pool
           ? _value.pool
           : pool // ignore: cast_nullable_to_non_nullable
@@ -349,6 +356,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
       double? finalAmount,
       Failure? failure,
       Transaction? recoveryTransactionSwap,
+      bool calculationInProgress,
       DexPool? pool});
 
   @override
@@ -401,6 +409,7 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
     Object? finalAmount = freezed,
     Object? failure = freezed,
     Object? recoveryTransactionSwap = freezed,
+    Object? calculationInProgress = null,
     Object? pool = freezed,
   }) {
     return _then(_$SwapFormStateImpl(
@@ -512,6 +521,10 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
           ? _value.recoveryTransactionSwap
           : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
               as Transaction?,
+      calculationInProgress: null == calculationInProgress
+          ? _value.calculationInProgress
+          : calculationInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
       pool: freezed == pool
           ? _value.pool
           : pool // ignore: cast_nullable_to_non_nullable
@@ -551,6 +564,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
       this.finalAmount,
       this.failure,
       this.recoveryTransactionSwap,
+      this.calculationInProgress = false,
       this.pool})
       : super._();
 
@@ -631,11 +645,14 @@ class _$SwapFormStateImpl extends _SwapFormState {
   @override
   final Transaction? recoveryTransactionSwap;
   @override
+  @JsonKey()
+  final bool calculationInProgress;
+  @override
   final DexPool? pool;
 
   @override
   String toString() {
-    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, calculateAmountToSwap: $calculateAmountToSwap, calculateAmountSwapped: $calculateAmountSwapped, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, pool: $pool)';
+    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, calculateAmountToSwap: $calculateAmountToSwap, calculateAmountSwapped: $calculateAmountSwapped, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, calculationInProgress: $calculationInProgress, pool: $pool)';
   }
 
   @override
@@ -695,6 +712,8 @@ class _$SwapFormStateImpl extends _SwapFormState {
             (identical(
                     other.recoveryTransactionSwap, recoveryTransactionSwap) ||
                 other.recoveryTransactionSwap == recoveryTransactionSwap) &&
+            (identical(other.calculationInProgress, calculationInProgress) ||
+                other.calculationInProgress == calculationInProgress) &&
             (identical(other.pool, pool) || other.pool == pool));
   }
 
@@ -728,6 +747,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
         finalAmount,
         failure,
         recoveryTransactionSwap,
+        calculationInProgress,
         pool
       ]);
 
@@ -767,6 +787,7 @@ abstract class _SwapFormState extends SwapFormState {
       final double? finalAmount,
       final Failure? failure,
       final Transaction? recoveryTransactionSwap,
+      final bool calculationInProgress,
       final DexPool? pool}) = _$SwapFormStateImpl;
   const _SwapFormState._() : super._();
 
@@ -824,6 +845,8 @@ abstract class _SwapFormState extends SwapFormState {
   Failure? get failure;
   @override
   Transaction? get recoveryTransactionSwap;
+  @override
+  bool get calculationInProgress;
   @override
   DexPool? get pool;
   @override

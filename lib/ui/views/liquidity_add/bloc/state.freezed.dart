@@ -21,6 +21,7 @@ mixin _$LiquidityAddFormState {
   bool get resumeProcess => throw _privateConstructorUsedError;
   bool get calculateToken1 => throw _privateConstructorUsedError;
   bool get calculateToken2 => throw _privateConstructorUsedError;
+  int get tokenFormSelected => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get liquidityAddOk => throw _privateConstructorUsedError;
@@ -61,6 +62,7 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       bool resumeProcess,
       bool calculateToken1,
       bool calculateToken2,
+      int tokenFormSelected,
       int currentStep,
       bool isProcessInProgress,
       bool liquidityAddOk,
@@ -109,6 +111,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     Object? resumeProcess = null,
     Object? calculateToken1 = null,
     Object? calculateToken2 = null,
+    Object? tokenFormSelected = null,
     Object? currentStep = null,
     Object? isProcessInProgress = null,
     Object? liquidityAddOk = null,
@@ -149,6 +152,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
           ? _value.calculateToken2
           : calculateToken2 // ignore: cast_nullable_to_non_nullable
               as bool,
+      tokenFormSelected: null == tokenFormSelected
+          ? _value.tokenFormSelected
+          : tokenFormSelected // ignore: cast_nullable_to_non_nullable
+              as int,
       currentStep: null == currentStep
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
@@ -315,6 +322,7 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       bool resumeProcess,
       bool calculateToken1,
       bool calculateToken2,
+      int tokenFormSelected,
       int currentStep,
       bool isProcessInProgress,
       bool liquidityAddOk,
@@ -366,6 +374,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
     Object? resumeProcess = null,
     Object? calculateToken1 = null,
     Object? calculateToken2 = null,
+    Object? tokenFormSelected = null,
     Object? currentStep = null,
     Object? isProcessInProgress = null,
     Object? liquidityAddOk = null,
@@ -406,6 +415,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
           ? _value.calculateToken2
           : calculateToken2 // ignore: cast_nullable_to_non_nullable
               as bool,
+      tokenFormSelected: null == tokenFormSelected
+          ? _value.tokenFormSelected
+          : tokenFormSelected // ignore: cast_nullable_to_non_nullable
+              as int,
       currentStep: null == currentStep
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
@@ -506,6 +519,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
       this.resumeProcess = false,
       this.calculateToken1 = false,
       this.calculateToken2 = false,
+      this.tokenFormSelected = 1,
       this.currentStep = 0,
       this.isProcessInProgress = false,
       this.liquidityAddOk = false,
@@ -542,6 +556,9 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   @override
   @JsonKey()
   final bool calculateToken2;
+  @override
+  @JsonKey()
+  final int tokenFormSelected;
   @override
   @JsonKey()
   final int currentStep;
@@ -606,7 +623,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, failure: $failure)';
+    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, failure: $failure)';
   }
 
   @override
@@ -623,6 +640,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
                 other.calculateToken1 == calculateToken1) &&
             (identical(other.calculateToken2, calculateToken2) ||
                 other.calculateToken2 == calculateToken2) &&
+            (identical(other.tokenFormSelected, tokenFormSelected) ||
+                other.tokenFormSelected == tokenFormSelected) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
@@ -672,6 +691,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
         resumeProcess,
         calculateToken1,
         calculateToken2,
+        tokenFormSelected,
         currentStep,
         isProcessInProgress,
         liquidityAddOk,
@@ -710,6 +730,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final bool resumeProcess,
       final bool calculateToken1,
       final bool calculateToken2,
+      final int tokenFormSelected,
       final int currentStep,
       final bool isProcessInProgress,
       final bool liquidityAddOk,
@@ -742,6 +763,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   bool get calculateToken1;
   @override
   bool get calculateToken2;
+  @override
+  int get tokenFormSelected;
   @override
   int get currentStep;
   @override

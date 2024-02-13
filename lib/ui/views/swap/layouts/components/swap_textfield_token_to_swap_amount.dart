@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -34,21 +35,24 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
   void initState() {
     super.initState();
     tokenAmountFocusNode = FocusNode();
+    tokenAmountController = TextEditingController();
     _updateAmountTextController();
   }
 
   void _updateAmountTextController() {
     final swap = ref.read(SwapFormProvider.swapForm);
-    tokenAmountController = TextEditingController();
-    tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
-      TextEditingValue.empty,
-      TextEditingValue(
-        text: swap.tokenToSwapAmount == 0
-            ? ''
-            : swap.tokenToSwapAmount.toString(),
-      ),
-    );
+    if (swap.tokenFormSelected == 2) {
+      tokenAmountController = TextEditingController();
+      tokenAmountController.value =
+          AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        TextEditingValue.empty,
+        TextEditingValue(
+          text: swap.tokenToSwapAmount == 0
+              ? ''
+              : swap.tokenToSwapAmount.toString(),
+        ),
+      );
+    }
   }
 
   @override
@@ -72,15 +76,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
       });
     }
 
-    final textNum = double.tryParse(tokenAmountController.text);
-    if (swap.tokenToSwapAmount == 0.0 &&
-        tokenAmountController.text != '' &&
-        (textNum == null || textNum != 0)) {
-      _updateAmountTextController();
-    }
-    if (swap.tokenToSwapAmount != 0.0 && textNum != swap.tokenToSwapAmount) {
-      _updateAmountTextController();
-    }
+    _updateAmountTextController();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,11 +180,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                                             autocorrect: false,
                                             controller: tokenAmountController,
                                             onChanged: (text) async {
-                                              ref
-                                                  .read(
-                                                    SwapFormProvider
-                                                        .swapForm.notifier,
-                                                  )
+                                              swapNotifier
                                                   .setTokenFormSelected(1);
                                               await swapNotifier
                                                   .setTokenToSwapAmount(
@@ -199,11 +191,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                                               );
                                             },
                                             onTap: () {
-                                              ref
-                                                  .read(
-                                                    SwapFormProvider
-                                                        .swapForm.notifier,
-                                                  )
+                                              swapNotifier
                                                   .setTokenFormSelected(1);
                                             },
                                             focusNode: tokenAmountFocusNode,
@@ -288,16 +276,26 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                   ),
                   DexButtonHalf(
                     balanceAmount: swap.tokenToSwapBalance,
-                    onTap: () {
-                      ref
-                          .read(
-                            SwapFormProvider.swapForm.notifier,
-                          )
-                          .setTokenFormSelected(1);
-                      ref
-                          .read(SwapFormProvider.swapForm.notifier)
-                          .setTokenToSwapAmountHalf();
-                      _updateAmountTextController();
+                    onTap: () async {
+                      tokenAmountController.value =
+                          AmountTextInputFormatter(precision: 8)
+                              .formatEditUpdate(
+                        TextEditingValue.empty,
+                        TextEditingValue(
+                          text: (Decimal.parse(
+                                    swap.tokenToSwapBalance.toString(),
+                                  ) /
+                                  Decimal.fromInt(2))
+                              .toDouble()
+                              .toString(),
+                        ),
+                      );
+                      swapNotifier.setTokenFormSelected(1);
+                      await swapNotifier.setTokenToSwapAmount(
+                        (Decimal.parse(swap.tokenToSwapBalance.toString()) /
+                                Decimal.fromInt(2))
+                            .toDouble(),
+                      );
                     },
                   ),
                   const SizedBox(
@@ -305,16 +303,18 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                   ),
                   DexButtonMax(
                     balanceAmount: swap.tokenToSwapBalance,
-                    onTap: () {
-                      ref
-                          .read(
-                            SwapFormProvider.swapForm.notifier,
-                          )
-                          .setTokenFormSelected(1);
-                      ref
-                          .read(SwapFormProvider.swapForm.notifier)
-                          .setTokenToSwapAmountMax();
-                      _updateAmountTextController();
+                    onTap: () async {
+                      tokenAmountController.value =
+                          AmountTextInputFormatter(precision: 8)
+                              .formatEditUpdate(
+                        TextEditingValue.empty,
+                        TextEditingValue(
+                          text: swap.tokenToSwapBalance.toString(),
+                        ),
+                      );
+                      swapNotifier.setTokenFormSelected(1);
+                      await swapNotifier
+                          .setTokenToSwapAmount(swap.tokenToSwapBalance);
                     },
                   ),
                 ],

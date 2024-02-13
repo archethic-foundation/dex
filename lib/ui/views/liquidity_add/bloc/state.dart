@@ -18,6 +18,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(false) bool resumeProcess,
     @Default(false) bool calculateToken1,
     @Default(false) bool calculateToken2,
+    @Default(1) int tokenFormSelected,
     @Default(0) int currentStep,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool liquidityAddOk,
