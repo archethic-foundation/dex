@@ -138,8 +138,8 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
             elevation: 0,
             color:
                 ArchethicThemeBase.brightPurpleHoverBackground.withOpacity(1),
-            child: Padding(
-              padding: const EdgeInsets.only(
+            child: const Padding(
+              padding: EdgeInsets.only(
                 top: 5,
                 bottom: 5,
                 left: 10,
@@ -148,7 +148,6 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
               child: Icon(
                 Iconsax.star_slash,
                 size: 16,
-                color: ArchethicThemeBase.raspberry200,
               ),
             ),
           ),

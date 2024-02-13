@@ -193,9 +193,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                     ),
                     child: SelectableText(
                       'Farming',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: ArchethicThemeBase.raspberry200,
-                          ),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ),
@@ -222,8 +220,8 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                     elevation: 0,
                     color: ArchethicThemeBase.brightPurpleHoverBackground
                         .withOpacity(1),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
+                    child: const Padding(
+                      padding: EdgeInsets.only(
                         top: 5,
                         bottom: 5,
                         left: 10,
@@ -232,7 +230,6 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                       child: Icon(
                         Iconsax.convertshape,
                         size: 16,
-                        color: ArchethicThemeBase.raspberry200,
                       ),
                     ),
                   ),
