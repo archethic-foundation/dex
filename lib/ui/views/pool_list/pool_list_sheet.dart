@@ -170,7 +170,7 @@ class PoolListSheet extends ConsumerWidget {
                   gridDelegate: const SliverGridDelegateWithFixedSize(
                     crossAxisExtent: 500,
                     mainAxisExtent: 550,
-                    crossAxisSpacing: 20,
+                    crossAxisSpacing: 30,
                     mainAxisSpacing: 10,
                   ),
                   padding: const EdgeInsets.only(

@@ -21,41 +21,13 @@ class DexBackground extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
-                ArchethicThemeBase.purple500.withOpacity(0.8),
+                ArchethicThemeBase.purple500.withOpacity(1),
                 BlendMode.modulate,
               ),
               image: const AssetImage(
                 'assets/images/background-welcome.png',
               ),
               fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        Opacity(
-          opacity: 0.8,
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/background-sheet.png',
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-        Opacity(
-          opacity: 0.8,
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/background-welcome-gradient.png',
-                ),
-                fit: BoxFit.cover,
-              ),
             ),
           ),
         ),

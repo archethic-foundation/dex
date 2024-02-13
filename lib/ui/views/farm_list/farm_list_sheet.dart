@@ -47,8 +47,8 @@ class FarmListSheet extends ConsumerWidget {
             gridDelegate: const SliverGridDelegateWithFixedSize(
               crossAxisExtent: 500,
               mainAxisExtent: 640,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 10,
+              crossAxisSpacing: 30,
+              mainAxisSpacing: 10,
             ),
             padding: const EdgeInsets.only(
               left: 50,
