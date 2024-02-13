@@ -6,6 +6,8 @@ import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BrowserPopup extends ConsumerWidget {
   const BrowserPopup({super.key});
@@ -42,9 +44,21 @@ class BrowserPopup extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const SelectableText('Warning'),
-                    const SizedBox(height: 40),
-                    SelectableText(
-                      AppLocalizations.of(context)!.failureIncompatibleBrowser,
+                    const SizedBox(height: 20),
+                    Linkify(
+                      text: AppLocalizations.of(context)!
+                          .failureIncompatibleBrowser,
+                      textAlign: TextAlign.left,
+                      options: const LinkifyOptions(
+                        humanize: false,
+                      ),
+                      linkStyle: const TextStyle(color: Colors.white),
+                      onOpen: (link) async {
+                        final uri = Uri.parse(link.url);
+                        if (!await canLaunchUrl(uri)) return;
+
+                        await launchUrl(uri);
+                      },
                     ),
                     const SizedBox(height: 40),
                     AppButton(
