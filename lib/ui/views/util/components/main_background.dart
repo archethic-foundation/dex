@@ -16,7 +16,7 @@ class MainBackground extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
-                ArchethicThemeBase.plum500.withOpacity(0.8),
+                ArchethicThemeBase.paleTransparentBackground.withOpacity(0.8),
                 BlendMode.modulate,
               ),
               image: const AssetImage(

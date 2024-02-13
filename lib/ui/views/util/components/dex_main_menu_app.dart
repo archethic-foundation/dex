@@ -73,7 +73,7 @@ class DexMainMenuApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
-                ArchethicThemeBase.blue800,
+                ArchethicThemeBase.blue700,
                 BlendMode.modulate,
               ),
               image: const AssetImage(

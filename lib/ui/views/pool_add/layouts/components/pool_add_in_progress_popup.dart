@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'dart:ui';
+
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
@@ -39,108 +41,113 @@ class PoolAddInProgressPopup {
                       content: Stack(
                         children: <Widget>[
                           ArchethicScrollbar(
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                top: 30,
-                                right: 15,
-                                left: 8,
-                              ),
-                              height: 400,
-                              width: DexThemeBase.sizeBoxComponentWidth,
-                              decoration: BoxDecoration(
-                                color: DexThemeBase.backgroundPopupColor,
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: const <BoxShadow>[
-                                  BoxShadow(
-                                    color: Colors.black26,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    top: 30,
+                                    right: 15,
+                                    left: 8,
                                   ),
-                                ],
-                              ),
-                              child: Stack(
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 300,
+                                  height: 400,
+                                  width: DexThemeBase.sizeBoxComponentWidth,
+                                  decoration: BoxDecoration(
+                                    color: DexThemeBase.sheetBackground,
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                      color: DexThemeBase.sheetBorder,
                                     ),
-                                    child: Card(
-                                      color: Colors.transparent,
-                                      clipBehavior: Clip.antiAlias,
-                                      elevation: 0,
-                                      margin: EdgeInsets.zero,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(16),
-                                          bottomRight: Radius.circular(16),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(
+                                          top: 300,
+                                        ),
+                                        child: Card(
+                                          color: Colors.transparent,
+                                          clipBehavior: Clip.antiAlias,
+                                          elevation: 0,
+                                          margin: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(16),
+                                              bottomRight: Radius.circular(16),
+                                            ),
+                                          ),
+                                          child: PopupWaves(),
                                         ),
                                       ),
-                                      child: PopupWaves(),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        DexInProgressCircularStepProgressIndicator(
-                                          currentStep: poolAdd.currentStep,
-                                          totalSteps: 6,
-                                          isProcessInProgress:
-                                              poolAdd.isProcessInProgress,
-                                          failure: poolAdd.failure,
-                                        ),
-                                        DexInProgressCurrentStep(
-                                          steplabel:
-                                              AddPoolCase().getAEStepLabel(
-                                            context,
-                                            poolAdd.currentStep,
-                                          ),
-                                        ),
-                                        DexInProgressInfosBanner(
-                                          isProcessInProgress:
-                                              poolAdd.isProcessInProgress,
-                                          walletConfirmation:
-                                              poolAdd.walletConfirmation,
-                                          failure: poolAdd.failure,
-                                          inProgressTxt:
-                                              AppLocalizations.of(context)!
-                                                  .poolAddProcessInProgress,
-                                          walletConfirmationTxt: AppLocalizations
-                                                  .of(context)!
-                                              .poolAddInProgressConfirmAEWallet,
-                                          successTxt:
-                                              AppLocalizations.of(context)!
-                                                  .poolAddSuccessInfo,
-                                        ),
-                                        const PoolAddInProgressTxAddresses(),
-                                        const Spacer(),
-                                        DexInProgressResumeBtn(
-                                          currentStep: poolAdd.currentStep,
-                                          isProcessInProgress:
-                                              poolAdd.isProcessInProgress,
-                                          onPressed: () async {
-                                            ref
-                                                .read(
-                                                  PoolAddFormProvider
-                                                      .poolAddForm.notifier,
-                                                )
-                                                .setResumeProcess(true);
+                                      Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            DexInProgressCircularStepProgressIndicator(
+                                              currentStep: poolAdd.currentStep,
+                                              totalSteps: 6,
+                                              isProcessInProgress:
+                                                  poolAdd.isProcessInProgress,
+                                              failure: poolAdd.failure,
+                                            ),
+                                            DexInProgressCurrentStep(
+                                              steplabel:
+                                                  AddPoolCase().getAEStepLabel(
+                                                context,
+                                                poolAdd.currentStep,
+                                              ),
+                                            ),
+                                            DexInProgressInfosBanner(
+                                              isProcessInProgress:
+                                                  poolAdd.isProcessInProgress,
+                                              walletConfirmation:
+                                                  poolAdd.walletConfirmation,
+                                              failure: poolAdd.failure,
+                                              inProgressTxt:
+                                                  AppLocalizations.of(context)!
+                                                      .poolAddProcessInProgress,
+                                              walletConfirmationTxt:
+                                                  AppLocalizations.of(context)!
+                                                      .poolAddInProgressConfirmAEWallet,
+                                              successTxt:
+                                                  AppLocalizations.of(context)!
+                                                      .poolAddSuccessInfo,
+                                            ),
+                                            const PoolAddInProgressTxAddresses(),
+                                            const Spacer(),
+                                            DexInProgressResumeBtn(
+                                              currentStep: poolAdd.currentStep,
+                                              isProcessInProgress:
+                                                  poolAdd.isProcessInProgress,
+                                              onPressed: () async {
+                                                ref
+                                                    .read(
+                                                      PoolAddFormProvider
+                                                          .poolAddForm.notifier,
+                                                    )
+                                                    .setResumeProcess(true);
 
-                                            if (!context.mounted) return;
-                                            await ref
-                                                .read(
-                                                  PoolAddFormProvider
-                                                      .poolAddForm.notifier,
-                                                )
-                                                .add(context, ref);
-                                          },
-                                          failure: poolAdd.failure,
+                                                if (!context.mounted) return;
+                                                await ref
+                                                    .read(
+                                                      PoolAddFormProvider
+                                                          .poolAddForm.notifier,
+                                                    )
+                                                    .add(context, ref);
+                                              },
+                                              failure: poolAdd.failure,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                           ),

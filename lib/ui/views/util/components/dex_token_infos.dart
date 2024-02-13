@@ -30,8 +30,8 @@ class DexTokenInfos extends StatelessWidget {
         border: GradientBoxBorder(
           gradient: LinearGradient(
             colors: [
-              ArchethicThemeBase.plum300,
-              ArchethicThemeBase.plum300.withOpacity(0.4),
+              ArchethicThemeBase.paleTransparentBackground,
+              ArchethicThemeBase.paleTransparentBackground.withOpacity(0.4),
             ],
             stops: const [0, 1],
           ),

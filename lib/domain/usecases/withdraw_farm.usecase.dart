@@ -100,8 +100,6 @@ class WithdrawFarmCase with TransactionDexMixin {
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
         ..setFarmWithdrawOk(true);
-
-      unawaited(refreshCurrentAccountInfoWallet());
     } catch (e) {
       sl.get<LogManager>().log(
             'TransactionWithdrawFarm sendTx failed $e',

@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'dart:ui';
+
 import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
@@ -40,121 +42,127 @@ class SwapInProgressPopup {
                       content: Stack(
                         children: <Widget>[
                           ArchethicScrollbar(
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                top: 30,
-                                right: 15,
-                                left: 8,
-                              ),
-                              height: 400,
-                              width: DexThemeBase.sizeBoxComponentWidth,
-                              decoration: BoxDecoration(
-                                color: DexThemeBase.backgroundPopupColor,
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: const <BoxShadow>[
-                                  BoxShadow(
-                                    color: Colors.black26,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    top: 30,
+                                    right: 15,
+                                    left: 8,
                                   ),
-                                ],
-                              ),
-                              child: Stack(
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(
-                                      top: 300,
+                                  height: 400,
+                                  width: DexThemeBase.sizeBoxComponentWidth,
+                                  decoration: BoxDecoration(
+                                    color: DexThemeBase.sheetBackground,
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                      color: DexThemeBase.sheetBorder,
                                     ),
-                                    child: Card(
-                                      color: Colors.transparent,
-                                      clipBehavior: Clip.antiAlias,
-                                      elevation: 0,
-                                      margin: EdgeInsets.zero,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(16),
-                                          bottomRight: Radius.circular(16),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(
+                                          top: 300,
+                                        ),
+                                        child: Card(
+                                          color: Colors.transparent,
+                                          clipBehavior: Clip.antiAlias,
+                                          elevation: 0,
+                                          margin: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(16),
+                                              bottomRight: Radius.circular(16),
+                                            ),
+                                          ),
+                                          child: PopupWaves(),
                                         ),
                                       ),
-                                      child: PopupWaves(),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        DexInProgressCircularStepProgressIndicator(
-                                          currentStep: swap.currentStep,
-                                          totalSteps: 4,
-                                          isProcessInProgress:
-                                              swap.isProcessInProgress,
-                                          failure: swap.failure,
-                                        ),
-                                        DexInProgressCurrentStep(
-                                          steplabel: SwapCase().getAEStepLabel(
-                                            context,
-                                            swap.currentStep,
-                                          ),
-                                        ),
-                                        DexInProgressInfosBanner(
-                                          isProcessInProgress:
-                                              swap.isProcessInProgress,
-                                          walletConfirmation:
-                                              swap.walletConfirmation,
-                                          failure: swap.failure,
-                                          inProgressTxt:
-                                              AppLocalizations.of(context)!
-                                                  .swapProcessInProgress,
-                                          walletConfirmationTxt:
-                                              AppLocalizations.of(context)!
-                                                  .swapInProgressConfirmAEWallet,
-                                          successTxt:
-                                              AppLocalizations.of(context)!
-                                                  .swapSuccessInfo,
-                                        ),
-                                        const SwapInProgressTxAddresses(),
-                                        if (swap.recoveryTransactionSwap !=
-                                                null &&
-                                            swap.recoveryTransactionSwap!
-                                                    .address !=
-                                                null &&
-                                            swap.recoveryTransactionSwap!
-                                                    .address!.address !=
-                                                null)
-                                          SwapFinalAmount(
-                                            address: swap
-                                                .recoveryTransactionSwap!
-                                                .address!
-                                                .address!,
-                                          ),
-                                        const Spacer(),
-                                        DexInProgressResumeBtn(
-                                          currentStep: swap.currentStep,
-                                          isProcessInProgress:
-                                              swap.isProcessInProgress,
-                                          onPressed: () async {
-                                            ref
-                                                .read(
-                                                  SwapFormProvider
-                                                      .swapForm.notifier,
-                                                )
-                                                .setResumeProcess(true);
+                                      Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            DexInProgressCircularStepProgressIndicator(
+                                              currentStep: swap.currentStep,
+                                              totalSteps: 4,
+                                              isProcessInProgress:
+                                                  swap.isProcessInProgress,
+                                              failure: swap.failure,
+                                            ),
+                                            DexInProgressCurrentStep(
+                                              steplabel:
+                                                  SwapCase().getAEStepLabel(
+                                                context,
+                                                swap.currentStep,
+                                              ),
+                                            ),
+                                            DexInProgressInfosBanner(
+                                              isProcessInProgress:
+                                                  swap.isProcessInProgress,
+                                              walletConfirmation:
+                                                  swap.walletConfirmation,
+                                              failure: swap.failure,
+                                              inProgressTxt:
+                                                  AppLocalizations.of(context)!
+                                                      .swapProcessInProgress,
+                                              walletConfirmationTxt:
+                                                  AppLocalizations.of(context)!
+                                                      .swapInProgressConfirmAEWallet,
+                                              successTxt:
+                                                  AppLocalizations.of(context)!
+                                                      .swapSuccessInfo,
+                                            ),
+                                            const SwapInProgressTxAddresses(),
+                                            if (swap.recoveryTransactionSwap !=
+                                                    null &&
+                                                swap.recoveryTransactionSwap!
+                                                        .address !=
+                                                    null &&
+                                                swap.recoveryTransactionSwap!
+                                                        .address!.address !=
+                                                    null)
+                                              SwapFinalAmount(
+                                                address: swap
+                                                    .recoveryTransactionSwap!
+                                                    .address!
+                                                    .address!,
+                                              ),
+                                            const Spacer(),
+                                            DexInProgressResumeBtn(
+                                              currentStep: swap.currentStep,
+                                              isProcessInProgress:
+                                                  swap.isProcessInProgress,
+                                              onPressed: () async {
+                                                ref
+                                                    .read(
+                                                      SwapFormProvider
+                                                          .swapForm.notifier,
+                                                    )
+                                                    .setResumeProcess(true);
 
-                                            if (!context.mounted) return;
-                                            await ref
-                                                .read(
-                                                  SwapFormProvider
-                                                      .swapForm.notifier,
-                                                )
-                                                .swap(context, ref);
-                                          },
-                                          failure: swap.failure,
+                                                if (!context.mounted) return;
+                                                await ref
+                                                    .read(
+                                                      SwapFormProvider
+                                                          .swapForm.notifier,
+                                                    )
+                                                    .swap(context, ref);
+                                              },
+                                              failure: swap.failure,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                           ),

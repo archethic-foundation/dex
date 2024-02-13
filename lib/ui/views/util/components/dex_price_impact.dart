@@ -30,10 +30,10 @@ class DexPriceImpact extends StatelessWidget {
                         )
                 : priceImpact > 1
                     ? textStyle?.copyWith(
-                          color: ArchethicThemeBase.systemWarning800,
+                          color: ArchethicThemeBase.systemWarning600,
                         ) ??
                         Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: ArchethicThemeBase.systemWarning800,
+                              color: ArchethicThemeBase.systemWarning600,
                             )
                     : textStyle ?? Theme.of(context).textTheme.bodyLarge,
           )
@@ -49,10 +49,10 @@ class DexPriceImpact extends StatelessWidget {
                         )
                 : priceImpact > 1
                     ? textStyle?.copyWith(
-                          color: ArchethicThemeBase.systemWarning800,
+                          color: ArchethicThemeBase.systemWarning600,
                         ) ??
                         Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: ArchethicThemeBase.systemWarning800,
+                              color: ArchethicThemeBase.systemWarning600,
                             )
                     : textStyle ?? Theme.of(context).textTheme.bodyLarge,
           ),
@@ -65,7 +65,7 @@ class DexPriceImpact extends StatelessWidget {
                 Icons.warning,
                 color: priceImpact > 5
                     ? ArchethicThemeBase.systemDanger500
-                    : ArchethicThemeBase.systemWarning800,
+                    : ArchethicThemeBase.systemWarning600,
                 size: 15,
               ),
             ),

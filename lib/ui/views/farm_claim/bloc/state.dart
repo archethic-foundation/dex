@@ -24,6 +24,7 @@ class FarmClaimFormState with _$FarmClaimFormState {
     @Default(false) bool walletConfirmation,
     Transaction? transactionClaimFarm,
     Failure? failure,
+    double? finalAmount,
   }) = _FarmClaimFormState;
   const FarmClaimFormState._();
 

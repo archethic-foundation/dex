@@ -25,6 +25,7 @@ class FarmWithdrawFormState with _$FarmWithdrawFormState {
     @Default(0.0) double amount,
     Transaction? transactionWithdrawFarm,
     Failure? failure,
+    double? finalAmount,
   }) = _FarmWithdrawFormState;
   const FarmWithdrawFormState._();
 

@@ -50,24 +50,10 @@ class PoolInfoCard extends ConsumerWidget {
             height: cardHeight,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(
-                colorFilter: ColorFilter.mode(
-                  ArchethicThemeBase.blue800,
-                  BlendMode.modulate,
-                ),
-                image: const AssetImage(
-                  'assets/images/background-sub-menu.png',
-                ),
-                fit: BoxFit.cover,
+              color: DexThemeBase.sheetBackgroundSecondary,
+              border: Border.all(
+                color: DexThemeBase.sheetBorderSecondary,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: ArchethicThemeBase.neutral900,
-                  blurRadius: 7,
-                  spreadRadius: 1,
-                  offset: const Offset(0, 5),
-                ),
-              ],
             ),
             child: Padding(
               padding: const EdgeInsets.only(

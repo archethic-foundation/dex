@@ -97,7 +97,6 @@ class ClaimFarmCase with TransactionDexMixin {
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
         ..setFarmClaimOk(true);
-      unawaited(refreshCurrentAccountInfoWallet());
     } catch (e) {
       sl.get<LogManager>().log(
             'TransactionFarmClaim sendTx failed $e',

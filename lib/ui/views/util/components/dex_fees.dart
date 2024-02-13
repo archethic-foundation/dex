@@ -24,7 +24,7 @@ class DexFees extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
-        color: ArchethicThemeBase.blue500,
+        color: ArchethicThemeBase.blue600,
         borderRadius: BorderRadius.circular(10),
       ),
       child: withLabel

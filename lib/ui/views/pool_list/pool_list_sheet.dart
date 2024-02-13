@@ -69,7 +69,7 @@ class PoolListSheet extends ConsumerWidget {
                       velocity: 0.5,
                       number: 100,
                       scale: 10,
-                      starColor: ArchethicThemeBase.blue500,
+                      starColor: ArchethicThemeBase.blue600,
                       backgroundDecoration: const BoxDecoration(
                         color: Colors.transparent,
                       ),
@@ -216,20 +216,18 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: DexThemeBase.backgroundPopupColor,
-                width: 0.5,
-              ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            elevation: 0,
-            color: Colors.black.withOpacity(0.4),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: DexThemeBase.sheetBackground,
+                  border: Border.all(
+                    color: DexThemeBase.sheetBorder,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Column(
                   children: [
                     Padding(
@@ -280,13 +278,15 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                 child: Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      color: DexThemeBase.backgroundPopupColor,
+                      color: ArchethicThemeBase.brightPurpleHoverBorder
+                          .withOpacity(1),
                       width: 0.5,
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   elevation: 0,
-                  color: ArchethicThemeBase.purple500,
+                  color: ArchethicThemeBase.brightPurpleHoverBackground
+                      .withOpacity(1),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       top: 7,
@@ -316,13 +316,15 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                   child: Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
-                        color: DexThemeBase.backgroundPopupColor,
+                        color: ArchethicThemeBase.brightPurpleHoverBorder
+                            .withOpacity(1),
                         width: 0.5,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 0,
-                    color: DexThemeBase.backgroundPopupColor,
+                    color: ArchethicThemeBase.brightPurpleHoverBackground
+                        .withOpacity(1),
                     child: Padding(
                       padding: const EdgeInsets.only(
                         top: 5,

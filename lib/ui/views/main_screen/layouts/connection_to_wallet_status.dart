@@ -64,7 +64,7 @@ class _ConnectionToWalletStatusState
           AppLocalizations.of(context)!.btn_connect_wallet,
           style: TextStyle(
             fontSize: 16,
-            color: ArchethicThemeBase.blue200,
+            color: ArchethicThemeBase.blue400,
           ),
         ),
       );

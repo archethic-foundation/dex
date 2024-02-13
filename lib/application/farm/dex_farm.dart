@@ -41,7 +41,7 @@ Future<DexFarm?> _getFarmInfos(
           );
 
   var apr = 0.0;
-  final estimateLPTokenInFiat = await ref.read(
+  final estimateLPTokenInFiat = await ref.watch(
     DexTokensProviders.estimateLPTokenInFiat(
       farmInfos.lpTokenPair!.token1,
       farmInfos.lpTokenPair!.token2,
@@ -49,10 +49,10 @@ Future<DexFarm?> _getFarmInfos(
       dexFarmInput.poolAddress,
     ).future,
   );
-  final now = (DateTime.now().toUtc().millisecondsSinceEpoch / 1000).truncate();
+  final now = DateTime.now().toUtc();
 
   final priceTokenInFiat =
-      ref.read(DexTokensProviders.estimateTokenInFiat(farmInfos.rewardToken!));
+      ref.watch(DexTokensProviders.estimateTokenInFiat(farmInfos.rewardToken!));
 
   final remainingRewardInFiat = (Decimal.parse('$priceTokenInFiat') *
           Decimal.parse('${farmInfos.remainingReward}'))
@@ -60,14 +60,19 @@ Future<DexFarm?> _getFarmInfos(
 
   if (remainingRewardInFiat > 0 &&
       estimateLPTokenInFiat > 0 &&
-      now < dexFarmInput.endDate) {
-    // 31 536 000 second in a year
-    final rewardScalledToYear =
-        remainingRewardInFiat * (31536000 / (dexFarmInput.endDate - now));
+      dexFarmInput.endDate != null &&
+      now.isBefore(dexFarmInput.endDate!)) {
+    final secondsUntilEnd = dexFarmInput.endDate!.difference(now).inSeconds;
 
-    apr = (Decimal.parse('$rewardScalledToYear') /
-            Decimal.parse('$estimateLPTokenInFiat'))
-        .toDouble();
+    if (secondsUntilEnd > 0) {
+      // 31 536 000 second in a year
+      final rewardScalledToYear =
+          remainingRewardInFiat * (31536000 / secondsUntilEnd);
+
+      apr = (Decimal.parse('$rewardScalledToYear') /
+              Decimal.parse('$estimateLPTokenInFiat'))
+          .toDouble();
+    }
   }
 
   return farmInfos.copyWith(

@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:ui';
+
 import 'package:aedex/application/preferences.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/version.dart';
@@ -48,13 +50,6 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: AppBar(
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            color: ArchethicThemeBase.neutral0.withOpacity(0.2),
-            height: 1,
-          ),
-        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const Header(),
@@ -66,6 +61,8 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
           ),
           MenuAnchor(
             style: MenuStyle(
+              elevation: MaterialStateProperty.all(0),
+              backgroundColor: MaterialStateProperty.all(Colors.black),
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),

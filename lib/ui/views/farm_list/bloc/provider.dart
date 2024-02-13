@@ -10,26 +10,29 @@ part 'provider.g.dart';
 @riverpod
 Future<DexFarmUserInfos> _userInfos(_UserInfosRef ref, DexFarm farm) async {
   final session = ref.watch(SessionProviders.session);
+
   final userInfos = await ref.watch(
     DexFarmProviders.getUserInfos(
       farm.farmAddress,
       session.genesisAddress,
     ).future,
   );
-
+  print('FarmListProvider userInfos $userInfos');
   return userInfos!;
 }
 
 @riverpod
-Future<double> _balance(_BalanceRef ref, DexFarm farm) async {
+Future<double> _balance(_BalanceRef ref, String? lpTokenAddress) async {
   final session = ref.watch(SessionProviders.session);
-
-  return ref.watch(
+  final balance = await ref.watch(
     BalanceProviders.getBalance(
       session.genesisAddress,
-      farm.lpToken!.isUCO ? 'UCO' : farm.lpToken!.address!,
+      lpTokenAddress == 'UCO' || lpTokenAddress == null
+          ? 'UCO'
+          : lpTokenAddress,
     ).future,
   );
+  return balance;
 }
 
 class FarmListProvider {

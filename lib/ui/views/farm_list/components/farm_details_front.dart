@@ -119,48 +119,50 @@ class FarmDetailsFront extends ConsumerWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (farm.startDate.dateTime.isAfter(DateTime.now()))
+                  if (farm.startDate != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (farm.startDate!.isAfter(DateTime.now()))
+                          SelectableText(
+                            'Farm will start at',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          )
+                        else
+                          SelectableText(
+                            'Farm started since',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                         SelectableText(
-                          'Farm will start at',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        )
-                      else
-                        SelectableText(
-                          'Farm started since',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      SelectableText(
-                        DateFormat.yMd(
-                          Localizations.localeOf(context).languageCode,
-                        ).add_Hm().format(farm.startDate.dateTime.toLocal()),
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (farm.endDate.dateTime.isAfter(DateTime.now()))
-                        SelectableText(
-                          'Farm ends at',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        )
-                      else
-                        SelectableText(
-                          'Farm ended',
+                          DateFormat.yMd(
+                            Localizations.localeOf(context).languageCode,
+                          ).add_Hm().format(farm.startDate!.toLocal()),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                      SelectableText(
-                        DateFormat.yMd(
-                          Localizations.localeOf(context).languageCode,
-                        ).add_Hm().format(farm.endDate.dateTime.toLocal()),
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  if (farm.endDate != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (farm.endDate!.isAfter(DateTime.now()))
+                          SelectableText(
+                            'Farm ends at',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          )
+                        else
+                          SelectableText(
+                            'Farm ended',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        SelectableText(
+                          DateFormat.yMd(
+                            Localizations.localeOf(context).languageCode,
+                          ).add_Hm().format(farm.endDate!.toLocal()),
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
                   const SizedBox(
                     height: 9,
                   ),

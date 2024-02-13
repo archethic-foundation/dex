@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/popup_close_button.dart';
 import 'package:flutter/material.dart';
@@ -31,21 +33,26 @@ class PopupTemplate extends StatelessWidget {
               elevation: 0,
               content: Stack(
                 children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(top: 30, right: 15, left: 8),
-                    padding: const EdgeInsets.all(20),
-                    height: popupHeight,
-                    width: DexThemeBase.sizeBoxComponentWidth,
-                    decoration: BoxDecoration(
-                      color: DexThemeBase.backgroundPopupColor,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black26,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        margin:
+                            const EdgeInsets.only(top: 30, right: 15, left: 8),
+                        padding: const EdgeInsets.all(20),
+                        height: popupHeight,
+                        width: DexThemeBase.sizeBoxComponentWidth,
+                        decoration: BoxDecoration(
+                          color: DexThemeBase.sheetBackground,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: DexThemeBase.sheetBorder,
+                          ),
                         ),
-                      ],
+                        child: popupContent,
+                      ),
                     ),
-                    child: popupContent,
                   ),
                   Positioned(
                     child: Padding(

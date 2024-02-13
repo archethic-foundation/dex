@@ -28,6 +28,7 @@ mixin _$FarmDepositFormState {
   Transaction? get transactionDepositFarm => throw _privateConstructorUsedError;
   double get lpTokenBalance => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
+  double? get finalAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FarmDepositFormStateCopyWith<FarmDepositFormState> get copyWith =>
@@ -51,7 +52,8 @@ abstract class $FarmDepositFormStateCopyWith<$Res> {
       double amount,
       Transaction? transactionDepositFarm,
       double lpTokenBalance,
-      Failure? failure});
+      Failure? failure,
+      double? finalAmount});
 
   $DexFarmCopyWith<$Res>? get dexFarmInfo;
   $TransactionCopyWith<$Res>? get transactionDepositFarm;
@@ -83,6 +85,7 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
     Object? transactionDepositFarm = freezed,
     Object? lpTokenBalance = null,
     Object? failure = freezed,
+    Object? finalAmount = freezed,
   }) {
     return _then(_value.copyWith(
       farmDepositProcessStep: null == farmDepositProcessStep
@@ -129,6 +132,10 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      finalAmount: freezed == finalAmount
+          ? _value.finalAmount
+          : finalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -188,7 +195,8 @@ abstract class _$$FarmDepositFormStateImplCopyWith<$Res>
       double amount,
       Transaction? transactionDepositFarm,
       double lpTokenBalance,
-      Failure? failure});
+      Failure? failure,
+      double? finalAmount});
 
   @override
   $DexFarmCopyWith<$Res>? get dexFarmInfo;
@@ -220,6 +228,7 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
     Object? transactionDepositFarm = freezed,
     Object? lpTokenBalance = null,
     Object? failure = freezed,
+    Object? finalAmount = freezed,
   }) {
     return _then(_$FarmDepositFormStateImpl(
       farmDepositProcessStep: null == farmDepositProcessStep
@@ -266,6 +275,10 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      finalAmount: freezed == finalAmount
+          ? _value.finalAmount
+          : finalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -284,7 +297,8 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
       this.amount = 0.0,
       this.transactionDepositFarm,
       this.lpTokenBalance = 0.0,
-      this.failure})
+      this.failure,
+      this.finalAmount})
       : super._();
 
   @override
@@ -317,10 +331,12 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
   final double lpTokenBalance;
   @override
   final Failure? failure;
+  @override
+  final double? finalAmount;
 
   @override
   String toString() {
-    return 'FarmDepositFormState(farmDepositProcessStep: $farmDepositProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfo: $dexFarmInfo, isProcessInProgress: $isProcessInProgress, farmDepositOk: $farmDepositOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionDepositFarm: $transactionDepositFarm, lpTokenBalance: $lpTokenBalance, failure: $failure)';
+    return 'FarmDepositFormState(farmDepositProcessStep: $farmDepositProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfo: $dexFarmInfo, isProcessInProgress: $isProcessInProgress, farmDepositOk: $farmDepositOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionDepositFarm: $transactionDepositFarm, lpTokenBalance: $lpTokenBalance, failure: $failure, finalAmount: $finalAmount)';
   }
 
   @override
@@ -347,7 +363,9 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
                 other.transactionDepositFarm == transactionDepositFarm) &&
             (identical(other.lpTokenBalance, lpTokenBalance) ||
                 other.lpTokenBalance == lpTokenBalance) &&
-            (identical(other.failure, failure) || other.failure == failure));
+            (identical(other.failure, failure) || other.failure == failure) &&
+            (identical(other.finalAmount, finalAmount) ||
+                other.finalAmount == finalAmount));
   }
 
   @override
@@ -363,7 +381,8 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
       amount,
       transactionDepositFarm,
       lpTokenBalance,
-      failure);
+      failure,
+      finalAmount);
 
   @JsonKey(ignore: true)
   @override
@@ -386,7 +405,8 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
       final double amount,
       final Transaction? transactionDepositFarm,
       final double lpTokenBalance,
-      final Failure? failure}) = _$FarmDepositFormStateImpl;
+      final Failure? failure,
+      final double? finalAmount}) = _$FarmDepositFormStateImpl;
   const _FarmDepositFormState._() : super._();
 
   @override
@@ -411,6 +431,8 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
   double get lpTokenBalance;
   @override
   Failure? get failure;
+  @override
+  double? get finalAmount;
   @override
   @JsonKey(ignore: true)
   _$$FarmDepositFormStateImplCopyWith<_$FarmDepositFormStateImpl>

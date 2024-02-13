@@ -29,7 +29,7 @@ class LiquidityFavoriteIcon extends ConsumerWidget {
             message: 'Favorite pool',
             child: Icon(
               Iconsax.star,
-              color: ArchethicThemeBase.systemWarning800,
+              color: ArchethicThemeBase.systemWarning600,
               size: iconSize,
             ),
           ),

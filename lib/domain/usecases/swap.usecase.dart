@@ -137,8 +137,6 @@ class SwapCase with TransactionDexMixin {
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
         ..setSwapOk(true);
-
-      unawaited(refreshCurrentAccountInfoWallet());
     } catch (e) {
       sl.get<LogManager>().log(
             'TransactionSwap sendTx failed $e ($transactionSwap)',

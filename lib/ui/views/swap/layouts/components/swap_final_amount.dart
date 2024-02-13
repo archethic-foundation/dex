@@ -29,7 +29,11 @@ class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
-        final amount = await getAmountFromTxInput(widget.address);
+        final swap = ref.read(SwapFormProvider.swapForm);
+        final amount = await getAmountFromTxInput(
+          widget.address,
+          swap.tokenSwapped!.address,
+        );
         if (amount > 0) {
           setState(() {
             finalAmount = amount;

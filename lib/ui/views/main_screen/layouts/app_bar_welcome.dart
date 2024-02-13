@@ -1,4 +1,3 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
 import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +23,6 @@ class _AppBarWelcomeState extends ConsumerState<AppBarWelcome> {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: AppBar(
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            color: ArchethicThemeBase.neutral0.withOpacity(0.2),
-            height: 1,
-          ),
-        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const Header(withMenu: false),

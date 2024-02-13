@@ -49,7 +49,7 @@ class TokenList extends ConsumerWidget {
                         Text(
                           AppLocalizations.of(context)!
                               .token_selection_get_tokens_from_wallet,
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         const SizedBox(width: 10),
                         const SizedBox(

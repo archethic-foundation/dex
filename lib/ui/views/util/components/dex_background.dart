@@ -79,7 +79,7 @@ class DexBackground extends StatelessWidget {
               velocity: 0.5,
               number: 100,
               scale: 10,
-              starColor: ArchethicThemeBase.blue500,
+              starColor: ArchethicThemeBase.blue600,
               backgroundDecoration: const BoxDecoration(
                 color: Colors.transparent,
               ),
