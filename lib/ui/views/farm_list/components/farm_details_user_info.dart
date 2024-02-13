@@ -6,7 +6,6 @@ import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_list/components/loading_field_indicator.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
@@ -53,7 +52,21 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                     ).textTheme.bodyLarge,
                   ),
                   if (userInfos == null)
-                    const LoadingFieldIndicator()
+                    const Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 0.5,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                          width: 20,
+                        ),
+                      ],
+                    )
                   else
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -92,7 +105,21 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                     ).textTheme.bodyLarge,
                   ),
                   if (userInfos == null)
-                    const LoadingFieldIndicator()
+                    const Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 0.5,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                          width: 20,
+                        ),
+                      ],
+                    )
                   else
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,

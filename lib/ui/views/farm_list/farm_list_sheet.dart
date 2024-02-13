@@ -96,9 +96,9 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: DexThemeBase.sheetBackgroundTertiary,
+                  color: DexThemeBase.sheetBackground,
                   border: Border.all(
-                    color: DexThemeBase.sheetBorderTertiary,
+                    color: DexThemeBase.sheetBorder,
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),

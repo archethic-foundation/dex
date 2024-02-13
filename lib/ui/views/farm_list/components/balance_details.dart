@@ -32,7 +32,21 @@ class _BalanceDetails extends ConsumerWidget {
                         ).textTheme.bodyLarge,
                       ),
                       if (balance == null)
-                        const LoadingFieldIndicator()
+                        const Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 0.5,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 25,
+                              width: 20,
+                            ),
+                          ],
+                        )
                       else
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
