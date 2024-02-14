@@ -14,7 +14,7 @@ class DexThemeBase {
   static Color halfButtonColor = ArchethicThemeBase.raspberry300;
   static Color backgroundPopupColor = ArchethicThemeBase.purple500;
 
-  static Color statusOK = ArchethicThemeBase.systemPositive500;
+  static Color statusOK = ArchethicThemeBase.systemPositive600;
   static Color statusKO = ArchethicThemeBase.systemDanger600;
   static Color statusInProgress = ArchethicThemeBase.raspberry300;
 

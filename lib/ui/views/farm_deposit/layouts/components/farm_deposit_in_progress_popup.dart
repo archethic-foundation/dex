@@ -1,14 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'dart:ui';
-
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_final_amount.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
@@ -19,6 +18,7 @@ import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FarmDepositInProgressPopup {
   static Future<void> getDialog(
@@ -196,11 +196,11 @@ class FarmDepositInProgressPopup {
                                   ..setWalletConfirmation(false);
                                 ref
                                     .read(
-                                      MainScreenWidgetDisplayedProviders
-                                          .mainScreenWidgetDisplayedProvider
+                                      navigationIndexMainScreenProvider
                                           .notifier,
                                     )
-                                    .setWidget(const FarmListSheet(), ref);
+                                    .state = 2;
+                                context.go(FarmListSheet.routerPage);
                               },
                             ),
                           ),

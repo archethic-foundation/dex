@@ -1,9 +1,9 @@
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
@@ -15,6 +15,7 @@ import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PoolDetailsFront extends ConsumerWidget {
   const PoolDetailsFront({
@@ -290,16 +291,16 @@ class PoolDetailsFront extends ConsumerWidget {
                     onPressed: () {
                       ref
                           .read(
-                            MainScreenWidgetDisplayedProviders
-                                .mainScreenWidgetDisplayedProvider.notifier,
+                            navigationIndexMainScreenProvider.notifier,
                           )
-                          .setWidget(
-                            SwapSheet(
-                              tokenToSwap: pool.pair.token1,
-                              tokenSwapped: pool.pair.token2,
-                            ),
-                            ref,
-                          );
+                          .state = 0;
+                      context.go(
+                        SwapSheet.routerPage,
+                        extra: {
+                          'tokenToSwap': pool.pair.token1,
+                          'tokenSwapped': pool.pair.token2,
+                        },
+                      );
                     },
                   ),
                   const SizedBox(
@@ -315,17 +316,16 @@ class PoolDetailsFront extends ConsumerWidget {
                           onPressed: () {
                             ref
                                 .read(
-                                  MainScreenWidgetDisplayedProviders
-                                      .mainScreenWidgetDisplayedProvider
-                                      .notifier,
+                                  navigationIndexMainScreenProvider.notifier,
                                 )
-                                .setWidget(
-                                  LiquidityAddSheet(
-                                    pool: pool,
-                                    pair: pool.pair,
-                                  ),
-                                  ref,
-                                );
+                                .state = 1;
+                            context.go(
+                              LiquidityAddSheet.routerPage,
+                              extra: {
+                                'pool': pool,
+                                'pair': pool.pair,
+                              },
+                            );
                           },
                         ),
                       ),
@@ -337,18 +337,17 @@ class PoolDetailsFront extends ConsumerWidget {
                           onPressed: () {
                             ref
                                 .read(
-                                  MainScreenWidgetDisplayedProviders
-                                      .mainScreenWidgetDisplayedProvider
-                                      .notifier,
+                                  navigationIndexMainScreenProvider.notifier,
                                 )
-                                .setWidget(
-                                  LiquidityRemoveSheet(
-                                    pool: pool,
-                                    lpToken: pool.lpToken,
-                                    pair: pool.pair,
-                                  ),
-                                  ref,
-                                );
+                                .state = 1;
+                            context.go(
+                              LiquidityRemoveSheet.routerPage,
+                              extra: {
+                                'pool': pool,
+                                'lpToken': pool.lpToken,
+                                'pair': pool.pair,
+                              },
+                            );
                           },
                         ),
                       ),

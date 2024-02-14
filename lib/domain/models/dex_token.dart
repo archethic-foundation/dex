@@ -3,6 +3,7 @@ import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dex_token.freezed.dart';
+part 'dex_token.g.dart';
 
 @freezed
 class DexToken with _$DexToken {
@@ -19,6 +20,9 @@ class DexToken with _$DexToken {
     DexPair? lpTokenPair,
   }) = _DexToken;
   const DexToken._();
+
+  factory DexToken.fromJson(Map<String, dynamic> json) =>
+      _$DexTokenFromJson(json);
 
   bool get isUCO => symbol == 'UCO' && (address == null || address! == 'UCO');
 }

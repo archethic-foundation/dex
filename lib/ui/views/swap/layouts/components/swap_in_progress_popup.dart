@@ -2,9 +2,9 @@
 
 import 'dart:ui';
 
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_final_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_tx_addresses.dart';
@@ -19,6 +19,7 @@ import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SwapInProgressPopup {
   static Future<void> getDialog(
@@ -181,11 +182,11 @@ class SwapInProgressPopup {
                                 );
                                 ref
                                     .read(
-                                      MainScreenWidgetDisplayedProviders
-                                          .mainScreenWidgetDisplayedProvider
+                                      navigationIndexMainScreenProvider
                                           .notifier,
                                     )
-                                    .setWidget(const SwapSheet(), ref);
+                                    .state = 0;
+                                context.go(SwapSheet.routerPage);
                               },
                             ),
                           ),

@@ -1,5 +1,5 @@
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PoolAddFormSheet extends ConsumerWidget {
   const PoolAddFormSheet({
@@ -95,14 +96,9 @@ class PoolAddFormSheet extends ConsumerWidget {
                       DexButtonClose(
                         onPressed: () {
                           ref
-                              .read(
-                                MainScreenWidgetDisplayedProviders
-                                    .mainScreenWidgetDisplayedProvider.notifier,
-                              )
-                              .setWidget(
-                                const PoolListSheet(),
-                                ref,
-                              );
+                              .read(navigationIndexMainScreenProvider.notifier)
+                              .state = 1;
+                          context.go(PoolListSheet.routerPage);
                         },
                       ),
                     ],

@@ -1,4 +1,4 @@
-import 'package:aedex/ui/views/util/router.dart';
+import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -44,9 +44,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                 ),
                 onPressed: () {
                   if (!context.mounted) return;
-                  context.go(
-                    RoutesPath().main(),
-                  );
+                  context.go(SwapSheet.routerPage, extra: <String, dynamic>{});
                 },
                 child: Container(
                   alignment: Alignment.center,

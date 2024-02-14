@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_sheet.dart';
@@ -21,6 +22,8 @@ class SwapSheet extends ConsumerStatefulWidget {
 
   final DexToken? tokenToSwap;
   final DexToken? tokenSwapped;
+
+  static const routerPage = '/swap';
 
   @override
   ConsumerState<SwapSheet> createState() => _SwapSheetState();
@@ -41,55 +44,61 @@ class _SwapSheetState extends ConsumerState<SwapSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
-    return Align(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            width: 650,
-            decoration: BoxDecoration(
-              color: DexThemeBase.sheetBackground,
-              border: Border.all(
-                color: DexThemeBase.sheetBorder,
-              ),
-              borderRadius: BorderRadius.circular(20),
+    return MainScreen(
+      body: _body(context, ref),
+    );
+  }
+}
+
+Widget _body(BuildContext context, WidgetRef ref) {
+  final swap = ref.watch(SwapFormProvider.swapForm);
+  return Align(
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          width: 650,
+          decoration: BoxDecoration(
+            color: DexThemeBase.sheetBackground,
+            border: Border.all(
+              color: DexThemeBase.sheetBorder,
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 30,
-                right: 30,
-                top: 11,
-                bottom: 5,
-              ),
-              child: LayoutBuilder(
-                builder: (context, constraint) {
-                  return ArchethicScrollbar(
-                    child: Container(
-                      constraints: BoxConstraints(
-                        minHeight: 100,
-                        maxHeight: constraint.maxHeight,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: [
-                            if (swap.swapProcessStep == SwapProcessStep.form)
-                              const SwapFormSheet()
-                            else
-                              const SwapConfirmSheet(),
-                            const DexArchethicOracleUco(),
-                          ],
-                        ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+              top: 11,
+              bottom: 5,
+            ),
+            child: LayoutBuilder(
+              builder: (context, constraint) {
+                return ArchethicScrollbar(
+                  child: Container(
+                    constraints: BoxConstraints(
+                      minHeight: 100,
+                      maxHeight: constraint.maxHeight,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          if (swap.swapProcessStep == SwapProcessStep.form)
+                            const SwapFormSheet()
+                          else
+                            const SwapConfirmSheet(),
+                          const DexArchethicOracleUco(),
+                        ],
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }

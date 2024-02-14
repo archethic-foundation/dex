@@ -1,12 +1,11 @@
 import 'dart:ui';
-
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class BottomNavigationBarMainScreen extends ConsumerStatefulWidget {
   const BottomNavigationBarMainScreen({
@@ -43,41 +42,22 @@ class _BottomNavigationBarMainScreenState
               .toList(),
           currentIndex: widget.navDrawerIndex,
           onTap: (int selectedIndex) {
-            setState(() {
-              ref.read(navigationIndexMainScreenProvider.notifier).state =
-                  selectedIndex;
-            });
+            ref
+                .read(
+                  navigationIndexMainScreenProvider.notifier,
+                )
+                .state = selectedIndex;
 
             switch (selectedIndex) {
               case 0:
-                ref
-                    .read(
-                      MainScreenWidgetDisplayedProviders
-                          .mainScreenWidgetDisplayedProvider.notifier,
-                    )
-                    .setWidget(const SwapSheet(), ref);
-
+                context.go(SwapSheet.routerPage, extra: <String, dynamic>{});
                 break;
               case 1:
-                ref
-                    .read(
-                      MainScreenWidgetDisplayedProviders
-                          .mainScreenWidgetDisplayedProvider.notifier,
-                    )
-                    .setWidget(const PoolListSheet(), ref);
-
+                context.go(PoolListSheet.routerPage);
                 break;
-
               case 2:
-                ref
-                    .read(
-                      MainScreenWidgetDisplayedProviders
-                          .mainScreenWidgetDisplayedProvider.notifier,
-                    )
-                    .setWidget(const FarmListSheet(), ref);
-
+                context.go(FarmListSheet.routerPage);
                 break;
-
               default:
                 break;
             }

@@ -1,5 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
@@ -10,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class Header extends ConsumerWidget {
   const Header({
@@ -70,12 +69,10 @@ class Header extends ConsumerWidget {
                         ref
                             .read(navigationIndexMainScreenProvider.notifier)
                             .state = 0;
-                        ref
-                            .read(
-                              MainScreenWidgetDisplayedProviders
-                                  .mainScreenWidgetDisplayedProvider.notifier,
-                            )
-                            .setWidget(const SwapSheet(), ref);
+                        context.go(
+                          SwapSheet.routerPage,
+                          extra: <String, dynamic>{},
+                        );
                       },
                       child: Text(
                         AppLocalizations.of(context)!.menu_swap,
@@ -109,12 +106,7 @@ class Header extends ConsumerWidget {
                         ref
                             .read(navigationIndexMainScreenProvider.notifier)
                             .state = 1;
-                        ref
-                            .read(
-                              MainScreenWidgetDisplayedProviders
-                                  .mainScreenWidgetDisplayedProvider.notifier,
-                            )
-                            .setWidget(const PoolListSheet(), ref);
+                        context.go(PoolListSheet.routerPage);
                       },
                       child: Text(
                         AppLocalizations.of(context)!.menu_liquidity,
@@ -148,12 +140,7 @@ class Header extends ConsumerWidget {
                         ref
                             .read(navigationIndexMainScreenProvider.notifier)
                             .state = 2;
-                        ref
-                            .read(
-                              MainScreenWidgetDisplayedProviders
-                                  .mainScreenWidgetDisplayedProvider.notifier,
-                            )
-                            .setWidget(const FarmListSheet(), ref);
+                        context.go(FarmListSheet.routerPage);
                       },
                       child: Text(
                         AppLocalizations.of(context)!.menu_farm,

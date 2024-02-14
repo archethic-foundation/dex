@@ -12,7 +12,11 @@ part of 'dex_token.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+DexToken _$DexTokenFromJson(Map<String, dynamic> json) {
+  return _DexToken.fromJson(json);
+}
 
 /// @nodoc
 mixin _$DexToken {
@@ -27,6 +31,7 @@ mixin _$DexToken {
   bool get isLpToken => throw _privateConstructorUsedError;
   DexPair? get lpTokenPair => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DexTokenCopyWith<DexToken> get copyWith =>
       throw _privateConstructorUsedError;
@@ -225,7 +230,7 @@ class __$$DexTokenImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$DexTokenImpl extends _DexToken {
   const _$DexTokenImpl(
       {this.name = '',
@@ -239,6 +244,9 @@ class _$DexTokenImpl extends _DexToken {
       this.isLpToken = false,
       this.lpTokenPair})
       : super._();
+
+  factory _$DexTokenImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DexTokenImplFromJson(json);
 
   @override
   @JsonKey()
@@ -293,6 +301,7 @@ class _$DexTokenImpl extends _DexToken {
                 other.lpTokenPair == lpTokenPair));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, name, address, icon, symbol,
       balance, reserve, supply, isVerified, isLpToken, lpTokenPair);
@@ -302,6 +311,13 @@ class _$DexTokenImpl extends _DexToken {
   @pragma('vm:prefer-inline')
   _$$DexTokenImplCopyWith<_$DexTokenImpl> get copyWith =>
       __$$DexTokenImplCopyWithImpl<_$DexTokenImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DexTokenImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _DexToken extends DexToken {
@@ -317,6 +333,9 @@ abstract class _DexToken extends DexToken {
       final bool isLpToken,
       final DexPair? lpTokenPair}) = _$DexTokenImpl;
   const _DexToken._() : super._();
+
+  factory _DexToken.fromJson(Map<String, dynamic> json) =
+      _$DexTokenImpl.fromJson;
 
   @override
   String get name;

@@ -12,13 +12,18 @@ part of 'dex_pair.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+DexPair _$DexPairFromJson(Map<String, dynamic> json) {
+  return _DexPair.fromJson(json);
+}
 
 /// @nodoc
 mixin _$DexPair {
   DexToken get token1 => throw _privateConstructorUsedError;
   DexToken get token2 => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DexPairCopyWith<DexPair> get copyWith => throw _privateConstructorUsedError;
 }
@@ -122,9 +127,12 @@ class __$$DexPairImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$DexPairImpl implements _DexPair {
   const _$DexPairImpl({required this.token1, required this.token2});
+
+  factory _$DexPairImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DexPairImplFromJson(json);
 
   @override
   final DexToken token1;
@@ -145,6 +153,7 @@ class _$DexPairImpl implements _DexPair {
             (identical(other.token2, token2) || other.token2 == token2));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, token1, token2);
 
@@ -153,12 +162,21 @@ class _$DexPairImpl implements _DexPair {
   @pragma('vm:prefer-inline')
   _$$DexPairImplCopyWith<_$DexPairImpl> get copyWith =>
       __$$DexPairImplCopyWithImpl<_$DexPairImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DexPairImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _DexPair implements DexPair {
   const factory _DexPair(
       {required final DexToken token1,
       required final DexToken token2}) = _$DexPairImpl;
+
+  factory _DexPair.fromJson(Map<String, dynamic> json) = _$DexPairImpl.fromJson;
 
   @override
   DexToken get token1;
