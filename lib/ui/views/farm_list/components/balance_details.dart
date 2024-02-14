@@ -89,17 +89,8 @@ class _BalanceDetails extends ConsumerWidget {
                   controlOk: balance != null && balance > 0,
                   labelBtn: 'Deposit LP Tokens',
                   onPressed: () {
-                    ref
-                        .read(
-                          MainScreenWidgetDisplayedProviders
-                              .mainScreenWidgetDisplayedProvider.notifier,
-                        )
-                        .setWidget(
-                          FarmDepositSheet(
-                            farm: farm,
-                          ),
-                          ref,
-                        );
+                    context
+                        .go(FarmDepositSheet.routerPage, extra: {'farm': farm});
                   },
                   displayWalletConnect: true,
                 ),
@@ -114,17 +105,12 @@ class _BalanceDetails extends ConsumerWidget {
                         controlOk: farm.lpTokenDeposited > 0,
                         labelBtn: 'Withdraw',
                         onPressed: () {
-                          ref
-                              .read(
-                                MainScreenWidgetDisplayedProviders
-                                    .mainScreenWidgetDisplayedProvider.notifier,
-                              )
-                              .setWidget(
-                                FarmWithdrawSheet(
-                                  farm: farm,
-                                ),
-                                ref,
-                              );
+                          context.go(
+                            FarmWithdrawSheet.routerPage,
+                            extra: {
+                              'farm': farm,
+                            },
+                          );
                         },
                       ),
                     ),
@@ -134,21 +120,17 @@ class _BalanceDetails extends ConsumerWidget {
                         controlOk: true,
                         labelBtn: 'Claim',
                         onPressed: () async {
-                          final farmUserInfos = await ref
+                          final farmUserInfo = await ref
                               .read(FarmListProvider.userInfos(farm).future);
-
-                          ref
-                              .read(
-                                MainScreenWidgetDisplayedProviders
-                                    .mainScreenWidgetDisplayedProvider.notifier,
-                              )
-                              .setWidget(
-                                FarmClaimSheet(
-                                  farmUserInfo: farmUserInfos,
-                                  farm: farm,
-                                ),
-                                ref,
-                              );
+                          if (context.mounted) {
+                            context.go(
+                              FarmClaimSheet.routerPage,
+                              extra: {
+                                'farmUserInfo': farmUserInfo,
+                                'farm': farm,
+                              },
+                            );
+                          }
                         },
                       ),
                     ),

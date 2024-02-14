@@ -1,5 +1,5 @@
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/models/failures.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_infos.dart';
@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SwapFormSheet extends ConsumerWidget {
   const SwapFormSheet({super.key});
@@ -61,17 +62,16 @@ class SwapFormSheet extends ConsumerWidget {
                           onPressed: () {
                             ref
                                 .read(
-                                  MainScreenWidgetDisplayedProviders
-                                      .mainScreenWidgetDisplayedProvider
-                                      .notifier,
+                                  navigationIndexMainScreenProvider.notifier,
                                 )
-                                .setWidget(
-                                  PoolAddSheet(
-                                    token1: swap.tokenToSwap,
-                                    token2: swap.tokenSwapped,
-                                  ),
-                                  ref,
-                                );
+                                .state = 1;
+                            context.go(
+                              PoolAddSheet.routerPage,
+                              extra: {
+                                'token1': swap.tokenToSwap,
+                                'token2': swap.tokenSwapped,
+                              },
+                            );
                           },
                           icon: const Icon(Icons.add),
                         ),

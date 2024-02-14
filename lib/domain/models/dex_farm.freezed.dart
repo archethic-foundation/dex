@@ -12,7 +12,11 @@ part of 'dex_farm.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+DexFarm _$DexFarmFromJson(Map<String, dynamic> json) {
+  return _DexFarm.fromJson(json);
+}
 
 /// @nodoc
 mixin _$DexFarm {
@@ -31,6 +35,7 @@ mixin _$DexFarm {
   double get estimateLPTokenInFiat => throw _privateConstructorUsedError;
   double get statsRewardDistributed => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DexFarmCopyWith<DexFarm> get copyWith => throw _privateConstructorUsedError;
 }
@@ -305,7 +310,7 @@ class __$$DexFarmImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$DexFarmImpl extends _DexFarm {
   const _$DexFarmImpl(
       {this.farmAddress = '',
@@ -323,6 +328,9 @@ class _$DexFarmImpl extends _DexFarm {
       this.estimateLPTokenInFiat = 0,
       this.statsRewardDistributed = 0.0})
       : super._();
+
+  factory _$DexFarmImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DexFarmImplFromJson(json);
 
   @override
   @JsonKey()
@@ -399,6 +407,7 @@ class _$DexFarmImpl extends _DexFarm {
                 other.statsRewardDistributed == statsRewardDistributed));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -422,6 +431,13 @@ class _$DexFarmImpl extends _DexFarm {
   @pragma('vm:prefer-inline')
   _$$DexFarmImplCopyWith<_$DexFarmImpl> get copyWith =>
       __$$DexFarmImplCopyWithImpl<_$DexFarmImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DexFarmImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _DexFarm extends DexFarm {
@@ -441,6 +457,8 @@ abstract class _DexFarm extends DexFarm {
       final double estimateLPTokenInFiat,
       final double statsRewardDistributed}) = _$DexFarmImpl;
   const _DexFarm._() : super._();
+
+  factory _DexFarm.fromJson(Map<String, dynamic> json) = _$DexFarmImpl.fromJson;
 
   @override
   String get farmAddress;

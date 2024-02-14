@@ -2,11 +2,11 @@
 
 import 'dart:ui';
 
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_tx_addresses.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
@@ -18,6 +18,7 @@ import 'package:aedex/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LiquidityRemoveInProgressPopup {
   static Future<void> getDialog(
@@ -185,11 +186,11 @@ class LiquidityRemoveInProgressPopup {
                                   ..setWalletConfirmation(false);
                                 ref
                                     .read(
-                                      MainScreenWidgetDisplayedProviders
-                                          .mainScreenWidgetDisplayedProvider
+                                      navigationIndexMainScreenProvider
                                           .notifier,
                                     )
-                                    .setWidget(const PoolListSheet(), ref);
+                                    .state = 1;
+                                context.go(PoolListSheet.routerPage);
                               },
                             ),
                           ),

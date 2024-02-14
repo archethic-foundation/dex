@@ -4,6 +4,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dex_farm.freezed.dart';
+part 'dex_farm.g.dart';
 
 @freezed
 class DexFarm with _$DexFarm {
@@ -24,6 +25,9 @@ class DexFarm with _$DexFarm {
     @Default(0.0) double statsRewardDistributed,
   }) = _DexFarm;
   const DexFarm._();
+
+  factory DexFarm.fromJson(Map<String, dynamic> json) =>
+      _$DexFarmFromJson(json);
 }
 
 extension TimestampExt on int {

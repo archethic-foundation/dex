@@ -1,4 +1,5 @@
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/infrastructure/hive/dex_pair.hive.dart';
 import 'package:aedex/infrastructure/hive/dex_token.hive.dart';

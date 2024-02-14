@@ -1,10 +1,10 @@
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_icon_settings.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_infos.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
@@ -16,6 +16,7 @@ import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LiquidityAddFormSheet extends ConsumerWidget {
   const LiquidityAddFormSheet({
@@ -230,14 +231,11 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                               onPressed: () {
                                 ref
                                     .read(
-                                      MainScreenWidgetDisplayedProviders
-                                          .mainScreenWidgetDisplayedProvider
+                                      navigationIndexMainScreenProvider
                                           .notifier,
                                     )
-                                    .setWidget(
-                                      const PoolListSheet(),
-                                      ref,
-                                    );
+                                    .state = 1;
+                                context.go(PoolListSheet.routerPage);
                               },
                             ),
                           ),

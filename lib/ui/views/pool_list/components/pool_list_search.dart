@@ -1,5 +1,5 @@
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search_bar.dart';
@@ -8,6 +8,7 @@ import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
+import 'package:go_router/go_router.dart';
 
 class PoolListSearch extends ConsumerStatefulWidget {
   const PoolListSearch({
@@ -90,10 +91,13 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
             onPressed: () {
               ref
                   .read(
-                    MainScreenWidgetDisplayedProviders
-                        .mainScreenWidgetDisplayedProvider.notifier,
+                    navigationIndexMainScreenProvider.notifier,
                   )
-                  .setWidget(const PoolAddSheet(), ref);
+                  .state = 1;
+              context.go(
+                PoolAddSheet.routerPage,
+                extra: <String, dynamic>{},
+              );
             },
             fontSize: 12,
             height: 30,

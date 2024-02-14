@@ -1,8 +1,8 @@
-import 'package:aedex/application/main_screen_widget_displayed.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LiquidityRemoveFormSheet extends ConsumerWidget {
   const LiquidityRemoveFormSheet({
@@ -104,14 +105,11 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                               onPressed: () {
                                 ref
                                     .read(
-                                      MainScreenWidgetDisplayedProviders
-                                          .mainScreenWidgetDisplayedProvider
+                                      navigationIndexMainScreenProvider
                                           .notifier,
                                     )
-                                    .setWidget(
-                                      const PoolListSheet(),
-                                      ref,
-                                    );
+                                    .state = 1;
+                                context.go(PoolListSheet.routerPage);
                               },
                             ),
                           ),

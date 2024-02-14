@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/util/components/app_button.dart';
-import 'package:aedex/ui/views/util/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,7 +40,7 @@ class WelcomeConnectWalletBtnState
         } else {
           if (!context.mounted) return;
           context.go(
-            RoutesPath().main(),
+            '/',
           );
         }
       },

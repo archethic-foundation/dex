@@ -5,7 +5,6 @@ import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/app_bar.dart';
-import 'package:aedex/ui/views/main_screen/layouts/body.dart';
 import 'package:aedex/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/browser_popup.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
@@ -17,11 +16,14 @@ import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({required this.body, super.key});
+
+  final Widget body;
   @override
   ConsumerState<MainScreen> createState() => MainScreenState();
 }
@@ -110,10 +112,14 @@ class MainScreenState extends ConsumerState<MainScreen> {
               alignment: Alignment.center,
               children: [
                 const DexBackground(),
-                Body(
-                  listNavigationLabelIcon: listNavigationLabelIcon,
-                  navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
-                ),
+                widget.body
+                    .animate()
+                    .fade(
+                      duration: const Duration(milliseconds: 200),
+                    )
+                    .scale(
+                      duration: const Duration(milliseconds: 200),
+                    ),
                 if (_isSubMenuOpen) const DexMainMenuApp(),
               ],
             ),

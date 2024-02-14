@@ -4,6 +4,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_add_cache_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_remove_cache_icon.dart';
@@ -26,179 +27,183 @@ class PoolListSheet extends ConsumerWidget {
     super.key,
   });
 
+  static const routerPage = '/poolList';
+
   @override
-  Widget build(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
-    final selectedTab =
-        ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
-    final asyncPools = ref.watch(
-      PoolListFormProvider.poolsToDisplay(selectedTab),
-    );
-    final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
-    final session = ref.watch(SessionProviders.session);
-    return Stack(
-      children: [
-        Center(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 140,
-              bottom: Responsive.isDesktop(context) ? 40 : 80,
-            ),
-            child: asyncPools.when(
-              skipLoadingOnReload: selectedTab.skipLoadingOnReload,
-              loading: () => Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  Opacity(
-                    opacity: 0.8,
-                    child: LitStarfieldContainer(
-                      velocity: 0.2,
-                      number: 200,
-                      starColor: ArchethicThemeBase.neutral0,
-                      scale: 3,
-                      backgroundDecoration: const BoxDecoration(
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
-                  Opacity(
-                    opacity: 0.3,
-                    child: LitStarfieldContainer(
-                      velocity: 0.5,
-                      number: 100,
-                      scale: 10,
-                      starColor: ArchethicThemeBase.blue600,
-                      backgroundDecoration: const BoxDecoration(
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (selectedTab == PoolsListTab.searchPool)
-                        SelectableText(
-                          'Searching in progress. Please wait',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        )
-                      else
-                        SelectableText(
-                          'Loading in progress. Please wait',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                        width: 10,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 0.5,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              error: (error, stackTrace) =>
-                  DexErrorMessage(failure: Failure.fromError(error)),
-              data: (pools) {
-                if (session.isConnected == false &&
-                    poolListForm.tabIndexSelected == PoolsListTab.myPools) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SelectableText(
-                        'Please, connect your wallet to list your pools with position.',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
-                  );
-                }
-                if (pools.isEmpty &&
-                    poolListForm.tabIndexSelected == PoolsListTab.searchPool) {
-                  if (poolListForm.searchText.isEmpty) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SelectableText(
-                          'Please enter your search criteria.',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SelectableText(
-                          'No results found.',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ],
-                    );
-                  }
-                }
-                if (pools.isEmpty &&
-                    poolListForm.tabIndexSelected ==
-                        PoolsListTab.favoritePools) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SelectableText(
-                        'To add your favorite pools to this tab, please click on the',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 2, right: 5),
-                        child: Icon(
-                          Iconsax.star,
-                          size: 14,
-                        ),
-                      ),
-                      SelectableText(
-                        'icon in the pool cards header.',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
-                  );
-                }
-                return GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedSize(
-                    crossAxisExtent: 500,
-                    mainAxisExtent: 550,
-                    crossAxisSpacing: 30,
-                    mainAxisSpacing: 10,
-                  ),
-                  padding: const EdgeInsets.only(
-                    left: 50,
-                    right: 50,
-                  ),
-                  itemCount: pools.length,
-                  itemBuilder: (context, index) {
-                    final pool = pools[index];
-                    return PoolListItem(
-                      key: Key(pool.poolAddress),
-                      pool: pool,
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(
-            top: 60,
-          ),
-          child: PoolListSearch(),
-        ),
-      ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MainScreen(
+      body: _body(context, ref),
     );
   }
+}
+
+Widget _body(BuildContext context, WidgetRef ref) {
+  final selectedTab =
+      ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
+  final asyncPools = ref.watch(
+    PoolListFormProvider.poolsToDisplay(selectedTab),
+  );
+  final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
+  final session = ref.watch(SessionProviders.session);
+  return Stack(
+    children: [
+      Center(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 140,
+            bottom: Responsive.isDesktop(context) ? 40 : 80,
+          ),
+          child: asyncPools.when(
+            skipLoadingOnReload: selectedTab.skipLoadingOnReload,
+            loading: () => Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                Opacity(
+                  opacity: 0.8,
+                  child: LitStarfieldContainer(
+                    velocity: 0.2,
+                    number: 200,
+                    starColor: ArchethicThemeBase.neutral0,
+                    scale: 3,
+                    backgroundDecoration: const BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                ),
+                Opacity(
+                  opacity: 0.3,
+                  child: LitStarfieldContainer(
+                    velocity: 0.5,
+                    number: 100,
+                    scale: 10,
+                    starColor: ArchethicThemeBase.blue600,
+                    backgroundDecoration: const BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (selectedTab == PoolsListTab.searchPool)
+                      SelectableText(
+                        'Searching in progress. Please wait',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      )
+                    else
+                      SelectableText(
+                        'Loading in progress. Please wait',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                      width: 10,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 0.5,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            error: (error, stackTrace) =>
+                DexErrorMessage(failure: Failure.fromError(error)),
+            data: (pools) {
+              if (session.isConnected == false &&
+                  poolListForm.tabIndexSelected == PoolsListTab.myPools) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SelectableText(
+                      'Please, connect your wallet to list your pools with position.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                );
+              }
+              if (pools.isEmpty &&
+                  poolListForm.tabIndexSelected == PoolsListTab.searchPool) {
+                if (poolListForm.searchText.isEmpty) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SelectableText(
+                        'Please enter your search criteria.',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  );
+                } else {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SelectableText(
+                        'No results found.',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  );
+                }
+              }
+              if (pools.isEmpty &&
+                  poolListForm.tabIndexSelected == PoolsListTab.favoritePools) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SelectableText(
+                      'To add your favorite pools to this tab, please click on the',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 2, right: 5),
+                      child: Icon(
+                        Iconsax.star,
+                        size: 14,
+                      ),
+                    ),
+                    SelectableText(
+                      'icon in the pool cards header.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                );
+              }
+              return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedSize(
+                  crossAxisExtent: 500,
+                  mainAxisExtent: 550,
+                  crossAxisSpacing: 30,
+                  mainAxisSpacing: 10,
+                ),
+                padding: const EdgeInsets.only(
+                  left: 50,
+                  right: 50,
+                ),
+                itemCount: pools.length,
+                itemBuilder: (context, index) {
+                  final pool = pools[index];
+                  return PoolListItem(
+                    key: Key(pool.poolAddress),
+                    pool: pool,
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ),
+      const Padding(
+        padding: EdgeInsets.only(
+          top: 60,
+        ),
+        child: PoolListSearch(),
+      ),
+    ],
+  );
 }
 
 class PoolListItem extends ConsumerStatefulWidget {
