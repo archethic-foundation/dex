@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -24,7 +25,7 @@ class DexFees extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
-        color: ArchethicThemeBase.blue600,
+        color: aedappfm.ArchethicThemeBase.blue600,
         borderRadius: BorderRadius.circular(10),
       ),
       child: withLabel

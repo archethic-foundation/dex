@@ -1,7 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
@@ -10,6 +9,8 @@ import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -129,7 +130,7 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                           style: Theme.of(
                             context,
                           ).textTheme.bodyLarge!.copyWith(
-                                color: DexThemeBase.secondaryColor,
+                                color: aedappfm.AppThemeBase.secondaryColor,
                               ),
                         ),
                         const SizedBox(

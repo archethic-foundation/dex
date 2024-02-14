@@ -1,8 +1,8 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/components/info_banner.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -27,10 +27,10 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: DexThemeBase.sheetBackgroundSecondary,
+          color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: DexThemeBase.sheetBorderSecondary,
+            color: aedappfm.AppThemeBase.sheetBorderSecondary,
           ),
         ),
         child: Padding(
@@ -68,7 +68,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                                   .textTheme
                                   .bodyLarge!
                                   .copyWith(
-                                    color: DexThemeBase.secondaryColor,
+                                    color: aedappfm.AppThemeBase.secondaryColor,
                                   ),
                             ),
                             TextSpan(
@@ -94,7 +94,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                       SelectableText(
                         '+ ${liquidityAdd.token2Amount}',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: DexThemeBase.secondaryColor,
+                              color: aedappfm.AppThemeBase.secondaryColor,
                             ),
                       ),
                       SelectableText(
@@ -115,7 +115,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
               Container(
                 height: 1,
                 decoration: BoxDecoration(
-                  gradient: DexThemeBase.gradient,
+                  gradient: aedappfm.AppThemeBase.gradient,
                 ),
               ),
               const SizedBox(
@@ -188,7 +188,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
               Container(
                 height: 1,
                 decoration: BoxDecoration(
-                  gradient: DexThemeBase.gradient,
+                  gradient: aedappfm.AppThemeBase.gradient,
                 ),
               ),
               const SizedBox(
@@ -199,7 +199,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   SelectableText(
                     '+${liquidityAdd.expectedTokenLP.formatNumber()} ',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: DexThemeBase.secondaryColor,
+                          color: aedappfm.AppThemeBase.secondaryColor,
                         ),
                   ),
                   SelectableText(
@@ -251,9 +251,9 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: SizedBox(
                     height: 45,
-                    child: InfoBanner(
+                    child: aedappfm.InfoBanner(
                       r'The UCO amount you entered has been reduced by $0.5 to include transaction fees.',
-                      InfoBannerType.request,
+                      aedappfm.InfoBannerType.request,
                     ),
                   ),
                 ),

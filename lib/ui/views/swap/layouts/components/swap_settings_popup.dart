@@ -1,5 +1,6 @@
 import 'package:aedex/ui/views/swap/layouts/components/swap_settings_slippage_tolerance.dart';
-import 'package:aedex/ui/views/util/components/popup_template.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -11,7 +12,7 @@ class SwapSettingsPopup {
       context: context,
       barrierDismissible: true,
       builder: (context) {
-        return PopupTemplate(
+        return aedappfm.PopupTemplate(
           popupContent: Container(
             color: Colors.transparent,
             padding: const EdgeInsets.only(

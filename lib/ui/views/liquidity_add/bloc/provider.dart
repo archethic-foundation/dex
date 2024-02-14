@@ -8,10 +8,11 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
-import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class LiquidityAddFormNotifier
   @override
   LiquidityAddFormState build() => const LiquidityAddFormState();
 
-  CancelableTask<double?>? _calculateEquivalentAmountTask;
+  aedappfm.CancelableTask<double?>? _calculateEquivalentAmountTask;
 
   Future<void> setPool(DexPool pool) async {
     state = state.copyWith(pool: pool);
@@ -164,7 +165,7 @@ class LiquidityAddFormNotifier
           }
 
           _calculateEquivalentAmountTask?.cancel();
-          _calculateEquivalentAmountTask = CancelableTask<double?>(
+          _calculateEquivalentAmountTask = aedappfm.CancelableTask<double?>(
             task: () async {
               var _equivalentAmount = 0.0;
               final equivalentAmountResult =
@@ -193,7 +194,7 @@ class LiquidityAddFormNotifier
           return __equivalentAmount ?? 0;
         },
       );
-    } on CanceledTask {
+    } on aedappfm.CanceledTask {
       return 0;
     }
     return equivalentAmount;

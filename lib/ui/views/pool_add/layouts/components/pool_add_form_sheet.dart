@@ -1,4 +1,3 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
@@ -7,7 +6,8 @@ import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
-import 'package:aedex/ui/views/util/components/info_banner.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,7 +45,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                     width: 50,
                     height: 1,
                     decoration: BoxDecoration(
-                      gradient: DexThemeBase.gradient,
+                      gradient: aedappfm.AppThemeBase.gradient,
                     ),
                   ),
                 ),
@@ -71,9 +71,9 @@ class PoolAddFormSheet extends ConsumerWidget {
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: SizedBox(
                             height: 40,
-                            child: InfoBanner(
+                            child: aedappfm.InfoBanner(
                               r'This process requires a maximum of $0.5 in transaction fees to be completed.',
-                              InfoBannerType.request,
+                              aedappfm.InfoBannerType.request,
                             ),
                           ),
                         ),

@@ -1,8 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -37,12 +37,15 @@ class DexInProgressCircularStepProgressIndicator extends StatelessWidget {
               roundedCap: (_, isSelected) => isSelected,
               gradientColor: isProcessInProgress == false
                   ? failure == null
-                      ? DexThemeBase
+                      ? aedappfm.AppThemeBase
                           .gradientCircularStepProgressIndicatorFinished
-                      : DexThemeBase.gradientCircularStepProgressIndicatorError
+                      : aedappfm.AppThemeBase
+                          .gradientCircularStepProgressIndicatorError
                   : failure == null
-                      ? DexThemeBase.gradientCircularStepProgressIndicator
-                      : DexThemeBase.gradientCircularStepProgressIndicatorError,
+                      ? aedappfm
+                          .AppThemeBase.gradientCircularStepProgressIndicator
+                      : aedappfm.AppThemeBase
+                          .gradientCircularStepProgressIndicatorError,
               selectedColor: Colors.white,
               unselectedColor: Colors.white.withOpacity(0.2),
               removeRoundedCapExtraAngle: true,
@@ -60,7 +63,7 @@ class DexInProgressCircularStepProgressIndicator extends StatelessWidget {
                     ),
                   ),
                 const Icon(
-                  Iconsax.timer,
+                  aedappfm.Iconsax.timer,
                   size: 16,
                 ),
               ],

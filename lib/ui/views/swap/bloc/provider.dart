@@ -10,10 +10,11 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
-import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
@@ -34,7 +35,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   @override
   SwapFormState build() => const SwapFormState();
 
-  CancelableTask<
+  aedappfm.CancelableTask<
       ({
         double outputAmount,
         double fees,
@@ -150,7 +151,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           }
 
           _calculateSwapInfosTask?.cancel();
-          _calculateSwapInfosTask = CancelableTask<
+          _calculateSwapInfosTask = aedappfm.CancelableTask<
               ({
                 double outputAmount,
                 double fees,
@@ -212,7 +213,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           );
         },
       );
-    } on CanceledTask {
+    } on aedappfm.CanceledTask {
       return (
         outputAmount: 0.0,
         fees: 0.0,

@@ -1,6 +1,6 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -76,7 +76,7 @@ class TokenSelectionSearchBarState
                           const Padding(
                             padding: EdgeInsets.only(left: 20),
                             child: Icon(
-                              Iconsax.search_normal,
+                              aedappfm.Iconsax.search_normal,
                               size: 16,
                             ),
                           ),
@@ -84,7 +84,7 @@ class TokenSelectionSearchBarState
                             padding: const EdgeInsets.only(left: 40, right: 10),
                             child: TextField(
                               style: TextStyle(
-                                fontFamily: DexThemeBase.addressFont,
+                                fontFamily: aedappfm.AppThemeBase.addressFont,
                               ),
                               autocorrect: false,
                               controller: searchController,

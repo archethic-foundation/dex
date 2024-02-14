@@ -1,12 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_selection.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -90,7 +89,7 @@ class _SwapTokenSwappedAmountState
               alignment: Alignment.centerRight,
               children: [
                 SizedBox(
-                  width: DexThemeBase.sizeBoxComponentWidth,
+                  width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
                   child: Row(
                     children: [
                       Expanded(
@@ -246,7 +245,7 @@ class _SwapTokenSwappedAmountState
             if (swap.tokenSwappedBalance > 0)
               Row(
                 children: [
-                  DexButtonHalf(
+                  aedappfm.ButtonHalf(
                     balanceAmount: swap.tokenSwappedBalance,
                     onTap: () async {
                       tokenAmountController.value =
@@ -273,7 +272,7 @@ class _SwapTokenSwappedAmountState
                   const SizedBox(
                     width: 10,
                   ),
-                  DexButtonMax(
+                  aedappfm.ButtonMax(
                     balanceAmount: swap.tokenSwappedBalance,
                     onTap: () async {
                       tokenAmountController.value =

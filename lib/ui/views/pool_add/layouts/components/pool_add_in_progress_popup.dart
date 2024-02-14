@@ -3,7 +3,6 @@
 import 'dart:ui';
 
 import 'package:aedex/domain/usecases/add_pool.usecase.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_tx_addresses.dart';
@@ -12,9 +11,8 @@ import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_pro
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_resume_btn.dart';
-import 'package:aedex/ui/views/util/components/popup_close_button.dart';
-import 'package:aedex/ui/views/util/components/popup_waves.dart';
-import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,7 +39,7 @@ class PoolAddInProgressPopup {
                       elevation: 0,
                       content: Stack(
                         children: <Widget>[
-                          ArchethicScrollbar(
+                          aedappfm.ArchethicScrollbar(
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: BackdropFilter(
@@ -54,12 +52,14 @@ class PoolAddInProgressPopup {
                                     left: 8,
                                   ),
                                   height: 400,
-                                  width: DexThemeBase.sizeBoxComponentWidth,
+                                  width: aedappfm
+                                      .AppThemeBase.sizeBoxComponentWidth,
                                   decoration: BoxDecoration(
-                                    color: DexThemeBase.sheetBackground,
+                                    color:
+                                        aedappfm.AppThemeBase.sheetBackground,
                                     borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
-                                      color: DexThemeBase.sheetBorder,
+                                      color: aedappfm.AppThemeBase.sheetBorder,
                                     ),
                                   ),
                                   child: Stack(
@@ -79,7 +79,7 @@ class PoolAddInProgressPopup {
                                               bottomRight: Radius.circular(16),
                                             ),
                                           ),
-                                          child: PopupWaves(),
+                                          child: aedappfm.PopupWaves(),
                                         ),
                                       ),
                                       Padding(
@@ -154,7 +154,7 @@ class PoolAddInProgressPopup {
                           ),
                           Positioned(
                             right: 0,
-                            child: PopupCloseButton(
+                            child: aedappfm.PopupCloseButton(
                               warningCloseWarning: poolAdd.isProcessInProgress,
                               warningCloseLabel:
                                   poolAdd.isProcessInProgress == true

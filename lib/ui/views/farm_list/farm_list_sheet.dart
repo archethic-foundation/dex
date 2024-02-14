@@ -3,16 +3,14 @@ import 'dart:ui';
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
-import 'package:aedex/ui/views/util/components/grid_view.dart';
-import 'package:aedex/ui/views/util/components/loading.dart';
 import 'package:aedex/ui/views/util/generic/responsive.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -49,9 +47,9 @@ Widget _body(BuildContext context, WidgetRef ref) {
         skipLoadingOnReload: true,
         error: (error, stackTrace) =>
             DexErrorMessage(failure: Failure.fromError(error)),
-        loading: Loading.new,
+        loading: aedappfm.Loading.new,
         data: (farms) => GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedSize(
+          gridDelegate: const aedappfm.SliverGridDelegateWithFixedSize(
             crossAxisExtent: 500,
             mainAxisExtent: 640,
             crossAxisSpacing: 30,
@@ -102,9 +100,9 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: DexThemeBase.sheetBackground,
+                  color: aedappfm.AppThemeBase.sheetBackground,
                   border: Border.all(
-                    color: DexThemeBase.sheetBorder,
+                    color: aedappfm.AppThemeBase.sheetBorder,
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -181,14 +179,14 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                 child: Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      color: ArchethicThemeBase.brightPurpleHoverBorder
+                      color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
                           .withOpacity(1),
                       width: 0.5,
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   elevation: 0,
-                  color: ArchethicThemeBase.brightPurpleHoverBackground
+                  color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
                       .withOpacity(1),
                   child: Padding(
                     padding: const EdgeInsets.only(
@@ -217,14 +215,16 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                   child: Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
-                        color: ArchethicThemeBase.brightPurpleHoverBorder
+                        color: aedappfm
+                            .ArchethicThemeBase.brightPurpleHoverBorder
                             .withOpacity(1),
                         width: 0.5,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 0,
-                    color: ArchethicThemeBase.brightPurpleHoverBackground
+                    color: aedappfm
+                        .ArchethicThemeBase.brightPurpleHoverBackground
                         .withOpacity(1),
                     child: const Padding(
                       padding: EdgeInsets.only(
@@ -234,7 +234,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                         right: 10,
                       ),
                       child: Icon(
-                        Iconsax.convertshape,
+                        aedappfm.Iconsax.convertshape,
                         size: 16,
                       ),
                     ),

@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,8 +28,8 @@ class LiquidityFavoriteIcon extends ConsumerWidget {
           child: Tooltip(
             message: 'Favorite pool',
             child: Icon(
-              Iconsax.star,
-              color: ArchethicThemeBase.systemWarning600,
+              aedappfm.Iconsax.star,
+              color: aedappfm.ArchethicThemeBase.systemWarning600,
               size: iconSize,
             ),
           ),

@@ -85,7 +85,7 @@ class _BalanceDetails extends ConsumerWidget {
             Column(
               children: [
                 DexButtonValidate(
-                  background: ArchethicThemeBase.purple500,
+                  background: aedappfm.ArchethicThemeBase.purple500,
                   controlOk: balance != null && balance > 0,
                   labelBtn: 'Deposit LP Tokens',
                   onPressed: () {
@@ -101,7 +101,7 @@ class _BalanceDetails extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: DexButtonValidate(
-                        background: ArchethicThemeBase.purple500,
+                        background: aedappfm.ArchethicThemeBase.purple500,
                         controlOk: farm.lpTokenDeposited > 0,
                         labelBtn: 'Withdraw',
                         onPressed: () {
@@ -116,7 +116,7 @@ class _BalanceDetails extends ConsumerWidget {
                     ),
                     Expanded(
                       child: DexButtonValidate(
-                        background: ArchethicThemeBase.purple500,
+                        background: aedappfm.ArchethicThemeBase.purple500,
                         controlOk: true,
                         labelBtn: 'Claim',
                         onPressed: () async {

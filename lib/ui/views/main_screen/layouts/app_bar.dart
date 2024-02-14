@@ -2,14 +2,13 @@
 import 'package:aedex/application/preferences.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/version.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
-import 'package:aedex/ui/views/util/components/app_button.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,7 +86,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.document_text,
+                        aedappfm.Iconsax.document_text,
                         size: 16,
                       ),
                       const SizedBox(
@@ -100,7 +99,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -120,7 +119,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.code_circle,
+                        aedappfm.Iconsax.code_circle,
                         size: 16,
                       ),
                       const SizedBox(
@@ -133,7 +132,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -153,7 +152,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.message_question,
+                        aedappfm.Iconsax.message_question,
                         size: 16,
                       ),
                       const SizedBox(
@@ -164,7 +163,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -184,7 +183,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.video_play,
+                        aedappfm.Iconsax.video_play,
                         size: 16,
                       ),
                       const SizedBox(
@@ -195,7 +194,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -215,7 +214,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.menu_board,
+                        aedappfm.Iconsax.menu_board,
                         size: 16,
                       ),
                       const SizedBox(
@@ -300,7 +299,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.shield_tick,
+                        aedappfm.Iconsax.shield_tick,
                         size: 16,
                       ),
                       const SizedBox(
@@ -313,7 +312,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -334,7 +333,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                     child: Row(
                       children: [
                         const Icon(
-                          Iconsax.logout,
+                          aedappfm.Iconsax.logout,
                           size: 16,
                         ),
                         const SizedBox(
@@ -353,7 +352,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                             builder: (context) {
                               return AlertDialog(
                                 backgroundColor:
-                                    DexThemeBase.backgroundPopupColor,
+                                    aedappfm.AppThemeBase.backgroundPopupColor,
                                 contentPadding: const EdgeInsets.only(
                                   top: 10,
                                 ),
@@ -408,7 +407,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                                                     .no,
                                               ),
                                             ),
-                                            AppButton(
+                                            aedappfm.AppButton(
                                               labelBtn:
                                                   AppLocalizations.of(context)!
                                                       .yes,
@@ -461,7 +460,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
             width: 8,
           ),
           IconButton(
-            icon: const Icon(Iconsax.element_3),
+            icon: const Icon(aedappfm.Iconsax.element_3),
             onPressed: widget.onAEMenuTapped,
           ),
           const SizedBox(

@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,8 +38,8 @@ class VerifiedPoolIcon extends ConsumerWidget {
           child: Tooltip(
             message: 'This pool has been verified by Archethic',
             child: Icon(
-              Iconsax.verify,
-              color: ArchethicThemeBase.systemPositive500,
+              aedappfm.Iconsax.verify,
+              color: aedappfm.ArchethicThemeBase.systemPositive500,
               size: iconSize,
             ),
           ),

@@ -3,7 +3,6 @@
 import 'dart:ui';
 
 import 'package:aedex/domain/usecases/claim_farm.usecase.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_final_amount.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_tx_addresses.dart';
@@ -13,9 +12,8 @@ import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_pro
 import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
 import 'package:aedex/ui/views/util/components/dex_in_progress_resume_btn.dart';
-import 'package:aedex/ui/views/util/components/popup_close_button.dart';
-import 'package:aedex/ui/views/util/components/popup_waves.dart';
-import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +41,7 @@ class FarmClaimInProgressPopup {
                       elevation: 0,
                       content: Stack(
                         children: <Widget>[
-                          ArchethicScrollbar(
+                          aedappfm.ArchethicScrollbar(
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: BackdropFilter(
@@ -56,12 +54,14 @@ class FarmClaimInProgressPopup {
                                     left: 8,
                                   ),
                                   height: 400,
-                                  width: DexThemeBase.sizeBoxComponentWidth,
+                                  width: aedappfm
+                                      .AppThemeBase.sizeBoxComponentWidth,
                                   decoration: BoxDecoration(
-                                    color: DexThemeBase.sheetBackground,
+                                    color:
+                                        aedappfm.AppThemeBase.sheetBackground,
                                     borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
-                                      color: DexThemeBase.sheetBorder,
+                                      color: aedappfm.AppThemeBase.sheetBorder,
                                     ),
                                   ),
                                   child: Stack(
@@ -81,7 +81,7 @@ class FarmClaimInProgressPopup {
                                               bottomRight: Radius.circular(16),
                                             ),
                                           ),
-                                          child: PopupWaves(),
+                                          child: aedappfm.PopupWaves(),
                                         ),
                                       ),
                                       Padding(
@@ -175,7 +175,7 @@ class FarmClaimInProgressPopup {
                           ),
                           Positioned(
                             right: 0,
-                            child: PopupCloseButton(
+                            child: aedappfm.PopupCloseButton(
                               warningCloseWarning:
                                   farmClaim.isProcessInProgress,
                               warningCloseLabel:

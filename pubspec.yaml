@@ -8,6 +8,11 @@ environment:
   sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
+  archethic_dapp_framework_flutter:
+    git:
+      url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+      ref: main
+
   # A client dart library to interact with Archethic Wallet RPC API.
   archethic_wallet_client: ^1.0.0
   #archethic_wallet_client:
@@ -88,13 +93,12 @@ dependencies:
   # Flutter package that allows setting the web app URL strategy with a single line of code.
   url_strategy: ^0.2.0
 
-  # Wave animation
-  wave: ^0.2.2
-
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.4.6
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features.
+  daunused: ^1.3.0
+  dependency_validator: ^3.2.3
   freezed: ^2.4.7
   # Extension for Hive. Automatically generates TypeAdapters to store any class.
   hive_generator: ^2.0.1

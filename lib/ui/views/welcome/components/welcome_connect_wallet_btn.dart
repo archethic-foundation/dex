@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/views/util/components/app_button.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +19,7 @@ class WelcomeConnectWalletBtnState
     extends ConsumerState<WelcomeConnectWalletBtn> {
   @override
   Widget build(BuildContext context) {
-    return AppButton(
+    return aedappfm.AppButton(
       labelBtn: AppLocalizations.of(context)!.connectionWalletConnect,
       onPressed: () async {
         final sessionNotifier = ref.read(SessionProviders.session.notifier);

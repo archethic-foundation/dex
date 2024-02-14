@@ -4,14 +4,14 @@ import 'dart:ui';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
-import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -67,9 +67,9 @@ Widget _body(BuildContext context, WidgetRef ref) {
         child: Container(
           width: 650,
           decoration: BoxDecoration(
-            color: DexThemeBase.sheetBackground,
+            color: aedappfm.AppThemeBase.sheetBackground,
             border: Border.all(
-              color: DexThemeBase.sheetBorder,
+              color: aedappfm.AppThemeBase.sheetBorder,
             ),
             borderRadius: BorderRadius.circular(20),
           ),
@@ -82,7 +82,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
             ),
             child: LayoutBuilder(
               builder: (context, constraint) {
-                return ArchethicScrollbar(
+                return aedappfm.ArchethicScrollbar(
                   child: Container(
                     constraints: BoxConstraints(
                       minHeight: 100,

@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
@@ -22,16 +23,17 @@ class DexTokenInfos extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            ArchethicThemeBase.purple500,
-            ArchethicThemeBase.purple500.withOpacity(0.4),
+            aedappfm.ArchethicThemeBase.purple500,
+            aedappfm.ArchethicThemeBase.purple500.withOpacity(0.4),
           ],
           stops: const [0, 1],
         ),
         border: GradientBoxBorder(
           gradient: LinearGradient(
             colors: [
-              ArchethicThemeBase.paleTransparentBackground,
-              ArchethicThemeBase.paleTransparentBackground.withOpacity(0.4),
+              aedappfm.ArchethicThemeBase.paleTransparentBackground,
+              aedappfm.ArchethicThemeBase.paleTransparentBackground
+                  .withOpacity(0.4),
             ],
             stops: const [0, 1],
           ),

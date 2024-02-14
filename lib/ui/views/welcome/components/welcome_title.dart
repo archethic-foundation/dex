@@ -1,6 +1,5 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/components/gradient_text.dart';
-import 'package:aedex/ui/views/util/components/scale_size.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -24,13 +23,13 @@ class WelcomeTitle extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GradientText(
+                aedappfm.GradientText(
                   'SWAP',
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.w600,
                   ),
-                  gradient: DexThemeBase.gradientWelcomeTxt,
+                  gradient: aedappfm.AppThemeBase.gradientWelcomeTxt,
                 )
                     .animate(delay: 100.ms)
                     .fadeIn(duration: 400.ms, delay: 200.ms)
@@ -44,7 +43,7 @@ class WelcomeTitle extends StatelessWidget {
                     fontSize: 40,
                     fontWeight: FontWeight.w400,
                   ),
-                  textScaleFactor: ScaleSize.textScaleFactor(context),
+                  textScaleFactor: aedappfm.ScaleSize.textScaleFactor(context),
                 )
                     .animate(delay: 200.ms)
                     .fadeIn(duration: 400.ms, delay: 300.ms)
@@ -66,7 +65,7 @@ class WelcomeTitle extends StatelessWidget {
                     fontSize: 40,
                     fontWeight: FontWeight.w400,
                   ),
-                  textScaleFactor: ScaleSize.textScaleFactor(context),
+                  textScaleFactor: aedappfm.ScaleSize.textScaleFactor(context),
                 )
                     .animate(delay: 300.ms)
                     .fadeIn(duration: 400.ms, delay: 300.ms)

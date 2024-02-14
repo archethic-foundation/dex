@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/ui/views/util/components/app_button.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -21,7 +22,7 @@ class DexInProgressResumeBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isProcessInProgress == false && failure != null && currentStep > 0) {
-      return AppButton(
+      return aedappfm.AppButton(
         labelBtn: AppLocalizations.of(context)!.btn_resume,
         onPressed: onPressed,
       );

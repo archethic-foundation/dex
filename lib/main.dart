@@ -14,8 +14,9 @@ import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/ui/views/welcome/welcome_screen.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
-import 'package:aedex/util/generic/providers_observer.dart';
 import 'package:aedex/util/service_locator.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -34,7 +35,7 @@ Future<void> main() async {
   runApp(
     ProviderScope(
       observers: [
-        ProvidersLogger(),
+        aedappfm.ProvidersLogger(),
       ],
       child: const MyApp(),
     ),
@@ -83,12 +84,12 @@ class _MyAppState extends ConsumerState<MyApp> {
 
       session = ref.read(SessionProviders.session);
       if (session.endpoint.isNotEmpty) {
+        ref
+            .read(
+              navigationIndexMainScreenProvider.notifier,
+            )
+            .state = 0;
         if (mounted) {
-          ref
-              .read(
-                navigationIndexMainScreenProvider.notifier,
-              )
-              .state = 0;
           context.go(SwapSheet.routerPage, extra: <String, dynamic>{});
         }
       } else {
@@ -122,6 +123,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       ),
       localizationsDelegates: const [
         AppLocalizations.delegate,
+        aedappfm.AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

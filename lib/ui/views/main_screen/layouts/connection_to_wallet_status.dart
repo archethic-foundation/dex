@@ -1,9 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
-import 'package:aedex/ui/views/util/components/gradient_text.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,9 +60,9 @@ class _ConnectionToWalletStatusState
             );
           }
         },
-        icon: GradientText(
+        icon: aedappfm.GradientText(
           AppLocalizations.of(context)!.btn_connect_wallet,
-          gradient: DexThemeBase.gradientWelcomeTxt,
+          gradient: aedappfm.AppThemeBase.gradientWelcomeTxt,
           style: const TextStyle(
             fontSize: 8,
           ),
@@ -79,7 +78,7 @@ class _ConnectionToWalletStatusState
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(
-            Iconsax.user,
+            aedappfm.Iconsax.user,
             size: 18,
           ),
           const SizedBox(

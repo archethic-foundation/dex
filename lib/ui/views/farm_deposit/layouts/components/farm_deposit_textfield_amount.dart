@@ -1,10 +1,9 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,7 +66,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
     return Column(
       children: [
         SizedBox(
-          width: DexThemeBase.sizeBoxComponentWidth,
+          width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
           child: Row(
             children: [
               Expanded(
@@ -174,7 +173,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
             ),
             Row(
               children: [
-                DexButtonHalf(
+                aedappfm.ButtonHalf(
                   balanceAmount: farmDeposit.lpTokenBalance,
                   onTap: () {
                     ref
@@ -188,7 +187,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                 const SizedBox(
                   width: 10,
                 ),
-                DexButtonMax(
+                aedappfm.ButtonMax(
                   balanceAmount: farmDeposit.lpTokenBalance,
                   onTap: () {
                     ref

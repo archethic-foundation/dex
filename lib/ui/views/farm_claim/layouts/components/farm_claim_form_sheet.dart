@@ -1,4 +1,3 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
@@ -7,6 +6,8 @@ import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,7 +48,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                     width: 50,
                     height: 1,
                     decoration: BoxDecoration(
-                      gradient: DexThemeBase.gradient,
+                      gradient: aedappfm.AppThemeBase.gradient,
                     ),
                   ),
                 ),
@@ -82,7 +83,8 @@ class FarmClaimFormSheet extends ConsumerWidget {
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(
-                                          color: DexThemeBase.secondaryColor,
+                                          color: aedappfm
+                                              .AppThemeBase.secondaryColor,
                                         ),
                                   ),
                                   TextSpan(

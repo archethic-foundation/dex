@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/coin_price.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,7 +28,7 @@ class SwapTokenIconRefresh extends ConsumerWidget {
       },
       child: const Padding(
         padding: EdgeInsets.only(left: 5, bottom: 4),
-        child: Icon(Iconsax.refresh, size: 14),
+        child: Icon(aedappfm.Iconsax.refresh, size: 14),
       ),
     );
   }

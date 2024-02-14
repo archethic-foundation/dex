@@ -7,10 +7,11 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
-import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class LiquidityRemoveFormNotifier
   @override
   LiquidityRemoveFormState build() => const LiquidityRemoveFormState();
 
-  CancelableTask<Map<String, dynamic>>? _calculateRemoveAmountsTask;
+  aedappfm.CancelableTask<Map<String, dynamic>>? _calculateRemoveAmountsTask;
 
   Future<void> setPool(DexPool pool) async {
     state = state.copyWith(pool: pool);
@@ -56,7 +57,8 @@ class LiquidityRemoveFormNotifier
           }
 
           _calculateRemoveAmountsTask?.cancel();
-          _calculateRemoveAmountsTask = CancelableTask<Map<String, dynamic>>(
+          _calculateRemoveAmountsTask =
+              aedappfm.CancelableTask<Map<String, dynamic>>(
             task: () async {
               var _removeAmounts = <String, dynamic>{};
               final removeAmountsResult =
@@ -85,7 +87,7 @@ class LiquidityRemoveFormNotifier
           return _removeAmounts ?? {};
         },
       );
-    } on CanceledTask {
+    } on aedappfm.CanceledTask {
       return (removeAmountToken1: 0.0, removeAmountToken2: 0.0);
     }
 

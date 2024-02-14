@@ -1,6 +1,7 @@
 import 'package:aedex/application/dex_blockchain.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
 import 'package:aedex/util/endpoint_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -56,13 +57,13 @@ class FormatAddressLink extends ConsumerWidget {
         padding: const EdgeInsets.only(bottom: 3),
         child: tooltipLink == null
             ? Icon(
-                Iconsax.export_3,
+                aedappfm.Iconsax.export_3,
                 size: iconSize,
               )
             : Tooltip(
                 message: tooltipLink,
                 child: Icon(
-                  Iconsax.export_3,
+                  aedappfm.Iconsax.export_3,
                   size: iconSize,
                 ),
               ),

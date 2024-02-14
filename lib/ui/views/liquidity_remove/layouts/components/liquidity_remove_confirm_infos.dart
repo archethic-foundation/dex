@@ -1,7 +1,8 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -27,10 +28,10 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: DexThemeBase.sheetBackgroundSecondary,
+          color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: DexThemeBase.sheetBorderSecondary,
+            color: aedappfm.AppThemeBase.sheetBorderSecondary,
           ),
         ),
         child: Padding(
@@ -51,7 +52,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                       text:
                           '${liquidityRemove.lpTokenAmount.formatNumber(precision: 8)} ',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: DexThemeBase.secondaryColor,
+                            color: aedappfm.AppThemeBase.secondaryColor,
                           ),
                     ),
                     TextSpan(
@@ -69,7 +70,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
               Container(
                 height: 1,
                 decoration: BoxDecoration(
-                  gradient: DexThemeBase.gradient,
+                  gradient: aedappfm.AppThemeBase.gradient,
                 ),
               ),
               const SizedBox(
@@ -146,7 +147,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
               Container(
                 height: 1,
                 decoration: BoxDecoration(
-                  gradient: DexThemeBase.gradient,
+                  gradient: aedappfm.AppThemeBase.gradient,
                 ),
               ),
               const SizedBox(

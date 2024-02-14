@@ -1,9 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/token_selection_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +21,7 @@ class PoolAddToken1Selection extends ConsumerWidget {
       width: 150,
       height: 30,
       decoration: BoxDecoration(
-        color: DexThemeBase.sheetBackgroundTertiary.withOpacity(0.5),
+        color: aedappfm.AppThemeBase.sheetBackgroundTertiary.withOpacity(0.5),
         borderRadius: BorderRadius.circular(6),
       ),
       child: InkWell(
@@ -78,7 +78,7 @@ class PoolAddToken1Selection extends ConsumerWidget {
               ],
             ),
             const Icon(
-              Iconsax.search_normal,
+              aedappfm.Iconsax.search_normal,
               size: 12,
             ),
           ],

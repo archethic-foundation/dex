@@ -1,10 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,7 +75,7 @@ class _LiquidityAddToken2AmountState
     return Column(
       children: [
         SizedBox(
-          width: DexThemeBase.sizeBoxComponentWidth,
+          width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
           child: Row(
             children: [
               Expanded(
@@ -190,7 +189,7 @@ class _LiquidityAddToken2AmountState
             ),
             Row(
               children: [
-                DexButtonHalf(
+                aedappfm.ButtonHalf(
                   balanceAmount: liquidityAdd.token2Balance,
                   onTap: () async {
                     tokenAmountController.value =
@@ -218,7 +217,7 @@ class _LiquidityAddToken2AmountState
                 const SizedBox(
                   width: 10,
                 ),
-                DexButtonMax(
+                aedappfm.ButtonMax(
                   balanceAmount: liquidityAdd.token2Balance,
                   onTap: () async {
                     tokenAmountController.value =

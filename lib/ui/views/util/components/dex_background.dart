@@ -1,4 +1,5 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:lit_starfield/view.dart';
 
@@ -21,7 +22,7 @@ class DexBackground extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
-                ArchethicThemeBase.purple500.withOpacity(1),
+                aedappfm.ArchethicThemeBase.purple500.withOpacity(1),
                 BlendMode.modulate,
               ),
               image: const AssetImage(
@@ -37,7 +38,7 @@ class DexBackground extends StatelessWidget {
             child: LitStarfieldContainer(
               velocity: 0.2,
               number: 200,
-              starColor: ArchethicThemeBase.neutral0,
+              starColor: aedappfm.ArchethicThemeBase.neutral0,
               scale: 3,
               backgroundDecoration: const BoxDecoration(
                 color: Colors.transparent,
@@ -51,7 +52,7 @@ class DexBackground extends StatelessWidget {
               velocity: 0.5,
               number: 100,
               scale: 10,
-              starColor: ArchethicThemeBase.blue600,
+              starColor: aedappfm.ArchethicThemeBase.blue600,
               backgroundDecoration: const BoxDecoration(
                 color: Colors.transparent,
               ),

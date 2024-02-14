@@ -1,12 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_1_selection.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,7 +80,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
           alignment: Alignment.centerLeft,
           children: [
             SizedBox(
-              width: DexThemeBase.sizeBoxComponentWidth,
+              width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
               child: Row(
                 children: [
                   Expanded(
@@ -189,7 +188,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
             if (poolAdd.token1Balance > 0)
               Row(
                 children: [
-                  DexButtonHalf(
+                  aedappfm.ButtonHalf(
                     balanceAmount: poolAdd.token1Balance,
                     onTap: () {
                       ref
@@ -206,7 +205,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                   const SizedBox(
                     width: 10,
                   ),
-                  DexButtonMax(
+                  aedappfm.ButtonMax(
                     balanceAmount: poolAdd.token1Balance,
                     onTap: () {
                       ref

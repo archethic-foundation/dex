@@ -18,3 +18,4 @@ dart pub remove translations_cleaner
 List unused files (https://pub.dev/packages/daunused)
 dart pub add --dev daunused
 flutter pub run daunused:daunused.dart .
+dart pub remove daunused

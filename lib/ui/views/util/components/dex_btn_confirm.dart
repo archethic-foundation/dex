@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/views/util/components/app_button.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 
 class DexButtonConfirm extends StatelessWidget {
@@ -16,7 +17,7 @@ class DexButtonConfirm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppButton(
+    return aedappfm.AppButton(
       background: background,
       labelBtn: labelBtn,
       onPressed: onPressed,

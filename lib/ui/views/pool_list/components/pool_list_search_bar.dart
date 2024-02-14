@@ -1,7 +1,7 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,7 +52,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
           const Padding(
             padding: EdgeInsets.only(left: 10),
             child: Icon(
-              Iconsax.search_normal,
+              aedappfm.Iconsax.search_normal,
               size: 12,
             ),
           ),
@@ -64,7 +64,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
             ),
             child: TextField(
               style: TextStyle(
-                fontFamily: DexThemeBase.addressFont,
+                fontFamily: aedappfm.AppThemeBase.addressFont,
                 color: Colors.white,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
@@ -97,7 +97,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
                 hintText: 'Search by pool or token address or "UCO"',
                 contentPadding: const EdgeInsets.only(bottom: 15),
                 hintStyle: TextStyle(
-                  fontFamily: DexThemeBase.mainFont,
+                  fontFamily: aedappfm.AppThemeBase.mainFont,
                   color: Colors.white,
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
