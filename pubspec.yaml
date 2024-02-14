@@ -28,7 +28,7 @@ dependencies:
     sdk: flutter
 
   # Add beautiful animated effects & builders in Flutter, via an easy, customizable, unified API.
-  flutter_animate: ^4.2.0+1
+  flutter_animate: ^4.5.0
 
   # Makes in-text links clickable
   flutter_linkify: ^6.0.0
@@ -37,7 +37,7 @@ dependencies:
     sdk: flutter
 
   # State management
-  flutter_riverpod: ^2.4.5
+  flutter_riverpod: ^2.4.10
 
   # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
   flutter_svg: ^2.0.9
@@ -49,10 +49,10 @@ dependencies:
   freezed_annotation: ^2.4.1
 
   # Simple direct Service Locator that allows to decouple the interface from a concrete implementation and to access the concrete implementation from everywhere in your App
-  get_it: ^7.6.4
+  get_it: ^7.6.7
 
   # A declarative router for Flutter based on Navigation 2 supporting deep linking, data-driven routes and more
-  go_router: ^12.0.1
+  go_router: ^13.2.0
 
   # Gradient borders for inputs and containers. Borders package integrated with a basic flutter widgets as a container and input decorations. Easy in use, platform independent.
   gradient_borders: ^1.0.0
@@ -74,19 +74,16 @@ dependencies:
   package_info_plus: ^4.2.0
 
   # Flutter plugin for getting commonly used locations on host platform file systems, such as the temp and app data directories.
-  path_provider: ^2.1.1
+  path_provider: ^2.1.2
 
   # A package exposing annotations for riverpod_generator
-  riverpod_annotation: ^2.3.0
-
-  # A package provides an easy way to add shimmer effect in Flutter project
-  shimmer: ^3.0.0
+  riverpod_annotation: ^2.3.4
 
   # Bar indicator made of a series of selected and unselected steps
   step_progress_indicator: ^1.0.2
 
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
-  url_launcher: ^6.2.1
+  url_launcher: ^6.2.4
 
   # Wave animation
   wave: ^0.2.2
@@ -94,16 +91,14 @@ dependencies:
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.4.6
-  # Recommended lints for Flutter apps, packages, and plugins to encourage good coding practices
-  flutter_lints: ^3.0.0
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features.
-  freezed: ^2.4.5
+  freezed: ^2.4.7
   # Extension for Hive. Automatically generates TypeAdapters to store any class.
   hive_generator: ^2.0.1
   # Automatically generate code for converting to and from JSON by annotating Dart classes.
   json_serializable: ^6.7.1
   # A code generator for Riverpod. This both simplifies the syntax empowers it, such as allowing stateful hot-reload.
-  riverpod_generator: ^2.3.5
+  riverpod_generator: ^2.3.11
   # A full featured library for writing and running Dart tests across platforms.
   test: ^1.24.9
 
