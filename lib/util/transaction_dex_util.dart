@@ -3,7 +3,8 @@ import 'dart:developer' as dev;
 
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/foundation.dart';
@@ -14,17 +15,18 @@ mixin TransactionDexMixin {
     double slippage = 1.01,
   }) async {
     final transactionFee =
-        await sl.get<ApiService>().getTransactionFee(transaction);
+        await aedappfm.sl.get<ApiService>().getTransactionFee(transaction);
     final fees = fromBigInt(transactionFee.fee) * slippage;
     return fees;
   }
 
   ArchethicTransactionSender getArchethicTransactionSender() {
     return ArchethicTransactionSender(
-      apiService: sl.get<ApiService>(),
-      phoenixHttpEndpoint: '${sl.get<ApiService>().endpoint}/socket/websocket',
+      apiService: aedappfm.sl.get<ApiService>(),
+      phoenixHttpEndpoint:
+          '${aedappfm.sl.get<ApiService>().endpoint}/socket/websocket',
       websocketEndpoint:
-          '${sl.get<ApiService>().endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket',
+          '${aedappfm.sl.get<ApiService>().endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket',
     );
   }
 
@@ -38,29 +40,29 @@ mixin TransactionDexMixin {
       }
       var next = false;
       String websocketEndpoint;
-      switch (sl.get<ApiService>().endpoint) {
+      switch (aedappfm.sl.get<ApiService>().endpoint) {
         case 'https://mainnet.archethic.net':
         case 'https://testnet.archethic.net':
           websocketEndpoint =
-              "${sl.get<ApiService>().endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket";
+              "${aedappfm.sl.get<ApiService>().endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'wss:')}/socket/websocket";
           break;
         default:
           websocketEndpoint =
-              "${sl.get<ApiService>().endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'ws:')}/socket/websocket";
+              "${aedappfm.sl.get<ApiService>().endpoint.replaceAll('https:', 'wss:').replaceAll('http:', 'ws:')}/socket/websocket";
           break;
       }
 
       final transactionRepository = ArchethicTransactionSender(
-        apiService: sl.get<ApiService>(),
+        apiService: aedappfm.sl.get<ApiService>(),
         phoenixHttpEndpoint:
-            '${sl.get<ApiService>().endpoint}/socket/websocket',
+            '${aedappfm.sl.get<ApiService>().endpoint}/socket/websocket',
         websocketEndpoint: websocketEndpoint,
       );
       await transactionRepository.send(
         transaction: transaction,
         onConfirmation: (confirmation) async {
           if (confirmation.isEnoughConfirmed) {
-            sl.get<LogManager>().log(
+            aedappfm.sl.get<LogManager>().log(
                   'nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}',
                   level: LogLevel.debug,
                   name: 'TransactionDexMixin - sendTransactions',
@@ -123,8 +125,9 @@ mixin TransactionDexMixin {
       ),
     };
 
-    final result =
-        await sl.get<awc.ArchethicDAppClient>().signTransactions(payload);
+    final result = await aedappfm.sl
+        .get<awc.ArchethicDAppClient>()
+        .signTransactions(payload);
     result.when(
       failure: (failure) {
         if (failure.code == 4001) {
@@ -157,7 +160,7 @@ mixin TransactionDexMixin {
     int targetIndex, {
     int nbTrials = 60,
   }) async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
 
     for (var i = 0; i < nbTrials; i++) {
       final txIndexMap = await apiService.getTransactionIndex([txChainAddress]);
@@ -178,7 +181,7 @@ mixin TransactionDexMixin {
     // TODO(a): remove the try catch, not mandatory but I added it to have the connection issue front exception for the user
     try {
       final result =
-          await sl.get<awc.ArchethicDAppClient>().getCurrentAccount();
+          await aedappfm.sl.get<awc.ArchethicDAppClient>().getCurrentAccount();
       result.when(
         failure: (failure) {
           throw Exception('An error occurs');
@@ -188,7 +191,7 @@ mixin TransactionDexMixin {
         },
       );
     } catch (e, stackTrace) {
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<LogManager>().log(
             '$e',
             stackTrace: stackTrace,
             level: LogLevel.error,
@@ -201,7 +204,7 @@ mixin TransactionDexMixin {
 
   Future<void> refreshCurrentAccountInfoWallet() async {
     try {
-      await sl.get<awc.ArchethicDAppClient>().refreshCurrentAccount();
+      await aedappfm.sl.get<awc.ArchethicDAppClient>().refreshCurrentAccount();
     } catch (e) {
       // No need to notify error
     }
@@ -214,7 +217,7 @@ mixin TransactionDexMixin {
     String? tokenAddress,
   ) async {
     final transactionMap =
-        await sl.get<ApiService>().getTransaction([txAddress]);
+        await aedappfm.sl.get<ApiService>().getTransaction([txAddress]);
     if (transactionMap[txAddress] == null) {
       return 0.0;
     }
@@ -253,7 +256,7 @@ mixin TransactionDexMixin {
   Future<double> getAmountFromTx(
     String txAddress,
   ) async {
-    final transactionMap = await sl.get<ApiService>().getTransaction(
+    final transactionMap = await aedappfm.sl.get<ApiService>().getTransaction(
       [txAddress],
       request: ' data {ledger {token { transfers { amount } } } }',
     );

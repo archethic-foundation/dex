@@ -12,7 +12,7 @@ import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -76,7 +76,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenSwapped != null) {
       final dexConfig =
           await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-      final apiService = sl.get<ApiService>();
+      final apiService = aedappfm.sl.get<ApiService>();
       if (state.tokenToSwap != null) {
         final routerFactory =
             RouterFactory(dexConfig.routerGenesisAddress, apiService);
@@ -125,7 +125,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         protocolFees: 0.0,
       );
     }
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final ({
       double fees,
       double outputAmount,
@@ -342,7 +342,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenToSwap != null) {
       final dexConfig =
           await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-      final apiService = sl.get<ApiService>();
+      final apiService = aedappfm.sl.get<ApiService>();
       if (state.tokenSwapped != null) {
         final routerFactory =
             RouterFactory(dexConfig.routerGenesisAddress, apiService);

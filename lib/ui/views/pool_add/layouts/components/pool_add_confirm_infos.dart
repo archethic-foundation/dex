@@ -4,7 +4,7 @@ import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';

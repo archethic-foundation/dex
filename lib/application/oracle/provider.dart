@@ -2,7 +2,8 @@
 import 'dart:async';
 
 import 'package:aedex/application/oracle/state.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -16,7 +17,7 @@ class _ArchethicOracleUCONotifier extends Notifier<ArchethicOracleUCO> {
   ArchethicOracleUCO build() {
     ref.onDispose(() {
       if (archethicOracle != null) {
-        sl
+        aedappfm.sl
             .get<OracleService>()
             .closeOracleUpdatesSubscription(archethicOracle!);
       }
@@ -30,12 +31,13 @@ class _ArchethicOracleUCONotifier extends Notifier<ArchethicOracleUCO> {
   }
 
   Future<void> _getValue() async {
-    final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
+    final oracleUcoPrice =
+        await aedappfm.sl.get<OracleService>().getOracleData();
     _fillInfo(oracleUcoPrice);
   }
 
   Future<void> _subscribe() async {
-    archethicOracle = await sl
+    archethicOracle = await aedappfm.sl
         .get<OracleService>()
         .subscribeToOracleUpdates((oracleUcoPrice) {
       _fillInfo(oracleUcoPrice!);

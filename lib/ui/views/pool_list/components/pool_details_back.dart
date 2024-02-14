@@ -7,7 +7,8 @@ import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

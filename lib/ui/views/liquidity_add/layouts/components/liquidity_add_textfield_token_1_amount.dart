@@ -1,6 +1,5 @@
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
@@ -36,7 +35,7 @@ class _LiquidityAddToken1AmountState
     if (liquidityAdd.tokenFormSelected == 2) {
       tokenAmountController = TextEditingController();
       tokenAmountController.value =
-          AmountTextInputFormatter(precision: 8).formatEditUpdate(
+          aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
         TextEditingValue.empty,
         TextEditingValue(
           text: liquidityAdd.token1Amount == 0
@@ -151,7 +150,9 @@ class _LiquidityAddToken1AmountState
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
-                                    AmountTextInputFormatter(precision: 8),
+                                    aedappfm.AmountTextInputFormatter(
+                                      precision: 8,
+                                    ),
                                     LengthLimitingTextInputFormatter(
                                       liquidityAdd.token1Balance
                                               .formatNumber(
@@ -192,7 +193,8 @@ class _LiquidityAddToken1AmountState
                   balanceAmount: liquidityAdd.token1Balance,
                   onTap: () async {
                     tokenAmountController.value =
-                        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+                        aedappfm.AmountTextInputFormatter(precision: 8)
+                            .formatEditUpdate(
                       TextEditingValue.empty,
                       TextEditingValue(
                         text: (Decimal.parse(
@@ -220,7 +222,8 @@ class _LiquidityAddToken1AmountState
                   balanceAmount: liquidityAdd.token1Balance,
                   onTap: () async {
                     tokenAmountController.value =
-                        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+                        aedappfm.AmountTextInputFormatter(precision: 8)
+                            .formatEditUpdate(
                       TextEditingValue.empty,
                       TextEditingValue(
                         text: liquidityAdd.token1Balance.toString(),

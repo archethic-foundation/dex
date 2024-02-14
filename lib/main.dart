@@ -4,7 +4,6 @@ import 'package:aedex/application/coin_price.dart';
 import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/ucids_tokens.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
@@ -13,7 +12,7 @@ import 'package:aedex/ui/views/util/components/dex_background.dart';
 import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/ui/views/welcome/welcome_screen.dart';
 import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -31,7 +30,7 @@ Future<void> main() async {
   setPathUrlStrategy();
 
   final preferences = await HivePreferencesDatasource.getInstance();
-  sl.get<LogManager>().logsActived = preferences.isLogsActived();
+  aedappfm.sl.get<LogManager>().logsActived = preferences.isLogsActived();
   runApp(
     ProviderScope(
       observers: [
@@ -75,7 +74,9 @@ class _MyAppState extends ConsumerState<MyApp> {
       await ref
           .read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier)
           .init();
-      await ref.read(UcidsTokensProviders.ucidsTokens.notifier).init(ref);
+      await ref
+          .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
+          .init(ref);
       await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {

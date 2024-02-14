@@ -11,7 +11,8 @@ import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/infrastructure/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,7 +25,7 @@ part 'dex_pool_list.dart';
 @riverpod
 DexPoolRepositoryImpl _dexPoolRepository(_DexPoolRepositoryRef ref) =>
     DexPoolRepositoryImpl(
-      apiService: sl.get<ApiService>(),
+      apiService: aedappfm.sl.get<ApiService>(),
     );
 
 @riverpod

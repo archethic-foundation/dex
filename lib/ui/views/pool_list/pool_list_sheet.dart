@@ -12,7 +12,6 @@ import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
-import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
@@ -50,7 +49,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
         child: Padding(
           padding: EdgeInsets.only(
             top: 140,
-            bottom: Responsive.isDesktop(context) ? 40 : 80,
+            bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 80,
           ),
           child: asyncPools.when(
             skipLoadingOnReload: selectedTab.skipLoadingOnReload,

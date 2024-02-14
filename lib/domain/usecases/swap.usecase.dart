@@ -6,8 +6,9 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -138,7 +139,7 @@ class SwapCase with TransactionDexMixin {
         ..setProcessInProgress(false)
         ..setSwapOk(true);
     } catch (e) {
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<LogManager>().log(
             'TransactionSwap sendTx failed $e ($transactionSwap)',
             level: LogLevel.error,
             name: 'TransactionDexMixin - sendTransactions',

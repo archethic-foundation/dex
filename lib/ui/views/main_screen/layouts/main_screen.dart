@@ -10,7 +10,6 @@ import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_background.dart';
 import 'package:aedex/ui/views/util/components/dex_env.dart';
 import 'package:aedex/ui/views/util/components/dex_main_menu_app.dart';
-import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -135,8 +134,8 @@ class MainScreenState extends ConsumerState<MainScreen> {
             ),
           ],
         ),
-        bottomNavigationBar: Responsive.isMobile(context) ||
-                Responsive.isTablet(context)
+        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
+                aedappfm.Responsive.isTablet(context)
             ? BottomNavigationBarMainScreen(
                 listNavigationLabelIcon: listNavigationLabelIcon,
                 navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),

@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

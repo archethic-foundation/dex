@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:aedex/domain/models/dex_config.dart';
 import 'package:aedex/domain/repositories/dex_config.repository.dart';
-import 'package:aedex/util/endpoint_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/services.dart';
 
 class DexConfigRepositoryImpl implements DexConfigRepository {
@@ -12,7 +13,7 @@ class DexConfigRepositoryImpl implements DexConfigRepository {
         await rootBundle.loadString('lib/domain/repositories/config.json');
 
     final jsonData = jsonDecode(jsonContent);
-    final environment = EndpointUtil.getEnvironnement();
+    final environment = aedappfm.EndpointUtil.getEnvironnement();
     final configList = List<Map<String, dynamic>>.from(jsonData['environment']);
     final configMap = configList.firstWhere(
       (element) => element['name'] == environment,

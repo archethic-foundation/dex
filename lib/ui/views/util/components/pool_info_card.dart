@@ -6,7 +6,6 @@ import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';

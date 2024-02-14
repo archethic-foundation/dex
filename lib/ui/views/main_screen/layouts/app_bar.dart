@@ -1,12 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/preferences.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/version.dart';
 import 'package:aedex/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -250,8 +249,9 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                                                   .preferencesRepository,
                                             )
                                             .setLogsActived(value);
-                                        sl.get<LogManager>().logsActived =
-                                            value;
+                                        aedappfm.sl
+                                            .get<LogManager>()
+                                            .logsActived = value;
                                         setState(() {});
                                       },
                                     ),
@@ -443,8 +443,8 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                 child: Consumer(
                   builder: (context, ref, child) {
                     final asyncVersionString = ref.watch(
-                      versionStringProvider(
-                        AppLocalizations.of(context)!,
+                      aedappfm.versionStringProvider(
+                        aedappfm.AppLocalizations.of(context)!,
                       ),
                     );
                     return Text(

@@ -9,7 +9,7 @@ import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -47,7 +47,7 @@ class LiquidityRemoveFormNotifier
     double lpTokenAmount, {
     Duration delay = const Duration(milliseconds: 800),
   }) async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     late final Map<String, dynamic> removeAmounts;
     try {
       removeAmounts = await Future<Map<String, dynamic>>(

@@ -1,6 +1,6 @@
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class _LiquidityRemoveLPTokenAmountState
         ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: liquidityRemove.lpTokenAmount == 0
@@ -120,7 +120,7 @@ class _LiquidityRemoveLPTokenAmountState
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
-                              AmountTextInputFormatter(precision: 8),
+                              aedappfm.AmountTextInputFormatter(precision: 8),
                               LengthLimitingTextInputFormatter(10),
                             ],
                             decoration: const InputDecoration(

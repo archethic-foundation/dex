@@ -1,7 +1,7 @@
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
     final farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: farmDeposit.amount == 0 ? '' : farmDeposit.amount.toString(),
@@ -116,7 +116,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
-                              AmountTextInputFormatter(precision: 8),
+                              aedappfm.AmountTextInputFormatter(precision: 8),
                               LengthLimitingTextInputFormatter(
                                 farmDeposit.lpTokenBalance
                                         .formatNumber(

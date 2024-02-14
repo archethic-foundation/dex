@@ -9,7 +9,7 @@ import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';

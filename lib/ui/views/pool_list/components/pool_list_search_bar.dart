@@ -1,5 +1,5 @@
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -90,7 +90,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               keyboardType: TextInputType.text,
               inputFormatters: <TextInputFormatter>[
                 LengthLimitingTextInputFormatter(68),
-                UpperCaseTextFormatter(),
+                aedappfm.UpperCaseTextFormatter(),
               ],
               decoration: InputDecoration(
                 border: InputBorder.none,

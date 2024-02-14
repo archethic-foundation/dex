@@ -5,8 +5,9 @@ import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -101,7 +102,7 @@ class WithdrawFarmCase with TransactionDexMixin {
         ..setProcessInProgress(false)
         ..setFarmWithdrawOk(true);
     } catch (e) {
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<LogManager>().log(
             'TransactionWithdrawFarm sendTx failed $e',
             level: LogLevel.error,
             name: 'TransactionDexMixin - sendTransactions',

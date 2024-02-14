@@ -8,7 +8,6 @@ import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
-import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
@@ -40,7 +39,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
     child: Padding(
       padding: EdgeInsets.only(
         top: 100,
-        bottom: Responsive.isDesktop(context) ? 40 : 80,
+        bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 80,
       ),
       child: asyncFarms.when(
         skipLoadingOnRefresh: true,

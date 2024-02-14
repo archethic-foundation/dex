@@ -36,11 +36,9 @@ packages:
   archethic_dapp_framework_flutter:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "05f8e36405e178f67b285a4311959ea6ab407d20"
-      url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
-    source: git
+      path: "../archethic-dapp-framework-flutter"
+      relative: true
+    source: path
     version: "0.0.1+1"
   archethic_lib_dart:
     dependency: transitive
@@ -254,10 +252,10 @@ packages:
     dependency: transitive
     description:
       name: custom_lint_core
-      sha256: "9003a91409c9f1db6e2e50b4870d1d5e802e5923b25f7261bf3cb3e11ea9d4fb"
+      sha256: "1e9128e095ad5e0973469bdaac1ead8bfc86c485954c23cf617299de5e6fa029"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.6.1"
   dart_style:
     dependency: transitive
     description:

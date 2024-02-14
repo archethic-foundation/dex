@@ -7,7 +7,7 @@ Future<double> _getRatio(
   String poolGenesisAddress,
   DexToken token,
 ) async {
-  final apiService = sl.get<ApiService>();
+  final apiService = aedappfm.sl.get<ApiService>();
   final poolRatioResult = await PoolFactory(
     poolGenesisAddress,
     apiService,

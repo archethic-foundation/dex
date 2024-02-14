@@ -3,7 +3,7 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_selection.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
@@ -40,7 +40,7 @@ class _SwapTokenSwappedAmountState
     if (swap.tokenFormSelected == 1) {
       tokenAmountController = TextEditingController();
       tokenAmountController.value =
-          AmountTextInputFormatter(precision: 8).formatEditUpdate(
+          aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
         TextEditingValue.empty,
         TextEditingValue(
           text: swap.tokenSwappedAmount == 0
@@ -175,7 +175,7 @@ class _SwapTokenSwappedAmountState
                                                 TextInputAction.next,
                                             keyboardType: TextInputType.text,
                                             inputFormatters: <TextInputFormatter>[
-                                              AmountTextInputFormatter(
+                                              aedappfm.AmountTextInputFormatter(
                                                 precision: 8,
                                               ),
                                               LengthLimitingTextInputFormatter(
@@ -249,7 +249,7 @@ class _SwapTokenSwappedAmountState
                     balanceAmount: swap.tokenSwappedBalance,
                     onTap: () async {
                       tokenAmountController.value =
-                          AmountTextInputFormatter(precision: 8)
+                          aedappfm.AmountTextInputFormatter(precision: 8)
                               .formatEditUpdate(
                         TextEditingValue.empty,
                         TextEditingValue(
@@ -276,7 +276,7 @@ class _SwapTokenSwappedAmountState
                     balanceAmount: swap.tokenSwappedBalance,
                     onTap: () async {
                       tokenAmountController.value =
-                          AmountTextInputFormatter(precision: 8)
+                          aedappfm.AmountTextInputFormatter(precision: 8)
                               .formatEditUpdate(
                         TextEditingValue.empty,
                         TextEditingValue(

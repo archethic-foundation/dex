@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/util/endpoint_util.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -38,7 +38,8 @@ class DexMainMenuApp extends StatelessWidget {
                 begin: const Offset(-16, 0),
                 curve: Curves.easeOutQuad,
               ),
-          if (withFaucet && EndpointUtil.getEnvironnement() == 'testnet')
+          if (withFaucet &&
+              aedappfm.EndpointUtil.getEnvironnement() == 'testnet')
             _buildSubMenu(
               AppLocalizations.of(context)!.archethicDashboardMenuFaucetItem,
               AppLocalizations.of(context)!.archethicDashboardMenuFaucetDesc,

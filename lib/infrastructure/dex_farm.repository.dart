@@ -5,7 +5,8 @@ import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/repositories/dex_farm.repository.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,7 +29,7 @@ class DexFarmRepositoryImpl implements DexFarmRepository {
     DexPool pool,
     DexFarm farmInput,
   ) async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final farmFactory = FarmFactory(farmGenesisAddress, apiService);
 
     return farmFactory.populateFarmInfos(pool, farmInput).valueOrThrow;
@@ -39,7 +40,7 @@ class DexFarmRepositoryImpl implements DexFarmRepository {
     String farmGenesisAddress,
     String userGenesisAddress,
   ) async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final farmFactory = FarmFactory(farmGenesisAddress, apiService);
 
     final farmInfosResult = await farmFactory.getUserInfos(userGenesisAddress);

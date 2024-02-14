@@ -3,7 +3,7 @@
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_1_selection.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
     final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: poolAdd.token1Amount == 0 ? '' : poolAdd.token1Amount.toString(),
@@ -153,7 +153,9 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
-                                    AmountTextInputFormatter(precision: 8),
+                                    aedappfm.AmountTextInputFormatter(
+                                      precision: 8,
+                                    ),
                                   ],
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,

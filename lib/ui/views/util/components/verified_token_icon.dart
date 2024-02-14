@@ -1,6 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-import 'package:aedex/application/verified_tokens.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -20,7 +18,7 @@ class VerifiedTokenIcon extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<bool>(
       future: ref.read(
-        VerifiedTokensProviders.isVerifiedToken(address).future,
+        aedappfm.VerifiedTokensProviders.isVerifiedToken(address).future,
       ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {

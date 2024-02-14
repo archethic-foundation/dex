@@ -10,8 +10,9 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 
@@ -28,7 +29,7 @@ class ArchethicContract with TransactionDexMixin {
     String lpTokenAddress,
   ) async {
     return Result.guard(() async {
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final routerFactory = RouterFactory(routerAddress, apiService);
       final poolInfosResult = await routerFactory.getPoolAddresses(
         token1.isUCO ? 'UCO' : token1.address!,
@@ -125,7 +126,7 @@ class ArchethicContract with TransactionDexMixin {
   ) async {
     return Result.guard(() async {
       final feesToken = await calculateFees(transactionPool);
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
       );
@@ -151,7 +152,7 @@ class ArchethicContract with TransactionDexMixin {
     double slippage,
   ) async {
     return Result.guard(() async {
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final poolInfos = await PoolFactory(
         poolGenesisAddress,
         apiService,
@@ -246,7 +247,7 @@ class ArchethicContract with TransactionDexMixin {
     double slippage,
   ) async {
     return Result.guard(() async {
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
 
       var expectedTokenLP = 0.0;
       final expectedTokenLPResult = await PoolFactory(
@@ -353,7 +354,7 @@ class ArchethicContract with TransactionDexMixin {
     return Result.guard(() async {
       const burnAddress =
           '00000000000000000000000000000000000000000000000000000000000000000000';
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
       );
@@ -382,7 +383,7 @@ class ArchethicContract with TransactionDexMixin {
   ) async {
     return Result.guard(() async {
       const logName = 'ArchethicContract.getSwapInfos';
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
 
       var outputAmount = 0.0;
       final getSwapInfosResult = await PoolFactory(
@@ -396,7 +397,7 @@ class ArchethicContract with TransactionDexMixin {
           }
         },
         failure: (failure) {
-          sl.get<LogManager>().log(
+          aedappfm.sl.get<LogManager>().log(
                 '$failure',
                 level: LogLevel.error,
                 name: logName,
@@ -415,7 +416,7 @@ class ArchethicContract with TransactionDexMixin {
     double outputAmount,
   ) async {
     return Result.guard(() async {
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
       );
@@ -460,7 +461,7 @@ class ArchethicContract with TransactionDexMixin {
     double amount,
   ) async {
     return Result.guard(() async {
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
       );
@@ -490,7 +491,7 @@ class ArchethicContract with TransactionDexMixin {
     double amount,
   ) async {
     return Result.guard(() async {
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
       );
@@ -513,7 +514,7 @@ class ArchethicContract with TransactionDexMixin {
     String farmGenesisAddress,
   ) async {
     return Result.guard(() async {
-      final apiService = sl.get<archethic.ApiService>();
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
       );

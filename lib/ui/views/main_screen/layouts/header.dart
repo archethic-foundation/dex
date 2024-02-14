@@ -2,7 +2,6 @@ import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-import 'package:aedex/ui/views/util/generic/responsive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -53,8 +52,8 @@ class Header extends ConsumerWidget {
           ),
         ),
         if (withMenu &&
-            Responsive.isMobile(context) == false &&
-            Responsive.isTablet(context) == false)
+            aedappfm.Responsive.isMobile(context) == false &&
+            aedappfm.Responsive.isTablet(context) == false)
           Row(
             children: [
               const SizedBox(

@@ -10,7 +10,7 @@ import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -72,7 +72,7 @@ class LiquidityAddFormNotifier
   }
 
   Future<void> initRatio() async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final equivalentAmounResult =
         await PoolFactory(state.pool!.poolAddress, apiService)
             .getEquivalentAmount(
@@ -135,7 +135,7 @@ class LiquidityAddFormNotifier
     if (state.token1Amount <= 0 || state.token2Amount <= 0) {
       return;
     }
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final expectedTokenLPResult = await PoolFactory(
       state.pool!.poolAddress,
       apiService,
@@ -155,7 +155,7 @@ class LiquidityAddFormNotifier
     double amount, {
     Duration delay = const Duration(milliseconds: 800),
   }) async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     late final double equivalentAmount;
     try {
       equivalentAmount = await Future<double>(

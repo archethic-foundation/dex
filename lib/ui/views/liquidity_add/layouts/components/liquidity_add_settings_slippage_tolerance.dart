@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -87,7 +88,7 @@ class LiquiditySettingsSlippageToleranceState
                   textInputAction: TextInputAction.none,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
-                    AmountTextInputFormatter(),
+                    aedappfm.AmountTextInputFormatter(),
                     LengthLimitingTextInputFormatter(5),
                   ],
                   onChanged: (_) {

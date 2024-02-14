@@ -8,10 +8,12 @@ environment:
   sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
+  #archethic_dapp_framework_flutter:
+  #  git:
+  #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+  #    ref: main
   archethic_dapp_framework_flutter:
-    git:
-      url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
-      ref: main
+    path: ../archethic-dapp-framework-flutter
 
   # A client dart library to interact with Archethic Wallet RPC API.
   archethic_wallet_client: ^1.0.0
@@ -118,8 +120,6 @@ flutter:
     - lib/domain/repositories/common_bases.json
     - lib/domain/repositories/config.json
     - lib/domain/repositories/blockchains_list.json
-    - lib/domain/repositories/tokens/verified_tokens.json
-    - lib/domain/repositories/tokens/ucids_tokens.json
 
   fonts:
     - family: Roboto

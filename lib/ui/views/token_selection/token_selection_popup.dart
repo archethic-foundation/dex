@@ -4,7 +4,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/token_selection/components/token_list.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_common_bases.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_search_bar.dart';
-import 'package:aedex/util/endpoint_util.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class TokenSelectionPopup {
 
     final jsonData = jsonDecode(jsonContent);
 
-    final currentEnvironment = EndpointUtil.getEnvironnement();
+    final currentEnvironment = aedappfm.EndpointUtil.getEnvironnement();
     final tokens = jsonData['tokens'][currentEnvironment] as List<dynamic>;
     if (!context.mounted) return null;
     return showDialog<DexToken>(

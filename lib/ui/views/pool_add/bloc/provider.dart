@@ -10,7 +10,8 @@ import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
@@ -308,7 +309,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     final dexConfig =
         await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
 
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final routerFactory =
         RouterFactory(dexConfig.routerGenesisAddress, apiService);
     final poolInfosResult = await routerFactory.getPoolAddresses(
