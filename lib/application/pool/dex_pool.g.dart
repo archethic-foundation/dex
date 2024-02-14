@@ -6,7 +6,7 @@ part of 'dex_pool.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dexPoolRepositoryHash() => r'99ce0e0d50aee1c33445aeaead3791ada1bfbc89';
+String _$dexPoolRepositoryHash() => r'f0302ebbeaf116b99bb49d1f59bca82c50263afd';
 
 /// See also [_dexPoolRepository].
 @ProviderFor(_dexPoolRepository)
@@ -510,7 +510,7 @@ final _getPoolListFromCacheProvider =
 
 typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$putPoolListInfosToCacheHash() =>
-    r'27cd679f0a48250a0cfdff498b8256c2989f61a1';
+    r'c5eacd0718e1eee05944e51307915b32b4614d84';
 
 /// See also [_putPoolListInfosToCache].
 @ProviderFor(_putPoolListInfosToCache)
@@ -654,7 +654,7 @@ class _UpdatePoolInCacheProviderElement
   DexPool get pool => (origin as _UpdatePoolInCacheProvider).pool;
 }
 
-String _$putPoolToCacheHash() => r'0585aaf6f3e4c4cc47f9de9fc481824499c7640b';
+String _$putPoolToCacheHash() => r'a7ab5f240480bc7fed374400dd344921afaf397e';
 
 /// See also [_putPoolToCache].
 @ProviderFor(_putPoolToCache)
@@ -800,7 +800,7 @@ class _PutPoolToCacheProviderElement
   bool get isFavorite => (origin as _PutPoolToCacheProvider).isFavorite;
 }
 
-String _$getRatioHash() => r'354f7dc1b45d6a475670dfcda2997a5f86dec992';
+String _$getRatioHash() => r'd0e8379f3ff23a4e46630f2894dc74edca0ebccc';
 
 /// See also [_getRatio].
 @ProviderFor(_getRatio)
@@ -1074,7 +1074,7 @@ class _EstimatePoolTVLInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'ba36fd6a4cb8c359b194e3e907929420862b5316';
+String _$estimateStatsHash() => r'09cd7b1bd7b2e738365daea6d9e3ffd72c96d985';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -1386,7 +1386,7 @@ class _PopulatePoolInfosWithTokenStats24hProviderElement
           .transactionChainResult;
 }
 
-String _$getPoolListHash() => r'1daa1e01352e4141d199744c7cfcd53fb4c35d6e';
+String _$getPoolListHash() => r'16e7eec455072fd0993f449847710e84fa505d08';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)

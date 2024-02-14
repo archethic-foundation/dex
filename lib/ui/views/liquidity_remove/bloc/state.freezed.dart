@@ -36,7 +36,7 @@ mixin _$LiquidityRemoveFormState {
   double get token2Balance => throw _privateConstructorUsedError;
   Transaction? get transactionRemoveLiquidity =>
       throw _privateConstructorUsedError;
-  Failure? get failure => throw _privateConstructorUsedError;
+  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LiquidityRemoveFormStateCopyWith<LiquidityRemoveFormState> get copyWith =>
@@ -68,7 +68,7 @@ abstract class $LiquidityRemoveFormStateCopyWith<$Res> {
       double token1Balance,
       double token2Balance,
       Transaction? transactionRemoveLiquidity,
-      Failure? failure});
+      aedappfm.Failure? failure});
 
   $DexPoolCopyWith<$Res>? get pool;
   $DexTokenCopyWith<$Res>? get token1;
@@ -188,7 +188,7 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
     ) as $Val);
   }
 
@@ -294,7 +294,7 @@ abstract class _$$LiquidityRemoveFormStateImplCopyWith<$Res>
       double token1Balance,
       double token2Balance,
       Transaction? transactionRemoveLiquidity,
-      Failure? failure});
+      aedappfm.Failure? failure});
 
   @override
   $DexPoolCopyWith<$Res>? get pool;
@@ -419,7 +419,7 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
     ));
   }
 }
@@ -499,7 +499,7 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   @override
   final Transaction? transactionRemoveLiquidity;
   @override
-  final Failure? failure;
+  final aedappfm.Failure? failure;
 
   @override
   String toString() {
@@ -602,7 +602,7 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
       final double token1Balance,
       final double token2Balance,
       final Transaction? transactionRemoveLiquidity,
-      final Failure? failure}) = _$LiquidityRemoveFormStateImpl;
+      final aedappfm.Failure? failure}) = _$LiquidityRemoveFormStateImpl;
   const _LiquidityRemoveFormState._() : super._();
 
   @override
@@ -642,7 +642,7 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
   @override
   Transaction? get transactionRemoveLiquidity;
   @override
-  Failure? get failure;
+  aedappfm.Failure? get failure;
   @override
   @JsonKey(ignore: true)
   _$$LiquidityRemoveFormStateImplCopyWith<_$LiquidityRemoveFormStateImpl>

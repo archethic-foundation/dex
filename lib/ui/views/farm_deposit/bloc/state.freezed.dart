@@ -27,7 +27,7 @@ mixin _$FarmDepositFormState {
   double get amount => throw _privateConstructorUsedError;
   Transaction? get transactionDepositFarm => throw _privateConstructorUsedError;
   double get lpTokenBalance => throw _privateConstructorUsedError;
-  Failure? get failure => throw _privateConstructorUsedError;
+  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -52,7 +52,7 @@ abstract class $FarmDepositFormStateCopyWith<$Res> {
       double amount,
       Transaction? transactionDepositFarm,
       double lpTokenBalance,
-      Failure? failure,
+      aedappfm.Failure? failure,
       double? finalAmount});
 
   $DexFarmCopyWith<$Res>? get dexFarmInfo;
@@ -131,7 +131,7 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
       finalAmount: freezed == finalAmount
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
@@ -195,7 +195,7 @@ abstract class _$$FarmDepositFormStateImplCopyWith<$Res>
       double amount,
       Transaction? transactionDepositFarm,
       double lpTokenBalance,
-      Failure? failure,
+      aedappfm.Failure? failure,
       double? finalAmount});
 
   @override
@@ -274,7 +274,7 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
       finalAmount: freezed == finalAmount
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
@@ -330,7 +330,7 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
   @JsonKey()
   final double lpTokenBalance;
   @override
-  final Failure? failure;
+  final aedappfm.Failure? failure;
   @override
   final double? finalAmount;
 
@@ -405,7 +405,7 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
       final double amount,
       final Transaction? transactionDepositFarm,
       final double lpTokenBalance,
-      final Failure? failure,
+      final aedappfm.Failure? failure,
       final double? finalAmount}) = _$FarmDepositFormStateImpl;
   const _FarmDepositFormState._() : super._();
 
@@ -430,7 +430,7 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
   @override
   double get lpTokenBalance;
   @override
-  Failure? get failure;
+  aedappfm.Failure? get failure;
   @override
   double? get finalAmount;
   @override

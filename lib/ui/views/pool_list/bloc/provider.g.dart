@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$poolsToDisplayHash() => r'36d1218ca644c812f251d747cfa05352d963a1b2';
+String _$poolsToDisplayHash() => r'b488a05849ae6e2ae3c1c9036ec11d7610a47862';
 
 /// Copied from Dart SDK
 class _SystemHash {

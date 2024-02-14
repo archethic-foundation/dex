@@ -26,7 +26,7 @@ mixin _$FarmClaimFormState {
   bool get farmClaimOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
   Transaction? get transactionClaimFarm => throw _privateConstructorUsedError;
-  Failure? get failure => throw _privateConstructorUsedError;
+  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -50,7 +50,7 @@ abstract class $FarmClaimFormStateCopyWith<$Res> {
       bool farmClaimOk,
       bool walletConfirmation,
       Transaction? transactionClaimFarm,
-      Failure? failure,
+      aedappfm.Failure? failure,
       double? finalAmount});
 
   $DexFarmCopyWith<$Res>? get dexFarm;
@@ -124,7 +124,7 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
       finalAmount: freezed == finalAmount
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
@@ -199,7 +199,7 @@ abstract class _$$FarmClaimFormStateImplCopyWith<$Res>
       bool farmClaimOk,
       bool walletConfirmation,
       Transaction? transactionClaimFarm,
-      Failure? failure,
+      aedappfm.Failure? failure,
       double? finalAmount});
 
   @override
@@ -275,7 +275,7 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
       finalAmount: freezed == finalAmount
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
@@ -326,7 +326,7 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   @override
   final Transaction? transactionClaimFarm;
   @override
-  final Failure? failure;
+  final aedappfm.Failure? failure;
   @override
   final double? finalAmount;
 
@@ -396,7 +396,7 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
       final bool farmClaimOk,
       final bool walletConfirmation,
       final Transaction? transactionClaimFarm,
-      final Failure? failure,
+      final aedappfm.Failure? failure,
       final double? finalAmount}) = _$FarmClaimFormStateImpl;
   const _FarmClaimFormState._() : super._();
 
@@ -419,7 +419,7 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   @override
   Transaction? get transactionClaimFarm;
   @override
-  Failure? get failure;
+  aedappfm.Failure? get failure;
   @override
   double? get finalAmount;
   @override

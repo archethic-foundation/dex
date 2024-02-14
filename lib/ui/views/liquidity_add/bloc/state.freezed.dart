@@ -44,7 +44,7 @@ mixin _$LiquidityAddFormState {
   Transaction? get transactionAddLiquidity =>
       throw _privateConstructorUsedError;
   bool get calculationInProgress => throw _privateConstructorUsedError;
-  Failure? get failure => throw _privateConstructorUsedError;
+  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LiquidityAddFormStateCopyWith<LiquidityAddFormState> get copyWith =>
@@ -84,7 +84,7 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       double lpTokenBalance,
       Transaction? transactionAddLiquidity,
       bool calculationInProgress,
-      Failure? failure});
+      aedappfm.Failure? failure});
 
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
@@ -243,7 +243,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
     ) as $Val);
   }
 
@@ -344,7 +344,7 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       double lpTokenBalance,
       Transaction? transactionAddLiquidity,
       bool calculationInProgress,
-      Failure? failure});
+      aedappfm.Failure? failure});
 
   @override
   $DexTokenCopyWith<$Res>? get token1;
@@ -506,7 +506,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
     ));
   }
 }
@@ -619,7 +619,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   @JsonKey()
   final bool calculationInProgress;
   @override
-  final Failure? failure;
+  final aedappfm.Failure? failure;
 
   @override
   String toString() {
@@ -752,7 +752,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final double lpTokenBalance,
       final Transaction? transactionAddLiquidity,
       final bool calculationInProgress,
-      final Failure? failure}) = _$LiquidityAddFormStateImpl;
+      final aedappfm.Failure? failure}) = _$LiquidityAddFormStateImpl;
   const _LiquidityAddFormState._() : super._();
 
   @override
@@ -808,7 +808,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   @override
   bool get calculationInProgress;
   @override
-  Failure? get failure;
+  aedappfm.Failure? get failure;
   @override
   @JsonKey(ignore: true)
   _$$LiquidityAddFormStateImplCopyWith<_$LiquidityAddFormStateImpl>

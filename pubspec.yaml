@@ -55,9 +55,6 @@ dependencies:
   # Annotations for freezed
   freezed_annotation: ^2.4.1
 
-  # Simple direct Service Locator that allows to decouple the interface from a concrete implementation and to access the concrete implementation from everywhere in your App
-  get_it: ^7.6.7
-
   # A declarative router for Flutter based on Navigation 2 supporting deep linking, data-driven routes and more
   go_router: ^13.2.0
 
@@ -77,17 +74,11 @@ dependencies:
   # A Flutter plugin for rendering an animated and customizable starfield on a dark background.
   lit_starfield: ^0.1.1
 
-  # Flutter plugin for querying information about the application package, such as CFBundleVersion on iOS or versionCode on Android
-  package_info_plus: ^4.2.0
-
   # Flutter plugin for getting commonly used locations on host platform file systems, such as the temp and app data directories.
   path_provider: ^2.1.2
 
   # A package exposing annotations for riverpod_generator
   riverpod_annotation: ^2.3.4
-
-  # Bar indicator made of a series of selected and unselected steps
-  step_progress_indicator: ^1.0.2
 
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.2.4

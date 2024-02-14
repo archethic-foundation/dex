@@ -440,7 +440,7 @@ packages:
     source: hosted
     version: "3.2.0"
   get_it:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: get_it
       sha256: e6017ce7fdeaf218dc51a100344d8cb70134b80e28b760f8bb23c242437bafd7
@@ -736,7 +736,7 @@ packages:
     source: hosted
     version: "2.1.0"
   package_info_plus:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: package_info_plus
       sha256: "7e76fad405b3e4016cd39d08f455a4eb5199723cf594cd1b8916d47140d93017"
@@ -1053,7 +1053,7 @@ packages:
     source: hosted
     version: "1.0.0"
   step_progress_indicator:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: step_progress_indicator
       sha256: b51bb1fcfc78454359f0658c5a2c21548c3825ebf76e826308e9ca10f383bbb8

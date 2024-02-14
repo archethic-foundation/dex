@@ -41,7 +41,7 @@ mixin _$SwapFormState {
   double get priceImpact => throw _privateConstructorUsedError;
   double get estimatedReceived => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
-  Failure? get failure => throw _privateConstructorUsedError;
+  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
   Transaction? get recoveryTransactionSwap =>
       throw _privateConstructorUsedError;
   bool get calculationInProgress => throw _privateConstructorUsedError;
@@ -84,7 +84,7 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double priceImpact,
       double estimatedReceived,
       double? finalAmount,
-      Failure? failure,
+      aedappfm.Failure? failure,
       Transaction? recoveryTransactionSwap,
       bool calculationInProgress,
       DexPool? pool});
@@ -243,7 +243,7 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
       recoveryTransactionSwap: freezed == recoveryTransactionSwap
           ? _value.recoveryTransactionSwap
           : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
@@ -354,7 +354,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
       double priceImpact,
       double estimatedReceived,
       double? finalAmount,
-      Failure? failure,
+      aedappfm.Failure? failure,
       Transaction? recoveryTransactionSwap,
       bool calculationInProgress,
       DexPool? pool});
@@ -516,7 +516,7 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
       recoveryTransactionSwap: freezed == recoveryTransactionSwap
           ? _value.recoveryTransactionSwap
           : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
@@ -641,7 +641,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
   @override
   final double? finalAmount;
   @override
-  final Failure? failure;
+  final aedappfm.Failure? failure;
   @override
   final Transaction? recoveryTransactionSwap;
   @override
@@ -785,7 +785,7 @@ abstract class _SwapFormState extends SwapFormState {
       final double priceImpact,
       final double estimatedReceived,
       final double? finalAmount,
-      final Failure? failure,
+      final aedappfm.Failure? failure,
       final Transaction? recoveryTransactionSwap,
       final bool calculationInProgress,
       final DexPool? pool}) = _$SwapFormStateImpl;
@@ -842,7 +842,7 @@ abstract class _SwapFormState extends SwapFormState {
   @override
   double? get finalAmount;
   @override
-  Failure? get failure;
+  aedappfm.Failure? get failure;
   @override
   Transaction? get recoveryTransactionSwap;
   @override

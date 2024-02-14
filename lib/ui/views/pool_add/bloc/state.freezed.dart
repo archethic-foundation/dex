@@ -40,7 +40,7 @@ mixin _$PoolAddFormState {
   Transaction? get recoveryTransactionAddPoolLiquidity =>
       throw _privateConstructorUsedError;
   String? get recoveryPoolGenesisAddress => throw _privateConstructorUsedError;
-  Failure? get failure => throw _privateConstructorUsedError;
+  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolAddFormStateCopyWith<PoolAddFormState> get copyWith =>
@@ -74,7 +74,7 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
       Transaction? recoveryTransactionAddPoolTransfer,
       Transaction? recoveryTransactionAddPoolLiquidity,
       String? recoveryPoolGenesisAddress,
-      Failure? failure});
+      aedappfm.Failure? failure});
 
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
@@ -205,7 +205,7 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
     ) as $Val);
   }
 
@@ -316,7 +316,7 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
       Transaction? recoveryTransactionAddPoolTransfer,
       Transaction? recoveryTransactionAddPoolLiquidity,
       String? recoveryPoolGenesisAddress,
-      Failure? failure});
+      aedappfm.Failure? failure});
 
   @override
   $DexTokenCopyWith<$Res>? get token1;
@@ -451,7 +451,7 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
     ));
   }
 }
@@ -538,7 +538,7 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
   @override
   final String? recoveryPoolGenesisAddress;
   @override
-  final Failure? failure;
+  final aedappfm.Failure? failure;
 
   @override
   String toString() {
@@ -655,7 +655,7 @@ abstract class _PoolAddFormState extends PoolAddFormState {
       final Transaction? recoveryTransactionAddPoolTransfer,
       final Transaction? recoveryTransactionAddPoolLiquidity,
       final String? recoveryPoolGenesisAddress,
-      final Failure? failure}) = _$PoolAddFormStateImpl;
+      final aedappfm.Failure? failure}) = _$PoolAddFormStateImpl;
   const _PoolAddFormState._() : super._();
 
   @override
@@ -699,7 +699,7 @@ abstract class _PoolAddFormState extends PoolAddFormState {
   @override
   String? get recoveryPoolGenesisAddress;
   @override
-  Failure? get failure;
+  aedappfm.Failure? get failure;
   @override
   @JsonKey(ignore: true)
   _$$PoolAddFormStateImplCopyWith<_$PoolAddFormStateImpl> get copyWith =>

@@ -28,7 +28,7 @@ mixin _$FarmWithdrawFormState {
   double get amount => throw _privateConstructorUsedError;
   Transaction? get transactionWithdrawFarm =>
       throw _privateConstructorUsedError;
-  Failure? get failure => throw _privateConstructorUsedError;
+  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -53,7 +53,7 @@ abstract class $FarmWithdrawFormStateCopyWith<$Res> {
       bool walletConfirmation,
       double amount,
       Transaction? transactionWithdrawFarm,
-      Failure? failure,
+      aedappfm.Failure? failure,
       double? finalAmount});
 
   $DexFarmCopyWith<$Res>? get dexFarmInfo;
@@ -133,7 +133,7 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
       finalAmount: freezed == finalAmount
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
@@ -210,7 +210,7 @@ abstract class _$$FarmWithdrawFormStateImplCopyWith<$Res>
       bool walletConfirmation,
       double amount,
       Transaction? transactionWithdrawFarm,
-      Failure? failure,
+      aedappfm.Failure? failure,
       double? finalAmount});
 
   @override
@@ -292,7 +292,7 @@ class __$$FarmWithdrawFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as Failure?,
+              as aedappfm.Failure?,
       finalAmount: freezed == finalAmount
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
@@ -347,7 +347,7 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
   @override
   final Transaction? transactionWithdrawFarm;
   @override
-  final Failure? failure;
+  final aedappfm.Failure? failure;
   @override
   final double? finalAmount;
 
@@ -423,7 +423,7 @@ abstract class _FarmWithdrawFormState extends FarmWithdrawFormState {
       final bool walletConfirmation,
       final double amount,
       final Transaction? transactionWithdrawFarm,
-      final Failure? failure,
+      final aedappfm.Failure? failure,
       final double? finalAmount}) = _$FarmWithdrawFormStateImpl;
   const _FarmWithdrawFormState._() : super._();
 
@@ -448,7 +448,7 @@ abstract class _FarmWithdrawFormState extends FarmWithdrawFormState {
   @override
   Transaction? get transactionWithdrawFarm;
   @override
-  Failure? get failure;
+  aedappfm.Failure? get failure;
   @override
   double? get finalAmount;
   @override
