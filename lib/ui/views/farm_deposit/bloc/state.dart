@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -23,7 +24,7 @@ class FarmDepositFormState with _$FarmDepositFormState {
     @Default(0.0) double amount,
     Transaction? transactionDepositFarm,
     @Default(0.0) double lpTokenBalance,
-    Failure? failure,
+    aedappfm.Failure? failure,
     double? finalAmount,
   }) = _FarmDepositFormState;
   const FarmDepositFormState._();

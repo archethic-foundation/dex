@@ -8,10 +8,6 @@ import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_final_amount.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_resume_btn.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -91,7 +87,8 @@ class FarmWithdrawInProgressPopup {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            DexInProgressCircularStepProgressIndicator(
+                                            aedappfm
+                                                .InProgressCircularStepProgressIndicator(
                                               currentStep:
                                                   farmWithdraw.currentStep,
                                               totalSteps: 3,
@@ -99,14 +96,14 @@ class FarmWithdrawInProgressPopup {
                                                   .isProcessInProgress,
                                               failure: farmWithdraw.failure,
                                             ),
-                                            DexInProgressCurrentStep(
+                                            aedappfm.InProgressCurrentStep(
                                               steplabel: WithdrawFarmCase()
                                                   .getAEStepLabel(
                                                 context,
                                                 farmWithdraw.currentStep,
                                               ),
                                             ),
-                                            DexInProgressInfosBanner(
+                                            aedappfm.InProgressInfosBanner(
                                               isProcessInProgress: farmWithdraw
                                                   .isProcessInProgress,
                                               walletConfirmation: farmWithdraw
@@ -142,7 +139,7 @@ class FarmWithdrawInProgressPopup {
                                                     .address!,
                                               ),
                                             const Spacer(),
-                                            DexInProgressResumeBtn(
+                                            aedappfm.InProgressResumeBtn(
                                               currentStep:
                                                   farmWithdraw.currentStep,
                                               isProcessInProgress: farmWithdraw

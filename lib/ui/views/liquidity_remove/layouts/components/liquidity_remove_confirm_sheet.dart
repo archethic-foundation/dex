@@ -5,8 +5,8 @@ import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_infos.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_popup.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +26,7 @@ class LiquidityRemoveConfirmSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          DexButtonConfirmBack(
+          aedappfm.ButtonConfirmBack(
             title: AppLocalizations.of(context)!.liquidityRemoveConfirmTitle,
             onPressed: liquidityRemove.lpToken == null
                 ? null
@@ -47,7 +47,7 @@ class LiquidityRemoveConfirmSheet extends ConsumerWidget {
             height: 20,
           ),
           const Spacer(),
-          DexButtonConfirm(
+          aedappfm.ButtonConfirm(
             labelBtn:
                 AppLocalizations.of(context)!.btn_confirm_liquidity_remove,
             onPressed: () async {

@@ -5,7 +5,6 @@ import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -134,7 +133,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -236,14 +235,14 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         (BrowserUtil().isEdgeBrowser() ||
             BrowserUtil().isInternetExplorerBrowser())) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.token1 == null) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
         ),
       );
@@ -252,7 +251,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token2 == null) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
         ),
       );
@@ -261,7 +260,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token1!.address == state.token2!.address) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlSameTokens,
         ),
       );
@@ -270,7 +269,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token1Amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
         ),
       );
@@ -279,7 +278,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token2Amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
         ),
       );
@@ -288,7 +287,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token1Amount > state.token1Balance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .poolAddControlToken1AmountExceedBalance,
         ),
@@ -298,7 +297,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token2Amount > state.token2Balance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .poolAddControlToken2AmountExceedBalance,
         ),
@@ -319,7 +318,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     poolInfosResult.map(
       success: (success) {
         if (success != null && success['address'] != null) {
-          setFailure(const PoolAlreadyExists());
+          setFailure(const aedappfm.PoolAlreadyExists());
         }
       },
       failure: (failure) {},
@@ -341,7 +340,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
           final adjustedAmount = state.token1Balance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             setToken1Amount(adjustedAmount);
@@ -361,7 +360,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
           final adjustedAmount = state.token2Balance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             setToken2Amount(adjustedAmount);

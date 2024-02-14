@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:developer' as dev;
-
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -131,9 +129,9 @@ mixin TransactionDexMixin {
     result.when(
       failure: (failure) {
         if (failure.code == 4001) {
-          throw const Failure.userRejected();
+          throw const aedappfm.Failure.userRejected();
         }
-        throw Failure.other(
+        throw aedappfm.Failure.other(
           cause: failure.message,
           stack: failure.stack.toString(),
         );

@@ -8,10 +8,6 @@ import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_fina
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_resume_btn.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -91,7 +87,8 @@ class FarmDepositInProgressPopup {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            DexInProgressCircularStepProgressIndicator(
+                                            aedappfm
+                                                .InProgressCircularStepProgressIndicator(
                                               currentStep:
                                                   farmDeposit.currentStep,
                                               totalSteps: 3,
@@ -99,14 +96,14 @@ class FarmDepositInProgressPopup {
                                                   .isProcessInProgress,
                                               failure: farmDeposit.failure,
                                             ),
-                                            DexInProgressCurrentStep(
+                                            aedappfm.InProgressCurrentStep(
                                               steplabel: DepositFarmCase()
                                                   .getAEStepLabel(
                                                 context,
                                                 farmDeposit.currentStep,
                                               ),
                                             ),
-                                            DexInProgressInfosBanner(
+                                            aedappfm.InProgressInfosBanner(
                                               isProcessInProgress: farmDeposit
                                                   .isProcessInProgress,
                                               walletConfirmation: farmDeposit
@@ -142,7 +139,7 @@ class FarmDepositInProgressPopup {
                                                     .address!,
                                               ),
                                             const Spacer(),
-                                            DexInProgressResumeBtn(
+                                            aedappfm.InProgressResumeBtn(
                                               currentStep:
                                                   farmDeposit.currentStep,
                                               isProcessInProgress: farmDeposit

@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
@@ -137,13 +136,13 @@ class AddPoolCase with TransactionDexMixin {
           transactionAddPoolTransfer,
         );
       } catch (e) {
-        if (e is Failure) {
+        if (e is aedappfm.Failure) {
           poolAddNotifier
             ..setFailure(e)
             ..setProcessInProgress(false);
           return;
         }
-        poolAddNotifier.setFailure(Failure.other(cause: e.toString()));
+        poolAddNotifier.setFailure(aedappfm.Failure.other(cause: e.toString()));
 
         return;
       }
@@ -213,7 +212,7 @@ class AddPoolCase with TransactionDexMixin {
               level: LogLevel.error,
               name: 'TransactionDexMixin - sendTransactions',
             );
-        if (e is Failure) {
+        if (e is aedappfm.Failure) {
           poolAddNotifier
             ..setFailure(e)
             ..setProcessInProgress(false);
@@ -221,7 +220,7 @@ class AddPoolCase with TransactionDexMixin {
           return;
         }
         poolAddNotifier
-          ..setFailure(Failure.other(cause: e.toString()))
+          ..setFailure(aedappfm.Failure.other(cause: e.toString()))
           ..setProcessInProgress(false);
         return;
       }
@@ -247,7 +246,7 @@ class AddPoolCase with TransactionDexMixin {
 
         poolAddNotifier
           ..setFailure(
-            Failure.other(
+            aedappfm.Failure.other(
               cause: e.toString(),
             ),
           )

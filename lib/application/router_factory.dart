@@ -3,8 +3,6 @@ import 'dart:async';
 
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
@@ -26,11 +24,12 @@ class RouterFactory with ModelParser {
   /// Returns the info of the pool for the 2 tokens address.
   /// [token1Address] is the address of the first token
   /// [token2Address] is the address of the second token
-  Future<Result<Map<String, dynamic>?, Failure>> getPoolAddresses(
+  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
+      getPoolAddresses(
     String token1Address,
     String token2Address,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -59,10 +58,10 @@ class RouterFactory with ModelParser {
   }
 
   /// Return the infos of all the pools.
-  Future<Result<List<DexPool>, Failure>> getPoolList(
+  Future<aedappfm.Result<List<DexPool>, aedappfm.Failure>> getPoolList(
     Balance? userBalance,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final results = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -133,10 +132,10 @@ class RouterFactory with ModelParser {
   }
 
   /// Return the infos of all the farms.
-  Future<Result<List<DexFarm>, Failure>> getFarmList(
+  Future<aedappfm.Result<List<DexFarm>, aedappfm.Failure>> getFarmList(
     List<DexPool> poolList,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final results = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -174,12 +173,12 @@ class RouterFactory with ModelParser {
   /// The transaction triggering this action should be the transaction that create the pool.
   /// The transaction should be a token transaction with the token definition returned by the function get_lp_token_definition.
   /// It should also have the code returned by the function get_pool_code.
-  Future<Result<void, Failure>> addPool(
+  Future<aedappfm.Result<void, aedappfm.Failure>> addPool(
     String token1Address,
     String token2Address,
     String stateAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -203,14 +202,14 @@ class RouterFactory with ModelParser {
   /// The transaction triggering this action should also add the first amount of reward token to the previously created farm.
   /// The transaction that created the farm should be a contract transaction with the code returned by the function get_farm_code
   /// of the Factory contract.
-  Future<Result<void, Failure>> addFarm(
+  Future<aedappfm.Result<void, aedappfm.Failure>> addFarm(
     String lpTokenAddress,
     int startDate,
     int endDate,
     String rewardTokenAddress,
     String farmCreationAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(

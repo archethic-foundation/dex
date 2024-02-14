@@ -120,7 +120,7 @@ Future<void> _putPoolToCache(
   final pool = poolList.firstWhere(
     (element) =>
         element.poolAddress.toUpperCase() == poolGenesisAddress.toUpperCase(),
-    orElse: () => throw const Failure.poolNotExists(),
+    orElse: () => throw const aedappfm.Failure.poolNotExists(),
   );
 
   final fromCriteria =

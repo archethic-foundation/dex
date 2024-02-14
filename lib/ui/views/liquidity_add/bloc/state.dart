@@ -2,7 +2,8 @@
 
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -40,7 +41,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(0.0) double lpTokenBalance,
     Transaction? transactionAddLiquidity,
     @Default(false) bool calculationInProgress,
-    Failure? failure,
+    aedappfm.Failure? failure,
   }) = _LiquidityAddFormState;
   const LiquidityAddFormState._();
 

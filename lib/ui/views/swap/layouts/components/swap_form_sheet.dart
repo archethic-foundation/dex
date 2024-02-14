@@ -1,4 +1,3 @@
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
@@ -53,7 +52,7 @@ class SwapFormSheet extends ConsumerWidget {
                           ),
                         ),
                       DexErrorMessage(failure: swap.failure),
-                      if (swap.failure is PoolNotExists &&
+                      if (swap.failure is aedappfm.PoolNotExists &&
                           swap.tokenToSwap != null &&
                           swap.tokenSwapped != null &&
                           swap.tokenToSwap!.address !=

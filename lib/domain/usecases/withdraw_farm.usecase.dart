@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
@@ -80,11 +79,12 @@ class WithdrawFarmCase with TransactionDexMixin {
           transactionWithdraw!,
         );
     } catch (e) {
-      if (e is Failure) {
+      if (e is aedappfm.Failure) {
         farmWithdrawNotifier.setFailure(e);
         return;
       }
-      farmWithdrawNotifier.setFailure(Failure.other(cause: e.toString()));
+      farmWithdrawNotifier
+          .setFailure(aedappfm.Failure.other(cause: e.toString()));
 
       return;
     }
@@ -109,7 +109,7 @@ class WithdrawFarmCase with TransactionDexMixin {
           );
 
       farmWithdrawNotifier.setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: e.toString(),
         ),
       );

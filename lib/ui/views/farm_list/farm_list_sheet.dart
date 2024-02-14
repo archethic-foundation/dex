@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
@@ -45,7 +44,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
         skipLoadingOnRefresh: true,
         skipLoadingOnReload: true,
         error: (error, stackTrace) =>
-            DexErrorMessage(failure: Failure.fromError(error)),
+            DexErrorMessage(failure: aedappfm.Failure.fromError(error)),
         loading: aedappfm.Loading.new,
         data: (farms) => GridView.builder(
           gridDelegate: const aedappfm.SliverGridDelegateWithFixedSize(

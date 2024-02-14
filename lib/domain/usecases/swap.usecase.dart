@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
@@ -50,7 +49,7 @@ class SwapCase with TransactionDexMixin {
             outputAmount = success;
 
             if (outputAmount <= 0) {
-              throw const Failure.other(
+              throw const aedappfm.Failure.other(
                 cause: 'Error outputAmount',
               );
             }
@@ -117,11 +116,11 @@ class SwapCase with TransactionDexMixin {
           transactionSwap,
         );
     } catch (e) {
-      if (e is Failure) {
+      if (e is aedappfm.Failure) {
         swapNotifier.setFailure(e);
         return;
       }
-      swapNotifier.setFailure(Failure.other(cause: e.toString()));
+      swapNotifier.setFailure(aedappfm.Failure.other(cause: e.toString()));
 
       return;
     }
@@ -146,7 +145,7 @@ class SwapCase with TransactionDexMixin {
           );
 
       swapNotifier.setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: e.toString(),
         ),
       );

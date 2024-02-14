@@ -7,7 +7,6 @@ import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -93,12 +92,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               await getPool();
             } else {
               setPoolAddress('');
-              setFailure(const PoolNotExists());
+              setFailure(const aedappfm.PoolNotExists());
             }
           },
           failure: (failure) {
             setPoolAddress('');
-            setFailure(const PoolNotExists());
+            setFailure(const aedappfm.PoolNotExists());
           },
         );
       }
@@ -188,7 +187,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 },
                 failure: (failure) {
                   setFailure(
-                    Failure.other(
+                    aedappfm.Failure.other(
                       cause: 'calculateOutputAmount error $failure',
                     ),
                   );
@@ -359,12 +358,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               await getPool();
             } else {
               setPoolAddress('');
-              setFailure(const PoolNotExists());
+              setFailure(const aedappfm.PoolNotExists());
             }
           },
           failure: (failure) {
             setPoolAddress('');
-            setFailure(const PoolNotExists());
+            setFailure(const aedappfm.PoolNotExists());
           },
         );
       }
@@ -492,7 +491,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -535,14 +534,14 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         (BrowserUtil().isEdgeBrowser() ||
             BrowserUtil().isInternetExplorerBrowser())) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.tokenToSwap == null) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
         ),
       );
@@ -551,7 +550,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
     if (state.tokenSwapped == null) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
         ),
       );
@@ -560,7 +559,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
     if (state.tokenToSwapAmount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
         ),
       );
@@ -569,7 +568,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
     if (state.tokenSwappedAmount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
         ),
       );
@@ -578,7 +577,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
     if (state.tokenToSwapAmount > state.tokenToSwapBalance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .swapControlTokenToSwapAmountExceedBalance,
         ),
@@ -598,7 +597,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           final adjustedAmount = state.tokenToSwapBalance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             await setTokenToSwapAmount(adjustedAmount);

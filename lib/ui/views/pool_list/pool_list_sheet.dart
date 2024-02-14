@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_add_cache_icon.dart';
@@ -109,7 +108,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
               ],
             ),
             error: (error, stackTrace) =>
-                DexErrorMessage(failure: Failure.fromError(error)),
+                DexErrorMessage(failure: aedappfm.Failure.fromError(error)),
             data: (pools) {
               if (session.isConnected == false &&
                   poolListForm.tabIndexSelected == PoolsListTab.myPools) {

@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
@@ -69,11 +68,12 @@ class RemoveLiquidityCase with TransactionDexMixin {
           ..setWalletConfirmation(false)
           ..setTransactionRemoveLiquidity(transactionRemoveLiquidity!);
       } catch (e) {
-        if (e is Failure) {
+        if (e is aedappfm.Failure) {
           liquidityRemoveNotifier.setFailure(e);
           return;
         }
-        liquidityRemoveNotifier.setFailure(Failure.other(cause: e.toString()));
+        liquidityRemoveNotifier
+            .setFailure(aedappfm.Failure.other(cause: e.toString()));
 
         return;
       }
@@ -101,7 +101,7 @@ class RemoveLiquidityCase with TransactionDexMixin {
           );
 
       liquidityRemoveNotifier.setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: e.toString(),
         ),
       );

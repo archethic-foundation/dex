@@ -7,10 +7,6 @@ import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_resume_btn.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -89,21 +85,22 @@ class PoolAddInProgressPopup {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            DexInProgressCircularStepProgressIndicator(
+                                            aedappfm
+                                                .InProgressCircularStepProgressIndicator(
                                               currentStep: poolAdd.currentStep,
                                               totalSteps: 6,
                                               isProcessInProgress:
                                                   poolAdd.isProcessInProgress,
                                               failure: poolAdd.failure,
                                             ),
-                                            DexInProgressCurrentStep(
+                                            aedappfm.InProgressCurrentStep(
                                               steplabel:
                                                   AddPoolCase().getAEStepLabel(
                                                 context,
                                                 poolAdd.currentStep,
                                               ),
                                             ),
-                                            DexInProgressInfosBanner(
+                                            aedappfm.InProgressInfosBanner(
                                               isProcessInProgress:
                                                   poolAdd.isProcessInProgress,
                                               walletConfirmation:
@@ -121,7 +118,7 @@ class PoolAddInProgressPopup {
                                             ),
                                             const PoolAddInProgressTxAddresses(),
                                             const Spacer(),
-                                            DexInProgressResumeBtn(
+                                            aedappfm.InProgressResumeBtn(
                                               currentStep: poolAdd.currentStep,
                                               isProcessInProgress:
                                                   poolAdd.isProcessInProgress,

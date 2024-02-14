@@ -1,7 +1,6 @@
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/repositories/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'

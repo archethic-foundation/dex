@@ -2,7 +2,8 @@
 
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
-import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -24,7 +25,7 @@ class FarmWithdrawFormState with _$FarmWithdrawFormState {
     @Default(false) bool walletConfirmation,
     @Default(0.0) double amount,
     Transaction? transactionWithdrawFarm,
-    Failure? failure,
+    aedappfm.Failure? failure,
     double? finalAmount,
   }) = _FarmWithdrawFormState;
   const FarmWithdrawFormState._();

@@ -3,7 +3,7 @@ import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_rem
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
+
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
@@ -102,7 +102,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                             ),
                           ),
                           Expanded(
-                            child: DexButtonClose(
+                            child: aedappfm.ButtonClose(
                               onPressed: () {
                                 ref
                                     .read(

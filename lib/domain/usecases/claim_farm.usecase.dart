@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
@@ -77,11 +76,11 @@ class ClaimFarmCase with TransactionDexMixin {
           transactionClaim!,
         );
     } catch (e) {
-      if (e is Failure) {
+      if (e is aedappfm.Failure) {
         farmClaimNotifier.setFailure(e);
         return;
       }
-      farmClaimNotifier.setFailure(Failure.other(cause: e.toString()));
+      farmClaimNotifier.setFailure(aedappfm.Failure.other(cause: e.toString()));
 
       return;
     }
@@ -106,7 +105,7 @@ class ClaimFarmCase with TransactionDexMixin {
           );
 
       farmClaimNotifier.setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: e.toString(),
         ),
       );

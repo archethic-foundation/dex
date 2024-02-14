@@ -7,8 +7,6 @@ import 'package:aedex/application/factory.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/util/custom_logs.dart';
 import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -19,7 +17,7 @@ import 'package:decimal/decimal.dart';
 class ArchethicContract with TransactionDexMixin {
   ArchethicContract();
 
-  Future<Result<archethic.Transaction, Failure>> getAddPoolTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>> getAddPoolTx(
     String routerAddress,
     String factoryAddress,
     DexToken token1,
@@ -28,7 +26,7 @@ class ArchethicContract with TransactionDexMixin {
     String poolGenesisAddress,
     String lpTokenAddress,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
       final routerFactory = RouterFactory(routerAddress, apiService);
       final poolInfosResult = await routerFactory.getPoolAddresses(
@@ -38,7 +36,7 @@ class ArchethicContract with TransactionDexMixin {
       poolInfosResult.map(
         success: (success) {
           if (success != null && success['address'] != null) {
-            throw const PoolAlreadyExists();
+            throw const aedappfm.PoolAlreadyExists();
           }
         },
         failure: (failure) {
@@ -57,7 +55,7 @@ class ArchethicContract with TransactionDexMixin {
       resultPoolCode.map(
         success: (success) {
           if (success.isEmpty) {
-            throw const Failure.other(
+            throw const aedappfm.Failure.other(
               cause: 'Pool code from smart contract is empty',
             );
           }
@@ -120,11 +118,12 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<archethic.Transaction, Failure>> getAddPoolTxTransfer(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getAddPoolTxTransfer(
     archethic.Transaction transactionPool,
     String poolGenesisAddress,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final feesToken = await calculateFees(transactionPool);
       final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
@@ -141,7 +140,8 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<archethic.Transaction, Failure>> getAddPoolPlusLiquidityTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getAddPoolPlusLiquidityTx(
     String routerAddress,
     String transactionPoolAddress,
     DexToken token1,
@@ -151,7 +151,7 @@ class ArchethicContract with TransactionDexMixin {
     String poolGenesisAddress,
     double slippage,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
       final poolInfos = await PoolFactory(
         poolGenesisAddress,
@@ -238,7 +238,8 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<archethic.Transaction, Failure>> getAddLiquidityTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getAddLiquidityTx(
     DexToken token1,
     double token1Amount,
     DexToken token2,
@@ -246,7 +247,7 @@ class ArchethicContract with TransactionDexMixin {
     String poolGenesisAddress,
     double slippage,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
 
       var expectedTokenLP = 0.0;
@@ -264,7 +265,7 @@ class ArchethicContract with TransactionDexMixin {
       );
 
       if (expectedTokenLP == 0) {
-        throw const Failure.other(
+        throw const aedappfm.Failure.other(
           cause: "Pool doesn't have liquidity, please fill both token amount",
         );
       }
@@ -346,12 +347,13 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<archethic.Transaction, Failure>> getRemoveLiquidityTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getRemoveLiquidityTx(
     String lpTokenAddress,
     double lpTokenAmount,
     String poolGenesisAddress,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       const burnAddress =
           '00000000000000000000000000000000000000000000000000000000000000000000';
       final apiService = aedappfm.sl.get<archethic.ApiService>();
@@ -376,12 +378,12 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<double, Failure>> getOutputAmount(
+  Future<aedappfm.Result<double, aedappfm.Failure>> getOutputAmount(
     DexToken tokenToSwap,
     double tokenToSwapAmount,
     String poolGenesisAddress,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       const logName = 'ArchethicContract.getSwapInfos';
       final apiService = aedappfm.sl.get<archethic.ApiService>();
 
@@ -408,14 +410,14 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<archethic.Transaction, Failure>> getSwapTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>> getSwapTx(
     DexToken tokenToSwap,
     double tokenToSwapAmount,
     String poolGenesisAddress,
     double slippage,
     double outputAmount,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
@@ -455,12 +457,12 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<archethic.Transaction, Failure>> getDepositTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>> getDepositTx(
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
@@ -486,11 +488,12 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<archethic.Transaction, Failure>> getWithdrawTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getWithdrawTx(
     String farmGenesisAddress,
     double amount,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
@@ -510,10 +513,10 @@ class ArchethicContract with TransactionDexMixin {
     });
   }
 
-  Future<Result<archethic.Transaction, Failure>> getClaimTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>> getClaimTx(
     String farmGenesisAddress,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,

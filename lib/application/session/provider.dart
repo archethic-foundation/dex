@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/state.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:aedex/util/custom_logs.dart';
@@ -85,7 +84,7 @@ class _SessionNotifier extends Notifier<Session> {
               level: LogLevel.error,
               name: '_SessionNotifier - connectToWallet',
             );
-        throw const Failure.connectivityArchethic();
+        throw const aedappfm.Failure.connectivityArchethic();
       }
 
       final endpointResponse = await archethicDAppClient.getEndpoint();

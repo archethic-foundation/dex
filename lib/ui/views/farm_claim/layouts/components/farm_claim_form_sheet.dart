@@ -1,11 +1,9 @@
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -131,7 +129,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                             ),
                           ),
                           Expanded(
-                            child: DexButtonClose(
+                            child: aedappfm.ButtonClose(
                               onPressed: () {
                                 ref
                                     .read(

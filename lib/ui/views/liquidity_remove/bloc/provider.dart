@@ -4,7 +4,6 @@ import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -73,7 +72,9 @@ class LiquidityRemoveFormNotifier
                 },
                 failure: (failure) {
                   setFailure(
-                    Failure.other(cause: 'getRemoveAmountss error $failure'),
+                    aedappfm.Failure.other(
+                      cause: 'getRemoveAmountss error $failure',
+                    ),
                   );
                 },
               );
@@ -160,7 +161,7 @@ class LiquidityRemoveFormNotifier
 
     if (amount > state.lpTokenBalance) {
       setFailure(
-        const Failure.lpTokenAmountExceedBalance(),
+        const aedappfm.Failure.lpTokenAmountExceedBalance(),
       );
       state = state.copyWith(
         token1AmountGetBack: 0,
@@ -197,7 +198,7 @@ class LiquidityRemoveFormNotifier
     );
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -262,14 +263,14 @@ class LiquidityRemoveFormNotifier
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.lpTokenAmount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityRemoveControlLPTokenAmountEmpty,
         ),
@@ -279,7 +280,7 @@ class LiquidityRemoveFormNotifier
 
     if (state.lpTokenAmount > state.lpTokenBalance) {
       setFailure(
-        const Failure.lpTokenAmountExceedBalance(),
+        const aedappfm.Failure.lpTokenAmountExceedBalance(),
       );
       return false;
     }

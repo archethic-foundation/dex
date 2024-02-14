@@ -3,7 +3,7 @@ import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
+
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -93,7 +93,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      DexButtonClose(
+                      aedappfm.ButtonClose(
                         onPressed: () {
                           ref
                               .read(navigationIndexMainScreenProvider.notifier)

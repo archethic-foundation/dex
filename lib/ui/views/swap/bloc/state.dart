@@ -2,7 +2,8 @@
 
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -38,7 +39,7 @@ class SwapFormState with _$SwapFormState {
     @Default(0.0) double priceImpact,
     @Default(0.0) double estimatedReceived,
     double? finalAmount,
-    Failure? failure,
+    aedappfm.Failure? failure,
     Transaction? recoveryTransactionSwap,
     @Default(false) bool calculationInProgress,
     DexPool? pool,

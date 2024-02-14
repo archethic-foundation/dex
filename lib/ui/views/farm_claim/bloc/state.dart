@@ -2,7 +2,8 @@
 
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
-import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -23,7 +24,7 @@ class FarmClaimFormState with _$FarmClaimFormState {
     @Default(false) bool farmClaimOk,
     @Default(false) bool walletConfirmation,
     Transaction? transactionClaimFarm,
-    Failure? failure,
+    aedappfm.Failure? failure,
     double? finalAmount,
   }) = _FarmClaimFormState;
   const FarmClaimFormState._();

@@ -5,7 +5,6 @@ import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -87,7 +86,11 @@ class LiquidityAddFormNotifier
         }
       },
       failure: (failure) {
-        setFailure(Failure.other(cause: 'getEquivalentAmount error $failure'));
+        setFailure(
+          aedappfm.Failure.other(
+            cause: 'getEquivalentAmount error $failure',
+          ),
+        );
       },
     );
     state = state.copyWith(ratio: ratio);
@@ -180,7 +183,9 @@ class LiquidityAddFormNotifier
                 },
                 failure: (failure) {
                   setFailure(
-                    Failure.other(cause: 'getEquivalentAmount error $failure'),
+                    aedappfm.Failure.other(
+                      cause: 'getEquivalentAmount error $failure',
+                    ),
                   );
                 },
               );
@@ -287,7 +292,7 @@ class LiquidityAddFormNotifier
     state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -363,14 +368,14 @@ class LiquidityAddFormNotifier
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.token1Amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityAddControlToken1AmountEmpty,
         ),
@@ -380,7 +385,7 @@ class LiquidityAddFormNotifier
 
     if (state.token2Amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityAddControlToken2AmountEmpty,
         ),
@@ -390,7 +395,7 @@ class LiquidityAddFormNotifier
 
     if (state.token1Amount > state.token1Balance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityAddControlToken1AmountExceedBalance,
         ),
@@ -400,7 +405,7 @@ class LiquidityAddFormNotifier
 
     if (state.token2Amount > state.token2Balance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityAddControlToken2AmountExceedBalance,
         ),
@@ -420,7 +425,7 @@ class LiquidityAddFormNotifier
           final adjustedAmount = state.token1Balance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             await setToken1Amount(adjustedAmount);
@@ -440,7 +445,7 @@ class LiquidityAddFormNotifier
           final adjustedAmount = state.token2Balance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             await setToken2Amount(adjustedAmount);

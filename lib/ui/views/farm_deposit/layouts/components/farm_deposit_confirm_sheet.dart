@@ -5,8 +5,8 @@ import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/state.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_confirm_infos.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_popup.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +25,7 @@ class FarmDepositConfirmSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          DexButtonConfirmBack(
+          aedappfm.ButtonConfirmBack(
             title: AppLocalizations.of(context)!.farmDepositConfirmTitle,
             onPressed: farmDeposit.dexFarmInfo == null
                 ? null
@@ -45,7 +45,7 @@ class FarmDepositConfirmSheet extends ConsumerWidget {
             height: 20,
           ),
           const Spacer(),
-          DexButtonConfirm(
+          aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_deposit,
             onPressed: () async {
               final farmDepositNotifier =

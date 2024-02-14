@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -32,7 +33,7 @@ class PoolAddFormState with _$PoolAddFormState {
     Transaction? recoveryTransactionAddPoolTransfer,
     Transaction? recoveryTransactionAddPoolLiquidity,
     String? recoveryPoolGenesisAddress,
-    Failure? failure,
+    aedappfm.Failure? failure,
   }) = _PoolAddFormState;
   const PoolAddFormState._();
 

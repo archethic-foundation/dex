@@ -5,7 +5,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_te
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
+
 import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
@@ -227,7 +227,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             ),
                           ),
                           Expanded(
-                            child: DexButtonClose(
+                            child: aedappfm.ButtonClose(
                               onPressed: () {
                                 ref
                                     .read(

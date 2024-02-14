@@ -7,10 +7,6 @@ import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_resume_btn.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -90,7 +86,8 @@ class LiquidityAddInProgressPopup {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            DexInProgressCircularStepProgressIndicator(
+                                            aedappfm
+                                                .InProgressCircularStepProgressIndicator(
                                               currentStep:
                                                   liquidityAdd.currentStep,
                                               totalSteps: 3,
@@ -98,14 +95,14 @@ class LiquidityAddInProgressPopup {
                                                   .isProcessInProgress,
                                               failure: liquidityAdd.failure,
                                             ),
-                                            DexInProgressCurrentStep(
+                                            aedappfm.InProgressCurrentStep(
                                               steplabel: AddLiquidityCase()
                                                   .getAEStepLabel(
                                                 context,
                                                 liquidityAdd.currentStep,
                                               ),
                                             ),
-                                            DexInProgressInfosBanner(
+                                            aedappfm.InProgressInfosBanner(
                                               isProcessInProgress: liquidityAdd
                                                   .isProcessInProgress,
                                               walletConfirmation: liquidityAdd
@@ -125,7 +122,7 @@ class LiquidityAddInProgressPopup {
                                             ),
                                             const LiquidityAddInProgressTxAddresses(),
                                             const Spacer(),
-                                            DexInProgressResumeBtn(
+                                            aedappfm.InProgressResumeBtn(
                                               currentStep:
                                                   liquidityAdd.currentStep,
                                               isProcessInProgress: liquidityAdd

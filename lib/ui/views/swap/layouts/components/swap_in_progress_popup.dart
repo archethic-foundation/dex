@@ -8,10 +8,6 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_final_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_circular_step_progress_indicator.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_current_step.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_infos_banner.dart';
-import 'package:aedex/ui/views/util/components/dex_in_progress_resume_btn.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -90,21 +86,22 @@ class SwapInProgressPopup {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            DexInProgressCircularStepProgressIndicator(
+                                            aedappfm
+                                                .InProgressCircularStepProgressIndicator(
                                               currentStep: swap.currentStep,
                                               totalSteps: 4,
                                               isProcessInProgress:
                                                   swap.isProcessInProgress,
                                               failure: swap.failure,
                                             ),
-                                            DexInProgressCurrentStep(
+                                            aedappfm.InProgressCurrentStep(
                                               steplabel:
                                                   SwapCase().getAEStepLabel(
                                                 context,
                                                 swap.currentStep,
                                               ),
                                             ),
-                                            DexInProgressInfosBanner(
+                                            aedappfm.InProgressInfosBanner(
                                               isProcessInProgress:
                                                   swap.isProcessInProgress,
                                               walletConfirmation:
@@ -136,7 +133,7 @@ class SwapInProgressPopup {
                                                     .address!,
                                               ),
                                             const Spacer(),
-                                            DexInProgressResumeBtn(
+                                            aedappfm.InProgressResumeBtn(
                                               currentStep: swap.currentStep,
                                               isProcessInProgress:
                                                   swap.isProcessInProgress,

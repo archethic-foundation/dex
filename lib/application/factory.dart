@@ -1,8 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/models/result.dart';
+
 import 'package:aedex/domain/models/util/model_parser.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 class Factory with ModelParser {
@@ -16,13 +17,13 @@ class Factory with ModelParser {
   /// [token2Address] is the second token address of the pair
   /// [poolAddress] is the genesis address of the pool chain
   /// [lpTokenAddress] is the address of the lp token (it should be the creation address of the pool)
-  Future<Result<String, Failure>> getPoolCode(
+  Future<aedappfm.Result<String, aedappfm.Failure>> getPoolCode(
     String token1Address,
     String token2Address,
     String poolAddress,
     String lpTokenAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -50,14 +51,14 @@ class Factory with ModelParser {
   /// [endDate] is the timestamp (in sec) where the farm ends to give reward (should be between 1 month and 1 year from start date)
   /// [rewardTokenAddress] is the reward token address or "UCO"
   /// [farmGenesisAddress] is the genesis address of the farm contract chain
-  Future<Result<String, Failure>> getFarmCode(
+  Future<aedappfm.Result<String, aedappfm.Failure>> getFarmCode(
     String lpTokenAddress,
     int startDate,
     int endDate,
     String rewardTokenAddress,
     String farmGenesisAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -83,11 +84,11 @@ class Factory with ModelParser {
   /// Return a the lp token definition to use when creating a pool. Returns a JSON stringified
   /// [token1Address] is the symbol of the first token
   /// [token2Address] is the symbol of the second token
-  Future<Result<String, Failure>> getLPTokenDefinition(
+  Future<aedappfm.Result<String, aedappfm.Failure>> getLPTokenDefinition(
     String token1Address,
     String token2Address,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final tokenDefinition = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
