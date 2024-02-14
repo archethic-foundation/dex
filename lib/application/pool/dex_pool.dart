@@ -1,8 +1,7 @@
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/coin_price.dart';
+
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/dex_token.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_pool.dart';

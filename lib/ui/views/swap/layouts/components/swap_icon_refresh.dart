@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/coin_price.dart';
+
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -15,8 +15,8 @@ class SwapTokenIconRefresh extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async {
-        ref.invalidate(CoinPriceProviders.coinPrice);
-        await ref.read(CoinPriceProviders.coinPrice.notifier).init();
+        ref.invalidate(aedappfm.CoinPriceProviders.coinPrice);
+        await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
         final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
         final swap = ref.read(SwapFormProvider.swapForm);
         await swapNotifier.calculateSwapInfos(

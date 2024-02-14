@@ -3,8 +3,7 @@ import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
-import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/transaction_dex_util.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -14,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'RemoveLiquidityCase';
 
-class RemoveLiquidityCase with TransactionDexMixin {
+class RemoveLiquidityCase with aedappfm.TransactionMixin {
   Future<void> run(
     String poolGenesisAddress,
     WidgetRef ref,
@@ -94,10 +93,10 @@ class RemoveLiquidityCase with TransactionDexMixin {
 
       unawaited(refreshCurrentAccountInfoWallet());
     } catch (e) {
-      aedappfm.sl.get<LogManager>().log(
+      aedappfm.sl.get<aedappfm.LogManager>().log(
             'TransactionRemoveLiquidity sendTx failed $e',
-            level: LogLevel.error,
-            name: 'TransactionDexMixin - sendTransactions',
+            level: aedappfm.LogLevel.error,
+            name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
       liquidityRemoveNotifier.setFailure(

@@ -7,7 +7,7 @@ import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
-import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -85,7 +85,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                             const FarmWithdrawFormSheet()
                           else
                             const FarmWithdrawConfirmSheet(),
-                          const DexArchethicOracleUco(),
+                          const aedappfm.ArchethicOracleUco(),
                         ],
                       ),
                     ),

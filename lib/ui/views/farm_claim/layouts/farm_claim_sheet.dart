@@ -8,7 +8,6 @@ import 'package:aedex/ui/views/farm_claim/bloc/state.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
-import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -88,7 +87,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                             const FarmClaimFormSheet()
                           else
                             const FarmClaimConfirmSheet(),
-                          const DexArchethicOracleUco(),
+                          const aedappfm.ArchethicOracleUco(),
                         ],
                       ),
                     ),

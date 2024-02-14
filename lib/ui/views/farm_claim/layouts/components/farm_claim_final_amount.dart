@@ -5,7 +5,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 
-import 'package:aedex/util/transaction_dex_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ class FarmClaimFinalAmount extends ConsumerStatefulWidget {
 }
 
 class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
-    with TransactionDexMixin {
+    with aedappfm.TransactionMixin {
   double? finalAmount;
   Timer? timer;
 

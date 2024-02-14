@@ -6,7 +6,7 @@ import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/custom_logs.dart';
+
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -78,10 +78,10 @@ class _SessionNotifier extends Notifier<Session> {
           replyBaseUrl: 'aeswap://archethic.tech',
         );
       } catch (e, stackTrace) {
-        aedappfm.sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               '$e',
               stackTrace: stackTrace,
-              level: LogLevel.error,
+              level: aedappfm.LogLevel.error,
               name: '_SessionNotifier - connectToWallet',
             );
         throw const aedappfm.Failure.connectivityArchethic();

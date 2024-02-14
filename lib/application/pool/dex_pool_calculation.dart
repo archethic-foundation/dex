@@ -86,13 +86,15 @@ double _estimatePoolTVLInFiat(
   var token2TotalFee24hFiat = 0.0;
 
   final archethicOracleUCO =
-      ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+      ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
   if (pool.pair.token1.symbol == 'UCO') {
     priceToken1 = archethicOracleUCO.usd;
   } else {
     priceToken1 = ref.watch(
-      CoinPriceProviders.coinPriceFromAddress(pool.pair.token1.address!),
+      aedappfm.CoinPriceProviders.coinPriceFromAddress(
+        pool.pair.token1.address!,
+      ),
     );
   }
 
@@ -100,7 +102,9 @@ double _estimatePoolTVLInFiat(
     priceToken2 = archethicOracleUCO.usd;
   } else {
     priceToken2 = ref.watch(
-      CoinPriceProviders.coinPriceFromAddress(pool.pair.token2.address!),
+      aedappfm.CoinPriceProviders.coinPriceFromAddress(
+        pool.pair.token2.address!,
+      ),
     );
   }
 

@@ -1,6 +1,5 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
@@ -331,7 +330,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     var estimateFees = 0.0;
     if (state.token1 != null && state.token1!.isUCO) {
       final archethicOracleUCO =
-          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
@@ -351,7 +350,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     }
     if (state.token2 != null && state.token2!.isUCO) {
       final archethicOracleUCO =
-          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }

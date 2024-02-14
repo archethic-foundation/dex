@@ -3,8 +3,7 @@ import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
-import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/transaction_dex_util.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -14,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'DepositFarmCase';
 
-class DepositFarmCase with TransactionDexMixin {
+class DepositFarmCase with aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref,
     String farmGenesisAddress,
@@ -103,10 +102,10 @@ class DepositFarmCase with TransactionDexMixin {
         ..setProcessInProgress(false)
         ..setFarmDepositOk(true);
     } catch (e) {
-      aedappfm.sl.get<LogManager>().log(
+      aedappfm.sl.get<aedappfm.LogManager>().log(
             'TransactionFarmDeposit sendTx failed $e',
-            level: LogLevel.error,
-            name: 'TransactionDexMixin - sendTransactions',
+            level: aedappfm.LogLevel.error,
+            name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
       farmDepositNotifier.setFailure(

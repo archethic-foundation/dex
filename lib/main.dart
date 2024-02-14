@@ -1,7 +1,4 @@
 import 'dart:async';
-
-import 'package:aedex/application/coin_price.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
@@ -11,7 +8,6 @@ import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_background.dart';
 import 'package:aedex/ui/views/util/router.dart';
 import 'package:aedex/ui/views/welcome/welcome_screen.dart';
-import 'package:aedex/util/custom_logs.dart';
 
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -30,7 +26,8 @@ Future<void> main() async {
   setPathUrlStrategy();
 
   final preferences = await HivePreferencesDatasource.getInstance();
-  aedappfm.sl.get<LogManager>().logsActived = preferences.isLogsActived();
+  aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+      preferences.isLogsActived();
   runApp(
     ProviderScope(
       observers: [
@@ -59,7 +56,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(CoinPriceProviders.coinPrice.notifier).init();
+      await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
       await ref.read(SessionProviders.session.notifier).connectToWallet(
             forceConnection: false,
           );
@@ -72,7 +69,9 @@ class _MyAppState extends ConsumerState<MyApp> {
       }
 
       await ref
-          .read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier)
+          .read(
+            aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
+          )
           .init();
       await ref
           .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)

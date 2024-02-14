@@ -9,7 +9,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_add_remove_cache_icon.d
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
-import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
+
 import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -254,7 +254,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                     ),
                     const Padding(
                       padding: EdgeInsets.only(right: 20),
-                      child: DexArchethicOracleUco(),
+                      child: aedappfm.ArchethicOracleUco(),
                     ),
                   ],
                 ),

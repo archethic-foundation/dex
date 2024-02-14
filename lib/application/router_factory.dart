@@ -8,7 +8,6 @@ import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/infrastructure/hive/dex_token.hive.dart';
 import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
-import 'package:aedex/util/custom_logs.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -46,9 +45,9 @@ class RouterFactory with ModelParser {
           resultMap: true,
         ) as Map<String, dynamic>?;
         if (result == null) {
-          aedappfm.sl.get<LogManager>().log(
+          aedappfm.sl.get<aedappfm.LogManager>().log(
                 'getPoolAddresses: result null $token1Address $token2Address',
-                level: LogLevel.error,
+                level: aedappfm.LogLevel.error,
                 name: 'getPoolAddresses',
               );
         }

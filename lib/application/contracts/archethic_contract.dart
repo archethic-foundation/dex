@@ -7,14 +7,13 @@ import 'package:aedex/application/factory.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/transaction_dex_util.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 
-class ArchethicContract with TransactionDexMixin {
+class ArchethicContract with aedappfm.TransactionMixin {
   ArchethicContract();
 
   Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>> getAddPoolTx(
@@ -399,9 +398,9 @@ class ArchethicContract with TransactionDexMixin {
           }
         },
         failure: (failure) {
-          aedappfm.sl.get<LogManager>().log(
+          aedappfm.sl.get<aedappfm.LogManager>().log(
                 '$failure',
-                level: LogLevel.error,
+                level: aedappfm.LogLevel.error,
                 name: logName,
               );
         },

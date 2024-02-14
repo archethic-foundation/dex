@@ -1,6 +1,5 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
@@ -588,7 +587,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     var estimateFees = 0.0;
     if (state.tokenToSwap != null && state.tokenToSwap!.isUCO) {
       final archethicOracleUCO =
-          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }

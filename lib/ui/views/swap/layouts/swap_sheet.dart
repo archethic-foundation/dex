@@ -7,7 +7,7 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_form_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -88,7 +88,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                             const SwapFormSheet()
                           else
                             const SwapConfirmSheet(),
-                          const DexArchethicOracleUco(),
+                          const aedappfm.ArchethicOracleUco(),
                         ],
                       ),
                     ),

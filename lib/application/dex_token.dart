@@ -1,5 +1,3 @@
-import 'package:aedex/application/coin_price.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_token.repository.dart';
@@ -49,12 +47,13 @@ double _estimateTokenInFiat(
   var fiatValue = 0.0;
   if (token.symbol == 'UCO') {
     final archethicOracleUCO =
-        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+        ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
     fiatValue = archethicOracleUCO.usd;
   } else {
-    final price =
-        ref.watch(CoinPriceProviders.coinPriceFromAddress(token.address!));
+    final price = ref.watch(
+      aedappfm.CoinPriceProviders.coinPriceFromAddress(token.address!),
+    );
 
     fiatValue = price;
   }
