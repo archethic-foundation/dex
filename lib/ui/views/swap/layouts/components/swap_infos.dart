@@ -18,7 +18,10 @@ class SwapInfos extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final swap = ref.watch(SwapFormProvider.swapForm);
-    if (swap.tokenToSwap == null || swap.tokenSwapped == null) {
+    if (swap.tokenToSwap == null ||
+        swap.tokenSwapped == null ||
+        swap.pool == null ||
+        swap.pool!.poolAddress.isEmpty) {
       return const SizedBox.shrink();
     }
     final tokenAddressRatioPrimary =

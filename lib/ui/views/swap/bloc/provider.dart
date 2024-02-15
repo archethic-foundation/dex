@@ -44,12 +44,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   Future<void> getPool() async {
     final pool = await ref
         .read(DexPoolProviders.getPool(state.poolGenesisAddress).future);
-    if (pool != null) {
-      setPool(pool);
-    }
+    setPool(pool);
   }
 
-  void setPool(DexPool pool) {
+  void setPool(DexPool? pool) {
     state = state.copyWith(pool: pool);
   }
 
@@ -59,6 +57,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(
       failure: null,
       messageMaxHalfUCO: false,
+      calculationInProgress: true,
       tokenToSwap: tokenToSwap,
     );
 
@@ -92,15 +91,20 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             } else {
               setPoolAddress('');
               setFailure(const aedappfm.PoolNotExists());
+              state = state.copyWith(ratio: 0, pool: null);
             }
           },
           failure: (failure) {
             setPoolAddress('');
             setFailure(const aedappfm.PoolNotExists());
+            state = state.copyWith(ratio: 0, pool: null);
           },
         );
       }
     }
+    state = state.copyWith(
+      calculationInProgress: false,
+    );
     return;
   }
 
@@ -266,6 +270,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 .toDecimal()))
         .toDouble();
 
+    if (state.tokenToSwapAmount > state.tokenToSwapBalance) {
+      setFailure(const aedappfm.Failure.insufficientFunds());
+    }
+
     state = state.copyWith(
       swapFees: swapInfos.fees,
       priceImpact: swapInfos.priceImpact,
@@ -326,6 +334,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(
       failure: null,
       tokenSwapped: tokenSwapped,
+      calculationInProgress: true,
     );
 
     final session = ref.read(SessionProviders.session);
@@ -358,16 +367,20 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             } else {
               setPoolAddress('');
               setFailure(const aedappfm.PoolNotExists());
+              state = state.copyWith(ratio: 0, pool: null);
             }
           },
           failure: (failure) {
             setPoolAddress('');
             setFailure(const aedappfm.PoolNotExists());
+            state = state.copyWith(ratio: 0, pool: null);
           },
         );
       }
     }
-
+    state = state.copyWith(
+      calculationInProgress: false,
+    );
     return;
   }
 
@@ -384,7 +397,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   }
 
   Future<void> getRatio() async {
-    if (state.tokenToSwap == null) {
+    if (state.tokenToSwap == null || state.tokenSwapped == null) {
       state = state.copyWith(ratio: 0);
       return;
     }
