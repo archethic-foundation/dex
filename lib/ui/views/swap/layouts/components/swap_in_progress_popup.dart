@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_final_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -35,6 +36,10 @@ class SwapInProgressPopup {
         isProcessInProgress: swap.isProcessInProgress,
         walletConfirmation: swap.walletConfirmation,
         failure: swap.failure,
+        failureMessage: FailureMessage(
+          context: context,
+          failure: swap.failure,
+        ).getMessage(),
         inProgressTxt: AppLocalizations.of(context)!.swapProcessInProgress,
         walletConfirmationTxt:
             AppLocalizations.of(context)!.swapInProgressConfirmAEWallet,

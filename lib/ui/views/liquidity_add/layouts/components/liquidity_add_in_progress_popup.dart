@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -34,6 +35,10 @@ class LiquidityAddInProgressPopup {
         isProcessInProgress: liquidityAdd.isProcessInProgress,
         walletConfirmation: liquidityAdd.walletConfirmation,
         failure: liquidityAdd.failure,
+        failureMessage: FailureMessage(
+          context: context,
+          failure: liquidityAdd.failure,
+        ).getMessage(),
         inProgressTxt: AppLocalizations.of(
           context,
         )!

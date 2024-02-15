@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_fina
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -35,6 +36,10 @@ class FarmDepositInProgressPopup {
         isProcessInProgress: farmDeposit.isProcessInProgress,
         walletConfirmation: farmDeposit.walletConfirmation,
         failure: farmDeposit.failure,
+        failureMessage: FailureMessage(
+          context: context,
+          failure: farmDeposit.failure,
+        ).getMessage(),
         inProgressTxt: AppLocalizations.of(
           context,
         )!

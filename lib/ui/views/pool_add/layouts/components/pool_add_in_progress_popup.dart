@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -35,6 +36,10 @@ class PoolAddInProgressPopup {
         isProcessInProgress: poolAdd.isProcessInProgress,
         walletConfirmation: poolAdd.walletConfirmation,
         failure: poolAdd.failure,
+        failureMessage: FailureMessage(
+          context: context,
+          failure: poolAdd.failure,
+        ).getMessage(),
         inProgressTxt: AppLocalizations.of(context)!.poolAddProcessInProgress,
         walletConfirmationTxt:
             AppLocalizations.of(context)!.poolAddInProgressConfirmAEWallet,

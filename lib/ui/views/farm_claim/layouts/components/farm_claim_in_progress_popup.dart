@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_final_am
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -36,6 +37,10 @@ class FarmClaimInProgressPopup {
         isProcessInProgress: farmClaim.isProcessInProgress,
         walletConfirmation: farmClaim.walletConfirmation,
         failure: farmClaim.failure,
+        failureMessage: FailureMessage(
+          context: context,
+          failure: farmClaim.failure,
+        ).getMessage(),
         inProgressTxt: AppLocalizations.of(
           context,
         )!
