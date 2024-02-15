@@ -42,7 +42,9 @@ class _LiquidityAddToken2AmountState
         TextEditingValue(
           text: liquidityAdd.token2Amount == 0
               ? ''
-              : liquidityAdd.token2Amount.toString(),
+              : liquidityAdd.token2Amount
+                  .formatNumber(precision: 8)
+                  .replaceAll(',', ''),
         ),
       );
     }

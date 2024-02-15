@@ -38,7 +38,11 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
         aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
-        text: poolAdd.token1Amount == 0 ? '' : poolAdd.token1Amount.toString(),
+        text: poolAdd.token1Amount == 0
+            ? ''
+            : poolAdd.token1Amount
+                .formatNumber(precision: 8)
+                .replaceAll(',', ''),
       ),
     );
   }

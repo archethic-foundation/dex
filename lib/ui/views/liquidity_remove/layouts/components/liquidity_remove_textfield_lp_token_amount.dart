@@ -39,7 +39,9 @@ class _LiquidityRemoveLPTokenAmountState
       TextEditingValue(
         text: liquidityRemove.lpTokenAmount == 0
             ? ''
-            : liquidityRemove.lpTokenAmount.toString(),
+            : liquidityRemove.lpTokenAmount
+                .formatNumber(precision: 8)
+                .replaceAll(',', ''),
       ),
     );
   }

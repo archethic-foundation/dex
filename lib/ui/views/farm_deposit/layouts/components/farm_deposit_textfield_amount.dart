@@ -36,7 +36,9 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
         aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
-        text: farmDeposit.amount == 0 ? '' : farmDeposit.amount.toString(),
+        text: farmDeposit.amount == 0
+            ? ''
+            : farmDeposit.amount.formatNumber(precision: 8).replaceAll(',', ''),
       ),
     );
   }

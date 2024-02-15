@@ -36,7 +36,11 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
         aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
-        text: farmWithdraw.amount == 0 ? '' : farmWithdraw.amount.toString(),
+        text: farmWithdraw.amount == 0
+            ? ''
+            : farmWithdraw.amount
+                .formatNumber(precision: 8)
+                .replaceAll(',', ''),
       ),
     );
   }
