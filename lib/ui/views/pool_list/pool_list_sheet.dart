@@ -9,6 +9,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_add_remove_cache_icon.d
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -108,6 +109,10 @@ Widget _body(BuildContext context, WidgetRef ref) {
             ),
             error: (error, stackTrace) => aedappfm.ErrorMessage(
               failure: aedappfm.Failure.fromError(error),
+              failureMessage: FailureMessage(
+                context: context,
+                failure: aedappfm.Failure.fromError(error),
+              ).getMessage(),
             ),
             data: (pools) {
               if (session.isConnected == false &&
