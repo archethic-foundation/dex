@@ -100,12 +100,8 @@ class LiquidityAddInProgressPopup {
   ) async {
     return aedappfm.InProgressPopup.getDialog(
       context,
-      ref,
-      body(
-        context,
-        ref,
-      ),
-      popupCloseButton(context, ref),
+      body,
+      popupCloseButton,
     );
   }
 }
