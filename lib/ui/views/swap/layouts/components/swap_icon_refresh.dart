@@ -28,7 +28,10 @@ class SwapTokenIconRefresh extends ConsumerWidget {
       },
       child: const Padding(
         padding: EdgeInsets.only(left: 5, bottom: 4),
-        child: Icon(aedappfm.Iconsax.refresh, size: 14),
+        child: Tooltip(
+          message: 'Refresh information',
+          child: Icon(aedappfm.Iconsax.refresh, size: 14),
+        ),
       ),
     );
   }
