@@ -19,15 +19,24 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainScreen extends ConsumerStatefulWidget {
-  const MainScreen({required this.body, super.key});
+class MainScreenSheet extends ConsumerStatefulWidget {
+  const MainScreenSheet({
+    required this.currentStep,
+    required this.formSheet,
+    required this.confirmSheet,
+    this.bottomWidget,
+    super.key,
+  });
 
-  final Widget body;
+  final aedappfm.ProcessStep currentStep;
+  final Widget formSheet;
+  final Widget confirmSheet;
+  final Widget? bottomWidget;
   @override
-  ConsumerState<MainScreen> createState() => MainScreenState();
+  ConsumerState<MainScreenSheet> createState() => MainScreenSheetState();
 }
 
-class MainScreenState extends ConsumerState<MainScreen> {
+class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
   bool _isSubMenuOpen = false;
   List<(String, IconData)> listNavigationLabelIcon = [];
 
@@ -117,7 +126,57 @@ class MainScreenState extends ConsumerState<MainScreen> {
               alignment: Alignment.center,
               children: [
                 const DexBackground(),
-                widget.body
+                Align(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        width: 650,
+                        decoration: BoxDecoration(
+                          color: aedappfm.AppThemeBase.sheetBackground,
+                          border: Border.all(
+                            color: aedappfm.AppThemeBase.sheetBorder,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 30,
+                            right: 30,
+                            top: 11,
+                            bottom: 5,
+                          ),
+                          child: LayoutBuilder(
+                            builder: (context, constraint) {
+                              return aedappfm.ArchethicScrollbar(
+                                child: Container(
+                                  constraints: BoxConstraints(
+                                    minHeight: 100,
+                                    maxHeight: constraint.maxHeight,
+                                  ),
+                                  child: IntrinsicHeight(
+                                    child: Column(
+                                      children: [
+                                        if (widget.currentStep ==
+                                            aedappfm.ProcessStep.form)
+                                          widget.formSheet
+                                        else
+                                          widget.confirmSheet,
+                                        if (widget.bottomWidget != null)
+                                          widget.bottomWidget!,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
                     .animate()
                     .fade(
                       duration: const Duration(milliseconds: 200),

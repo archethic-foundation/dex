@@ -1,19 +1,16 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
-    as aedappfm;
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 
-enum PoolAddProcessStep { form, confirmation }
-
 @freezed
 class PoolAddFormState with _$PoolAddFormState {
   const factory PoolAddFormState({
-    @Default(PoolAddProcessStep.form) PoolAddProcessStep poolAddProcessStep,
+    @Default(ProcessStep.form) ProcessStep processStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
     @Default(1) int tokenFormSelected,
@@ -33,7 +30,7 @@ class PoolAddFormState with _$PoolAddFormState {
     Transaction? recoveryTransactionAddPoolTransfer,
     Transaction? recoveryTransactionAddPoolLiquidity,
     String? recoveryPoolGenesisAddress,
-    aedappfm.Failure? failure,
+    Failure? failure,
   }) = _PoolAddFormState;
   const PoolAddFormState._();
 

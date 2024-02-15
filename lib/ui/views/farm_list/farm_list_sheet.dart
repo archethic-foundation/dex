@@ -4,9 +4,8 @@ import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
-import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
+import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 
-import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
@@ -23,7 +22,7 @@ class FarmListSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MainScreen(
+    return MainScreenList(
       body: _body(context, ref),
     );
   }
@@ -44,7 +43,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
         skipLoadingOnRefresh: true,
         skipLoadingOnReload: true,
         error: (error, stackTrace) =>
-            DexErrorMessage(failure: aedappfm.Failure.fromError(error)),
+            aedappfm.ErrorMessage(failure: aedappfm.Failure.fromError(error)),
         loading: aedappfm.Loading.new,
         data: (farms) => GridView.builder(
           gridDelegate: const aedappfm.SliverGridDelegateWithFixedSize(

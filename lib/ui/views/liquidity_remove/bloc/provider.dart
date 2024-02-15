@@ -240,10 +240,10 @@ class LiquidityRemoveFormNotifier
   }
 
   void setLiquidityRemoveProcessStep(
-    LiquidityRemoveProcessStep liquidityRemoveProcessStep,
+    aedappfm.ProcessStep liquidityRemoveProcessStep,
   ) {
     state = state.copyWith(
-      liquidityRemoveProcessStep: liquidityRemoveProcessStep,
+      processStep: liquidityRemoveProcessStep,
     );
   }
 
@@ -253,7 +253,7 @@ class LiquidityRemoveFormNotifier
     }
 
     setLiquidityRemoveProcessStep(
-      LiquidityRemoveProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 

@@ -501,10 +501,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   }
 
   void setSwapProcessStep(
-    SwapProcessStep swapProcessStep,
+    aedappfm.ProcessStep swapProcessStep,
   ) {
     state = state.copyWith(
-      swapProcessStep: swapProcessStep,
+      processStep: swapProcessStep,
     );
   }
 
@@ -522,7 +522,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     }
 
     setSwapProcessStep(
-      SwapProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 

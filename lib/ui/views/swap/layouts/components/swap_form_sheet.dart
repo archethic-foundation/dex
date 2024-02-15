@@ -1,11 +1,11 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swapped_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/components/dex_error_message.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -51,7 +51,7 @@ class SwapFormSheet extends ConsumerWidget {
                             ),
                           ),
                         ),
-                      DexErrorMessage(failure: swap.failure),
+                      aedappfm.ErrorMessage(failure: swap.failure),
                       if (swap.failure is aedappfm.PoolNotExists &&
                           swap.tokenToSwap != null &&
                           swap.tokenSwapped != null &&
@@ -75,13 +75,44 @@ class SwapFormSheet extends ConsumerWidget {
                           },
                           icon: const Icon(Icons.add),
                         ),
-                      DexButtonValidate(
+                      aedappfm.ButtonValidate(
                         controlOk: swap.isControlsOk,
                         labelBtn: AppLocalizations.of(context)!.btn_swap,
                         onPressed: () => ref
                             .read(SwapFormProvider.swapForm.notifier)
                             .validateForm(context),
                         displayWalletConnect: true,
+                        isConnected:
+                            ref.watch(SessionProviders.session).isConnected,
+                        displayWalletConnectOnPressed: () async {
+                          final sessionNotifier =
+                              ref.read(SessionProviders.session.notifier);
+                          await sessionNotifier.connectToWallet();
+
+                          final session = ref.read(SessionProviders.session);
+                          if (session.error.isNotEmpty) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Theme.of(context)
+                                    .snackBarTheme
+                                    .backgroundColor,
+                                content: SelectableText(
+                                  session.error,
+                                  style: Theme.of(context)
+                                      .snackBarTheme
+                                      .contentTextStyle,
+                                ),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          } else {
+                            if (!context.mounted) return;
+                            context.go(
+                              '/',
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),

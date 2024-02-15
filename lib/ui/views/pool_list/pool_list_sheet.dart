@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
+import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_add_cache_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_remove_cache_icon.dart';
@@ -10,7 +10,6 @@ import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
 
-import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
@@ -28,7 +27,7 @@ class PoolListSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MainScreen(
+    return MainScreenList(
       body: _body(context, ref),
     );
   }
@@ -107,8 +106,9 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 ),
               ],
             ),
-            error: (error, stackTrace) =>
-                DexErrorMessage(failure: aedappfm.Failure.fromError(error)),
+            error: (error, stackTrace) => aedappfm.ErrorMessage(
+              failure: aedappfm.Failure.fromError(error),
+            ),
             data: (pools) {
               if (session.isConnected == false &&
                   poolListForm.tabIndexSelected == PoolsListTab.myPools) {

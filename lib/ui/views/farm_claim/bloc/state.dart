@@ -2,20 +2,16 @@
 
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
-    as aedappfm;
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 
-enum FarmClaimProcessStep { form, confirmation }
-
 @freezed
 class FarmClaimFormState with _$FarmClaimFormState {
   const factory FarmClaimFormState({
-    @Default(FarmClaimProcessStep.form)
-    FarmClaimProcessStep farmClaimProcessStep,
+    @Default(ProcessStep.form) ProcessStep processStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
     DexFarm? dexFarm,
@@ -24,7 +20,7 @@ class FarmClaimFormState with _$FarmClaimFormState {
     @Default(false) bool farmClaimOk,
     @Default(false) bool walletConfirmation,
     Transaction? transactionClaimFarm,
-    aedappfm.Failure? failure,
+    Failure? failure,
     double? finalAmount,
   }) = _FarmClaimFormState;
   const FarmClaimFormState._();

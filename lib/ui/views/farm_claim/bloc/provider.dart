@@ -70,10 +70,10 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
   }
 
   void setFarmClaimProcessStep(
-    FarmClaimProcessStep farmClaimProcessStep,
+    aedappfm.ProcessStep farmClaimProcessStep,
   ) {
     state = state.copyWith(
-      farmClaimProcessStep: farmClaimProcessStep,
+      processStep: farmClaimProcessStep,
     );
   }
 
@@ -83,7 +83,7 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
     }
 
     setFarmClaimProcessStep(
-      FarmClaimProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 

@@ -16,8 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$FarmDepositFormState {
-  FarmDepositProcessStep get farmDepositProcessStep =>
-      throw _privateConstructorUsedError;
+  ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
   DexFarm? get dexFarmInfo => throw _privateConstructorUsedError;
@@ -27,7 +26,7 @@ mixin _$FarmDepositFormState {
   double get amount => throw _privateConstructorUsedError;
   Transaction? get transactionDepositFarm => throw _privateConstructorUsedError;
   double get lpTokenBalance => throw _privateConstructorUsedError;
-  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
+  Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -42,7 +41,7 @@ abstract class $FarmDepositFormStateCopyWith<$Res> {
       _$FarmDepositFormStateCopyWithImpl<$Res, FarmDepositFormState>;
   @useResult
   $Res call(
-      {FarmDepositProcessStep farmDepositProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
       DexFarm? dexFarmInfo,
@@ -52,7 +51,7 @@ abstract class $FarmDepositFormStateCopyWith<$Res> {
       double amount,
       Transaction? transactionDepositFarm,
       double lpTokenBalance,
-      aedappfm.Failure? failure,
+      Failure? failure,
       double? finalAmount});
 
   $DexFarmCopyWith<$Res>? get dexFarmInfo;
@@ -74,7 +73,7 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? farmDepositProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
     Object? dexFarmInfo = freezed,
@@ -88,10 +87,10 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
     Object? finalAmount = freezed,
   }) {
     return _then(_value.copyWith(
-      farmDepositProcessStep: null == farmDepositProcessStep
-          ? _value.farmDepositProcessStep
-          : farmDepositProcessStep // ignore: cast_nullable_to_non_nullable
-              as FarmDepositProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -131,7 +130,7 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as aedappfm.Failure?,
+              as Failure?,
       finalAmount: freezed == finalAmount
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
@@ -185,7 +184,7 @@ abstract class _$$FarmDepositFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {FarmDepositProcessStep farmDepositProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
       DexFarm? dexFarmInfo,
@@ -195,7 +194,7 @@ abstract class _$$FarmDepositFormStateImplCopyWith<$Res>
       double amount,
       Transaction? transactionDepositFarm,
       double lpTokenBalance,
-      aedappfm.Failure? failure,
+      Failure? failure,
       double? finalAmount});
 
   @override
@@ -217,7 +216,7 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? farmDepositProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
     Object? dexFarmInfo = freezed,
@@ -231,10 +230,10 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
     Object? finalAmount = freezed,
   }) {
     return _then(_$FarmDepositFormStateImpl(
-      farmDepositProcessStep: null == farmDepositProcessStep
-          ? _value.farmDepositProcessStep
-          : farmDepositProcessStep // ignore: cast_nullable_to_non_nullable
-              as FarmDepositProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -274,7 +273,7 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as aedappfm.Failure?,
+              as Failure?,
       finalAmount: freezed == finalAmount
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
@@ -287,7 +286,7 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
 
 class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
   const _$FarmDepositFormStateImpl(
-      {this.farmDepositProcessStep = FarmDepositProcessStep.form,
+      {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
       this.dexFarmInfo,
@@ -303,7 +302,7 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
 
   @override
   @JsonKey()
-  final FarmDepositProcessStep farmDepositProcessStep;
+  final ProcessStep processStep;
   @override
   @JsonKey()
   final bool resumeProcess;
@@ -330,13 +329,13 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
   @JsonKey()
   final double lpTokenBalance;
   @override
-  final aedappfm.Failure? failure;
+  final Failure? failure;
   @override
   final double? finalAmount;
 
   @override
   String toString() {
-    return 'FarmDepositFormState(farmDepositProcessStep: $farmDepositProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfo: $dexFarmInfo, isProcessInProgress: $isProcessInProgress, farmDepositOk: $farmDepositOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionDepositFarm: $transactionDepositFarm, lpTokenBalance: $lpTokenBalance, failure: $failure, finalAmount: $finalAmount)';
+    return 'FarmDepositFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfo: $dexFarmInfo, isProcessInProgress: $isProcessInProgress, farmDepositOk: $farmDepositOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionDepositFarm: $transactionDepositFarm, lpTokenBalance: $lpTokenBalance, failure: $failure, finalAmount: $finalAmount)';
   }
 
   @override
@@ -344,8 +343,8 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FarmDepositFormStateImpl &&
-            (identical(other.farmDepositProcessStep, farmDepositProcessStep) ||
-                other.farmDepositProcessStep == farmDepositProcessStep) &&
+            (identical(other.processStep, processStep) ||
+                other.processStep == processStep) &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
@@ -371,7 +370,7 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      farmDepositProcessStep,
+      processStep,
       resumeProcess,
       currentStep,
       dexFarmInfo,
@@ -395,7 +394,7 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
 
 abstract class _FarmDepositFormState extends FarmDepositFormState {
   const factory _FarmDepositFormState(
-      {final FarmDepositProcessStep farmDepositProcessStep,
+      {final ProcessStep processStep,
       final bool resumeProcess,
       final int currentStep,
       final DexFarm? dexFarmInfo,
@@ -405,12 +404,12 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
       final double amount,
       final Transaction? transactionDepositFarm,
       final double lpTokenBalance,
-      final aedappfm.Failure? failure,
+      final Failure? failure,
       final double? finalAmount}) = _$FarmDepositFormStateImpl;
   const _FarmDepositFormState._() : super._();
 
   @override
-  FarmDepositProcessStep get farmDepositProcessStep;
+  ProcessStep get processStep;
   @override
   bool get resumeProcess;
   @override
@@ -430,7 +429,7 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
   @override
   double get lpTokenBalance;
   @override
-  aedappfm.Failure? get failure;
+  Failure? get failure;
   @override
   double? get finalAmount;
   @override

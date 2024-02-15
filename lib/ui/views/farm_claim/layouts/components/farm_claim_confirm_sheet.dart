@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_claim/bloc/state.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_confirm_infos.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -35,7 +34,7 @@ class FarmClaimConfirmSheet extends ConsumerWidget {
                           FarmClaimFormProvider.farmClaimForm.notifier,
                         )
                         .setFarmClaimProcessStep(
-                          FarmClaimProcessStep.form,
+                          aedappfm.ProcessStep.form,
                         );
                   },
           ),

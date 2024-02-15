@@ -2,20 +2,16 @@
 
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
-    as aedappfm;
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 
-enum LiquidityAddProcessStep { form, confirmation }
-
 @freezed
 class LiquidityAddFormState with _$LiquidityAddFormState {
   const factory LiquidityAddFormState({
-    @Default(LiquidityAddProcessStep.form)
-    LiquidityAddProcessStep liquidityAddProcessStep,
+    @Default(ProcessStep.form) ProcessStep processStep,
     @Default(false) bool resumeProcess,
     @Default(false) bool calculateToken1,
     @Default(false) bool calculateToken2,
@@ -41,7 +37,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(0.0) double lpTokenBalance,
     Transaction? transactionAddLiquidity,
     @Default(false) bool calculationInProgress,
-    aedappfm.Failure? failure,
+    Failure? failure,
   }) = _LiquidityAddFormState;
   const LiquidityAddFormState._();
 

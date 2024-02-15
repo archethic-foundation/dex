@@ -16,8 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LiquidityAddFormState {
-  LiquidityAddProcessStep get liquidityAddProcessStep =>
-      throw _privateConstructorUsedError;
+  ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   bool get calculateToken1 => throw _privateConstructorUsedError;
   bool get calculateToken2 => throw _privateConstructorUsedError;
@@ -44,7 +43,7 @@ mixin _$LiquidityAddFormState {
   Transaction? get transactionAddLiquidity =>
       throw _privateConstructorUsedError;
   bool get calculationInProgress => throw _privateConstructorUsedError;
-  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
+  Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LiquidityAddFormStateCopyWith<LiquidityAddFormState> get copyWith =>
@@ -58,7 +57,7 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       _$LiquidityAddFormStateCopyWithImpl<$Res, LiquidityAddFormState>;
   @useResult
   $Res call(
-      {LiquidityAddProcessStep liquidityAddProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       bool calculateToken1,
       bool calculateToken2,
@@ -84,7 +83,7 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       double lpTokenBalance,
       Transaction? transactionAddLiquidity,
       bool calculationInProgress,
-      aedappfm.Failure? failure});
+      Failure? failure});
 
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
@@ -107,7 +106,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? liquidityAddProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? calculateToken1 = null,
     Object? calculateToken2 = null,
@@ -136,10 +135,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
-      liquidityAddProcessStep: null == liquidityAddProcessStep
-          ? _value.liquidityAddProcessStep
-          : liquidityAddProcessStep // ignore: cast_nullable_to_non_nullable
-              as LiquidityAddProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -243,7 +242,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as aedappfm.Failure?,
+              as Failure?,
     ) as $Val);
   }
 
@@ -318,7 +317,7 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {LiquidityAddProcessStep liquidityAddProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       bool calculateToken1,
       bool calculateToken2,
@@ -344,7 +343,7 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       double lpTokenBalance,
       Transaction? transactionAddLiquidity,
       bool calculationInProgress,
-      aedappfm.Failure? failure});
+      Failure? failure});
 
   @override
   $DexTokenCopyWith<$Res>? get token1;
@@ -370,7 +369,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? liquidityAddProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? calculateToken1 = null,
     Object? calculateToken2 = null,
@@ -399,10 +398,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
     Object? failure = freezed,
   }) {
     return _then(_$LiquidityAddFormStateImpl(
-      liquidityAddProcessStep: null == liquidityAddProcessStep
-          ? _value.liquidityAddProcessStep
-          : liquidityAddProcessStep // ignore: cast_nullable_to_non_nullable
-              as LiquidityAddProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -506,7 +505,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as aedappfm.Failure?,
+              as Failure?,
     ));
   }
 }
@@ -515,7 +514,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
 
 class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   const _$LiquidityAddFormStateImpl(
-      {this.liquidityAddProcessStep = LiquidityAddProcessStep.form,
+      {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.calculateToken1 = false,
       this.calculateToken2 = false,
@@ -546,7 +545,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
 
   @override
   @JsonKey()
-  final LiquidityAddProcessStep liquidityAddProcessStep;
+  final ProcessStep processStep;
   @override
   @JsonKey()
   final bool resumeProcess;
@@ -619,11 +618,11 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   @JsonKey()
   final bool calculationInProgress;
   @override
-  final aedappfm.Failure? failure;
+  final Failure? failure;
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(liquidityAddProcessStep: $liquidityAddProcessStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, failure: $failure)';
+    return 'LiquidityAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, failure: $failure)';
   }
 
   @override
@@ -631,9 +630,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LiquidityAddFormStateImpl &&
-            (identical(
-                    other.liquidityAddProcessStep, liquidityAddProcessStep) ||
-                other.liquidityAddProcessStep == liquidityAddProcessStep) &&
+            (identical(other.processStep, processStep) ||
+                other.processStep == processStep) &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
             (identical(other.calculateToken1, calculateToken1) ||
@@ -687,7 +685,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        liquidityAddProcessStep,
+        processStep,
         resumeProcess,
         calculateToken1,
         calculateToken2,
@@ -726,7 +724,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
 
 abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   const factory _LiquidityAddFormState(
-      {final LiquidityAddProcessStep liquidityAddProcessStep,
+      {final ProcessStep processStep,
       final bool resumeProcess,
       final bool calculateToken1,
       final bool calculateToken2,
@@ -752,11 +750,11 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final double lpTokenBalance,
       final Transaction? transactionAddLiquidity,
       final bool calculationInProgress,
-      final aedappfm.Failure? failure}) = _$LiquidityAddFormStateImpl;
+      final Failure? failure}) = _$LiquidityAddFormStateImpl;
   const _LiquidityAddFormState._() : super._();
 
   @override
-  LiquidityAddProcessStep get liquidityAddProcessStep;
+  ProcessStep get processStep;
   @override
   bool get resumeProcess;
   @override
@@ -808,7 +806,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   @override
   bool get calculationInProgress;
   @override
-  aedappfm.Failure? get failure;
+  Failure? get failure;
   @override
   @JsonKey(ignore: true)
   _$$LiquidityAddFormStateImplCopyWith<_$LiquidityAddFormStateImpl>

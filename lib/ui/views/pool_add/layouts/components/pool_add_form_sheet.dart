@@ -1,11 +1,10 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -77,18 +76,49 @@ class PoolAddFormSheet extends ConsumerWidget {
                             ),
                           ),
                         ),
-                      DexErrorMessage(failure: poolAdd.failure),
+                      aedappfm.ErrorMessage(failure: poolAdd.failure),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DexButtonValidate(
+                      aedappfm.ButtonValidate(
                         controlOk: poolAdd.isControlsOk,
                         labelBtn: AppLocalizations.of(context)!.btn_pool_add,
                         onPressed: () => ref
                             .read(PoolAddFormProvider.poolAddForm.notifier)
                             .validateForm(context),
+                        isConnected:
+                            ref.watch(SessionProviders.session).isConnected,
+                        displayWalletConnectOnPressed: () async {
+                          final sessionNotifier =
+                              ref.read(SessionProviders.session.notifier);
+                          await sessionNotifier.connectToWallet();
+
+                          final session = ref.read(SessionProviders.session);
+                          if (session.error.isNotEmpty) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Theme.of(context)
+                                    .snackBarTheme
+                                    .backgroundColor,
+                                content: SelectableText(
+                                  session.error,
+                                  style: Theme.of(context)
+                                      .snackBarTheme
+                                      .contentTextStyle,
+                                ),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          } else {
+                            if (!context.mounted) return;
+                            context.go(
+                              '/',
+                            );
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 20,

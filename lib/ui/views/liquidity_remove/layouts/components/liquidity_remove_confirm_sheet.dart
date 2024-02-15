@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_infos.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -37,7 +36,7 @@ class LiquidityRemoveConfirmSheet extends ConsumerWidget {
                               .liquidityRemoveForm.notifier,
                         )
                         .setLiquidityRemoveProcessStep(
-                          LiquidityRemoveProcessStep.form,
+                          aedappfm.ProcessStep.form,
                         );
                   },
           ),

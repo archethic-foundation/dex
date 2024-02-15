@@ -102,10 +102,10 @@ class FarmDepositFormNotifier
   }
 
   void setFarmDepositProcessStep(
-    FarmDepositProcessStep farmDepositProcessStep,
+    aedappfm.ProcessStep farmDepositProcessStep,
   ) {
     state = state.copyWith(
-      farmDepositProcessStep: farmDepositProcessStep,
+      processStep: farmDepositProcessStep,
     );
   }
 
@@ -115,7 +115,7 @@ class FarmDepositFormNotifier
     }
 
     setFarmDepositProcessStep(
-      FarmDepositProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 

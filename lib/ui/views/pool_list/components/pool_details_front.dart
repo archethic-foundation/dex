@@ -1,10 +1,11 @@
 import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
@@ -309,7 +310,7 @@ class PoolDetailsFront extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: DexButtonValidate(
+                        child: aedappfm.ButtonValidate(
                           background: aedappfm.ArchethicThemeBase.purple500,
                           controlOk: true,
                           labelBtn: 'Add Liquidity',
@@ -327,10 +328,41 @@ class PoolDetailsFront extends ConsumerWidget {
                               },
                             );
                           },
+                          isConnected:
+                              ref.watch(SessionProviders.session).isConnected,
+                          displayWalletConnectOnPressed: () async {
+                            final sessionNotifier =
+                                ref.read(SessionProviders.session.notifier);
+                            await sessionNotifier.connectToWallet();
+
+                            final session = ref.read(SessionProviders.session);
+                            if (session.error.isNotEmpty) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Theme.of(context)
+                                      .snackBarTheme
+                                      .backgroundColor,
+                                  content: SelectableText(
+                                    session.error,
+                                    style: Theme.of(context)
+                                        .snackBarTheme
+                                        .contentTextStyle,
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            } else {
+                              if (!context.mounted) return;
+                              context.go(
+                                '/',
+                              );
+                            }
+                          },
                         ),
                       ),
                       Expanded(
-                        child: DexButtonValidate(
+                        child: aedappfm.ButtonValidate(
                           background: aedappfm.ArchethicThemeBase.purple500,
                           controlOk: pool.lpTokenInUserBalance,
                           labelBtn: 'Remove liquidity',
@@ -348,6 +380,37 @@ class PoolDetailsFront extends ConsumerWidget {
                                 'pair': pool.pair,
                               },
                             );
+                          },
+                          isConnected:
+                              ref.watch(SessionProviders.session).isConnected,
+                          displayWalletConnectOnPressed: () async {
+                            final sessionNotifier =
+                                ref.read(SessionProviders.session.notifier);
+                            await sessionNotifier.connectToWallet();
+
+                            final session = ref.read(SessionProviders.session);
+                            if (session.error.isNotEmpty) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Theme.of(context)
+                                      .snackBarTheme
+                                      .backgroundColor,
+                                  content: SelectableText(
+                                    session.error,
+                                    style: Theme.of(context)
+                                        .snackBarTheme
+                                        .contentTextStyle,
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            } else {
+                              if (!context.mounted) return;
+                              context.go(
+                                '/',
+                              );
+                            }
                           },
                         ),
                       ),

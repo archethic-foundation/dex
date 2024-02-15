@@ -1,13 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:ui';
-
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_confirm_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_form_sheet.dart';
-import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
+import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -46,62 +43,12 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScreen(
-      body: _body(context, ref),
+    return MainScreenSheet(
+      currentStep:
+          ref.watch(LiquidityAddFormProvider.liquidityAddForm).processStep,
+      formSheet: const LiquidityAddFormSheet(),
+      confirmSheet: const LiquidityAddConfirmSheet(),
+      bottomWidget: const aedappfm.ArchethicOracleUco(),
     );
   }
-}
-
-Widget _body(BuildContext context, WidgetRef ref) {
-  final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
-  return Align(
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          width: 650,
-          decoration: BoxDecoration(
-            color: aedappfm.AppThemeBase.sheetBackground,
-            border: Border.all(
-              color: aedappfm.AppThemeBase.sheetBorder,
-            ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 30,
-              right: 30,
-              top: 11,
-              bottom: 5,
-            ),
-            child: LayoutBuilder(
-              builder: (context, constraint) {
-                return aedappfm.ArchethicScrollbar(
-                  child: Container(
-                    constraints: BoxConstraints(
-                      minHeight: 100,
-                      maxHeight: constraint.maxHeight,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: [
-                          if (liquidityAdd.liquidityAddProcessStep ==
-                              LiquidityAddProcessStep.form)
-                            const LiquidityAddFormSheet()
-                          else
-                            const LiquidityAddConfirmSheet(),
-                          const aedappfm.ArchethicOracleUco(),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
 }

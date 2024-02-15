@@ -1,10 +1,9 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_textfield_amount.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/components/dex_error_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -72,12 +71,12 @@ class FarmDepositFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DexErrorMessage(failure: farmDeposit.failure),
+                      aedappfm.ErrorMessage(failure: farmDeposit.failure),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: DexButtonValidate(
+                            child: aedappfm.ButtonValidate(
                               controlOk: farmDeposit.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_deposit,
@@ -87,6 +86,39 @@ class FarmDepositFormSheet extends ConsumerWidget {
                                         .farmDepositForm.notifier,
                                   )
                                   .validateForm(context),
+                              isConnected: ref
+                                  .watch(SessionProviders.session)
+                                  .isConnected,
+                              displayWalletConnectOnPressed: () async {
+                                final sessionNotifier =
+                                    ref.read(SessionProviders.session.notifier);
+                                await sessionNotifier.connectToWallet();
+
+                                final session =
+                                    ref.read(SessionProviders.session);
+                                if (session.error.isNotEmpty) {
+                                  if (!context.mounted) return;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Theme.of(context)
+                                          .snackBarTheme
+                                          .backgroundColor,
+                                      content: SelectableText(
+                                        session.error,
+                                        style: Theme.of(context)
+                                            .snackBarTheme
+                                            .contentTextStyle,
+                                      ),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  if (!context.mounted) return;
+                                  context.go(
+                                    '/',
+                                  );
+                                }
+                              },
                             ),
                           ),
                           Expanded(

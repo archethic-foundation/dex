@@ -157,10 +157,10 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   void setPoolAddProcessStep(
-    PoolAddProcessStep poolAddProcessStep,
+    aedappfm.ProcessStep poolAddProcessStep,
   ) {
     state = state.copyWith(
-      poolAddProcessStep: poolAddProcessStep,
+      processStep: poolAddProcessStep,
     );
   }
 
@@ -222,7 +222,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     }
 
     setPoolAddProcessStep(
-      PoolAddProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 

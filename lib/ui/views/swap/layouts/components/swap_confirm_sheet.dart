@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -34,7 +33,7 @@ class SwapConfirmSheet extends ConsumerWidget {
                       SwapFormProvider.swapForm.notifier,
                     )
                       ..setSwapProcessStep(
-                        SwapProcessStep.form,
+                        aedappfm.ProcessStep.form,
                       )
                       ..setMessageMaxHalfUCO(false);
                   },

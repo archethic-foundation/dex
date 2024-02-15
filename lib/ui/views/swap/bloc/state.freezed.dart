@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SwapFormState {
-  SwapProcessStep get swapProcessStep => throw _privateConstructorUsedError;
+  ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   bool get calculateAmountToSwap => throw _privateConstructorUsedError;
   bool get calculateAmountSwapped => throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ mixin _$SwapFormState {
   double get priceImpact => throw _privateConstructorUsedError;
   double get estimatedReceived => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
-  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
+  Failure? get failure => throw _privateConstructorUsedError;
   Transaction? get recoveryTransactionSwap =>
       throw _privateConstructorUsedError;
   bool get calculationInProgress => throw _privateConstructorUsedError;
@@ -59,7 +59,7 @@ abstract class $SwapFormStateCopyWith<$Res> {
       _$SwapFormStateCopyWithImpl<$Res, SwapFormState>;
   @useResult
   $Res call(
-      {SwapProcessStep swapProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       bool calculateAmountToSwap,
       bool calculateAmountSwapped,
@@ -84,7 +84,7 @@ abstract class $SwapFormStateCopyWith<$Res> {
       double priceImpact,
       double estimatedReceived,
       double? finalAmount,
-      aedappfm.Failure? failure,
+      Failure? failure,
       Transaction? recoveryTransactionSwap,
       bool calculationInProgress,
       DexPool? pool});
@@ -109,7 +109,7 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? swapProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? calculateAmountToSwap = null,
     Object? calculateAmountSwapped = null,
@@ -140,10 +140,10 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? pool = freezed,
   }) {
     return _then(_value.copyWith(
-      swapProcessStep: null == swapProcessStep
-          ? _value.swapProcessStep
-          : swapProcessStep // ignore: cast_nullable_to_non_nullable
-              as SwapProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -243,7 +243,7 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as aedappfm.Failure?,
+              as Failure?,
       recoveryTransactionSwap: freezed == recoveryTransactionSwap
           ? _value.recoveryTransactionSwap
           : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
@@ -329,7 +329,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {SwapProcessStep swapProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       bool calculateAmountToSwap,
       bool calculateAmountSwapped,
@@ -354,7 +354,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
       double priceImpact,
       double estimatedReceived,
       double? finalAmount,
-      aedappfm.Failure? failure,
+      Failure? failure,
       Transaction? recoveryTransactionSwap,
       bool calculationInProgress,
       DexPool? pool});
@@ -382,7 +382,7 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? swapProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? calculateAmountToSwap = null,
     Object? calculateAmountSwapped = null,
@@ -413,10 +413,10 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
     Object? pool = freezed,
   }) {
     return _then(_$SwapFormStateImpl(
-      swapProcessStep: null == swapProcessStep
-          ? _value.swapProcessStep
-          : swapProcessStep // ignore: cast_nullable_to_non_nullable
-              as SwapProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -516,7 +516,7 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as aedappfm.Failure?,
+              as Failure?,
       recoveryTransactionSwap: freezed == recoveryTransactionSwap
           ? _value.recoveryTransactionSwap
           : recoveryTransactionSwap // ignore: cast_nullable_to_non_nullable
@@ -537,7 +537,7 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
 
 class _$SwapFormStateImpl extends _SwapFormState {
   const _$SwapFormStateImpl(
-      {this.swapProcessStep = SwapProcessStep.form,
+      {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.calculateAmountToSwap = false,
       this.calculateAmountSwapped = false,
@@ -570,7 +570,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
 
   @override
   @JsonKey()
-  final SwapProcessStep swapProcessStep;
+  final ProcessStep processStep;
   @override
   @JsonKey()
   final bool resumeProcess;
@@ -641,7 +641,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
   @override
   final double? finalAmount;
   @override
-  final aedappfm.Failure? failure;
+  final Failure? failure;
   @override
   final Transaction? recoveryTransactionSwap;
   @override
@@ -652,7 +652,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
 
   @override
   String toString() {
-    return 'SwapFormState(swapProcessStep: $swapProcessStep, resumeProcess: $resumeProcess, calculateAmountToSwap: $calculateAmountToSwap, calculateAmountSwapped: $calculateAmountSwapped, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, calculationInProgress: $calculationInProgress, pool: $pool)';
+    return 'SwapFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateAmountToSwap: $calculateAmountToSwap, calculateAmountSwapped: $calculateAmountSwapped, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, calculationInProgress: $calculationInProgress, pool: $pool)';
   }
 
   @override
@@ -660,8 +660,8 @@ class _$SwapFormStateImpl extends _SwapFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SwapFormStateImpl &&
-            (identical(other.swapProcessStep, swapProcessStep) ||
-                other.swapProcessStep == swapProcessStep) &&
+            (identical(other.processStep, processStep) ||
+                other.processStep == processStep) &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
             (identical(other.calculateAmountToSwap, calculateAmountToSwap) ||
@@ -720,7 +720,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        swapProcessStep,
+        processStep,
         resumeProcess,
         calculateAmountToSwap,
         calculateAmountSwapped,
@@ -760,7 +760,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
 
 abstract class _SwapFormState extends SwapFormState {
   const factory _SwapFormState(
-      {final SwapProcessStep swapProcessStep,
+      {final ProcessStep processStep,
       final bool resumeProcess,
       final bool calculateAmountToSwap,
       final bool calculateAmountSwapped,
@@ -785,14 +785,14 @@ abstract class _SwapFormState extends SwapFormState {
       final double priceImpact,
       final double estimatedReceived,
       final double? finalAmount,
-      final aedappfm.Failure? failure,
+      final Failure? failure,
       final Transaction? recoveryTransactionSwap,
       final bool calculationInProgress,
       final DexPool? pool}) = _$SwapFormStateImpl;
   const _SwapFormState._() : super._();
 
   @override
-  SwapProcessStep get swapProcessStep;
+  ProcessStep get processStep;
   @override
   bool get resumeProcess;
   @override
@@ -842,7 +842,7 @@ abstract class _SwapFormState extends SwapFormState {
   @override
   double? get finalAmount;
   @override
-  aedappfm.Failure? get failure;
+  Failure? get failure;
   @override
   Transaction? get recoveryTransactionSwap;
   @override

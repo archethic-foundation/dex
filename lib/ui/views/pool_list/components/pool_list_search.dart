@@ -1,8 +1,9 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search_bar.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
               isScroll: false,
             ),
           ),
-          DexButtonValidate(
+          aedappfm.ButtonValidate(
             background: aedappfm.ArchethicThemeBase.purple500,
             controlOk: true,
             labelBtn: 'Create Pool',
@@ -101,6 +102,33 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
             },
             fontSize: 12,
             height: 30,
+            isConnected: ref.watch(SessionProviders.session).isConnected,
+            displayWalletConnectOnPressed: () async {
+              final sessionNotifier =
+                  ref.read(SessionProviders.session.notifier);
+              await sessionNotifier.connectToWallet();
+
+              final session = ref.read(SessionProviders.session);
+              if (session.error.isNotEmpty) {
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor:
+                        Theme.of(context).snackBarTheme.backgroundColor,
+                    content: SelectableText(
+                      session.error,
+                      style: Theme.of(context).snackBarTheme.contentTextStyle,
+                    ),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              } else {
+                if (!context.mounted) return;
+                context.go(
+                  '/',
+                );
+              }
+            },
           ),
           const PoolListSearchBar(),
         ],

@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_deposit/bloc/state.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_confirm_infos.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -35,7 +34,7 @@ class FarmDepositConfirmSheet extends ConsumerWidget {
                           FarmDepositFormProvider.farmDepositForm.notifier,
                         )
                         .setFarmDepositProcessStep(
-                          FarmDepositProcessStep.form,
+                          aedappfm.ProcessStep.form,
                         );
                   },
           ),

@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_infos.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -32,7 +31,7 @@ class PoolAddConfirmSheet extends ConsumerWidget {
                 : () {
                     ref.read(PoolAddFormProvider.poolAddForm.notifier)
                       ..setPoolAddProcessStep(
-                        PoolAddProcessStep.form,
+                        aedappfm.ProcessStep.form,
                       )
                       ..setMessageMaxHalfUCO(false);
                   },

@@ -1,7 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-import 'dart:ui';
-
 import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_tx_addresses.dart';
@@ -15,192 +12,108 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class LiquidityRemoveInProgressPopup {
+  static List<Widget> body(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    final liquidityRemove =
+        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+
+    return [
+      aedappfm.InProgressCircularStepProgressIndicator(
+        currentStep: liquidityRemove.currentStep,
+        totalSteps: 3,
+        isProcessInProgress: liquidityRemove.isProcessInProgress,
+        failure: liquidityRemove.failure,
+      ),
+      aedappfm.InProgressCurrentStep(
+        steplabel: RemoveLiquidityCase().getAEStepLabel(
+          context,
+          liquidityRemove.currentStep,
+        ),
+      ),
+      aedappfm.InProgressInfosBanner(
+        isProcessInProgress: liquidityRemove.isProcessInProgress,
+        walletConfirmation: liquidityRemove.walletConfirmation,
+        failure: liquidityRemove.failure,
+        inProgressTxt: AppLocalizations.of(
+          context,
+        )!
+            .liquidityRemoveProcessInProgress,
+        walletConfirmationTxt: AppLocalizations.of(context)!
+            .liquidityRemoveInProgressConfirmAEWallet,
+        successTxt: AppLocalizations.of(
+          context,
+        )!
+            .liquidityRemoveSuccessInfo,
+      ),
+      const LiquidityRemoveInProgressTxAddresses(),
+      const Spacer(),
+      aedappfm.InProgressResumeBtn(
+        currentStep: liquidityRemove.currentStep,
+        isProcessInProgress: liquidityRemove.isProcessInProgress,
+        onPressed: () async {
+          ref
+              .read(
+                LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
+              )
+              .setResumeProcess(true);
+
+          if (!context.mounted) return;
+          await ref
+              .read(
+                LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
+              )
+              .remove(context, ref);
+        },
+        failure: liquidityRemove.failure,
+      ),
+    ];
+  }
+
+  static aedappfm.PopupCloseButton popupCloseButton(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    final liquidityRemove =
+        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+
+    return aedappfm.PopupCloseButton(
+      warningCloseWarning: liquidityRemove.isProcessInProgress,
+      warningCloseLabel: liquidityRemove.isProcessInProgress == true
+          ? AppLocalizations.of(context)!
+              .liquidityRemoveProcessInterruptionWarning
+          : '',
+      warningCloseFunction: () {
+        ref.read(
+          LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
+        )
+          ..setProcessInProgress(false)
+          ..setFailure(null)
+          ..setLiquidityRemoveOk(false)
+          ..setWalletConfirmation(false);
+        ref
+            .read(
+              navigationIndexMainScreenProvider.notifier,
+            )
+            .state = 1;
+        context.go(PoolListSheet.routerPage);
+      },
+    );
+  }
+
   static Future<void> getDialog(
     BuildContext context,
     WidgetRef ref,
   ) async {
-    return showDialog<void>(
-      context: context,
-      builder: (context) {
-        return ScaffoldMessenger(
-          child: Builder(
-            builder: (context) {
-              return Consumer(
-                builder: (context, ref, _) {
-                  final liquidityRemove = ref
-                      .watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
-                  return Scaffold(
-                    backgroundColor: Colors.transparent.withAlpha(120),
-                    body: AlertDialog(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      content: Stack(
-                        children: <Widget>[
-                          aedappfm.ArchethicScrollbar(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                    top: 30,
-                                    right: 15,
-                                    left: 8,
-                                  ),
-                                  height: 400,
-                                  width: aedappfm
-                                      .AppThemeBase.sizeBoxComponentWidth,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        aedappfm.AppThemeBase.sheetBackground,
-                                    borderRadius: BorderRadius.circular(16),
-                                    border: Border.all(
-                                      color: aedappfm.AppThemeBase.sheetBorder,
-                                    ),
-                                  ),
-                                  child: Stack(
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                          top: 300,
-                                        ),
-                                        child: Card(
-                                          color: Colors.transparent,
-                                          clipBehavior: Clip.antiAlias,
-                                          elevation: 0,
-                                          margin: EdgeInsets.zero,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(16),
-                                              bottomRight: Radius.circular(16),
-                                            ),
-                                          ),
-                                          child: aedappfm.PopupWaves(),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(20),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            aedappfm
-                                                .InProgressCircularStepProgressIndicator(
-                                              currentStep:
-                                                  liquidityRemove.currentStep,
-                                              totalSteps: 3,
-                                              isProcessInProgress:
-                                                  liquidityRemove
-                                                      .isProcessInProgress,
-                                              failure: liquidityRemove.failure,
-                                            ),
-                                            aedappfm.InProgressCurrentStep(
-                                              steplabel: RemoveLiquidityCase()
-                                                  .getAEStepLabel(
-                                                context,
-                                                liquidityRemove.currentStep,
-                                              ),
-                                            ),
-                                            aedappfm.InProgressInfosBanner(
-                                              isProcessInProgress:
-                                                  liquidityRemove
-                                                      .isProcessInProgress,
-                                              walletConfirmation:
-                                                  liquidityRemove
-                                                      .walletConfirmation,
-                                              failure: liquidityRemove.failure,
-                                              inProgressTxt: AppLocalizations
-                                                      .of(
-                                                context,
-                                              )!
-                                                  .liquidityRemoveProcessInProgress,
-                                              walletConfirmationTxt:
-                                                  AppLocalizations.of(context)!
-                                                      .liquidityRemoveInProgressConfirmAEWallet,
-                                              successTxt: AppLocalizations.of(
-                                                context,
-                                              )!
-                                                  .liquidityRemoveSuccessInfo,
-                                            ),
-                                            const LiquidityRemoveInProgressTxAddresses(),
-                                            const Spacer(),
-                                            aedappfm.InProgressResumeBtn(
-                                              currentStep:
-                                                  liquidityRemove.currentStep,
-                                              isProcessInProgress:
-                                                  liquidityRemove
-                                                      .isProcessInProgress,
-                                              onPressed: () async {
-                                                ref
-                                                    .read(
-                                                      LiquidityRemoveFormProvider
-                                                          .liquidityRemoveForm
-                                                          .notifier,
-                                                    )
-                                                    .setResumeProcess(true);
-
-                                                if (!context.mounted) return;
-                                                await ref
-                                                    .read(
-                                                      LiquidityRemoveFormProvider
-                                                          .liquidityRemoveForm
-                                                          .notifier,
-                                                    )
-                                                    .remove(context, ref);
-                                              },
-                                              failure: liquidityRemove.failure,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: aedappfm.PopupCloseButton(
-                              warningCloseWarning:
-                                  liquidityRemove.isProcessInProgress,
-                              warningCloseLabel: liquidityRemove
-                                          .isProcessInProgress ==
-                                      true
-                                  ? AppLocalizations.of(context)!
-                                      .liquidityRemoveProcessInterruptionWarning
-                                  : '',
-                              warningCloseFunction: () {
-                                ref.read(
-                                  LiquidityRemoveFormProvider
-                                      .liquidityRemoveForm.notifier,
-                                )
-                                  ..setProcessInProgress(false)
-                                  ..setFailure(null)
-                                  ..setLiquidityRemoveOk(false)
-                                  ..setWalletConfirmation(false);
-                                ref
-                                    .read(
-                                      navigationIndexMainScreenProvider
-                                          .notifier,
-                                    )
-                                    .state = 1;
-                                context.go(PoolListSheet.routerPage);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        );
-      },
+    return aedappfm.InProgressPopup.getDialog(
+      context,
+      ref,
+      body(
+        context,
+        ref,
+      ),
+      popupCloseButton(context, ref),
     );
   }
 }

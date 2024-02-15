@@ -16,8 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PoolAddFormState {
-  PoolAddProcessStep get poolAddProcessStep =>
-      throw _privateConstructorUsedError;
+  ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
   int get tokenFormSelected => throw _privateConstructorUsedError;
@@ -40,7 +39,7 @@ mixin _$PoolAddFormState {
   Transaction? get recoveryTransactionAddPoolLiquidity =>
       throw _privateConstructorUsedError;
   String? get recoveryPoolGenesisAddress => throw _privateConstructorUsedError;
-  aedappfm.Failure? get failure => throw _privateConstructorUsedError;
+  Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolAddFormStateCopyWith<PoolAddFormState> get copyWith =>
@@ -54,7 +53,7 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
       _$PoolAddFormStateCopyWithImpl<$Res, PoolAddFormState>;
   @useResult
   $Res call(
-      {PoolAddProcessStep poolAddProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
       int tokenFormSelected,
@@ -74,7 +73,7 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
       Transaction? recoveryTransactionAddPoolTransfer,
       Transaction? recoveryTransactionAddPoolLiquidity,
       String? recoveryPoolGenesisAddress,
-      aedappfm.Failure? failure});
+      Failure? failure});
 
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
@@ -97,7 +96,7 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? poolAddProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
     Object? tokenFormSelected = null,
@@ -120,10 +119,10 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
-      poolAddProcessStep: null == poolAddProcessStep
-          ? _value.poolAddProcessStep
-          : poolAddProcessStep // ignore: cast_nullable_to_non_nullable
-              as PoolAddProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -205,7 +204,7 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as aedappfm.Failure?,
+              as Failure?,
     ) as $Val);
   }
 
@@ -296,7 +295,7 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {PoolAddProcessStep poolAddProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
       int tokenFormSelected,
@@ -316,7 +315,7 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
       Transaction? recoveryTransactionAddPoolTransfer,
       Transaction? recoveryTransactionAddPoolLiquidity,
       String? recoveryPoolGenesisAddress,
-      aedappfm.Failure? failure});
+      Failure? failure});
 
   @override
   $DexTokenCopyWith<$Res>? get token1;
@@ -343,7 +342,7 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? poolAddProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
     Object? tokenFormSelected = null,
@@ -366,10 +365,10 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
     Object? failure = freezed,
   }) {
     return _then(_$PoolAddFormStateImpl(
-      poolAddProcessStep: null == poolAddProcessStep
-          ? _value.poolAddProcessStep
-          : poolAddProcessStep // ignore: cast_nullable_to_non_nullable
-              as PoolAddProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -451,7 +450,7 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
-              as aedappfm.Failure?,
+              as Failure?,
     ));
   }
 }
@@ -460,7 +459,7 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
 
 class _$PoolAddFormStateImpl extends _PoolAddFormState {
   const _$PoolAddFormStateImpl(
-      {this.poolAddProcessStep = PoolAddProcessStep.form,
+      {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
       this.tokenFormSelected = 1,
@@ -485,7 +484,7 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
 
   @override
   @JsonKey()
-  final PoolAddProcessStep poolAddProcessStep;
+  final ProcessStep processStep;
   @override
   @JsonKey()
   final bool resumeProcess;
@@ -538,11 +537,11 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
   @override
   final String? recoveryPoolGenesisAddress;
   @override
-  final aedappfm.Failure? failure;
+  final Failure? failure;
 
   @override
   String toString() {
-    return 'PoolAddFormState(poolAddProcessStep: $poolAddProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, recoveryTransactionAddPool: $recoveryTransactionAddPool, recoveryTransactionAddPoolTransfer: $recoveryTransactionAddPoolTransfer, recoveryTransactionAddPoolLiquidity: $recoveryTransactionAddPoolLiquidity, recoveryPoolGenesisAddress: $recoveryPoolGenesisAddress, failure: $failure)';
+    return 'PoolAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, recoveryTransactionAddPool: $recoveryTransactionAddPool, recoveryTransactionAddPoolTransfer: $recoveryTransactionAddPoolTransfer, recoveryTransactionAddPoolLiquidity: $recoveryTransactionAddPoolLiquidity, recoveryPoolGenesisAddress: $recoveryPoolGenesisAddress, failure: $failure)';
   }
 
   @override
@@ -550,8 +549,8 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PoolAddFormStateImpl &&
-            (identical(other.poolAddProcessStep, poolAddProcessStep) ||
-                other.poolAddProcessStep == poolAddProcessStep) &&
+            (identical(other.processStep, processStep) ||
+                other.processStep == processStep) &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
@@ -602,7 +601,7 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        poolAddProcessStep,
+        processStep,
         resumeProcess,
         currentStep,
         tokenFormSelected,
@@ -635,7 +634,7 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
 
 abstract class _PoolAddFormState extends PoolAddFormState {
   const factory _PoolAddFormState(
-      {final PoolAddProcessStep poolAddProcessStep,
+      {final ProcessStep processStep,
       final bool resumeProcess,
       final int currentStep,
       final int tokenFormSelected,
@@ -655,11 +654,11 @@ abstract class _PoolAddFormState extends PoolAddFormState {
       final Transaction? recoveryTransactionAddPoolTransfer,
       final Transaction? recoveryTransactionAddPoolLiquidity,
       final String? recoveryPoolGenesisAddress,
-      final aedappfm.Failure? failure}) = _$PoolAddFormStateImpl;
+      final Failure? failure}) = _$PoolAddFormStateImpl;
   const _PoolAddFormState._() : super._();
 
   @override
-  PoolAddProcessStep get poolAddProcessStep;
+  ProcessStep get processStep;
   @override
   bool get resumeProcess;
   @override
@@ -699,7 +698,7 @@ abstract class _PoolAddFormState extends PoolAddFormState {
   @override
   String? get recoveryPoolGenesisAddress;
   @override
-  aedappfm.Failure? get failure;
+  Failure? get failure;
   @override
   @JsonKey(ignore: true)
   _$$PoolAddFormStateImplCopyWith<_$PoolAddFormStateImpl> get copyWith =>

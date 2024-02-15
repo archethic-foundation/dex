@@ -101,10 +101,10 @@ class FarmWithdrawFormNotifier
   }
 
   void setFarmWithdrawProcessStep(
-    FarmWithdrawProcessStep farmWithdrawProcessStep,
+    aedappfm.ProcessStep farmWithdrawProcessStep,
   ) {
     state = state.copyWith(
-      farmWithdrawProcessStep: farmWithdrawProcessStep,
+      processStep: farmWithdrawProcessStep,
     );
   }
 
@@ -114,7 +114,7 @@ class FarmWithdrawFormNotifier
     }
 
     setFarmWithdrawProcessStep(
-      FarmWithdrawProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 

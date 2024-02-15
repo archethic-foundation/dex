@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_confirm_infos.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_in_progress_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -35,7 +34,7 @@ class FarmWithdrawConfirmSheet extends ConsumerWidget {
                           FarmWithdrawFormProvider.farmWithdrawForm.notifier,
                         )
                         .setFarmWithdrawProcessStep(
-                          FarmWithdrawProcessStep.form,
+                          aedappfm.ProcessStep.form,
                         );
                   },
           ),

@@ -1,14 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:ui';
-
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_form_sheet.dart';
-import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
+import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -50,63 +47,13 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScreen(
-      body: _body(context, ref),
+    return MainScreenSheet(
+      currentStep: ref
+          .watch(LiquidityRemoveFormProvider.liquidityRemoveForm)
+          .processStep,
+      formSheet: const LiquidityRemoveFormSheet(),
+      confirmSheet: const LiquidityRemoveConfirmSheet(),
+      bottomWidget: const aedappfm.ArchethicOracleUco(),
     );
   }
-}
-
-Widget _body(BuildContext context, WidgetRef ref) {
-  final liquidityRemove =
-      ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
-  return Align(
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          width: 650,
-          decoration: BoxDecoration(
-            color: aedappfm.AppThemeBase.sheetBackground,
-            border: Border.all(
-              color: aedappfm.AppThemeBase.sheetBorder,
-            ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 30,
-              right: 30,
-              top: 11,
-              bottom: 5,
-            ),
-            child: LayoutBuilder(
-              builder: (context, constraint) {
-                return aedappfm.ArchethicScrollbar(
-                  child: Container(
-                    constraints: BoxConstraints(
-                      minHeight: 100,
-                      maxHeight: constraint.maxHeight,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: [
-                          if (liquidityRemove.liquidityRemoveProcessStep ==
-                              LiquidityRemoveProcessStep.form)
-                            const LiquidityRemoveFormSheet()
-                          else
-                            const LiquidityRemoveConfirmSheet(),
-                          const aedappfm.ArchethicOracleUco(),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
 }
