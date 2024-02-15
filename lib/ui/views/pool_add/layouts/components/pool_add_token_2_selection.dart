@@ -33,9 +33,11 @@ class PoolAddToken2Selection extends ConsumerWidget {
             context,
           );
           if (token == null) return;
-          await ref
-              .read(PoolAddFormProvider.poolAddForm.notifier)
-              .setToken2(token);
+          if (context.mounted) {
+            await ref
+                .read(PoolAddFormProvider.poolAddForm.notifier)
+                .setToken2(token, context);
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

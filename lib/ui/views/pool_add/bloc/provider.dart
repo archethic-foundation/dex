@@ -32,6 +32,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
   Future<void> setToken1(
     DexToken token,
+    BuildContext context,
   ) async {
     state = state.copyWith(
       failure: null,
@@ -47,10 +48,23 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       ).future,
     );
     state = state.copyWith(token1Balance: balance);
+    if (state.token1 != null &&
+        state.token2 != null &&
+        state.token1!.address == state.token2!.address) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: context.mounted
+              ? AppLocalizations.of(context)!.poolAddControlSameTokens
+              : '',
+        ),
+      );
+      return;
+    }
   }
 
   Future<void> setToken2(
     DexToken token,
+    BuildContext context,
   ) async {
     state = state.copyWith(
       failure: null,
@@ -66,6 +80,19 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       ).future,
     );
     state = state.copyWith(token2Balance: balance);
+
+    if (state.token1 != null &&
+        state.token2 != null &&
+        state.token1!.address == state.token2!.address) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: context.mounted
+              ? AppLocalizations.of(context)!.poolAddControlSameTokens
+              : '',
+        ),
+      );
+      return;
+    }
   }
 
   void setToken1AmountMax() {

@@ -31,9 +31,11 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   void initState() {
     if (widget.token1 != null && widget.token2 != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(PoolAddFormProvider.poolAddForm.notifier)
-          ..setToken1(widget.token1!)
-          ..setToken2(widget.token2!);
+        if (context.mounted) {
+          ref.read(PoolAddFormProvider.poolAddForm.notifier)
+            ..setToken1(widget.token1!, context)
+            ..setToken2(widget.token2!, context);
+        }
       });
     }
     super.initState();
