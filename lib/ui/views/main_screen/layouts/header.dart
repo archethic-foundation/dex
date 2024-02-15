@@ -39,7 +39,7 @@ class Header extends ConsumerWidget {
           child: SelectableText(
             'aeSwap',
             style: TextStyle(
-              fontSize: 34,
+              fontSize: 33,
               color: aedappfm.ArchethicThemeBase.neutral0,
             ),
           ),
