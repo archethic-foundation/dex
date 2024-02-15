@@ -71,6 +71,14 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(tokenToSwapBalance: balance);
 
     if (state.tokenSwapped != null) {
+      if (state.tokenToSwap!.address == state.tokenSwapped!.address) {
+        setFailure(
+          const aedappfm.Failure.other(cause: "You can't swap the same tokens"),
+        );
+        state = state.copyWith(ratio: 0, pool: null);
+        return;
+      }
+
       final dexConfig =
           await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
       final apiService = aedappfm.sl.get<ApiService>();
@@ -347,6 +355,14 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(tokenSwappedBalance: balance);
 
     if (state.tokenToSwap != null) {
+      if (state.tokenToSwap!.address == state.tokenSwapped!.address) {
+        setFailure(
+          const aedappfm.Failure.other(cause: "You can't swap the same tokens"),
+        );
+        state = state.copyWith(ratio: 0, pool: null);
+        return;
+      }
+
       final dexConfig =
           await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
       final apiService = aedappfm.sl.get<ApiService>();
