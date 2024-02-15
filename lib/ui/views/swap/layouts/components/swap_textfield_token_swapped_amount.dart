@@ -172,7 +172,7 @@ class _SwapTokenSwappedAmountState
                                             focusNode: tokenAmountFocusNode,
                                             textAlign: TextAlign.left,
                                             textInputAction:
-                                                TextInputAction.next,
+                                                TextInputAction.none,
                                             keyboardType: TextInputType.text,
                                             inputFormatters: <TextInputFormatter>[
                                               aedappfm.AmountTextInputFormatter(

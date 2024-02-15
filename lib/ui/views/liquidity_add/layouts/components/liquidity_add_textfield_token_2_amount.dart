@@ -149,7 +149,7 @@ class _LiquidityAddToken2AmountState
                                   },
                                   focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
-                                  textInputAction: TextInputAction.next,
+                                  textInputAction: TextInputAction.none,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
                                     aedappfm.AmountTextInputFormatter(

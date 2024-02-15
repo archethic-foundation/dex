@@ -150,7 +150,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                   },
                                   focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
-                                  textInputAction: TextInputAction.next,
+                                  textInputAction: TextInputAction.none,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
                                     aedappfm.AmountTextInputFormatter(

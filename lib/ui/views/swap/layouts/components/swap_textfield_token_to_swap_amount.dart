@@ -196,7 +196,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                                             focusNode: tokenAmountFocusNode,
                                             textAlign: TextAlign.left,
                                             textInputAction:
-                                                TextInputAction.next,
+                                                TextInputAction.none,
                                             keyboardType: TextInputType.text,
                                             inputFormatters: <TextInputFormatter>[
                                               aedappfm.AmountTextInputFormatter(

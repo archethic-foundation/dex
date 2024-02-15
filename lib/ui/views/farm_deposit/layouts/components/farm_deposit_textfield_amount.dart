@@ -113,7 +113,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                             },
                             focusNode: tokenAmountFocusNode,
                             textAlign: TextAlign.left,
-                            textInputAction: TextInputAction.next,
+                            textInputAction: TextInputAction.none,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
                               aedappfm.AmountTextInputFormatter(precision: 8),
