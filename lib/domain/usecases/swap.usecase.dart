@@ -56,6 +56,7 @@ class SwapCase with aedappfm.TransactionMixin {
           failure: (failure) {
             swapNotifier
               ..setFailure(failure)
+              ..setCurrentStep(4)
               ..setProcessInProgress(false);
             throw failure;
           },
@@ -86,6 +87,7 @@ class SwapCase with aedappfm.TransactionMixin {
           failure: (failure) {
             swapNotifier
               ..setFailure(failure)
+              ..setCurrentStep(4)
               ..setProcessInProgress(false);
             throw failure;
           },
@@ -116,10 +118,14 @@ class SwapCase with aedappfm.TransactionMixin {
         );
     } catch (e) {
       if (e is aedappfm.Failure) {
-        swapNotifier.setFailure(e);
+        swapNotifier
+          ..setFailure(e)
+          ..setCurrentStep(4);
         return;
       }
-      swapNotifier.setFailure(aedappfm.Failure.other(cause: e.toString()));
+      swapNotifier
+        ..setFailure(aedappfm.Failure.other(cause: e.toString()))
+        ..setCurrentStep(4);
 
       return;
     }
