@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -76,7 +77,13 @@ class PoolAddFormSheet extends ConsumerWidget {
                             ),
                           ),
                         ),
-                      aedappfm.ErrorMessage(failure: poolAdd.failure),
+                      aedappfm.ErrorMessage(
+                        failure: poolAdd.failure,
+                        failureMessage: FailureMessage(
+                          context: context,
+                          failure: poolAdd.failure,
+                        ).getMessage(),
+                      ),
                     ],
                   ),
                   Column(

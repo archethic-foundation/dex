@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_textfield_amount.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 
@@ -102,7 +103,13 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      aedappfm.ErrorMessage(failure: farmWithdraw.failure),
+                      aedappfm.ErrorMessage(
+                        failure: farmWithdraw.failure,
+                        failureMessage: FailureMessage(
+                          context: context,
+                          failure: farmWithdraw.failure,
+                        ).getMessage(),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

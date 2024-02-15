@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_textfield_amount.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -71,7 +72,13 @@ class FarmDepositFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      aedappfm.ErrorMessage(failure: farmDeposit.failure),
+                      aedappfm.ErrorMessage(
+                        failure: farmDeposit.failure,
+                        failureMessage: FailureMessage(
+                          context: context,
+                          failure: farmDeposit.failure,
+                        ).getMessage(),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

@@ -8,6 +8,7 @@ import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -208,7 +209,13 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             ),
                           ),
                         ),
-                      aedappfm.ErrorMessage(failure: liquidityAdd.failure),
+                      aedappfm.ErrorMessage(
+                        failure: liquidityAdd.failure,
+                        failureMessage: FailureMessage(
+                          context: context,
+                          failure: liquidityAdd.failure,
+                        ).getMessage(),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

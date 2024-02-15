@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swapped_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -51,7 +52,13 @@ class SwapFormSheet extends ConsumerWidget {
                             ),
                           ),
                         ),
-                      aedappfm.ErrorMessage(failure: swap.failure),
+                      aedappfm.ErrorMessage(
+                        failure: swap.failure,
+                        failureMessage: FailureMessage(
+                          context: context,
+                          failure: swap.failure,
+                        ).getMessage(),
+                      ),
                       if (swap.failure is aedappfm.PoolNotExists &&
                           swap.tokenToSwap != null &&
                           swap.tokenSwapped != null &&

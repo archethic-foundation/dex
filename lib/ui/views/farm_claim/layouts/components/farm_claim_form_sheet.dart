@@ -2,6 +2,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -111,7 +112,13 @@ class FarmClaimFormSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      aedappfm.ErrorMessage(failure: farmClaim.failure),
+                      aedappfm.ErrorMessage(
+                        failure: farmClaim.failure,
+                        failureMessage: FailureMessage(
+                          context: context,
+                          failure: farmClaim.failure,
+                        ).getMessage(),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
