@@ -1,5 +1,6 @@
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
+import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
@@ -293,6 +294,31 @@ class PoolDetailsBack extends ConsumerWidget {
                       SelectableText(
                         '${pool.infos?.protocolFees ?? '-- '}%',
                         style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      DexRatio(
+                        ratio: pool.infos!.ratioToken1Token2,
+                        token1Symbol: pool.pair.token1.symbol,
+                        token2Symbol: pool.pair.token2.symbol,
+                        textStyle: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      DexRatio(
+                        ratio: pool.infos!.ratioToken2Token1,
+                        token1Symbol: pool.pair.token2.symbol,
+                        token2Symbol: pool.pair.token1.symbol,
+                        textStyle: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   ),
