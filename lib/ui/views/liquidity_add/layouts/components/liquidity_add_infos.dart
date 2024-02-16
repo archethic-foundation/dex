@@ -88,7 +88,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SelectableText(
-              '+ ${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
+              '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
@@ -101,7 +101,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SelectableText(
-              '+ ${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
+              '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
@@ -114,7 +114,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SelectableText(
-              '+ ${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
+              '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],

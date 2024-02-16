@@ -62,8 +62,8 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text:
-                                  '+ ${liquidityAdd.token1Amount.formatNumber(precision: 8)}',
+                              text: liquidityAdd.token1Amount
+                                  .formatNumber(precision: 8),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
@@ -81,7 +81,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     ],
                   ),
                   SelectableText(
-                    '+${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
+                    '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
@@ -92,7 +92,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   Row(
                     children: [
                       SelectableText(
-                        '+ ${liquidityAdd.token2Amount}',
+                        '${liquidityAdd.token2Amount}',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: aedappfm.AppThemeBase.secondaryColor,
                             ),
