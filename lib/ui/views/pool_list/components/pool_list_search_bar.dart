@@ -63,12 +63,10 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               bottom: 6,
             ),
             child: TextField(
-              style: TextStyle(
-                fontFamily: aedappfm.AppThemeBase.addressFont,
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(fontFamily: aedappfm.AppThemeBase.addressFont),
               autocorrect: false,
               onChanged: (text) {
                 ref
@@ -95,13 +93,8 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Search by pool or token address or "UCO"',
-                contentPadding: const EdgeInsets.only(bottom: 15),
-                hintStyle: TextStyle(
-                  fontFamily: aedappfm.AppThemeBase.mainFont,
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
+                contentPadding: const EdgeInsets.only(bottom: 17),
+                hintStyle: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ),
