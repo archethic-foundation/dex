@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:aedex/ui/views/main_screen/layouts/app_bar_welcome.dart';
-import 'package:aedex/ui/views/util/components/dex_background.dart';
 import 'package:aedex/ui/views/util/components/dex_main_menu_app.dart';
 import 'package:aedex/ui/views/welcome/components/welcome_launch_btn.dart';
 import 'package:aedex/ui/views/welcome/components/welcome_title.dart';
@@ -44,7 +43,10 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
         ),
         body: Stack(
           children: [
-            const DexBackground(withAnimation: true),
+            const aedappfm.AppBackground(
+              withAnimation: true,
+              backgroundImage: 'assets/images/background-welcome.png',
+            ),
             const Column(
               children: [
                 WelcomeTitle(),

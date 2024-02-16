@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/browser_popup.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
-import 'package:aedex/ui/views/util/components/dex_background.dart';
 import 'package:aedex/ui/views/util/components/dex_env.dart';
 import 'package:aedex/ui/views/util/components/dex_main_menu_app.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -116,7 +115,9 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
             Stack(
               alignment: Alignment.center,
               children: [
-                const DexBackground(),
+                const aedappfm.AppBackground(
+                  backgroundImage: 'assets/images/background-welcome.png',
+                ),
                 widget.body
                     .animate()
                     .fade(

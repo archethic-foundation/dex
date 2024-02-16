@@ -42,11 +42,13 @@ class _BottomNavigationBarMainScreenState
               .toList(),
           currentIndex: widget.navDrawerIndex,
           onTap: (int selectedIndex) {
-            ref
-                .read(
-                  navigationIndexMainScreenProvider.notifier,
-                )
-                .state = selectedIndex;
+            setState(() {
+              ref
+                  .read(
+                    navigationIndexMainScreenProvider.notifier,
+                  )
+                  .state = selectedIndex;
+            });
 
             switch (selectedIndex) {
               case 0:
