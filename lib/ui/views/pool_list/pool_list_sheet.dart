@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
@@ -229,41 +227,29 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: aedappfm.AppThemeBase.sheetBackground,
-                  border: Border.all(
-                    color: aedappfm.AppThemeBase.sheetBorder,
+          child: aedappfm.SingleCard(
+            globalPadding: 0,
+            cardContent: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: FlipCard(
+                    controller: flipCardController,
+                    flipOnTouch: false,
+                    fill: Fill.fillBack,
+                    front: PoolDetailsFront(
+                      pool: widget.pool,
+                    ),
+                    back: PoolDetailsBack(
+                      pool: widget.pool,
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: FlipCard(
-                        controller: flipCardController,
-                        flipOnTouch: false,
-                        fill: Fill.fillBack,
-                        front: PoolDetailsFront(
-                          pool: widget.pool,
-                        ),
-                        back: PoolDetailsBack(
-                          pool: widget.pool,
-                        ),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: aedappfm.ArchethicOracleUco(),
-                    ),
-                  ],
+                const Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: aedappfm.ArchethicOracleUco(),
                 ),
-              ),
+              ],
             ),
           ),
         ),

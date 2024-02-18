@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
@@ -97,78 +95,66 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: aedappfm.AppThemeBase.sheetBackground,
-                  border: Border.all(
-                    color: aedappfm.AppThemeBase.sheetBorder,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: FutureBuilder<DexFarm?>(
-                  future: ref.watch(
-                    DexFarmProviders.getFarmInfos(
-                      widget.farm.farmAddress,
-                      widget.farm.poolAddress,
-                      dexFarmInput: widget.farm,
-                    ).future,
-                  ),
-                  builder: (context, farmInfosSnapshot) {
-                    if (farmInfosSnapshot.hasData) {
-                      final farmInfos = farmInfosSnapshot.data;
-
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: FlipCard(
-                              controller: flipCardController,
-                              flipOnTouch: false,
-                              fill: Fill.fillBack,
-                              front: FarmDetailsFront(
-                                farm: farmInfos!,
-                              ),
-                              back: FarmDetailsBack(
-                                farm: farmInfos,
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(right: 20),
-                            child: aedappfm.ArchethicOracleUco(),
-                          ),
-                        ],
-                      );
-                    }
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: FlipCard(
-                            controller: flipCardController,
-                            flipOnTouch: false,
-                            fill: Fill.fillBack,
-                            front: FarmDetailsFront(
-                              farm: widget.farm,
-                            ),
-                            back: FarmDetailsBack(
-                              farm: widget.farm,
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: aedappfm.ArchethicOracleUco(),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+          child: aedappfm.SingleCard(
+            globalPadding: 0,
+            cardContent: FutureBuilder<DexFarm?>(
+              future: ref.watch(
+                DexFarmProviders.getFarmInfos(
+                  widget.farm.farmAddress,
+                  widget.farm.poolAddress,
+                  dexFarmInput: widget.farm,
+                ).future,
               ),
+              builder: (context, farmInfosSnapshot) {
+                if (farmInfosSnapshot.hasData) {
+                  final farmInfos = farmInfosSnapshot.data;
+
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: FlipCard(
+                          controller: flipCardController,
+                          flipOnTouch: false,
+                          fill: Fill.fillBack,
+                          front: FarmDetailsFront(
+                            farm: farmInfos!,
+                          ),
+                          back: FarmDetailsBack(
+                            farm: farmInfos,
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: aedappfm.ArchethicOracleUco(),
+                      ),
+                    ],
+                  );
+                }
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FlipCard(
+                        controller: flipCardController,
+                        flipOnTouch: false,
+                        fill: Fill.fillBack,
+                        front: FarmDetailsFront(
+                          farm: widget.farm,
+                        ),
+                        back: FarmDetailsBack(
+                          farm: widget.farm,
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: aedappfm.ArchethicOracleUco(),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
