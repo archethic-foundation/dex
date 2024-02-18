@@ -11,9 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmDepositFinalAmount extends ConsumerStatefulWidget {
-  const FarmDepositFinalAmount({super.key, required this.address});
+  const FarmDepositFinalAmount({
+    super.key,
+    required this.address,
+    required this.isUCO,
+    required this.to,
+  });
 
   final String address;
+  final bool isUCO;
+  final String to;
 
   @override
   ConsumerState<FarmDepositFinalAmount> createState() =>
@@ -34,7 +41,11 @@ class _FarmDepositFinalAmountState extends ConsumerState<FarmDepositFinalAmount>
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
-        final amount = await getAmountFromTx(widget.address);
+        final amount = await getAmountFromTx(
+          widget.address,
+          widget.isUCO,
+          widget.to,
+        );
         if (amount > 0) {
           setState(() {
             finalAmount = amount;
