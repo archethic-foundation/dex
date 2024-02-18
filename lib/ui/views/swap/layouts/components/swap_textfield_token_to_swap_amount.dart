@@ -231,26 +231,39 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                   ),
                 ),
                 if (swap.tokenToSwap != null)
-                  Positioned(
-                    top: 12,
-                    right: 10,
-                    child: FutureBuilder<String>(
-                      future: FiatValue().display(
-                        ref,
-                        swap.tokenToSwap!,
-                        swap.tokenToSwapAmount,
+                  if (swap.calculationInProgress == false)
+                    Positioned(
+                      top: 12,
+                      right: 10,
+                      child: FutureBuilder<String>(
+                        future: FiatValue().display(
+                          ref,
+                          swap.tokenToSwap!,
+                          swap.tokenToSwapAmount,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return SelectableText(
+                              snapshot.data!,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                       ),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return SelectableText(
-                            snapshot.data!,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
+                    )
+                  else
+                    Container(
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 10, right: 15),
+                      child: const SizedBox(
+                        height: 15,
+                        width: 15,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1,
+                        ),
+                      ),
                     ),
-                  ),
               ],
             ),
             const Padding(
@@ -264,10 +277,22 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            DexTokenBalance(
-              tokenBalance: swap.tokenToSwapBalance,
-              token: swap.tokenToSwap,
-            ),
+            if (swap.calculationInProgress == false)
+              DexTokenBalance(
+                tokenBalance: swap.tokenToSwapBalance,
+                token: swap.tokenToSwap,
+              )
+            else
+              Container(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: const SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              ),
             if (swap.tokenToSwapBalance > 0)
               Row(
                 children: [

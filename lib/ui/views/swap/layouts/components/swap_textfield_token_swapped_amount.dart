@@ -207,26 +207,39 @@ class _SwapTokenSwappedAmountState
                   ),
                 ),
                 if (swap.tokenSwapped != null)
-                  Positioned(
-                    top: 12,
-                    right: 10,
-                    child: FutureBuilder<String>(
-                      future: FiatValue().display(
-                        ref,
-                        swap.tokenSwapped!,
-                        swap.tokenSwappedAmount,
+                  if (swap.calculationInProgress == false)
+                    Positioned(
+                      top: 12,
+                      right: 10,
+                      child: FutureBuilder<String>(
+                        future: FiatValue().display(
+                          ref,
+                          swap.tokenSwapped!,
+                          swap.tokenSwappedAmount,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return SelectableText(
+                              snapshot.data!,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                       ),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return SelectableText(
-                            snapshot.data!,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
+                    )
+                  else
+                    Container(
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 10, right: 15),
+                      child: const SizedBox(
+                        height: 15,
+                        width: 15,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1,
+                        ),
+                      ),
                     ),
-                  ),
               ],
             ),
             const Padding(
@@ -240,10 +253,22 @@ class _SwapTokenSwappedAmountState
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            DexTokenBalance(
-              tokenBalance: swap.tokenSwappedBalance,
-              token: swap.tokenSwapped,
-            ),
+            if (swap.calculationInProgress == false)
+              DexTokenBalance(
+                tokenBalance: swap.tokenSwappedBalance,
+                token: swap.tokenSwapped,
+              )
+            else
+              Container(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: const SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              ),
             if (swap.tokenSwappedBalance > 0)
               Row(
                 children: [

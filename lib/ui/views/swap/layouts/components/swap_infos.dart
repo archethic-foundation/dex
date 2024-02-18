@@ -37,8 +37,21 @@ class SwapInfos extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    width: 50,
+                    height: 1,
+                    decoration: BoxDecoration(
+                      gradient: aedappfm.AppThemeBase.gradient,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(
-              height: 6,
+              height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
