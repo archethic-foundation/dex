@@ -1,9 +1,9 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-import 'package:aedex/ui/views/util/generic/responsive.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,8 +39,8 @@ class Header extends ConsumerWidget {
           child: SelectableText(
             'aeSwap',
             style: TextStyle(
-              fontSize: 34,
-              color: ArchethicThemeBase.neutral0,
+              fontSize: 33,
+              color: aedappfm.ArchethicThemeBase.neutral0,
             ),
           ),
         ),
@@ -52,8 +52,8 @@ class Header extends ConsumerWidget {
           ),
         ),
         if (withMenu &&
-            Responsive.isMobile(context) == false &&
-            Responsive.isTablet(context) == false)
+            aedappfm.Responsive.isMobile(context) == false &&
+            aedappfm.Responsive.isTablet(context) == false)
           Row(
             children: [
               const SizedBox(
@@ -80,8 +80,8 @@ class Header extends ConsumerWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
                           color: indexMenu == 0
-                              ? ArchethicThemeBase.raspberry200
-                              : ArchethicThemeBase.neutral0,
+                              ? aedappfm.ArchethicThemeBase.raspberry200
+                              : aedappfm.ArchethicThemeBase.neutral0,
                         ),
                       ),
                     ),
@@ -90,7 +90,7 @@ class Header extends ConsumerWidget {
                       height: 0.5,
                       width: 70,
                       color: indexMenu == 0
-                          ? ArchethicThemeBase.raspberry200
+                          ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),
                   ],
@@ -114,8 +114,8 @@ class Header extends ConsumerWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
                           color: indexMenu == 1
-                              ? ArchethicThemeBase.raspberry200
-                              : ArchethicThemeBase.neutral0,
+                              ? aedappfm.ArchethicThemeBase.raspberry200
+                              : aedappfm.ArchethicThemeBase.neutral0,
                         ),
                       ),
                     ),
@@ -124,7 +124,7 @@ class Header extends ConsumerWidget {
                       height: 0.5,
                       width: 90,
                       color: indexMenu == 1
-                          ? ArchethicThemeBase.raspberry200
+                          ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),
                   ],
@@ -148,8 +148,8 @@ class Header extends ConsumerWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
                           color: indexMenu == 2
-                              ? ArchethicThemeBase.raspberry200
-                              : ArchethicThemeBase.neutral0,
+                              ? aedappfm.ArchethicThemeBase.raspberry200
+                              : aedappfm.ArchethicThemeBase.neutral0,
                         ),
                       ),
                     ),
@@ -158,7 +158,7 @@ class Header extends ConsumerWidget {
                       height: 0.5,
                       width: 70,
                       color: indexMenu == 2
-                          ? ArchethicThemeBase.raspberry200
+                          ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),
                   ],

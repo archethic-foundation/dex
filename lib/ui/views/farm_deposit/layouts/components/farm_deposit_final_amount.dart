@@ -4,15 +4,23 @@ import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:aedex/util/transaction_dex_util.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmDepositFinalAmount extends ConsumerStatefulWidget {
-  const FarmDepositFinalAmount({super.key, required this.address});
+  const FarmDepositFinalAmount({
+    super.key,
+    required this.address,
+    required this.isUCO,
+    required this.to,
+  });
 
   final String address;
+  final bool isUCO;
+  final String to;
 
   @override
   ConsumerState<FarmDepositFinalAmount> createState() =>
@@ -20,7 +28,7 @@ class FarmDepositFinalAmount extends ConsumerStatefulWidget {
 }
 
 class _FarmDepositFinalAmountState extends ConsumerState<FarmDepositFinalAmount>
-    with TransactionDexMixin {
+    with aedappfm.TransactionMixin {
   double? finalAmount;
   Timer? timer;
 
@@ -33,7 +41,11 @@ class _FarmDepositFinalAmountState extends ConsumerState<FarmDepositFinalAmount>
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
-        final amount = await getAmountFromTx(widget.address);
+        final amount = await getAmountFromTx(
+          widget.address,
+          widget.isUCO,
+          widget.to,
+        );
         if (amount > 0) {
           setState(() {
             finalAmount = amount;

@@ -4,8 +4,9 @@ import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:aedex/util/transaction_dex_util.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +21,8 @@ class FarmWithdrawFinalAmount extends ConsumerStatefulWidget {
 }
 
 class _FarmWithdrawFinalAmountState
-    extends ConsumerState<FarmWithdrawFinalAmount> with TransactionDexMixin {
+    extends ConsumerState<FarmWithdrawFinalAmount>
+    with aedappfm.TransactionMixin {
   double? finalAmountReward;
   double? finalAmountWithdraw;
   Timer? timer;

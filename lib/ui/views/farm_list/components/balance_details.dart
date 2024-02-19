@@ -84,8 +84,8 @@ class _BalanceDetails extends ConsumerWidget {
               ),
             Column(
               children: [
-                DexButtonValidate(
-                  background: ArchethicThemeBase.purple500,
+                aedappfm.ButtonValidate(
+                  background: aedappfm.ArchethicThemeBase.purple500,
                   controlOk: balance != null && balance > 0,
                   labelBtn: 'Deposit LP Tokens',
                   onPressed: () {
@@ -93,6 +93,35 @@ class _BalanceDetails extends ConsumerWidget {
                         .go(FarmDepositSheet.routerPage, extra: {'farm': farm});
                   },
                   displayWalletConnect: true,
+                  isConnected: session.isConnected,
+                  displayWalletConnectOnPressed: () async {
+                    final sessionNotifier =
+                        ref.read(SessionProviders.session.notifier);
+                    await sessionNotifier.connectToWallet();
+
+                    final session = ref.read(SessionProviders.session);
+                    if (session.error.isNotEmpty) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor:
+                              Theme.of(context).snackBarTheme.backgroundColor,
+                          content: SelectableText(
+                            session.error,
+                            style: Theme.of(context)
+                                .snackBarTheme
+                                .contentTextStyle,
+                          ),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    } else {
+                      if (!context.mounted) return;
+                      context.go(
+                        '/',
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(
                   height: 30,
@@ -100,8 +129,8 @@ class _BalanceDetails extends ConsumerWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: DexButtonValidate(
-                        background: ArchethicThemeBase.purple500,
+                      child: aedappfm.ButtonValidate(
+                        background: aedappfm.ArchethicThemeBase.purple500,
                         controlOk: farm.lpTokenDeposited > 0,
                         labelBtn: 'Withdraw',
                         onPressed: () {
@@ -112,11 +141,41 @@ class _BalanceDetails extends ConsumerWidget {
                             },
                           );
                         },
+                        isConnected: session.isConnected,
+                        displayWalletConnectOnPressed: () async {
+                          final sessionNotifier =
+                              ref.read(SessionProviders.session.notifier);
+                          await sessionNotifier.connectToWallet();
+
+                          final session = ref.read(SessionProviders.session);
+                          if (session.error.isNotEmpty) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Theme.of(context)
+                                    .snackBarTheme
+                                    .backgroundColor,
+                                content: SelectableText(
+                                  session.error,
+                                  style: Theme.of(context)
+                                      .snackBarTheme
+                                      .contentTextStyle,
+                                ),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          } else {
+                            if (!context.mounted) return;
+                            context.go(
+                              '/',
+                            );
+                          }
+                        },
                       ),
                     ),
                     Expanded(
-                      child: DexButtonValidate(
-                        background: ArchethicThemeBase.purple500,
+                      child: aedappfm.ButtonValidate(
+                        background: aedappfm.ArchethicThemeBase.purple500,
                         controlOk: true,
                         labelBtn: 'Claim',
                         onPressed: () async {
@@ -129,6 +188,36 @@ class _BalanceDetails extends ConsumerWidget {
                                 'farmUserInfo': farmUserInfo,
                                 'farm': farm,
                               },
+                            );
+                          }
+                        },
+                        isConnected: session.isConnected,
+                        displayWalletConnectOnPressed: () async {
+                          final sessionNotifier =
+                              ref.read(SessionProviders.session.notifier);
+                          await sessionNotifier.connectToWallet();
+
+                          final session = ref.read(SessionProviders.session);
+                          if (session.error.isNotEmpty) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Theme.of(context)
+                                    .snackBarTheme
+                                    .backgroundColor,
+                                content: SelectableText(
+                                  session.error,
+                                  style: Theme.of(context)
+                                      .snackBarTheme
+                                      .contentTextStyle,
+                                ),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          } else {
+                            if (!context.mounted) return;
+                            context.go(
+                              '/',
                             );
                           }
                         },

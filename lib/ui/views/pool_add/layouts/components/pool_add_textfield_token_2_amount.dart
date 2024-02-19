@@ -1,11 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_2_selection.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,10 +34,14 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
     final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
-        text: poolAdd.token2Amount == 0 ? '' : poolAdd.token2Amount.toString(),
+        text: poolAdd.token2Amount == 0
+            ? ''
+            : poolAdd.token2Amount
+                .formatNumber(precision: 8)
+                .replaceAll(',', ''),
       ),
     );
   }
@@ -80,7 +83,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
           alignment: Alignment.centerLeft,
           children: [
             SizedBox(
-              width: DexThemeBase.sizeBoxComponentWidth,
+              width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
               child: Row(
                 children: [
                   Expanded(
@@ -151,10 +154,12 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                                   },
                                   focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
-                                  textInputAction: TextInputAction.next,
+                                  textInputAction: TextInputAction.none,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
-                                    AmountTextInputFormatter(precision: 8),
+                                    aedappfm.AmountTextInputFormatter(
+                                      precision: 8,
+                                    ),
                                   ],
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
@@ -189,7 +194,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
             if (poolAdd.token2Balance > 0)
               Row(
                 children: [
-                  DexButtonHalf(
+                  aedappfm.ButtonHalf(
                     balanceAmount: poolAdd.token2Balance,
                     onTap: () {
                       ref
@@ -206,7 +211,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                   const SizedBox(
                     width: 10,
                   ),
-                  DexButtonMax(
+                  aedappfm.ButtonMax(
                     balanceAmount: poolAdd.token2Balance,
                     onTap: () {
                       ref

@@ -455,7 +455,7 @@ class _GetTokenIconProviderElement
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'b5a5edf0207c913992ef3d40915cd17e26edca35';
+    r'd94d4a41a5c8626a826183eb10e5124cfadb870c';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)
@@ -584,7 +584,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimateLPTokenInFiatHash() =>
-    r'416458ef0a8ebd1531b62d698b0b27355b5ecb75';
+    r'32954548221616099ea4e43c55ee12708f58fc0e';
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)

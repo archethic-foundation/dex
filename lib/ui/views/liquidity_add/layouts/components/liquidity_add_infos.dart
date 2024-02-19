@@ -1,5 +1,6 @@
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -87,7 +88,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SelectableText(
-              '+ ${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
+              '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
@@ -100,7 +101,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SelectableText(
-              '+ ${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
+              '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
@@ -113,7 +114,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SelectableText(
-              '+ ${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
+              '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],

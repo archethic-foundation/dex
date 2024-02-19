@@ -1,16 +1,15 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
@@ -33,6 +32,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
   Future<void> setToken1(
     DexToken token,
+    BuildContext context,
   ) async {
     state = state.copyWith(
       failure: null,
@@ -48,10 +48,23 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       ).future,
     );
     state = state.copyWith(token1Balance: balance);
+    if (state.token1 != null &&
+        state.token2 != null &&
+        state.token1!.address == state.token2!.address) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: context.mounted
+              ? AppLocalizations.of(context)!.poolAddControlSameTokens
+              : '',
+        ),
+      );
+      return;
+    }
   }
 
   Future<void> setToken2(
     DexToken token,
+    BuildContext context,
   ) async {
     state = state.copyWith(
       failure: null,
@@ -67,6 +80,19 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       ).future,
     );
     state = state.copyWith(token2Balance: balance);
+
+    if (state.token1 != null &&
+        state.token2 != null &&
+        state.token1!.address == state.token2!.address) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: context.mounted
+              ? AppLocalizations.of(context)!.poolAddControlSameTokens
+              : '',
+        ),
+      );
+      return;
+    }
   }
 
   void setToken1AmountMax() {
@@ -133,7 +159,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -158,10 +184,10 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   void setPoolAddProcessStep(
-    PoolAddProcessStep poolAddProcessStep,
+    aedappfm.ProcessStep poolAddProcessStep,
   ) {
     state = state.copyWith(
-      poolAddProcessStep: poolAddProcessStep,
+      processStep: poolAddProcessStep,
     );
   }
 
@@ -223,7 +249,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     }
 
     setPoolAddProcessStep(
-      PoolAddProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 
@@ -235,14 +261,14 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         (BrowserUtil().isEdgeBrowser() ||
             BrowserUtil().isInternetExplorerBrowser())) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.token1 == null) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
         ),
       );
@@ -251,7 +277,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token2 == null) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
         ),
       );
@@ -260,7 +286,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token1!.address == state.token2!.address) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlSameTokens,
         ),
       );
@@ -269,7 +295,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token1Amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
         ),
       );
@@ -278,7 +304,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token2Amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
         ),
       );
@@ -287,7 +313,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token1Amount > state.token1Balance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .poolAddControlToken1AmountExceedBalance,
         ),
@@ -297,7 +323,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     if (state.token2Amount > state.token2Balance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .poolAddControlToken2AmountExceedBalance,
         ),
@@ -308,7 +334,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     final dexConfig =
         await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
 
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final routerFactory =
         RouterFactory(dexConfig.routerGenesisAddress, apiService);
     final poolInfosResult = await routerFactory.getPoolAddresses(
@@ -318,7 +344,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     poolInfosResult.map(
       success: (success) {
         if (success != null && success['address'] != null) {
-          setFailure(const PoolAlreadyExists());
+          setFailure(const aedappfm.PoolAlreadyExists());
         }
       },
       failure: (failure) {},
@@ -331,7 +357,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     var estimateFees = 0.0;
     if (state.token1 != null && state.token1!.isUCO) {
       final archethicOracleUCO =
-          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
@@ -340,7 +366,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
           final adjustedAmount = state.token1Balance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             setToken1Amount(adjustedAmount);
@@ -351,7 +377,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     }
     if (state.token2 != null && state.token2!.isUCO) {
       final archethicOracleUCO =
-          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
@@ -360,7 +386,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
           final adjustedAmount = state.token2Balance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             setToken2Amount(adjustedAmount);

@@ -3,11 +3,10 @@ import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
-import 'package:aedex/util/transaction_dex_util.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -15,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'SwapCase';
 
-class SwapCase with TransactionDexMixin {
+class SwapCase with aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref,
     String poolGenesisAddress,
@@ -49,7 +48,7 @@ class SwapCase with TransactionDexMixin {
             outputAmount = success;
 
             if (outputAmount <= 0) {
-              throw const Failure.other(
+              throw const aedappfm.Failure.other(
                 cause: 'Error outputAmount',
               );
             }
@@ -57,6 +56,7 @@ class SwapCase with TransactionDexMixin {
           failure: (failure) {
             swapNotifier
               ..setFailure(failure)
+              ..setCurrentStep(4)
               ..setProcessInProgress(false);
             throw failure;
           },
@@ -87,6 +87,7 @@ class SwapCase with TransactionDexMixin {
           failure: (failure) {
             swapNotifier
               ..setFailure(failure)
+              ..setCurrentStep(4)
               ..setProcessInProgress(false);
             throw failure;
           },
@@ -116,11 +117,15 @@ class SwapCase with TransactionDexMixin {
           transactionSwap,
         );
     } catch (e) {
-      if (e is Failure) {
-        swapNotifier.setFailure(e);
+      if (e is aedappfm.Failure) {
+        swapNotifier
+          ..setFailure(e)
+          ..setCurrentStep(4);
         return;
       }
-      swapNotifier.setFailure(Failure.other(cause: e.toString()));
+      swapNotifier
+        ..setFailure(aedappfm.Failure.other(cause: e.toString()))
+        ..setCurrentStep(4);
 
       return;
     }
@@ -138,14 +143,14 @@ class SwapCase with TransactionDexMixin {
         ..setProcessInProgress(false)
         ..setSwapOk(true);
     } catch (e) {
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<aedappfm.LogManager>().log(
             'TransactionSwap sendTx failed $e ($transactionSwap)',
-            level: LogLevel.error,
-            name: 'TransactionDexMixin - sendTransactions',
+            level: aedappfm.LogLevel.error,
+            name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
       swapNotifier.setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: e.toString(),
         ),
       );

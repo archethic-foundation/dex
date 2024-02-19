@@ -16,8 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$FarmClaimFormState {
-  FarmClaimProcessStep get farmClaimProcessStep =>
-      throw _privateConstructorUsedError;
+  ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
   DexFarm? get dexFarm => throw _privateConstructorUsedError;
@@ -41,7 +40,7 @@ abstract class $FarmClaimFormStateCopyWith<$Res> {
       _$FarmClaimFormStateCopyWithImpl<$Res, FarmClaimFormState>;
   @useResult
   $Res call(
-      {FarmClaimProcessStep farmClaimProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
       DexFarm? dexFarm,
@@ -72,7 +71,7 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? farmClaimProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
     Object? dexFarm = freezed,
@@ -85,10 +84,10 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     Object? finalAmount = freezed,
   }) {
     return _then(_value.copyWith(
-      farmClaimProcessStep: null == farmClaimProcessStep
-          ? _value.farmClaimProcessStep
-          : farmClaimProcessStep // ignore: cast_nullable_to_non_nullable
-              as FarmClaimProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -190,7 +189,7 @@ abstract class _$$FarmClaimFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {FarmClaimProcessStep farmClaimProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
       DexFarm? dexFarm,
@@ -223,7 +222,7 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? farmClaimProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
     Object? dexFarm = freezed,
@@ -236,10 +235,10 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
     Object? finalAmount = freezed,
   }) {
     return _then(_$FarmClaimFormStateImpl(
-      farmClaimProcessStep: null == farmClaimProcessStep
-          ? _value.farmClaimProcessStep
-          : farmClaimProcessStep // ignore: cast_nullable_to_non_nullable
-              as FarmClaimProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -288,7 +287,7 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
 
 class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   const _$FarmClaimFormStateImpl(
-      {this.farmClaimProcessStep = FarmClaimProcessStep.form,
+      {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
       this.dexFarm,
@@ -303,7 +302,7 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
 
   @override
   @JsonKey()
-  final FarmClaimProcessStep farmClaimProcessStep;
+  final ProcessStep processStep;
   @override
   @JsonKey()
   final bool resumeProcess;
@@ -332,7 +331,7 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
 
   @override
   String toString() {
-    return 'FarmClaimFormState(farmClaimProcessStep: $farmClaimProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarm: $dexFarm, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount)';
+    return 'FarmClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarm: $dexFarm, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount)';
   }
 
   @override
@@ -340,8 +339,8 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FarmClaimFormStateImpl &&
-            (identical(other.farmClaimProcessStep, farmClaimProcessStep) ||
-                other.farmClaimProcessStep == farmClaimProcessStep) &&
+            (identical(other.processStep, processStep) ||
+                other.processStep == processStep) &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
@@ -365,7 +364,7 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      farmClaimProcessStep,
+      processStep,
       resumeProcess,
       currentStep,
       dexFarm,
@@ -387,7 +386,7 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
 
 abstract class _FarmClaimFormState extends FarmClaimFormState {
   const factory _FarmClaimFormState(
-      {final FarmClaimProcessStep farmClaimProcessStep,
+      {final ProcessStep processStep,
       final bool resumeProcess,
       final int currentStep,
       final DexFarm? dexFarm,
@@ -401,7 +400,7 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   const _FarmClaimFormState._() : super._();
 
   @override
-  FarmClaimProcessStep get farmClaimProcessStep;
+  ProcessStep get processStep;
   @override
   bool get resumeProcess;
   @override

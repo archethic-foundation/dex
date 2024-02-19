@@ -71,12 +71,13 @@ Future<void> _putPoolListInfosToCache(
       (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
               1000)
           .round();
-  final transactionChainResult = await sl.get<ApiService>().getTransactionChain(
-        tx24hAddress,
-        request:
-            ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
-        fromCriteria: fromCriteria,
-      );
+  final transactionChainResult =
+      await aedappfm.sl.get<ApiService>().getTransactionChain(
+            tx24hAddress,
+            request:
+                ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
+            fromCriteria: fromCriteria,
+          );
 
   for (final pool in poolList) {
     var poolWithInfos = await ref.read(
@@ -119,14 +120,15 @@ Future<void> _putPoolToCache(
   final pool = poolList.firstWhere(
     (element) =>
         element.poolAddress.toUpperCase() == poolGenesisAddress.toUpperCase(),
-    orElse: () => throw const Failure.poolNotExists(),
+    orElse: () => throw const aedappfm.Failure.poolNotExists(),
   );
 
   final fromCriteria =
       (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
               1000)
           .round();
-  final transactionChainResult = await sl.get<ApiService>().getTransactionChain(
+  final transactionChainResult =
+      await aedappfm.sl.get<ApiService>().getTransactionChain(
     {pool.poolAddress: ''},
     request:
         ' validationStamp { ledgerOperations { unspentOutputs { state } } }',

@@ -2,11 +2,10 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_popup.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +24,7 @@ class SwapConfirmSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          DexButtonConfirmBack(
+          aedappfm.ButtonConfirmBack(
             title: AppLocalizations.of(context)!.liquidityAddConfirmTitle,
             onPressed: swap.tokenToSwap == null
                 ? null
@@ -34,7 +33,7 @@ class SwapConfirmSheet extends ConsumerWidget {
                       SwapFormProvider.swapForm.notifier,
                     )
                       ..setSwapProcessStep(
-                        SwapProcessStep.form,
+                        aedappfm.ProcessStep.form,
                       )
                       ..setMessageMaxHalfUCO(false);
                   },
@@ -45,7 +44,7 @@ class SwapConfirmSheet extends ConsumerWidget {
             height: 20,
           ),
           const Spacer(),
-          DexButtonConfirm(
+          aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_swap,
             onPressed: () async {
               final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);

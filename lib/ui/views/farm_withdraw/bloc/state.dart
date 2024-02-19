@@ -2,19 +2,16 @@
 
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
-import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 
-enum FarmWithdrawProcessStep { form, confirmation }
-
 @freezed
 class FarmWithdrawFormState with _$FarmWithdrawFormState {
   const factory FarmWithdrawFormState({
-    @Default(FarmWithdrawProcessStep.form)
-    FarmWithdrawProcessStep farmWithdrawProcessStep,
+    @Default(ProcessStep.form) ProcessStep processStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
     DexFarm? dexFarmInfo,

@@ -2,11 +2,10 @@
 import 'dart:async';
 
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_claim/bloc/state.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_confirm_infos.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_popup.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_confirm.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_confirm_back.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +24,7 @@ class FarmClaimConfirmSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          DexButtonConfirmBack(
+          aedappfm.ButtonConfirmBack(
             title: AppLocalizations.of(context)!.farmClaimConfirmTitle,
             onPressed: farmClaim.dexFarmUserInfo == null
                 ? null
@@ -35,7 +34,7 @@ class FarmClaimConfirmSheet extends ConsumerWidget {
                           FarmClaimFormProvider.farmClaimForm.notifier,
                         )
                         .setFarmClaimProcessStep(
-                          FarmClaimProcessStep.form,
+                          aedappfm.ProcessStep.form,
                         );
                   },
           ),
@@ -45,7 +44,7 @@ class FarmClaimConfirmSheet extends ConsumerWidget {
             height: 20,
           ),
           const Spacer(),
-          DexButtonConfirm(
+          aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_claim,
             onPressed: () async {
               final farmClaimNotifier =

@@ -1,11 +1,12 @@
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class FarmWithdrawFormNotifier
     );
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -100,10 +101,10 @@ class FarmWithdrawFormNotifier
   }
 
   void setFarmWithdrawProcessStep(
-    FarmWithdrawProcessStep farmWithdrawProcessStep,
+    aedappfm.ProcessStep farmWithdrawProcessStep,
   ) {
     state = state.copyWith(
-      farmWithdrawProcessStep: farmWithdrawProcessStep,
+      processStep: farmWithdrawProcessStep,
     );
   }
 
@@ -113,7 +114,7 @@ class FarmWithdrawFormNotifier
     }
 
     setFarmWithdrawProcessStep(
-      FarmWithdrawProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 
@@ -123,14 +124,14 @@ class FarmWithdrawFormNotifier
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.farmWithdrawControlAmountEmpty,
         ),
       );
@@ -139,7 +140,7 @@ class FarmWithdrawFormNotifier
 
     if (state.amount > state.dexFarmUserInfo!.depositedAmount) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .farmWithdrawControlLPTokenAmountExceedDeposited,
         ),

@@ -1,22 +1,30 @@
 import 'dart:async';
 
-import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SwapFinalAmount extends ConsumerStatefulWidget {
-  const SwapFinalAmount({super.key, required this.address});
+class LiquidityAddFinalAmount extends ConsumerStatefulWidget {
+  const LiquidityAddFinalAmount({
+    super.key,
+    required this.address,
+    required this.to,
+  });
 
   final String address;
+  final String to;
 
   @override
-  ConsumerState<SwapFinalAmount> createState() => _SwapFinalAmountState();
+  ConsumerState<LiquidityAddFinalAmount> createState() =>
+      _LiquidityAddFinalAmountState();
 }
 
-class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
+class _LiquidityAddFinalAmountState
+    extends ConsumerState<LiquidityAddFinalAmount>
     with aedappfm.TransactionMixin {
   double? finalAmount;
   Timer? timer;
@@ -30,15 +38,20 @@ class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
-        final swap = ref.read(SwapFormProvider.swapForm);
         final amount = await getAmountFromTxInput(
           widget.address,
-          swap.tokenSwapped!.address,
+          widget.to,
         );
         if (amount > 0) {
           setState(() {
             finalAmount = amount;
           });
+
+          final liquidityAdd =
+              ref.read(LiquidityAddFormProvider.liquidityAddForm);
+
+          ref.read(DexPoolProviders.updatePoolInCache(liquidityAdd.pool!));
+
           unawaited(refreshCurrentAccountInfoWallet());
           timer?.cancel();
         }
@@ -55,17 +68,18 @@ class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
 
   @override
   Widget build(BuildContext context) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
-    if (swap.swapOk == false) return const SizedBox.shrink();
+    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+
+    if (liquidityAdd.liquidityAddOk == false) return const SizedBox.shrink();
 
     return finalAmount != null
         ? SelectableText(
-            'Final amount swapped: ${finalAmount!.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+            'LP Tokens obtained: ${finalAmount!.formatNumber(precision: 8)} ${finalAmount! > 1 ? 'LP Tokens' : 'LP Token'}',
           )
         : const Row(
             children: [
               SelectableText(
-                'Final amount swapped: ',
+                'LP Tokens obtained: ',
               ),
               SizedBox(
                 height: 10,

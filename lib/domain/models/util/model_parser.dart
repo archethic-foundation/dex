@@ -8,7 +8,8 @@ import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 
 mixin ModelParser {
@@ -180,8 +181,9 @@ mixin ModelParser {
       adressesToSearch.add(getFarmListResponse.rewardTokenAddress);
     }
 
-    final tokenResultMap =
-        await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+    final tokenResultMap = await aedappfm.sl
+        .get<archethic.ApiService>()
+        .getToken(adressesToSearch);
     DexToken? lpToken;
     if (tokenResultMap[getFarmListResponse.lpTokenAddress] != null) {
       lpToken = DexToken(
@@ -228,7 +230,7 @@ mixin ModelParser {
   }) async {
     var remainingReward = 0.0;
     if (getFarmInfosResponse.remainingReward == null) {
-      final transactionChainMap = await sl
+      final transactionChainMap = await aedappfm.sl
           .get<archethic.ApiService>()
           .getTransactionChain({farmGenesisAddress: ''});
       if (transactionChainMap[farmGenesisAddress] != null &&
@@ -267,8 +269,9 @@ mixin ModelParser {
     );
     if (dexFarmInput == null || dexFarmInput.lpToken == null) {
       final adressesToSearch = <String>[getFarmInfosResponse.lpTokenAddress];
-      final tokenResultMap =
-          await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+      final tokenResultMap = await aedappfm.sl
+          .get<archethic.ApiService>()
+          .getToken(adressesToSearch);
       DexToken? lpToken;
       if (tokenResultMap[getFarmInfosResponse.lpTokenAddress] != null) {
         lpToken = DexToken(
@@ -286,8 +289,9 @@ mixin ModelParser {
     DexToken? rewardToken;
     if (dexFarmInput == null || dexFarmInput.rewardToken == null) {
       final adressesToSearch = <String>[getFarmInfosResponse.rewardToken];
-      final tokenResultMap =
-          await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+      final tokenResultMap = await aedappfm.sl
+          .get<archethic.ApiService>()
+          .getToken(adressesToSearch);
 
       if (tokenResultMap[getFarmInfosResponse.rewardToken] != null) {
         rewardToken = DexToken(
@@ -303,8 +307,9 @@ mixin ModelParser {
         dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
       } else {
         final adressesToSearch = <String>[getFarmInfosResponse.rewardToken];
-        final tokenResultMap =
-            await sl.get<archethic.ApiService>().getToken(adressesToSearch);
+        final tokenResultMap = await aedappfm.sl
+            .get<archethic.ApiService>()
+            .getToken(adressesToSearch);
 
         if (tokenResultMap[getFarmInfosResponse.rewardToken] != null) {
           rewardToken = DexToken(

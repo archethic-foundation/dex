@@ -1,8 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/components/app_button.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,7 +36,8 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
                       return Scaffold(
                         backgroundColor: Colors.transparent,
                         body: AlertDialog(
-                          backgroundColor: DexThemeBase.backgroundPopupColor,
+                          backgroundColor:
+                              aedappfm.AppThemeBase.backgroundPopupColor,
                           contentPadding: const EdgeInsets.only(
                             top: 10,
                           ),
@@ -78,7 +78,7 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      AppButton(
+                                      aedappfm.AppButton(
                                         labelBtn: AppLocalizations.of(
                                           context,
                                         )!
@@ -87,7 +87,7 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
                                           Navigator.of(context).pop();
                                         },
                                       ),
-                                      AppButton(
+                                      aedappfm.AppButton(
                                         labelBtn: AppLocalizations.of(
                                           context,
                                         )!
@@ -129,15 +129,15 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
           child: Card(
             shape: RoundedRectangleBorder(
               side: BorderSide(
-                color:
-                    ArchethicThemeBase.brightPurpleHoverBorder.withOpacity(1),
+                color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
+                    .withOpacity(1),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(20),
             ),
             elevation: 0,
-            color:
-                ArchethicThemeBase.brightPurpleHoverBackground.withOpacity(1),
+            color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
+                .withOpacity(1),
             child: const Padding(
               padding: EdgeInsets.only(
                 top: 5,
@@ -146,7 +146,7 @@ class PoolAddRemoveCacheIcon extends ConsumerWidget {
                 right: 10,
               ),
               child: Icon(
-                Iconsax.star_slash,
+                aedappfm.Iconsax.star_slash,
                 size: 16,
               ),
             ),

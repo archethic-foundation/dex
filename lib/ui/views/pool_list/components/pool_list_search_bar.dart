@@ -1,7 +1,7 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,7 +52,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
           const Padding(
             padding: EdgeInsets.only(left: 10),
             child: Icon(
-              Iconsax.search_normal,
+              aedappfm.Iconsax.search_normal,
               size: 12,
             ),
           ),
@@ -63,12 +63,10 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               bottom: 6,
             ),
             child: TextField(
-              style: TextStyle(
-                fontFamily: DexThemeBase.addressFont,
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(fontFamily: aedappfm.AppThemeBase.addressFont),
               autocorrect: false,
               onChanged: (text) {
                 ref
@@ -90,18 +88,13 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               keyboardType: TextInputType.text,
               inputFormatters: <TextInputFormatter>[
                 LengthLimitingTextInputFormatter(68),
-                UpperCaseTextFormatter(),
+                aedappfm.UpperCaseTextFormatter(),
               ],
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Search by pool or token address or "UCO"',
-                contentPadding: const EdgeInsets.only(bottom: 15),
-                hintStyle: TextStyle(
-                  fontFamily: DexThemeBase.mainFont,
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
+                contentPadding: const EdgeInsets.only(bottom: 17),
+                hintStyle: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ),

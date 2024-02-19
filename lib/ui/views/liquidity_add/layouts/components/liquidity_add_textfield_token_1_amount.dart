@@ -1,9 +1,7 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,12 +35,14 @@ class _LiquidityAddToken1AmountState
     if (liquidityAdd.tokenFormSelected == 2) {
       tokenAmountController = TextEditingController();
       tokenAmountController.value =
-          AmountTextInputFormatter(precision: 8).formatEditUpdate(
+          aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
         TextEditingValue.empty,
         TextEditingValue(
           text: liquidityAdd.token1Amount == 0
               ? ''
-              : liquidityAdd.token1Amount.toString(),
+              : liquidityAdd.token1Amount
+                  .formatNumber(precision: 8)
+                  .replaceAll(',', ''),
         ),
       );
     }
@@ -75,7 +75,7 @@ class _LiquidityAddToken1AmountState
     return Column(
       children: [
         SizedBox(
-          width: DexThemeBase.sizeBoxComponentWidth,
+          width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
           child: Row(
             children: [
               Expanded(
@@ -149,10 +149,12 @@ class _LiquidityAddToken1AmountState
                                   },
                                   focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
-                                  textInputAction: TextInputAction.next,
+                                  textInputAction: TextInputAction.none,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
-                                    AmountTextInputFormatter(precision: 8),
+                                    aedappfm.AmountTextInputFormatter(
+                                      precision: 8,
+                                    ),
                                     LengthLimitingTextInputFormatter(
                                       liquidityAdd.token1Balance
                                               .formatNumber(
@@ -189,11 +191,12 @@ class _LiquidityAddToken1AmountState
             ),
             Row(
               children: [
-                DexButtonHalf(
+                aedappfm.ButtonHalf(
                   balanceAmount: liquidityAdd.token1Balance,
                   onTap: () async {
                     tokenAmountController.value =
-                        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+                        aedappfm.AmountTextInputFormatter(precision: 8)
+                            .formatEditUpdate(
                       TextEditingValue.empty,
                       TextEditingValue(
                         text: (Decimal.parse(
@@ -217,11 +220,12 @@ class _LiquidityAddToken1AmountState
                 const SizedBox(
                   width: 10,
                 ),
-                DexButtonMax(
+                aedappfm.ButtonMax(
                   balanceAmount: liquidityAdd.token1Balance,
                   onTap: () async {
                     tokenAmountController.value =
-                        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+                        aedappfm.AmountTextInputFormatter(precision: 8)
+                            .formatEditUpdate(
                       TextEditingValue.empty,
                       TextEditingValue(
                         text: liquidityAdd.token1Balance.toString(),

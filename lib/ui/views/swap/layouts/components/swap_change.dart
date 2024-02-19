@@ -1,5 +1,6 @@
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,7 +18,7 @@ class SwapChange extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Iconsax.arrange_square_2,
+            aedappfm.Iconsax.arrange_square_2,
             size: 24,
             color: Colors.white.withOpacity(0.2),
           ),
@@ -32,7 +33,7 @@ class SwapChange extends ConsumerWidget {
         InkWell(
           onTap: swapNotifier.swapDirections,
           child: const Icon(
-            Iconsax.arrange_square_2,
+            aedappfm.Iconsax.arrange_square_2,
             size: 24,
           ),
         ),

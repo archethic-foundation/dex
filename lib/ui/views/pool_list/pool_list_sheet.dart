@@ -1,21 +1,16 @@
-import 'dart:ui';
-
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/main_screen/layouts/main_screen.dart';
+import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_add_cache_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_remove_cache_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
-import 'package:aedex/ui/views/util/components/dex_archethic_oracle_uco.dart';
-import 'package:aedex/ui/views/util/components/dex_error_message.dart';
-import 'package:aedex/ui/views/util/components/grid_view.dart';
-import 'package:aedex/ui/views/util/generic/responsive.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +26,7 @@ class PoolListSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MainScreen(
+    return MainScreenList(
       body: _body(context, ref),
     );
   }
@@ -51,7 +46,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
         child: Padding(
           padding: EdgeInsets.only(
             top: 140,
-            bottom: Responsive.isDesktop(context) ? 40 : 80,
+            bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 80,
           ),
           child: asyncPools.when(
             skipLoadingOnReload: selectedTab.skipLoadingOnReload,
@@ -63,7 +58,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                   child: LitStarfieldContainer(
                     velocity: 0.2,
                     number: 200,
-                    starColor: ArchethicThemeBase.neutral0,
+                    starColor: aedappfm.ArchethicThemeBase.neutral0,
                     scale: 3,
                     backgroundDecoration: const BoxDecoration(
                       color: Colors.transparent,
@@ -76,7 +71,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     velocity: 0.5,
                     number: 100,
                     scale: 10,
-                    starColor: ArchethicThemeBase.blue600,
+                    starColor: aedappfm.ArchethicThemeBase.blue600,
                     backgroundDecoration: const BoxDecoration(
                       color: Colors.transparent,
                     ),
@@ -110,8 +105,13 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 ),
               ],
             ),
-            error: (error, stackTrace) =>
-                DexErrorMessage(failure: Failure.fromError(error)),
+            error: (error, stackTrace) => aedappfm.ErrorMessage(
+              failure: aedappfm.Failure.fromError(error),
+              failureMessage: FailureMessage(
+                context: context,
+                failure: aedappfm.Failure.fromError(error),
+              ).getMessage(),
+            ),
             data: (pools) {
               if (session.isConnected == false &&
                   poolListForm.tabIndexSelected == PoolsListTab.myPools) {
@@ -161,7 +161,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     const Padding(
                       padding: EdgeInsets.only(left: 2, right: 5),
                       child: Icon(
-                        Iconsax.star,
+                        aedappfm.Iconsax.star,
                         size: 14,
                       ),
                     ),
@@ -173,7 +173,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 );
               }
               return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedSize(
+                gridDelegate: const aedappfm.SliverGridDelegateWithFixedSize(
                   crossAxisExtent: 500,
                   mainAxisExtent: 550,
                   crossAxisSpacing: 30,
@@ -227,41 +227,29 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: DexThemeBase.sheetBackground,
-                  border: Border.all(
-                    color: DexThemeBase.sheetBorder,
+          child: aedappfm.SingleCard(
+            globalPadding: 0,
+            cardContent: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: FlipCard(
+                    controller: flipCardController,
+                    flipOnTouch: false,
+                    fill: Fill.fillBack,
+                    front: PoolDetailsFront(
+                      pool: widget.pool,
+                    ),
+                    back: PoolDetailsBack(
+                      pool: widget.pool,
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: FlipCard(
-                        controller: flipCardController,
-                        flipOnTouch: false,
-                        fill: Fill.fillBack,
-                        front: PoolDetailsFront(
-                          pool: widget.pool,
-                        ),
-                        back: PoolDetailsBack(
-                          pool: widget.pool,
-                        ),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: DexArchethicOracleUco(),
-                    ),
-                  ],
+                const Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: aedappfm.ArchethicOracleUco(),
                 ),
-              ),
+              ],
             ),
           ),
         ),
@@ -289,14 +277,14 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                 child: Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      color: ArchethicThemeBase.brightPurpleHoverBorder
+                      color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
                           .withOpacity(1),
                       width: 0.5,
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   elevation: 0,
-                  color: ArchethicThemeBase.brightPurpleHoverBackground
+                  color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
                       .withOpacity(1),
                   child: Padding(
                     padding: const EdgeInsets.only(
@@ -325,14 +313,16 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                   child: Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
-                        color: ArchethicThemeBase.brightPurpleHoverBorder
+                        color: aedappfm
+                            .ArchethicThemeBase.brightPurpleHoverBorder
                             .withOpacity(1),
                         width: 0.5,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 0,
-                    color: ArchethicThemeBase.brightPurpleHoverBackground
+                    color: aedappfm
+                        .ArchethicThemeBase.brightPurpleHoverBackground
                         .withOpacity(1),
                     child: const Padding(
                       padding: EdgeInsets.only(
@@ -342,7 +332,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                         right: 10,
                       ),
                       child: Icon(
-                        Iconsax.convertshape,
+                        aedappfm.Iconsax.convertshape,
                         size: 16,
                       ),
                     ),

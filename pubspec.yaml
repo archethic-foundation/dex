@@ -8,6 +8,13 @@ environment:
   sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
+  #archethic_dapp_framework_flutter:
+  #  git:
+  #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+  #    ref: main
+  archethic_dapp_framework_flutter:
+    path: ../archethic-dapp-framework-flutter
+
   # A client dart library to interact with Archethic Wallet RPC API.
   archethic_wallet_client: ^1.0.0
   #archethic_wallet_client:
@@ -48,9 +55,6 @@ dependencies:
   # Annotations for freezed
   freezed_annotation: ^2.4.1
 
-  # Simple direct Service Locator that allows to decouple the interface from a concrete implementation and to access the concrete implementation from everywhere in your App
-  get_it: ^7.6.7
-
   # A declarative router for Flutter based on Navigation 2 supporting deep linking, data-driven routes and more
   go_router: ^13.2.0
 
@@ -70,17 +74,11 @@ dependencies:
   # A Flutter plugin for rendering an animated and customizable starfield on a dark background.
   lit_starfield: ^0.1.1
 
-  # Flutter plugin for querying information about the application package, such as CFBundleVersion on iOS or versionCode on Android
-  package_info_plus: ^4.2.0
-
   # Flutter plugin for getting commonly used locations on host platform file systems, such as the temp and app data directories.
   path_provider: ^2.1.2
 
   # A package exposing annotations for riverpod_generator
   riverpod_annotation: ^2.3.4
-
-  # Bar indicator made of a series of selected and unselected steps
-  step_progress_indicator: ^1.0.2
 
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.2.4
@@ -88,13 +86,12 @@ dependencies:
   # Flutter package that allows setting the web app URL strategy with a single line of code.
   url_strategy: ^0.2.0
 
-  # Wave animation
-  wave: ^0.2.2
-
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.4.6
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features.
+  daunused: ^1.3.0
+  dependency_validator: ^3.2.3
   freezed: ^2.4.7
   # Extension for Hive. Automatically generates TypeAdapters to store any class.
   hive_generator: ^2.0.1
@@ -114,8 +111,6 @@ flutter:
     - lib/domain/repositories/common_bases.json
     - lib/domain/repositories/config.json
     - lib/domain/repositories/blockchains_list.json
-    - lib/domain/repositories/tokens/verified_tokens.json
-    - lib/domain/repositories/tokens/ucids_tokens.json
 
   fonts:
     - family: Roboto

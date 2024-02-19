@@ -7,7 +7,7 @@ Future<List<DexFarm>> _getFarmList(
 ) async {
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
-  final apiService = sl.get<ApiService>();
+  final apiService = aedappfm.sl.get<ApiService>();
   final dexFarms = <DexFarm>[];
   final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
   final resultFarmList = await RouterFactory(

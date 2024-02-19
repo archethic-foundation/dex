@@ -1,8 +1,7 @@
 import 'dart:ui';
 
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/components/app_button.dart';
-import 'package:aedex/ui/views/util/components/scrollbar.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -32,13 +31,13 @@ class BrowserPopup extends ConsumerWidget {
               padding: const EdgeInsets.all(20),
               width: MediaQuery.of(context).size.width * 0.6,
               decoration: BoxDecoration(
-                color: DexThemeBase.sheetBackground,
+                color: aedappfm.AppThemeBase.sheetBackground,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: DexThemeBase.sheetBorder,
+                  color: aedappfm.AppThemeBase.sheetBorder,
                 ),
               ),
-              child: ArchethicScrollbar(
+              child: aedappfm.ArchethicScrollbar(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -61,7 +60,7 @@ class BrowserPopup extends ConsumerWidget {
                       },
                     ),
                     const SizedBox(height: 40),
-                    AppButton(
+                    aedappfm.AppButton(
                       labelBtn: AppLocalizations.of(context)!.btn_understand,
                       onPressed: () async {
                         if (!context.mounted) return;

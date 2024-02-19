@@ -1,13 +1,13 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/components/dex_error_message.dart';
+
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +46,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                     width: 50,
                     height: 1,
                     decoration: BoxDecoration(
-                      gradient: DexThemeBase.gradient,
+                      gradient: aedappfm.AppThemeBase.gradient,
                     ),
                   ),
                 ),
@@ -83,12 +83,12 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DexErrorMessage(failure: liquidityRemove.failure),
+                      aedappfm.ErrorMessage(failure: liquidityRemove.failure),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: DexButtonValidate(
+                            child: aedappfm.ButtonValidate(
                               controlOk: liquidityRemove.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_liquidity_remove,
@@ -98,10 +98,43 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                                         .liquidityRemoveForm.notifier,
                                   )
                                   .validateForm(context),
+                              isConnected: ref
+                                  .watch(SessionProviders.session)
+                                  .isConnected,
+                              displayWalletConnectOnPressed: () async {
+                                final sessionNotifier =
+                                    ref.read(SessionProviders.session.notifier);
+                                await sessionNotifier.connectToWallet();
+
+                                final session =
+                                    ref.read(SessionProviders.session);
+                                if (session.error.isNotEmpty) {
+                                  if (!context.mounted) return;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Theme.of(context)
+                                          .snackBarTheme
+                                          .backgroundColor,
+                                      content: SelectableText(
+                                        session.error,
+                                        style: Theme.of(context)
+                                            .snackBarTheme
+                                            .contentTextStyle,
+                                      ),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  if (!context.mounted) return;
+                                  context.go(
+                                    '/',
+                                  );
+                                }
+                              },
                             ),
                           ),
                           Expanded(
-                            child: DexButtonClose(
+                            child: aedappfm.ButtonClose(
                               onPressed: () {
                                 ref
                                     .read(

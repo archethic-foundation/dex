@@ -1,9 +1,8 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,12 +34,14 @@ class _LiquidityRemoveLPTokenAmountState
         ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: liquidityRemove.lpTokenAmount == 0
             ? ''
-            : liquidityRemove.lpTokenAmount.toString(),
+            : liquidityRemove.lpTokenAmount
+                .formatNumber(precision: 8)
+                .replaceAll(',', ''),
       ),
     );
   }
@@ -71,7 +72,7 @@ class _LiquidityRemoveLPTokenAmountState
     return Column(
       children: [
         SizedBox(
-          width: DexThemeBase.sizeBoxComponentWidth,
+          width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
           child: Row(
             children: [
               Expanded(
@@ -118,10 +119,10 @@ class _LiquidityRemoveLPTokenAmountState
                             },
                             focusNode: tokenAmountFocusNode,
                             textAlign: TextAlign.left,
-                            textInputAction: TextInputAction.next,
+                            textInputAction: TextInputAction.none,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
-                              AmountTextInputFormatter(precision: 8),
+                              aedappfm.AmountTextInputFormatter(precision: 8),
                               LengthLimitingTextInputFormatter(10),
                             ],
                             decoration: const InputDecoration(
@@ -152,7 +153,7 @@ class _LiquidityRemoveLPTokenAmountState
               ),
             Row(
               children: [
-                DexButtonHalf(
+                aedappfm.ButtonHalf(
                   balanceAmount: liquidityRemove.lpTokenBalance,
                   onTap: () {
                     ref
@@ -167,7 +168,7 @@ class _LiquidityRemoveLPTokenAmountState
                 const SizedBox(
                   width: 10,
                 ),
-                DexButtonMax(
+                aedappfm.ButtonMax(
                   balanceAmount: liquidityRemove.lpTokenBalance,
                   onTap: () {
                     ref

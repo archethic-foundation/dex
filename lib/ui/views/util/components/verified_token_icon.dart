@@ -1,8 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-import 'package:aedex/application/verified_tokens.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +18,7 @@ class VerifiedTokenIcon extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<bool>(
       future: ref.read(
-        VerifiedTokensProviders.isVerifiedToken(address).future,
+        aedappfm.VerifiedTokensProviders.isVerifiedToken(address).future,
       ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -30,8 +28,8 @@ class VerifiedTokenIcon extends ConsumerWidget {
               child: Tooltip(
                 message: 'This token has been verified by Archethic',
                 child: Icon(
-                  Iconsax.verify,
-                  color: ArchethicThemeBase.systemPositive500,
+                  aedappfm.Iconsax.verify,
+                  color: aedappfm.ArchethicThemeBase.systemPositive500,
                   size: iconSize,
                 ),
               ),

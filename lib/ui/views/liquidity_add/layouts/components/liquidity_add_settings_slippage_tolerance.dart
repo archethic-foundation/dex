@@ -1,11 +1,14 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LiquiditySettingsSlippageTolerance extends ConsumerStatefulWidget {
   const LiquiditySettingsSlippageTolerance({
@@ -87,7 +90,7 @@ class LiquiditySettingsSlippageToleranceState
                   textInputAction: TextInputAction.none,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
-                    AmountTextInputFormatter(),
+                    aedappfm.AmountTextInputFormatter(),
                     LengthLimitingTextInputFormatter(5),
                   ],
                   onChanged: (_) {
@@ -109,7 +112,7 @@ class LiquiditySettingsSlippageToleranceState
             ),
           ],
         ),
-        DexButtonValidate(
+        aedappfm.ButtonValidate(
           controlOk:
               double.tryParse(slippageToleranceController.text) != null &&
                   (double.tryParse(slippageToleranceController.text)! >= 0 &&
@@ -121,6 +124,32 @@ class LiquiditySettingsSlippageToleranceState
             );
             if (!context.mounted) return;
             Navigator.of(context).pop();
+          },
+          isConnected: ref.watch(SessionProviders.session).isConnected,
+          displayWalletConnectOnPressed: () async {
+            final sessionNotifier = ref.read(SessionProviders.session.notifier);
+            await sessionNotifier.connectToWallet();
+
+            final session = ref.read(SessionProviders.session);
+            if (session.error.isNotEmpty) {
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor:
+                      Theme.of(context).snackBarTheme.backgroundColor,
+                  content: SelectableText(
+                    session.error,
+                    style: Theme.of(context).snackBarTheme.contentTextStyle,
+                  ),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            } else {
+              if (!context.mounted) return;
+              context.go(
+                '/',
+              );
+            }
           },
         ),
       ],

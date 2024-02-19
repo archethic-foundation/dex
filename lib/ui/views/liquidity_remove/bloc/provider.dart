@@ -4,13 +4,13 @@ import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
-import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class LiquidityRemoveFormNotifier
   @override
   LiquidityRemoveFormState build() => const LiquidityRemoveFormState();
 
-  CancelableTask<Map<String, dynamic>>? _calculateRemoveAmountsTask;
+  aedappfm.CancelableTask<Map<String, dynamic>>? _calculateRemoveAmountsTask;
 
   Future<void> setPool(DexPool pool) async {
     state = state.copyWith(pool: pool);
@@ -46,7 +46,7 @@ class LiquidityRemoveFormNotifier
     double lpTokenAmount, {
     Duration delay = const Duration(milliseconds: 800),
   }) async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     late final Map<String, dynamic> removeAmounts;
     try {
       removeAmounts = await Future<Map<String, dynamic>>(
@@ -56,7 +56,8 @@ class LiquidityRemoveFormNotifier
           }
 
           _calculateRemoveAmountsTask?.cancel();
-          _calculateRemoveAmountsTask = CancelableTask<Map<String, dynamic>>(
+          _calculateRemoveAmountsTask =
+              aedappfm.CancelableTask<Map<String, dynamic>>(
             task: () async {
               var _removeAmounts = <String, dynamic>{};
               final removeAmountsResult =
@@ -71,7 +72,9 @@ class LiquidityRemoveFormNotifier
                 },
                 failure: (failure) {
                   setFailure(
-                    Failure.other(cause: 'getRemoveAmountss error $failure'),
+                    aedappfm.Failure.other(
+                      cause: 'getRemoveAmountss error $failure',
+                    ),
                   );
                 },
               );
@@ -85,7 +88,7 @@ class LiquidityRemoveFormNotifier
           return _removeAmounts ?? {};
         },
       );
-    } on CanceledTask {
+    } on aedappfm.CanceledTask {
       return (removeAmountToken1: 0.0, removeAmountToken2: 0.0);
     }
 
@@ -158,7 +161,7 @@ class LiquidityRemoveFormNotifier
 
     if (amount > state.lpTokenBalance) {
       setFailure(
-        const Failure.lpTokenAmountExceedBalance(),
+        const aedappfm.Failure.lpTokenAmountExceedBalance(),
       );
       state = state.copyWith(
         token1AmountGetBack: 0,
@@ -195,7 +198,7 @@ class LiquidityRemoveFormNotifier
     );
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -237,10 +240,10 @@ class LiquidityRemoveFormNotifier
   }
 
   void setLiquidityRemoveProcessStep(
-    LiquidityRemoveProcessStep liquidityRemoveProcessStep,
+    aedappfm.ProcessStep liquidityRemoveProcessStep,
   ) {
     state = state.copyWith(
-      liquidityRemoveProcessStep: liquidityRemoveProcessStep,
+      processStep: liquidityRemoveProcessStep,
     );
   }
 
@@ -250,7 +253,7 @@ class LiquidityRemoveFormNotifier
     }
 
     setLiquidityRemoveProcessStep(
-      LiquidityRemoveProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 
@@ -260,14 +263,14 @@ class LiquidityRemoveFormNotifier
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.lpTokenAmount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityRemoveControlLPTokenAmountEmpty,
         ),
@@ -277,7 +280,7 @@ class LiquidityRemoveFormNotifier
 
     if (state.lpTokenAmount > state.lpTokenBalance) {
       setFailure(
-        const Failure.lpTokenAmountExceedBalance(),
+        const aedappfm.Failure.lpTokenAmountExceedBalance(),
       );
       return false;
     }

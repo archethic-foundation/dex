@@ -1,10 +1,9 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_half.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_max.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,10 +33,12 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
     final farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
-        text: farmDeposit.amount == 0 ? '' : farmDeposit.amount.toString(),
+        text: farmDeposit.amount == 0
+            ? ''
+            : farmDeposit.amount.formatNumber(precision: 8).replaceAll(',', ''),
       ),
     );
   }
@@ -67,7 +68,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
     return Column(
       children: [
         SizedBox(
-          width: DexThemeBase.sizeBoxComponentWidth,
+          width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
           child: Row(
             children: [
               Expanded(
@@ -114,10 +115,10 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                             },
                             focusNode: tokenAmountFocusNode,
                             textAlign: TextAlign.left,
-                            textInputAction: TextInputAction.next,
+                            textInputAction: TextInputAction.none,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
-                              AmountTextInputFormatter(precision: 8),
+                              aedappfm.AmountTextInputFormatter(precision: 8),
                               LengthLimitingTextInputFormatter(
                                 farmDeposit.lpTokenBalance
                                         .formatNumber(
@@ -174,7 +175,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
             ),
             Row(
               children: [
-                DexButtonHalf(
+                aedappfm.ButtonHalf(
                   balanceAmount: farmDeposit.lpTokenBalance,
                   onTap: () {
                     ref
@@ -188,7 +189,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                 const SizedBox(
                   width: 10,
                 ),
-                DexButtonMax(
+                aedappfm.ButtonMax(
                   balanceAmount: farmDeposit.lpTokenBalance,
                   onTap: () {
                     ref

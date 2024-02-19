@@ -1,11 +1,12 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class FarmDepositFormNotifier
     );
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -101,10 +102,10 @@ class FarmDepositFormNotifier
   }
 
   void setFarmDepositProcessStep(
-    FarmDepositProcessStep farmDepositProcessStep,
+    aedappfm.ProcessStep farmDepositProcessStep,
   ) {
     state = state.copyWith(
-      farmDepositProcessStep: farmDepositProcessStep,
+      processStep: farmDepositProcessStep,
     );
   }
 
@@ -114,7 +115,7 @@ class FarmDepositFormNotifier
     }
 
     setFarmDepositProcessStep(
-      FarmDepositProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 
@@ -124,14 +125,14 @@ class FarmDepositFormNotifier
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.farmDepositControlAmountEmpty,
         ),
       );
@@ -140,7 +141,7 @@ class FarmDepositFormNotifier
 
     if (state.amount > state.lpTokenBalance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .farmDepositControlLPTokenAmountExceedBalance,
         ),

@@ -1,13 +1,14 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_textfield_amount.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_close.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
-import 'package:aedex/ui/views/util/components/dex_error_message.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
+
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +49,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                     width: 50,
                     height: 1,
                     decoration: BoxDecoration(
-                      gradient: DexThemeBase.gradient,
+                      gradient: aedappfm.AppThemeBase.gradient,
                     ),
                   ),
                 ),
@@ -102,12 +103,18 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DexErrorMessage(failure: farmWithdraw.failure),
+                      aedappfm.ErrorMessage(
+                        failure: farmWithdraw.failure,
+                        failureMessage: FailureMessage(
+                          context: context,
+                          failure: farmWithdraw.failure,
+                        ).getMessage(),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: DexButtonValidate(
+                            child: aedappfm.ButtonValidate(
                               controlOk: farmWithdraw.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_withdraw,
@@ -117,10 +124,43 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                                         .farmWithdrawForm.notifier,
                                   )
                                   .validateForm(context),
+                              isConnected: ref
+                                  .watch(SessionProviders.session)
+                                  .isConnected,
+                              displayWalletConnectOnPressed: () async {
+                                final sessionNotifier =
+                                    ref.read(SessionProviders.session.notifier);
+                                await sessionNotifier.connectToWallet();
+
+                                final session =
+                                    ref.read(SessionProviders.session);
+                                if (session.error.isNotEmpty) {
+                                  if (!context.mounted) return;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Theme.of(context)
+                                          .snackBarTheme
+                                          .backgroundColor,
+                                      content: SelectableText(
+                                        session.error,
+                                        style: Theme.of(context)
+                                            .snackBarTheme
+                                            .contentTextStyle,
+                                      ),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  if (!context.mounted) return;
+                                  context.go(
+                                    '/',
+                                  );
+                                }
+                              },
                             ),
                           ),
                           Expanded(
-                            child: DexButtonClose(
+                            child: aedappfm.ButtonClose(
                               onPressed: () {
                                 ref
                                     .read(

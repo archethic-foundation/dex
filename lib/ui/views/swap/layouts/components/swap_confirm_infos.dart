@@ -1,11 +1,10 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-import 'package:aedex/ui/views/util/components/info_banner.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -30,10 +29,10 @@ class SwapConfirmInfos extends ConsumerWidget {
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: DexThemeBase.sheetBackgroundSecondary,
+          color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: DexThemeBase.sheetBorderSecondary,
+            color: aedappfm.AppThemeBase.sheetBorderSecondary,
           ),
         ),
         child: Padding(
@@ -63,7 +62,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                       text:
                           '    - ${swap.tokenToSwapAmount.formatNumber(precision: 8)}',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: DexThemeBase.secondaryColor,
+                            color: aedappfm.AppThemeBase.secondaryColor,
                           ),
                     ),
                     TextSpan(
@@ -85,7 +84,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                               '≈ + ${swap.tokenSwappedAmount.formatNumber(precision: 8)}',
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: DexThemeBase.secondaryColor,
+                                    color: aedappfm.AppThemeBase.secondaryColor,
                                   ),
                         ),
                         TextSpan(
@@ -128,7 +127,7 @@ class SwapConfirmInfos extends ConsumerWidget {
               Container(
                 height: 1,
                 decoration: BoxDecoration(
-                  gradient: DexThemeBase.gradient,
+                  gradient: aedappfm.AppThemeBase.gradient,
                 ),
               ),
               const SizedBox(
@@ -201,7 +200,7 @@ class SwapConfirmInfos extends ConsumerWidget {
               Container(
                 height: 1,
                 decoration: BoxDecoration(
-                  gradient: DexThemeBase.gradient,
+                  gradient: aedappfm.AppThemeBase.gradient,
                 ),
               ),
               const SizedBox(
@@ -242,7 +241,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                       child: const Padding(
                         padding: EdgeInsets.only(bottom: 2),
                         child: Icon(
-                          Iconsax.info_circle,
+                          aedappfm.Iconsax.info_circle,
                           size: 13,
                         ),
                       ),
@@ -259,9 +258,9 @@ class SwapConfirmInfos extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: SizedBox(
                     height: 45,
-                    child: InfoBanner(
+                    child: aedappfm.InfoBanner(
                       r'The UCO amount you entered has been reduced by $0.5 to include transaction fees.',
-                      InfoBannerType.request,
+                      aedappfm.InfoBannerType.request,
                     ),
                   ),
                 ),

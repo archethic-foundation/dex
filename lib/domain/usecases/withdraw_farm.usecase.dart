@@ -2,11 +2,10 @@
 import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
-import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
-import 'package:aedex/util/transaction_dex_util.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -14,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'WithdrawFarmCase';
 
-class WithdrawFarmCase with TransactionDexMixin {
+class WithdrawFarmCase with aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref,
     String farmGenesisAddress,
@@ -79,11 +78,12 @@ class WithdrawFarmCase with TransactionDexMixin {
           transactionWithdraw!,
         );
     } catch (e) {
-      if (e is Failure) {
+      if (e is aedappfm.Failure) {
         farmWithdrawNotifier.setFailure(e);
         return;
       }
-      farmWithdrawNotifier.setFailure(Failure.other(cause: e.toString()));
+      farmWithdrawNotifier
+          .setFailure(aedappfm.Failure.other(cause: e.toString()));
 
       return;
     }
@@ -101,14 +101,14 @@ class WithdrawFarmCase with TransactionDexMixin {
         ..setProcessInProgress(false)
         ..setFarmWithdrawOk(true);
     } catch (e) {
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<aedappfm.LogManager>().log(
             'TransactionWithdrawFarm sendTx failed $e',
-            level: LogLevel.error,
-            name: 'TransactionDexMixin - sendTransactions',
+            level: aedappfm.LogLevel.error,
+            name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
       farmWithdrawNotifier.setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: e.toString(),
         ),
       );

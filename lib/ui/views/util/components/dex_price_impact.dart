@@ -1,5 +1,5 @@
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 
 class DexPriceImpact extends StatelessWidget {
@@ -23,17 +23,18 @@ class DexPriceImpact extends StatelessWidget {
             'Price impact: ${priceImpact.formatNumber()}%',
             style: priceImpact > 5
                 ? textStyle?.copyWith(
-                      color: ArchethicThemeBase.systemDanger500,
+                      color: aedappfm.ArchethicThemeBase.systemDanger500,
                     ) ??
                     Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: ArchethicThemeBase.systemDanger500,
+                          color: aedappfm.ArchethicThemeBase.systemDanger500,
                         )
                 : priceImpact > 1
                     ? textStyle?.copyWith(
-                          color: ArchethicThemeBase.systemWarning600,
+                          color: aedappfm.ArchethicThemeBase.systemWarning600,
                         ) ??
                         Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: ArchethicThemeBase.systemWarning600,
+                              color:
+                                  aedappfm.ArchethicThemeBase.systemWarning600,
                             )
                     : textStyle ?? Theme.of(context).textTheme.bodyLarge,
           )
@@ -42,17 +43,18 @@ class DexPriceImpact extends StatelessWidget {
             '${priceImpact.formatNumber()}%',
             style: priceImpact > 5
                 ? textStyle?.copyWith(
-                      color: ArchethicThemeBase.systemDanger500,
+                      color: aedappfm.ArchethicThemeBase.systemDanger500,
                     ) ??
                     Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: ArchethicThemeBase.systemDanger500,
+                          color: aedappfm.ArchethicThemeBase.systemDanger500,
                         )
                 : priceImpact > 1
                     ? textStyle?.copyWith(
-                          color: ArchethicThemeBase.systemWarning600,
+                          color: aedappfm.ArchethicThemeBase.systemWarning600,
                         ) ??
                         Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: ArchethicThemeBase.systemWarning600,
+                              color:
+                                  aedappfm.ArchethicThemeBase.systemWarning600,
                             )
                     : textStyle ?? Theme.of(context).textTheme.bodyLarge,
           ),
@@ -64,8 +66,8 @@ class DexPriceImpact extends StatelessWidget {
               child: Icon(
                 Icons.warning,
                 color: priceImpact > 5
-                    ? ArchethicThemeBase.systemDanger500
-                    : ArchethicThemeBase.systemWarning600,
+                    ? aedappfm.ArchethicThemeBase.systemDanger500
+                    : aedappfm.ArchethicThemeBase.systemWarning600,
                 size: 15,
               ),
             ),

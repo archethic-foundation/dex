@@ -1,10 +1,11 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -30,10 +31,10 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: DexThemeBase.sheetBackgroundSecondary,
+          color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: DexThemeBase.sheetBorderSecondary,
+            color: aedappfm.AppThemeBase.sheetBorderSecondary,
           ),
         ),
         child: Padding(
@@ -53,7 +54,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     TextSpan(
                       text: farmWithdraw.amount.formatNumber(precision: 8),
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: DexThemeBase.secondaryColor,
+                            color: aedappfm.AppThemeBase.secondaryColor,
                           ),
                     ),
                     TextSpan(
@@ -80,7 +81,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     child: Container(
                       height: 1,
                       decoration: BoxDecoration(
-                        gradient: DexThemeBase.gradient,
+                        gradient: aedappfm.AppThemeBase.gradient,
                       ),
                     ),
                   ),
@@ -156,7 +157,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     child: Container(
                       height: 1,
                       decoration: BoxDecoration(
-                        gradient: DexThemeBase.gradient,
+                        gradient: aedappfm.AppThemeBase.gradient,
                       ),
                     ),
                   ),
@@ -215,7 +216,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     child: Container(
                       height: 1,
                       decoration: BoxDecoration(
-                        gradient: DexThemeBase.gradient,
+                        gradient: aedappfm.AppThemeBase.gradient,
                       ),
                     ),
                   ),
@@ -239,10 +240,12 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                           TextSpan(
                             text: farmWithdraw.dexFarmUserInfo!.rewardAmount
                                 .formatNumber(precision: 8),
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      color: DexThemeBase.secondaryColor,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  color: aedappfm.AppThemeBase.secondaryColor,
+                                ),
                           ),
                           TextSpan(
                             text:

@@ -1,17 +1,18 @@
 import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-import 'package:aedex/ui/views/util/components/app_button.dart';
-import 'package:aedex/ui/views/util/components/dex_btn_validate.dart';
+
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
-import 'package:aedex/ui/views/util/generic/formatters.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -106,7 +107,7 @@ class PoolDetailsFront extends ConsumerWidget {
                             .textTheme
                             .headlineMedium!
                             .copyWith(
-                              color: DexThemeBase.secondaryColor,
+                              color: aedappfm.AppThemeBase.secondaryColor,
                             ),
                       ),
                     ],
@@ -141,7 +142,7 @@ class PoolDetailsFront extends ConsumerWidget {
                               .textTheme
                               .headlineMedium!
                               .copyWith(
-                                color: DexThemeBase.secondaryColor,
+                                color: aedappfm.AppThemeBase.secondaryColor,
                               ),
                         )
                       else
@@ -151,7 +152,7 @@ class PoolDetailsFront extends ConsumerWidget {
                               .textTheme
                               .headlineMedium!
                               .copyWith(
-                                color: DexThemeBase.secondaryColor,
+                                color: aedappfm.AppThemeBase.secondaryColor,
                               ),
                         ),
                     ],
@@ -285,8 +286,8 @@ class PoolDetailsFront extends ConsumerWidget {
               ),
               Column(
                 children: [
-                  AppButton(
-                    background: ArchethicThemeBase.purple500,
+                  aedappfm.AppButton(
+                    background: aedappfm.ArchethicThemeBase.purple500,
                     labelBtn: 'Swap these tokens',
                     onPressed: () {
                       ref
@@ -309,8 +310,8 @@ class PoolDetailsFront extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: DexButtonValidate(
-                          background: ArchethicThemeBase.purple500,
+                        child: aedappfm.ButtonValidate(
+                          background: aedappfm.ArchethicThemeBase.purple500,
                           controlOk: true,
                           labelBtn: 'Add Liquidity',
                           onPressed: () {
@@ -327,11 +328,42 @@ class PoolDetailsFront extends ConsumerWidget {
                               },
                             );
                           },
+                          isConnected:
+                              ref.watch(SessionProviders.session).isConnected,
+                          displayWalletConnectOnPressed: () async {
+                            final sessionNotifier =
+                                ref.read(SessionProviders.session.notifier);
+                            await sessionNotifier.connectToWallet();
+
+                            final session = ref.read(SessionProviders.session);
+                            if (session.error.isNotEmpty) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Theme.of(context)
+                                      .snackBarTheme
+                                      .backgroundColor,
+                                  content: SelectableText(
+                                    session.error,
+                                    style: Theme.of(context)
+                                        .snackBarTheme
+                                        .contentTextStyle,
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            } else {
+                              if (!context.mounted) return;
+                              context.go(
+                                '/',
+                              );
+                            }
+                          },
                         ),
                       ),
                       Expanded(
-                        child: DexButtonValidate(
-                          background: ArchethicThemeBase.purple500,
+                        child: aedappfm.ButtonValidate(
+                          background: aedappfm.ArchethicThemeBase.purple500,
                           controlOk: pool.lpTokenInUserBalance,
                           labelBtn: 'Remove liquidity',
                           onPressed: () {
@@ -348,6 +380,37 @@ class PoolDetailsFront extends ConsumerWidget {
                                 'pair': pool.pair,
                               },
                             );
+                          },
+                          isConnected:
+                              ref.watch(SessionProviders.session).isConnected,
+                          displayWalletConnectOnPressed: () async {
+                            final sessionNotifier =
+                                ref.read(SessionProviders.session.notifier);
+                            await sessionNotifier.connectToWallet();
+
+                            final session = ref.read(SessionProviders.session);
+                            if (session.error.isNotEmpty) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Theme.of(context)
+                                      .snackBarTheme
+                                      .backgroundColor,
+                                  content: SelectableText(
+                                    session.error,
+                                    style: Theme.of(context)
+                                        .snackBarTheme
+                                        .contentTextStyle,
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            } else {
+                              if (!context.mounted) return;
+                              context.go(
+                                '/',
+                              );
+                            }
                           },
                         ),
                       ),

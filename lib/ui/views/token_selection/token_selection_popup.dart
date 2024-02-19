@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/token_selection/components/token_list.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_common_bases.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_search_bar.dart';
-import 'package:aedex/ui/views/util/components/popup_template.dart';
-import 'package:aedex/ui/views/util/components/scrollbar.dart';
-import 'package:aedex/util/endpoint_util.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,16 +19,16 @@ class TokenSelectionPopup {
 
     final jsonData = jsonDecode(jsonContent);
 
-    final currentEnvironment = EndpointUtil.getEnvironnement();
+    final currentEnvironment = aedappfm.EndpointUtil.getEnvironnement();
     final tokens = jsonData['tokens'][currentEnvironment] as List<dynamic>;
     if (!context.mounted) return null;
     return showDialog<DexToken>(
       context: context,
       builder: (context) {
-        return PopupTemplate(
+        return aedappfm.PopupTemplate(
           popupContent: LayoutBuilder(
             builder: (context, constraint) {
-              return ArchethicScrollbar(
+              return aedappfm.ArchethicScrollbar(
                 child: Container(
                   constraints: BoxConstraints(minHeight: constraint.maxHeight),
                   child: IntrinsicHeight(
@@ -46,7 +45,7 @@ class TokenSelectionPopup {
                             height: 1,
                             child: Container(
                               decoration: BoxDecoration(
-                                gradient: DexThemeBase.gradient,
+                                gradient: aedappfm.AppThemeBase.gradient,
                               ),
                             ),
                           ),

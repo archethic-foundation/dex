@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/util/endpoint_util.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -37,7 +38,8 @@ class DexMainMenuApp extends StatelessWidget {
                 begin: const Offset(-16, 0),
                 curve: Curves.easeOutQuad,
               ),
-          if (withFaucet && EndpointUtil.getEnvironnement() == 'testnet')
+          if (withFaucet &&
+              aedappfm.EndpointUtil.getEnvironnement() == 'testnet')
             _buildSubMenu(
               AppLocalizations.of(context)!.archethicDashboardMenuFaucetItem,
               AppLocalizations.of(context)!.archethicDashboardMenuFaucetDesc,
@@ -73,7 +75,7 @@ class DexMainMenuApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
-                ArchethicThemeBase.blue700,
+                aedappfm.ArchethicThemeBase.blue700,
                 BlendMode.modulate,
               ),
               image: const AssetImage(
@@ -83,7 +85,7 @@ class DexMainMenuApp extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: ArchethicThemeBase.neutral900,
+                color: aedappfm.ArchethicThemeBase.neutral900,
                 blurRadius: 40,
                 spreadRadius: 10,
                 offset: const Offset(1, 10),

@@ -2,19 +2,16 @@
 
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 
-enum LiquidityRemoveProcessStep { form, confirmation }
-
 @freezed
 class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
   const factory LiquidityRemoveFormState({
-    @Default(LiquidityRemoveProcessStep.form)
-    LiquidityRemoveProcessStep liquidityRemoveProcessStep,
+    @Default(ProcessStep.form) ProcessStep processStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
     DexPool? pool,

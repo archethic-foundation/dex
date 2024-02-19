@@ -6,8 +6,9 @@ import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/domain/repositories/dex_token.repository.dart';
 import 'package:aedex/infrastructure/hive/dex_token.hive.dart';
 import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
-import 'package:aedex/util/endpoint_util.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/services.dart';
 
@@ -22,7 +23,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
     final tokensListDatasource = await HiveTokensListDatasource.getInstance();
     final tokenHive = tokensListDatasource.getToken(address);
     if (tokenHive == null) {
-      final tokenMap = await sl.get<ApiService>().getToken(
+      final tokenMap = await aedappfm.sl.get<ApiService>().getToken(
         [address],
         request: 'name, symbol',
       );
@@ -48,7 +49,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
   ) async {
     final dexTokens = <DexToken>[];
     final balanceMap =
-        await sl.get<ApiService>().fetchBalance([accountAddress]);
+        await aedappfm.sl.get<ApiService>().fetchBalance([accountAddress]);
     final balance = balanceMap[accountAddress];
     if (balance == null) {
       return [];
@@ -65,7 +66,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
     );
     dexTokens.add(dexTokenUCO);
 
-    final tokenMap = await sl.get<ApiService>().getToken(
+    final tokenMap = await aedappfm.sl.get<ApiService>().getToken(
           tokenAddressList,
           request: 'name, symbol, properties',
         );
@@ -97,7 +98,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
         if (value.properties['token2_address'] != 'UCO') {
           tokenSymbolSearch.add(value.properties['token2_address']);
         }
-        final tokensSymbolMap = await sl.get<ApiService>().getToken(
+        final tokensSymbolMap = await aedappfm.sl.get<ApiService>().getToken(
               tokenSymbolSearch,
               request: 'name, symbol',
             );
@@ -158,7 +159,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
 
     final jsonData = jsonDecode(jsonContent);
 
-    final currentEnvironment = EndpointUtil.getEnvironnement();
+    final currentEnvironment = aedappfm.EndpointUtil.getEnvironnement();
     try {
       final tokens = jsonData['tokens'][currentEnvironment] as List<dynamic>;
       String? tokenIcon;

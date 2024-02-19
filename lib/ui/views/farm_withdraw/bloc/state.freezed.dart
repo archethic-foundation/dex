@@ -16,8 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$FarmWithdrawFormState {
-  FarmWithdrawProcessStep get farmWithdrawProcessStep =>
-      throw _privateConstructorUsedError;
+  ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
   DexFarm? get dexFarmInfo => throw _privateConstructorUsedError;
@@ -43,7 +42,7 @@ abstract class $FarmWithdrawFormStateCopyWith<$Res> {
       _$FarmWithdrawFormStateCopyWithImpl<$Res, FarmWithdrawFormState>;
   @useResult
   $Res call(
-      {FarmWithdrawProcessStep farmWithdrawProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
       DexFarm? dexFarmInfo,
@@ -76,7 +75,7 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? farmWithdrawProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
     Object? dexFarmInfo = freezed,
@@ -90,10 +89,10 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
     Object? finalAmount = freezed,
   }) {
     return _then(_value.copyWith(
-      farmWithdrawProcessStep: null == farmWithdrawProcessStep
-          ? _value.farmWithdrawProcessStep
-          : farmWithdrawProcessStep // ignore: cast_nullable_to_non_nullable
-              as FarmWithdrawProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -200,7 +199,7 @@ abstract class _$$FarmWithdrawFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {FarmWithdrawProcessStep farmWithdrawProcessStep,
+      {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
       DexFarm? dexFarmInfo,
@@ -235,7 +234,7 @@ class __$$FarmWithdrawFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? farmWithdrawProcessStep = null,
+    Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
     Object? dexFarmInfo = freezed,
@@ -249,10 +248,10 @@ class __$$FarmWithdrawFormStateImplCopyWithImpl<$Res>
     Object? finalAmount = freezed,
   }) {
     return _then(_$FarmWithdrawFormStateImpl(
-      farmWithdrawProcessStep: null == farmWithdrawProcessStep
-          ? _value.farmWithdrawProcessStep
-          : farmWithdrawProcessStep // ignore: cast_nullable_to_non_nullable
-              as FarmWithdrawProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -305,7 +304,7 @@ class __$$FarmWithdrawFormStateImplCopyWithImpl<$Res>
 
 class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
   const _$FarmWithdrawFormStateImpl(
-      {this.farmWithdrawProcessStep = FarmWithdrawProcessStep.form,
+      {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
       this.dexFarmInfo,
@@ -321,7 +320,7 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
 
   @override
   @JsonKey()
-  final FarmWithdrawProcessStep farmWithdrawProcessStep;
+  final ProcessStep processStep;
   @override
   @JsonKey()
   final bool resumeProcess;
@@ -353,7 +352,7 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
 
   @override
   String toString() {
-    return 'FarmWithdrawFormState(farmWithdrawProcessStep: $farmWithdrawProcessStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfo: $dexFarmInfo, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmWithdrawOk: $farmWithdrawOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionWithdrawFarm: $transactionWithdrawFarm, failure: $failure, finalAmount: $finalAmount)';
+    return 'FarmWithdrawFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmInfo: $dexFarmInfo, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmWithdrawOk: $farmWithdrawOk, walletConfirmation: $walletConfirmation, amount: $amount, transactionWithdrawFarm: $transactionWithdrawFarm, failure: $failure, finalAmount: $finalAmount)';
   }
 
   @override
@@ -361,9 +360,8 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FarmWithdrawFormStateImpl &&
-            (identical(
-                    other.farmWithdrawProcessStep, farmWithdrawProcessStep) ||
-                other.farmWithdrawProcessStep == farmWithdrawProcessStep) &&
+            (identical(other.processStep, processStep) ||
+                other.processStep == processStep) &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
@@ -390,7 +388,7 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      farmWithdrawProcessStep,
+      processStep,
       resumeProcess,
       currentStep,
       dexFarmInfo,
@@ -413,7 +411,7 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
 
 abstract class _FarmWithdrawFormState extends FarmWithdrawFormState {
   const factory _FarmWithdrawFormState(
-      {final FarmWithdrawProcessStep farmWithdrawProcessStep,
+      {final ProcessStep processStep,
       final bool resumeProcess,
       final int currentStep,
       final DexFarm? dexFarmInfo,
@@ -428,7 +426,7 @@ abstract class _FarmWithdrawFormState extends FarmWithdrawFormState {
   const _FarmWithdrawFormState._() : super._();
 
   @override
-  FarmWithdrawProcessStep get farmWithdrawProcessStep;
+  ProcessStep get processStep;
   @override
   bool get resumeProcess;
   @override

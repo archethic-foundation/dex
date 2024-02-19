@@ -1,9 +1,8 @@
-import 'package:aedex/application/coin_price.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_token.repository.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -48,12 +47,13 @@ double _estimateTokenInFiat(
   var fiatValue = 0.0;
   if (token.symbol == 'UCO') {
     final archethicOracleUCO =
-        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+        ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
     fiatValue = archethicOracleUCO.usd;
   } else {
-    final price =
-        ref.watch(CoinPriceProviders.coinPriceFromAddress(token.address!));
+    final price = ref.watch(
+      aedappfm.CoinPriceProviders.coinPriceFromAddress(token.address!),
+    );
 
     fiatValue = price;
   }
@@ -78,7 +78,7 @@ Future<double> _estimateLPTokenInFiat(
     throw Exception();
   }
 
-  final apiService = sl.get<ApiService>();
+  final apiService = aedappfm.sl.get<ApiService>();
   final amountsResult = await PoolFactory(poolAddress, apiService)
       .getRemoveAmounts(lpTokenAmount);
   var amountToken1 = 0.0;

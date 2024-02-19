@@ -7,7 +7,7 @@ Future<List<DexPool>> _getPoolList(
 ) async {
   final dexConf =
       await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
-  final apiService = sl.get<ApiService>();
+  final apiService = aedappfm.sl.get<ApiService>();
   final dexPools = <DexPool>[];
   final userBalance =
       await ref.read(BalanceProviders.getUserTokensBalance.future);

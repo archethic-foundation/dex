@@ -1,5 +1,6 @@
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +30,7 @@ class _AppBarWelcomeState extends ConsumerState<AppBarWelcome> {
         leadingWidth: MediaQuery.of(context).size.width,
         actions: [
           IconButton(
-            icon: const Icon(Iconsax.element_3),
+            icon: const Icon(aedappfm.Iconsax.element_3),
             onPressed: widget.onAEMenuTapped,
           ),
           const SizedBox(

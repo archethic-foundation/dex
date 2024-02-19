@@ -1,8 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
-import 'package:aedex/util/endpoint_util.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,7 +47,9 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                   semanticsLabel: 'AE Logo',
                   height: 14,
                   colorFilter: ColorFilter.mode(
-                    EndpointUtil.getEnvironnementLabel(session.endpoint) !=
+                    aedappfm.EndpointUtil.getEnvironnementLabel(
+                              session.endpoint,
+                            ) !=
                             'Archethic Mainnet'
                         ? Colors.red
                         : Colors.white,
@@ -54,8 +57,8 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                SelectableText(
-                  EndpointUtil.getEnvironnementLabel(session.endpoint),
+                Text(
+                  aedappfm.EndpointUtil.getEnvironnementLabel(session.endpoint),
                 ),
                 const SizedBox(width: 5),
                 if (session.isConnected == false)
@@ -63,8 +66,8 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                     padding: const EdgeInsets.only(bottom: 2),
                     child: Icon(
                       controller.isOpen
-                          ? Iconsax.arrow_up_2
-                          : Iconsax.arrow_down_1,
+                          ? aedappfm.Iconsax.arrow_up_2
+                          : aedappfm.Iconsax.arrow_down_1,
                       size: 18,
                     ),
                   ),
@@ -100,8 +103,8 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    SelectableText(
-                      EndpointUtil.getEnvironnementLabel(
+                    Text(
+                      aedappfm.EndpointUtil.getEnvironnementLabel(
                         'https://testnet.archethic.net',
                       ),
                       style: const TextStyle(
@@ -156,8 +159,8 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    SelectableText(
-                      EndpointUtil.getEnvironnementLabel(
+                    Text(
+                      aedappfm.EndpointUtil.getEnvironnementLabel(
                         'https://mainnet.archethic.net',
                       ),
                       style: const TextStyle(

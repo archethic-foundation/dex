@@ -1,13 +1,14 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
 import 'package:aedex/domain/models/util/get_user_infos_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 /// Farm is a factory allowing users to deposit lp token from a pool and to receive reward for a period of time.
@@ -37,11 +38,11 @@ class FarmFactory with ModelParser {
     return result;
   }
 
-  Future<Result<DexFarm, Failure>> populateFarmInfos(
+  Future<aedappfm.Result<DexFarm, aedappfm.Failure>> populateFarmInfos(
     DexPool pool,
     DexFarm farmInput,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await getFarmInfos(pool, dexFarmInput: farmInput);
 
@@ -57,10 +58,10 @@ class FarmFactory with ModelParser {
   }
 
   /// Returns the informations of a user who has deposited lp token in the farm
-  Future<Result<DexFarmUserInfos, Failure>> getUserInfos(
+  Future<aedappfm.Result<DexFarmUserInfos, aedappfm.Failure>> getUserInfos(
     String userGenesisAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final results = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -84,8 +85,8 @@ class FarmFactory with ModelParser {
   }
 
   /// This action allow user to claim all the reward he earned since he deposited in the farm or since it's last claim.
-  Future<Result<void, Failure>> claim() async {
-    return Result.guard(
+  Future<aedappfm.Result<void, aedappfm.Failure>> claim() async {
+    return aedappfm.Result.guard(
       () async {
         await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -103,8 +104,10 @@ class FarmFactory with ModelParser {
 
   /// This action allow user to withdraw all or a part of it's deposited lp token. In the same time is also claim it's earned rewards.
   /// [amount] is the amount the user wants to withdraw
-  Future<Result<void, Failure>> withdraw(double amount) async {
-    return Result.guard(
+  Future<aedappfm.Result<void, aedappfm.Failure>> withdraw(
+    double amount,
+  ) async {
+    return aedappfm.Result.guard(
       () async {
         await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(

@@ -1,17 +1,16 @@
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
-import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class LiquidityAddFormNotifier
   @override
   LiquidityAddFormState build() => const LiquidityAddFormState();
 
-  CancelableTask<double?>? _calculateEquivalentAmountTask;
+  aedappfm.CancelableTask<double?>? _calculateEquivalentAmountTask;
 
   Future<void> setPool(DexPool pool) async {
     state = state.copyWith(pool: pool);
@@ -71,7 +70,7 @@ class LiquidityAddFormNotifier
   }
 
   Future<void> initRatio() async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final equivalentAmounResult =
         await PoolFactory(state.pool!.poolAddress, apiService)
             .getEquivalentAmount(
@@ -86,7 +85,11 @@ class LiquidityAddFormNotifier
         }
       },
       failure: (failure) {
-        setFailure(Failure.other(cause: 'getEquivalentAmount error $failure'));
+        setFailure(
+          aedappfm.Failure.other(
+            cause: 'getEquivalentAmount error $failure',
+          ),
+        );
       },
     );
     state = state.copyWith(ratio: ratio);
@@ -134,7 +137,7 @@ class LiquidityAddFormNotifier
     if (state.token1Amount <= 0 || state.token2Amount <= 0) {
       return;
     }
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final expectedTokenLPResult = await PoolFactory(
       state.pool!.poolAddress,
       apiService,
@@ -154,7 +157,7 @@ class LiquidityAddFormNotifier
     double amount, {
     Duration delay = const Duration(milliseconds: 800),
   }) async {
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     late final double equivalentAmount;
     try {
       equivalentAmount = await Future<double>(
@@ -164,7 +167,7 @@ class LiquidityAddFormNotifier
           }
 
           _calculateEquivalentAmountTask?.cancel();
-          _calculateEquivalentAmountTask = CancelableTask<double?>(
+          _calculateEquivalentAmountTask = aedappfm.CancelableTask<double?>(
             task: () async {
               var _equivalentAmount = 0.0;
               final equivalentAmountResult =
@@ -179,7 +182,9 @@ class LiquidityAddFormNotifier
                 },
                 failure: (failure) {
                   setFailure(
-                    Failure.other(cause: 'getEquivalentAmount error $failure'),
+                    aedappfm.Failure.other(
+                      cause: 'getEquivalentAmount error $failure',
+                    ),
                   );
                 },
               );
@@ -193,7 +198,7 @@ class LiquidityAddFormNotifier
           return __equivalentAmount ?? 0;
         },
       );
-    } on CanceledTask {
+    } on aedappfm.CanceledTask {
       return 0;
     }
     return equivalentAmount;
@@ -286,7 +291,7 @@ class LiquidityAddFormNotifier
     state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -330,10 +335,10 @@ class LiquidityAddFormNotifier
   }
 
   void setLiquidityAddProcessStep(
-    LiquidityAddProcessStep liquidityAddProcessStep,
+    aedappfm.ProcessStep liquidityAddProcessStep,
   ) {
     state = state.copyWith(
-      liquidityAddProcessStep: liquidityAddProcessStep,
+      processStep: liquidityAddProcessStep,
     );
   }
 
@@ -343,7 +348,7 @@ class LiquidityAddFormNotifier
     }
 
     setLiquidityAddProcessStep(
-      LiquidityAddProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 
@@ -362,14 +367,14 @@ class LiquidityAddFormNotifier
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.token1Amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityAddControlToken1AmountEmpty,
         ),
@@ -379,7 +384,7 @@ class LiquidityAddFormNotifier
 
     if (state.token2Amount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityAddControlToken2AmountEmpty,
         ),
@@ -389,7 +394,7 @@ class LiquidityAddFormNotifier
 
     if (state.token1Amount > state.token1Balance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityAddControlToken1AmountExceedBalance,
         ),
@@ -399,7 +404,7 @@ class LiquidityAddFormNotifier
 
     if (state.token2Amount > state.token2Balance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .liquidityAddControlToken2AmountExceedBalance,
         ),
@@ -410,7 +415,7 @@ class LiquidityAddFormNotifier
     var estimateFees = 0.0;
     if (state.token1 != null && state.token1!.isUCO) {
       final archethicOracleUCO =
-          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
@@ -419,7 +424,7 @@ class LiquidityAddFormNotifier
           final adjustedAmount = state.token1Balance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             await setToken1Amount(adjustedAmount);
@@ -430,7 +435,7 @@ class LiquidityAddFormNotifier
     }
     if (state.token2 != null && state.token2!.isUCO) {
       final archethicOracleUCO =
-          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
@@ -439,7 +444,7 @@ class LiquidityAddFormNotifier
           final adjustedAmount = state.token2Balance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             await setToken2Amount(adjustedAmount);

@@ -3,11 +3,10 @@ import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
-import 'package:aedex/util/custom_logs.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
-import 'package:aedex/util/transaction_dex_util.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -15,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'AddPoolCase';
 
-class AddPoolCase with TransactionDexMixin {
+class AddPoolCase with aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref,
     DexToken token1,
@@ -136,13 +135,13 @@ class AddPoolCase with TransactionDexMixin {
           transactionAddPoolTransfer,
         );
       } catch (e) {
-        if (e is Failure) {
+        if (e is aedappfm.Failure) {
           poolAddNotifier
             ..setFailure(e)
             ..setProcessInProgress(false);
           return;
         }
-        poolAddNotifier.setFailure(Failure.other(cause: e.toString()));
+        poolAddNotifier.setFailure(aedappfm.Failure.other(cause: e.toString()));
 
         return;
       }
@@ -207,12 +206,12 @@ class AddPoolCase with TransactionDexMixin {
             transactionAddPoolLiquidity,
           );
       } catch (e) {
-        sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               'Signature failed $e',
-              level: LogLevel.error,
-              name: 'TransactionDexMixin - sendTransactions',
+              level: aedappfm.LogLevel.error,
+              name: 'aedappfm.TransactionMixin - sendTransactions',
             );
-        if (e is Failure) {
+        if (e is aedappfm.Failure) {
           poolAddNotifier
             ..setFailure(e)
             ..setProcessInProgress(false);
@@ -220,7 +219,7 @@ class AddPoolCase with TransactionDexMixin {
           return;
         }
         poolAddNotifier
-          ..setFailure(Failure.other(cause: e.toString()))
+          ..setFailure(aedappfm.Failure.other(cause: e.toString()))
           ..setProcessInProgress(false);
         return;
       }
@@ -238,15 +237,15 @@ class AddPoolCase with TransactionDexMixin {
           ..setPoolAddOk(true);
         unawaited(refreshCurrentAccountInfoWallet());
       } catch (e) {
-        sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               'TransactionAddPoolLiquidity sendTx failed $e',
-              level: LogLevel.error,
-              name: 'TransactionDexMixin - sendTransactions',
+              level: aedappfm.LogLevel.error,
+              name: 'aedappfm.TransactionMixin - sendTransactions',
             );
 
         poolAddNotifier
           ..setFailure(
-            Failure.other(
+            aedappfm.Failure.other(
               cause: e.toString(),
             ),
           )

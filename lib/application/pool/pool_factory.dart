@@ -2,10 +2,10 @@
 import 'dart:async';
 
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/domain/models/failures.dart';
-import 'package:aedex/domain/models/result.dart';
 import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 class PoolFactory with ModelParser {
@@ -46,8 +46,10 @@ class PoolFactory with ModelParser {
     return result;
   }
 
-  Future<Result<DexPool, Failure>> populatePoolInfos(DexPool poolInput) async {
-    return Result.guard(
+  Future<aedappfm.Result<DexPool, aedappfm.Failure>> populatePoolInfos(
+    DexPool poolInput,
+  ) async {
+    return aedappfm.Result.guard(
       () async {
         final result = await getPoolInfos();
 
@@ -60,11 +62,11 @@ class PoolFactory with ModelParser {
   /// Returns the equivalent amount of the other token of the pool. This should be used in the process of adding liquidity
   /// [tokenAddress] is the token you want to provide (result amount will be the other token)
   /// [tokenAmount] is the amount of token_address you want to provide
-  Future<Result<double?, Failure>> getEquivalentAmount(
+  Future<aedappfm.Result<double?, aedappfm.Failure>> getEquivalentAmount(
     String tokenAddress,
     double tokenAmount,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -86,10 +88,10 @@ class PoolFactory with ModelParser {
 
   /// Returns the pool ratio
   /// [tokenAddress] is the token you want to provide (result amount will be the other token)
-  Future<Result<double?, Failure>> getPoolRatio(
+  Future<aedappfm.Result<double?, aedappfm.Failure>> getPoolRatio(
     String tokenAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -111,11 +113,11 @@ class PoolFactory with ModelParser {
   /// Returns the amount of LP token that will be minted if the amount of tokens are provided
   /// [token1Amount] Amount of token1 to provide (token1 is the first token returned by get_pair_tokens)
   /// [token1Amount] Amount of token2 to provide (token2 is the second token returned by get_pair_tokens)
-  Future<Result<double?, Failure>> getLPTokenToMint(
+  Future<aedappfm.Result<double?, aedappfm.Failure>> getLPTokenToMint(
     double token1Amount,
     double token2Amount,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -138,11 +140,11 @@ class PoolFactory with ModelParser {
   /// Returns the info about a swap: expected output_amount, fee and price impact
   /// [tokenAddress] One of the 2 tokens of the pool
   /// [amount] Amount of of this token you want to swap
-  Future<Result<Map<String, dynamic>?, Failure>> getSwapInfos(
+  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>> getSwapInfos(
     String tokenAddress,
     double amount,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -166,10 +168,11 @@ class PoolFactory with ModelParser {
 
   /// Returns amounts of token to get back when removing liquidity
   /// [lpTokenAmount] Number of lp token to remove
-  Future<Result<Map<String, dynamic>?, Failure>> getRemoveAmounts(
+  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
+      getRemoveAmounts(
     double lpTokenAmount,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final result = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -193,11 +196,11 @@ class PoolFactory with ModelParser {
   /// In exchange of the liquidity, the user will receive some LP token.
   /// [token1MinAmount] is the minimum amount of token1 to add in liquidity (token1 is the first token returned by the function get_pair_tokens())
   /// [token2MinAmount] is the minimum amount of token2 to add in liquidity (token2 is the second token returned by the function get_pair_tokens())
-  Future<Result<void, Failure>> addLiquidity(
+  Future<aedappfm.Result<void, aedappfm.Failure>> addLiquidity(
     double token1MinAmount,
     double token2MinAmount,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -220,8 +223,8 @@ class PoolFactory with ModelParser {
   /// User must send the lp token he wants to remove to the burn address ("000...000")
   /// (don't forget to add the pool in recipient otherwise lp token will only be burned).
   /// The pool will calculate the share of the user and return the corresponding amount of both pool tokens.
-  Future<Result<void, Failure>> removeLiquidity() async {
-    return Result.guard(
+  Future<aedappfm.Result<void, aedappfm.Failure>> removeLiquidity() async {
+    return aedappfm.Result.guard(
       () async {
         await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
@@ -242,10 +245,10 @@ class PoolFactory with ModelParser {
   /// The pool will calculate the output amount and send it to the user.
   /// User can specify a slippage tolerance by providing the minimum amount of the output token to receive.
   /// [minAmountToReceive] is the minimum amount of the output token to receive
-  Future<Result<void, Failure>> swap(
+  Future<aedappfm.Result<void, aedappfm.Failure>> swap(
     double minAmountToReceive,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(

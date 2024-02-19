@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
-import 'package:aedex/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,15 +35,15 @@ class PoolAddAddCacheIcon extends ConsumerWidget {
           child: Card(
             shape: RoundedRectangleBorder(
               side: BorderSide(
-                color:
-                    ArchethicThemeBase.brightPurpleHoverBorder.withOpacity(1),
+                color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
+                    .withOpacity(1),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(20),
             ),
             elevation: 0,
-            color:
-                ArchethicThemeBase.brightPurpleHoverBackground.withOpacity(1),
+            color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
+                .withOpacity(1),
             child: const Padding(
               padding: EdgeInsets.only(
                 top: 5,
@@ -52,7 +52,7 @@ class PoolAddAddCacheIcon extends ConsumerWidget {
                 right: 10,
               ),
               child: Icon(
-                Iconsax.star,
+                aedappfm.Iconsax.star,
                 size: 16,
               ),
             ),

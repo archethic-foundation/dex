@@ -1,6 +1,7 @@
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/themes/dex_theme_base.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,16 +45,18 @@ class TokenSelectionCommonBases extends ConsumerWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    DexThemeBase.sheetBackgroundTertiary.withOpacity(0.4),
-                    DexThemeBase.sheetBackgroundTertiary,
+                    aedappfm.AppThemeBase.sheetBackgroundTertiary
+                        .withOpacity(0.4),
+                    aedappfm.AppThemeBase.sheetBackgroundTertiary,
                   ],
                   stops: const [0, 1],
                 ),
                 border: GradientBoxBorder(
                   gradient: LinearGradient(
                     colors: [
-                      DexThemeBase.sheetBorderTertiary.withOpacity(0.4),
-                      DexThemeBase.sheetBorderTertiary,
+                      aedappfm.AppThemeBase.sheetBorderTertiary
+                          .withOpacity(0.4),
+                      aedappfm.AppThemeBase.sheetBorderTertiary,
                     ],
                     stops: const [0, 1],
                   ),

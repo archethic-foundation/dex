@@ -1,19 +1,18 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/oracle/provider.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/models/failures.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
-import 'package:aedex/ui/views/util/delayed_task.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-import 'package:aedex/util/generic/get_it_instance.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
@@ -34,7 +33,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   @override
   SwapFormState build() => const SwapFormState();
 
-  CancelableTask<
+  aedappfm.CancelableTask<
       ({
         double outputAmount,
         double fees,
@@ -45,12 +44,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   Future<void> getPool() async {
     final pool = await ref
         .read(DexPoolProviders.getPool(state.poolGenesisAddress).future);
-    if (pool != null) {
-      setPool(pool);
-    }
+    setPool(pool);
   }
 
-  void setPool(DexPool pool) {
+  void setPool(DexPool? pool) {
     state = state.copyWith(pool: pool);
   }
 
@@ -60,6 +57,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(
       failure: null,
       messageMaxHalfUCO: false,
+      calculationInProgress: true,
       tokenToSwap: tokenToSwap,
     );
 
@@ -73,9 +71,17 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(tokenToSwapBalance: balance);
 
     if (state.tokenSwapped != null) {
+      if (state.tokenToSwap!.address == state.tokenSwapped!.address) {
+        setFailure(
+          const aedappfm.Failure.other(cause: "You can't swap the same tokens"),
+        );
+        state = state.copyWith(ratio: 0, pool: null);
+        return;
+      }
+
       final dexConfig =
           await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-      final apiService = sl.get<ApiService>();
+      final apiService = aedappfm.sl.get<ApiService>();
       if (state.tokenToSwap != null) {
         final routerFactory =
             RouterFactory(dexConfig.routerGenesisAddress, apiService);
@@ -92,16 +98,21 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               await getPool();
             } else {
               setPoolAddress('');
-              setFailure(const PoolNotExists());
+              setFailure(const aedappfm.PoolNotExists());
+              state = state.copyWith(ratio: 0, pool: null);
             }
           },
           failure: (failure) {
             setPoolAddress('');
-            setFailure(const PoolNotExists());
+            setFailure(const aedappfm.PoolNotExists());
+            state = state.copyWith(ratio: 0, pool: null);
           },
         );
       }
     }
+    state = state.copyWith(
+      calculationInProgress: false,
+    );
     return;
   }
 
@@ -124,7 +135,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         protocolFees: 0.0,
       );
     }
-    final apiService = sl.get<ApiService>();
+    final apiService = aedappfm.sl.get<ApiService>();
     final ({
       double fees,
       double outputAmount,
@@ -150,7 +161,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           }
 
           _calculateSwapInfosTask?.cancel();
-          _calculateSwapInfosTask = CancelableTask<
+          _calculateSwapInfosTask = aedappfm.CancelableTask<
               ({
                 double outputAmount,
                 double fees,
@@ -187,7 +198,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 },
                 failure: (failure) {
                   setFailure(
-                    Failure.other(
+                    aedappfm.Failure.other(
                       cause: 'calculateOutputAmount error $failure',
                     ),
                   );
@@ -212,7 +223,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           );
         },
       );
-    } on CanceledTask {
+    } on aedappfm.CanceledTask {
       return (
         outputAmount: 0.0,
         fees: 0.0,
@@ -266,6 +277,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                     Decimal.parse('100'))
                 .toDecimal()))
         .toDouble();
+
+    if (state.tokenToSwapAmount > state.tokenToSwapBalance) {
+      setFailure(const aedappfm.Failure.insufficientFunds());
+    }
 
     state = state.copyWith(
       swapFees: swapInfos.fees,
@@ -327,6 +342,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(
       failure: null,
       tokenSwapped: tokenSwapped,
+      calculationInProgress: true,
     );
 
     final session = ref.read(SessionProviders.session);
@@ -339,9 +355,17 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(tokenSwappedBalance: balance);
 
     if (state.tokenToSwap != null) {
+      if (state.tokenToSwap!.address == state.tokenSwapped!.address) {
+        setFailure(
+          const aedappfm.Failure.other(cause: "You can't swap the same tokens"),
+        );
+        state = state.copyWith(ratio: 0, pool: null);
+        return;
+      }
+
       final dexConfig =
           await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-      final apiService = sl.get<ApiService>();
+      final apiService = aedappfm.sl.get<ApiService>();
       if (state.tokenSwapped != null) {
         final routerFactory =
             RouterFactory(dexConfig.routerGenesisAddress, apiService);
@@ -358,17 +382,21 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               await getPool();
             } else {
               setPoolAddress('');
-              setFailure(const PoolNotExists());
+              setFailure(const aedappfm.PoolNotExists());
+              state = state.copyWith(ratio: 0, pool: null);
             }
           },
           failure: (failure) {
             setPoolAddress('');
-            setFailure(const PoolNotExists());
+            setFailure(const aedappfm.PoolNotExists());
+            state = state.copyWith(ratio: 0, pool: null);
           },
         );
       }
     }
-
+    state = state.copyWith(
+      calculationInProgress: false,
+    );
     return;
   }
 
@@ -385,7 +413,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   }
 
   Future<void> getRatio() async {
-    if (state.tokenToSwap == null) {
+    if (state.tokenToSwap == null || state.tokenSwapped == null) {
       state = state.copyWith(ratio: 0);
       return;
     }
@@ -491,7 +519,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
   }
 
-  void setFailure(Failure? failure) {
+  void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
     );
@@ -502,10 +530,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
   }
 
   void setSwapProcessStep(
-    SwapProcessStep swapProcessStep,
+    aedappfm.ProcessStep swapProcessStep,
   ) {
     state = state.copyWith(
-      swapProcessStep: swapProcessStep,
+      processStep: swapProcessStep,
     );
   }
 
@@ -523,7 +551,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     }
 
     setSwapProcessStep(
-      SwapProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 
@@ -534,14 +562,14 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         (BrowserUtil().isEdgeBrowser() ||
             BrowserUtil().isInternetExplorerBrowser())) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.tokenToSwap == null) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
         ),
       );
@@ -550,7 +578,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
     if (state.tokenSwapped == null) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
         ),
       );
@@ -559,7 +587,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
     if (state.tokenToSwapAmount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
         ),
       );
@@ -568,7 +596,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
     if (state.tokenSwappedAmount <= 0) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
         ),
       );
@@ -577,7 +605,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
 
     if (state.tokenToSwapAmount > state.tokenToSwapBalance) {
       setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
               .swapControlTokenToSwapAmountExceedBalance,
         ),
@@ -588,7 +616,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     var estimateFees = 0.0;
     if (state.tokenToSwap != null && state.tokenToSwap!.isUCO) {
       final archethicOracleUCO =
-          ref.read(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
@@ -597,7 +625,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           final adjustedAmount = state.tokenToSwapBalance - estimateFees;
           if (adjustedAmount < 0) {
             state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const Failure.insufficientFunds());
+            setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
             await setTokenToSwapAmount(adjustedAmount);
