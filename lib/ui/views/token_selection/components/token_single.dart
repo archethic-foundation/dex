@@ -74,9 +74,13 @@ class SingleToken extends StatelessWidget {
                           ),
                         ),
                       if (token.isLpToken && token.lpTokenPair != null)
-                        Text(
-                          'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol}',
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        Tooltip(
+                          message:
+                              'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol}',
+                          child: Text(
+                            'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol.reduceSymbol()}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                         ),
                     ],
                   ),

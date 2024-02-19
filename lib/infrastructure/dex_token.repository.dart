@@ -146,9 +146,19 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
       );
     }
 
-    dexTokens.sort(
-      (a, b) => a.symbol.toUpperCase().compareTo(b.symbol.toUpperCase()),
-    );
+    dexTokens.sort((a, b) {
+      final symbolA = a.symbol.toUpperCase();
+      final symbolB = b.symbol.toUpperCase();
+
+      if (a.isLpToken && !b.isLpToken) {
+        return 1;
+      } else if (!a.isLpToken && b.isLpToken) {
+        return -1;
+      } else {
+        return symbolA.compareTo(symbolB);
+      }
+    });
+
     return dexTokens;
   }
 
