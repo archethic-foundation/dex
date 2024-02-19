@@ -1,8 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_final_amount.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_tx_addresses.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
@@ -103,6 +106,28 @@ class FarmDepositInProgressPopup {
               navigationIndexMainScreenProvider.notifier,
             )
             .state = 2;
+        final session = ref.read(SessionProviders.session);
+        final _farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
+        ref
+          ..invalidate(
+            DexFarmProviders.getFarmList,
+          )
+          ..invalidate(
+            DexFarmProviders.getUserInfos(
+              _farmDeposit.dexFarmInfo!.farmAddress,
+              session.genesisAddress,
+            ),
+          )
+          ..invalidate(
+            FarmListProvider.balance(
+              _farmDeposit.dexFarmInfo!.lpToken!.address,
+            ),
+          )
+          ..invalidate(
+            FarmListProvider.userInfos(
+              _farmDeposit.dexFarmInfo!,
+            ),
+          );
         context.go(FarmListSheet.routerPage);
       },
     );

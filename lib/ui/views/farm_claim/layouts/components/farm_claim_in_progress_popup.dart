@@ -1,8 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/usecases/claim_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_final_amount.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_tx_addresses.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
@@ -102,6 +105,29 @@ class FarmClaimInProgressPopup {
               navigationIndexMainScreenProvider.notifier,
             )
             .state = 2;
+        final session = ref.read(SessionProviders.session);
+        final _farmClaim = ref.read(FarmClaimFormProvider.farmClaimForm);
+        ref
+          ..invalidate(
+            DexFarmProviders.getFarmList,
+          )
+          ..invalidate(
+            DexFarmProviders.getUserInfos(
+              _farmClaim.dexFarm!.farmAddress,
+              session.genesisAddress,
+            ),
+          )
+          ..invalidate(
+            FarmListProvider.balance(
+              _farmClaim.dexFarm!.lpToken!.address,
+            ),
+          )
+          ..invalidate(
+            FarmListProvider.userInfos(
+              _farmClaim.dexFarm!,
+            ),
+          );
+
         context.go(FarmListSheet.routerPage);
       },
     );

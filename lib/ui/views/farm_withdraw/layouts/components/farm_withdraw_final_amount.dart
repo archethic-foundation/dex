@@ -1,10 +1,5 @@
 import 'dart:async';
-
-import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -58,22 +53,6 @@ class _FarmWithdrawFinalAmountState
             finalAmountWithdraw = amountWithdraw;
           });
 
-          final session = ref.read(SessionProviders.session);
-          ref
-            ..invalidate(
-              FarmListProvider.balance(
-                farmWithdraw.dexFarmInfo!.lpToken!.address,
-              ),
-            )
-            ..invalidate(
-              DexFarmProviders.getUserInfos(
-                farmWithdraw.dexFarmInfo!.farmAddress,
-                session.genesisAddress,
-              ),
-            )
-            ..invalidate(
-              DexFarmProviders.getFarmList,
-            );
           unawaited(refreshCurrentAccountInfoWallet());
           timer?.cancel();
         }
