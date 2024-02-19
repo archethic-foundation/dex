@@ -1,5 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_final_amount.dart';
@@ -101,6 +104,29 @@ class FarmWithdrawInProgressPopup {
               navigationIndexMainScreenProvider.notifier,
             )
             .state = 2;
+        final session = ref.read(SessionProviders.session);
+        final _farmWithdraw =
+            ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
+        ref
+          ..invalidate(
+            DexFarmProviders.getFarmList,
+          )
+          ..invalidate(
+            DexFarmProviders.getUserInfos(
+              _farmWithdraw.dexFarmInfo!.farmAddress,
+              session.genesisAddress,
+            ),
+          )
+          ..invalidate(
+            FarmListProvider.balance(
+              _farmWithdraw.dexFarmInfo!.lpToken!.address,
+            ),
+          )
+          ..invalidate(
+            FarmListProvider.userInfos(
+              _farmWithdraw.dexFarmInfo!,
+            ),
+          );
         context.go(FarmListSheet.routerPage);
       },
     );

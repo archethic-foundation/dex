@@ -1,10 +1,6 @@
 import 'dart:async';
 
-import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -44,20 +40,7 @@ class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
           setState(() {
             finalAmount = amount;
           });
-          final session = ref.read(SessionProviders.session);
-          ref
-            ..invalidate(
-              DexFarmProviders.getFarmList,
-            )
-            ..invalidate(
-              DexFarmProviders.getUserInfos(
-                farmClaim.dexFarm!.farmAddress,
-                session.genesisAddress,
-              ),
-            )
-            ..invalidate(
-              FarmListProvider.balance(farmClaim.dexFarm!.lpToken!.address),
-            );
+
           unawaited(refreshCurrentAccountInfoWallet());
           timer?.cancel();
         }
