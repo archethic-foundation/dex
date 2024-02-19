@@ -67,7 +67,7 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                               child: Text(
                                 swap.tokenSwapped!.symbol,
                                 style: Theme.of(context).textTheme.bodyLarge,
-                                overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.fade,
                               ),
                             ),
                           ],

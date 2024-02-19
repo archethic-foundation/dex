@@ -42,50 +42,54 @@ class PoolDetailsFront extends ConsumerWidget {
             horizontal: 10,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          SelectableText(
-                            '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
-                            style: Theme.of(context).textTheme.headlineMedium,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 2),
-                            child: DexPairIcons(
-                              token1Address: pool.pair.token1.address == null
-                                  ? 'UCO'
-                                  : pool.pair.token1.address!,
-                              token2Address: pool.pair.token2.address == null
-                                  ? 'UCO'
-                                  : pool.pair.token2.address!,
-                              iconSize: 22,
+              FittedBox(
+                fit: BoxFit.cover,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
+                              style: Theme.of(context).textTheme.headlineMedium,
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          VerifiedPoolIcon(
-                            isVerified: pool.isVerified,
-                          ),
-                          LiquidityPositionsIcon(
-                            lpTokenInUserBalance: pool.lpTokenInUserBalance,
-                          ),
-                          LiquidityFavoriteIcon(
-                            isFavorite: pool.isFavorite,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2),
+                              child: DexPairIcons(
+                                token1Address: pool.pair.token1.address == null
+                                    ? 'UCO'
+                                    : pool.pair.token1.address!,
+                                token2Address: pool.pair.token2.address == null
+                                    ? 'UCO'
+                                    : pool.pair.token2.address!,
+                                iconSize: 22,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            VerifiedPoolIcon(
+                              isVerified: pool.isVerified,
+                            ),
+                            LiquidityPositionsIcon(
+                              lpTokenInUserBalance: pool.lpTokenInUserBalance,
+                            ),
+                            LiquidityFavoriteIcon(
+                              isFavorite: pool.isFavorite,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20,

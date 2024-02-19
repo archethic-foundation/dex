@@ -38,7 +38,7 @@ class SwapTokenToSwapSelection extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 1),
+              padding: const EdgeInsets.only(top: 3),
               child: Row(
                 children: [
                   if (swap.tokenToSwap == null)
@@ -67,7 +67,7 @@ class SwapTokenToSwapSelection extends ConsumerWidget {
                               child: Text(
                                 swap.tokenToSwap!.symbol,
                                 style: Theme.of(context).textTheme.bodyLarge,
-                                overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.fade,
                               ),
                             ),
                           ],
