@@ -103,11 +103,13 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
             name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
-      farmClaimNotifier.setFailure(
-        aedappfm.Failure.other(
-          cause: e.toString(),
-        ),
-      );
+      farmClaimNotifier
+        ..setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString(),
+          ),
+        )
+        ..setCurrentStep(3);
       return;
     }
   }

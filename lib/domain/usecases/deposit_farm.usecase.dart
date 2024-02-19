@@ -108,11 +108,13 @@ class DepositFarmCase with aedappfm.TransactionMixin {
             name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
-      farmDepositNotifier.setFailure(
-        aedappfm.Failure.other(
-          cause: e.toString(),
-        ),
-      );
+      farmDepositNotifier
+        ..setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString(),
+          ),
+        )
+        ..setCurrentStep(3);
       return;
     }
   }

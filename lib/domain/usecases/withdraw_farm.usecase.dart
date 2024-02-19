@@ -107,11 +107,13 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
             name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
-      farmWithdrawNotifier.setFailure(
-        aedappfm.Failure.other(
-          cause: e.toString(),
-        ),
-      );
+      farmWithdrawNotifier
+        ..setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString(),
+          ),
+        )
+        ..setCurrentStep(3);
       return;
     }
   }

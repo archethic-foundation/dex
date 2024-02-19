@@ -99,11 +99,13 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
             name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
-      liquidityRemoveNotifier.setFailure(
-        aedappfm.Failure.other(
-          cause: e.toString(),
-        ),
-      );
+      liquidityRemoveNotifier
+        ..setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString(),
+          ),
+        )
+        ..setCurrentStep(3);
       return;
     }
   }

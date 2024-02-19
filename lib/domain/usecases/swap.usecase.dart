@@ -149,11 +149,13 @@ class SwapCase with aedappfm.TransactionMixin {
             name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
-      swapNotifier.setFailure(
-        aedappfm.Failure.other(
-          cause: e.toString(),
-        ),
-      );
+      swapNotifier
+        ..setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString(),
+          ),
+        )
+        ..setCurrentStep(4);
       return;
     }
   }
