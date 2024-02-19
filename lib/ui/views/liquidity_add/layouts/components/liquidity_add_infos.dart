@@ -29,7 +29,7 @@ class LiquidityAddInfos extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SelectableText(
-                'Mininum amount for ${liquidityAdd.token1!.symbol}: ',
+                'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
@@ -45,7 +45,7 @@ class LiquidityAddInfos extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SelectableText(
-                'Mininum amount for ${liquidityAdd.token2!.symbol}: ',
+                'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(
@@ -84,11 +84,11 @@ class LiquidityAddInfos extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SelectableText(
-              'Mininum amount for ${liquidityAdd.token1!.symbol}',
+              'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SelectableText(
-              '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
+              '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
@@ -97,11 +97,11 @@ class LiquidityAddInfos extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SelectableText(
-              'Mininum amount for ${liquidityAdd.token2!.symbol}',
+              'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SelectableText(
-              '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
+              '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],

@@ -79,7 +79,7 @@ class PoolInfoCard extends ConsumerWidget {
                             width: 10,
                           ),
                           SelectableText(
-                            pool.pair.token1.symbol,
+                            pool.pair.token1.symbol.reduceSymbol(),
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const Padding(
@@ -95,7 +95,7 @@ class PoolInfoCard extends ConsumerWidget {
                             width: 10,
                           ),
                           SelectableText(
-                            pool.pair.token2.symbol,
+                            pool.pair.token2.symbol.reduceSymbol(),
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ],
@@ -110,12 +110,12 @@ class PoolInfoCard extends ConsumerWidget {
                             : pool.infos!.ratioToken2Token1,
                         token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
                                 pool.pair.token1.address!.toUpperCase()
-                            ? pool.pair.token1.symbol
-                            : pool.pair.token2.symbol,
+                            ? pool.pair.token1.symbol.reduceSymbol()
+                            : pool.pair.token2.symbol.reduceSymbol(),
                         token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
                                 pool.pair.token1.address!.toUpperCase()
-                            ? pool.pair.token2.symbol
-                            : pool.pair.token1.symbol,
+                            ? pool.pair.token2.symbol.reduceSymbol()
+                            : pool.pair.token1.symbol.reduceSymbol(),
                       ),
                       const SizedBox(
                         height: 10,
@@ -161,7 +161,7 @@ class PoolInfoCard extends ConsumerWidget {
                                     width: 5,
                                   ),
                                   SelectableText(
-                                    '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol}',
+                                    '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol.reduceSymbol()}',
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -185,7 +185,7 @@ class PoolInfoCard extends ConsumerWidget {
                                     width: 5,
                                   ),
                                   SelectableText(
-                                    '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol}',
+                                    '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol.reduceSymbol()}',
                                   ),
                                   const SizedBox(
                                     width: 5,

@@ -66,7 +66,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                           ),
                     ),
                     TextSpan(
-                      text: ' ${swap.tokenToSwap!.symbol}',
+                      text: ' ${swap.tokenToSwap!.symbol.reduceSymbol()}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
@@ -88,7 +88,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                                   ),
                         ),
                         TextSpan(
-                          text: ' ${swap.tokenSwapped!.symbol}',
+                          text: ' ${swap.tokenSwapped!.symbol.reduceSymbol()}',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
@@ -98,7 +98,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       SelectableText(
-                        '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+                        '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       FutureBuilder<String>(
@@ -210,7 +210,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                 Row(
                   children: [
                     SelectableText(
-                      'Fees: ${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
+                      'Fees: ${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(
@@ -237,7 +237,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                     ),
                     Tooltip(
                       message:
-                          'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
+                          'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
                       child: const Padding(
                         padding: EdgeInsets.only(bottom: 2),
                         child: Icon(

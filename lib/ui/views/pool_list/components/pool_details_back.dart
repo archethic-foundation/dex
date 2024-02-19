@@ -41,82 +41,71 @@ class PoolDetailsBack extends ConsumerWidget {
                 horizontal: 10,
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              SelectableText(
-                                '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2),
-                                child: DexPairIcons(
-                                  token1Address:
-                                      pool.pair.token1.address == null
-                                          ? 'UCO'
-                                          : pool.pair.token1.address!,
-                                  token2Address:
-                                      pool.pair.token2.address == null
-                                          ? 'UCO'
-                                          : pool.pair.token2.address!,
-                                  iconSize: 22,
+                  FittedBox(
+                    fit: BoxFit.cover,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SelectableText(
+                                  '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              VerifiedPoolIcon(
-                                isVerified: pool.isVerified,
-                              ),
-                              LiquidityPositionsIcon(
-                                lpTokenInUserBalance: pool.lpTokenInUserBalance,
-                              ),
-                              LiquidityFavoriteIcon(
-                                isFavorite: pool.isFavorite,
-                              ),
-                            ],
-                          ),
-                          FormatAddressLinkCopy(
-                            address: pool.poolAddress.toUpperCase(),
-                            header: 'Pool address: ',
-                            typeAddress: TypeAddressLinkCopy.chain,
-                            reduceAddress: true,
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .fontSize!,
-                          ),
-                          Row(
-                            children: [
-                              FormatAddressLinkCopy(
-                                header: 'LP Token address: ',
-                                address: pool.lpToken.address!.toUpperCase(),
-                                typeAddress: TypeAddressLinkCopy.transaction,
-                                reduceAddress: true,
-                                fontSize: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .fontSize!,
-                              ),
-                            ],
-                          ),
-                          if (pool.pair.token1.isUCO == false)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 2),
+                                  child: DexPairIcons(
+                                    token1Address:
+                                        pool.pair.token1.address == null
+                                            ? 'UCO'
+                                            : pool.pair.token1.address!,
+                                    token2Address:
+                                        pool.pair.token2.address == null
+                                            ? 'UCO'
+                                            : pool.pair.token2.address!,
+                                    iconSize: 22,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                VerifiedPoolIcon(
+                                  isVerified: pool.isVerified,
+                                ),
+                                LiquidityPositionsIcon(
+                                  lpTokenInUserBalance:
+                                      pool.lpTokenInUserBalance,
+                                ),
+                                LiquidityFavoriteIcon(
+                                  isFavorite: pool.isFavorite,
+                                ),
+                              ],
+                            ),
+                            FormatAddressLinkCopy(
+                              address: pool.poolAddress.toUpperCase(),
+                              header: 'Pool address: ',
+                              typeAddress: TypeAddressLinkCopy.chain,
+                              reduceAddress: true,
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .fontSize!,
+                            ),
                             Row(
                               children: [
                                 FormatAddressLinkCopy(
-                                  header:
-                                      'Token ${pool.pair.token1.symbol} address: ',
-                                  address:
-                                      pool.pair.token1.address!.toUpperCase(),
+                                  header: 'LP Token address: ',
+                                  address: pool.lpToken.address!.toUpperCase(),
                                   typeAddress: TypeAddressLinkCopy.transaction,
                                   reduceAddress: true,
                                   fontSize: Theme.of(context)
@@ -124,51 +113,71 @@ class PoolDetailsBack extends ConsumerWidget {
                                       .bodyMedium!
                                       .fontSize!,
                                 ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                VerifiedTokenIcon(
-                                  address: pool.pair.token1.address!,
-                                ),
                               ],
-                            )
-                          else
-                            const SizedBox(
-                              height: 20,
                             ),
-                          if (pool.pair.token2.isUCO == false)
-                            Row(
-                              children: [
-                                FormatAddressLinkCopy(
-                                  header:
-                                      'Token ${pool.pair.token2.symbol} address: ',
-                                  address:
-                                      pool.pair.token2.address!.toUpperCase(),
-                                  typeAddress: TypeAddressLinkCopy.transaction,
-                                  reduceAddress: true,
-                                  fontSize: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .fontSize!,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                VerifiedTokenIcon(
-                                  address: pool.pair.token2.address!,
-                                ),
-                              ],
-                            )
-                          else
-                            const SizedBox(
-                              height: 20,
-                            ),
-                        ],
-                      ),
-                    ],
+                            if (pool.pair.token1.isUCO == false)
+                              Row(
+                                children: [
+                                  FormatAddressLinkCopy(
+                                    header:
+                                        'Token ${pool.pair.token1.symbol.reduceSymbol()} address: ',
+                                    address:
+                                        pool.pair.token1.address!.toUpperCase(),
+                                    typeAddress:
+                                        TypeAddressLinkCopy.transaction,
+                                    reduceAddress: true,
+                                    fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .fontSize!,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  VerifiedTokenIcon(
+                                    address: pool.pair.token1.address!,
+                                  ),
+                                ],
+                              )
+                            else
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            if (pool.pair.token2.isUCO == false)
+                              Row(
+                                children: [
+                                  FormatAddressLinkCopy(
+                                    header:
+                                        'Token ${pool.pair.token2.symbol.reduceSymbol()} address: ',
+                                    address:
+                                        pool.pair.token2.address!.toUpperCase(),
+                                    typeAddress:
+                                        TypeAddressLinkCopy.transaction,
+                                    reduceAddress: true,
+                                    fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .fontSize!,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  VerifiedTokenIcon(
+                                    address: pool.pair.token2.address!,
+                                  ),
+                                ],
+                              )
+                            else
+                              const SizedBox(
+                                height: 20,
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 18,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,7 +214,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                   Row(
                                     children: [
                                       SelectableText(
-                                        '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol}',
+                                        '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol.reduceSymbol()}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge,
@@ -238,7 +247,7 @@ class PoolDetailsBack extends ConsumerWidget {
                                   Row(
                                     children: [
                                       SelectableText(
-                                        '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol}',
+                                        '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol.reduceSymbol()}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge,
@@ -377,8 +386,8 @@ class PoolDetailsBack extends ConsumerWidget {
                     children: [
                       DexRatio(
                         ratio: pool.infos!.ratioToken1Token2,
-                        token1Symbol: pool.pair.token1.symbol,
-                        token2Symbol: pool.pair.token2.symbol,
+                        token1Symbol: pool.pair.token1.symbol.reduceSymbol(),
+                        token2Symbol: pool.pair.token2.symbol.reduceSymbol(),
                         textStyle: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
@@ -388,8 +397,8 @@ class PoolDetailsBack extends ConsumerWidget {
                     children: [
                       DexRatio(
                         ratio: pool.infos!.ratioToken2Token1,
-                        token1Symbol: pool.pair.token2.symbol,
-                        token2Symbol: pool.pair.token1.symbol,
+                        token1Symbol: pool.pair.token2.symbol.reduceSymbol(),
+                        token2Symbol: pool.pair.token1.symbol.reduceSymbol(),
                         textStyle: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],

@@ -218,6 +218,6 @@ class DexTokenBalance extends ConsumerWidget {
         return 'LP Token';
       }
     }
-    return token.symbol;
+    return token.symbol.reduceSymbol();
   }
 }

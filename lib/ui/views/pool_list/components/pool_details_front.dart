@@ -54,13 +54,14 @@ class PoolDetailsFront extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            SelectableText(
                               '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 2),
+                              padding: const EdgeInsets.only(bottom: 2),
                               child: DexPairIcons(
                                 token1Address: pool.pair.token1.address == null
                                     ? 'UCO'
