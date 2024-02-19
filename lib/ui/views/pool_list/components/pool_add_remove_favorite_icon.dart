@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PoolAddRemoveCacheIcon extends ConsumerWidget {
-  const PoolAddRemoveCacheIcon({
+class PoolAddRemoveFavoriteIcon extends ConsumerWidget {
+  const PoolAddRemoveFavoriteIcon({
     required this.poolAddress,
     this.iconSize = 14,
     this.withLabel = false,
