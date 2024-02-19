@@ -190,6 +190,16 @@ class LiquidityRemoveFormNotifier
       ).future,
     );
     state = state.copyWith(token2Balance: balanceToken2);
+
+    if (amount > 0 &&
+        (state.token1AmountGetBack == 0 || state.token2AmountGetBack == 0)) {
+      setFailure(
+        const aedappfm.Failure.other(
+          cause:
+              'The amount provided is too low to claim amounts on the pair of tokens',
+        ),
+      );
+    }
   }
 
   void estimateNetworkFees() {
@@ -216,12 +226,12 @@ class LiquidityRemoveFormNotifier
     );
   }
 
-  void setLpTokenAmountMax() {
-    setLPTokenAmount(state.lpTokenBalance);
+  Future<void> setLpTokenAmountMax() async {
+    await setLPTokenAmount(state.lpTokenBalance);
   }
 
-  void setLpTokenAmountHalf() {
-    setLPTokenAmount(
+  Future<void> setLpTokenAmountHalf() async {
+    await setLPTokenAmount(
       (Decimal.parse(state.lpTokenBalance.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );

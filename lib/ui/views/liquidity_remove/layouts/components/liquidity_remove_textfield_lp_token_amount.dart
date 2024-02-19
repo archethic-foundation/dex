@@ -155,8 +155,8 @@ class _LiquidityRemoveLPTokenAmountState
               children: [
                 aedappfm.ButtonHalf(
                   balanceAmount: liquidityRemove.lpTokenBalance,
-                  onTap: () {
-                    ref
+                  onTap: () async {
+                    await ref
                         .read(
                           LiquidityRemoveFormProvider
                               .liquidityRemoveForm.notifier,
@@ -170,8 +170,8 @@ class _LiquidityRemoveLPTokenAmountState
                 ),
                 aedappfm.ButtonMax(
                   balanceAmount: liquidityRemove.lpTokenBalance,
-                  onTap: () {
-                    ref
+                  onTap: () async {
+                    await ref
                         .read(
                           LiquidityRemoveFormProvider
                               .liquidityRemoveForm.notifier,

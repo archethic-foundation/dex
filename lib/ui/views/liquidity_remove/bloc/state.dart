@@ -34,5 +34,9 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
   const LiquidityRemoveFormState._();
 
   bool get isControlsOk =>
-      failure == null && lpTokenBalance > 0 && lpTokenAmount > 0;
+      failure == null &&
+      lpTokenBalance > 0 &&
+      lpTokenAmount > 0 &&
+      token1AmountGetBack > 0 &&
+      token2AmountGetBack > 0;
 }

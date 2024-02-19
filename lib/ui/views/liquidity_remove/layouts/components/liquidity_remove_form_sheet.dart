@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_rem
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -83,7 +84,13 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      aedappfm.ErrorMessage(failure: liquidityRemove.failure),
+                      aedappfm.ErrorMessage(
+                        failure: liquidityRemove.failure,
+                        failureMessage: FailureMessage(
+                          context: context,
+                          failure: liquidityRemove.failure,
+                        ).getMessage(),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
