@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
+import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_final_amount.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
@@ -53,6 +54,13 @@ class LiquidityRemoveInProgressPopup {
             .liquidityRemoveSuccessInfo,
       ),
       const LiquidityRemoveInProgressTxAddresses(),
+      if (liquidityRemove.transactionRemoveLiquidity != null &&
+          liquidityRemove.transactionRemoveLiquidity!.address != null &&
+          liquidityRemove.transactionRemoveLiquidity!.address!.address != null)
+        LiquidityRemoveFinalAmount(
+          address:
+              liquidityRemove.transactionRemoveLiquidity!.address!.address!,
+        ),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: liquidityRemove.currentStep,

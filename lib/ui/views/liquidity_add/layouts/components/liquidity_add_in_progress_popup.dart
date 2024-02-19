@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_final_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
@@ -48,6 +49,15 @@ class LiquidityAddInProgressPopup {
         successTxt: AppLocalizations.of(context)!.liquidityAddSuccessInfo,
       ),
       const LiquidityAddInProgressTxAddresses(),
+      if (liquidityAdd.pool != null &&
+          liquidityAdd.pool!.lpToken.address != null &&
+          liquidityAdd.transactionAddLiquidity != null &&
+          liquidityAdd.transactionAddLiquidity!.address != null &&
+          liquidityAdd.transactionAddLiquidity!.address!.address != null)
+        LiquidityAddFinalAmount(
+          address: liquidityAdd.transactionAddLiquidity!.address!.address!,
+          to: liquidityAdd.pool!.lpToken.address!,
+        ),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: liquidityAdd.currentStep,
