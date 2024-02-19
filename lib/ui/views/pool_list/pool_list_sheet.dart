@@ -2,8 +2,8 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_add_add_cache_icon.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_add_remove_cache_icon.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_add_add_favorite_icon.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_add_remove_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
@@ -261,14 +261,14 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
               if (widget.pool.isFavorite)
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
-                  child: PoolAddRemoveCacheIcon(
+                  child: PoolAddRemoveFavoriteIcon(
                     poolAddress: widget.pool.poolAddress,
                   ),
                 )
               else
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
-                  child: PoolAddAddCacheIcon(
+                  child: PoolAddAddFavoriteIcon(
                     poolAddress: widget.pool.poolAddress,
                   ),
                 ),

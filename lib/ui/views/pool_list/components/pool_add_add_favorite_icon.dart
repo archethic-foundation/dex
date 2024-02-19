@@ -5,8 +5,8 @@ import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PoolAddAddCacheIcon extends ConsumerWidget {
-  const PoolAddAddCacheIcon({
+class PoolAddAddFavoriteIcon extends ConsumerWidget {
+  const PoolAddAddFavoriteIcon({
     required this.poolAddress,
     this.iconSize = 14,
     this.withLabel = false,

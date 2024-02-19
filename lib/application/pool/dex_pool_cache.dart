@@ -90,7 +90,17 @@ Future<void> _putPoolListInfosToCache(
       ),
     );
 
-    await poolsListDatasource.setPool(poolWithInfos!.toHive());
+    // Check if favorite in cache
+    final isPoolFavorite =
+        poolsListDatasource.getPool(poolWithInfos!.poolAddress);
+    if (isPoolFavorite != null &&
+        isPoolFavorite.isFavorite != null &&
+        isPoolFavorite.isFavorite == true) {
+      poolWithInfos =
+          poolWithInfos.copyWith(isFavorite: isPoolFavorite.isFavorite!);
+    }
+
+    await poolsListDatasource.setPool(poolWithInfos.toHive());
   }
 
   ref.invalidate(_getPoolListFromCacheProvider);
