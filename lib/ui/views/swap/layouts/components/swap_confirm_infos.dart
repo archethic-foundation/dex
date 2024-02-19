@@ -55,51 +55,63 @@ class SwapConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text:
-                          '    - ${swap.tokenToSwapAmount.formatNumber(precision: 8)}',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: aedappfm.AppThemeBase.secondaryColor,
-                          ),
-                    ),
-                    TextSpan(
-                      text: ' ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ],
+              Tooltip(
+                message: swap.tokenToSwap!.symbol,
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text:
+                            '    - ${swap.tokenToSwapAmount.formatNumber(precision: 8)}',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: aedappfm.AppThemeBase.secondaryColor,
+                            ),
+                      ),
+                      TextSpan(
+                        text: ' ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text:
-                              '≈ + ${swap.tokenSwappedAmount.formatNumber(precision: 8)}',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: aedappfm.AppThemeBase.secondaryColor,
-                                  ),
-                        ),
-                        TextSpan(
-                          text: ' ${swap.tokenSwapped!.symbol.reduceSymbol()}',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ],
+                  Tooltip(
+                    message: swap.tokenSwapped!.symbol,
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text:
+                                '≈ + ${swap.tokenSwappedAmount.formatNumber(precision: 8)}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  color: aedappfm.AppThemeBase.secondaryColor,
+                                ),
+                          ),
+                          TextSpan(
+                            text:
+                                ' ${swap.tokenSwapped!.symbol.reduceSymbol()}',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SelectableText(
-                        '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Tooltip(
+                        message: swap.tokenSwapped!.symbol,
+                        child: SelectableText(
+                          '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       ),
                       FutureBuilder<String>(
                         future: FiatValue().display(
@@ -209,9 +221,12 @@ class SwapConfirmInfos extends ConsumerWidget {
               if (swap.swapTotalFees > 0 && swap.tokenToSwap != null)
                 Row(
                   children: [
-                    SelectableText(
-                      'Fees: ${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                    Tooltip(
+                      message: swap.tokenToSwap!.symbol,
+                      child: SelectableText(
+                        'Fees: ${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
                     const SizedBox(
                       width: 5,

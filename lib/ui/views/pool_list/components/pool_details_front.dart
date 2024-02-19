@@ -44,53 +44,61 @@ class PoolDetailsFront extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FittedBox(
-                fit: BoxFit.cover,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SelectableText(
-                              '${pool.pair.token1.symbol}/${pool.pair.token2.symbol}',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Tooltip(
+                            message: pool.pair.token1.symbol,
+                            child: SelectableText(
+                              pool.pair.token1.symbol.reduceSymbol(),
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 2),
-                              child: DexPairIcons(
-                                token1Address: pool.pair.token1.address == null
-                                    ? 'UCO'
-                                    : pool.pair.token1.address!,
-                                token2Address: pool.pair.token2.address == null
-                                    ? 'UCO'
-                                    : pool.pair.token2.address!,
-                                iconSize: 22,
-                              ),
+                          ),
+                          const SelectableText('/'),
+                          Tooltip(
+                            message: pool.pair.token2.symbol,
+                            child: SelectableText(
+                              pool.pair.token2.symbol.reduceSymbol(),
+                              style: Theme.of(context).textTheme.headlineMedium,
                             ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            VerifiedPoolIcon(
-                              isVerified: pool.isVerified,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 2),
+                            child: DexPairIcons(
+                              token1Address: pool.pair.token1.address == null
+                                  ? 'UCO'
+                                  : pool.pair.token1.address!,
+                              token2Address: pool.pair.token2.address == null
+                                  ? 'UCO'
+                                  : pool.pair.token2.address!,
+                              iconSize: 22,
                             ),
-                            LiquidityPositionsIcon(
-                              lpTokenInUserBalance: pool.lpTokenInUserBalance,
-                            ),
-                            LiquidityFavoriteIcon(
-                              isFavorite: pool.isFavorite,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          VerifiedPoolIcon(
+                            isVerified: pool.isVerified,
+                          ),
+                          LiquidityPositionsIcon(
+                            lpTokenInUserBalance: pool.lpTokenInUserBalance,
+                          ),
+                          LiquidityFavoriteIcon(
+                            isFavorite: pool.isFavorite,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 20,

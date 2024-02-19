@@ -45,20 +45,20 @@ class DexTokenInfos extends StatelessWidget {
               padding: const EdgeInsets.only(
                 left: 10,
               ),
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: Row(
-                  children: [
-                    DexTokenIcon(
-                      tokenAddress:
-                          token!.address == null ? 'UCO' : token!.address!,
-                    ),
-                    Padding(
+              child: Row(
+                children: [
+                  DexTokenIcon(
+                    tokenAddress:
+                        token!.address == null ? 'UCO' : token!.address!,
+                  ),
+                  Tooltip(
+                    message: token!.symbol,
+                    child: Padding(
                       padding: const EdgeInsets.only(top: 2, left: 10),
-                      child: Text(token!.symbol),
+                      child: Text(token!.symbol.reduceSymbol()),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           : const SizedBox.shrink(),

@@ -28,9 +28,12 @@ class LiquidityAddInfos extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SelectableText(
-                'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
-                style: Theme.of(context).textTheme.bodyMedium,
+              Tooltip(
+                message: liquidityAdd.token1!.symbol,
+                child: SelectableText(
+                  'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -44,9 +47,12 @@ class LiquidityAddInfos extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SelectableText(
-                'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
-                style: Theme.of(context).textTheme.bodyMedium,
+              Tooltip(
+                message: liquidityAdd.token2!.symbol,
+                child: SelectableText(
+                  'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -83,26 +89,38 @@ class LiquidityAddInfos extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SelectableText(
-              'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-              style: Theme.of(context).textTheme.bodyMedium,
+            Tooltip(
+              message: liquidityAdd.token1!.symbol,
+              child: SelectableText(
+                'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
-            SelectableText(
-              '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-              style: Theme.of(context).textTheme.bodyMedium,
+            Tooltip(
+              message: liquidityAdd.token1!.symbol,
+              child: SelectableText(
+                '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SelectableText(
-              'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}',
-              style: Theme.of(context).textTheme.bodyMedium,
+            Tooltip(
+              message: liquidityAdd.token2!.symbol,
+              child: SelectableText(
+                'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
-            SelectableText(
-              '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
-              style: Theme.of(context).textTheme.bodyMedium,
+            Tooltip(
+              message: liquidityAdd.token2!.symbol,
+              child: SelectableText(
+                '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
           ],
         ),

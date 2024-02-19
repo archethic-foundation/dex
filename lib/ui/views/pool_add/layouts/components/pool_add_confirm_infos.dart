@@ -69,14 +69,17 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          SelectableText(
-                            poolAdd.token1!.symbol,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  color: aedappfm.AppThemeBase.secondaryColor,
-                                ),
+                          Tooltip(
+                            message: poolAdd.token1!.symbol,
+                            child: SelectableText(
+                              poolAdd.token1!.symbol.reduceSymbol(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: aedappfm.AppThemeBase.secondaryColor,
+                                  ),
+                            ),
                           ),
                           const SizedBox(
                             width: 5,
@@ -106,14 +109,17 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                       ),
                       Row(
                         children: [
-                          SelectableText(
-                            poolAdd.token2!.symbol,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  color: aedappfm.AppThemeBase.secondaryColor,
-                                ),
+                          Tooltip(
+                            message: poolAdd.token2!.symbol,
+                            child: SelectableText(
+                              poolAdd.token2!.symbol.reduceSymbol(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: aedappfm.AppThemeBase.secondaryColor,
+                                  ),
+                            ),
                           ),
                           const SizedBox(
                             width: 5,
@@ -142,24 +148,29 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text:
-                                  '+ ${poolAdd.token1Amount.formatNumber(precision: 8)}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    color: aedappfm.AppThemeBase.secondaryColor,
-                                  ),
-                            ),
-                            TextSpan(
-                              text: ' ${poolAdd.token1!.symbol}',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
+                      Tooltip(
+                        message: poolAdd.token1!.symbol,
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text:
+                                    '+ ${poolAdd.token1Amount.formatNumber(precision: 8)}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      color:
+                                          aedappfm.AppThemeBase.secondaryColor,
+                                    ),
+                              ),
+                              TextSpan(
+                                text:
+                                    ' ${poolAdd.token1!.symbol.reduceSymbol()}',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Row(
@@ -186,25 +197,30 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text:
-                                      '+ ${poolAdd.token2Amount.formatNumber(precision: 8)}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        color: aedappfm
-                                            .AppThemeBase.secondaryColor,
-                                      ),
-                                ),
-                                TextSpan(
-                                  text: ' ${poolAdd.token2!.symbol}',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
+                          Tooltip(
+                            message: poolAdd.token2!.symbol,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        '+ ${poolAdd.token2Amount.formatNumber(precision: 8)}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: aedappfm
+                                              .AppThemeBase.secondaryColor,
+                                        ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        ' ${poolAdd.token2!.symbol.reduceSymbol()}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Row(
@@ -255,8 +271,8 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                     ratio: (Decimal.parse(poolAdd.token2Amount.toString()) /
                             Decimal.parse(poolAdd.token1Amount.toString()))
                         .toDouble(),
-                    token1Symbol: poolAdd.token1!.symbol,
-                    token2Symbol: poolAdd.token2!.symbol,
+                    token1Symbol: poolAdd.token1!.symbol.reduceSymbol(),
+                    token2Symbol: poolAdd.token2!.symbol.reduceSymbol(),
                   ),
                 ),
               if (poolAdd.token2Amount > 0)
@@ -266,8 +282,8 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                     ratio: (Decimal.parse(poolAdd.token1Amount.toString()) /
                             Decimal.parse(poolAdd.token2Amount.toString()))
                         .toDouble(),
-                    token1Symbol: poolAdd.token2!.symbol,
-                    token2Symbol: poolAdd.token1!.symbol,
+                    token1Symbol: poolAdd.token2!.symbol.reduceSymbol(),
+                    token2Symbol: poolAdd.token1!.symbol.reduceSymbol(),
                   ),
                 ),
               const SizedBox(

@@ -174,9 +174,12 @@ class SwapInfos extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  SelectableText(
-                    '${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  Tooltip(
+                    message: swap.tokenToSwap!.symbol,
+                    child: SelectableText(
+                      '${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                   const SizedBox(
                     width: 5,
@@ -239,9 +242,12 @@ class SwapInfos extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  SelectableText(
-                    '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  Tooltip(
+                    message: swap.tokenSwapped!.symbol,
+                    child: SelectableText(
+                      '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                   const SizedBox(
                     width: 5,

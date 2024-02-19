@@ -58,31 +58,39 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: liquidityAdd.token1Amount
-                                  .formatNumber(precision: 8),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    color: aedappfm.AppThemeBase.secondaryColor,
-                                  ),
-                            ),
-                            TextSpan(
-                              text: ' ${liquidityAdd.token1!.symbol}',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
+                      Tooltip(
+                        message: liquidityAdd.token1!.symbol,
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: liquidityAdd.token1Amount
+                                    .formatNumber(precision: 8),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      color:
+                                          aedappfm.AppThemeBase.secondaryColor,
+                                    ),
+                              ),
+                              TextSpan(
+                                text:
+                                    ' ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SelectableText(
-                    '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol}',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  Tooltip(
+                    message: liquidityAdd.token1!.symbol,
+                    child: SelectableText(
+                      '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                   ),
                 ],
               ),
@@ -97,15 +105,21 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                               color: aedappfm.AppThemeBase.secondaryColor,
                             ),
                       ),
-                      SelectableText(
-                        ' ${liquidityAdd.token2!.symbol}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Tooltip(
+                        message: liquidityAdd.token2!.symbol,
+                        child: SelectableText(
+                          ' ${liquidityAdd.token2!.symbol.reduceSymbol()}',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       ),
                     ],
                   ),
-                  SelectableText(
-                    '+${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol}',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  Tooltip(
+                    message: liquidityAdd.token2!.symbol,
+                    child: SelectableText(
+                      '+${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                   ),
                 ],
               ),
