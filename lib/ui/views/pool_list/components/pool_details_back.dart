@@ -1,3 +1,5 @@
+import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
@@ -10,6 +12,7 @@ import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +29,8 @@ class PoolDetailsBack extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final session = ref.watch(SessionProviders.session);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -253,6 +258,73 @@ class PoolDetailsBack extends ConsumerWidget {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium,
+                                        );
+                                      }
+                                      return const SizedBox.shrink();
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  FutureBuilder<double>(
+                                    future: ref.watch(
+                                      BalanceProviders.getBalance(
+                                        session.genesisAddress,
+                                        pool.lpToken.address!,
+                                      ).future,
+                                    ),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        var percentage = 0.0;
+                                        if (pool.lpToken.supply > 0) {
+                                          percentage = (Decimal.parse('100') *
+                                                  Decimal.parse(
+                                                      '${snapshot.data!}') /
+                                                  Decimal.parse(
+                                                      '${pool.lpToken.supply}'))
+                                              .toDouble();
+                                        }
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                SelectableText(
+                                                  snapshot.data!.formatNumber(
+                                                    precision: 2,
+                                                  ),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge,
+                                                ),
+                                                if (pool.lpToken.supply > 0)
+                                                  SelectableText(
+                                                    ' / ${pool.lpToken.supply.formatNumber()} ${pool.lpToken.supply > 1 ? 'LP Tokens' : 'LP Token'}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge,
+                                                  )
+                                                else
+                                                  SelectableText(
+                                                    pool.lpToken.supply > 1
+                                                        ? 'LP Tokens'
+                                                        : 'LP Token',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge,
+                                                  ),
+                                              ],
+                                            ),
+                                            SelectableText(
+                                              '(${percentage.formatNumber(precision: 8)}%)',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
+                                            ),
+                                          ],
                                         );
                                       }
                                       return const SizedBox.shrink();
