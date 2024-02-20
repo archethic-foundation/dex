@@ -36,7 +36,7 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.pool;
 

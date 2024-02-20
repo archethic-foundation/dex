@@ -107,18 +107,13 @@ class FarmClaimInProgressPopup {
           )
           ..invalidate(
             DexFarmProviders.getUserInfos(
-              _farmClaim.dexFarm!.farmAddress,
+              _farmClaim.farmAddress!,
               session.genesisAddress,
             ),
           )
           ..invalidate(
             FarmListProvider.balance(
-              _farmClaim.dexFarm!.lpToken!.address,
-            ),
-          )
-          ..invalidate(
-            FarmListProvider.userInfos(
-              _farmClaim.dexFarm!.farmAddress,
+              _farmClaim.lpTokenAddress,
             ),
           );
 

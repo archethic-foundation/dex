@@ -115,11 +115,6 @@ class FarmWithdrawInProgressPopup {
             FarmListProvider.balance(
               _farmWithdraw.dexFarmInfo!.lpToken!.address,
             ),
-          )
-          ..invalidate(
-            FarmListProvider.userInfos(
-              _farmWithdraw.dexFarmInfo!.farmAddress,
-            ),
           );
         context.go(FarmListSheet.routerPage);
       },

@@ -116,12 +116,8 @@ class FarmDepositInProgressPopup {
             FarmListProvider.balance(
               _farmDeposit.dexFarmInfo!.lpToken!.address,
             ),
-          )
-          ..invalidate(
-            FarmListProvider.userInfos(
-              _farmDeposit.dexFarmInfo!.farmAddress,
-            ),
           );
+
         context.go(FarmListSheet.routerPage);
       },
     );

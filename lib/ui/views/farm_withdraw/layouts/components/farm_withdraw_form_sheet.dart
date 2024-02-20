@@ -21,10 +21,17 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
-    if (farmWithdraw.dexFarmInfo == null) {
-      return const SizedBox.shrink();
+    if (farmWithdraw.dexFarmInfo == null ||
+        farmWithdraw.dexFarmUserInfo == null) {
+      return const Padding(
+        padding: EdgeInsets.only(top: 120, bottom: 120),
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(strokeWidth: 0.5),
+        ),
+      );
     }
-
     return Expanded(
       child: Column(
         children: [

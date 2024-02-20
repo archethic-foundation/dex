@@ -20,7 +20,14 @@ class FarmClaimFormSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
     if (farmClaim.dexFarmUserInfo == null) {
-      return const SizedBox.shrink();
+      return const Padding(
+        padding: EdgeInsets.only(top: 60, bottom: 60),
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(strokeWidth: 0.5),
+        ),
+      );
     }
 
     return Expanded(
@@ -65,7 +72,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                       FutureBuilder<String>(
                         future: FiatValue().display(
                           ref,
-                          farmClaim.dexFarm!.rewardToken!,
+                          farmClaim.rewardToken!,
                           farmClaim.dexFarmUserInfo!.rewardAmount,
                         ),
                         builder: (context, snapshot) {
@@ -86,8 +93,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                                         ),
                                   ),
                                   TextSpan(
-                                    text:
-                                        ' ${farmClaim.dexFarm!.rewardToken!.symbol}',
+                                    text: ' ${farmClaim.rewardToken!.symbol}',
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),

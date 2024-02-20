@@ -1,6 +1,6 @@
-import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm_user_infos.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -31,16 +31,16 @@ class FarmWithdrawFormNotifier
     state = state.copyWith(transactionWithdrawFarm: transactionWithdrawFarm);
   }
 
-  Future<void> initBalances() async {
-    final session = ref.read(SessionProviders.session);
-
-    final userInfo = await ref.read(
-      DexFarmProviders.getUserInfos(
-        state.dexFarmInfo!.farmAddress,
-        session.genesisAddress,
-      ).future,
+  void setDexFarmInfo(DexFarm dexFarmInfo) {
+    state = state.copyWith(
+      dexFarmInfo: dexFarmInfo,
     );
-    state = state.copyWith(dexFarmUserInfo: userInfo);
+  }
+
+  void setDexFarmUserInfo(DexFarmUserInfos dexFarmUserInfo) {
+    state = state.copyWith(
+      dexFarmUserInfo: dexFarmUserInfo,
+    );
   }
 
   void setAmount(
@@ -64,9 +64,21 @@ class FarmWithdrawFormNotifier
     );
   }
 
-  void setDexFarmInfo(DexFarm dexFarmInfo) {
+  void setFarmAddress(String farmAddress) {
     state = state.copyWith(
-      dexFarmInfo: dexFarmInfo,
+      farmAddress: farmAddress,
+    );
+  }
+
+  void setRewardToken(DexToken rewardToken) {
+    state = state.copyWith(
+      rewardToken: rewardToken,
+    );
+  }
+
+  void setLpTokenAddress(String lpTokenAddress) {
+    state = state.copyWith(
+      lpTokenAddress: lpTokenAddress,
     );
   }
 
@@ -162,8 +174,8 @@ class FarmWithdrawFormNotifier
 
     await WithdrawFarmCase().run(
       ref,
-      state.dexFarmInfo!.farmAddress,
-      state.dexFarmInfo!.lpToken!.address!,
+      state.farmAddress!,
+      state.lpTokenAddress!,
       state.amount,
     );
   }

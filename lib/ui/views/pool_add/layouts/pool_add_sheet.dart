@@ -31,7 +31,7 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   @override
   void initState() {
     if (widget.token1 != null && widget.token2 != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Future.delayed(Duration.zero, () async {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.pool;
 

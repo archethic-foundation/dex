@@ -34,7 +34,7 @@ class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
 
         final amount = await getAmountFromTxInput(
           widget.address,
-          farmClaim.dexFarm!.rewardToken!.address,
+          farmClaim.rewardToken!.address,
         );
         if (amount > 0) {
           setState(() {
@@ -63,7 +63,7 @@ class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
 
     return finalAmount != null
         ? SelectableText(
-            'Amount claimed: ${finalAmount!.formatNumber(precision: 8)} ${farmClaim.dexFarm!.rewardToken!.symbol}',
+            'Amount claimed: ${finalAmount!.formatNumber(precision: 8)} ${farmClaim.rewardToken!.symbol}',
           )
         : const Row(
             children: [

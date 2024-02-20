@@ -45,7 +45,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
               FutureBuilder<String>(
                 future: FiatValue().display(
                   ref,
-                  farmClaim.dexFarm!.rewardToken!,
+                  farmClaim.rewardToken!,
                   farmClaim.dexFarmUserInfo!.rewardAmount,
                 ),
                 builder: (context, snapshot) {
@@ -68,7 +68,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                                 ),
                           ),
                           TextSpan(
-                            text: ' ${farmClaim.dexFarm!.rewardToken!.symbol}',
+                            text: ' ${farmClaim.rewardToken!.symbol}',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           TextSpan(
@@ -111,9 +111,9 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                 future: ref.watch(
                   BalanceProviders.getBalance(
                     session.genesisAddress,
-                    farmClaim.dexFarm!.rewardToken!.isUCO
+                    farmClaim.rewardToken!.isUCO
                         ? 'UCO'
-                        : farmClaim.dexFarm!.rewardToken!.address!,
+                        : farmClaim.rewardToken!.address!,
                   ).future,
                 ),
                 builder: (
@@ -126,7 +126,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                       children: [
                         DexTokenBalance(
                           tokenBalance: snapshot.data!,
-                          token: farmClaim.dexFarm!.rewardToken,
+                          token: farmClaim.rewardToken,
                           withFiat: false,
                           height: 20,
                         ),
@@ -139,7 +139,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                                         .toString(),
                                   ))
                               .toDouble(),
-                          token: farmClaim.dexFarm!.rewardToken,
+                          token: farmClaim.rewardToken,
                           withFiat: false,
                           height: 20,
                         ),

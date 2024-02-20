@@ -20,7 +20,14 @@ class FarmDepositFormSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
     if (farmDeposit.dexFarmInfo == null) {
-      return const SizedBox.shrink();
+      return const Padding(
+        padding: EdgeInsets.only(top: 80, bottom: 80),
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(strokeWidth: 0.5),
+        ),
+      );
     }
 
     return Expanded(

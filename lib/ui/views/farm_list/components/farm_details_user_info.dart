@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
@@ -10,7 +11,6 @@ import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -35,8 +35,9 @@ class FarmDetailsUserInfo extends ConsumerWidget {
     if (session.isConnected) {
       return FutureBuilder<DexFarmUserInfos?>(
         future: ref.watch(
-          FarmListProvider.userInfos(
+          DexFarmProviders.getUserInfos(
             farm.farmAddress,
+            session.genesisAddress,
           ).future,
         ),
         builder: (context, userInfosSnapshot) {

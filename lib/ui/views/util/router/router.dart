@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -174,22 +173,29 @@ final routerProvider = Provider<GoRouter>(
         GoRoute(
           path: FarmDepositSheet.routerPage,
           pageBuilder: (context, state) {
-            DexFarm? farm;
-            final farmEncoded = state.uri.queryParameters['farm'];
-            if (farmEncoded != null) {
-              final farmJson = Uri.decodeComponent(farmEncoded);
-              farm = DexFarm.fromJson(jsonDecode(farmJson));
+            String? farmAddress;
+            String? poolAddress;
+            final farmAddressEncoded = state.uri.queryParameters['farmAddress'];
+            if (farmAddressEncoded != null) {
+              final farmAddressJson = Uri.decodeComponent(farmAddressEncoded);
+              farmAddress = jsonDecode(farmAddressJson);
             }
 
-            if (farm == null) {
+            final poolAddressEncoded = state.uri.queryParameters['poolAddress'];
+            if (poolAddressEncoded != null) {
+              final poolAddressJson = Uri.decodeComponent(poolAddressEncoded);
+              poolAddress = jsonDecode(poolAddressJson);
+            }
+
+            if (farmAddress == null || poolAddress == null) {
               return const NoTransitionPage(
                 child: FarmListSheet(),
               );
             }
-
             return NoTransitionPage(
               child: FarmDepositSheet(
-                farm: farm,
+                farmAddress: farmAddress,
+                poolAddress: poolAddress,
               ),
             );
           },
@@ -197,14 +203,33 @@ final routerProvider = Provider<GoRouter>(
         GoRoute(
           path: FarmClaimSheet.routerPage,
           pageBuilder: (context, state) {
-            DexFarm? farm;
-            final farmEncoded = state.uri.queryParameters['farm'];
-            if (farmEncoded != null) {
-              final farmJson = Uri.decodeComponent(farmEncoded);
-              farm = DexFarm.fromJson(jsonDecode(farmJson));
+            String? farmAddress;
+            DexToken? rewardToken;
+            String? lpTokenAddress;
+
+            final farmAddressEncoded = state.uri.queryParameters['farmAddress'];
+            if (farmAddressEncoded != null) {
+              final farmAddressJson = Uri.decodeComponent(farmAddressEncoded);
+              farmAddress = jsonDecode(farmAddressJson);
             }
 
-            if (farm == null) {
+            final rewardTokenEncoded = state.uri.queryParameters['rewardToken'];
+            if (rewardTokenEncoded != null) {
+              final rewardTokenJson = Uri.decodeComponent(rewardTokenEncoded);
+              rewardToken = DexToken.fromJson(jsonDecode(rewardTokenJson));
+            }
+
+            final lpTokenAddressEncoded =
+                state.uri.queryParameters['lpTokenAddress'];
+            if (lpTokenAddressEncoded != null) {
+              final lpTokenAddressJson =
+                  Uri.decodeComponent(lpTokenAddressEncoded);
+              lpTokenAddress = jsonDecode(lpTokenAddressJson);
+            }
+
+            if (farmAddress == null ||
+                rewardToken == null ||
+                lpTokenAddress == null) {
               return const NoTransitionPage(
                 child: FarmListSheet(),
               );
@@ -212,7 +237,9 @@ final routerProvider = Provider<GoRouter>(
 
             return NoTransitionPage(
               child: FarmClaimSheet(
-                farm: farm,
+                farmAddress: farmAddress,
+                rewardToken: rewardToken,
+                lpTokenAddress: lpTokenAddress,
               ),
             );
           },
@@ -220,14 +247,40 @@ final routerProvider = Provider<GoRouter>(
         GoRoute(
           path: FarmWithdrawSheet.routerPage,
           pageBuilder: (context, state) {
-            DexFarm? farm;
-            final farmEncoded = state.uri.queryParameters['farm'];
-            if (farmEncoded != null) {
-              final farmJson = Uri.decodeComponent(farmEncoded);
-              farm = DexFarm.fromJson(jsonDecode(farmJson));
+            String? farmAddress;
+            DexToken? rewardToken;
+            String? lpTokenAddress;
+            String? poolAddress;
+            final farmAddressEncoded = state.uri.queryParameters['farmAddress'];
+            if (farmAddressEncoded != null) {
+              final farmAddressJson = Uri.decodeComponent(farmAddressEncoded);
+              farmAddress = jsonDecode(farmAddressJson);
             }
 
-            if (farm == null) {
+            final rewardTokenEncoded = state.uri.queryParameters['rewardToken'];
+            if (rewardTokenEncoded != null) {
+              final rewardTokenJson = Uri.decodeComponent(rewardTokenEncoded);
+              rewardToken = DexToken.fromJson(jsonDecode(rewardTokenJson));
+            }
+
+            final lpTokenAddressEncoded =
+                state.uri.queryParameters['lpTokenAddress'];
+            if (lpTokenAddressEncoded != null) {
+              final lpTokenAddressJson =
+                  Uri.decodeComponent(lpTokenAddressEncoded);
+              lpTokenAddress = jsonDecode(lpTokenAddressJson);
+            }
+
+            final poolAddressEncoded = state.uri.queryParameters['poolAddress'];
+            if (poolAddressEncoded != null) {
+              final poolAddressJson = Uri.decodeComponent(poolAddressEncoded);
+              poolAddress = jsonDecode(poolAddressJson);
+            }
+
+            if (farmAddress == null ||
+                rewardToken == null ||
+                lpTokenAddress == null ||
+                poolAddress == null) {
               return const NoTransitionPage(
                 child: FarmListSheet(),
               );
@@ -235,7 +288,10 @@ final routerProvider = Provider<GoRouter>(
 
             return NoTransitionPage(
               child: FarmWithdrawSheet(
-                farm: farm,
+                farmAddress: farmAddress,
+                rewardToken: rewardToken,
+                lpTokenAddress: lpTokenAddress,
+                poolAddress: poolAddress,
               ),
             );
           },
@@ -270,7 +326,6 @@ final routerProvider = Provider<GoRouter>(
                 .connectEndpoint(session.envSelected);
           }
         }
-
         return null;
       },
       errorBuilder: (context, state) => const WelcomeScreen(),

@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userInfosHash() => r'c4b6f5fb75c1009b3a69d02333595a78bf33b178';
+String _$balanceHash() => r'4a67a5dc4ae2a54ceaf1a149c68699c2c047f5cc';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -28,135 +28,6 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
-
-/// See also [_userInfos].
-@ProviderFor(_userInfos)
-const _userInfosProvider = _UserInfosFamily();
-
-/// See also [_userInfos].
-class _UserInfosFamily extends Family<AsyncValue<DexFarmUserInfos>> {
-  /// See also [_userInfos].
-  const _UserInfosFamily();
-
-  /// See also [_userInfos].
-  _UserInfosProvider call(
-    String farmAddress,
-  ) {
-    return _UserInfosProvider(
-      farmAddress,
-    );
-  }
-
-  @override
-  _UserInfosProvider getProviderOverride(
-    covariant _UserInfosProvider provider,
-  ) {
-    return call(
-      provider.farmAddress,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_userInfosProvider';
-}
-
-/// See also [_userInfos].
-class _UserInfosProvider extends AutoDisposeFutureProvider<DexFarmUserInfos> {
-  /// See also [_userInfos].
-  _UserInfosProvider(
-    String farmAddress,
-  ) : this._internal(
-          (ref) => _userInfos(
-            ref as _UserInfosRef,
-            farmAddress,
-          ),
-          from: _userInfosProvider,
-          name: r'_userInfosProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$userInfosHash,
-          dependencies: _UserInfosFamily._dependencies,
-          allTransitiveDependencies:
-              _UserInfosFamily._allTransitiveDependencies,
-          farmAddress: farmAddress,
-        );
-
-  _UserInfosProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.farmAddress,
-  }) : super.internal();
-
-  final String farmAddress;
-
-  @override
-  Override overrideWith(
-    FutureOr<DexFarmUserInfos> Function(_UserInfosRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _UserInfosProvider._internal(
-        (ref) => create(ref as _UserInfosRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        farmAddress: farmAddress,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<DexFarmUserInfos> createElement() {
-    return _UserInfosProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _UserInfosProvider && other.farmAddress == farmAddress;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, farmAddress.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _UserInfosRef on AutoDisposeFutureProviderRef<DexFarmUserInfos> {
-  /// The parameter `farmAddress` of this provider.
-  String get farmAddress;
-}
-
-class _UserInfosProviderElement
-    extends AutoDisposeFutureProviderElement<DexFarmUserInfos>
-    with _UserInfosRef {
-  _UserInfosProviderElement(super.provider);
-
-  @override
-  String get farmAddress => (origin as _UserInfosProvider).farmAddress;
-}
-
-String _$balanceHash() => r'4a67a5dc4ae2a54ceaf1a149c68699c2c047f5cc';
 
 /// See also [_balance].
 @ProviderFor(_balance)

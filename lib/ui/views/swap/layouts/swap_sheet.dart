@@ -31,7 +31,7 @@ class _SwapSheetState extends ConsumerState<SwapSheet> {
   @override
   void initState() {
     if (widget.tokenToSwap != null && widget.tokenSwapped != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Future.delayed(Duration.zero, () async {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.swap;
 
