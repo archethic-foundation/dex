@@ -1,5 +1,4 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search_bar.dart';
@@ -90,15 +89,7 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
             controlOk: true,
             labelBtn: 'Create Pool',
             onPressed: () {
-              ref
-                  .read(
-                    navigationIndexMainScreenProvider.notifier,
-                  )
-                  .state = 1;
-              context.go(
-                PoolAddSheet.routerPage,
-                extra: <String, dynamic>{},
-              );
+              context.go(PoolAddSheet.routerPage);
             },
             fontSize: 12,
             height: 30,

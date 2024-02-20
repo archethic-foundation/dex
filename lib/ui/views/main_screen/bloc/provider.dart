@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+enum NavigationIndex { swap, pool, farm }
+
 final navigationIndexMainScreenProvider =
-    StateProvider.autoDispose<int>((ref) => 0);
+    StateProvider.autoDispose<NavigationIndex>((ref) => NavigationIndex.swap);

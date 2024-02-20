@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
@@ -34,7 +36,7 @@ class FarmDetailsUserInfo extends ConsumerWidget {
       return FutureBuilder<DexFarmUserInfos?>(
         future: ref.watch(
           FarmListProvider.userInfos(
-            farm,
+            farm.farmAddress,
           ).future,
         ),
         builder: (context, userInfosSnapshot) {

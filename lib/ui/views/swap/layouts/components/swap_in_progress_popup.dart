@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/usecases/swap.usecase.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_final_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_tx_addresses.dart';
@@ -89,11 +88,6 @@ class SwapInProgressPopup {
         ref.invalidate(
           SwapFormProvider.swapForm,
         );
-        ref
-            .read(
-              navigationIndexMainScreenProvider.notifier,
-            )
-            .state = 0;
         context.go(SwapSheet.routerPage);
       },
     );

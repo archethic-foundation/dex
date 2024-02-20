@@ -510,7 +510,7 @@ final _getPoolListFromCacheProvider =
 
 typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$putPoolListInfosToCacheHash() =>
-    r'c5eacd0718e1eee05944e51307915b32b4614d84';
+    r'fd20ce5911b0e244a4995b0d20468dc19ea2471b';
 
 /// See also [_putPoolListInfosToCache].
 @ProviderFor(_putPoolListInfosToCache)

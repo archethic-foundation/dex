@@ -1,5 +1,4 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
@@ -132,9 +131,6 @@ class PoolAddFormSheet extends ConsumerWidget {
                       ),
                       aedappfm.ButtonClose(
                         onPressed: () {
-                          ref
-                              .read(navigationIndexMainScreenProvider.notifier)
-                              .state = 1;
                           context.go(PoolListSheet.routerPage);
                         },
                       ),

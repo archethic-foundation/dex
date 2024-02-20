@@ -3,6 +3,7 @@ import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_form_sheet.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -28,10 +29,16 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      ref.read(FarmDepositFormProvider.farmDepositForm.notifier)
-        ..setDexFarmInfo(widget.farm)
-        ..initBalances();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.farm;
+
+      ref
+          .read(FarmDepositFormProvider.farmDepositForm.notifier)
+          .setDexFarmInfo(widget.farm);
+      await ref
+          .read(FarmDepositFormProvider.farmDepositForm.notifier)
+          .initBalances();
     });
   }
 

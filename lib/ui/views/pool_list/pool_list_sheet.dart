@@ -1,5 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_add_favorite_icon.dart';
@@ -17,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lit_starfield/view.dart';
 
-class PoolListSheet extends ConsumerWidget {
+class PoolListSheet extends ConsumerStatefulWidget {
   const PoolListSheet({
     super.key,
   });
@@ -25,7 +26,22 @@ class PoolListSheet extends ConsumerWidget {
   static const routerPage = '/poolList';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PoolListSheet> createState() => _PoolListSheetState();
+}
+
+class _PoolListSheetState extends ConsumerState<PoolListSheet> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.pool;
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MainScreenList(
       body: _body(context, ref),
     );

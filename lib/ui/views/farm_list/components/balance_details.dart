@@ -89,8 +89,16 @@ class _BalanceDetails extends ConsumerWidget {
                   controlOk: balance != null && balance > 0,
                   labelBtn: 'Deposit LP Tokens',
                   onPressed: () {
-                    context
-                        .go(FarmDepositSheet.routerPage, extra: {'farm': farm});
+                    final farmJson = jsonEncode(farm.toJson());
+                    final farmEncoded = Uri.encodeComponent(farmJson);
+                    context.go(
+                      Uri(
+                        path: FarmDepositSheet.routerPage,
+                        queryParameters: {
+                          'farm': farmEncoded,
+                        },
+                      ).toString(),
+                    );
                   },
                   displayWalletConnect: true,
                   isConnected: session.isConnected,
@@ -134,11 +142,15 @@ class _BalanceDetails extends ConsumerWidget {
                         controlOk: farm.lpTokenDeposited > 0,
                         labelBtn: 'Withdraw',
                         onPressed: () {
+                          final farmJson = jsonEncode(farm.toJson());
+                          final farmEncoded = Uri.encodeComponent(farmJson);
                           context.go(
-                            FarmWithdrawSheet.routerPage,
-                            extra: {
-                              'farm': farm,
-                            },
+                            Uri(
+                              path: FarmWithdrawSheet.routerPage,
+                              queryParameters: {
+                                'farm': farmEncoded,
+                              },
+                            ).toString(),
                           );
                         },
                         isConnected: session.isConnected,
@@ -176,18 +188,19 @@ class _BalanceDetails extends ConsumerWidget {
                     Expanded(
                       child: aedappfm.ButtonValidate(
                         background: aedappfm.ArchethicThemeBase.purple500,
-                        controlOk: true,
+                        controlOk: farm.remainingReward > 0,
                         labelBtn: 'Claim',
                         onPressed: () async {
-                          final farmUserInfo = await ref
-                              .read(FarmListProvider.userInfos(farm).future);
                           if (context.mounted) {
+                            final farmJson = jsonEncode(farm.toJson());
+                            final farmEncoded = Uri.encodeComponent(farmJson);
                             context.go(
-                              FarmClaimSheet.routerPage,
-                              extra: {
-                                'farmUserInfo': farmUserInfo,
-                                'farm': farm,
-                              },
+                              Uri(
+                                path: FarmClaimSheet.routerPage,
+                                queryParameters: {
+                                  'farm': farmEncoded,
+                                },
+                              ).toString(),
                             );
                           }
                         },

@@ -2,6 +2,7 @@ import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
@@ -12,15 +13,29 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FarmListSheet extends ConsumerWidget {
+class FarmListSheet extends ConsumerStatefulWidget {
   const FarmListSheet({
     super.key,
   });
 
   static const routerPage = '/farmList';
+  @override
+  ConsumerState<FarmListSheet> createState() => _FarmListSheetState();
+}
+
+class _FarmListSheetState extends ConsumerState<FarmListSheet> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.farm;
+    });
+
+    super.initState();
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return MainScreenList(
       body: _body(context, ref),
     );

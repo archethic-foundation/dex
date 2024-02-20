@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_final_am
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -100,11 +99,6 @@ class FarmClaimInProgressPopup {
           ..setFailure(null)
           ..setFarmClaimOk(false)
           ..setWalletConfirmation(false);
-        ref
-            .read(
-              navigationIndexMainScreenProvider.notifier,
-            )
-            .state = 2;
         final session = ref.read(SessionProviders.session);
         final _farmClaim = ref.read(FarmClaimFormProvider.farmClaimForm);
         ref
@@ -124,7 +118,7 @@ class FarmClaimInProgressPopup {
           )
           ..invalidate(
             FarmListProvider.userInfos(
-              _farmClaim.dexFarm!,
+              _farmClaim.dexFarm!.farmAddress,
             ),
           );
 

@@ -4,6 +4,7 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_confirm_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_form_sheet.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -31,13 +32,23 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.pool;
+
       ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-        ..setPool(widget.pool)
         ..setToken1(widget.pair.token1)
-        ..setToken2(widget.pair.token2)
-        ..initBalances()
-        ..initRatio();
+        ..setToken2(widget.pair.token2);
+
+      await ref
+          .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+          .setPool(widget.pool);
+      await ref
+          .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+          .initBalances();
+      await ref
+          .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+          .initRatio();
     });
   }
 

@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userInfosHash() => r'e15a1d994f5f6b0a696e6be8289722a437b59e79';
+String _$userInfosHash() => r'c4b6f5fb75c1009b3a69d02333595a78bf33b178';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,10 +40,10 @@ class _UserInfosFamily extends Family<AsyncValue<DexFarmUserInfos>> {
 
   /// See also [_userInfos].
   _UserInfosProvider call(
-    DexFarm farm,
+    String farmAddress,
   ) {
     return _UserInfosProvider(
-      farm,
+      farmAddress,
     );
   }
 
@@ -52,7 +52,7 @@ class _UserInfosFamily extends Family<AsyncValue<DexFarmUserInfos>> {
     covariant _UserInfosProvider provider,
   ) {
     return call(
-      provider.farm,
+      provider.farmAddress,
     );
   }
 
@@ -75,11 +75,11 @@ class _UserInfosFamily extends Family<AsyncValue<DexFarmUserInfos>> {
 class _UserInfosProvider extends AutoDisposeFutureProvider<DexFarmUserInfos> {
   /// See also [_userInfos].
   _UserInfosProvider(
-    DexFarm farm,
+    String farmAddress,
   ) : this._internal(
           (ref) => _userInfos(
             ref as _UserInfosRef,
-            farm,
+            farmAddress,
           ),
           from: _userInfosProvider,
           name: r'_userInfosProvider',
@@ -90,7 +90,7 @@ class _UserInfosProvider extends AutoDisposeFutureProvider<DexFarmUserInfos> {
           dependencies: _UserInfosFamily._dependencies,
           allTransitiveDependencies:
               _UserInfosFamily._allTransitiveDependencies,
-          farm: farm,
+          farmAddress: farmAddress,
         );
 
   _UserInfosProvider._internal(
@@ -100,10 +100,10 @@ class _UserInfosProvider extends AutoDisposeFutureProvider<DexFarmUserInfos> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.farm,
+    required this.farmAddress,
   }) : super.internal();
 
-  final DexFarm farm;
+  final String farmAddress;
 
   @override
   Override overrideWith(
@@ -118,7 +118,7 @@ class _UserInfosProvider extends AutoDisposeFutureProvider<DexFarmUserInfos> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        farm: farm,
+        farmAddress: farmAddress,
       ),
     );
   }
@@ -130,21 +130,21 @@ class _UserInfosProvider extends AutoDisposeFutureProvider<DexFarmUserInfos> {
 
   @override
   bool operator ==(Object other) {
-    return other is _UserInfosProvider && other.farm == farm;
+    return other is _UserInfosProvider && other.farmAddress == farmAddress;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, farm.hashCode);
+    hash = _SystemHash.combine(hash, farmAddress.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin _UserInfosRef on AutoDisposeFutureProviderRef<DexFarmUserInfos> {
-  /// The parameter `farm` of this provider.
-  DexFarm get farm;
+  /// The parameter `farmAddress` of this provider.
+  String get farmAddress;
 }
 
 class _UserInfosProviderElement
@@ -153,7 +153,7 @@ class _UserInfosProviderElement
   _UserInfosProviderElement(super.provider);
 
   @override
-  DexFarm get farm => (origin as _UserInfosProvider).farm;
+  String get farmAddress => (origin as _UserInfosProvider).farmAddress;
 }
 
 String _$balanceHash() => r'4a67a5dc4ae2a54ceaf1a149c68699c2c047f5cc';

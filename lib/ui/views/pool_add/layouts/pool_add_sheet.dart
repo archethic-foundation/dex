@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_sheet.dart';
@@ -30,11 +31,19 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   @override
   void initState() {
     if (widget.token1 != null && widget.token2 != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.pool;
+
         if (context.mounted) {
-          ref.read(PoolAddFormProvider.poolAddForm.notifier)
-            ..setToken1(widget.token1!, context)
-            ..setToken2(widget.token2!, context);
+          await ref
+              .read(PoolAddFormProvider.poolAddForm.notifier)
+              .setToken1(widget.token1!, context);
+        }
+        if (context.mounted) {
+          await ref
+              .read(PoolAddFormProvider.poolAddForm.notifier)
+              .setToken2(widget.token2!, context);
         }
       });
     }

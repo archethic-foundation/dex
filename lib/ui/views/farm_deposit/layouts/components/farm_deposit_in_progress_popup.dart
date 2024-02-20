@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_fina
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -101,11 +100,6 @@ class FarmDepositInProgressPopup {
           ..setFailure(null)
           ..setFarmDepositOk(false)
           ..setWalletConfirmation(false);
-        ref
-            .read(
-              navigationIndexMainScreenProvider.notifier,
-            )
-            .state = 2;
         final session = ref.read(SessionProviders.session);
         final _farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
         ref
@@ -125,7 +119,7 @@ class FarmDepositInProgressPopup {
           )
           ..invalidate(
             FarmListProvider.userInfos(
-              _farmDeposit.dexFarmInfo!,
+              _farmDeposit.dexFarmInfo!.farmAddress,
             ),
           );
         context.go(FarmListSheet.routerPage);

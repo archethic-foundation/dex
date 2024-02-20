@@ -1,7 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
@@ -171,12 +170,6 @@ class FarmClaimFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                ref
-                                    .read(
-                                      navigationIndexMainScreenProvider
-                                          .notifier,
-                                    )
-                                    .state = 2;
                                 context.go(FarmListSheet.routerPage);
                               },
                             ),

@@ -3,7 +3,6 @@ import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_final_amount.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_tx_addresses.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -105,11 +104,6 @@ class LiquidityRemoveInProgressPopup {
           ..setFailure(null)
           ..setLiquidityRemoveOk(false)
           ..setWalletConfirmation(false);
-        ref
-            .read(
-              navigationIndexMainScreenProvider.notifier,
-            )
-            .state = 1;
         context.go(PoolListSheet.routerPage);
       },
     );

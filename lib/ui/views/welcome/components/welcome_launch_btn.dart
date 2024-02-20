@@ -1,4 +1,3 @@
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -44,10 +43,8 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                 ),
                 onPressed: () {
-                  ref.read(navigationIndexMainScreenProvider.notifier).state =
-                      0;
                   if (!context.mounted) return;
-                  context.go(SwapSheet.routerPage, extra: <String, dynamic>{});
+                  context.go(SwapSheet.routerPage);
                 },
                 child: Container(
                   alignment: Alignment.center,

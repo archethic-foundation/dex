@@ -3,6 +3,7 @@ import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_form_sheet.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -28,10 +29,16 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
-        ..setDexFarmInfo(widget.farm)
-        ..initBalances();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.farm;
+
+      ref
+          .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+          .setDexFarmInfo(widget.farm);
+      await ref
+          .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+          .initBalances();
     });
   }
 
