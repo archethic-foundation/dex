@@ -164,7 +164,7 @@ class _LiquidityRemoveFinalAmountState
         if (timeout == true)
           const SelectableText(
             'Token obtained: The amounts could not be recovered',
-          )
+          ),
       ],
     );
   }
