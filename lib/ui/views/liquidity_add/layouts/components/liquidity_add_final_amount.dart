@@ -28,11 +28,15 @@ class _LiquidityAddFinalAmountState
     with aedappfm.TransactionMixin {
   double? finalAmount;
   Timer? timer;
+  Timer? timeoutTimer;
+  bool? timeout;
 
   @override
   void initState() {
+    timeout = false;
     super.initState();
     startTimer();
+    startTimeoutTimer();
   }
 
   void startTimer() {
@@ -60,9 +64,17 @@ class _LiquidityAddFinalAmountState
     });
   }
 
+  void startTimeoutTimer() {
+    timeoutTimer = Timer(const Duration(minutes: 1), () {
+      timeout = true;
+      timer?.cancel();
+    });
+  }
+
   @override
   void dispose() {
     timer?.cancel();
+    timeoutTimer?.cancel();
     super.dispose();
   }
 
@@ -76,17 +88,21 @@ class _LiquidityAddFinalAmountState
         ? SelectableText(
             'LP Tokens obtained: ${finalAmount!.formatNumber(precision: 8)} ${finalAmount! > 1 ? 'LP Tokens' : 'LP Token'}',
           )
-        : const Row(
-            children: [
-              SelectableText(
-                'LP Tokens obtained: ',
-              ),
-              SizedBox(
-                height: 10,
-                width: 10,
-                child: CircularProgressIndicator(strokeWidth: 1),
-              ),
-            ],
-          );
+        : timeout == false
+            ? const Row(
+                children: [
+                  SelectableText(
+                    'LP Tokens obtained: ',
+                  ),
+                  SizedBox(
+                    height: 10,
+                    width: 10,
+                    child: CircularProgressIndicator(strokeWidth: 1),
+                  ),
+                ],
+              )
+            : const SelectableText(
+                'LP Tokens obtained: The amount could not be recovered',
+              );
   }
 }

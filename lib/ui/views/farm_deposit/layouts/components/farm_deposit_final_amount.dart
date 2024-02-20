@@ -28,11 +28,15 @@ class _FarmDepositFinalAmountState extends ConsumerState<FarmDepositFinalAmount>
     with aedappfm.TransactionMixin {
   double? finalAmount;
   Timer? timer;
+  Timer? timeoutTimer;
+  bool? timeout;
 
   @override
   void initState() {
+    timeout = false;
     super.initState();
     startTimer();
+    startTimeoutTimer();
   }
 
   void startTimer() {
@@ -55,9 +59,17 @@ class _FarmDepositFinalAmountState extends ConsumerState<FarmDepositFinalAmount>
     });
   }
 
+  void startTimeoutTimer() {
+    timeoutTimer = Timer(const Duration(minutes: 1), () {
+      timeout = true;
+      timer?.cancel();
+    });
+  }
+
   @override
   void dispose() {
     timer?.cancel();
+    timeoutTimer?.cancel();
     super.dispose();
   }
 
@@ -71,17 +83,21 @@ class _FarmDepositFinalAmountState extends ConsumerState<FarmDepositFinalAmount>
         ? SelectableText(
             'Amount deposited: ${finalAmount!.formatNumber(precision: 8)} ${finalAmount! > 1 ? 'LP Tokens' : 'LP Token'}',
           )
-        : const Row(
-            children: [
-              SelectableText(
-                'Amount deposited: ',
-              ),
-              SizedBox(
-                height: 10,
-                width: 10,
-                child: CircularProgressIndicator(strokeWidth: 1),
-              ),
-            ],
-          );
+        : timeout == false
+            ? const Row(
+                children: [
+                  SelectableText(
+                    'Amount deposited: ',
+                  ),
+                  SizedBox(
+                    height: 10,
+                    width: 10,
+                    child: CircularProgressIndicator(strokeWidth: 1),
+                  ),
+                ],
+              )
+            : const SelectableText(
+                'Amount deposited: The amount could not be recovered',
+              );
   }
 }

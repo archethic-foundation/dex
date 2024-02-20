@@ -20,11 +20,15 @@ class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
     with aedappfm.TransactionMixin {
   double? finalAmount;
   Timer? timer;
+  Timer? timeoutTimer;
+  bool? timeout;
 
   @override
   void initState() {
+    timeout = false;
     super.initState();
     startTimer();
+    startTimeoutTimer();
   }
 
   void startTimer() {
@@ -47,9 +51,17 @@ class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
     });
   }
 
+  void startTimeoutTimer() {
+    timeoutTimer = Timer(const Duration(minutes: 1), () {
+      timeout = true;
+      timer?.cancel();
+    });
+  }
+
   @override
   void dispose() {
     timer?.cancel();
+    timeoutTimer?.cancel();
     super.dispose();
   }
 
@@ -62,17 +74,21 @@ class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
         ? SelectableText(
             'Final amount swapped: ${finalAmount!.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
           )
-        : const Row(
-            children: [
-              SelectableText(
-                'Final amount swapped: ',
-              ),
-              SizedBox(
-                height: 10,
-                width: 10,
-                child: CircularProgressIndicator(strokeWidth: 1),
-              ),
-            ],
-          );
+        : timeout == false
+            ? const Row(
+                children: [
+                  SelectableText(
+                    'Final amount swapped: ',
+                  ),
+                  SizedBox(
+                    height: 10,
+                    width: 10,
+                    child: CircularProgressIndicator(strokeWidth: 1),
+                  ),
+                ],
+              )
+            : const SelectableText(
+                'Final amount swapped: The amount could not be recovered',
+              );
   }
 }

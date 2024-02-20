@@ -25,11 +25,15 @@ class _LiquidityRemoveFinalAmountState
   double? finalAmountToken2;
   double? finalAmountLPToken;
   Timer? timer;
+  Timer? timeoutTimer;
+  bool? timeout;
 
   @override
   void initState() {
+    timeout = false;
     super.initState();
     startTimer();
+    startTimeoutTimer();
   }
 
   void startTimer() {
@@ -77,9 +81,17 @@ class _LiquidityRemoveFinalAmountState
     });
   }
 
+  void startTimeoutTimer() {
+    timeoutTimer = Timer(const Duration(minutes: 1), () {
+      timeout = true;
+      timer?.cancel();
+    });
+  }
+
   @override
   void dispose() {
     timer?.cancel();
+    timeoutTimer?.cancel();
     super.dispose();
   }
 
@@ -95,57 +107,64 @@ class _LiquidityRemoveFinalAmountState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (finalAmountToken1 != null)
-          SelectableText(
-            'Token obtained: ${finalAmountToken1!.formatNumber(precision: 8)} ${liquidityRemove.token1!.symbol}',
+        if (timeout == false)
+          if (finalAmountToken1 != null)
+            SelectableText(
+              'Token obtained: ${finalAmountToken1!.formatNumber(precision: 8)} ${liquidityRemove.token1!.symbol}',
+            )
+          else
+            const Row(
+              children: [
+                SelectableText(
+                  'Token obtained: ',
+                ),
+                SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: CircularProgressIndicator(strokeWidth: 1),
+                ),
+              ],
+            ),
+        if (timeout == false)
+          if (finalAmountToken2 != null)
+            SelectableText(
+              'Token obtained: ${finalAmountToken2!.formatNumber(precision: 8)} ${liquidityRemove.token2!.symbol}',
+            )
+          else
+            const Row(
+              children: [
+                SelectableText(
+                  'Token obtained: ',
+                ),
+                SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: CircularProgressIndicator(strokeWidth: 1),
+                ),
+              ],
+            ),
+        if (timeout == false)
+          if (finalAmountLPToken != null)
+            SelectableText(
+              'LP Token burned: ${finalAmountLPToken!.formatNumber(precision: 8)}',
+            )
+          else
+            const Row(
+              children: [
+                SelectableText(
+                  'LP Token burned: ',
+                ),
+                SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: CircularProgressIndicator(strokeWidth: 1),
+                ),
+              ],
+            ),
+        if (timeout == true)
+          const SelectableText(
+            'Token obtained: The amounts could not be recovered',
           )
-        else
-          const Row(
-            children: [
-              SelectableText(
-                'Token obtained: ',
-              ),
-              SizedBox(
-                height: 10,
-                width: 10,
-                child: CircularProgressIndicator(strokeWidth: 1),
-              ),
-            ],
-          ),
-        if (finalAmountToken2 != null)
-          SelectableText(
-            'Token obtained: ${finalAmountToken2!.formatNumber(precision: 8)} ${liquidityRemove.token2!.symbol}',
-          )
-        else
-          const Row(
-            children: [
-              SelectableText(
-                'Token obtained: ',
-              ),
-              SizedBox(
-                height: 10,
-                width: 10,
-                child: CircularProgressIndicator(strokeWidth: 1),
-              ),
-            ],
-          ),
-        if (finalAmountLPToken != null)
-          SelectableText(
-            'LP Token burned: ${finalAmountLPToken!.formatNumber(precision: 8)}',
-          )
-        else
-          const Row(
-            children: [
-              SelectableText(
-                'LP Token burned: ',
-              ),
-              SizedBox(
-                height: 10,
-                width: 10,
-                child: CircularProgressIndicator(strokeWidth: 1),
-              ),
-            ],
-          ),
       ],
     );
   }
