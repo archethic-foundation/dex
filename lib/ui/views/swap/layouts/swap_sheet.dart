@@ -31,25 +31,26 @@ class SwapSheet extends ConsumerStatefulWidget {
 class _SwapSheetState extends ConsumerState<SwapSheet> {
   @override
   void initState() {
-    if (widget.tokenToSwap != null && widget.tokenSwapped != null) {
-      Future.delayed(Duration.zero, () async {
-        try {
-          ref.read(navigationIndexMainScreenProvider.notifier).state =
-              NavigationIndex.swap;
+    Future.delayed(Duration.zero, () async {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.swap;
 
+      try {
+        if (widget.tokenToSwap != null && widget.tokenSwapped != null) {
           await ref
               .read(SwapFormProvider.swapForm.notifier)
               .setTokenToSwap(widget.tokenToSwap!);
           await ref
               .read(SwapFormProvider.swapForm.notifier)
               .setTokenSwapped(widget.tokenSwapped!);
-        } catch (e) {
-          if (mounted) {
-            context.go(SwapSheet.routerPage);
-          }
         }
-      });
-    }
+      } catch (e) {
+        if (mounted) {
+          context.go(SwapSheet.routerPage);
+        }
+      }
+    });
+
     super.initState();
   }
 
