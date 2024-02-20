@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_infos.dart';
@@ -63,17 +64,19 @@ class SwapFormSheet extends ConsumerWidget {
                   TextButton.icon(
                     label: const Text('Create this pool'),
                     onPressed: () {
-                      ref
-                          .read(
-                            navigationIndexMainScreenProvider.notifier,
-                          )
-                          .state = 1;
+                      final token1Json = jsonEncode(swap.tokenToSwap!.toJson());
+                      final token2Json =
+                          jsonEncode(swap.tokenSwapped!.toJson());
+                      final token1Encoded = Uri.encodeComponent(token1Json);
+                      final token2Encoded = Uri.encodeComponent(token2Json);
                       context.go(
-                        PoolAddSheet.routerPage,
-                        extra: {
-                          'token1': swap.tokenToSwap,
-                          'token2': swap.tokenSwapped,
-                        },
+                        Uri(
+                          path: PoolAddSheet.routerPage,
+                          queryParameters: {
+                            'token1': token1Encoded,
+                            'token2': token2Encoded,
+                          },
+                        ).toString(),
                       );
                     },
                     icon: const Icon(Icons.add),

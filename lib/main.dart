@@ -1,13 +1,8 @@
 import 'dart:async';
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-import 'package:aedex/ui/views/util/router.dart';
-import 'package:aedex/ui/views/welcome/welcome_screen.dart';
-
+import 'package:aedex/ui/views/util/router/router.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -15,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 Future<void> main() async {
@@ -45,9 +39,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  static final GlobalKey<NavigatorState> rootNavigatorKey =
-      GlobalKey<NavigatorState>();
-  final router = RoutesPath(rootNavigatorKey).createRouter();
   Timer? _poolListTimer;
 
   @override
@@ -56,17 +47,6 @@ class _MyAppState extends ConsumerState<MyApp> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
-      await ref.read(SessionProviders.session.notifier).connectToWallet(
-            forceConnection: false,
-          );
-
-      var session = ref.read(SessionProviders.session);
-      if (session.isConnected == false) {
-        ref
-            .read(SessionProviders.session.notifier)
-            .connectEndpoint(session.envSelected);
-      }
-
       await ref
           .read(
             aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
@@ -80,21 +60,6 @@ class _MyAppState extends ConsumerState<MyApp> {
           Timer.periodic(const Duration(minutes: 1), (timer) async {
         await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
       });
-
-      session = ref.read(SessionProviders.session);
-      if (session.endpoint.isNotEmpty) {
-        ref
-            .read(
-              navigationIndexMainScreenProvider.notifier,
-            )
-            .state = 0;
-        if (context.mounted) {
-          context.go(SwapSheet.routerPage, extra: <String, dynamic>{});
-        }
-      } else {
-        ref.invalidate(SessionProviders.session);
-        if (context.mounted) context.go(WelcomeScreen.routerPage);
-      }
     });
   }
 
@@ -106,6 +71,8 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final router = ref.watch(routerProvider);
+
     return MaterialApp.router(
       routerConfig: router,
       title: 'aeSwap',

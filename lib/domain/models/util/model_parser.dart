@@ -287,7 +287,11 @@ mixin ModelParser {
     }
 
     DexToken? rewardToken;
-    if (dexFarmInput == null || dexFarmInput.rewardToken == null) {
+
+    if (getFarmInfosResponse.rewardToken == 'UCO') {
+      rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
+      dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
+    } else {
       final adressesToSearch = <String>[getFarmInfosResponse.rewardToken];
       final tokenResultMap = await aedappfm.sl
           .get<archethic.ApiService>()
@@ -300,25 +304,6 @@ mixin ModelParser {
           symbol: tokenResultMap[getFarmInfosResponse.rewardToken]!.symbol!,
         );
         dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
-      }
-    } else {
-      if (getFarmInfosResponse.rewardToken == 'UCO') {
-        rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
-        dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
-      } else {
-        final adressesToSearch = <String>[getFarmInfosResponse.rewardToken];
-        final tokenResultMap = await aedappfm.sl
-            .get<archethic.ApiService>()
-            .getToken(adressesToSearch);
-
-        if (tokenResultMap[getFarmInfosResponse.rewardToken] != null) {
-          rewardToken = DexToken(
-            address: getFarmInfosResponse.rewardToken.toUpperCase(),
-            name: tokenResultMap[getFarmInfosResponse.rewardToken]!.name!,
-            symbol: tokenResultMap[getFarmInfosResponse.rewardToken]!.symbol!,
-          );
-          dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
-        }
       }
     }
 

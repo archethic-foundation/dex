@@ -66,20 +66,14 @@ class Header extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        ref
-                            .read(navigationIndexMainScreenProvider.notifier)
-                            .state = 0;
-                        context.go(
-                          SwapSheet.routerPage,
-                          extra: <String, dynamic>{},
-                        );
+                        context.go(SwapSheet.routerPage);
                       },
                       child: Text(
                         AppLocalizations.of(context)!.menu_swap,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
-                          color: indexMenu == 0
+                          color: indexMenu == NavigationIndex.swap
                               ? aedappfm.ArchethicThemeBase.raspberry200
                               : aedappfm.ArchethicThemeBase.neutral0,
                         ),
@@ -89,7 +83,7 @@ class Header extends ConsumerWidget {
                       margin: const EdgeInsets.only(top: 5),
                       height: 0.5,
                       width: 70,
-                      color: indexMenu == 0
+                      color: indexMenu == NavigationIndex.swap
                           ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),
@@ -103,9 +97,6 @@ class Header extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        ref
-                            .read(navigationIndexMainScreenProvider.notifier)
-                            .state = 1;
                         context.go(PoolListSheet.routerPage);
                       },
                       child: Text(
@@ -113,7 +104,7 @@ class Header extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
-                          color: indexMenu == 1
+                          color: indexMenu == NavigationIndex.pool
                               ? aedappfm.ArchethicThemeBase.raspberry200
                               : aedappfm.ArchethicThemeBase.neutral0,
                         ),
@@ -123,7 +114,7 @@ class Header extends ConsumerWidget {
                       margin: const EdgeInsets.only(top: 5),
                       height: 0.5,
                       width: 90,
-                      color: indexMenu == 1
+                      color: indexMenu == NavigationIndex.pool
                           ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),
@@ -137,9 +128,6 @@ class Header extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        ref
-                            .read(navigationIndexMainScreenProvider.notifier)
-                            .state = 2;
                         context.go(FarmListSheet.routerPage);
                       },
                       child: Text(
@@ -147,7 +135,7 @@ class Header extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
-                          color: indexMenu == 2
+                          color: indexMenu == NavigationIndex.farm
                               ? aedappfm.ArchethicThemeBase.raspberry200
                               : aedappfm.ArchethicThemeBase.neutral0,
                         ),
@@ -157,7 +145,7 @@ class Header extends ConsumerWidget {
                       margin: const EdgeInsets.only(top: 5),
                       height: 0.5,
                       width: 70,
-                      color: indexMenu == 2
+                      color: indexMenu == NavigationIndex.farm
                           ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),

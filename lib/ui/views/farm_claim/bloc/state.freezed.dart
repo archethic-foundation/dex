@@ -19,7 +19,6 @@ mixin _$FarmClaimFormState {
   ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
-  DexFarm? get dexFarm => throw _privateConstructorUsedError;
   DexFarmUserInfos? get dexFarmUserInfo => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get farmClaimOk => throw _privateConstructorUsedError;
@@ -27,6 +26,9 @@ mixin _$FarmClaimFormState {
   Transaction? get transactionClaimFarm => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
+  String? get farmAddress => throw _privateConstructorUsedError;
+  DexToken? get rewardToken => throw _privateConstructorUsedError;
+  String? get lpTokenAddress => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FarmClaimFormStateCopyWith<FarmClaimFormState> get copyWith =>
@@ -43,19 +45,21 @@ abstract class $FarmClaimFormStateCopyWith<$Res> {
       {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
-      DexFarm? dexFarm,
       DexFarmUserInfos? dexFarmUserInfo,
       bool isProcessInProgress,
       bool farmClaimOk,
       bool walletConfirmation,
       Transaction? transactionClaimFarm,
       Failure? failure,
-      double? finalAmount});
+      double? finalAmount,
+      String? farmAddress,
+      DexToken? rewardToken,
+      String? lpTokenAddress});
 
-  $DexFarmCopyWith<$Res>? get dexFarm;
   $DexFarmUserInfosCopyWith<$Res>? get dexFarmUserInfo;
   $TransactionCopyWith<$Res>? get transactionClaimFarm;
   $FailureCopyWith<$Res>? get failure;
+  $DexTokenCopyWith<$Res>? get rewardToken;
 }
 
 /// @nodoc
@@ -74,7 +78,6 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? dexFarm = freezed,
     Object? dexFarmUserInfo = freezed,
     Object? isProcessInProgress = null,
     Object? farmClaimOk = null,
@@ -82,6 +85,9 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     Object? transactionClaimFarm = freezed,
     Object? failure = freezed,
     Object? finalAmount = freezed,
+    Object? farmAddress = freezed,
+    Object? rewardToken = freezed,
+    Object? lpTokenAddress = freezed,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -96,10 +102,6 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      dexFarm: freezed == dexFarm
-          ? _value.dexFarm
-          : dexFarm // ignore: cast_nullable_to_non_nullable
-              as DexFarm?,
       dexFarmUserInfo: freezed == dexFarmUserInfo
           ? _value.dexFarmUserInfo
           : dexFarmUserInfo // ignore: cast_nullable_to_non_nullable
@@ -128,19 +130,19 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
               as double?,
+      farmAddress: freezed == farmAddress
+          ? _value.farmAddress
+          : farmAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rewardToken: freezed == rewardToken
+          ? _value.rewardToken
+          : rewardToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      lpTokenAddress: freezed == lpTokenAddress
+          ? _value.lpTokenAddress
+          : lpTokenAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DexFarmCopyWith<$Res>? get dexFarm {
-    if (_value.dexFarm == null) {
-      return null;
-    }
-
-    return $DexFarmCopyWith<$Res>(_value.dexFarm!, (value) {
-      return _then(_value.copyWith(dexFarm: value) as $Val);
-    });
   }
 
   @override
@@ -178,6 +180,18 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
       return _then(_value.copyWith(failure: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get rewardToken {
+    if (_value.rewardToken == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.rewardToken!, (value) {
+      return _then(_value.copyWith(rewardToken: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -192,23 +206,25 @@ abstract class _$$FarmClaimFormStateImplCopyWith<$Res>
       {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
-      DexFarm? dexFarm,
       DexFarmUserInfos? dexFarmUserInfo,
       bool isProcessInProgress,
       bool farmClaimOk,
       bool walletConfirmation,
       Transaction? transactionClaimFarm,
       Failure? failure,
-      double? finalAmount});
+      double? finalAmount,
+      String? farmAddress,
+      DexToken? rewardToken,
+      String? lpTokenAddress});
 
-  @override
-  $DexFarmCopyWith<$Res>? get dexFarm;
   @override
   $DexFarmUserInfosCopyWith<$Res>? get dexFarmUserInfo;
   @override
   $TransactionCopyWith<$Res>? get transactionClaimFarm;
   @override
   $FailureCopyWith<$Res>? get failure;
+  @override
+  $DexTokenCopyWith<$Res>? get rewardToken;
 }
 
 /// @nodoc
@@ -225,7 +241,6 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
     Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? dexFarm = freezed,
     Object? dexFarmUserInfo = freezed,
     Object? isProcessInProgress = null,
     Object? farmClaimOk = null,
@@ -233,6 +248,9 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
     Object? transactionClaimFarm = freezed,
     Object? failure = freezed,
     Object? finalAmount = freezed,
+    Object? farmAddress = freezed,
+    Object? rewardToken = freezed,
+    Object? lpTokenAddress = freezed,
   }) {
     return _then(_$FarmClaimFormStateImpl(
       processStep: null == processStep
@@ -247,10 +265,6 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      dexFarm: freezed == dexFarm
-          ? _value.dexFarm
-          : dexFarm // ignore: cast_nullable_to_non_nullable
-              as DexFarm?,
       dexFarmUserInfo: freezed == dexFarmUserInfo
           ? _value.dexFarmUserInfo
           : dexFarmUserInfo // ignore: cast_nullable_to_non_nullable
@@ -279,6 +293,18 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
           ? _value.finalAmount
           : finalAmount // ignore: cast_nullable_to_non_nullable
               as double?,
+      farmAddress: freezed == farmAddress
+          ? _value.farmAddress
+          : farmAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rewardToken: freezed == rewardToken
+          ? _value.rewardToken
+          : rewardToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      lpTokenAddress: freezed == lpTokenAddress
+          ? _value.lpTokenAddress
+          : lpTokenAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -290,14 +316,16 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
-      this.dexFarm,
       this.dexFarmUserInfo,
       this.isProcessInProgress = false,
       this.farmClaimOk = false,
       this.walletConfirmation = false,
       this.transactionClaimFarm,
       this.failure,
-      this.finalAmount})
+      this.finalAmount,
+      this.farmAddress,
+      this.rewardToken,
+      this.lpTokenAddress})
       : super._();
 
   @override
@@ -309,8 +337,6 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   @override
   @JsonKey()
   final int currentStep;
-  @override
-  final DexFarm? dexFarm;
   @override
   final DexFarmUserInfos? dexFarmUserInfo;
   @override
@@ -328,10 +354,16 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   final Failure? failure;
   @override
   final double? finalAmount;
+  @override
+  final String? farmAddress;
+  @override
+  final DexToken? rewardToken;
+  @override
+  final String? lpTokenAddress;
 
   @override
   String toString() {
-    return 'FarmClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarm: $dexFarm, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount)';
+    return 'FarmClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount, farmAddress: $farmAddress, rewardToken: $rewardToken, lpTokenAddress: $lpTokenAddress)';
   }
 
   @override
@@ -345,7 +377,6 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
-            (identical(other.dexFarm, dexFarm) || other.dexFarm == dexFarm) &&
             (identical(other.dexFarmUserInfo, dexFarmUserInfo) ||
                 other.dexFarmUserInfo == dexFarmUserInfo) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
@@ -358,7 +389,13 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
                 other.transactionClaimFarm == transactionClaimFarm) &&
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.finalAmount, finalAmount) ||
-                other.finalAmount == finalAmount));
+                other.finalAmount == finalAmount) &&
+            (identical(other.farmAddress, farmAddress) ||
+                other.farmAddress == farmAddress) &&
+            (identical(other.rewardToken, rewardToken) ||
+                other.rewardToken == rewardToken) &&
+            (identical(other.lpTokenAddress, lpTokenAddress) ||
+                other.lpTokenAddress == lpTokenAddress));
   }
 
   @override
@@ -367,14 +404,16 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       processStep,
       resumeProcess,
       currentStep,
-      dexFarm,
       dexFarmUserInfo,
       isProcessInProgress,
       farmClaimOk,
       walletConfirmation,
       transactionClaimFarm,
       failure,
-      finalAmount);
+      finalAmount,
+      farmAddress,
+      rewardToken,
+      lpTokenAddress);
 
   @JsonKey(ignore: true)
   @override
@@ -389,14 +428,16 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
       {final ProcessStep processStep,
       final bool resumeProcess,
       final int currentStep,
-      final DexFarm? dexFarm,
       final DexFarmUserInfos? dexFarmUserInfo,
       final bool isProcessInProgress,
       final bool farmClaimOk,
       final bool walletConfirmation,
       final Transaction? transactionClaimFarm,
       final Failure? failure,
-      final double? finalAmount}) = _$FarmClaimFormStateImpl;
+      final double? finalAmount,
+      final String? farmAddress,
+      final DexToken? rewardToken,
+      final String? lpTokenAddress}) = _$FarmClaimFormStateImpl;
   const _FarmClaimFormState._() : super._();
 
   @override
@@ -405,8 +446,6 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   bool get resumeProcess;
   @override
   int get currentStep;
-  @override
-  DexFarm? get dexFarm;
   @override
   DexFarmUserInfos? get dexFarmUserInfo;
   @override
@@ -421,6 +460,12 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   Failure? get failure;
   @override
   double? get finalAmount;
+  @override
+  String? get farmAddress;
+  @override
+  DexToken? get rewardToken;
+  @override
+  String? get lpTokenAddress;
   @override
   @JsonKey(ignore: true)
   _$$FarmClaimFormStateImplCopyWith<_$FarmClaimFormStateImpl> get copyWith =>

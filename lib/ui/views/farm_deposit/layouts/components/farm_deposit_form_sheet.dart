@@ -2,7 +2,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_textfield_amount.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -21,7 +20,14 @@ class FarmDepositFormSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
     if (farmDeposit.dexFarmInfo == null) {
-      return const SizedBox.shrink();
+      return const Padding(
+        padding: EdgeInsets.only(top: 80, bottom: 80),
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(strokeWidth: 0.5),
+        ),
+      );
     }
 
     return Expanded(
@@ -131,12 +137,6 @@ class FarmDepositFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                ref
-                                    .read(
-                                      navigationIndexMainScreenProvider
-                                          .notifier,
-                                    )
-                                    .state = 2;
                                 context.go(FarmListSheet.routerPage);
                               },
                             ),

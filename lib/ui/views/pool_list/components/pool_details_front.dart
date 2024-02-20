@@ -1,9 +1,10 @@
+import 'dart:convert';
+
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
@@ -303,17 +304,23 @@ class PoolDetailsFront extends ConsumerWidget {
                     background: aedappfm.ArchethicThemeBase.purple500,
                     labelBtn: 'Swap these tokens',
                     onPressed: () {
-                      ref
-                          .read(
-                            navigationIndexMainScreenProvider.notifier,
-                          )
-                          .state = 0;
+                      final tokenToSwapJson =
+                          jsonEncode(pool.pair.token1.toJson());
+                      final tokenSwappedJson =
+                          jsonEncode(pool.pair.token2.toJson());
+                      final tokenToSwapEncoded =
+                          Uri.encodeComponent(tokenToSwapJson);
+                      final tokenSwappedEncoded =
+                          Uri.encodeComponent(tokenSwappedJson);
+
                       context.go(
-                        SwapSheet.routerPage,
-                        extra: {
-                          'tokenToSwap': pool.pair.token1,
-                          'tokenSwapped': pool.pair.token2,
-                        },
+                        Uri(
+                          path: SwapSheet.routerPage,
+                          queryParameters: {
+                            'tokenToSwap': tokenToSwapEncoded,
+                            'tokenSwapped': tokenSwappedEncoded,
+                          },
+                        ).toString(),
                       );
                     },
                   ),
@@ -328,17 +335,18 @@ class PoolDetailsFront extends ConsumerWidget {
                           controlOk: true,
                           labelBtn: 'Add Liquidity',
                           onPressed: () {
-                            ref
-                                .read(
-                                  navigationIndexMainScreenProvider.notifier,
-                                )
-                                .state = 1;
+                            final poolJson = jsonEncode(pool.toJson());
+                            final pairJson = jsonEncode(pool.pair.toJson());
+                            final poolEncoded = Uri.encodeComponent(poolJson);
+                            final pairEncoded = Uri.encodeComponent(pairJson);
                             context.go(
-                              LiquidityAddSheet.routerPage,
-                              extra: {
-                                'pool': pool,
-                                'pair': pool.pair,
-                              },
+                              Uri(
+                                path: LiquidityAddSheet.routerPage,
+                                queryParameters: {
+                                  'pool': poolEncoded,
+                                  'pair': pairEncoded,
+                                },
+                              ).toString(),
                             );
                           },
                           isConnected:
@@ -380,18 +388,23 @@ class PoolDetailsFront extends ConsumerWidget {
                           controlOk: pool.lpTokenInUserBalance,
                           labelBtn: 'Remove liquidity',
                           onPressed: () {
-                            ref
-                                .read(
-                                  navigationIndexMainScreenProvider.notifier,
-                                )
-                                .state = 1;
+                            final poolJson = jsonEncode(pool.toJson());
+                            final pairJson = jsonEncode(pool.pair.toJson());
+                            final lpTokenJson =
+                                jsonEncode(pool.lpToken.toJson());
+                            final poolEncoded = Uri.encodeComponent(poolJson);
+                            final pairEncoded = Uri.encodeComponent(pairJson);
+                            final lpTokenEncoded =
+                                Uri.encodeComponent(lpTokenJson);
                             context.go(
-                              LiquidityRemoveSheet.routerPage,
-                              extra: {
-                                'pool': pool,
-                                'lpToken': pool.lpToken,
-                                'pair': pool.pair,
-                              },
+                              Uri(
+                                path: LiquidityRemoveSheet.routerPage,
+                                queryParameters: {
+                                  'pool': poolEncoded,
+                                  'pair': pairEncoded,
+                                  'lpToken': lpTokenEncoded,
+                                },
+                              ).toString(),
                             );
                           },
                           isConnected:

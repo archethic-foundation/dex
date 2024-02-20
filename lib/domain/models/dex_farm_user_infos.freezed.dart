@@ -14,11 +14,16 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+DexFarmUserInfos _$DexFarmUserInfosFromJson(Map<String, dynamic> json) {
+  return _DexFarmUserInfos.fromJson(json);
+}
+
 /// @nodoc
 mixin _$DexFarmUserInfos {
   double get depositedAmount => throw _privateConstructorUsedError;
   double get rewardAmount => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DexFarmUserInfosCopyWith<DexFarmUserInfos> get copyWith =>
       throw _privateConstructorUsedError;
@@ -101,11 +106,14 @@ class __$$DexFarmUserInfosImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$DexFarmUserInfosImpl extends _DexFarmUserInfos {
   const _$DexFarmUserInfosImpl(
       {this.depositedAmount = 0.0, this.rewardAmount = 0.0})
       : super._();
+
+  factory _$DexFarmUserInfosImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DexFarmUserInfosImplFromJson(json);
 
   @override
   @JsonKey()
@@ -130,6 +138,7 @@ class _$DexFarmUserInfosImpl extends _DexFarmUserInfos {
                 other.rewardAmount == rewardAmount));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, depositedAmount, rewardAmount);
 
@@ -139,6 +148,13 @@ class _$DexFarmUserInfosImpl extends _DexFarmUserInfos {
   _$$DexFarmUserInfosImplCopyWith<_$DexFarmUserInfosImpl> get copyWith =>
       __$$DexFarmUserInfosImplCopyWithImpl<_$DexFarmUserInfosImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DexFarmUserInfosImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _DexFarmUserInfos extends DexFarmUserInfos {
@@ -146,6 +162,9 @@ abstract class _DexFarmUserInfos extends DexFarmUserInfos {
       {final double depositedAmount,
       final double rewardAmount}) = _$DexFarmUserInfosImpl;
   const _DexFarmUserInfos._() : super._();
+
+  factory _DexFarmUserInfos.fromJson(Map<String, dynamic> json) =
+      _$DexFarmUserInfosImpl.fromJson;
 
   @override
   double get depositedAmount;

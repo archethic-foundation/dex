@@ -2,7 +2,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_textfield_amount.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
@@ -22,10 +21,17 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
-    if (farmWithdraw.dexFarmInfo == null) {
-      return const SizedBox.shrink();
+    if (farmWithdraw.dexFarmInfo == null ||
+        farmWithdraw.dexFarmUserInfo == null) {
+      return const Padding(
+        padding: EdgeInsets.only(top: 120, bottom: 120),
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(strokeWidth: 0.5),
+        ),
+      );
     }
-
     return Expanded(
       child: Column(
         children: [
@@ -162,12 +168,6 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                ref
-                                    .read(
-                                      navigationIndexMainScreenProvider
-                                          .notifier,
-                                    )
-                                    .state = 2;
                                 context.go(FarmListSheet.routerPage);
                               },
                             ),

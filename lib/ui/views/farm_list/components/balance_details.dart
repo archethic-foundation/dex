@@ -89,8 +89,29 @@ class _BalanceDetails extends ConsumerWidget {
                   controlOk: balance != null && balance > 0,
                   labelBtn: 'Deposit LP Tokens',
                   onPressed: () {
-                    context
-                        .go(FarmDepositSheet.routerPage, extra: {'farm': farm});
+                    final farmAddressJson = jsonEncode(farm.farmAddress);
+                    final farmAddressEncoded =
+                        Uri.encodeComponent(farmAddressJson);
+
+                    final lpTokenAddressJson =
+                        jsonEncode(farm.lpToken!.address);
+                    final lpTokenAddressEncoded =
+                        Uri.encodeComponent(lpTokenAddressJson);
+
+                    final poolAddressJson = jsonEncode(farm.poolAddress);
+                    final poolAddressEncoded =
+                        Uri.encodeComponent(poolAddressJson);
+
+                    context.go(
+                      Uri(
+                        path: FarmDepositSheet.routerPage,
+                        queryParameters: {
+                          'farmAddress': farmAddressEncoded,
+                          'lpTokenAddress': lpTokenAddressEncoded,
+                          'poolAddress': poolAddressEncoded,
+                        },
+                      ).toString(),
+                    );
                   },
                   displayWalletConnect: true,
                   isConnected: session.isConnected,
@@ -134,11 +155,33 @@ class _BalanceDetails extends ConsumerWidget {
                         controlOk: farm.lpTokenDeposited > 0,
                         labelBtn: 'Withdraw',
                         onPressed: () {
+                          final farmAddressJson = jsonEncode(farm.farmAddress);
+                          final farmAddressEncoded =
+                              Uri.encodeComponent(farmAddressJson);
+
+                          final rewardTokenJson = jsonEncode(farm.rewardToken);
+                          final rewardTokenEncoded =
+                              Uri.encodeComponent(rewardTokenJson);
+
+                          final lpTokenAddressJson =
+                              jsonEncode(farm.lpToken!.address);
+                          final lpTokenAddressEncoded =
+                              Uri.encodeComponent(lpTokenAddressJson);
+
+                          final poolAddressJson = jsonEncode(farm.poolAddress);
+                          final poolAddressEncoded =
+                              Uri.encodeComponent(poolAddressJson);
+
                           context.go(
-                            FarmWithdrawSheet.routerPage,
-                            extra: {
-                              'farm': farm,
-                            },
+                            Uri(
+                              path: FarmWithdrawSheet.routerPage,
+                              queryParameters: {
+                                'farmAddress': farmAddressEncoded,
+                                'rewardToken': rewardTokenEncoded,
+                                'lpTokenAddress': lpTokenAddressEncoded,
+                                'poolAddress': poolAddressEncoded,
+                              },
+                            ).toString(),
                           );
                         },
                         isConnected: session.isConnected,
@@ -176,18 +219,34 @@ class _BalanceDetails extends ConsumerWidget {
                     Expanded(
                       child: aedappfm.ButtonValidate(
                         background: aedappfm.ArchethicThemeBase.purple500,
-                        controlOk: true,
+                        controlOk: farm.remainingReward > 0,
                         labelBtn: 'Claim',
                         onPressed: () async {
-                          final farmUserInfo = await ref
-                              .read(FarmListProvider.userInfos(farm).future);
                           if (context.mounted) {
+                            final farmAddressJson =
+                                jsonEncode(farm.farmAddress);
+                            final farmAddressEncoded =
+                                Uri.encodeComponent(farmAddressJson);
+
+                            final rewardTokenJson =
+                                jsonEncode(farm.rewardToken);
+                            final rewardTokenEncoded =
+                                Uri.encodeComponent(rewardTokenJson);
+
+                            final lpTokenAddressJson =
+                                jsonEncode(farm.lpToken!.address);
+                            final lpTokenAddressEncoded =
+                                Uri.encodeComponent(lpTokenAddressJson);
+
                             context.go(
-                              FarmClaimSheet.routerPage,
-                              extra: {
-                                'farmUserInfo': farmUserInfo,
-                                'farm': farm,
-                              },
+                              Uri(
+                                path: FarmClaimSheet.routerPage,
+                                queryParameters: {
+                                  'farmAddress': farmAddressEncoded,
+                                  'rewardToken': rewardTokenEncoded,
+                                  'lpTokenAddress': lpTokenAddressEncoded,
+                                },
+                              ).toString(),
                             );
                           }
                         },

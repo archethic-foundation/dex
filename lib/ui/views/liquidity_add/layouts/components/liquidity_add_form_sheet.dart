@@ -4,7 +4,6 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_ic
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_infos.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
@@ -268,12 +267,6 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                ref
-                                    .read(
-                                      navigationIndexMainScreenProvider
-                                          .notifier,
-                                    )
-                                    .state = 1;
                                 context.go(PoolListSheet.routerPage);
                               },
                             ),

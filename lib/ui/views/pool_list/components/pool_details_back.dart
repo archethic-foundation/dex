@@ -311,9 +311,11 @@ class PoolDetailsBack extends ConsumerWidget {
                                         if (pool.lpToken.supply > 0) {
                                           percentage = (Decimal.parse('100') *
                                                   Decimal.parse(
-                                                      '${snapshot.data!}') /
+                                                    '${snapshot.data!}',
+                                                  ) /
                                                   Decimal.parse(
-                                                      '${pool.lpToken.supply}'))
+                                                    '${pool.lpToken.supply}',
+                                                  ))
                                               .toDouble();
                                         }
                                         return Column(

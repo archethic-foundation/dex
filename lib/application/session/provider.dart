@@ -68,35 +68,60 @@ class _SessionNotifier extends Notifier<Session> {
       state = state.copyWith(
         isConnected: false,
         error: '',
+        endpoint: '',
+        genesisAddress: '',
+        nameAccount: '',
       );
       awc.ArchethicDAppClient? archethicDAppClient;
       try {
-        archethicDAppClient = awc.ArchethicDAppClient.auto(
+        archethicDAppClient = awc.ArchethicDAppClient.websocket(
           origin: const awc.RequestOrigin(
             name: 'aeSwap',
           ),
-          replyBaseUrl: 'aeswap://archethic.tech',
         );
-      } catch (e, stackTrace) {
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              '$e',
-              stackTrace: stackTrace,
-              level: aedappfm.LogLevel.error,
-              name: '_SessionNotifier - connectToWallet',
-            );
+      } catch (e) {
         throw const aedappfm.Failure.connectivityArchethic();
       }
 
+      await archethicDAppClient.connect();
       final endpointResponse = await archethicDAppClient.getEndpoint();
-
       await endpointResponse.when(
         failure: (failure) {
           _handleConnectionFailure(isBrave);
         },
         success: (result) async {
-          state = state.copyWith(endpoint: result.endpointUrl);
+          state = state.copyWith(
+            endpoint: result.endpointUrl,
+            isConnected: true,
+          );
+          if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
+            aedappfm.sl.unregister<awc.ArchethicDAppClient>();
+          }
+          aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
+            () => archethicDAppClient!,
+          );
+
+          if (aedappfm.sl.isRegistered<ApiService>()) {
+            aedappfm.sl.unregister<ApiService>();
+          }
+
+          setupServiceLocatorApiService(result.endpointUrl);
+
+          final currentAccountResponse =
+              await archethicDAppClient!.getCurrentAccount();
+          currentAccountResponse.when(
+            success: (currentAccount) {
+              state = state.copyWith(
+                oldNameAccount: state.nameAccount,
+                genesisAddress: currentAccount.genesisAddress,
+                nameAccount: currentAccount.shortName,
+              );
+            },
+            failure: (_) {},
+          );
+
           connectionStatusSubscription =
-              archethicDAppClient!.connectionStateStream.listen((event) {
+              archethicDAppClient.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
                 state = state.copyWith(
@@ -114,28 +139,10 @@ class _SessionNotifier extends Notifier<Session> {
                   error: '',
                 );
               },
-              connecting: () {
-                state = state.copyWith(
-                  endpoint: '',
-                  error: '',
-                  genesisAddress: '',
-                  nameAccount: '',
-                  oldNameAccount: '',
-                  isConnected: false,
-                );
-              },
+              connecting: () {},
             );
           });
-          if (aedappfm.sl.isRegistered<ApiService>()) {
-            aedappfm.sl.unregister<ApiService>();
-          }
-          if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
-            aedappfm.sl.unregister<awc.ArchethicDAppClient>();
-          }
-          aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
-            () => archethicDAppClient!,
-          );
-          setupServiceLocatorApiService(result.endpointUrl);
+
           final subscription =
               await archethicDAppClient.subscribeCurrentAccount();
 

@@ -5,12 +5,15 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_form_sheet.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LiquidityRemoveSheet extends ConsumerStatefulWidget {
   const LiquidityRemoveSheet({
@@ -35,13 +38,28 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
-        ..setPool(widget.pool)
-        ..setToken1(widget.pair.token1)
-        ..setToken2(widget.pair.token2)
-        ..setLpToken(widget.lpToken)
-        ..initBalance();
+    Future.delayed(Duration.zero, () async {
+      try {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.pool;
+
+        ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
+          ..setToken1(widget.pair.token1)
+          ..setToken2(widget.pair.token2)
+          ..setLpToken(widget.lpToken);
+
+        // ignore: cascade_invocations
+        await ref
+            .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
+            .setPool(widget.pool);
+        await ref
+            .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
+            .initBalance();
+      } catch (e) {
+        if (mounted) {
+          context.go(PoolListSheet.routerPage);
+        }
+      }
     });
   }
 

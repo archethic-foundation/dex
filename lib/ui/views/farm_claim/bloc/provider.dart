@@ -1,5 +1,5 @@
-import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/claim_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -33,9 +33,21 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
     );
   }
 
-  void setDexFarm(DexFarm dexFarm) {
+  void setFarmAddress(String farmAddress) {
     state = state.copyWith(
-      dexFarm: dexFarm,
+      farmAddress: farmAddress,
+    );
+  }
+
+  void setRewardToken(DexToken rewardToken) {
+    state = state.copyWith(
+      rewardToken: rewardToken,
+    );
+  }
+
+  void setLpTokenAddress(String lpTokenAddress) {
+    state = state.copyWith(
+      lpTokenAddress: lpTokenAddress,
     );
   }
 
@@ -110,7 +122,7 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
       return;
     }
 
-    await ClaimFarmCase().run(ref, state.dexFarm!.farmAddress);
+    await ClaimFarmCase().run(ref, state.farmAddress!);
   }
 }
 

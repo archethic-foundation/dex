@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_final_amount.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_in_progress_tx_addresses.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -99,11 +98,6 @@ class FarmWithdrawInProgressPopup {
           ..setFailure(null)
           ..setFarmWithdrawOk(false)
           ..setWalletConfirmation(false);
-        ref
-            .read(
-              navigationIndexMainScreenProvider.notifier,
-            )
-            .state = 2;
         final session = ref.read(SessionProviders.session);
         final _farmWithdraw =
             ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
@@ -120,11 +114,6 @@ class FarmWithdrawInProgressPopup {
           ..invalidate(
             FarmListProvider.balance(
               _farmWithdraw.dexFarmInfo!.lpToken!.address,
-            ),
-          )
-          ..invalidate(
-            FarmListProvider.userInfos(
-              _farmWithdraw.dexFarmInfo!,
             ),
           );
         context.go(FarmListSheet.routerPage);

@@ -38,7 +38,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "2e0efa86a9c2f86a8a9a5a5003333e301cb9536c"
+      resolved-ref: "554357f141f483977dbb65c14bb4b9483dcaeff7"
       url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
     source: git
     version: "0.0.1+1"
