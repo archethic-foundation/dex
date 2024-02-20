@@ -10,6 +10,7 @@ import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SwapSheet extends ConsumerStatefulWidget {
   const SwapSheet({
@@ -32,15 +33,21 @@ class _SwapSheetState extends ConsumerState<SwapSheet> {
   void initState() {
     if (widget.tokenToSwap != null && widget.tokenSwapped != null) {
       Future.delayed(Duration.zero, () async {
-        ref.read(navigationIndexMainScreenProvider.notifier).state =
-            NavigationIndex.swap;
+        try {
+          ref.read(navigationIndexMainScreenProvider.notifier).state =
+              NavigationIndex.swap;
 
-        await ref
-            .read(SwapFormProvider.swapForm.notifier)
-            .setTokenToSwap(widget.tokenToSwap!);
-        await ref
-            .read(SwapFormProvider.swapForm.notifier)
-            .setTokenSwapped(widget.tokenSwapped!);
+          await ref
+              .read(SwapFormProvider.swapForm.notifier)
+              .setTokenToSwap(widget.tokenToSwap!);
+          await ref
+              .read(SwapFormProvider.swapForm.notifier)
+              .setTokenSwapped(widget.tokenSwapped!);
+        } catch (e) {
+          if (mounted) {
+            context.go(SwapSheet.routerPage);
+          }
+        }
       });
     }
     super.initState();

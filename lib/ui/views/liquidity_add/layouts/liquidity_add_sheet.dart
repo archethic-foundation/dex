@@ -6,11 +6,13 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_co
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LiquidityAddSheet extends ConsumerStatefulWidget {
   const LiquidityAddSheet({
@@ -33,22 +35,28 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      ref.read(navigationIndexMainScreenProvider.notifier).state =
-          NavigationIndex.pool;
+      try {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.pool;
 
-      ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-        ..setToken1(widget.pair.token1)
-        ..setToken2(widget.pair.token2);
+        ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+          ..setToken1(widget.pair.token1)
+          ..setToken2(widget.pair.token2);
 
-      await ref
-          .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-          .setPool(widget.pool);
-      await ref
-          .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-          .initBalances();
-      await ref
-          .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-          .initRatio();
+        await ref
+            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+            .setPool(widget.pool);
+        await ref
+            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+            .initBalances();
+        await ref
+            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+            .initRatio();
+      } catch (e) {
+        if (mounted) {
+          context.go(PoolListSheet.routerPage);
+        }
+      }
     });
   }
 

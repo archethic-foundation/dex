@@ -35,33 +35,39 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      ref.read(navigationIndexMainScreenProvider.notifier).state =
-          NavigationIndex.farm;
+      try {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.farm;
 
-      final farmInfo = await ref.read(
-        DexFarmProviders.getFarmInfos(
-          widget.farmAddress,
-          widget.poolAddress,
-          dexFarmInput: DexFarm(
-            poolAddress: widget.poolAddress,
-            farmAddress: widget.farmAddress,
-          ),
-        ).future,
-      );
+        final farmInfo = await ref.read(
+          DexFarmProviders.getFarmInfos(
+            widget.farmAddress,
+            widget.poolAddress,
+            dexFarmInput: DexFarm(
+              poolAddress: widget.poolAddress,
+              farmAddress: widget.farmAddress,
+            ),
+          ).future,
+        );
 
-      if (farmInfo == null) {
+        if (farmInfo == null) {
+          if (mounted) {
+            context.go(FarmListSheet.routerPage);
+          }
+        } else {
+          ref
+              .read(FarmDepositFormProvider.farmDepositForm.notifier)
+              .setDexFarmInfo(farmInfo);
+        }
+
+        await ref
+            .read(FarmDepositFormProvider.farmDepositForm.notifier)
+            .initBalances();
+      } catch (e) {
         if (mounted) {
           context.go(FarmListSheet.routerPage);
         }
-      } else {
-        ref
-            .read(FarmDepositFormProvider.farmDepositForm.notifier)
-            .setDexFarmInfo(farmInfo);
       }
-
-      await ref
-          .read(FarmDepositFormProvider.farmDepositForm.notifier)
-          .initBalances();
     });
   }
 

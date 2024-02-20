@@ -41,56 +41,62 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      ref.read(navigationIndexMainScreenProvider.notifier).state =
-          NavigationIndex.farm;
+      try {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.farm;
 
-      ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
-        ..setFarmAddress(widget.farmAddress)
-        ..setRewardToken(widget.rewardToken)
-        ..setLpTokenAddress(widget.lpTokenAddress);
+        ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+          ..setFarmAddress(widget.farmAddress)
+          ..setRewardToken(widget.rewardToken)
+          ..setLpTokenAddress(widget.lpTokenAddress);
 
-      final farmInfo = await ref.read(
-        DexFarmProviders.getFarmInfos(
-          widget.farmAddress,
-          widget.poolAddress,
-          dexFarmInput: DexFarm(
-            poolAddress: widget.poolAddress,
-            farmAddress: widget.farmAddress,
-          ),
-        ).future,
-      );
+        final farmInfo = await ref.read(
+          DexFarmProviders.getFarmInfos(
+            widget.farmAddress,
+            widget.poolAddress,
+            dexFarmInput: DexFarm(
+              poolAddress: widget.poolAddress,
+              farmAddress: widget.farmAddress,
+            ),
+          ).future,
+        );
 
-      if (farmInfo == null) {
+        if (farmInfo == null) {
+          if (mounted) {
+            context.go(FarmListSheet.routerPage);
+          }
+        } else {
+          ref
+              .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+              .setDexFarmInfo(farmInfo);
+        }
+
+        final session = ref.read(SessionProviders.session);
+        if (session.genesisAddress.isEmpty) {
+          if (mounted) {
+            context.go(FarmListSheet.routerPage);
+          }
+        }
+
+        final farmUserInfo = await ref.read(
+          DexFarmProviders.getUserInfos(
+            widget.farmAddress,
+            session.genesisAddress,
+          ).future,
+        );
+        if (farmUserInfo == null) {
+          if (mounted) {
+            context.go(FarmListSheet.routerPage);
+          }
+        } else {
+          ref
+              .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+              .setDexFarmUserInfo(farmUserInfo);
+        }
+      } catch (e) {
         if (mounted) {
           context.go(FarmListSheet.routerPage);
         }
-      } else {
-        ref
-            .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
-            .setDexFarmInfo(farmInfo);
-      }
-
-      final session = ref.read(SessionProviders.session);
-      if (session.genesisAddress.isEmpty) {
-        if (mounted) {
-          context.go(FarmListSheet.routerPage);
-        }
-      }
-
-      final farmUserInfo = await ref.read(
-        DexFarmProviders.getUserInfos(
-          widget.farmAddress,
-          session.genesisAddress,
-        ).future,
-      );
-      if (farmUserInfo == null) {
-        if (mounted) {
-          context.go(FarmListSheet.routerPage);
-        }
-      } else {
-        ref
-            .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
-            .setDexFarmUserInfo(farmUserInfo);
       }
     });
   }

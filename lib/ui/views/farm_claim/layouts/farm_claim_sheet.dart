@@ -37,35 +37,41 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      ref.read(navigationIndexMainScreenProvider.notifier).state =
-          NavigationIndex.farm;
+      try {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.farm;
 
-      ref.read(FarmClaimFormProvider.farmClaimForm.notifier)
-        ..setFarmAddress(widget.farmAddress)
-        ..setRewardToken(widget.rewardToken)
-        ..setLpTokenAddress(widget.lpTokenAddress);
+        ref.read(FarmClaimFormProvider.farmClaimForm.notifier)
+          ..setFarmAddress(widget.farmAddress)
+          ..setRewardToken(widget.rewardToken)
+          ..setLpTokenAddress(widget.lpTokenAddress);
 
-      final session = ref.read(SessionProviders.session);
-      if (session.genesisAddress.isEmpty) {
+        final session = ref.read(SessionProviders.session);
+        if (session.genesisAddress.isEmpty) {
+          if (mounted) {
+            context.go(FarmListSheet.routerPage);
+          }
+        }
+
+        final farmUserInfo = await ref.read(
+          DexFarmProviders.getUserInfos(
+            widget.farmAddress,
+            session.genesisAddress,
+          ).future,
+        );
+        if (farmUserInfo == null) {
+          if (mounted) {
+            context.go(FarmListSheet.routerPage);
+          }
+        } else {
+          ref
+              .read(FarmClaimFormProvider.farmClaimForm.notifier)
+              .setDexFarmUserInfo(farmUserInfo);
+        }
+      } catch (e) {
         if (mounted) {
           context.go(FarmListSheet.routerPage);
         }
-      }
-
-      final farmUserInfo = await ref.read(
-        DexFarmProviders.getUserInfos(
-          widget.farmAddress,
-          session.genesisAddress,
-        ).future,
-      );
-      if (farmUserInfo == null) {
-        if (mounted) {
-          context.go(FarmListSheet.routerPage);
-        }
-      } else {
-        ref
-            .read(FarmClaimFormProvider.farmClaimForm.notifier)
-            .setDexFarmUserInfo(farmUserInfo);
       }
     });
   }
