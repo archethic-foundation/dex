@@ -20,11 +20,15 @@ class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
     with aedappfm.TransactionMixin {
   double? finalAmount;
   Timer? timer;
+  Timer? timeoutTimer;
+  bool? timeout;
 
   @override
   void initState() {
+    timeout = false;
     super.initState();
     startTimer();
+    startTimeoutTimer();
   }
 
   void startTimer() {
@@ -49,9 +53,17 @@ class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
     });
   }
 
+  void startTimeoutTimer() {
+    timeoutTimer = Timer(const Duration(minutes: 1), () {
+      timeout = true;
+      timer?.cancel();
+    });
+  }
+
   @override
   void dispose() {
     timer?.cancel();
+    timeoutTimer?.cancel();
     super.dispose();
   }
 
@@ -65,17 +77,21 @@ class _FarmClaimFinalAmountState extends ConsumerState<FarmClaimFinalAmount>
         ? SelectableText(
             'Amount claimed: ${finalAmount!.formatNumber(precision: 8)} ${farmClaim.rewardToken!.symbol}',
           )
-        : const Row(
-            children: [
-              SelectableText(
-                'Amount claimed: ',
-              ),
-              SizedBox(
-                height: 10,
-                width: 10,
-                child: CircularProgressIndicator(strokeWidth: 1),
-              ),
-            ],
-          );
+        : timeout == false
+            ? const Row(
+                children: [
+                  SelectableText(
+                    'Amount claimed: ',
+                  ),
+                  SizedBox(
+                    height: 10,
+                    width: 10,
+                    child: CircularProgressIndicator(strokeWidth: 1),
+                  ),
+                ],
+              )
+            : const SelectableText(
+                'Amount claimed: The amount could not be recovered',
+              );
   }
 }

@@ -21,11 +21,15 @@ class _FarmWithdrawFinalAmountState
   double? finalAmountReward;
   double? finalAmountWithdraw;
   Timer? timer;
+  Timer? timeoutTimer;
+  bool? timeout;
 
   @override
   void initState() {
+    timeout = false;
     super.initState();
     startTimer();
+    startTimeoutTimer();
   }
 
   void startTimer() {
@@ -61,9 +65,17 @@ class _FarmWithdrawFinalAmountState
     });
   }
 
+  void startTimeoutTimer() {
+    timeoutTimer = Timer(const Duration(minutes: 1), () {
+      timeout = true;
+      timer?.cancel();
+    });
+  }
+
   @override
   void dispose() {
     timer?.cancel();
+    timeoutTimer?.cancel();
     super.dispose();
   }
 
@@ -80,7 +92,7 @@ class _FarmWithdrawFinalAmountState
           SelectableText(
             'Amount withdrawed: ${finalAmountWithdraw!.formatNumber(precision: 8)} ${finalAmountWithdraw! > 1 ? 'LP Tokens' : 'LP Token'}',
           )
-        else
+        else if (timeout == false)
           const Row(
             children: [
               SelectableText(
@@ -92,12 +104,16 @@ class _FarmWithdrawFinalAmountState
                 child: CircularProgressIndicator(strokeWidth: 1),
               ),
             ],
+          )
+        else
+          const SelectableText(
+            'Amount withdrawed: The amount could not be recovered',
           ),
         if (finalAmountReward != null)
           SelectableText(
             'Amount rewarded: ${finalAmountReward!.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
           )
-        else
+        else if (timeout == false)
           const Row(
             children: [
               SelectableText(
@@ -109,6 +125,10 @@ class _FarmWithdrawFinalAmountState
                 child: CircularProgressIndicator(strokeWidth: 1),
               ),
             ],
+          )
+        else
+          const SelectableText(
+            'Amount rewarded: The amount could not be recovered',
           ),
       ],
     );
