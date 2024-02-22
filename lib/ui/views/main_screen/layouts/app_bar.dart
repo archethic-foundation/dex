@@ -1,8 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/preferences.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
@@ -13,7 +11,6 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:uuid/uuid.dart';
 
 class AppBarMainScreen extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
@@ -52,32 +49,6 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
         leading: const Header(),
         leadingWidth: MediaQuery.of(context).size.width,
         actions: [
-          TextButton(
-            onPressed: () {
-              ref.read(NotificationProviders.notificationService).start(
-                    const Uuid().v4(),
-                    const DexNotification(actionType: DexActionType.swap),
-                  );
-            },
-            child: const Text('plus'),
-          ),
-          TextButton(
-            onPressed: () {
-              final service =
-                  ref.read(NotificationProviders.notificationService);
-              final task = ref
-                  .read(NotificationProviders.runningTasks)
-                  .valueOrNull
-                  ?.firstOrNull;
-              if (task == null) return;
-
-              service.failed(
-                task.id,
-                const aedappfm.Failure.chainSwitchNotSupported(),
-              );
-            },
-            child: const Text('moins'),
-          ),
           const ConnectionToWalletStatus(),
           const SizedBox(
             width: 10,
