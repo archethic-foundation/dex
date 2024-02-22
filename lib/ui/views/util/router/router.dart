@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
+import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
@@ -28,45 +29,64 @@ final routerProvider = Provider<GoRouter>(
       initialLocation: SwapSheet.routerPage,
       debugLogDiagnostics: true,
       routes: [
-        GoRoute(
-          path: SwapSheet.routerPage,
-          pageBuilder: (context, state) {
-            DexToken? tokenToSwap;
-            DexToken? tokenSwapped;
-            final tokenToSwapEncoded = state.uri.queryParameters['tokenToSwap'];
-            final tokenSwappedEncoded =
-                state.uri.queryParameters['tokenSwapped'];
-            if (tokenToSwapEncoded != null) {
-              final tokenToSwapJson = Uri.decodeComponent(tokenToSwapEncoded);
-              tokenToSwap = DexToken.fromJson(jsonDecode(tokenToSwapJson));
-            }
-            if (tokenSwappedEncoded != null) {
-              final tokenSwappedJson = Uri.decodeComponent(tokenSwappedEncoded);
-              tokenSwapped = DexToken.fromJson(jsonDecode(tokenSwappedJson));
-            }
-            return NoTransitionPage(
-              child: SwapSheet(
-                tokenToSwap: tokenToSwap,
-                tokenSwapped: tokenSwapped,
-              ),
-            );
+        ShellRoute(
+          builder: (context, state, child) {
+            return TasksNotificationWidget(child: child);
           },
-        ),
-        GoRoute(
-          path: '/',
-          pageBuilder: (context, state) {
-            return const NoTransitionPage(
-              child: SwapSheet(),
-            );
-          },
-        ),
-        GoRoute(
-          path: PoolListSheet.routerPage,
-          pageBuilder: (context, state) {
-            return const NoTransitionPage(
-              child: PoolListSheet(),
-            );
-          },
+          routes: [
+            GoRoute(
+              path: SwapSheet.routerPage,
+              pageBuilder: (context, state) {
+                DexToken? tokenToSwap;
+                DexToken? tokenSwapped;
+                final tokenToSwapEncoded =
+                    state.uri.queryParameters['tokenToSwap'];
+                final tokenSwappedEncoded =
+                    state.uri.queryParameters['tokenSwapped'];
+                if (tokenToSwapEncoded != null) {
+                  final tokenToSwapJson =
+                      Uri.decodeComponent(tokenToSwapEncoded);
+                  tokenToSwap = DexToken.fromJson(jsonDecode(tokenToSwapJson));
+                }
+                if (tokenSwappedEncoded != null) {
+                  final tokenSwappedJson =
+                      Uri.decodeComponent(tokenSwappedEncoded);
+                  tokenSwapped =
+                      DexToken.fromJson(jsonDecode(tokenSwappedJson));
+                }
+                return NoTransitionPage(
+                  child: SwapSheet(
+                    tokenToSwap: tokenToSwap,
+                    tokenSwapped: tokenSwapped,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: '/',
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: SwapSheet(),
+                );
+              },
+            ),
+            GoRoute(
+              path: PoolListSheet.routerPage,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: PoolListSheet(),
+                );
+              },
+            ),
+            GoRoute(
+              path: FarmListSheet.routerPage,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: FarmListSheet(),
+                );
+              },
+            ),
+          ],
         ),
         GoRoute(
           path: PoolAddSheet.routerPage,
@@ -159,14 +179,6 @@ final routerProvider = Provider<GoRouter>(
                 pair: pair,
                 lpToken: lpToken,
               ),
-            );
-          },
-        ),
-        GoRoute(
-          path: FarmListSheet.routerPage,
-          pageBuilder: (context, state) {
-            return const NoTransitionPage(
-              child: FarmListSheet(),
             );
           },
         ),

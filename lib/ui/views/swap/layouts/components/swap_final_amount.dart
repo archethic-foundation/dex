@@ -1,78 +1,27 @@
-import 'dart:async';
-
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SwapFinalAmount extends ConsumerStatefulWidget {
+class SwapFinalAmount extends ConsumerWidget {
   const SwapFinalAmount({super.key, required this.address});
 
   final String address;
 
   @override
-  ConsumerState<SwapFinalAmount> createState() => _SwapFinalAmountState();
-}
-
-class _SwapFinalAmountState extends ConsumerState<SwapFinalAmount>
-    with aedappfm.TransactionMixin {
-  double? finalAmount;
-  Timer? timer;
-  Timer? timeoutTimer;
-  bool? timeout;
-
-  @override
-  void initState() {
-    timeout = false;
-    super.initState();
-    startTimer();
-    startTimeoutTimer();
-  }
-
-  void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
-      try {
-        final swap = ref.read(SwapFormProvider.swapForm);
-        final amount = await getAmountFromTxInput(
-          widget.address,
-          swap.tokenSwapped!.address,
-        );
-        if (amount > 0) {
-          setState(() {
-            finalAmount = amount;
-          });
-          unawaited(refreshCurrentAccountInfoWallet());
-          timer?.cancel();
-        }
-        // ignore: empty_catches
-      } catch (e) {}
-    });
-  }
-
-  void startTimeoutTimer() {
-    timeoutTimer = Timer(const Duration(minutes: 1), () {
-      timeout = true;
-      timer?.cancel();
-    });
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    timeoutTimer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final swap = ref.watch(SwapFormProvider.swapForm);
     if (swap.swapOk == false) return const SizedBox.shrink();
 
+    final finalAmount = ref.watch(SwapFormProvider.swapForm).finalAmount;
+    final timeout = ref.watch(
+      SwapFormProvider.swapForm.select((value) => value.failure != null),
+    );
+
     return finalAmount != null
         ? SelectableText(
-            'Final amount swapped: ${finalAmount!.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+            'Final amount swapped: ${finalAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
           )
         : timeout == false
             ? const Row(

@@ -14,18 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-DexNotification _$DexNotificationFromJson(Map<String, dynamic> json) {
-  return _DexNotification.fromJson(json);
-}
-
 /// @nodoc
 mixin _$DexNotification {
-  DexActionType? get actionType => throw _privateConstructorUsedError;
+  DexActionType get actionType => throw _privateConstructorUsedError;
   String? get txAddress => throw _privateConstructorUsedError;
   double? get amount => throw _privateConstructorUsedError;
-  DateTime? get timestamp => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $DexNotificationCopyWith<DexNotification> get copyWith =>
       throw _privateConstructorUsedError;
@@ -37,11 +31,7 @@ abstract class $DexNotificationCopyWith<$Res> {
           DexNotification value, $Res Function(DexNotification) then) =
       _$DexNotificationCopyWithImpl<$Res, DexNotification>;
   @useResult
-  $Res call(
-      {DexActionType? actionType,
-      String? txAddress,
-      double? amount,
-      DateTime? timestamp});
+  $Res call({DexActionType actionType, String? txAddress, double? amount});
 }
 
 /// @nodoc
@@ -57,16 +47,15 @@ class _$DexNotificationCopyWithImpl<$Res, $Val extends DexNotification>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? actionType = freezed,
+    Object? actionType = null,
     Object? txAddress = freezed,
     Object? amount = freezed,
-    Object? timestamp = freezed,
   }) {
     return _then(_value.copyWith(
-      actionType: freezed == actionType
+      actionType: null == actionType
           ? _value.actionType
           : actionType // ignore: cast_nullable_to_non_nullable
-              as DexActionType?,
+              as DexActionType,
       txAddress: freezed == txAddress
           ? _value.txAddress
           : txAddress // ignore: cast_nullable_to_non_nullable
@@ -75,10 +64,6 @@ class _$DexNotificationCopyWithImpl<$Res, $Val extends DexNotification>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
-      timestamp: freezed == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
     ) as $Val);
   }
 }
@@ -91,11 +76,7 @@ abstract class _$$DexNotificationImplCopyWith<$Res>
       __$$DexNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {DexActionType? actionType,
-      String? txAddress,
-      double? amount,
-      DateTime? timestamp});
+  $Res call({DexActionType actionType, String? txAddress, double? amount});
 }
 
 /// @nodoc
@@ -109,16 +90,15 @@ class __$$DexNotificationImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? actionType = freezed,
+    Object? actionType = null,
     Object? txAddress = freezed,
     Object? amount = freezed,
-    Object? timestamp = freezed,
   }) {
     return _then(_$DexNotificationImpl(
-      actionType: freezed == actionType
+      actionType: null == actionType
           ? _value.actionType
           : actionType // ignore: cast_nullable_to_non_nullable
-              as DexActionType?,
+              as DexActionType,
       txAddress: freezed == txAddress
           ? _value.txAddress
           : txAddress // ignore: cast_nullable_to_non_nullable
@@ -127,36 +107,27 @@ class __$$DexNotificationImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
-      timestamp: freezed == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$DexNotificationImpl extends _DexNotification {
   const _$DexNotificationImpl(
-      {this.actionType, this.txAddress, this.amount, this.timestamp})
+      {required this.actionType, this.txAddress, this.amount})
       : super._();
 
-  factory _$DexNotificationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DexNotificationImplFromJson(json);
-
   @override
-  final DexActionType? actionType;
+  final DexActionType actionType;
   @override
   final String? txAddress;
   @override
   final double? amount;
-  @override
-  final DateTime? timestamp;
 
   @override
   String toString() {
-    return 'DexNotification(actionType: $actionType, txAddress: $txAddress, amount: $amount, timestamp: $timestamp)';
+    return 'DexNotification(actionType: $actionType, txAddress: $txAddress, amount: $amount)';
   }
 
   @override
@@ -168,15 +139,11 @@ class _$DexNotificationImpl extends _DexNotification {
                 other.actionType == actionType) &&
             (identical(other.txAddress, txAddress) ||
                 other.txAddress == txAddress) &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
+            (identical(other.amount, amount) || other.amount == amount));
   }
 
-  @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, actionType, txAddress, amount, timestamp);
+  int get hashCode => Object.hash(runtimeType, actionType, txAddress, amount);
 
   @JsonKey(ignore: true)
   @override
@@ -184,34 +151,21 @@ class _$DexNotificationImpl extends _DexNotification {
   _$$DexNotificationImplCopyWith<_$DexNotificationImpl> get copyWith =>
       __$$DexNotificationImplCopyWithImpl<_$DexNotificationImpl>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DexNotificationImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _DexNotification extends DexNotification {
   const factory _DexNotification(
-      {final DexActionType? actionType,
+      {required final DexActionType actionType,
       final String? txAddress,
-      final double? amount,
-      final DateTime? timestamp}) = _$DexNotificationImpl;
+      final double? amount}) = _$DexNotificationImpl;
   const _DexNotification._() : super._();
 
-  factory _DexNotification.fromJson(Map<String, dynamic> json) =
-      _$DexNotificationImpl.fromJson;
-
   @override
-  DexActionType? get actionType;
+  DexActionType get actionType;
   @override
   String? get txAddress;
   @override
   double? get amount;
-  @override
-  DateTime? get timestamp;
   @override
   @JsonKey(ignore: true)
   _$$DexNotificationImplCopyWith<_$DexNotificationImpl> get copyWith =>

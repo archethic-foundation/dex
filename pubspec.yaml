@@ -28,6 +28,8 @@ dependencies:
   # The decimal package allows you to deal with decimal numbers without losing precision
   decimal: ^2.3.3
 
+  elegant_notification: ^1.12.0
+
   # A component that provides flip card animation. It could be used for hide and show details of a product.
   flip_card: ^0.7.0
 
@@ -79,6 +81,9 @@ dependencies:
 
   # A package exposing annotations for riverpod_generator
   riverpod_annotation: ^2.3.4
+
+  # UUID generator
+  uuid: ^4.2.2
 
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.2.4

@@ -1,35 +1,39 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:async';
 import 'package:aedex/domain/models/dex_notification.dart';
-import 'package:flutter/material.dart';
+import 'package:aedex/util/notification_service/task_notification_service.dart'
+    as ns;
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'notification.g.dart';
 
 @Riverpod(keepAlive: true)
-class _NotificationNotifier extends Notifier<List<DexNotification>> {
-  Timer? _timer;
+ns.TaskNotificationService<DexNotification, Failure> _notificationService(
+  Ref ref,
+) =>
+    ns.TaskNotificationService();
 
-  @override
-  List<DexNotification> build() {
-    ref.onDispose(() {
-      if (_timer != null) {
-        _timer!.cancel();
-      }
-    });
-    return <DexNotification>[];
+@Riverpod(keepAlive: true)
+Stream<Iterable<ns.Task<DexNotification, Failure>>> _runningTasks(
+  Ref ref,
+) async* {
+  final notificationService = ref.watch(_notificationServiceProvider);
+  await for (final tasks in notificationService.runningTasks()) {
+    yield tasks;
   }
+}
 
-  Future<void> addTransaction(
-    final VoidCallback timerFunction,
-  ) async {
-    _timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
-      timerFunction();
-    });
-    return;
+@Riverpod(keepAlive: true)
+Stream<ns.Task<DexNotification, Failure>> _doneTasks(Ref ref) async* {
+  final notificationService = ref.watch(_notificationServiceProvider);
+  await for (final task in notificationService.doneTasks()) {
+    yield task;
   }
 }
 
 abstract class NotificationProviders {
-  static final notification = _notificationNotifierProvider;
+  static final notificationService = _notificationServiceProvider;
+  static final runningTasks = _runningTasksProvider;
+  static final doneTasks = _doneTasksProvider;
 }

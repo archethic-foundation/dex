@@ -1,5 +1,6 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
+import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
@@ -10,7 +11,6 @@ import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -657,13 +657,16 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       return;
     }
 
-    await SwapCase().run(
+    final finalAmount = await SwapCase().run(
       ref,
+      ref.watch(NotificationProviders.notificationService),
       state.poolGenesisAddress,
       state.tokenToSwap!,
       state.tokenToSwapAmount,
       state.slippageTolerance,
     );
+    state = state.copyWith(finalAmount: finalAmount);
+
     ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
   }
 }
