@@ -244,6 +244,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         (fees: 0.0, outputAmount: 0.0, priceImpact: 0.0, protocolFees: 0.0);
 
     if (state.tokenFormSelected == 1) {
+      if (state.tokenToSwapAmount == 0) {
+        return;
+      }
       state = state.copyWith(
         calculateAmountSwapped: true,
         calculationInProgress: true,
@@ -256,6 +259,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         tokenSwappedAmount: swapInfos.outputAmount,
       );
     } else {
+      if (state.tokenSwappedAmount == 0) {
+        return;
+      }
       state = state.copyWith(
         calculateAmountToSwap: true,
         calculationInProgress: true,
@@ -266,6 +272,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       );
       state = state.copyWith(
         tokenToSwapAmount: swapInfos.outputAmount,
+      );
+      swapInfos = await calculateSwapInfos(
+        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+        state.tokenToSwapAmount,
       );
     }
 
