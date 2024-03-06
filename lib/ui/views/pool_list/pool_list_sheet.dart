@@ -16,7 +16,6 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lit_starfield/view.dart';
 
 class PoolListSheet extends ConsumerStatefulWidget {
   const PoolListSheet({
@@ -69,30 +68,6 @@ Widget _body(BuildContext context, WidgetRef ref) {
             loading: () => Stack(
               alignment: Alignment.centerLeft,
               children: [
-                Opacity(
-                  opacity: 0.8,
-                  child: LitStarfieldContainer(
-                    velocity: 0.2,
-                    number: 200,
-                    starColor: aedappfm.ArchethicThemeBase.neutral0,
-                    scale: 3,
-                    backgroundDecoration: const BoxDecoration(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                ),
-                Opacity(
-                  opacity: 0.3,
-                  child: LitStarfieldContainer(
-                    velocity: 0.5,
-                    number: 100,
-                    scale: 10,
-                    starColor: aedappfm.ArchethicThemeBase.blue600,
-                    backgroundDecoration: const BoxDecoration(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
