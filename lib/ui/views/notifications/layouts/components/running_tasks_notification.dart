@@ -18,20 +18,37 @@ class RunningTasksNotificationWidget extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: ElegantNotification(
-            icon: const Padding(
-              padding: EdgeInsets.all(12),
-              child: SizedBox.square(
-                dimension: 23,
-                child: CircularProgressIndicator(),
-              ),
+            icon: const SizedBox.shrink(),
+            enableShadow: false,
+            background: Colors.transparent,
+            description: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox.square(
+                  dimension: 10,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 2, right: 2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 0.5,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  runningTasksCount > 1
+                      ? '$runningTasksCount tasks in progress'
+                      : '$runningTasksCount task in progress',
+                ),
+              ],
             ),
-            background: Theme.of(context).colorScheme.background,
-            description: Text('$runningTasksCount Pending'),
             showProgressIndicator: false,
             autoDismiss: false,
             displayCloseButton: false,
-            width: 200,
-            height: 50,
+            width: 250,
+            height: 80,
           ),
         ),
       ),

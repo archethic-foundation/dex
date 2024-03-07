@@ -24,6 +24,7 @@ class SwapCase with aedappfm.TransactionMixin {
         notificationService,
     String poolGenesisAddress,
     DexToken tokenToSwap,
+    DexToken tokenSwapped,
     double tokenToSwapAmount,
     double slippage, {
     int recoveryStep = 0,
@@ -38,6 +39,8 @@ class SwapCase with aedappfm.TransactionMixin {
     if (recoveryTransactionSwap != null) {
       transactionSwap = recoveryTransactionSwap;
     }
+
+    swapNotifier.setFinalAmount(null);
 
     var outputAmount = 0.0;
     if (recoveryStep <= 1) {
@@ -156,26 +159,33 @@ class SwapCase with aedappfm.TransactionMixin {
         operationId,
         DexNotification(
           actionType: DexActionType.swap,
-          txAddress: poolGenesisAddress,
+          txAddress: tokenSwapped.address,
+          dexToken: tokenSwapped,
         ),
       );
 
       final amount = await PeriodicFuture.periodic<double>(
         () => getAmountFromTxInput(
-          poolGenesisAddress,
-          tokenToSwap.address,
+          transactionSwap!.address!.address!,
+          tokenSwapped.address,
         ),
-        sleepDuration: const Duration(seconds: 3),
+        sleepDuration: const Duration(seconds: 300),
         until: (amount) {
           return amount > 0;
         },
       ).timeout(
-        const Duration(seconds: 15),
-        onTimeout: () => throw const aedappfm.Failure.timeout(),
+        const Duration(minutes: 1),
+        onTimeout: () => throw const aedappfm.Timeout(),
       );
 
       notificationService.succeed(
         operationId,
+        DexNotification(
+          actionType: DexActionType.swap,
+          txAddress: tokenSwapped.address,
+          dexToken: tokenSwapped,
+          amount: amount,
+        ),
       );
 
       unawaited(refreshCurrentAccountInfoWallet());
@@ -283,6 +293,7 @@ class SwapCase with aedappfm.TransactionMixin {
   }
 }
 
+// TODO(reddwarf03): put in aedappfm
 class PeriodicFuture {
   /// Executes [action] until verification succeeds.
   /// It waits [sleepDuration] between each run.

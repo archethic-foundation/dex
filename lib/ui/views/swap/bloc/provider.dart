@@ -529,6 +529,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(failure: null, tokenFormSelected: tokenFormSelected);
   }
 
+  void setFinalAmount(double? finalAmount) {
+    state = state.copyWith(finalAmount: finalAmount);
+  }
+
   void setFailure(aedappfm.Failure? failure) {
     state = state.copyWith(
       failure: failure,
@@ -662,12 +666,15 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       ref.watch(NotificationProviders.notificationService),
       state.poolGenesisAddress,
       state.tokenToSwap!,
+      state.tokenSwapped!,
       state.tokenToSwapAmount,
       state.slippageTolerance,
     );
     state = state.copyWith(finalAmount: finalAmount);
 
-    ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
+    if (state.pool != null) {
+      ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
+    }
   }
 }
 

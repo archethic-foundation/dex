@@ -15,9 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$Task<DataT, FailureT extends Exception> {
+mixin _$Task<DataT, FailureT extends Failure> {
   String get id => throw _privateConstructorUsedError;
   DataT get data => throw _privateConstructorUsedError;
+  DateTime? get dateTask => throw _privateConstructorUsedError;
   Result<void, FailureT>? get result => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -26,16 +27,20 @@ mixin _$Task<DataT, FailureT extends Exception> {
 }
 
 /// @nodoc
-abstract class $TaskCopyWith<DataT, FailureT extends Exception, $Res> {
+abstract class $TaskCopyWith<DataT, FailureT extends Failure, $Res> {
   factory $TaskCopyWith(Task<DataT, FailureT> value,
           $Res Function(Task<DataT, FailureT>) then) =
       _$TaskCopyWithImpl<DataT, FailureT, $Res, Task<DataT, FailureT>>;
   @useResult
-  $Res call({String id, DataT data, Result<void, FailureT>? result});
+  $Res call(
+      {String id,
+      DataT data,
+      DateTime? dateTask,
+      Result<void, FailureT>? result});
 }
 
 /// @nodoc
-class _$TaskCopyWithImpl<DataT, FailureT extends Exception, $Res,
+class _$TaskCopyWithImpl<DataT, FailureT extends Failure, $Res,
         $Val extends Task<DataT, FailureT>>
     implements $TaskCopyWith<DataT, FailureT, $Res> {
   _$TaskCopyWithImpl(this._value, this._then);
@@ -50,6 +55,7 @@ class _$TaskCopyWithImpl<DataT, FailureT extends Exception, $Res,
   $Res call({
     Object? id = null,
     Object? data = freezed,
+    Object? dateTask = freezed,
     Object? result = freezed,
   }) {
     return _then(_value.copyWith(
@@ -61,6 +67,10 @@ class _$TaskCopyWithImpl<DataT, FailureT extends Exception, $Res,
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as DataT,
+      dateTask: freezed == dateTask
+          ? _value.dateTask
+          : dateTask // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       result: freezed == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
@@ -70,18 +80,22 @@ class _$TaskCopyWithImpl<DataT, FailureT extends Exception, $Res,
 }
 
 /// @nodoc
-abstract class _$$TaskImplCopyWith<DataT, FailureT extends Exception, $Res>
+abstract class _$$TaskImplCopyWith<DataT, FailureT extends Failure, $Res>
     implements $TaskCopyWith<DataT, FailureT, $Res> {
   factory _$$TaskImplCopyWith(_$TaskImpl<DataT, FailureT> value,
           $Res Function(_$TaskImpl<DataT, FailureT>) then) =
       __$$TaskImplCopyWithImpl<DataT, FailureT, $Res>;
   @override
   @useResult
-  $Res call({String id, DataT data, Result<void, FailureT>? result});
+  $Res call(
+      {String id,
+      DataT data,
+      DateTime? dateTask,
+      Result<void, FailureT>? result});
 }
 
 /// @nodoc
-class __$$TaskImplCopyWithImpl<DataT, FailureT extends Exception, $Res>
+class __$$TaskImplCopyWithImpl<DataT, FailureT extends Failure, $Res>
     extends _$TaskCopyWithImpl<DataT, FailureT, $Res,
         _$TaskImpl<DataT, FailureT>>
     implements _$$TaskImplCopyWith<DataT, FailureT, $Res> {
@@ -94,6 +108,7 @@ class __$$TaskImplCopyWithImpl<DataT, FailureT extends Exception, $Res>
   $Res call({
     Object? id = null,
     Object? data = freezed,
+    Object? dateTask = freezed,
     Object? result = freezed,
   }) {
     return _then(_$TaskImpl<DataT, FailureT>(
@@ -105,6 +120,10 @@ class __$$TaskImplCopyWithImpl<DataT, FailureT extends Exception, $Res>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as DataT,
+      dateTask: freezed == dateTask
+          ? _value.dateTask
+          : dateTask // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       result: freezed == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
@@ -115,9 +134,10 @@ class __$$TaskImplCopyWithImpl<DataT, FailureT extends Exception, $Res>
 
 /// @nodoc
 
-class _$TaskImpl<DataT, FailureT extends Exception>
+class _$TaskImpl<DataT, FailureT extends Failure>
     extends _Task<DataT, FailureT> {
-  const _$TaskImpl({required this.id, required this.data, this.result})
+  const _$TaskImpl(
+      {required this.id, required this.data, this.dateTask, this.result})
       : super._();
 
   @override
@@ -125,11 +145,13 @@ class _$TaskImpl<DataT, FailureT extends Exception>
   @override
   final DataT data;
   @override
+  final DateTime? dateTask;
+  @override
   final Result<void, FailureT>? result;
 
   @override
   String toString() {
-    return 'Task<$DataT, $FailureT>(id: $id, data: $data, result: $result)';
+    return 'Task<$DataT, $FailureT>(id: $id, data: $data, dateTask: $dateTask, result: $result)';
   }
 
   @override
@@ -139,12 +161,14 @@ class _$TaskImpl<DataT, FailureT extends Exception>
             other is _$TaskImpl<DataT, FailureT> &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other.data, data) &&
+            (identical(other.dateTask, dateTask) ||
+                other.dateTask == dateTask) &&
             (identical(other.result, result) || other.result == result));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, const DeepCollectionEquality().hash(data), result);
+  int get hashCode => Object.hash(runtimeType, id,
+      const DeepCollectionEquality().hash(data), dateTask, result);
 
   @JsonKey(ignore: true)
   @override
@@ -154,11 +178,12 @@ class _$TaskImpl<DataT, FailureT extends Exception>
           _$TaskImpl<DataT, FailureT>>(this, _$identity);
 }
 
-abstract class _Task<DataT, FailureT extends Exception>
+abstract class _Task<DataT, FailureT extends Failure>
     extends Task<DataT, FailureT> {
   const factory _Task(
       {required final String id,
       required final DataT data,
+      final DateTime? dateTask,
       final Result<void, FailureT>? result}) = _$TaskImpl<DataT, FailureT>;
   const _Task._() : super._();
 
@@ -166,6 +191,8 @@ abstract class _Task<DataT, FailureT extends Exception>
   String get id;
   @override
   DataT get data;
+  @override
+  DateTime? get dateTask;
   @override
   Result<void, FailureT>? get result;
   @override

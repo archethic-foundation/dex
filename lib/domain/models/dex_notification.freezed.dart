@@ -19,6 +19,7 @@ mixin _$DexNotification {
   DexActionType get actionType => throw _privateConstructorUsedError;
   String? get txAddress => throw _privateConstructorUsedError;
   double? get amount => throw _privateConstructorUsedError;
+  DexToken? get dexToken => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexNotificationCopyWith<DexNotification> get copyWith =>
@@ -31,7 +32,13 @@ abstract class $DexNotificationCopyWith<$Res> {
           DexNotification value, $Res Function(DexNotification) then) =
       _$DexNotificationCopyWithImpl<$Res, DexNotification>;
   @useResult
-  $Res call({DexActionType actionType, String? txAddress, double? amount});
+  $Res call(
+      {DexActionType actionType,
+      String? txAddress,
+      double? amount,
+      DexToken? dexToken});
+
+  $DexTokenCopyWith<$Res>? get dexToken;
 }
 
 /// @nodoc
@@ -50,6 +57,7 @@ class _$DexNotificationCopyWithImpl<$Res, $Val extends DexNotification>
     Object? actionType = null,
     Object? txAddress = freezed,
     Object? amount = freezed,
+    Object? dexToken = freezed,
   }) {
     return _then(_value.copyWith(
       actionType: null == actionType
@@ -64,7 +72,23 @@ class _$DexNotificationCopyWithImpl<$Res, $Val extends DexNotification>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
+      dexToken: freezed == dexToken
+          ? _value.dexToken
+          : dexToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get dexToken {
+    if (_value.dexToken == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.dexToken!, (value) {
+      return _then(_value.copyWith(dexToken: value) as $Val);
+    });
   }
 }
 
@@ -76,7 +100,14 @@ abstract class _$$DexNotificationImplCopyWith<$Res>
       __$$DexNotificationImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DexActionType actionType, String? txAddress, double? amount});
+  $Res call(
+      {DexActionType actionType,
+      String? txAddress,
+      double? amount,
+      DexToken? dexToken});
+
+  @override
+  $DexTokenCopyWith<$Res>? get dexToken;
 }
 
 /// @nodoc
@@ -93,6 +124,7 @@ class __$$DexNotificationImplCopyWithImpl<$Res>
     Object? actionType = null,
     Object? txAddress = freezed,
     Object? amount = freezed,
+    Object? dexToken = freezed,
   }) {
     return _then(_$DexNotificationImpl(
       actionType: null == actionType
@@ -107,6 +139,10 @@ class __$$DexNotificationImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
+      dexToken: freezed == dexToken
+          ? _value.dexToken
+          : dexToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
     ));
   }
 }
@@ -115,7 +151,7 @@ class __$$DexNotificationImplCopyWithImpl<$Res>
 
 class _$DexNotificationImpl extends _DexNotification {
   const _$DexNotificationImpl(
-      {required this.actionType, this.txAddress, this.amount})
+      {required this.actionType, this.txAddress, this.amount, this.dexToken})
       : super._();
 
   @override
@@ -124,10 +160,12 @@ class _$DexNotificationImpl extends _DexNotification {
   final String? txAddress;
   @override
   final double? amount;
+  @override
+  final DexToken? dexToken;
 
   @override
   String toString() {
-    return 'DexNotification(actionType: $actionType, txAddress: $txAddress, amount: $amount)';
+    return 'DexNotification(actionType: $actionType, txAddress: $txAddress, amount: $amount, dexToken: $dexToken)';
   }
 
   @override
@@ -139,11 +177,14 @@ class _$DexNotificationImpl extends _DexNotification {
                 other.actionType == actionType) &&
             (identical(other.txAddress, txAddress) ||
                 other.txAddress == txAddress) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.dexToken, dexToken) ||
+                other.dexToken == dexToken));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, actionType, txAddress, amount);
+  int get hashCode =>
+      Object.hash(runtimeType, actionType, txAddress, amount, dexToken);
 
   @JsonKey(ignore: true)
   @override
@@ -157,7 +198,8 @@ abstract class _DexNotification extends DexNotification {
   const factory _DexNotification(
       {required final DexActionType actionType,
       final String? txAddress,
-      final double? amount}) = _$DexNotificationImpl;
+      final double? amount,
+      final DexToken? dexToken}) = _$DexNotificationImpl;
   const _DexNotification._() : super._();
 
   @override
@@ -166,6 +208,8 @@ abstract class _DexNotification extends DexNotification {
   String? get txAddress;
   @override
   double? get amount;
+  @override
+  DexToken? get dexToken;
   @override
   @JsonKey(ignore: true)
   _$$DexNotificationImplCopyWith<_$DexNotificationImpl> get copyWith =>

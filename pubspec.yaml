@@ -82,14 +82,14 @@ dependencies:
   # A package exposing annotations for riverpod_generator
   riverpod_annotation: ^2.3.4
 
-  # UUID generator
-  uuid: ^4.2.2
-
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.2.4
 
   # Flutter package that allows setting the web app URL strategy with a single line of code.
   url_strategy: ^0.2.0
+
+  # UUID generator
+  uuid: ^4.2.2
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.

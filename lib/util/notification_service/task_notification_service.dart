@@ -12,7 +12,7 @@ part 'task_notification_service.freezed.dart';
 /// and consume a notifications iterable.
 ///
 /// This is intended to be library agnostic.
-class TaskNotificationService<TaskDataT, TaskFailureT extends Exception> {
+class TaskNotificationService<TaskDataT, TaskFailureT extends Failure> {
   void log(String message) => dev.log(
         message,
         name: 'NotificationService',
@@ -35,7 +35,11 @@ class TaskNotificationService<TaskDataT, TaskFailureT extends Exception> {
     log('Add Task $id');
     _updateRunningTasks([
       ..._runningTasks,
-      Task(id: id, data: data),
+      Task(
+        id: id,
+        data: data,
+        dateTask: DateTime.now(),
+      ),
     ]);
   }
 
@@ -49,21 +53,29 @@ class TaskNotificationService<TaskDataT, TaskFailureT extends Exception> {
 
     if (task != null) {
       _doneTasksStreamController.add(
-        task.copyWith(result: Result.failure(failure)),
+        task.copyWith(
+          result: Result.failure(failure),
+          dateTask: DateTime.now(),
+        ),
       );
     }
   }
 
-  void succeed(String taskId) {
+  void succeed(String taskId, TaskDataT data) {
     log('Task Succeed $taskId');
+    final task = _findRunningTask(taskId);
+
     _updateRunningTasks(
       _runningTasks.where((notif) => !notif.isSameId(taskId)),
     );
 
-    final task = _findRunningTask(taskId);
     if (task != null) {
       _doneTasksStreamController.add(
-        task.copyWith(result: const Result.success(null)),
+        task.copyWith(
+          result: const Result.success(null),
+          data: data,
+          dateTask: DateTime.now(),
+        ),
       );
     }
   }

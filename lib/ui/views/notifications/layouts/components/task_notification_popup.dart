@@ -13,17 +13,57 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
 
   factory TaskNotificationPopup._fromSwap(
     Task task,
+    BuildContext context,
   ) {
     if (task.failure != null) {
       return TaskNotificationPopup.failure(
         key: Key(task.id),
-        description: Text('Swap ${task.data.txAddress} failed'),
+        description: Wrap(
+          children: [
+            if (task.dateTask != null)
+              SelectableText(
+                DateFormat.yMd(
+                  Localizations.localeOf(context).languageCode,
+                ).add_Hms().format(
+                      task.dateTask!.toLocal(),
+                    ),
+              ),
+            addresslinkcopy.FormatAddressLinkCopy(
+              address: task.data.txAddress.toUpperCase(),
+              header: 'Swap transaction address: ',
+              typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
+              reduceAddress: true,
+            ),
+            SelectableText(
+              'Error: ${FailureMessage(context: context, failure: task.failure).getMessage()}',
+            ),
+          ],
+        ),
       );
     }
     return TaskNotificationPopup.success(
       key: Key(task.id),
-      description:
-          Text('Swapped ${task.data.amount} on ${task.data.txAddress}'),
+      description: Wrap(
+        children: [
+          if (task.dateTask != null)
+            SelectableText(
+              DateFormat.yMd(
+                Localizations.localeOf(context).languageCode,
+              ).add_Hms().format(
+                    task.dateTask!.toLocal(),
+                  ),
+            ),
+          addresslinkcopy.FormatAddressLinkCopy(
+            address: task.data.txAddress.toUpperCase(),
+            header: 'Swap transaction address: ',
+            typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
+            reduceAddress: true,
+          ),
+          SelectableText(
+            'Final amount swapped: ${task.data.amount} ${task.data.dexToken.symbol}',
+          ),
+        ],
+      ),
     );
   }
 
@@ -33,13 +73,15 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
     if (task.failure != null) {
       return TaskNotificationPopup.failure(
         key: Key(task.id),
-        description: Text('Add liquidity ${task.data.txAddress} failed'),
+        description:
+            SelectableText('Add liquidity ${task.data.txAddress} failed'),
       );
     }
     return TaskNotificationPopup.success(
       key: Key(task.id),
-      description:
-          Text('Liquidity added ${task.data.amount} on ${task.data.txAddress}'),
+      description: SelectableText(
+        'Liquidity added ${task.data.amount} on ${task.data.txAddress}',
+      ),
     );
   }
 
@@ -49,13 +91,15 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
     if (task.failure != null) {
       return TaskNotificationPopup.failure(
         key: Key(task.id),
-        description: Text('Remove liquidity ${task.data.txAddress} failed'),
+        description:
+            SelectableText('Remove liquidity ${task.data.txAddress} failed'),
       );
     }
     return TaskNotificationPopup.success(
       key: Key(task.id),
-      description: Text(
-          'Liquidity removed ${task.data.amount} on ${task.data.txAddress}'),
+      description: SelectableText(
+        'Liquidity removed ${task.data.amount} on ${task.data.txAddress}',
+      ),
     );
   }
   const TaskNotificationPopup._();
@@ -100,9 +144,10 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
 
   factory TaskNotificationPopup.fromTask(
     Task<DexNotification, aedappfm.Failure> task,
+    BuildContext context,
   ) =>
       switch (task.data.actionType) {
-        DexActionType.swap => TaskNotificationPopup._fromSwap(task),
+        DexActionType.swap => TaskNotificationPopup._fromSwap(task, context),
         DexActionType.addLiquidity =>
           TaskNotificationPopup._fromAddLiquidity(task),
         DexActionType.removeLiquidity =>
@@ -120,8 +165,9 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       autoDismiss: false,
       action: action,
       onActionPressed: onActionPressed,
-      width: 400,
-      height: 50,
+      enableShadow: false,
+      width: 450,
+      height: 80,
     ).show(context);
   }
 }
