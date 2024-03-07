@@ -54,9 +54,7 @@ class FarmWithdrawInProgressPopup {
       if (farmWithdraw.transactionWithdrawFarm != null &&
           farmWithdraw.transactionWithdrawFarm!.address != null &&
           farmWithdraw.transactionWithdrawFarm!.address!.address != null)
-        FarmWithdrawFinalAmount(
-          address: farmWithdraw.transactionWithdrawFarm!.address!.address!,
-        ),
+        const FarmWithdrawFinalAmount(),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: farmWithdraw.currentStep,

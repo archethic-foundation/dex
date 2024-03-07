@@ -55,9 +55,7 @@ class FarmClaimInProgressPopup {
       if (farmClaim.transactionClaimFarm != null &&
           farmClaim.transactionClaimFarm!.address != null &&
           farmClaim.transactionClaimFarm!.address!.address != null)
-        FarmClaimFinalAmount(
-          address: farmClaim.transactionClaimFarm!.address!.address!,
-        ),
+        const FarmClaimFinalAmount(),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: farmClaim.currentStep,

@@ -4,7 +4,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dex_notification.freezed.dart';
 
-enum DexActionType { swap, addLiquidity, removeLiquidity }
+enum DexActionType {
+  swap,
+  addLiquidity,
+  removeLiquidity,
+  claimFarm,
+  depositFarm,
+  withdrawfarm,
+  addPool
+}
 
 @freezed
 class DexNotification with _$DexNotification {
@@ -34,4 +42,27 @@ class DexNotification with _$DexNotification {
     DexToken? token2,
     DexToken? lpToken,
   }) = _DexNotificationRemoveLiquidity;
+
+  const factory DexNotification.claimFarm({
+    @Default(DexActionType.claimFarm) DexActionType actionType,
+    String? txAddress,
+    double? amount,
+    DexToken? rewardToken,
+  }) = _DexNotificationClaimFarm;
+
+  const factory DexNotification.depositFarm({
+    @Default(DexActionType.depositFarm) DexActionType actionType,
+    String? txAddress,
+    double? amount,
+    String? farmAddress,
+    bool? isUCO,
+  }) = _DexNotificationDepositFarm;
+
+  const factory DexNotification.withdrawFarm({
+    @Default(DexActionType.withdrawfarm) DexActionType actionType,
+    String? txAddress,
+    double? amountReward,
+    double? amountWithdraw,
+    DexToken? rewardToken,
+  }) = _DexNotificationWithdrawFarm;
 }

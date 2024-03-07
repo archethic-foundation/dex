@@ -1,3 +1,4 @@
+import 'package:aedex/application/notification.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -112,6 +113,14 @@ class FarmWithdrawFormNotifier
     state = state.copyWith(isProcessInProgress: isProcessInProgress);
   }
 
+  void setFinalAmountReward(double? finalAmountReward) {
+    state = state.copyWith(finalAmountReward: finalAmountReward);
+  }
+
+  void setFinalAmountWithdraw(double? finalAmountWithdraw) {
+    state = state.copyWith(finalAmountWithdraw: finalAmountWithdraw);
+  }
+
   void setFarmWithdrawProcessStep(
     aedappfm.ProcessStep farmWithdrawProcessStep,
   ) {
@@ -172,11 +181,18 @@ class FarmWithdrawFormNotifier
       return;
     }
 
-    await WithdrawFarmCase().run(
+    final finalAmounts = await WithdrawFarmCase().run(
       ref,
+      ref.watch(NotificationProviders.notificationService),
       state.farmAddress!,
       state.lpTokenAddress!,
       state.amount,
+      state.rewardToken!,
+    );
+
+    state = state.copyWith(
+      finalAmountReward: finalAmounts.finalAmountReward,
+      finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
     );
   }
 }
