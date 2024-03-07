@@ -9,9 +9,7 @@ import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_co
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
-
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
-    as aedappfm;
+import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -108,7 +106,7 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
           ref.watch(FarmWithdrawFormProvider.farmWithdrawForm).processStep,
       formSheet: const FarmWithdrawFormSheet(),
       confirmSheet: const FarmWithdrawConfirmSheet(),
-      bottomWidget: const aedappfm.ArchethicOracleUco(),
+      bottomWidget: const DexArchethicOracleUco(),
     );
   }
 }

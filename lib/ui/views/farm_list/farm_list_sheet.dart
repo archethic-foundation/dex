@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
+import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -142,7 +143,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                       ),
                       const Padding(
                         padding: EdgeInsets.only(right: 20),
-                        child: aedappfm.ArchethicOracleUco(),
+                        child: DexArchethicOracleUco(),
                       ),
                     ],
                   );
@@ -165,7 +166,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                     ),
                     const Padding(
                       padding: EdgeInsets.only(right: 20),
-                      child: aedappfm.ArchethicOracleUco(),
+                      child: DexArchethicOracleUco(),
                     ),
                   ],
                 );

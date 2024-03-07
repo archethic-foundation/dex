@@ -5,9 +5,7 @@ import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_form_sheet.dart';
-
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
-    as aedappfm;
+import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -60,7 +58,7 @@ class _SwapSheetState extends ConsumerState<SwapSheet> {
       currentStep: ref.watch(SwapFormProvider.swapForm).processStep,
       formSheet: const SwapFormSheet(),
       confirmSheet: const SwapConfirmSheet(),
-      bottomWidget: const aedappfm.ArchethicOracleUco(),
+      bottomWidget: const DexArchethicOracleUco(),
     );
   }
 }

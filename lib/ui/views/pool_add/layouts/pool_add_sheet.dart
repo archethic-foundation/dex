@@ -6,9 +6,7 @@ import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_form_sheet.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
-
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
-    as aedappfm;
+import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -64,7 +62,7 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
       currentStep: ref.watch(PoolAddFormProvider.poolAddForm).processStep,
       formSheet: const PoolAddFormSheet(),
       confirmSheet: const PoolAddConfirmSheet(),
-      bottomWidget: const aedappfm.ArchethicOracleUco(),
+      bottomWidget: const DexArchethicOracleUco(),
     );
   }
 }

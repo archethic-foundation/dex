@@ -82,7 +82,10 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
       currentStep: ref.watch(FarmClaimFormProvider.farmClaimForm).processStep,
       formSheet: const FarmClaimFormSheet(),
       confirmSheet: const FarmClaimConfirmSheet(),
-      bottomWidget: const aedappfm.ArchethicOracleUco(),
+      bottomWidget: const aedappfm.ArchethicOracleUco(
+        faqLink:
+            ' https://wiki.archethic.net/FAQ/dex/#how-is-the-price-of-uco-estimated',
+      ),
     );
   }
 }

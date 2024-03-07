@@ -8,9 +8,7 @@ import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_rem
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
-
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
-    as aedappfm;
+import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -71,7 +69,7 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
           .processStep,
       formSheet: const LiquidityRemoveFormSheet(),
       confirmSheet: const LiquidityRemoveConfirmSheet(),
-      bottomWidget: const aedappfm.ArchethicOracleUco(),
+      bottomWidget: const DexArchethicOracleUco(),
     );
   }
 }

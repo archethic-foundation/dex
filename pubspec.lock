@@ -38,7 +38,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "554357f141f483977dbb65c14bb4b9483dcaeff7"
+      resolved-ref: "8762fa4ecdd42b1d79dcc9f9d6a40ca012aa3399"
       url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
     source: git
     version: "0.0.1+1"
@@ -262,10 +262,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "40ae61a5d43feea6d24bd22c0537a6629db858963b99b4bc1c3db80676f32368"
+      sha256: "99e066ce75c89d6b29903d788a7bb9369cf754f7b24bf70bf4b6d6d6b26853b9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.4"
+    version: "2.3.6"
   daunused:
     dependency: "direct dev"
     description:
@@ -400,10 +400,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: d39e7f95621fc84376bc0f7d504f05c3a41488c562f4a8ad410569127507402c
+      sha256: "7b4ca6cf3304575fe9c8ec64813c8d02ee41d2afe60bcfe0678bcb5375d596a2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.9"
+    version: "2.0.10+1"
   flutter_toggle_tab:
     dependency: "direct main"
     description:
@@ -469,18 +469,18 @@ packages:
     dependency: transitive
     description:
       name: gql
-      sha256: f820a3c6bdd1ceecce405a70dd6f4ef97666e0103f7f6424b795afcdaa4f7cce
+      sha256: dfbfb94b43caf21e9c1ca2c58c26dccec6dc3934906ad719d24f1181bcda8f8e
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1708195451519"
+    version: "1.0.1-alpha+1709670733548"
   gql_dedupe_link:
     dependency: transitive
     description:
       name: gql_dedupe_link
-      sha256: "2e7ca0f2aa94ac749b61265b25ba1c5d5b840be94ad30aad37bbc2649e7a6272"
+      sha256: "3f61ffd9b69e680bb434851312a3da594042c9409590913c051833359c62afb8"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4-alpha+1708195451601"
+    version: "2.0.4-alpha+1709670733626"
   gql_error_link:
     dependency: transitive
     description:
@@ -509,10 +509,10 @@ packages:
     dependency: transitive
     description:
       name: gql_link
-      sha256: "0d4f537bf6736c32e676a27c11a01e4155d4668da87b09701a341b1282828aec"
+      sha256: c19a3321d460ac1d9c16cf76b250962dfe3851a50668a582f2cfeabfdbb96788
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1708195451534"
+    version: "1.0.1-alpha+1709670733561"
   gql_transform_link:
     dependency: transitive
     description:
@@ -1218,26 +1218,26 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "4ac59808bbfca6da38c99f415ff2d3a5d7ca0a6b4809c71d9cf30fba5daf9752"
+      sha256: "32c3c684e02f9bc0afb0ae0aa653337a2fe022e8ab064bcd7ffda27a74e288e3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.10+1"
+    version: "1.1.11+1"
   vector_graphics_codec:
     dependency: transitive
     description:
       name: vector_graphics_codec
-      sha256: f3247e7ab0ec77dc759263e68394990edc608fb2b480b80db8aa86ed09279e33
+      sha256: c86987475f162fadff579e7320c7ddda04cd2fdeffbe1129227a85d9ac9e03da
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.10+1"
+    version: "1.1.11+1"
   vector_graphics_compiler:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: "18489bdd8850de3dd7ca8a34e0c446f719ec63e2bab2e7a8cc66a9028dd76c5a"
+      sha256: "12faff3f73b1741a36ca7e31b292ddeb629af819ca9efe9953b70bd63fc8cd81"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.10+1"
+    version: "1.1.11+1"
   vector_math:
     dependency: transitive
     description:
