@@ -8,11 +8,30 @@ enum DexActionType { swap, addLiquidity, removeLiquidity }
 
 @freezed
 class DexNotification with _$DexNotification {
-  const factory DexNotification({
-    required DexActionType actionType,
+  const DexNotification._();
+
+  const factory DexNotification.swap({
+    @Default(DexActionType.swap) DexActionType actionType,
+    String? txAddress,
+    double? amountSwapped,
+    DexToken? tokenSwapped,
+  }) = _DexNotificationSwap;
+
+  const factory DexNotification.addLiquidity({
+    @Default(DexActionType.addLiquidity) DexActionType actionType,
     String? txAddress,
     double? amount,
-    DexToken? dexToken,
-  }) = _DexNotification;
-  const DexNotification._();
+    DexToken? lpToken,
+  }) = _DexNotificationAddLiquidity;
+
+  const factory DexNotification.removeLiquidity({
+    @Default(DexActionType.removeLiquidity) DexActionType actionType,
+    String? txAddress,
+    double? amountToken1,
+    double? amountToken2,
+    double? amountLPToken,
+    DexToken? token1,
+    DexToken? token2,
+    DexToken? lpToken,
+  }) = _DexNotificationRemoveLiquidity;
 }

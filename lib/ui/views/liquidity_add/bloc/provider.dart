@@ -1,4 +1,5 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
@@ -297,6 +298,10 @@ class LiquidityAddFormNotifier
     );
   }
 
+  void setFinalAmount(double? finalAmount) {
+    state = state.copyWith(finalAmount: finalAmount);
+  }
+
   void setWalletConfirmation(bool walletConfirmation) {
     state = state.copyWith(
       walletConfirmation: walletConfirmation,
@@ -466,17 +471,23 @@ class LiquidityAddFormNotifier
       return;
     }
 
-    await AddLiquidityCase().run(
+    final finalAmount = await AddLiquidityCase().run(
       ref,
+      ref.watch(NotificationProviders.notificationService),
       state.pool!.poolAddress,
       state.token1!,
       state.token1Amount,
       state.token2!,
       state.token2Amount,
       state.slippageTolerance,
+      state.pool!.lpToken,
       recoveryStep: state.currentStep,
     );
-    ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
+    state = state.copyWith(finalAmount: finalAmount);
+
+    if (state.pool != null) {
+      ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
+    }
   }
 }
 

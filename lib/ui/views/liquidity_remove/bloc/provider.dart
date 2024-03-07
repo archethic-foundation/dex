@@ -1,4 +1,5 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
@@ -214,6 +215,18 @@ class LiquidityRemoveFormNotifier
     );
   }
 
+  void setFinalAmountToken1(double? finalAmountToken1) {
+    state = state.copyWith(finalAmountToken1: finalAmountToken1);
+  }
+
+  void setFinalAmountToken2(double? finalAmountToken2) {
+    state = state.copyWith(finalAmountToken2: finalAmountToken2);
+  }
+
+  void setFinalAmountLPToken(double? finalAmountLPToken) {
+    state = state.copyWith(finalAmountLPToken: finalAmountLPToken);
+  }
+
   void setWalletConfirmation(bool walletConfirmation) {
     state = state.copyWith(
       walletConfirmation: walletConfirmation,
@@ -307,14 +320,26 @@ class LiquidityRemoveFormNotifier
       return;
     }
 
-    await RemoveLiquidityCase().run(
+    final finalAmounts = await RemoveLiquidityCase().run(
       state.pool!.poolAddress,
       ref,
+      ref.watch(NotificationProviders.notificationService),
       state.lpToken!.address!,
       state.lpTokenAmount,
+      state.token1!,
+      state.token2!,
+      state.lpToken!,
       recoveryStep: state.currentStep,
     );
-    ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
+    state = state.copyWith(
+      finalAmountToken1: finalAmounts.amountToken1,
+      finalAmountToken2: finalAmounts.amountToken2,
+      finalAmountLPToken: finalAmounts.amountLPToken,
+    );
+
+    if (state.pool != null) {
+      ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
+    }
   }
 }
 

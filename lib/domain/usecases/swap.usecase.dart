@@ -157,19 +157,18 @@ class SwapCase with aedappfm.TransactionMixin {
 
       notificationService.start(
         operationId,
-        DexNotification(
-          actionType: DexActionType.swap,
-          txAddress: tokenSwapped.address,
-          dexToken: tokenSwapped,
+        DexNotification.swap(
+          txAddress: transactionSwap!.address!.address,
+          tokenSwapped: tokenSwapped,
         ),
       );
 
-      final amount = await PeriodicFuture.periodic<double>(
+      final amount = await aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTxInput(
           transactionSwap!.address!.address!,
           tokenSwapped.address,
         ),
-        sleepDuration: const Duration(seconds: 300),
+        sleepDuration: const Duration(seconds: 3),
         until: (amount) {
           return amount > 0;
         },
@@ -180,11 +179,10 @@ class SwapCase with aedappfm.TransactionMixin {
 
       notificationService.succeed(
         operationId,
-        DexNotification(
-          actionType: DexActionType.swap,
-          txAddress: tokenSwapped.address,
-          dexToken: tokenSwapped,
-          amount: amount,
+        DexNotification.swap(
+          txAddress: transactionSwap!.address!.address,
+          tokenSwapped: tokenSwapped,
+          amountSwapped: amount,
         ),
       );
 
@@ -290,23 +288,5 @@ class SwapCase with aedappfm.TransactionMixin {
       return 0.0;
     }
     return 0.0;
-  }
-}
-
-// TODO(reddwarf03): put in aedappfm
-class PeriodicFuture {
-  /// Executes [action] until verification succeeds.
-  /// It waits [sleepDuration] between each run.
-  static Future<T> periodic<T>(
-    FutureOr<T> Function() action, {
-    required Duration sleepDuration,
-    required bool Function(T value) until,
-  }) async {
-    late T result;
-    await Future.doWhile(() async {
-      result = await action();
-      return !until(result);
-    });
-    return result;
   }
 }

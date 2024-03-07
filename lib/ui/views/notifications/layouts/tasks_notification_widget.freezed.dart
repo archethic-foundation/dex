@@ -20,6 +20,7 @@ mixin _$TaskNotificationPopup {
   Widget get icon => throw _privateConstructorUsedError;
   Widget? get title => throw _privateConstructorUsedError;
   Widget get description => throw _privateConstructorUsedError;
+  DexActionType get actionType => throw _privateConstructorUsedError;
   Widget? get action => throw _privateConstructorUsedError;
   VoidCallback? get onActionPressed => throw _privateConstructorUsedError;
 
@@ -39,6 +40,7 @@ abstract class $TaskNotificationPopupCopyWith<$Res> {
       Widget icon,
       Widget? title,
       Widget description,
+      DexActionType actionType,
       Widget? action,
       VoidCallback? onActionPressed});
 }
@@ -61,6 +63,7 @@ class _$TaskNotificationPopupCopyWithImpl<$Res,
     Object? icon = null,
     Object? title = freezed,
     Object? description = null,
+    Object? actionType = null,
     Object? action = freezed,
     Object? onActionPressed = freezed,
   }) {
@@ -81,6 +84,10 @@ class _$TaskNotificationPopupCopyWithImpl<$Res,
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as Widget,
+      actionType: null == actionType
+          ? _value.actionType
+          : actionType // ignore: cast_nullable_to_non_nullable
+              as DexActionType,
       action: freezed == action
           ? _value.action
           : action // ignore: cast_nullable_to_non_nullable
@@ -107,6 +114,7 @@ abstract class _$$TaskNotificationPopupImplCopyWith<$Res>
       Widget icon,
       Widget? title,
       Widget description,
+      DexActionType actionType,
       Widget? action,
       VoidCallback? onActionPressed});
 }
@@ -127,6 +135,7 @@ class __$$TaskNotificationPopupImplCopyWithImpl<$Res>
     Object? icon = null,
     Object? title = freezed,
     Object? description = null,
+    Object? actionType = null,
     Object? action = freezed,
     Object? onActionPressed = freezed,
   }) {
@@ -147,6 +156,10 @@ class __$$TaskNotificationPopupImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as Widget,
+      actionType: null == actionType
+          ? _value.actionType
+          : actionType // ignore: cast_nullable_to_non_nullable
+              as DexActionType,
       action: freezed == action
           ? _value.action
           : action // ignore: cast_nullable_to_non_nullable
@@ -167,6 +180,7 @@ class _$TaskNotificationPopupImpl extends _TaskNotificationPopup {
       required this.icon,
       this.title,
       required this.description,
+      required this.actionType,
       this.action,
       this.onActionPressed})
       : super._();
@@ -180,13 +194,15 @@ class _$TaskNotificationPopupImpl extends _TaskNotificationPopup {
   @override
   final Widget description;
   @override
+  final DexActionType actionType;
+  @override
   final Widget? action;
   @override
   final VoidCallback? onActionPressed;
 
   @override
   String toString() {
-    return 'TaskNotificationPopup(key: $key, icon: $icon, title: $title, description: $description, action: $action, onActionPressed: $onActionPressed)';
+    return 'TaskNotificationPopup(key: $key, icon: $icon, title: $title, description: $description, actionType: $actionType, action: $action, onActionPressed: $onActionPressed)';
   }
 
   @override
@@ -199,14 +215,16 @@ class _$TaskNotificationPopupImpl extends _TaskNotificationPopup {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.actionType, actionType) ||
+                other.actionType == actionType) &&
             (identical(other.action, action) || other.action == action) &&
             (identical(other.onActionPressed, onActionPressed) ||
                 other.onActionPressed == onActionPressed));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, key, icon, title, description, action, onActionPressed);
+  int get hashCode => Object.hash(runtimeType, key, icon, title, description,
+      actionType, action, onActionPressed);
 
   @JsonKey(ignore: true)
   @override
@@ -222,6 +240,7 @@ abstract class _TaskNotificationPopup extends TaskNotificationPopup {
       required final Widget icon,
       final Widget? title,
       required final Widget description,
+      required final DexActionType actionType,
       final Widget? action,
       final VoidCallback? onActionPressed}) = _$TaskNotificationPopupImpl;
   const _TaskNotificationPopup._() : super._();
@@ -234,6 +253,8 @@ abstract class _TaskNotificationPopup extends TaskNotificationPopup {
   Widget? get title;
   @override
   Widget get description;
+  @override
+  DexActionType get actionType;
   @override
   Widget? get action;
   @override

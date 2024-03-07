@@ -37,6 +37,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(0.0) double lpTokenBalance,
     Transaction? transactionAddLiquidity,
     @Default(false) bool calculationInProgress,
+    double? finalAmount,
     Failure? failure,
   }) = _LiquidityAddFormState;
   const LiquidityAddFormState._();

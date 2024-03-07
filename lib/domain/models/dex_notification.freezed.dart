@@ -18,8 +18,90 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DexNotification {
   DexActionType get actionType => throw _privateConstructorUsedError;
   String? get txAddress => throw _privateConstructorUsedError;
-  double? get amount => throw _privateConstructorUsedError;
-  DexToken? get dexToken => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)
+        swap,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)
+        addLiquidity,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)
+        removeLiquidity,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_DexNotificationSwap value) swap,
+    required TResult Function(_DexNotificationAddLiquidity value) addLiquidity,
+    required TResult Function(_DexNotificationRemoveLiquidity value)
+        removeLiquidity,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_DexNotificationSwap value)? swap,
+    TResult? Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult? Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_DexNotificationSwap value)? swap,
+    TResult Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DexNotificationCopyWith<DexNotification> get copyWith =>
@@ -32,13 +114,7 @@ abstract class $DexNotificationCopyWith<$Res> {
           DexNotification value, $Res Function(DexNotification) then) =
       _$DexNotificationCopyWithImpl<$Res, DexNotification>;
   @useResult
-  $Res call(
-      {DexActionType actionType,
-      String? txAddress,
-      double? amount,
-      DexToken? dexToken});
-
-  $DexTokenCopyWith<$Res>? get dexToken;
+  $Res call({DexActionType actionType, String? txAddress});
 }
 
 /// @nodoc
@@ -56,8 +132,6 @@ class _$DexNotificationCopyWithImpl<$Res, $Val extends DexNotification>
   $Res call({
     Object? actionType = null,
     Object? txAddress = freezed,
-    Object? amount = freezed,
-    Object? dexToken = freezed,
   }) {
     return _then(_value.copyWith(
       actionType: null == actionType
@@ -68,54 +142,282 @@ class _$DexNotificationCopyWithImpl<$Res, $Val extends DexNotification>
           ? _value.txAddress
           : txAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double?,
-      dexToken: freezed == dexToken
-          ? _value.dexToken
-          : dexToken // ignore: cast_nullable_to_non_nullable
-              as DexToken?,
     ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DexNotificationSwapImplCopyWith<$Res>
+    implements $DexNotificationCopyWith<$Res> {
+  factory _$$DexNotificationSwapImplCopyWith(_$DexNotificationSwapImpl value,
+          $Res Function(_$DexNotificationSwapImpl) then) =
+      __$$DexNotificationSwapImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DexActionType actionType,
+      String? txAddress,
+      double? amountSwapped,
+      DexToken? tokenSwapped});
+
+  $DexTokenCopyWith<$Res>? get tokenSwapped;
+}
+
+/// @nodoc
+class __$$DexNotificationSwapImplCopyWithImpl<$Res>
+    extends _$DexNotificationCopyWithImpl<$Res, _$DexNotificationSwapImpl>
+    implements _$$DexNotificationSwapImplCopyWith<$Res> {
+  __$$DexNotificationSwapImplCopyWithImpl(_$DexNotificationSwapImpl _value,
+      $Res Function(_$DexNotificationSwapImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? actionType = null,
+    Object? txAddress = freezed,
+    Object? amountSwapped = freezed,
+    Object? tokenSwapped = freezed,
+  }) {
+    return _then(_$DexNotificationSwapImpl(
+      actionType: null == actionType
+          ? _value.actionType
+          : actionType // ignore: cast_nullable_to_non_nullable
+              as DexActionType,
+      txAddress: freezed == txAddress
+          ? _value.txAddress
+          : txAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amountSwapped: freezed == amountSwapped
+          ? _value.amountSwapped
+          : amountSwapped // ignore: cast_nullable_to_non_nullable
+              as double?,
+      tokenSwapped: freezed == tokenSwapped
+          ? _value.tokenSwapped
+          : tokenSwapped // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+    ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $DexTokenCopyWith<$Res>? get dexToken {
-    if (_value.dexToken == null) {
+  $DexTokenCopyWith<$Res>? get tokenSwapped {
+    if (_value.tokenSwapped == null) {
       return null;
     }
 
-    return $DexTokenCopyWith<$Res>(_value.dexToken!, (value) {
-      return _then(_value.copyWith(dexToken: value) as $Val);
+    return $DexTokenCopyWith<$Res>(_value.tokenSwapped!, (value) {
+      return _then(_value.copyWith(tokenSwapped: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$DexNotificationImplCopyWith<$Res>
+
+class _$DexNotificationSwapImpl extends _DexNotificationSwap {
+  const _$DexNotificationSwapImpl(
+      {this.actionType = DexActionType.swap,
+      this.txAddress,
+      this.amountSwapped,
+      this.tokenSwapped})
+      : super._();
+
+  @override
+  @JsonKey()
+  final DexActionType actionType;
+  @override
+  final String? txAddress;
+  @override
+  final double? amountSwapped;
+  @override
+  final DexToken? tokenSwapped;
+
+  @override
+  String toString() {
+    return 'DexNotification.swap(actionType: $actionType, txAddress: $txAddress, amountSwapped: $amountSwapped, tokenSwapped: $tokenSwapped)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DexNotificationSwapImpl &&
+            (identical(other.actionType, actionType) ||
+                other.actionType == actionType) &&
+            (identical(other.txAddress, txAddress) ||
+                other.txAddress == txAddress) &&
+            (identical(other.amountSwapped, amountSwapped) ||
+                other.amountSwapped == amountSwapped) &&
+            (identical(other.tokenSwapped, tokenSwapped) ||
+                other.tokenSwapped == tokenSwapped));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, actionType, txAddress, amountSwapped, tokenSwapped);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DexNotificationSwapImplCopyWith<_$DexNotificationSwapImpl> get copyWith =>
+      __$$DexNotificationSwapImplCopyWithImpl<_$DexNotificationSwapImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)
+        swap,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)
+        addLiquidity,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)
+        removeLiquidity,
+  }) {
+    return swap(actionType, txAddress, amountSwapped, tokenSwapped);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+  }) {
+    return swap?.call(actionType, txAddress, amountSwapped, tokenSwapped);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    required TResult orElse(),
+  }) {
+    if (swap != null) {
+      return swap(actionType, txAddress, amountSwapped, tokenSwapped);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_DexNotificationSwap value) swap,
+    required TResult Function(_DexNotificationAddLiquidity value) addLiquidity,
+    required TResult Function(_DexNotificationRemoveLiquidity value)
+        removeLiquidity,
+  }) {
+    return swap(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_DexNotificationSwap value)? swap,
+    TResult? Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult? Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+  }) {
+    return swap?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_DexNotificationSwap value)? swap,
+    TResult Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    required TResult orElse(),
+  }) {
+    if (swap != null) {
+      return swap(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DexNotificationSwap extends DexNotification {
+  const factory _DexNotificationSwap(
+      {final DexActionType actionType,
+      final String? txAddress,
+      final double? amountSwapped,
+      final DexToken? tokenSwapped}) = _$DexNotificationSwapImpl;
+  const _DexNotificationSwap._() : super._();
+
+  @override
+  DexActionType get actionType;
+  @override
+  String? get txAddress;
+  double? get amountSwapped;
+  DexToken? get tokenSwapped;
+  @override
+  @JsonKey(ignore: true)
+  _$$DexNotificationSwapImplCopyWith<_$DexNotificationSwapImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DexNotificationAddLiquidityImplCopyWith<$Res>
     implements $DexNotificationCopyWith<$Res> {
-  factory _$$DexNotificationImplCopyWith(_$DexNotificationImpl value,
-          $Res Function(_$DexNotificationImpl) then) =
-      __$$DexNotificationImplCopyWithImpl<$Res>;
+  factory _$$DexNotificationAddLiquidityImplCopyWith(
+          _$DexNotificationAddLiquidityImpl value,
+          $Res Function(_$DexNotificationAddLiquidityImpl) then) =
+      __$$DexNotificationAddLiquidityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {DexActionType actionType,
       String? txAddress,
       double? amount,
-      DexToken? dexToken});
+      DexToken? lpToken});
 
-  @override
-  $DexTokenCopyWith<$Res>? get dexToken;
+  $DexTokenCopyWith<$Res>? get lpToken;
 }
 
 /// @nodoc
-class __$$DexNotificationImplCopyWithImpl<$Res>
-    extends _$DexNotificationCopyWithImpl<$Res, _$DexNotificationImpl>
-    implements _$$DexNotificationImplCopyWith<$Res> {
-  __$$DexNotificationImplCopyWithImpl(
-      _$DexNotificationImpl _value, $Res Function(_$DexNotificationImpl) _then)
+class __$$DexNotificationAddLiquidityImplCopyWithImpl<$Res>
+    extends _$DexNotificationCopyWithImpl<$Res,
+        _$DexNotificationAddLiquidityImpl>
+    implements _$$DexNotificationAddLiquidityImplCopyWith<$Res> {
+  __$$DexNotificationAddLiquidityImplCopyWithImpl(
+      _$DexNotificationAddLiquidityImpl _value,
+      $Res Function(_$DexNotificationAddLiquidityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -124,9 +426,9 @@ class __$$DexNotificationImplCopyWithImpl<$Res>
     Object? actionType = null,
     Object? txAddress = freezed,
     Object? amount = freezed,
-    Object? dexToken = freezed,
+    Object? lpToken = freezed,
   }) {
-    return _then(_$DexNotificationImpl(
+    return _then(_$DexNotificationAddLiquidityImpl(
       actionType: null == actionType
           ? _value.actionType
           : actionType // ignore: cast_nullable_to_non_nullable
@@ -139,79 +441,530 @@ class __$$DexNotificationImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double?,
-      dexToken: freezed == dexToken
-          ? _value.dexToken
-          : dexToken // ignore: cast_nullable_to_non_nullable
+      lpToken: freezed == lpToken
+          ? _value.lpToken
+          : lpToken // ignore: cast_nullable_to_non_nullable
               as DexToken?,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get lpToken {
+    if (_value.lpToken == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.lpToken!, (value) {
+      return _then(_value.copyWith(lpToken: value));
+    });
   }
 }
 
 /// @nodoc
 
-class _$DexNotificationImpl extends _DexNotification {
-  const _$DexNotificationImpl(
-      {required this.actionType, this.txAddress, this.amount, this.dexToken})
+class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
+  const _$DexNotificationAddLiquidityImpl(
+      {this.actionType = DexActionType.addLiquidity,
+      this.txAddress,
+      this.amount,
+      this.lpToken})
       : super._();
 
   @override
+  @JsonKey()
   final DexActionType actionType;
   @override
   final String? txAddress;
   @override
   final double? amount;
   @override
-  final DexToken? dexToken;
+  final DexToken? lpToken;
 
   @override
   String toString() {
-    return 'DexNotification(actionType: $actionType, txAddress: $txAddress, amount: $amount, dexToken: $dexToken)';
+    return 'DexNotification.addLiquidity(actionType: $actionType, txAddress: $txAddress, amount: $amount, lpToken: $lpToken)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DexNotificationImpl &&
+            other is _$DexNotificationAddLiquidityImpl &&
             (identical(other.actionType, actionType) ||
                 other.actionType == actionType) &&
             (identical(other.txAddress, txAddress) ||
                 other.txAddress == txAddress) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.dexToken, dexToken) ||
-                other.dexToken == dexToken));
+            (identical(other.lpToken, lpToken) || other.lpToken == lpToken));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, actionType, txAddress, amount, dexToken);
+      Object.hash(runtimeType, actionType, txAddress, amount, lpToken);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DexNotificationImplCopyWith<_$DexNotificationImpl> get copyWith =>
-      __$$DexNotificationImplCopyWithImpl<_$DexNotificationImpl>(
-          this, _$identity);
+  _$$DexNotificationAddLiquidityImplCopyWith<_$DexNotificationAddLiquidityImpl>
+      get copyWith => __$$DexNotificationAddLiquidityImplCopyWithImpl<
+          _$DexNotificationAddLiquidityImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)
+        swap,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)
+        addLiquidity,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)
+        removeLiquidity,
+  }) {
+    return addLiquidity(actionType, txAddress, amount, lpToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+  }) {
+    return addLiquidity?.call(actionType, txAddress, amount, lpToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    required TResult orElse(),
+  }) {
+    if (addLiquidity != null) {
+      return addLiquidity(actionType, txAddress, amount, lpToken);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_DexNotificationSwap value) swap,
+    required TResult Function(_DexNotificationAddLiquidity value) addLiquidity,
+    required TResult Function(_DexNotificationRemoveLiquidity value)
+        removeLiquidity,
+  }) {
+    return addLiquidity(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_DexNotificationSwap value)? swap,
+    TResult? Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult? Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+  }) {
+    return addLiquidity?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_DexNotificationSwap value)? swap,
+    TResult Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    required TResult orElse(),
+  }) {
+    if (addLiquidity != null) {
+      return addLiquidity(this);
+    }
+    return orElse();
+  }
 }
 
-abstract class _DexNotification extends DexNotification {
-  const factory _DexNotification(
-      {required final DexActionType actionType,
+abstract class _DexNotificationAddLiquidity extends DexNotification {
+  const factory _DexNotificationAddLiquidity(
+      {final DexActionType actionType,
       final String? txAddress,
       final double? amount,
-      final DexToken? dexToken}) = _$DexNotificationImpl;
-  const _DexNotification._() : super._();
+      final DexToken? lpToken}) = _$DexNotificationAddLiquidityImpl;
+  const _DexNotificationAddLiquidity._() : super._();
 
   @override
   DexActionType get actionType;
   @override
   String? get txAddress;
-  @override
   double? get amount;
-  @override
-  DexToken? get dexToken;
+  DexToken? get lpToken;
   @override
   @JsonKey(ignore: true)
-  _$$DexNotificationImplCopyWith<_$DexNotificationImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$DexNotificationAddLiquidityImplCopyWith<_$DexNotificationAddLiquidityImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DexNotificationRemoveLiquidityImplCopyWith<$Res>
+    implements $DexNotificationCopyWith<$Res> {
+  factory _$$DexNotificationRemoveLiquidityImplCopyWith(
+          _$DexNotificationRemoveLiquidityImpl value,
+          $Res Function(_$DexNotificationRemoveLiquidityImpl) then) =
+      __$$DexNotificationRemoveLiquidityImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DexActionType actionType,
+      String? txAddress,
+      double? amountToken1,
+      double? amountToken2,
+      double? amountLPToken,
+      DexToken? token1,
+      DexToken? token2,
+      DexToken? lpToken});
+
+  $DexTokenCopyWith<$Res>? get token1;
+  $DexTokenCopyWith<$Res>? get token2;
+  $DexTokenCopyWith<$Res>? get lpToken;
+}
+
+/// @nodoc
+class __$$DexNotificationRemoveLiquidityImplCopyWithImpl<$Res>
+    extends _$DexNotificationCopyWithImpl<$Res,
+        _$DexNotificationRemoveLiquidityImpl>
+    implements _$$DexNotificationRemoveLiquidityImplCopyWith<$Res> {
+  __$$DexNotificationRemoveLiquidityImplCopyWithImpl(
+      _$DexNotificationRemoveLiquidityImpl _value,
+      $Res Function(_$DexNotificationRemoveLiquidityImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? actionType = null,
+    Object? txAddress = freezed,
+    Object? amountToken1 = freezed,
+    Object? amountToken2 = freezed,
+    Object? amountLPToken = freezed,
+    Object? token1 = freezed,
+    Object? token2 = freezed,
+    Object? lpToken = freezed,
+  }) {
+    return _then(_$DexNotificationRemoveLiquidityImpl(
+      actionType: null == actionType
+          ? _value.actionType
+          : actionType // ignore: cast_nullable_to_non_nullable
+              as DexActionType,
+      txAddress: freezed == txAddress
+          ? _value.txAddress
+          : txAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amountToken1: freezed == amountToken1
+          ? _value.amountToken1
+          : amountToken1 // ignore: cast_nullable_to_non_nullable
+              as double?,
+      amountToken2: freezed == amountToken2
+          ? _value.amountToken2
+          : amountToken2 // ignore: cast_nullable_to_non_nullable
+              as double?,
+      amountLPToken: freezed == amountLPToken
+          ? _value.amountLPToken
+          : amountLPToken // ignore: cast_nullable_to_non_nullable
+              as double?,
+      token1: freezed == token1
+          ? _value.token1
+          : token1 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token2: freezed == token2
+          ? _value.token2
+          : token2 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      lpToken: freezed == lpToken
+          ? _value.lpToken
+          : lpToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get token1 {
+    if (_value.token1 == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.token1!, (value) {
+      return _then(_value.copyWith(token1: value));
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get token2 {
+    if (_value.token2 == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.token2!, (value) {
+      return _then(_value.copyWith(token2: value));
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get lpToken {
+    if (_value.lpToken == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.lpToken!, (value) {
+      return _then(_value.copyWith(lpToken: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$DexNotificationRemoveLiquidityImpl
+    extends _DexNotificationRemoveLiquidity {
+  const _$DexNotificationRemoveLiquidityImpl(
+      {this.actionType = DexActionType.removeLiquidity,
+      this.txAddress,
+      this.amountToken1,
+      this.amountToken2,
+      this.amountLPToken,
+      this.token1,
+      this.token2,
+      this.lpToken})
+      : super._();
+
+  @override
+  @JsonKey()
+  final DexActionType actionType;
+  @override
+  final String? txAddress;
+  @override
+  final double? amountToken1;
+  @override
+  final double? amountToken2;
+  @override
+  final double? amountLPToken;
+  @override
+  final DexToken? token1;
+  @override
+  final DexToken? token2;
+  @override
+  final DexToken? lpToken;
+
+  @override
+  String toString() {
+    return 'DexNotification.removeLiquidity(actionType: $actionType, txAddress: $txAddress, amountToken1: $amountToken1, amountToken2: $amountToken2, amountLPToken: $amountLPToken, token1: $token1, token2: $token2, lpToken: $lpToken)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DexNotificationRemoveLiquidityImpl &&
+            (identical(other.actionType, actionType) ||
+                other.actionType == actionType) &&
+            (identical(other.txAddress, txAddress) ||
+                other.txAddress == txAddress) &&
+            (identical(other.amountToken1, amountToken1) ||
+                other.amountToken1 == amountToken1) &&
+            (identical(other.amountToken2, amountToken2) ||
+                other.amountToken2 == amountToken2) &&
+            (identical(other.amountLPToken, amountLPToken) ||
+                other.amountLPToken == amountLPToken) &&
+            (identical(other.token1, token1) || other.token1 == token1) &&
+            (identical(other.token2, token2) || other.token2 == token2) &&
+            (identical(other.lpToken, lpToken) || other.lpToken == lpToken));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, actionType, txAddress,
+      amountToken1, amountToken2, amountLPToken, token1, token2, lpToken);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DexNotificationRemoveLiquidityImplCopyWith<
+          _$DexNotificationRemoveLiquidityImpl>
+      get copyWith => __$$DexNotificationRemoveLiquidityImplCopyWithImpl<
+          _$DexNotificationRemoveLiquidityImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)
+        swap,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)
+        addLiquidity,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)
+        removeLiquidity,
+  }) {
+    return removeLiquidity(actionType, txAddress, amountToken1, amountToken2,
+        amountLPToken, token1, token2, lpToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+  }) {
+    return removeLiquidity?.call(actionType, txAddress, amountToken1,
+        amountToken2, amountLPToken, token1, token2, lpToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    required TResult orElse(),
+  }) {
+    if (removeLiquidity != null) {
+      return removeLiquidity(actionType, txAddress, amountToken1, amountToken2,
+          amountLPToken, token1, token2, lpToken);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_DexNotificationSwap value) swap,
+    required TResult Function(_DexNotificationAddLiquidity value) addLiquidity,
+    required TResult Function(_DexNotificationRemoveLiquidity value)
+        removeLiquidity,
+  }) {
+    return removeLiquidity(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_DexNotificationSwap value)? swap,
+    TResult? Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult? Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+  }) {
+    return removeLiquidity?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_DexNotificationSwap value)? swap,
+    TResult Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    required TResult orElse(),
+  }) {
+    if (removeLiquidity != null) {
+      return removeLiquidity(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DexNotificationRemoveLiquidity extends DexNotification {
+  const factory _DexNotificationRemoveLiquidity(
+      {final DexActionType actionType,
+      final String? txAddress,
+      final double? amountToken1,
+      final double? amountToken2,
+      final double? amountLPToken,
+      final DexToken? token1,
+      final DexToken? token2,
+      final DexToken? lpToken}) = _$DexNotificationRemoveLiquidityImpl;
+  const _DexNotificationRemoveLiquidity._() : super._();
+
+  @override
+  DexActionType get actionType;
+  @override
+  String? get txAddress;
+  double? get amountToken1;
+  double? get amountToken2;
+  double? get amountLPToken;
+  DexToken? get token1;
+  DexToken? get token2;
+  DexToken? get lpToken;
+  @override
+  @JsonKey(ignore: true)
+  _$$DexNotificationRemoveLiquidityImplCopyWith<
+          _$DexNotificationRemoveLiquidityImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

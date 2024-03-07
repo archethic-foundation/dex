@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';

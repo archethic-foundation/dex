@@ -53,10 +53,7 @@ class LiquidityAddInProgressPopup {
           liquidityAdd.transactionAddLiquidity != null &&
           liquidityAdd.transactionAddLiquidity!.address != null &&
           liquidityAdd.transactionAddLiquidity!.address!.address != null)
-        LiquidityAddFinalAmount(
-          address: liquidityAdd.transactionAddLiquidity!.address!.address!,
-          to: liquidityAdd.pool!.lpToken.address!,
-        ),
+        const LiquidityAddFinalAmount(),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: liquidityAdd.currentStep,

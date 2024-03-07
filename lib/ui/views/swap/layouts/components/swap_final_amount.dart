@@ -5,16 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SwapFinalAmount extends ConsumerWidget {
-  const SwapFinalAmount({super.key, required this.address});
-
-  final String address;
+  const SwapFinalAmount({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final swap = ref.watch(SwapFormProvider.swapForm);
     if (swap.swapOk == false) return const SizedBox.shrink();
 
-    final finalAmount = ref.watch(SwapFormProvider.swapForm).finalAmount;
+    final finalAmount = swap.finalAmount;
     final timeout = ref.watch(
       SwapFormProvider.swapForm.select((value) => value.failure != null),
     );

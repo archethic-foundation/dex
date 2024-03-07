@@ -48,9 +48,7 @@ class SwapInProgressPopup {
       if (swap.recoveryTransactionSwap != null &&
           swap.recoveryTransactionSwap!.address != null &&
           swap.recoveryTransactionSwap!.address!.address != null)
-        SwapFinalAmount(
-          address: swap.recoveryTransactionSwap!.address!.address!,
-        ),
+        const SwapFinalAmount(),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: swap.currentStep,
