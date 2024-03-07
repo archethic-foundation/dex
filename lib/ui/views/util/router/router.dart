@@ -102,12 +102,6 @@ final routerProvider = Provider<GoRouter>(
                   token2 = DexToken.fromJson(jsonDecode(token2Json));
                 }
 
-                if (token1 == null || token2 == null) {
-                  return const NoTransitionPage(
-                    child: PoolListSheet(),
-                  );
-                }
-
                 return NoTransitionPage(
                   child: PoolAddSheet(
                     token1: token1,
