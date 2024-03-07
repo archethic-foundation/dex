@@ -4,7 +4,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';

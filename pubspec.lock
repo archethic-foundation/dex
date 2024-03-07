@@ -38,7 +38,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "8762fa4ecdd42b1d79dcc9f9d6a40ca012aa3399"
+      resolved-ref: c4af0615120fd7f0e4cecde104c52682db201956
       url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
     source: git
     version: "0.0.1+1"
@@ -306,6 +306,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.4"
+  elegant_notification:
+    dependency: "direct main"
+    description:
+      name: elegant_notification
+      sha256: "34434359fda9dff3d0a34cc388e668b335925473daa2a97c17809a5f0a0f6710"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.13.1"
   elliptic:
     dependency: transitive
     description:
@@ -1207,7 +1215,7 @@ packages:
     source: hosted
     version: "0.2.0"
   uuid:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: uuid
       sha256: "22c94e5ad1e75f9934b766b53c742572ee2677c56bc871d850a57dad0f82127f"

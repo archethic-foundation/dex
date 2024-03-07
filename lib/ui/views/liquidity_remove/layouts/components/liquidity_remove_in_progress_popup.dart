@@ -56,10 +56,7 @@ class LiquidityRemoveInProgressPopup {
       if (liquidityRemove.transactionRemoveLiquidity != null &&
           liquidityRemove.transactionRemoveLiquidity!.address != null &&
           liquidityRemove.transactionRemoveLiquidity!.address!.address != null)
-        LiquidityRemoveFinalAmount(
-          address:
-              liquidityRemove.transactionRemoveLiquidity!.address!.address!,
-        ),
+        const LiquidityRemoveFinalAmount(),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: liquidityRemove.currentStep,

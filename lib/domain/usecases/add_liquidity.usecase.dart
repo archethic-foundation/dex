@@ -2,34 +2,45 @@
 import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
+import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-
+import 'package:aedex/util/notification_service/task_notification_service.dart'
+    as ns;
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 const logName = 'AddLiquidityCase';
 
 class AddLiquidityCase with aedappfm.TransactionMixin {
-  Future<void> run(
+  Future<double> run(
     WidgetRef ref,
+    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+        notificationService,
     String poolGenesisAddress,
     DexToken token1,
     double token1Amount,
     DexToken token2,
     double token2Amount,
-    double slippage, {
+    double slippage,
+    DexToken lpToken, {
     int recoveryStep = 0,
   }) async {
+    final operationId = const Uuid().v4();
+
     final archethicContract = ArchethicContract();
     final liquidityAddNotifier =
         ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier);
 
     archethic.Transaction? transactionAddLiquidity;
+
+    liquidityAddNotifier.setFinalAmount(null);
+
     if (recoveryStep <= 1) {
       liquidityAddNotifier.setCurrentStep(1);
       try {
@@ -55,7 +66,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
           },
         );
       } catch (e) {
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
     }
 
@@ -76,12 +87,12 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
       } catch (e) {
         if (e is aedappfm.Failure) {
           liquidityAddNotifier.setFailure(e);
-          return;
+          throw aedappfm.Failure.fromError(e);
         }
         liquidityAddNotifier
             .setFailure(aedappfm.Failure.other(cause: e.toString()));
 
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
     }
 
@@ -97,7 +108,40 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
         ..setLiquidityAddOk(true);
+
+      notificationService.start(
+        operationId,
+        DexNotification.addLiquidity(
+          txAddress: transactionAddLiquidity!.address!.address,
+        ),
+      );
+
+      final amount = await aedappfm.PeriodicFuture.periodic<double>(
+        () => getAmountFromTxInput(
+          transactionAddLiquidity!.address!.address!,
+          lpToken.address,
+        ),
+        sleepDuration: const Duration(seconds: 3),
+        until: (amount) {
+          return amount > 0;
+        },
+      ).timeout(
+        const Duration(minutes: 1),
+        onTimeout: () => throw const aedappfm.Timeout(),
+      );
+
+      notificationService.succeed(
+        operationId,
+        DexNotification.addLiquidity(
+          txAddress: transactionAddLiquidity!.address!.address,
+          lpToken: lpToken,
+          amount: amount,
+        ),
+      );
+
       unawaited(refreshCurrentAccountInfoWallet());
+
+      return amount;
     } catch (e) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'TransactionAddLiquidity sendTx failed $e',
@@ -112,7 +156,12 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
           ),
         )
         ..setCurrentStep(3);
-      return;
+
+      notificationService.failed(
+        operationId,
+        aedappfm.Failure.fromError(e),
+      );
+      throw aedappfm.Failure.fromError(e);
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
@@ -89,6 +90,10 @@ class FarmDepositFormNotifier
     );
   }
 
+  void setFinalAmount(double? finalAmount) {
+    state = state.copyWith(finalAmount: finalAmount);
+  }
+
   void setCurrentStep(int currentStep) {
     state = state.copyWith(currentStep: currentStep);
   }
@@ -161,12 +166,17 @@ class FarmDepositFormNotifier
       return;
     }
 
-    await DepositFarmCase().run(
+    final finalAmount = await DepositFarmCase().run(
       ref,
+      ref.watch(NotificationProviders.notificationService),
       state.dexFarmInfo!.farmAddress,
       state.dexFarmInfo!.lpToken!.address!,
       state.amount,
+      state.dexFarmInfo!.farmAddress,
+      false,
     );
+
+    state = state.copyWith(finalAmount: finalAmount);
   }
 }
 

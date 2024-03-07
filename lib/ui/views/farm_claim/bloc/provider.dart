@@ -1,3 +1,4 @@
+import 'package:aedex/application/notification.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/claim_farm.usecase.dart';
@@ -69,6 +70,10 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
     );
   }
 
+  void setFinalAmount(double? finalAmount) {
+    state = state.copyWith(finalAmount: finalAmount);
+  }
+
   void setCurrentStep(int currentStep) {
     state = state.copyWith(currentStep: currentStep);
   }
@@ -122,7 +127,13 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
       return;
     }
 
-    await ClaimFarmCase().run(ref, state.farmAddress!);
+    final finalAmount = await ClaimFarmCase().run(
+      ref,
+      ref.watch(NotificationProviders.notificationService),
+      state.farmAddress!,
+      state.rewardToken!,
+    );
+    state = state.copyWith(finalAmount: finalAmount);
   }
 }
 

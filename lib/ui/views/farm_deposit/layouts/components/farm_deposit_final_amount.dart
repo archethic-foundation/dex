@@ -1,87 +1,28 @@
-import 'dart:async';
-
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FarmDepositFinalAmount extends ConsumerStatefulWidget {
+class FarmDepositFinalAmount extends ConsumerWidget {
   const FarmDepositFinalAmount({
     super.key,
-    required this.address,
-    required this.isUCO,
-    required this.to,
   });
 
-  final String address;
-  final bool isUCO;
-  final String to;
-
   @override
-  ConsumerState<FarmDepositFinalAmount> createState() =>
-      _FarmDepositFinalAmountState();
-}
-
-class _FarmDepositFinalAmountState extends ConsumerState<FarmDepositFinalAmount>
-    with aedappfm.TransactionMixin {
-  double? finalAmount;
-  Timer? timer;
-  Timer? timeoutTimer;
-  bool? timeout;
-
-  @override
-  void initState() {
-    timeout = false;
-    super.initState();
-    startTimer();
-    startTimeoutTimer();
-  }
-
-  void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
-      try {
-        final amount = await getAmountFromTx(
-          widget.address,
-          widget.isUCO,
-          widget.to,
-        );
-        if (amount > 0) {
-          setState(() {
-            finalAmount = amount;
-          });
-          unawaited(refreshCurrentAccountInfoWallet());
-          timer?.cancel();
-        }
-        // ignore: empty_catches
-      } catch (e) {}
-    });
-  }
-
-  void startTimeoutTimer() {
-    timeoutTimer = Timer(const Duration(minutes: 1), () {
-      timeout = true;
-      timer?.cancel();
-    });
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    timeoutTimer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
-
     if (farmDeposit.farmDepositOk == false) return const SizedBox.shrink();
+
+    final finalAmount = farmDeposit.finalAmount;
+    final timeout = ref.watch(
+      FarmDepositFormProvider.farmDepositForm
+          .select((value) => value.failure != null),
+    );
 
     return finalAmount != null
         ? SelectableText(
-            'Amount deposited: ${finalAmount!.formatNumber(precision: 8)} ${finalAmount! > 1 ? 'LP Tokens' : 'LP Token'}',
+            'Amount deposited: ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? 'LP Tokens' : 'LP Token'}',
           )
         : timeout == false
             ? const Row(

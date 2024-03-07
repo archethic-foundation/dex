@@ -2,26 +2,35 @@
 import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
+import 'package:aedex/domain/models/dex_notification.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
-
+import 'package:aedex/util/notification_service/task_notification_service.dart'
+    as ns;
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 const logName = 'WithdrawFarmCase';
 
 class WithdrawFarmCase with aedappfm.TransactionMixin {
-  Future<void> run(
+  Future<({double finalAmountReward, double finalAmountWithdraw})> run(
     WidgetRef ref,
+    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+        notificationService,
     String farmGenesisAddress,
     String lpTokenAddress,
-    double amount, {
+    double amount,
+    DexToken rewardToken, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionWithdraw,
   }) async {
+    final operationId = const Uuid().v4();
+
     final archethicContract = ArchethicContract();
     final farmWithdrawNotifier =
         ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier);
@@ -30,6 +39,9 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
     if (recoveryTransactionWithdraw != null) {
       transactionWithdraw = recoveryTransactionWithdraw;
     }
+    farmWithdrawNotifier
+      ..setFinalAmountReward(null)
+      ..setFinalAmountWithdraw(null);
 
     if (recoveryStep <= 1) {
       farmWithdrawNotifier.setCurrentStep(1);
@@ -54,7 +66,7 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
           },
         );
       } catch (e) {
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
     }
 
@@ -80,12 +92,12 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
     } catch (e) {
       if (e is aedappfm.Failure) {
         farmWithdrawNotifier.setFailure(e);
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
       farmWithdrawNotifier
           .setFailure(aedappfm.Failure.other(cause: e.toString()));
 
-      return;
+      throw aedappfm.Failure.fromError(e);
     }
 
     try {
@@ -100,6 +112,57 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
         ..setFarmWithdrawOk(true);
+
+      notificationService.start(
+        operationId,
+        DexNotification.withdrawFarm(
+          txAddress: transactionWithdraw!.address!.address,
+          rewardToken: rewardToken,
+        ),
+      );
+
+      final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
+        () => Future.wait([
+          getAmountFromTxInput(
+            transactionWithdraw!.address!.address!,
+            rewardToken.address,
+          ),
+          getAmountFromTxInput(
+            transactionWithdraw!.address!.address!,
+            lpTokenAddress,
+          ),
+        ]),
+        sleepDuration: const Duration(seconds: 3),
+        until: (amounts) {
+          final amountReward = amounts[0];
+          final amountWithdraw = amounts[1];
+
+          return amountReward > 0 && amountWithdraw > 0;
+        },
+      ).timeout(
+        const Duration(minutes: 1),
+        onTimeout: () => throw const aedappfm.Timeout(),
+      );
+
+      final amountReward = amounts[0];
+      final amountWithdraw = amounts[1];
+
+      notificationService.succeed(
+        operationId,
+        DexNotification.withdrawFarm(
+          txAddress: transactionWithdraw!.address!.address,
+          amountReward: amountReward,
+          amountWithdraw: amountWithdraw,
+          rewardToken: rewardToken,
+        ),
+      );
+
+      unawaited(refreshCurrentAccountInfoWallet());
+
+      return (
+        finalAmountReward: amountReward,
+        finalAmountWithdraw: amountWithdraw
+      );
     } catch (e) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'TransactionWithdrawFarm sendTx failed $e',
@@ -114,7 +177,12 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
           ),
         )
         ..setCurrentStep(3);
-      return;
+
+      notificationService.failed(
+        operationId,
+        aedappfm.Failure.fromError(e),
+      );
+      throw aedappfm.Failure.fromError(e);
     }
   }
 

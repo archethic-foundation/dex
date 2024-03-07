@@ -2,28 +2,36 @@
 import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
+import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-
+import 'package:aedex/util/notification_service/task_notification_service.dart'
+    as ns;
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 const logName = 'SwapCase';
 
 class SwapCase with aedappfm.TransactionMixin {
-  Future<void> run(
+  Future<double> run(
     WidgetRef ref,
+    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+        notificationService,
     String poolGenesisAddress,
     DexToken tokenToSwap,
+    DexToken tokenSwapped,
     double tokenToSwapAmount,
     double slippage, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionSwap,
   }) async {
+    final operationId = const Uuid().v4();
+
     final archethicContract = ArchethicContract();
     final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
 
@@ -31,6 +39,8 @@ class SwapCase with aedappfm.TransactionMixin {
     if (recoveryTransactionSwap != null) {
       transactionSwap = recoveryTransactionSwap;
     }
+
+    swapNotifier.setFinalAmount(null);
 
     var outputAmount = 0.0;
     if (recoveryStep <= 1) {
@@ -54,6 +64,9 @@ class SwapCase with aedappfm.TransactionMixin {
             }
           },
           failure: (failure) {
+            //FIXME : il faudrait faire ça dans l'autre sens :
+            // - la methode run() retourne un Stream<SwapState>.
+            // - le notifierProvider écoute ce stream et se met a jour en conséquence
             swapNotifier
               ..setFailure(failure)
               ..setCurrentStep(4)
@@ -62,7 +75,7 @@ class SwapCase with aedappfm.TransactionMixin {
           },
         );
       } catch (e) {
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
     }
 
@@ -93,7 +106,7 @@ class SwapCase with aedappfm.TransactionMixin {
           },
         );
       } catch (e) {
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
     }
 
@@ -121,13 +134,12 @@ class SwapCase with aedappfm.TransactionMixin {
         swapNotifier
           ..setFailure(e)
           ..setCurrentStep(4);
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
       swapNotifier
         ..setFailure(aedappfm.Failure.other(cause: e.toString()))
         ..setCurrentStep(4);
-
-      return;
+      throw aedappfm.Failure.fromError(e);
     }
 
     try {
@@ -142,6 +154,41 @@ class SwapCase with aedappfm.TransactionMixin {
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
         ..setSwapOk(true);
+
+      notificationService.start(
+        operationId,
+        DexNotification.swap(
+          txAddress: transactionSwap!.address!.address,
+          tokenSwapped: tokenSwapped,
+        ),
+      );
+
+      final amount = await aedappfm.PeriodicFuture.periodic<double>(
+        () => getAmountFromTxInput(
+          transactionSwap!.address!.address!,
+          tokenSwapped.address,
+        ),
+        sleepDuration: const Duration(seconds: 3),
+        until: (amount) {
+          return amount > 0;
+        },
+      ).timeout(
+        const Duration(minutes: 1),
+        onTimeout: () => throw const aedappfm.Timeout(),
+      );
+
+      notificationService.succeed(
+        operationId,
+        DexNotification.swap(
+          txAddress: transactionSwap!.address!.address,
+          tokenSwapped: tokenSwapped,
+          amountSwapped: amount,
+        ),
+      );
+
+      unawaited(refreshCurrentAccountInfoWallet());
+
+      return amount;
     } catch (e) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'TransactionSwap sendTx failed $e ($transactionSwap)',
@@ -156,7 +203,12 @@ class SwapCase with aedappfm.TransactionMixin {
           ),
         )
         ..setCurrentStep(4);
-      return;
+
+      notificationService.failed(
+        operationId,
+        aedappfm.Failure.fromError(e),
+      );
+      throw aedappfm.Failure.fromError(e);
     }
   }
 

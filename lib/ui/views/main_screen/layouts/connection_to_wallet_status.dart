@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -67,6 +69,24 @@ class _ConnectionToWalletStatusState
             fontSize: 8,
           ),
           selectable: false,
+        ),
+      );
+    }
+
+    final runningTasksCount = ref.watch(
+      NotificationProviders.runningTasks
+          .select((value) => value.valueOrNull?.length ?? 0),
+    );
+
+    if (runningTasksCount > 0) {
+      return Container(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RunningTasksNotificationWidget(),
+          ],
         ),
       );
     }

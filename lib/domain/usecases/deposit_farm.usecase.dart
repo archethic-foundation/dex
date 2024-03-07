@@ -2,26 +2,35 @@
 import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
+import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
-
+import 'package:aedex/util/notification_service/task_notification_service.dart'
+    as ns;
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 const logName = 'DepositFarmCase';
 
 class DepositFarmCase with aedappfm.TransactionMixin {
-  Future<void> run(
+  Future<double> run(
     WidgetRef ref,
+    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+        notificationService,
     String farmGenesisAddress,
     String lpTokenAddress,
-    double amount, {
+    double amount,
+    String farmAddress,
+    bool isUCO, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionDeposit,
   }) async {
+    final operationId = const Uuid().v4();
+
     final archethicContract = ArchethicContract();
     final farmDepositNotifier =
         ref.read(FarmDepositFormProvider.farmDepositForm.notifier);
@@ -30,6 +39,8 @@ class DepositFarmCase with aedappfm.TransactionMixin {
     if (recoveryTransactionDeposit != null) {
       transactionDeposit = recoveryTransactionDeposit;
     }
+
+    farmDepositNotifier.setFinalAmount(null);
 
     if (recoveryStep <= 1) {
       farmDepositNotifier.setCurrentStep(1);
@@ -55,7 +66,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
           },
         );
       } catch (e) {
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
     }
 
@@ -81,12 +92,11 @@ class DepositFarmCase with aedappfm.TransactionMixin {
     } catch (e) {
       if (e is aedappfm.Failure) {
         farmDepositNotifier.setFailure(e);
-        return;
+        throw aedappfm.Failure.fromError(e);
       }
       farmDepositNotifier
           .setFailure(aedappfm.Failure.other(cause: e.toString()));
-
-      return;
+      throw aedappfm.Failure.fromError(e);
     }
 
     try {
@@ -101,6 +111,44 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
         ..setFarmDepositOk(true);
+
+      notificationService.start(
+        operationId,
+        DexNotification.depositFarm(
+          txAddress: transactionDeposit!.address!.address,
+          farmAddress: farmAddress,
+          isUCO: isUCO,
+        ),
+      );
+
+      final amount = await aedappfm.PeriodicFuture.periodic<double>(
+        () => getAmountFromTx(
+          transactionDeposit!.address!.address!,
+          isUCO,
+          farmAddress,
+        ),
+        sleepDuration: const Duration(seconds: 3),
+        until: (amount) {
+          return amount > 0;
+        },
+      ).timeout(
+        const Duration(minutes: 1),
+        onTimeout: () => throw const aedappfm.Timeout(),
+      );
+
+      notificationService.succeed(
+        operationId,
+        DexNotification.depositFarm(
+          txAddress: transactionDeposit!.address!.address,
+          amount: amount,
+          farmAddress: farmAddress,
+          isUCO: isUCO,
+        ),
+      );
+
+      unawaited(refreshCurrentAccountInfoWallet());
+
+      return amount;
     } catch (e) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'TransactionFarmDeposit sendTx failed $e',
@@ -115,7 +163,12 @@ class DepositFarmCase with aedappfm.TransactionMixin {
           ),
         )
         ..setCurrentStep(3);
-      return;
+
+      notificationService.failed(
+        operationId,
+        aedappfm.Failure.fromError(e),
+      );
+      throw aedappfm.Failure.fromError(e);
     }
   }
 

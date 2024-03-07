@@ -43,6 +43,7 @@ mixin _$LiquidityAddFormState {
   Transaction? get transactionAddLiquidity =>
       throw _privateConstructorUsedError;
   bool get calculationInProgress => throw _privateConstructorUsedError;
+  double? get finalAmount => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -83,6 +84,7 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       double lpTokenBalance,
       Transaction? transactionAddLiquidity,
       bool calculationInProgress,
+      double? finalAmount,
       Failure? failure});
 
   $DexTokenCopyWith<$Res>? get token1;
@@ -132,6 +134,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     Object? lpTokenBalance = null,
     Object? transactionAddLiquidity = freezed,
     Object? calculationInProgress = null,
+    Object? finalAmount = freezed,
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
@@ -239,6 +242,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
           ? _value.calculationInProgress
           : calculationInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
+      finalAmount: freezed == finalAmount
+          ? _value.finalAmount
+          : finalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -343,6 +350,7 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       double lpTokenBalance,
       Transaction? transactionAddLiquidity,
       bool calculationInProgress,
+      double? finalAmount,
       Failure? failure});
 
   @override
@@ -395,6 +403,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
     Object? lpTokenBalance = null,
     Object? transactionAddLiquidity = freezed,
     Object? calculationInProgress = null,
+    Object? finalAmount = freezed,
     Object? failure = freezed,
   }) {
     return _then(_$LiquidityAddFormStateImpl(
@@ -502,6 +511,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
           ? _value.calculationInProgress
           : calculationInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
+      finalAmount: freezed == finalAmount
+          ? _value.finalAmount
+          : finalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -540,6 +553,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
       this.lpTokenBalance = 0.0,
       this.transactionAddLiquidity,
       this.calculationInProgress = false,
+      this.finalAmount,
       this.failure})
       : super._();
 
@@ -618,11 +632,13 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   @JsonKey()
   final bool calculationInProgress;
   @override
+  final double? finalAmount;
+  @override
   final Failure? failure;
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, failure: $failure)';
+    return 'LiquidityAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, finalAmount: $finalAmount, failure: $failure)';
   }
 
   @override
@@ -679,6 +695,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
                 other.transactionAddLiquidity == transactionAddLiquidity) &&
             (identical(other.calculationInProgress, calculationInProgress) ||
                 other.calculationInProgress == calculationInProgress) &&
+            (identical(other.finalAmount, finalAmount) ||
+                other.finalAmount == finalAmount) &&
             (identical(other.failure, failure) || other.failure == failure));
   }
 
@@ -711,6 +729,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
         lpTokenBalance,
         transactionAddLiquidity,
         calculationInProgress,
+        finalAmount,
         failure
       ]);
 
@@ -750,6 +769,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final double lpTokenBalance,
       final Transaction? transactionAddLiquidity,
       final bool calculationInProgress,
+      final double? finalAmount,
       final Failure? failure}) = _$LiquidityAddFormStateImpl;
   const _LiquidityAddFormState._() : super._();
 
@@ -805,6 +825,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   Transaction? get transactionAddLiquidity;
   @override
   bool get calculationInProgress;
+  @override
+  double? get finalAmount;
   @override
   Failure? get failure;
   @override

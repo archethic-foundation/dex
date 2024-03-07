@@ -54,11 +54,7 @@ class FarmDepositInProgressPopup {
       if (farmDeposit.transactionDepositFarm != null &&
           farmDeposit.transactionDepositFarm!.address != null &&
           farmDeposit.transactionDepositFarm!.address!.address != null)
-        FarmDepositFinalAmount(
-          address: farmDeposit.transactionDepositFarm!.address!.address!,
-          isUCO: false,
-          to: farmDeposit.dexFarmInfo!.farmAddress,
-        ),
+        const FarmDepositFinalAmount(),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: farmDeposit.currentStep,
