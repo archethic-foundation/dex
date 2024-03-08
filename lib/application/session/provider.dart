@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/state.dart';
+import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 
@@ -43,9 +44,7 @@ class _SessionNotifier extends Notifier<Session> {
       error: '',
       endpoint: aedappfm.EndpointUtil.getEnvironnementUrl(env),
     );
-    if (aedappfm.sl.isRegistered<ApiService>()) {
-      aedappfm.sl.unregister<ApiService>();
-    }
+
     setupServiceLocatorApiService(state.endpoint);
     invalidateInfos();
   }
@@ -101,11 +100,10 @@ class _SessionNotifier extends Notifier<Session> {
             () => archethicDAppClient!,
           );
 
-          if (aedappfm.sl.isRegistered<ApiService>()) {
-            aedappfm.sl.unregister<ApiService>();
-          }
-
           setupServiceLocatorApiService(result.endpointUrl);
+          final preferences = await HivePreferencesDatasource.getInstance();
+          aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+              preferences.isLogsActived();
 
           final currentAccountResponse =
               await archethicDAppClient!.getCurrentAccount();
@@ -149,6 +147,9 @@ class _SessionNotifier extends Notifier<Session> {
           await subscription.when(
             success: (success) async {
               connectEndpoint(aedappfm.EndpointUtil.getEnvironnement());
+              final preferences = await HivePreferencesDatasource.getInstance();
+              aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+                  preferences.isLogsActived();
               invalidateInfos();
               state = state.copyWith(
                 accountSub: success,
@@ -202,6 +203,9 @@ class _SessionNotifier extends Notifier<Session> {
     );
 
     connectEndpoint(state.envSelected);
+    final preferences = await HivePreferencesDatasource.getInstance();
+    aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+        preferences.isLogsActived();
   }
 }
 

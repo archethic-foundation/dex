@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
+import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -130,6 +131,10 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 ref
                     .read(SessionProviders.session.notifier)
                     .connectEndpoint('testnet');
+                final preferences =
+                    await HivePreferencesDatasource.getInstance();
+                aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+                    preferences.isLogsActived();
               },
             ),
           if (session.isConnected == false)
@@ -186,6 +191,10 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 ref
                     .read(SessionProviders.session.notifier)
                     .connectEndpoint('mainnet');
+                final preferences =
+                    await HivePreferencesDatasource.getInstance();
+                aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+                    preferences.isLogsActived();
               },
             ),
         ],

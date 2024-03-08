@@ -274,7 +274,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                   child: SizedBox(
                     height: 45,
                     child: aedappfm.InfoBanner(
-                      r'The UCO amount you entered has been reduced by $0.5 to include transaction fees.',
+                      'The UCO amount you entered has been reduced to include transaction fees.',
                       aedappfm.InfoBannerType.request,
                     ),
                   ),

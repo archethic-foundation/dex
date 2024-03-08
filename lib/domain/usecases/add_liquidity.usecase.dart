@@ -165,9 +165,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
     }
   }
 
-  // TODO(redDwarf03): Wait for https://github.com/archethic-foundation/archethic-node/issues/1418
   Future<double> estimateFees(
-    WidgetRef ref,
     String poolGenesisAddress,
     DexToken token1,
     double token1Amount,
@@ -192,6 +190,15 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
       transactionAddLiquiditylMap.map(
         success: (success) {
           transactionAddLiquidity = success;
+          // Add fake signature and address to allow estimation by node
+          transactionAddLiquidity = transactionAddLiquidity!.copyWith(
+            address: const archethic.Address(
+              address:
+                  '00000000000000000000000000000000000000000000000000000000000000000000',
+            ),
+            previousPublicKey:
+                '00000000000000000000000000000000000000000000000000000000000000000000',
+          );
         },
         failure: (failure) {
           return 0.0;

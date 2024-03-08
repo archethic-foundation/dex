@@ -417,44 +417,59 @@ class LiquidityAddFormNotifier
       return false;
     }
 
-    var estimateFees = 0.0;
+    var feesEstimatedUCO = 0.0;
     if (state.token1 != null && state.token1!.isUCO) {
-      final archethicOracleUCO =
-          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
-      if (archethicOracleUCO.usd > 0) {
-        estimateFees = 0.5 / archethicOracleUCO.usd;
-      }
-      if (estimateFees > 0) {
-        if (state.token1Amount + estimateFees > state.token1Balance) {
-          final adjustedAmount = state.token1Balance - estimateFees;
-          if (adjustedAmount < 0) {
-            state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const aedappfm.Failure.insufficientFunds());
-            return false;
-          } else {
-            await setToken1Amount(adjustedAmount);
-            state = state.copyWith(messageMaxHalfUCO: true);
-          }
+      state = state.copyWith(calculationInProgress: true);
+      feesEstimatedUCO = await AddLiquidityCase().estimateFees(
+        state.pool!.poolAddress,
+        state.token1!,
+        state.token1Amount,
+        state.token2!,
+        state.token2Amount,
+        state.slippageTolerance,
+      );
+      state = state.copyWith(calculationInProgress: false);
+    }
+    state = state.copyWith(
+      feesEstimatedUCO: feesEstimatedUCO,
+    );
+    if (feesEstimatedUCO > 0) {
+      if (state.token1Amount + feesEstimatedUCO > state.token1Balance) {
+        final adjustedAmount = state.token1Balance - feesEstimatedUCO;
+        if (adjustedAmount < 0) {
+          state = state.copyWith(messageMaxHalfUCO: true);
+          setFailure(const aedappfm.Failure.insufficientFunds());
+          return false;
+        } else {
+          await setToken1Amount(adjustedAmount);
+          state = state.copyWith(messageMaxHalfUCO: true);
         }
       }
     }
+
     if (state.token2 != null && state.token2!.isUCO) {
-      final archethicOracleUCO =
-          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
-      if (archethicOracleUCO.usd > 0) {
-        estimateFees = 0.5 / archethicOracleUCO.usd;
-      }
-      if (estimateFees > 0) {
-        if (state.token2Amount + estimateFees > state.token2Balance) {
-          final adjustedAmount = state.token2Balance - estimateFees;
-          if (adjustedAmount < 0) {
-            state = state.copyWith(messageMaxHalfUCO: true);
-            setFailure(const aedappfm.Failure.insufficientFunds());
-            return false;
-          } else {
-            await setToken2Amount(adjustedAmount);
-            state = state.copyWith(messageMaxHalfUCO: true);
-          }
+      state = state.copyWith(calculationInProgress: true);
+      feesEstimatedUCO = await AddLiquidityCase().estimateFees(
+        state.pool!.poolAddress,
+        state.token1!,
+        state.token1Amount,
+        state.token2!,
+        state.token2Amount,
+        state.slippageTolerance,
+      );
+      state = state.copyWith(calculationInProgress: false);
+    }
+    state = state.copyWith(feesEstimatedUCO: feesEstimatedUCO);
+    if (feesEstimatedUCO > 0) {
+      if (state.token2Amount + feesEstimatedUCO > state.token2Balance) {
+        final adjustedAmount = state.token2Balance - feesEstimatedUCO;
+        if (adjustedAmount < 0) {
+          state = state.copyWith(messageMaxHalfUCO: true);
+          setFailure(const aedappfm.Failure.insufficientFunds());
+          return false;
+        } else {
+          await setToken2Amount(adjustedAmount);
+          state = state.copyWith(messageMaxHalfUCO: true);
         }
       }
     }

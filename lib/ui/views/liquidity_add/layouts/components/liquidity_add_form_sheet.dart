@@ -198,12 +198,12 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (liquidityAdd.messageMaxHalfUCO)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: SizedBox(
                             height: 40,
                             child: aedappfm.InfoBanner(
-                              r'This process requires a maximum of $0.5 in transaction fees to be completed.',
+                              'This process requires a maximum of ${liquidityAdd.feesEstimatedUCO.formatNumber(precision: 8)} UCO in transaction fees to be completed.',
                               aedappfm.InfoBannerType.request,
                             ),
                           ),

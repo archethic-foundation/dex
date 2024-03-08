@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
-import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/views/util/router/router.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -17,10 +16,6 @@ Future<void> main() async {
   await DBHelper.setupDatabase();
   setupServiceLocator();
   setPathUrlStrategy();
-
-  final preferences = await HivePreferencesDatasource.getInstance();
-  aedappfm.sl.get<aedappfm.LogManager>().logsActived =
-      preferences.isLogsActived();
   runApp(
     ProviderScope(
       observers: [

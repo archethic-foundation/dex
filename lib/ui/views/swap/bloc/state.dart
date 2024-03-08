@@ -35,6 +35,7 @@ class SwapFormState with _$SwapFormState {
     @Default(0.0) double minToReceive,
     @Default(0.0) double priceImpact,
     @Default(0.0) double estimatedReceived,
+    @Default(0.0) double feesEstimatedUCO,
     double? finalAmount,
     Failure? failure,
     Transaction? recoveryTransactionSwap,
@@ -51,6 +52,7 @@ class SwapFormState with _$SwapFormState {
       tokenToSwapBalance > 0 &&
       tokenToSwapAmount > 0 &&
       tokenSwappedAmount > 0 &&
+      calculationInProgress == false &&
       tokenToSwap!.address != tokenSwapped!.address;
 
   @override

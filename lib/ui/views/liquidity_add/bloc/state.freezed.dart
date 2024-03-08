@@ -38,6 +38,7 @@ mixin _$LiquidityAddFormState {
   double get token2minAmount => throw _privateConstructorUsedError;
   double get networkFees => throw _privateConstructorUsedError;
   double get expectedTokenLP => throw _privateConstructorUsedError;
+  double get feesEstimatedUCO => throw _privateConstructorUsedError;
   DexPool? get pool => throw _privateConstructorUsedError;
   double get lpTokenBalance => throw _privateConstructorUsedError;
   Transaction? get transactionAddLiquidity =>
@@ -80,6 +81,7 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       double token2minAmount,
       double networkFees,
       double expectedTokenLP,
+      double feesEstimatedUCO,
       DexPool? pool,
       double lpTokenBalance,
       Transaction? transactionAddLiquidity,
@@ -130,6 +132,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     Object? token2minAmount = null,
     Object? networkFees = null,
     Object? expectedTokenLP = null,
+    Object? feesEstimatedUCO = null,
     Object? pool = freezed,
     Object? lpTokenBalance = null,
     Object? transactionAddLiquidity = freezed,
@@ -225,6 +228,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
       expectedTokenLP: null == expectedTokenLP
           ? _value.expectedTokenLP
           : expectedTokenLP // ignore: cast_nullable_to_non_nullable
+              as double,
+      feesEstimatedUCO: null == feesEstimatedUCO
+          ? _value.feesEstimatedUCO
+          : feesEstimatedUCO // ignore: cast_nullable_to_non_nullable
               as double,
       pool: freezed == pool
           ? _value.pool
@@ -346,6 +353,7 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       double token2minAmount,
       double networkFees,
       double expectedTokenLP,
+      double feesEstimatedUCO,
       DexPool? pool,
       double lpTokenBalance,
       Transaction? transactionAddLiquidity,
@@ -399,6 +407,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
     Object? token2minAmount = null,
     Object? networkFees = null,
     Object? expectedTokenLP = null,
+    Object? feesEstimatedUCO = null,
     Object? pool = freezed,
     Object? lpTokenBalance = null,
     Object? transactionAddLiquidity = freezed,
@@ -495,6 +504,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
           ? _value.expectedTokenLP
           : expectedTokenLP // ignore: cast_nullable_to_non_nullable
               as double,
+      feesEstimatedUCO: null == feesEstimatedUCO
+          ? _value.feesEstimatedUCO
+          : feesEstimatedUCO // ignore: cast_nullable_to_non_nullable
+              as double,
       pool: freezed == pool
           ? _value.pool
           : pool // ignore: cast_nullable_to_non_nullable
@@ -549,6 +562,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
       this.token2minAmount = 0.0,
       this.networkFees = 0.0,
       this.expectedTokenLP = 0.0,
+      this.feesEstimatedUCO = 0.0,
       this.pool,
       this.lpTokenBalance = 0.0,
       this.transactionAddLiquidity,
@@ -622,6 +636,9 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   @JsonKey()
   final double expectedTokenLP;
   @override
+  @JsonKey()
+  final double feesEstimatedUCO;
+  @override
   final DexPool? pool;
   @override
   @JsonKey()
@@ -638,7 +655,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, finalAmount: $finalAmount, failure: $failure)';
+    return 'LiquidityAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, feesEstimatedUCO: $feesEstimatedUCO, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, finalAmount: $finalAmount, failure: $failure)';
   }
 
   @override
@@ -687,6 +704,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
                 other.networkFees == networkFees) &&
             (identical(other.expectedTokenLP, expectedTokenLP) ||
                 other.expectedTokenLP == expectedTokenLP) &&
+            (identical(other.feesEstimatedUCO, feesEstimatedUCO) ||
+                other.feesEstimatedUCO == feesEstimatedUCO) &&
             (identical(other.pool, pool) || other.pool == pool) &&
             (identical(other.lpTokenBalance, lpTokenBalance) ||
                 other.lpTokenBalance == lpTokenBalance) &&
@@ -725,6 +744,7 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
         token2minAmount,
         networkFees,
         expectedTokenLP,
+        feesEstimatedUCO,
         pool,
         lpTokenBalance,
         transactionAddLiquidity,
@@ -765,6 +785,7 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final double token2minAmount,
       final double networkFees,
       final double expectedTokenLP,
+      final double feesEstimatedUCO,
       final DexPool? pool,
       final double lpTokenBalance,
       final Transaction? transactionAddLiquidity,
@@ -817,6 +838,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   double get networkFees;
   @override
   double get expectedTokenLP;
+  @override
+  double get feesEstimatedUCO;
   @override
   DexPool? get pool;
   @override
