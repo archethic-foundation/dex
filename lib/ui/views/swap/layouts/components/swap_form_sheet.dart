@@ -40,12 +40,12 @@ class SwapFormSheet extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (swap.messageMaxHalfUCO)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: SizedBox(
                       height: 40,
                       child: aedappfm.InfoBanner(
-                        r'The swap process requires a maximum of $0.5 in transaction fees to be completed.',
+                        'The swap process requires a maximum of ${swap.feesEstimatedUCO.formatNumber(precision: 8)} in transaction fees to be completed.',
                         aedappfm.InfoBannerType.request,
                       ),
                     ),

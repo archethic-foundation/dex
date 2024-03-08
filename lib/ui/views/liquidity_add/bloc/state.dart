@@ -33,6 +33,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(0.0) double token2minAmount,
     @Default(0.0) double networkFees,
     @Default(0.0) double expectedTokenLP,
+    @Default(0.0) double feesEstimatedUCO,
     DexPool? pool,
     @Default(0.0) double lpTokenBalance,
     Transaction? transactionAddLiquidity,
@@ -47,5 +48,6 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
       token1Balance > 0 &&
       token2Balance > 0 &&
       token1Amount > 0 &&
-      token2Amount > 0;
+      token2Amount > 0 &&
+      calculationInProgress == false;
 }

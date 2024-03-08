@@ -230,9 +230,7 @@ class SwapCase with aedappfm.TransactionMixin {
     }
   }
 
-  // TODO(redDwarf03): Wait for https://github.com/archethic-foundation/archethic-node/issues/1418
   Future<double> estimateFees(
-    WidgetRef ref,
     String poolGenesisAddress,
     DexToken tokenToSwap,
     double tokenToSwapAmount,
@@ -274,9 +272,18 @@ class SwapCase with aedappfm.TransactionMixin {
         outputAmount,
       );
 
-      transactionSwapMap.map(
+      return transactionSwapMap.map(
         success: (success) async {
           transactionSwap = success;
+          // Add fake signature and address to allow estimation by node
+          transactionSwap = transactionSwap!.copyWith(
+            address: const archethic.Address(
+              address:
+                  '00000000000000000000000000000000000000000000000000000000000000000000',
+            ),
+            previousPublicKey:
+                '00000000000000000000000000000000000000000000000000000000000000000000',
+          );
           final fees = await calculateFees(transactionSwap!, slippage: 1.1);
           return fees;
         },
@@ -287,6 +294,5 @@ class SwapCase with aedappfm.TransactionMixin {
     } catch (e) {
       return 0.0;
     }
-    return 0.0;
   }
 }
