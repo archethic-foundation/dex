@@ -25,10 +25,10 @@ void setupServiceLocatorApiService(String endpoint) {
       () => ApiService(endpoint, logsActivation: false),
     )
     ..registerLazySingleton<aedappfm.LogManager>(() {
-      // TODO(reddwarf03): Get url
       if (aedappfm.EndpointUtil.getEnvironnement() == 'mainnet') {
         return aedappfm.LogManager(
-          url: '',
+          url:
+              'https://faas-lon1-917a94a7.doserverless.co/api/v1/web/fn-279bbae3-a757-4cef-ade7-a63bdaca36f7/default/app-log-mainnet',
         );
       } else {
         return aedappfm.LogManager(
