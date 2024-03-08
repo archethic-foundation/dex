@@ -16,6 +16,8 @@ import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/welcome/welcome_screen.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -344,6 +346,9 @@ final routerProvider = Provider<GoRouter>(
             ref
                 .read(SessionProviders.session.notifier)
                 .connectEndpoint(session.envSelected);
+            final preferences = await HivePreferencesDatasource.getInstance();
+            aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+                preferences.isLogsActived();
           }
         }
         return null;

@@ -13,6 +13,13 @@ void setupServiceLocator() {
 }
 
 void setupServiceLocatorApiService(String endpoint) {
+  if (aedappfm.sl.isRegistered<ApiService>()) {
+    aedappfm.sl.unregister<ApiService>();
+  }
+  if (aedappfm.sl.isRegistered<aedappfm.LogManager>()) {
+    aedappfm.sl.unregister<aedappfm.LogManager>();
+  }
+
   aedappfm.sl
     ..registerLazySingleton<ApiService>(
       () => ApiService(endpoint, logsActivation: false),
