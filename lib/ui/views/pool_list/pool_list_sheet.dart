@@ -11,7 +11,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
