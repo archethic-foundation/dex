@@ -2,7 +2,7 @@
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

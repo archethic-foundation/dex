@@ -8,7 +8,7 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swap
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';

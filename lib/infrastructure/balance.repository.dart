@@ -1,5 +1,5 @@
 import 'package:aedex/domain/repositories/balance.repository.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart'
     show Balance, ApiService, fromBigInt;

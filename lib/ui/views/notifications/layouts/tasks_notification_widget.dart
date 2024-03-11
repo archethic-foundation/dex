@@ -4,7 +4,7 @@ import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart'
     as addresslinkcopy;
 import 'package:aedex/util/notification_service/task_notification_service.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';

@@ -5,7 +5,7 @@ import 'package:aedex/ui/views/token_selection/components/token_list.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_common_bases.dart';
 import 'package:aedex/ui/views/token_selection/components/token_selection_search_bar.dart';
 
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
