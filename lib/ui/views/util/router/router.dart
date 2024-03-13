@@ -351,6 +351,18 @@ final routerProvider = Provider<GoRouter>(
                 preferences.isLogsActived();
           }
         }
+
+        final ucidsTokens = ref.read(aedappfm.UcidsTokensProviders.ucidsTokens);
+        if (ucidsTokens.isEmpty) {
+          await ref
+              .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
+              .init();
+        }
+        final coinPrice = ref.read(aedappfm.CoinPriceProviders.coinPrice);
+        if (coinPrice.timestamp == null) {
+          await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
+        }
+
         return null;
       },
       errorBuilder: (context, state) => const WelcomeScreen(),
