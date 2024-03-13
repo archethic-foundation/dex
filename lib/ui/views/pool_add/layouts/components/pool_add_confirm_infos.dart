@@ -271,8 +271,8 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                     ratio: (Decimal.parse(poolAdd.token2Amount.toString()) /
                             Decimal.parse(poolAdd.token1Amount.toString()))
                         .toDouble(),
-                    token1Symbol: poolAdd.token1!.symbol.reduceSymbol(),
-                    token2Symbol: poolAdd.token2!.symbol.reduceSymbol(),
+                    token1Symbol: poolAdd.token1!.symbol,
+                    token2Symbol: poolAdd.token2!.symbol,
                   ),
                 ),
               if (poolAdd.token2Amount > 0)
@@ -282,8 +282,8 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                     ratio: (Decimal.parse(poolAdd.token1Amount.toString()) /
                             Decimal.parse(poolAdd.token2Amount.toString()))
                         .toDouble(),
-                    token1Symbol: poolAdd.token2!.symbol.reduceSymbol(),
-                    token2Symbol: poolAdd.token1!.symbol.reduceSymbol(),
+                    token1Symbol: poolAdd.token2!.symbol,
+                    token2Symbol: poolAdd.token1!.symbol,
                   ),
                 ),
               const SizedBox(

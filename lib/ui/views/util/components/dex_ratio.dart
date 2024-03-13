@@ -25,14 +25,20 @@ class DexRatio extends StatelessWidget {
     }
 
     return SizedBox(
-      child: Tooltip(
-        message:
-            '${double.parse('1').formatNumber()} $token1Symbol = ${ratio.formatNumber()} $token2Symbol',
-        child: SelectableText(
-          '${double.parse('1').formatNumber()} ${token1Symbol.reduceSymbol()} = ${ratio.formatNumber()} ${token2Symbol.reduceSymbol()}',
-          style: textStyle ?? Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
+      child: token1Symbol == token1Symbol.reduceSymbol() &&
+              token2Symbol == token2Symbol.reduceSymbol()
+          ? SelectableText(
+              '${double.parse('1').formatNumber()} ${token1Symbol.reduceSymbol()} = ${ratio.formatNumber()} ${token2Symbol.reduceSymbol()}',
+              style: textStyle ?? Theme.of(context).textTheme.bodyLarge,
+            )
+          : Tooltip(
+              message:
+                  '${double.parse('1').formatNumber()} $token1Symbol = ${ratio.formatNumber()} $token2Symbol',
+              child: SelectableText(
+                '${double.parse('1').formatNumber()} ${token1Symbol.reduceSymbol()} = ${ratio.formatNumber()} ${token2Symbol.reduceSymbol()}',
+                style: textStyle ?? Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
     );
   }
 }

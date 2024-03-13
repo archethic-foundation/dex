@@ -409,8 +409,8 @@ class PoolDetailsBack extends ConsumerWidget {
                     children: [
                       DexRatio(
                         ratio: pool.infos!.ratioToken1Token2,
-                        token1Symbol: pool.pair.token1.symbol.reduceSymbol(),
-                        token2Symbol: pool.pair.token2.symbol.reduceSymbol(),
+                        token1Symbol: pool.pair.token1.symbol,
+                        token2Symbol: pool.pair.token2.symbol,
                         textStyle: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
@@ -420,8 +420,8 @@ class PoolDetailsBack extends ConsumerWidget {
                     children: [
                       DexRatio(
                         ratio: pool.infos!.ratioToken2Token1,
-                        token1Symbol: pool.pair.token2.symbol.reduceSymbol(),
-                        token2Symbol: pool.pair.token1.symbol.reduceSymbol(),
+                        token1Symbol: pool.pair.token2.symbol,
+                        token2Symbol: pool.pair.token1.symbol,
                         textStyle: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
