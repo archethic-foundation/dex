@@ -141,10 +141,14 @@ double _estimatePoolTVLInFiat(
 
   feeAllTime = token1TotalFeeCurrentFiat + token2TotalFeeCurrentFiat;
 
-  volume24h =
-      volumeAllTime - (token1TotalVolume24hFiat + token2TotalVolume24hFiat);
+  if (token1TotalVolume24hFiat + token2TotalVolume24hFiat > 0) {
+    volume24h =
+        volumeAllTime - (token1TotalVolume24hFiat + token2TotalVolume24hFiat);
+  }
 
-  fee24h = feeAllTime - (token1TotalFee24hFiat + token2TotalFee24hFiat);
+  if (token1TotalFee24hFiat + token2TotalFee24hFiat > 0) {
+    fee24h = feeAllTime - (token1TotalFee24hFiat + token2TotalFee24hFiat);
+  }
 
   return (
     volume24h: volume24h,
