@@ -47,9 +47,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
           )
           .init();
-      await ref
-          .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
-          .init(ref);
+      await ref.read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier).init();
       await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
       _poolListTimer =
           Timer.periodic(const Duration(minutes: 1), (timer) async {
