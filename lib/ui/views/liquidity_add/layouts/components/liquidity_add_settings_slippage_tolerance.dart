@@ -59,7 +59,12 @@ class LiquiditySettingsSlippageToleranceState
                   children: [
                     TextSpan(
                       text: AppLocalizations.of(context)!.slippage_tolerance,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
                     ),
                   ],
                 ),
@@ -107,7 +112,12 @@ class LiquiditySettingsSlippageToleranceState
               padding: const EdgeInsets.only(left: 5),
               child: SelectableText(
                 '%',
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyLarge!,
+                      ),
+                    ),
               ),
             ),
           ],
@@ -118,6 +128,10 @@ class LiquiditySettingsSlippageToleranceState
                   (double.tryParse(slippageToleranceController.text)! >= 0 &&
                       double.tryParse(slippageToleranceController.text)! < 100),
           labelBtn: AppLocalizations.of(context)!.btn_save,
+          fontSize: aedappfm.Responsive.fontSizeFromValue(
+            context,
+            desktopValue: 16,
+          ),
           onPressed: () {
             liquidityAddNotifier.setSlippageTolerance(
               double.tryParse(slippageToleranceController.text) ?? 0,

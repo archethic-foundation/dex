@@ -55,7 +55,16 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                         children: [
                           TextSpan(
                             text: 'Please confirm the claim of ',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                           TextSpan(
                             text: farmClaim.dexFarmUserInfo!.rewardAmount
@@ -65,15 +74,38 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                                 .bodyLarge!
                                 .copyWith(
                                   color: aedappfm.AppThemeBase.secondaryColor,
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
                                 ),
                           ),
                           TextSpan(
                             text: ' ${farmClaim.rewardToken!.symbol}',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                           TextSpan(
                             text: ' ${snapshot.data} ',
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyMedium!,
+                                  ),
+                                ),
                           ),
                         ],
                       ),
@@ -99,11 +131,21 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                 ],
               ),

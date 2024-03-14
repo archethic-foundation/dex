@@ -2,6 +2,7 @@
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/token_selection_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -44,7 +45,12 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                   if (swap.tokenSwapped == null)
                     Text(
                       AppLocalizations.of(context)!.btn_selectToken,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
                     )
                   else
                     Padding(
@@ -66,7 +72,16 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                             Expanded(
                               child: Text(
                                 swap.tokenSwapped!.symbol,
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyLarge!,
+                                      ),
+                                    ),
                                 overflow: TextOverflow.fade,
                               ),
                             ),

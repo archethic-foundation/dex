@@ -28,7 +28,9 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 2),
-      width: 300,
+      width: aedappfm.Responsive.isDesktop(context)
+          ? 300
+          : MediaQuery.of(context).size.width - 100,
       height: 31,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(

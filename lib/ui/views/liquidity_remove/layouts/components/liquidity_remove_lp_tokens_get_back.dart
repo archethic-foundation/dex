@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -27,14 +28,24 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
         children: [
           SelectableText(
             AppLocalizations.of(context)!.liquidityRemoveTokensGetBackHeader,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                    context,
+                    Theme.of(context).textTheme.bodyMedium!,
+                  ),
+                ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 liquidityRemove.token1!.symbol,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.end,
               ),
@@ -42,7 +53,12 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
                 children: [
                   SelectableText(
                     '+ ${liquidityRemove.token1AmountGetBack.formatNumber(precision: 8)} ${liquidityRemove.token1!.symbol}',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyMedium!,
+                          ),
+                        ),
                     textAlign: TextAlign.end,
                   ),
                   const SizedBox(
@@ -60,7 +76,16 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
                         if (snapshot.hasData) {
                           return SelectableText(
                             snapshot.data!,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyMedium!,
+                                  ),
+                                ),
                           );
                         }
                         return const SizedBox.shrink();
@@ -75,7 +100,12 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
             children: [
               Text(
                 liquidityRemove.token2!.symbol,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
                 overflow: TextOverflow.visible,
                 textAlign: TextAlign.end,
               ),
@@ -83,7 +113,12 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
                 children: [
                   SelectableText(
                     '+ ${liquidityRemove.token2AmountGetBack.formatNumber(precision: 8)} ${liquidityRemove.token2!.symbol}',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyMedium!,
+                          ),
+                        ),
                     textAlign: TextAlign.end,
                   ),
                   const SizedBox(
@@ -101,7 +136,16 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
                         if (snapshot.hasData) {
                           return SelectableText(
                             snapshot.data!,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyMedium!,
+                                  ),
+                                ),
                           );
                         }
                         return const SizedBox.shrink();

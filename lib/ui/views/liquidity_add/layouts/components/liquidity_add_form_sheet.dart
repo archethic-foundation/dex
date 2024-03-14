@@ -9,6 +9,7 @@ import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -81,7 +82,16 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                         children: [
                           SelectableText(
                             '${AppLocalizations.of(context)!.slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                           const Align(
                             alignment: Alignment.centerRight,
@@ -223,6 +233,10 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                               controlOk: liquidityAdd.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_liquidity_add,
+                              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                                context,
+                                desktopValue: 16,
+                              ),
                               onPressed: () => ref
                                   .read(
                                     LiquidityAddFormProvider

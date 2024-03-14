@@ -35,7 +35,12 @@ class PoolAddFormSheet extends ConsumerWidget {
                   child: SelectionArea(
                     child: SelectableText(
                       AppLocalizations.of(context)!.poolAddFormTitle,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
                     ),
                   ),
                 ),
@@ -94,6 +99,10 @@ class PoolAddFormSheet extends ConsumerWidget {
                         onPressed: () => ref
                             .read(PoolAddFormProvider.poolAddForm.notifier)
                             .validateForm(context),
+                        fontSize: aedappfm.Responsive.fontSizeFromValue(
+                          context,
+                          desktopValue: 16,
+                        ),
                         isConnected:
                             ref.watch(SessionProviders.session).isConnected,
                         displayWalletConnectOnPressed: () async {

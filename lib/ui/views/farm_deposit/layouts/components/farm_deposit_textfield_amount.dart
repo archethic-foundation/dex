@@ -166,7 +166,12 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                   ),
                   style: Theme.of(
                     context,
-                  ).textTheme.bodyMedium,
+                  ).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                 ),
               ],
             ),

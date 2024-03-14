@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/state.dart';
+import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
@@ -67,7 +68,6 @@ class _SessionNotifier extends Notifier<Session> {
       state = state.copyWith(
         isConnected: false,
         error: '',
-        endpoint: '',
         genesisAddress: '',
         nameAccount: '',
       );
@@ -89,6 +89,12 @@ class _SessionNotifier extends Notifier<Session> {
           _handleConnectionFailure(isBrave);
         },
         success: (result) async {
+          if (state.endpoint != result.endpointUrl) {
+            final poolsListDatasource =
+                await HivePoolsListDatasource.getInstance();
+            await poolsListDatasource.clearAll();
+          }
+
           state = state.copyWith(
             endpoint: result.endpointUrl,
             isConnected: true,
@@ -175,7 +181,7 @@ class _SessionNotifier extends Notifier<Session> {
         },
       );
     } catch (e) {
-      if (forceConnection == false) {
+      if (forceConnection == true) {
         _handleConnectionFailure(isBrave);
       }
     }

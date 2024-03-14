@@ -43,8 +43,18 @@ class FarmDetailsFront extends ConsumerWidget {
                             children: [
                               SelectableText(
                                 '${farm.lpTokenPair!.token1.symbol}/${farm.lpTokenPair!.token2.symbol}',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium!,
+                                      ),
+                                    ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 3),
@@ -71,7 +81,16 @@ class FarmDetailsFront extends ConsumerWidget {
                             children: [
                               SelectableText(
                                 'Current APR',
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyLarge!,
+                                      ),
+                                    ),
                               ),
                               SelectableText(
                                 '${(farm.apr * 100).formatNumber(precision: 4)}%',
@@ -79,6 +98,13 @@ class FarmDetailsFront extends ConsumerWidget {
                                     .textTheme
                                     .headlineMedium!
                                     .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium!,
+                                      ),
                                       color:
                                           aedappfm.AppThemeBase.secondaryColor,
                                     ),
@@ -95,7 +121,16 @@ class FarmDetailsFront extends ConsumerWidget {
                                     'Earn ${farm.rewardToken!.symbol}',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headlineSmall,
+                                        .headlineSmall!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall!,
+                                          ),
+                                        ),
                                   ),
                                   const SizedBox(
                                     width: 10,
@@ -128,18 +163,45 @@ class FarmDetailsFront extends ConsumerWidget {
                         if (farm.startDate!.isAfter(DateTime.now()))
                           SelectableText(
                             'Farm will start at',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           )
                         else
                           SelectableText(
                             'Farm started since',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                         SelectableText(
                           DateFormat.yMd(
                             Localizations.localeOf(context).languageCode,
                           ).add_Hm().format(farm.startDate!.toLocal()),
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
+                              ),
                         ),
                       ],
                     ),
@@ -150,18 +212,45 @@ class FarmDetailsFront extends ConsumerWidget {
                         if (farm.endDate!.isAfter(DateTime.now()))
                           SelectableText(
                             'Farm ends at',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           )
                         else
                           SelectableText(
                             'Farm ended',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                         SelectableText(
                           DateFormat.yMd(
                             Localizations.localeOf(context).languageCode,
                           ).add_Hm().format(farm.endDate!.toLocal()),
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
+                              ),
                         ),
                       ],
                     ),

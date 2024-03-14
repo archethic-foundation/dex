@@ -82,7 +82,12 @@ class _SwapTokenSwappedAmountState
       children: [
         SelectableText(
           AppLocalizations.of(context)!.swapToEstimatedLbl,
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                  context,
+                  Theme.of(context).textTheme.bodySmall!,
+                ),
+              ),
         ),
         Stack(
           alignment: Alignment.centerLeft,
@@ -221,7 +226,16 @@ class _SwapTokenSwappedAmountState
                           if (snapshot.hasData) {
                             return SelectableText(
                               snapshot.data!,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
+                                  ),
                             );
                           }
                           return const SizedBox.shrink();

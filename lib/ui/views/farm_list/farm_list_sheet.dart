@@ -59,15 +59,19 @@ Widget _body(BuildContext context, WidgetRef ref) {
         error: (error, stacktrace) => const aedappfm.Loading(),
         loading: aedappfm.Loading.new,
         data: (farms) => GridView.builder(
-          gridDelegate: const aedappfm.SliverGridDelegateWithFixedSize(
-            crossAxisExtent: 500,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: MediaQuery.of(context).size.width >= 1500
+                ? 3
+                : aedappfm.Responsive.isDesktop(context)
+                    ? 2
+                    : 1,
             mainAxisExtent: 640,
             crossAxisSpacing: 30,
             mainAxisSpacing: 10,
           ),
-          padding: const EdgeInsets.only(
-            left: 50,
-            right: 50,
+          padding: EdgeInsets.only(
+            left: aedappfm.Responsive.isDesktop(context) ? 50 : 5,
+            right: aedappfm.Responsive.isDesktop(context) ? 50 : 5,
           ),
           itemCount: farms.length,
           itemBuilder: (context, index) {

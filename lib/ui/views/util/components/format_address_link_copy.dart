@@ -41,7 +41,10 @@ class FormatAddressLinkCopy extends ConsumerWidget {
             child: SelectableText(
               '$header ${reduceAddress ? aedappfm.AddressUtil.reduceAddress(address) : address}',
               style: TextStyle(
-                fontSize: fontSize,
+                fontSize: aedappfm.Responsive.fontSizeFromValue(
+                  context,
+                  desktopValue: fontSize,
+                ),
               ),
             ),
           )
@@ -53,7 +56,10 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                   ? aedappfm.AddressUtil.reduceAddress(address)
                   : address,
               style: TextStyle(
-                fontSize: fontSize,
+                fontSize: aedappfm.Responsive.fontSizeFromValue(
+                  context,
+                  desktopValue: fontSize,
+                ),
               ),
             ),
           ),
@@ -84,13 +90,21 @@ class FormatAddressLinkCopy extends ConsumerWidget {
             child: tooltipCopy == null
                 ? Icon(
                     aedappfm.Iconsax.copy,
-                    size: fontSize - 1,
+                    size: aedappfm.Responsive.fontSizeFromValue(
+                          context,
+                          desktopValue: fontSize,
+                        ) -
+                        1,
                   )
                 : Tooltip(
                     message: tooltipCopy,
                     child: Icon(
                       aedappfm.Iconsax.copy,
-                      size: fontSize - 1,
+                      size: aedappfm.Responsive.fontSizeFromValue(
+                            context,
+                            desktopValue: fontSize,
+                          ) -
+                          1,
                     ),
                   ),
           ),
@@ -130,13 +144,21 @@ class FormatAddressLinkCopy extends ConsumerWidget {
             child: tooltipCopy == null
                 ? Icon(
                     aedappfm.Iconsax.export_3,
-                    size: fontSize - 1,
+                    size: aedappfm.Responsive.fontSizeFromValue(
+                          context,
+                          desktopValue: fontSize,
+                        ) -
+                        1,
                   )
                 : Tooltip(
                     message: tooltipLink,
                     child: Icon(
                       aedappfm.Iconsax.export_3,
-                      size: fontSize - 1,
+                      size: aedappfm.Responsive.fontSizeFromValue(
+                            context,
+                            desktopValue: fontSize,
+                          ) -
+                          1,
                     ),
                   ),
           ),

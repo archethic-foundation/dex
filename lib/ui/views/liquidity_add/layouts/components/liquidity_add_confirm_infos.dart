@@ -45,11 +45,21 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     'Add liquidity in the pool',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                   SelectableText(
                     'Mininum amount',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                 ],
               ),
@@ -72,12 +82,26 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                                     .copyWith(
                                       color:
                                           aedappfm.AppThemeBase.secondaryColor,
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyLarge!,
+                                      ),
                                     ),
                               ),
                               TextSpan(
                                 text:
                                     ' ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyLarge!,
+                                      ),
+                                    ),
                               ),
                             ],
                           ),
@@ -89,7 +113,12 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     message: liquidityAdd.token1!.symbol,
                     child: SelectableText(
                       '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
                     ),
                   ),
                 ],
@@ -103,13 +132,27 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                         '${liquidityAdd.token2Amount}',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: aedappfm.AppThemeBase.secondaryColor,
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
                             ),
                       ),
                       Tooltip(
                         message: liquidityAdd.token2!.symbol,
                         child: SelectableText(
                           ' ${liquidityAdd.token2!.symbol.reduceSymbol()}',
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
+                              ),
                         ),
                       ),
                     ],
@@ -118,7 +161,12 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     message: liquidityAdd.token2!.symbol,
                     child: SelectableText(
                       '+${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
                     ),
                   ),
                 ],
@@ -140,11 +188,21 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                 ],
               ),
@@ -214,13 +272,22 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     '+${liquidityAdd.expectedTokenLP.formatNumber()} ',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: aedappfm.AppThemeBase.secondaryColor,
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
                         ),
                   ),
                   SelectableText(
                     liquidityAdd.expectedTokenLP > 1
                         ? 'LP Tokens expected'
                         : 'LP Token expected',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                 ],
               ),
@@ -229,11 +296,21 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                 ],
               ),

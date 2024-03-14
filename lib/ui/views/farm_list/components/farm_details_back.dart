@@ -1,6 +1,7 @@
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -41,8 +42,18 @@ class FarmDetailsBack extends ConsumerWidget {
                             children: [
                               SelectableText(
                                 '${farm.lpTokenPair!.token1.symbol}/${farm.lpTokenPair!.token2.symbol}',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium!,
+                                      ),
+                                    ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 3),
@@ -89,14 +100,29 @@ class FarmDetailsBack extends ConsumerWidget {
                     children: [
                       SelectableText(
                         'Remaining reward',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           SelectableText(
                             '${farm.remainingReward.formatNumber()} ${farm.rewardToken!.symbol}',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                           FutureBuilder<String>(
                             future: FiatValue().display(
@@ -108,7 +134,18 @@ class FarmDetailsBack extends ConsumerWidget {
                               if (snapshot.hasData) {
                                 return SelectableText(
                                   snapshot.data!,
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!,
+                                        ),
+                                      ),
                                 );
                               }
                               return const SizedBox.shrink();
@@ -127,18 +164,42 @@ class FarmDetailsBack extends ConsumerWidget {
                     children: [
                       SelectableText(
                         'LP Token deposited',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           SelectableText(
                             '${farm.lpTokenDeposited.formatNumber()} ${farm.lpTokenDeposited > 1 ? 'LP Tokens' : 'LP Token'}',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                           SelectableText(
                             '(\$${farm.estimateLPTokenInFiat.formatNumber(precision: 2)})',
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyMedium!,
+                                  ),
+                                ),
                           ),
                         ],
                       ),
@@ -152,11 +213,23 @@ class FarmDetailsBack extends ConsumerWidget {
                     children: [
                       SelectableText(
                         'Nb deposit',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       SelectableText(
                         farm.nbDeposit.toString(),
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                     ],
                   ),
@@ -169,14 +242,29 @@ class FarmDetailsBack extends ConsumerWidget {
                     children: [
                       SelectableText(
                         'Distributed rewards',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           SelectableText(
                             '${farm.statsRewardDistributed.formatNumber(precision: 2)} ${farm.rewardToken!.symbol}',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                           FutureBuilder<String>(
                             future: FiatValue().display(
@@ -188,7 +276,18 @@ class FarmDetailsBack extends ConsumerWidget {
                               if (snapshot.hasData) {
                                 return SelectableText(
                                   snapshot.data!,
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!,
+                                        ),
+                                      ),
                                 );
                               }
                               return const SizedBox.shrink();

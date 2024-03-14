@@ -4,6 +4,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -381,7 +382,16 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                                               .connectionWalletDisconnectWarning,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium,
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontSize: aedappfm.Responsive
+                                                    .fontSizeFromTextStyle(
+                                                  context,
+                                                  Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!,
+                                                ),
+                                              ),
                                         ),
                                       ),
                                       const SizedBox(
@@ -406,6 +416,11 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                                               ),
                                             ),
                                             aedappfm.AppButton(
+                                              fontSize: aedappfm.Responsive
+                                                  .fontSizeFromValue(
+                                                context,
+                                                desktopValue: 16,
+                                              ),
                                               labelBtn:
                                                   AppLocalizations.of(context)!
                                                       .yes,

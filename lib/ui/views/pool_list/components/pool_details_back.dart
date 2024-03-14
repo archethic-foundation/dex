@@ -4,6 +4,7 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
@@ -59,7 +60,16 @@ class PoolDetailsBack extends ConsumerWidget {
                                   pool.pair.token1.symbol.reduceSymbol(),
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headlineMedium,
+                                      .headlineMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium!,
+                                        ),
+                                      ),
                                 ),
                               ),
                               const SelectableText('/'),
@@ -69,7 +79,16 @@ class PoolDetailsBack extends ConsumerWidget {
                                   pool.pair.token2.symbol.reduceSymbol(),
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headlineMedium,
+                                      .headlineMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium!,
+                                        ),
+                                      ),
                                 ),
                               ),
                               Padding(
@@ -202,7 +221,16 @@ class PoolDetailsBack extends ConsumerWidget {
                         children: [
                           SelectableText(
                             'Deposited',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                           ),
                           const SizedBox(
                             width: 5,
@@ -234,7 +262,16 @@ class PoolDetailsBack extends ConsumerWidget {
                                           '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol.reduceSymbol()}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyLarge,
+                                              .bodyLarge!
+                                              .copyWith(
+                                                fontSize: aedappfm.Responsive
+                                                    .fontSizeFromTextStyle(
+                                                  context,
+                                                  Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!,
+                                                ),
+                                              ),
                                         ),
                                       ),
                                     ],
@@ -251,7 +288,16 @@ class PoolDetailsBack extends ConsumerWidget {
                                           snapshot.data!,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium,
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontSize: aedappfm.Responsive
+                                                    .fontSizeFromTextStyle(
+                                                  context,
+                                                  Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!,
+                                                ),
+                                              ),
                                         );
                                       }
                                       return const SizedBox.shrink();
@@ -270,7 +316,16 @@ class PoolDetailsBack extends ConsumerWidget {
                                           '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol.reduceSymbol()}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyLarge,
+                                              .bodyLarge!
+                                              .copyWith(
+                                                fontSize: aedappfm.Responsive
+                                                    .fontSizeFromTextStyle(
+                                                  context,
+                                                  Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!,
+                                                ),
+                                              ),
                                         ),
                                       ),
                                     ],
@@ -287,7 +342,16 @@ class PoolDetailsBack extends ConsumerWidget {
                                           snapshot.data!,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium,
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontSize: aedappfm.Responsive
+                                                    .fontSizeFromTextStyle(
+                                                  context,
+                                                  Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!,
+                                                ),
+                                              ),
                                         );
                                       }
                                       return const SizedBox.shrink();
@@ -330,14 +394,34 @@ class PoolDetailsBack extends ConsumerWidget {
                                                   ),
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .bodyLarge,
+                                                      .bodyLarge!
+                                                      .copyWith(
+                                                        fontSize: aedappfm
+                                                                .Responsive
+                                                            .fontSizeFromTextStyle(
+                                                          context,
+                                                          Theme.of(context)
+                                                              .textTheme
+                                                              .bodyLarge!,
+                                                        ),
+                                                      ),
                                                 ),
                                                 if (pool.lpToken.supply > 0)
                                                   SelectableText(
                                                     ' / ${pool.lpToken.supply.formatNumber()} ${pool.lpToken.supply > 1 ? 'LP Tokens' : 'LP Token'}',
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .bodyLarge,
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                          fontSize: aedappfm
+                                                                  .Responsive
+                                                              .fontSizeFromTextStyle(
+                                                            context,
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .bodyLarge!,
+                                                          ),
+                                                        ),
                                                   )
                                                 else
                                                   SelectableText(
@@ -346,7 +430,17 @@ class PoolDetailsBack extends ConsumerWidget {
                                                         : 'LP Token',
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .bodyLarge,
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                          fontSize: aedappfm
+                                                                  .Responsive
+                                                              .fontSizeFromTextStyle(
+                                                            context,
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .bodyLarge!,
+                                                          ),
+                                                        ),
                                                   ),
                                               ],
                                             ),
@@ -354,7 +448,17 @@ class PoolDetailsBack extends ConsumerWidget {
                                               '(${percentage.formatNumber(precision: 8)}%)',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyMedium,
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                    fontSize: aedappfm
+                                                            .Responsive
+                                                        .fontSizeFromTextStyle(
+                                                      context,
+                                                      Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!,
+                                                    ),
+                                                  ),
                                             ),
                                           ],
                                         );
@@ -379,11 +483,23 @@ class PoolDetailsBack extends ConsumerWidget {
                     children: [
                       SelectableText(
                         'Swap fees',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       SelectableText(
                         '${pool.infos?.fees ?? '-- '}%',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                     ],
                   ),
@@ -393,11 +509,23 @@ class PoolDetailsBack extends ConsumerWidget {
                     children: [
                       SelectableText(
                         'Protocol fees',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       SelectableText(
                         '${pool.infos?.protocolFees ?? '-- '}%',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                     ],
                   ),
@@ -411,7 +539,14 @@ class PoolDetailsBack extends ConsumerWidget {
                         ratio: pool.infos!.ratioToken1Token2,
                         token1Symbol: pool.pair.token1.symbol,
                         token2Symbol: pool.pair.token2.symbol,
-                        textStyle: Theme.of(context).textTheme.bodyLarge,
+                        textStyle:
+                            Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                       ),
                     ],
                   ),
@@ -422,7 +557,14 @@ class PoolDetailsBack extends ConsumerWidget {
                         ratio: pool.infos!.ratioToken2Token1,
                         token1Symbol: pool.pair.token2.symbol,
                         token2Symbol: pool.pair.token1.symbol,
-                        textStyle: Theme.of(context).textTheme.bodyLarge,
+                        textStyle:
+                            Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
                       ),
                     ],
                   ),
