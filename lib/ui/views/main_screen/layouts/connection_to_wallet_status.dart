@@ -2,12 +2,14 @@
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
+import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ConnectionToWalletStatus extends ConsumerStatefulWidget {
   const ConnectionToWalletStatus({
@@ -39,6 +41,7 @@ class _ConnectionToWalletStatusState
           ),
         );
         ref.read(SessionProviders.session.notifier).setOldNameAccount();
+        context.go(SwapSheet.routerPage);
       });
     }
 

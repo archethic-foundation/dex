@@ -5,7 +5,6 @@ import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
-import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -57,13 +56,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
       child: asyncFarms.when(
         skipLoadingOnRefresh: true,
         skipLoadingOnReload: true,
-        error: (error, stackTrace) => aedappfm.ErrorMessage(
-          failure: aedappfm.Failure.fromError(error),
-          failureMessage: FailureMessage(
-            context: context,
-            failure: aedappfm.Failure.fromError(error),
-          ).getMessage(),
-        ),
+        error: (error, stacktrace) => const aedappfm.Loading(),
         loading: aedappfm.Loading.new,
         data: (farms) => GridView.builder(
           gridDelegate: const aedappfm.SliverGridDelegateWithFixedSize(
