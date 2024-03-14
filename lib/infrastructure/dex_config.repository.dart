@@ -14,6 +14,9 @@ class DexConfigRepositoryImpl implements DexConfigRepository {
 
     final jsonData = jsonDecode(jsonContent);
     final environment = aedappfm.EndpointUtil.getEnvironnement();
+    if (environment.isEmpty) {
+      return const DexConfig();
+    }
     final configList = List<Map<String, dynamic>>.from(jsonData['environment']);
     final configMap = configList.firstWhere(
       (element) => element['name'] == environment,
