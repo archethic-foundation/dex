@@ -61,7 +61,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
       Center(
         child: Padding(
           padding: EdgeInsets.only(
-            top: 140,
+            top: aedappfm.Responsive.isDesktop(context) ? 140 : 200,
             bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 80,
           ),
           child: asyncPools.when(
@@ -75,12 +75,24 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     if (selectedTab == PoolsListTab.searchPool)
                       SelectableText(
                         'Searching in progress. Please wait',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       )
                     else
                       SelectableText(
                         'Loading in progress. Please wait',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                     const SizedBox(
                       width: 10,
@@ -112,7 +124,12 @@ Widget _body(BuildContext context, WidgetRef ref) {
                   children: [
                     SelectableText(
                       'Please, connect your wallet to list your pools with position.',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
                     ),
                   ],
                 );
@@ -125,7 +142,13 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     children: [
                       SelectableText(
                         'Please enter your search criteria.',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                     ],
                   );
@@ -135,7 +158,13 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     children: [
                       SelectableText(
                         'No results found.',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                     ],
                   );
@@ -143,12 +172,16 @@ Widget _body(BuildContext context, WidgetRef ref) {
               }
               if (pools.isEmpty &&
                   poolListForm.tabIndexSelected == PoolsListTab.favoritePools) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                return Wrap(
                   children: [
                     SelectableText(
                       'To add your favorite pools to this tab, please click on the',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(left: 2, right: 5),
@@ -159,21 +192,30 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     ),
                     SelectableText(
                       'icon in the pool cards header.',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
                     ),
                   ],
                 );
               }
               return GridView.builder(
-                gridDelegate: const aedappfm.SliverGridDelegateWithFixedSize(
-                  crossAxisExtent: 500,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: MediaQuery.of(context).size.width >= 1500
+                      ? 3
+                      : aedappfm.Responsive.isDesktop(context)
+                          ? 2
+                          : 1,
                   mainAxisExtent: 550,
                   crossAxisSpacing: 30,
                   mainAxisSpacing: 10,
                 ),
-                padding: const EdgeInsets.only(
-                  left: 50,
-                  right: 50,
+                padding: EdgeInsets.only(
+                  left: aedappfm.Responsive.isDesktop(context) ? 50 : 5,
+                  right: aedappfm.Responsive.isDesktop(context) ? 50 : 5,
                 ),
                 itemCount: pools.length,
                 itemBuilder: (context, index) {

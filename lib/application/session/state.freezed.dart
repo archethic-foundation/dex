@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Session {
+// TODO(reddwarf03): MAINNET
+//@Default('mainnet') String envSelected,
   String get envSelected => throw _privateConstructorUsedError;
   String get endpoint => throw _privateConstructorUsedError;
   String get nameAccount => throw _privateConstructorUsedError;
@@ -225,6 +227,8 @@ class _$SessionImpl extends _Session {
       this.accountStreamSub})
       : super._();
 
+// TODO(reddwarf03): MAINNET
+//@Default('mainnet') String envSelected,
   @override
   @JsonKey()
   final String envSelected;
@@ -313,7 +317,8 @@ abstract class _Session extends Session {
       final StreamSubscription<Account>? accountStreamSub}) = _$SessionImpl;
   const _Session._() : super._();
 
-  @override
+  @override // TODO(reddwarf03): MAINNET
+//@Default('mainnet') String envSelected,
   String get envSelected;
   @override
   String get endpoint;

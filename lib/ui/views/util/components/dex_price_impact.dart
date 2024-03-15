@@ -27,6 +27,10 @@ class DexPriceImpact extends StatelessWidget {
                     ) ??
                     Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: aedappfm.ArchethicThemeBase.systemDanger500,
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
                         )
                 : priceImpact > 1
                     ? textStyle?.copyWith(
@@ -35,8 +39,20 @@ class DexPriceImpact extends StatelessWidget {
                         Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color:
                                   aedappfm.ArchethicThemeBase.systemWarning600,
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
                             )
-                    : textStyle ?? Theme.of(context).textTheme.bodyLarge,
+                    : textStyle ??
+                        Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
           )
         else
           SelectableText(
@@ -56,7 +72,14 @@ class DexPriceImpact extends StatelessWidget {
                               color:
                                   aedappfm.ArchethicThemeBase.systemWarning600,
                             )
-                    : textStyle ?? Theme.of(context).textTheme.bodyLarge,
+                    : textStyle ??
+                        Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
           ),
         if (priceImpact > 1)
           Padding(

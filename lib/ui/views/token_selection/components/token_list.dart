@@ -3,6 +3,8 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/components/token_single.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -27,7 +29,12 @@ class TokenList extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               AppLocalizations.of(context)!.token_selection_your_tokens_title,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodyLarge!,
+                    ),
+                  ),
             ),
           ),
           SizedBox(
@@ -49,7 +56,16 @@ class TokenList extends ConsumerWidget {
                         Text(
                           AppLocalizations.of(context)!
                               .token_selection_get_tokens_from_wallet,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyMedium!,
+                                ),
+                              ),
                         ),
                         const SizedBox(width: 10),
                         const SizedBox(

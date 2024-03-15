@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -107,8 +108,16 @@ class TokenSelectionSearchBarState
                                 border: InputBorder.none,
                                 hintText: AppLocalizations.of(context)!
                                     .token_selection_search_bar_hint,
-                                hintStyle:
-                                    Theme.of(context).textTheme.bodyLarge,
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyLarge!,
+                                      ),
+                                    ),
                                 contentPadding: const EdgeInsets.only(left: 10),
                               ),
                             ),

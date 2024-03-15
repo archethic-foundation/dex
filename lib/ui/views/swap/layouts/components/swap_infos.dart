@@ -58,7 +58,12 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'Fees',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -74,7 +79,12 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'Price impact',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -90,7 +100,12 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'Minimum received',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -106,7 +121,12 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'TVL',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -122,7 +142,12 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'Ratio',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -170,7 +195,12 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Fees',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
               Row(
                 children: [
@@ -178,7 +208,12 @@ class SwapInfos extends ConsumerWidget {
                     message: swap.tokenToSwap!.symbol,
                     child: SelectableText(
                       '${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyMedium!,
+                            ),
+                          ),
                     ),
                   ),
                   const SizedBox(
@@ -194,7 +229,16 @@ class SwapInfos extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return SelectableText(
                           snapshot.data!,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyMedium!,
+                                ),
+                              ),
                         );
                       }
                       return const SizedBox.shrink();
@@ -224,12 +268,22 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Price impact',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
               DexPriceImpact(
                 priceImpact: swap.priceImpact,
                 withLabel: false,
-                textStyle: Theme.of(context).textTheme.bodyMedium,
+                textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
             ],
           ),
@@ -238,7 +292,12 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Minimum received',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
               Row(
                 children: [
@@ -246,7 +305,12 @@ class SwapInfos extends ConsumerWidget {
                     message: swap.tokenSwapped!.symbol,
                     child: SelectableText(
                       '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyMedium!,
+                            ),
+                          ),
                     ),
                   ),
                   const SizedBox(
@@ -262,7 +326,16 @@ class SwapInfos extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return SelectableText(
                           snapshot.data!,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyMedium!,
+                                ),
+                              ),
                         );
                       }
                       return const SizedBox.shrink();
@@ -277,11 +350,21 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'TVL',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
               SelectableText(
                 '\$${tvl.formatNumber(precision: 2)}',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
             ],
           ),
@@ -290,7 +373,12 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Ratio',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
               DexRatio(
                 ratio: tokenAddressRatioPrimary.toUpperCase() ==
@@ -305,7 +393,12 @@ class SwapInfos extends ConsumerWidget {
                         swap.pool!.pair.token1.address!.toUpperCase()
                     ? swap.pool!.pair.token2.symbol
                     : swap.pool!.pair.token1.symbol,
-                textStyle: Theme.of(context).textTheme.bodyMedium,
+                textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
             ],
           ),

@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
 import 'package:aedex/ui/views/main_screen/layouts/browser_popup.dart';
 import 'package:aedex/ui/views/main_screen/layouts/privacy_popup.dart';
-import 'package:aedex/ui/views/util/components/dex_env.dart';
 import 'package:aedex/ui/views/util/components/dex_main_menu_app.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
@@ -110,29 +109,20 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
           ),
         ),
         body: Stack(
-          alignment: Alignment.topRight,
+          alignment: Alignment.center,
           children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                const aedappfm.AppBackground(
-                  backgroundImage: 'assets/images/background-welcome.png',
+            const aedappfm.AppBackground(
+              backgroundImage: 'assets/images/background-welcome.png',
+            ),
+            widget.body
+                .animate()
+                .fade(
+                  duration: const Duration(milliseconds: 200),
+                )
+                .scale(
+                  duration: const Duration(milliseconds: 200),
                 ),
-                widget.body
-                    .animate()
-                    .fade(
-                      duration: const Duration(milliseconds: 200),
-                    )
-                    .scale(
-                      duration: const Duration(milliseconds: 200),
-                    ),
-                if (_isSubMenuOpen) const DexMainMenuApp(),
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 80, right: 20),
-              child: DexEnv(),
-            ),
+            if (_isSubMenuOpen) const DexMainMenuApp(),
           ],
         ),
         bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||

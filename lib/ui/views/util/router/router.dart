@@ -335,13 +335,13 @@ final routerProvider = Provider<GoRouter>(
         });
 
         var session = ref.read(SessionProviders.session);
-        if (session.isConnected == false) {
+        if (session.isConnected == false && session.endpoint.isEmpty) {
           await ref.read(SessionProviders.session.notifier).connectToWallet(
                 forceConnection: false,
               );
         }
         session = ref.read(SessionProviders.session);
-        if (session.isConnected == false) {
+        if (session.isConnected == false && session.endpoint.isEmpty) {
           if (context.mounted) {
             ref
                 .read(SessionProviders.session.notifier)

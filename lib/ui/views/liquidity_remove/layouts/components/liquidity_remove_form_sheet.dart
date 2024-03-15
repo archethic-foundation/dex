@@ -98,6 +98,10 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                               controlOk: liquidityRemove.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_liquidity_remove,
+                              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                                context,
+                                desktopValue: 16,
+                              ),
                               onPressed: () => ref
                                   .read(
                                     LiquidityRemoveFormProvider

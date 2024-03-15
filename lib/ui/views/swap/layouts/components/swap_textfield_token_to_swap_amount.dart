@@ -88,14 +88,24 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
           children: [
             SelectableText(
               AppLocalizations.of(context)!.swapFromLbl,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodySmall!,
+                    ),
+                  ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SelectableText(
                   '${AppLocalizations.of(context)!.slippage_tolerance} ${swap.slippageTolerance}%',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyLarge!,
+                        ),
+                      ),
                 ),
                 const Align(
                   alignment: Alignment.centerRight,
@@ -245,7 +255,16 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                           if (snapshot.hasData) {
                             return SelectableText(
                               snapshot.data!,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
+                                  ),
                             );
                           }
                           return const SizedBox.shrink();

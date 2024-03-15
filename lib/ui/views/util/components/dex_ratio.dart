@@ -29,14 +29,26 @@ class DexRatio extends StatelessWidget {
               token2Symbol == token2Symbol.reduceSymbol()
           ? SelectableText(
               '${double.parse('1').formatNumber()} ${token1Symbol.reduceSymbol()} = ${ratio.formatNumber()} ${token2Symbol.reduceSymbol()}',
-              style: textStyle ?? Theme.of(context).textTheme.bodyLarge,
+              style: textStyle ??
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyLarge!,
+                        ),
+                      ),
             )
           : Tooltip(
               message:
                   '${double.parse('1').formatNumber()} $token1Symbol = ${ratio.formatNumber()} $token2Symbol',
               child: SelectableText(
                 '${double.parse('1').formatNumber()} ${token1Symbol.reduceSymbol()} = ${ratio.formatNumber()} ${token2Symbol.reduceSymbol()}',
-                style: textStyle ?? Theme.of(context).textTheme.bodyLarge,
+                style: textStyle ??
+                    Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
               ),
             ),
     );

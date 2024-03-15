@@ -51,7 +51,13 @@ class BrowserPopup extends ConsumerWidget {
                       options: const LinkifyOptions(
                         humanize: false,
                       ),
-                      linkStyle: const TextStyle(color: Colors.white),
+                      linkStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                       onOpen: (link) async {
                         final uri = Uri.parse(link.url);
                         if (!await canLaunchUrl(uri)) return;
@@ -61,6 +67,10 @@ class BrowserPopup extends ConsumerWidget {
                     ),
                     const SizedBox(height: 40),
                     aedappfm.AppButton(
+                      fontSize: aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 16,
+                      ),
                       labelBtn: AppLocalizations.of(context)!.btn_understand,
                       onPressed: () async {
                         if (!context.mounted) return;

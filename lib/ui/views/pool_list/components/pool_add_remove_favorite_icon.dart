@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -63,8 +64,18 @@ class PoolAddRemoveFavoriteIcon extends ConsumerWidget {
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
                                     'Remove the pool from favorite tab?',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!,
+                                          ),
+                                        ),
                                   ),
                                 ),
                                 const SizedBox(
@@ -79,6 +90,11 @@ class PoolAddRemoveFavoriteIcon extends ConsumerWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       aedappfm.AppButton(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromValue(
+                                          context,
+                                          desktopValue: 16,
+                                        ),
                                         labelBtn: AppLocalizations.of(
                                           context,
                                         )!
@@ -88,6 +104,11 @@ class PoolAddRemoveFavoriteIcon extends ConsumerWidget {
                                         },
                                       ),
                                       aedappfm.AppButton(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromValue(
+                                          context,
+                                          desktopValue: 16,
+                                        ),
                                         labelBtn: AppLocalizations.of(
                                           context,
                                         )!

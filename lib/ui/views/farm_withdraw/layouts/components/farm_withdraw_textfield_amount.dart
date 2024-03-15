@@ -158,7 +158,12 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                     farmWithdraw.dexFarmUserInfo!.depositedAmount,
                     farmWithdraw.dexFarmInfo!.poolAddress,
                   ),
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                 ),
               ],
             ),

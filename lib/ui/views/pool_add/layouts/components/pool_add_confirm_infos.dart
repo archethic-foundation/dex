@@ -2,6 +2,7 @@ import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 
@@ -48,12 +49,22 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.poolAddConfirmNewPoolLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!
                         .poolAddConfirmWithLiquidityLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                 ],
               ),
@@ -78,6 +89,11 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                                   .bodyLarge!
                                   .copyWith(
                                     color: aedappfm.AppThemeBase.secondaryColor,
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
                                   ),
                             ),
                           ),
@@ -105,7 +121,13 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                       ),
                       SelectableText(
                         ' ',
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodySmall!,
+                              ),
+                            ),
                       ),
                       Row(
                         children: [
@@ -118,6 +140,11 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                                   .bodyLarge!
                                   .copyWith(
                                     color: aedappfm.AppThemeBase.secondaryColor,
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
                                   ),
                             ),
                           ),
@@ -162,12 +189,26 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                                     .copyWith(
                                       color:
                                           aedappfm.AppThemeBase.secondaryColor,
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyLarge!,
+                                      ),
                                     ),
                               ),
                               TextSpan(
                                 text:
                                     ' ${poolAdd.token1!.symbol.reduceSymbol()}',
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyLarge!,
+                                      ),
+                                    ),
                               ),
                             ],
                           ),
@@ -186,7 +227,18 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                               if (snapshot.hasData) {
                                 return SelectableText(
                                   snapshot.data!,
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!,
+                                        ),
+                                      ),
                                 );
                               }
                               return const SizedBox.shrink();
@@ -211,13 +263,30 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                                         .copyWith(
                                           color: aedappfm
                                               .AppThemeBase.secondaryColor,
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
                                         ),
                                   ),
                                   TextSpan(
                                     text:
                                         ' ${poolAdd.token2!.symbol.reduceSymbol()}',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
                                   ),
                                 ],
                               ),
@@ -238,7 +307,16 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                                       snapshot.data!,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyMedium,
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontSize: aedappfm.Responsive
+                                                .fontSizeFromTextStyle(
+                                              context,
+                                              Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!,
+                                            ),
+                                          ),
                                     );
                                   }
                                   return const SizedBox.shrink();
@@ -303,11 +381,21 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                 ],
               ),

@@ -29,7 +29,13 @@ class _BalanceDetails extends ConsumerWidget {
                         'Your available LP Tokens',
                         style: Theme.of(
                           context,
-                        ).textTheme.bodyLarge,
+                        ).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       if (balance == null)
                         const Column(
@@ -55,7 +61,13 @@ class _BalanceDetails extends ConsumerWidget {
                               '${balance.formatNumber()} ${balance > 1 ? 'LP Tokens' : 'LP Token'}',
                               style: Theme.of(
                                 context,
-                              ).textTheme.bodyLarge,
+                              ).textTheme.bodyLarge!.copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
+                                  ),
                             ),
                             SelectableText(
                               DEXLPTokenFiatValue().display(
@@ -67,7 +79,13 @@ class _BalanceDetails extends ConsumerWidget {
                               ),
                               style: Theme.of(
                                 context,
-                              ).textTheme.bodyMedium,
+                              ).textTheme.bodyMedium!.copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyMedium!,
+                                    ),
+                                  ),
                             ),
                           ],
                         ),
@@ -86,6 +104,10 @@ class _BalanceDetails extends ConsumerWidget {
               children: [
                 aedappfm.ButtonValidate(
                   background: aedappfm.ArchethicThemeBase.purple500,
+                  fontSize: aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 16,
+                  ),
                   controlOk: balance != null && balance > 0,
                   labelBtn: 'Deposit LP Tokens',
                   onPressed: () {
@@ -153,6 +175,10 @@ class _BalanceDetails extends ConsumerWidget {
                       child: aedappfm.ButtonValidate(
                         background: aedappfm.ArchethicThemeBase.purple500,
                         controlOk: farm.lpTokenDeposited > 0,
+                        fontSize: aedappfm.Responsive.fontSizeFromValue(
+                          context,
+                          desktopValue: 16,
+                        ),
                         labelBtn: 'Withdraw',
                         onPressed: () {
                           final farmAddressJson = jsonEncode(farm.farmAddress);
@@ -220,6 +246,10 @@ class _BalanceDetails extends ConsumerWidget {
                       child: aedappfm.ButtonValidate(
                         background: aedappfm.ArchethicThemeBase.purple500,
                         controlOk: farm.remainingReward > 0,
+                        fontSize: aedappfm.Responsive.fontSizeFromValue(
+                          context,
+                          desktopValue: 16,
+                        ),
                         labelBtn: 'Claim',
                         onPressed: () async {
                           if (context.mounted) {

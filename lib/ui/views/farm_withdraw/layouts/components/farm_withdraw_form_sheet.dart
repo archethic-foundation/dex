@@ -73,7 +73,13 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                     children: [
                       SelectableText(
                         'You can withdraw all or part of your deposited LP tokens. At the same time, this will claim your rewards.',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       FutureBuilder<String>(
                         future: FiatValue().display(
@@ -87,15 +93,48 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                               children: [
                                 SelectableText(
                                   '${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!,
+                                        ),
+                                      ),
                                 ),
                                 SelectableText(
                                   '${snapshot.data}',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!,
+                                        ),
+                                      ),
                                 ),
                                 SelectableText(
                                   ' are available for claiming.',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!,
+                                        ),
+                                      ),
                                 ),
                               ],
                             );
@@ -124,6 +163,10 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                               controlOk: farmWithdraw.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_withdraw,
+                              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                                context,
+                                desktopValue: 16,
+                              ),
                               onPressed: () => ref
                                   .read(
                                     FarmWithdrawFormProvider

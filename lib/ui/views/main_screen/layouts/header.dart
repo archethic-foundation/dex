@@ -24,49 +24,62 @@ class Header extends ConsumerWidget {
 
     return Stack(
       children: [
-        Positioned(
-          top: 40,
-          left: 65,
-          child: SelectableText(
-            'Decentralized Exchange',
-            style: TextStyle(
-              fontSize: 10.5,
-              color: aedappfm.ArchethicThemeBase.neutral0,
+        if (aedappfm.Responsive.isMobile(context) == false)
+          Positioned(
+            top: 40,
+            left: 65,
+            child: SelectableText(
+              'Decentralized Exchange',
+              style: TextStyle(
+                fontSize: 10.5,
+                color: aedappfm.ArchethicThemeBase.neutral0,
+              ),
             ),
           ),
-        ),
         Row(
           children: [
             const SizedBox(
               width: 16,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: SvgPicture.asset(
-                'assets/images/AELogo.svg',
-                height: 34,
-              ),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 7),
-              child: SelectableText(
-                'aeSwap',
-                style: TextStyle(
-                  fontSize: 33,
-                  color: aedappfm.ArchethicThemeBase.neutral0,
+            if (aedappfm.Responsive.isMobile(context) == false)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: SvgPicture.asset(
+                  'assets/images/AELogo.svg',
+                  height: 34,
+                ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(top: 16, left: 5),
+                child: SvgPicture.asset(
+                  'assets/images/AELogo.svg',
+                  height: 24,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 5, bottom: 26),
-              child: SelectableText(
-                'Beta',
-                style: Theme.of(context).textTheme.labelMedium,
+            if (aedappfm.Responsive.isMobile(context) == false)
+              const SizedBox(
+                width: 8,
               ),
-            ),
+            if (aedappfm.Responsive.isMobile(context) == false)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 7),
+                child: SelectableText(
+                  'aeSwap',
+                  style: TextStyle(
+                    fontSize: 33,
+                    color: aedappfm.ArchethicThemeBase.neutral0,
+                  ),
+                ),
+              ),
+            if (aedappfm.Responsive.isMobile(context) == false)
+              Padding(
+                padding: const EdgeInsets.only(left: 5, bottom: 26),
+                child: SelectableText(
+                  'Beta',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ),
             if (withMenu &&
                 aedappfm.Responsive.isMobile(context) == false &&
                 aedappfm.Responsive.isTablet(context) == false)

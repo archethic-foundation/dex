@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -53,7 +54,12 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                     'Your deposited amount',
                     style: Theme.of(
                       context,
-                    ).textTheme.bodyLarge,
+                    ).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                   if (userInfos == null)
                     const Column(
@@ -79,7 +85,13 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                           '${userInfos.depositedAmount.formatNumber()} ${userInfos.depositedAmount > 1 ? 'LP Tokens' : 'LP Token'}',
                           style: Theme.of(
                             context,
-                          ).textTheme.bodyLarge,
+                          ).textTheme.bodyLarge!.copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
+                              ),
                         ),
                         SelectableText(
                           DEXLPTokenFiatValue().display(
@@ -89,7 +101,16 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                             userInfos.depositedAmount,
                             farm.poolAddress,
                           ),
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyMedium!,
+                                ),
+                              ),
                         ),
                       ],
                     ),
@@ -106,7 +127,12 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                     'Your reward amount',
                     style: Theme.of(
                       context,
-                    ).textTheme.bodyLarge,
+                    ).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
                   ),
                   if (userInfos == null)
                     const Column(
@@ -134,6 +160,11 @@ class FarmDetailsUserInfo extends ConsumerWidget {
                             context,
                           ).textTheme.bodyLarge!.copyWith(
                                 color: aedappfm.AppThemeBase.secondaryColor,
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
                               ),
                         ),
                         const SizedBox(
@@ -154,7 +185,16 @@ class FarmDetailsUserInfo extends ConsumerWidget {
 
                             return SelectableText(
                               fiatValue,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyMedium!,
+                                    ),
+                                  ),
                             );
                           },
                         ),

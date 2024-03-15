@@ -8,6 +8,7 @@ import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.d
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
+
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
@@ -59,7 +60,18 @@ class PoolDetailsFront extends ConsumerWidget {
                             message: pool.pair.token1.symbol,
                             child: SelectableText(
                               pool.pair.token1.symbol.reduceSymbol(),
-                              style: Theme.of(context).textTheme.headlineMedium,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium!,
+                                    ),
+                                  ),
                             ),
                           ),
                           const SelectableText('/'),
@@ -67,7 +79,18 @@ class PoolDetailsFront extends ConsumerWidget {
                             message: pool.pair.token2.symbol,
                             child: SelectableText(
                               pool.pair.token2.symbol.reduceSymbol(),
-                              style: Theme.of(context).textTheme.headlineMedium,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium!,
+                                    ),
+                                  ),
                             ),
                           ),
                           Padding(
@@ -113,7 +136,13 @@ class PoolDetailsFront extends ConsumerWidget {
                     children: [
                       SelectableText(
                         'TVL',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       SelectableText(
                         '\$${tvl.formatNumber(precision: 2)}',
@@ -121,6 +150,11 @@ class PoolDetailsFront extends ConsumerWidget {
                             .textTheme
                             .headlineMedium!
                             .copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.headlineMedium!,
+                              ),
                               color: aedappfm.AppThemeBase.secondaryColor,
                             ),
                       ),
@@ -137,14 +171,32 @@ class PoolDetailsFront extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: SelectableText(
                               '24h',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodySmall!,
+                                    ),
+                                  ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 25),
                             child: SelectableText(
                               'APR',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
+                                  ),
                             ),
                           ),
                         ],
@@ -156,6 +208,11 @@ class PoolDetailsFront extends ConsumerWidget {
                               .textTheme
                               .headlineMedium!
                               .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.headlineMedium!,
+                                ),
                                 color: aedappfm.AppThemeBase.secondaryColor,
                               ),
                         )
@@ -166,6 +223,11 @@ class PoolDetailsFront extends ConsumerWidget {
                               .textTheme
                               .headlineMedium!
                               .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.headlineMedium!,
+                                ),
                                 color: aedappfm.AppThemeBase.secondaryColor,
                               ),
                         ),
@@ -188,14 +250,32 @@ class PoolDetailsFront extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: SelectableText(
                               '24h',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodySmall!,
+                                    ),
+                                  ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 25),
                             child: SelectableText(
                               'Volume',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
+                                  ),
                             ),
                           ),
                         ],
@@ -207,14 +287,32 @@ class PoolDetailsFront extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: SelectableText(
                               '24h',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodySmall!,
+                                    ),
+                                  ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 25),
                             child: SelectableText(
                               'Fees',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
+                                  ),
                             ),
                           ),
                         ],
@@ -226,11 +324,23 @@ class PoolDetailsFront extends ConsumerWidget {
                     children: [
                       SelectableText(
                         '\$${stats.volume24h.formatNumber(precision: stats.volume24h > 1 ? 2 : 8)}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       SelectableText(
                         '\$${stats.fee24h.formatNumber(precision: stats.fee24h > 1 ? 2 : 8)}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                     ],
                   ),
@@ -247,14 +357,32 @@ class PoolDetailsFront extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: SelectableText(
                               'All',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodySmall!,
+                                    ),
+                                  ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 17),
                             child: SelectableText(
                               'Volume',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
+                                  ),
                             ),
                           ),
                         ],
@@ -266,14 +394,32 @@ class PoolDetailsFront extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: SelectableText(
                               'All',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodySmall!,
+                                    ),
+                                  ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 17),
                             child: SelectableText(
                               'Fees',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
+                                    ),
+                                  ),
                             ),
                           ),
                         ],
@@ -285,11 +431,23 @@ class PoolDetailsFront extends ConsumerWidget {
                     children: [
                       SelectableText(
                         '\$${stats.volumeAllTime.formatNumber(precision: stats.volumeAllTime > 1 ? 2 : 8)}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                       SelectableText(
                         '\$${stats.feeAllTime.formatNumber(precision: stats.feeAllTime > 1 ? 2 : 8)}',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                       ),
                     ],
                   ),
@@ -301,6 +459,10 @@ class PoolDetailsFront extends ConsumerWidget {
               Column(
                 children: [
                   aedappfm.AppButton(
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 16,
+                    ),
                     background: aedappfm.ArchethicThemeBase.purple500,
                     labelBtn: 'Swap these tokens',
                     onPressed: () {
@@ -333,7 +495,13 @@ class PoolDetailsFront extends ConsumerWidget {
                         child: aedappfm.ButtonValidate(
                           background: aedappfm.ArchethicThemeBase.purple500,
                           controlOk: true,
-                          labelBtn: 'Add Liquidity',
+                          labelBtn: aedappfm.Responsive.isDesktop(context)
+                              ? 'Add Liquidity'
+                              : 'Add Liquid.',
+                          fontSize: aedappfm.Responsive.fontSizeFromValue(
+                            context,
+                            desktopValue: 16,
+                          ),
                           onPressed: () {
                             final poolJson = jsonEncode(pool.toJson());
                             final pairJson = jsonEncode(pool.pair.toJson());
@@ -386,7 +554,13 @@ class PoolDetailsFront extends ConsumerWidget {
                         child: aedappfm.ButtonValidate(
                           background: aedappfm.ArchethicThemeBase.purple500,
                           controlOk: pool.lpTokenInUserBalance,
-                          labelBtn: 'Remove liquidity',
+                          labelBtn: aedappfm.Responsive.isDesktop(context)
+                              ? 'Remove liquidity'
+                              : 'Rmv Liquid.',
+                          fontSize: aedappfm.Responsive.fontSizeFromValue(
+                            context,
+                            desktopValue: 16,
+                          ),
                           onPressed: () {
                             final poolJson = jsonEncode(pool.toJson());
                             final pairJson = jsonEncode(pool.pair.toJson());
