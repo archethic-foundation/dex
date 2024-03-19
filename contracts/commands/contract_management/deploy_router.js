@@ -57,7 +57,6 @@ const handler = async function(argv) {
   let routerTx = archethic.transaction.new()
     .setType("contract")
     .setCode(routerCode)
-    .setContent("{}")
     .addOwnership(secret, authorizedPublicKeys)
 
   routerTx = keychain.buildTransaction(routerTx, "Router", index).originSign(Utils.originPrivateKey)

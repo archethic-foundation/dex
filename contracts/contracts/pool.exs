@@ -2,39 +2,12 @@
 
 condition triggered_by: transaction, on: add_liquidity(token1_min_amount, token2_min_amount), as: [
   token_transfers: (
-    valid_amounts? = false
-    valid_liquidity? = false
-
     user_amounts = get_user_transfers_amount(transaction)
 
-    if user_amounts.token1 > 0 && user_amounts.token2 > 0
-      && user_amounts.token1 >= token1_min_amount && user_amounts.token2 >= token2_min_amount do
-      lp_token_supply = State.get("lp_token_supply", 0)
-      reserves = State.get("reserves", [token1: 0, token2: 0])
+    valid_transfers? = user_amounts.token1 > 0 && user_amounts.token2 > 0
+    valid_min? = user_amounts.token1 >= token1_min_amount && user_amounts.token2 >= token2_min_amount
 
-      final_amounts = nil
-      if lp_token_supply != 0 do
-        # Returns final_amounts.token1 == 0 in case of insufficient funds
-        final_amounts = get_final_amounts(user_amounts, reserves, token1_min_amount, token2_min_amount)
-      else
-        final_amounts = [token1: user_amounts.token1, token2: user_amounts.token2]
-      end
-
-      if final_amounts.token1 > 0 && final_amounts.token2 > 0 do
-        valid_amounts? = true
-
-        pool_balances = get_pool_balances()
-        # Amount = final amounts + potential current balance over reserve
-        token1_amount = final_amounts.token1 + (pool_balances.token1 - reserves.token1)
-        token2_amount = final_amounts.token2 + (pool_balances.token2 - reserves.token2)
-
-        lp_token_to_mint = get_lp_token_to_mint(token1_amount, token2_amount)
-
-        valid_liquidity? = lp_token_to_mint > 0
-      end
-    end
-
-    valid_amounts? && valid_liquidity?
+    valid_transfers? && valid_min?
   )
 ]
 
@@ -49,177 +22,211 @@ actions triggered_by: transaction, on: add_liquidity(token1_min_amount, token2_m
   token1_to_refund = user_amounts.token1 - final_amounts.token1
   token2_to_refund = user_amounts.token2 - final_amounts.token2
 
-  token1_amount = pool_balances.token1 - reserves.token1 - token1_to_refund
-  token2_amount = pool_balances.token2 - reserves.token2 - token2_to_refund
+  token1_amount = user_amounts.token1 + pool_balances.token1 - reserves.token1 - token1_to_refund
+  token2_amount = user_amounts.token2 + pool_balances.token2 - reserves.token2 - token2_to_refund
 
   lp_token_to_mint = get_lp_token_to_mint(token1_amount, token2_amount)
-  lp_token_to_mint_bigint = Math.trunc(lp_token_to_mint * 100_000_000)
 
-  # Remove minimum liquidity if this is the first liquidity if the pool
-  # First liquidity minted and burned on pool creation
-  if lp_token_supply == 0 do
-    lp_token_to_mint_bigint = lp_token_to_mint_bigint - 10
-  end
+  # Handle invalid values and refund user 
+  valid_amounts? = final_amounts.token1 > 0 && final_amounts.token2 > 0
+  valid_liquidity? = lp_token_to_mint > 0
 
-  token_specification = [
-    aeip: [8, 18, 19],
-    supply: lp_token_to_mint_bigint,
-    token_reference: @LP_TOKEN,
-    recipients: [
-      [to: transaction.address, amount: lp_token_to_mint_bigint]
-    ]
-  ]
+  if valid_amounts? && valid_liquidity? do
+    lp_token_to_mint_bigint = Math.trunc(lp_token_to_mint * 100_000_000)
 
-  new_token1_reserve = pool_balances.token1 - token1_to_refund
-  new_token2_reserve = pool_balances.token2 - token2_to_refund
-
-  State.set("lp_token_supply", lp_token_supply + lp_token_to_mint)
-  State.set("reserves", [token1: new_token1_reserve, token2: new_token2_reserve])
-
-  if token1_to_refund > 0 do
-    Contract.add_token_transfer(to: transaction.address, amount: token1_to_refund, token_address: @TOKEN1)
-  end
-
-  if token2_to_refund > 0 do
-    if @TOKEN2 == "UCO" do
-      Contract.add_uco_transfer(to: transaction.address, amount: token2_to_refund)
-    else
-      Contract.add_token_transfer(to: transaction.address, amount: token2_to_refund, token_address: @TOKEN2)
+    # Remove minimum liquidity if this is the first liquidity if the pool
+    # First liquidity minted and burned on pool creation
+    if lp_token_supply == 0 do
+      lp_token_to_mint_bigint = lp_token_to_mint_bigint - 10
     end
-  end
 
-  Contract.set_type("token")
-  Contract.set_content(Json.to_string(token_specification))
+    token_specification = [
+      aeip: [8, 18, 19],
+      supply: lp_token_to_mint_bigint,
+      token_reference: @LP_TOKEN,
+      recipients: [
+        [to: transaction.address, amount: lp_token_to_mint_bigint]
+      ]
+    ]
+
+    new_token1_reserve = user_amounts.token1 + pool_balances.token1 - token1_to_refund
+    new_token2_reserve = user_amounts.token2 + pool_balances.token2 - token2_to_refund
+
+    State.set("lp_token_supply", lp_token_supply + lp_token_to_mint)
+    State.set("reserves", [token1: new_token1_reserve, token2: new_token2_reserve])
+
+    if token1_to_refund > 0 do
+      Contract.add_token_transfer(to: transaction.address, amount: token1_to_refund, token_address: @TOKEN1)
+    end
+
+    if token2_to_refund > 0 do
+      if @TOKEN2 == "UCO" do
+        Contract.add_uco_transfer(to: transaction.address, amount: token2_to_refund)
+      else
+        Contract.add_token_transfer(to: transaction.address, amount: token2_to_refund, token_address: @TOKEN2)
+      end
+    end
+
+    Contract.set_type("token")
+    Contract.set_content(Json.to_string(token_specification))
+  else
+    # Liquidity provision is invalid, refund user of it's tokens
+    Contract.set_type("transfer")
+
+    if @TOKEN2 == "UCO" do
+      Contract.add_uco_transfer(to: transaction.address, amount: user_amounts.token2)
+    else
+      Contract.add_token_transfer(to: transaction.address, amount: user_amounts.token2, token_address: @TOKEN2)
+    end
+
+    Contract.add_token_transfer(to: transaction.address, amount: user_amounts.token1, token_address: @TOKEN1)
+  end
 end
 
 condition triggered_by: transaction, on: remove_liquidity(), as: [
   token_transfers: (
-    valid? = false
-
     user_amount = get_user_lp_amount(transaction.token_transfers)
-    lp_token_supply = State.get("lp_token_supply", 0)
 
-    if user_amount > 0 && lp_token_supply > 0 do
-      pool_balances = get_pool_balances()
-
-      token1_to_remove = (user_amount * pool_balances.token1) / lp_token_supply
-      token2_to_remove = (user_amount * pool_balances.token2) / lp_token_supply
-
-      valid? = token1_to_remove > 0 && token2_to_remove > 0
-    end
-
-    valid?
+    user_amount > 0
   )
 ]
 
 actions triggered_by: transaction, on: remove_liquidity() do
+  return? = true
+
   user_amount = get_user_lp_amount(transaction.token_transfers)
-  pool_balances = get_pool_balances()
+  lp_token_supply = State.get("lp_token_supply", 0)
 
-  lp_token_supply = State.get("lp_token_supply")
+  if lp_token_supply > 0 do
+    pool_balances = get_pool_balances()
 
-  token1_to_remove = (user_amount * pool_balances.token1) / lp_token_supply
-  token2_to_remove = (user_amount * pool_balances.token2) / lp_token_supply
+    token1_to_remove = (user_amount * pool_balances.token1) / lp_token_supply
+    token2_to_remove = (user_amount * pool_balances.token2) / lp_token_supply
 
-  new_token1_reserve = pool_balances.token1 - token1_to_remove
-  new_token2_reserve = pool_balances.token2 - token2_to_remove
+    if token1_to_remove > 0 && token2_to_remove > 0 do
+      return? = false
 
-  State.set("lp_token_supply", lp_token_supply - user_amount)
-  State.set("reserves", [token1: new_token1_reserve, token2: new_token2_reserve])
+      new_token1_reserve = pool_balances.token1 - token1_to_remove
+      new_token2_reserve = pool_balances.token2 - token2_to_remove
 
-  Contract.set_type("transfer")
-  Contract.add_token_transfer(to: transaction.address, amount: token1_to_remove, token_address: @TOKEN1)
-  if @TOKEN2 == "UCO" do
-    Contract.add_uco_transfer(to: transaction.address, amount: token2_to_remove)
-  else
-    Contract.add_token_transfer(to: transaction.address, amount: token2_to_remove, token_address: @TOKEN2)
+      State.set("lp_token_supply", lp_token_supply - user_amount)
+      State.set("reserves", [token1: new_token1_reserve, token2: new_token2_reserve])
+
+      Contract.set_type("transfer")
+      Contract.add_token_transfer(to: transaction.address, amount: token1_to_remove, token_address: @TOKEN1)
+      if @TOKEN2 == "UCO" do
+        Contract.add_uco_transfer(to: transaction.address, amount: token2_to_remove)
+      else
+        Contract.add_token_transfer(to: transaction.address, amount: token2_to_remove, token_address: @TOKEN2)
+      end
+    end
+  end
+
+  if return? do
+    # Refund is invalid, return LP tokens to user
+    Contract.set_type("transfer")
+    Contract.add_token_transfer(to: transaction.address, amount: user_amount, token_address: @LP_TOKEN)
   end
 end
 
-condition triggered_by: transaction, on: swap(min_to_receive), as: [
+condition triggered_by: transaction, on: swap(_min_to_receive), as: [
   token_transfers: (
-    valid? = false
-
     transfer = get_user_transfer(transaction)
-    if transfer != nil do
-        swap = get_swap_infos(transfer.token_address, transfer.amount)
 
-        valid? = swap.output_amount > 0 && swap.output_amount >= min_to_receive
-    end
-
-    valid?
+    transfer != nil
   )
 ]
 
-actions triggered_by: transaction, on: swap(_min_to_receive) do
+actions triggered_by: transaction, on: swap(min_to_receive) do
   transfer = get_user_transfer(transaction)
 
   swap = get_swap_infos(transfer.token_address, transfer.amount)
 
-  pool_balances = get_pool_balances()
-  token_to_send = nil
-  token1_volume = 0
-  token2_volume = 0
-  token1_fee = 0
-  token2_fee = 0
-  token1_protocol_fee = 0
-  token2_protocol_fee = 0
-  if transfer.token_address == @TOKEN1 do
-    pool_balances = Map.set(pool_balances, "token2", pool_balances.token2 - swap.output_amount)
-    token_to_send = @TOKEN2
-    token1_volume = transfer.amount
-    token1_fee = swap.fee
-    token1_protocol_fee = swap.protocol_fee
-  else
-    pool_balances = Map.set(pool_balances, "token1", pool_balances.token1 - swap.output_amount)
-    token_to_send = @TOKEN1
-    token2_volume = transfer.amount
-    token2_fee = swap.fee
-    token2_protocol_fee = swap.protocol_fee
-  end
+  if swap.output_amount > 0 && swap.output_amount >= min_to_receive do
 
-  State.set("reserves", [token1: pool_balances.token1, token2: pool_balances.token2])
-
-  stats = State.get("stats", [
-    token1_total_fee: 0,
-    token2_total_fee: 0,
-    token1_total_volume: 0,
-    token2_total_volume: 0,
-    token1_total_protocol_fee: 0,
-    token2_total_protocol_fee: 0,
-  ])
-
-  token1_total_fee = Map.get(stats, "token1_total_fee") + token1_fee
-  token2_total_fee = Map.get(stats, "token2_total_fee") + token2_fee
-  token1_total_volume = Map.get(stats, "token1_total_volume") + token1_volume
-  token2_total_volume = Map.get(stats, "token2_total_volume") + token2_volume
-  token1_total_protocol_fee = Map.get(stats, "token1_total_protocol_fee") + token1_protocol_fee
-  token2_total_protocol_fee = Map.get(stats, "token2_total_protocol_fee") + token2_protocol_fee
-
-  stats = Map.set(stats, "token1_total_fee", token1_total_fee)
-  stats = Map.set(stats, "token2_total_fee", token2_total_fee)
-  stats = Map.set(stats, "token1_total_volume", token1_total_volume)
-  stats = Map.set(stats, "token2_total_volume", token2_total_volume)
-  stats = Map.set(stats, "token1_total_protocol_fee", token1_total_protocol_fee)
-  stats = Map.set(stats, "token2_total_protocol_fee", token2_total_protocol_fee)
-
-  State.set("stats", stats)
-
-  Contract.set_type("transfer")
-  if token_to_send == "UCO" do
-    Contract.add_uco_transfer(to: transaction.address, amount: swap.output_amount)
-  else
-    Contract.add_token_transfer(to: transaction.address, amount: swap.output_amount, token_address: token_to_send)
-  end
-
-  if swap.protocol_fee > 0 do
-    if transfer.token_address == "UCO" do
-      Contract.add_uco_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee)
+    pool_balances = get_pool_balances()
+    token_to_send = nil
+    token1_volume = 0
+    token2_volume = 0
+    token1_fee = 0
+    token2_fee = 0
+    token1_protocol_fee = 0
+    token2_protocol_fee = 0
+    if transfer.token_address == @TOKEN1 do
+      pool_balances = [
+        token1: pool_balances.token1 + transfer.amount - swap.protocol_fee,
+        token2: pool_balances.token2 - swap.output_amount
+      ]
+      token_to_send = @TOKEN2
+      token1_volume = transfer.amount
+      token1_fee = swap.fee
+      token1_protocol_fee = swap.protocol_fee
     else
-      Contract.add_token_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee, token_address: transfer.token_address)
+      pool_balances = [
+        token1: pool_balances.token1 - swap.output_amount,
+        token2: pool_balances.token2 + transfer.amount - swap.protocol_fee
+      ]
+      token_to_send = @TOKEN1
+      token2_volume = transfer.amount
+      token2_fee = swap.fee
+      token2_protocol_fee = swap.protocol_fee
+    end
+
+    State.set("reserves", [token1: pool_balances.token1, token2: pool_balances.token2])
+
+    stats = State.get("stats", [
+      token1_total_fee: 0,
+      token2_total_fee: 0,
+      token1_total_volume: 0,
+      token2_total_volume: 0,
+      token1_total_protocol_fee: 0,
+      token2_total_protocol_fee: 0,
+    ])
+
+    token1_total_fee = Map.get(stats, "token1_total_fee") + token1_fee
+    token2_total_fee = Map.get(stats, "token2_total_fee") + token2_fee
+    token1_total_volume = Map.get(stats, "token1_total_volume") + token1_volume
+    token2_total_volume = Map.get(stats, "token2_total_volume") + token2_volume
+    token1_total_protocol_fee = Map.get(stats, "token1_total_protocol_fee") + token1_protocol_fee
+    token2_total_protocol_fee = Map.get(stats, "token2_total_protocol_fee") + token2_protocol_fee
+
+    stats = Map.set(stats, "token1_total_fee", token1_total_fee)
+    stats = Map.set(stats, "token2_total_fee", token2_total_fee)
+    stats = Map.set(stats, "token1_total_volume", token1_total_volume)
+    stats = Map.set(stats, "token2_total_volume", token2_total_volume)
+    stats = Map.set(stats, "token1_total_protocol_fee", token1_total_protocol_fee)
+    stats = Map.set(stats, "token2_total_protocol_fee", token2_total_protocol_fee)
+
+    State.set("stats", stats)
+
+    Contract.set_type("transfer")
+    if token_to_send == "UCO" do
+      Contract.add_uco_transfer(to: transaction.address, amount: swap.output_amount)
+    else
+      Contract.add_token_transfer(to: transaction.address, amount: swap.output_amount, token_address: token_to_send)
+    end
+
+    if swap.protocol_fee > 0 do
+      if transfer.token_address == "UCO" do
+        Contract.add_uco_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee)
+      else
+        Contract.add_token_transfer(to: @PROTOCOL_FEE_ADDRESS, amount: swap.protocol_fee, token_address: transfer.token_address)
+      end
+    end
+  else
+    # Swap is invalid, return tokens to user
+    Contract.set_type("transfer")
+
+    if transfer.token_address == @TOKEN1 do
+      Contract.add_token_transfer(to: transaction.address, amount: transfer.amount, token_address: @TOKEN1)
+    else
+      if transfer.token_address == "UCO" do
+        Contract.add_uco_transfer(to: transaction.address, amount: transfer.amount)
+      else
+        Contract.add_token_transfer(to: transaction.address, amount: transfer.amount, token_address: @TOKEN2)
+      end
     end
   end
-
 end
 
 condition triggered_by: transaction, on: update_code(), as: [
