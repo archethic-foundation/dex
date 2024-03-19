@@ -128,6 +128,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                         )
                                         .setTokenFormSelected(1);
                                     poolAddNotifier.setToken1Amount(
+                                      context,
                                       double.tryParse(
                                             text.replaceAll(' ', ''),
                                           ) ??
@@ -194,7 +195,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                           .setTokenFormSelected(1);
                       ref
                           .read(PoolAddFormProvider.poolAddForm.notifier)
-                          .setToken1AmountHalf();
+                          .setToken1AmountHalf(context);
                       _updateAmountTextController();
                     },
                   ),
@@ -211,7 +212,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                           .setTokenFormSelected(1);
                       ref
                           .read(PoolAddFormProvider.poolAddForm.notifier)
-                          .setToken1AmountMax();
+                          .setToken1AmountMax(context);
                       _updateAmountTextController();
                     },
                   ),

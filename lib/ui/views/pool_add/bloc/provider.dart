@@ -95,23 +95,25 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     }
   }
 
-  void setToken1AmountMax() {
-    setToken1Amount(state.token1Balance);
+  void setToken1AmountMax(BuildContext context) {
+    setToken1Amount(context, state.token1Balance);
   }
 
-  void setToken2AmountMax() {
-    setToken2Amount(state.token2Balance);
+  void setToken2AmountMax(BuildContext context) {
+    setToken2Amount(context, state.token2Balance);
   }
 
-  void setToken1AmountHalf() {
+  void setToken1AmountHalf(BuildContext context) {
     setToken1Amount(
+      context,
       (Decimal.parse(state.token1Balance.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
   }
 
-  void setToken2AmountHalf() {
+  void setToken2AmountHalf(BuildContext context) {
     setToken2Amount(
+      context,
       (Decimal.parse(state.token2Balance.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
@@ -134,6 +136,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   void setToken1Amount(
+    BuildContext context,
     double amount,
   ) {
     state = state.copyWith(
@@ -141,9 +144,27 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       messageMaxHalfUCO: false,
       token1Amount: amount,
     );
+
+    if (state.token1Amount > state.token1Balance) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .poolAddControlToken1AmountExceedBalance,
+        ),
+      );
+    }
+    if (state.token2Amount > state.token2Balance) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .poolAddControlToken2AmountExceedBalance,
+        ),
+      );
+    }
   }
 
   void setToken2Amount(
+    BuildContext context,
     double amount,
   ) {
     state = state.copyWith(
@@ -151,6 +172,23 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       messageMaxHalfUCO: false,
       token2Amount: amount,
     );
+
+    if (state.token1Amount > state.token1Balance) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .poolAddControlToken1AmountExceedBalance,
+        ),
+      );
+    }
+    if (state.token2Amount > state.token2Balance) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .poolAddControlToken2AmountExceedBalance,
+        ),
+      );
+    }
   }
 
   void estimateNetworkFees() {
@@ -369,7 +407,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
             setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
-            setToken1Amount(adjustedAmount);
+            if (context.mounted) {
+              setToken1Amount(context, adjustedAmount);
+            }
             state = state.copyWith(messageMaxHalfUCO: true);
           }
         }
@@ -389,7 +429,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
             setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
-            setToken2Amount(adjustedAmount);
+            if (context.mounted) {
+              setToken2Amount(context, adjustedAmount);
+            }
             state = state.copyWith(messageMaxHalfUCO: true);
           }
         }
