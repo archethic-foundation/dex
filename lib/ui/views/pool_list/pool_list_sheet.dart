@@ -173,6 +173,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
               if (pools.isEmpty &&
                   poolListForm.tabIndexSelected == PoolsListTab.favoritePools) {
                 return Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     SelectableText(
                       'To add your favorite pools to this tab, please click on the',
