@@ -406,14 +406,18 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            OutlinedButton(
+                                            aedappfm.AppButton(
+                                              fontSize: aedappfm.Responsive
+                                                  .fontSizeFromValue(
+                                                context,
+                                                desktopValue: 16,
+                                              ),
+                                              labelBtn:
+                                                  AppLocalizations.of(context)!
+                                                      .no,
                                               onPressed: () async {
                                                 context.pop();
                                               },
-                                              child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .no,
-                                              ),
                                             ),
                                             aedappfm.AppButton(
                                               fontSize: aedappfm.Responsive

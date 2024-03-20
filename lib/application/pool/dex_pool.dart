@@ -42,7 +42,7 @@ Future<DexPool?> _getPool(
   _GetPoolRef ref,
   String genesisAddress,
 ) async {
-  return ref.read(_dexPoolRepositoryProvider).getPool(ref, genesisAddress);
+  return ref.read(_dexPoolRepositoryProvider).getPool(genesisAddress);
 }
 
 @riverpod
@@ -65,14 +65,29 @@ Future<void> _removePoolFromFavorite(
   final poolHive = poolsListDatasource.getPool(poolGenesisAddress);
   var pool = poolHive!.toDexPool();
 
-  if (pool.isVerified || pool.lpTokenInUserBalance) {
-    pool = pool.copyWith(isFavorite: false);
-    await poolsListDatasource.setPool(pool.toHive());
-  } else {
-    await poolsListDatasource.removePool(poolGenesisAddress);
-  }
+  pool = pool.copyWith(isFavorite: false);
+  await poolsListDatasource.setPool(pool.toHive());
 
-  ref.invalidate(_getPoolListFromCacheProvider);
+  ref
+    ..invalidate(_getPoolListFromCacheProvider)
+    ..invalidate(DexPoolProviders.getPool(poolGenesisAddress));
+}
+
+@riverpod
+Future<void> _addPoolFromFavorite(
+  _AddPoolFromFavoriteRef ref,
+  String poolGenesisAddress,
+) async {
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+  final poolHive = poolsListDatasource.getPool(poolGenesisAddress);
+  var pool = poolHive!.toDexPool();
+
+  pool = pool.copyWith(isFavorite: true);
+  await poolsListDatasource.setPool(pool.toHive());
+
+  ref
+    ..invalidate(_getPoolListFromCacheProvider)
+    ..invalidate(DexPoolProviders.getPool(poolGenesisAddress));
 }
 
 abstract class DexPoolProviders {
@@ -87,6 +102,7 @@ abstract class DexPoolProviders {
   static const updatePoolInCache = _updatePoolInCacheProvider;
   static const putPoolToCache = _putPoolToCacheProvider;
   static const removePoolFromFavorite = _removePoolFromFavoriteProvider;
+  static const addPoolFromFavorite = _addPoolFromFavoriteProvider;
   static const estimateStats = _estimateStatsProvider;
   static const getRatio = _getRatioProvider;
   static const getPoolListForSearch = _getPoolListForSearchProvider;

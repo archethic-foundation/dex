@@ -22,9 +22,8 @@ class PoolAddAddFavoriteIcon extends ConsumerWidget {
     return InkWell(
       onTap: () {
         ref.read(
-          DexPoolProviders.putPoolToCache(
+          DexPoolProviders.addPoolFromFavorite(
             poolAddress,
-            isFavorite: true,
           ),
         );
       },

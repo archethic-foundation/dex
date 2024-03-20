@@ -27,7 +27,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
   void initState() {
     super.initState();
     tokenAmountFocusNode = FocusNode();
-    _updateAmountTextController();
+    tokenAmountController = TextEditingController();
   }
 
   void _updateAmountTextController() {
@@ -65,16 +65,6 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         tokenAmountFocusNode.requestFocus();
       });
-    }
-
-    final textNum = double.tryParse(tokenAmountController.text);
-    if (poolAdd.token2Amount == 0.0 &&
-        tokenAmountController.text != '' &&
-        (textNum == null || textNum != 0)) {
-      _updateAmountTextController();
-    }
-    if (poolAdd.token2Amount != 0.0 && textNum != poolAdd.token2Amount) {
-      _updateAmountTextController();
     }
 
     return Column(
@@ -130,7 +120,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                                       Theme.of(context).textTheme.titleMedium,
                                   autocorrect: false,
                                   controller: tokenAmountController,
-                                  onChanged: (text) async {
+                                  onChanged: (text) {
                                     ref
                                         .read(
                                           PoolAddFormProvider
@@ -138,6 +128,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                                         )
                                         .setTokenFormSelected(2);
                                     poolAddNotifier.setToken2Amount(
+                                      context,
                                       double.tryParse(
                                             text.replaceAll(' ', ''),
                                           ) ??
@@ -204,7 +195,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                           .setTokenFormSelected(2);
                       ref
                           .read(PoolAddFormProvider.poolAddForm.notifier)
-                          .setToken2AmountHalf();
+                          .setToken2AmountHalf(context);
                       _updateAmountTextController();
                     },
                   ),
@@ -221,7 +212,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                           .setTokenFormSelected(2);
                       ref
                           .read(PoolAddFormProvider.poolAddForm.notifier)
-                          .setToken2AmountMax();
+                          .setToken2AmountMax(context);
                       _updateAmountTextController();
                     },
                   ),

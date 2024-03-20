@@ -44,6 +44,7 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
           if (context.mounted) {
             await ref
                 .read(PoolAddFormProvider.poolAddForm.notifier)
+                // ignore: use_build_context_synchronously
                 .setToken2(widget.token2!, context);
           }
         } catch (e) {

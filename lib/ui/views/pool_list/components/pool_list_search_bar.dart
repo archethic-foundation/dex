@@ -16,16 +16,28 @@ class PoolListSearchBar extends ConsumerStatefulWidget {
 }
 
 class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
-  late final FocusNode searchFocus;
+  late TextEditingController searchController;
 
   @override
   void initState() {
     super.initState();
-    searchFocus = FocusNode();
+    searchController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      PoolListFormProvider.poolListForm,
+      (previous, next) async {
+        if (previous != null &&
+            previous.tabIndexSelected != PoolsListTab.searchPool &&
+            previous.searchText.isNotEmpty &&
+            previous.searchText != next.searchText) {
+          searchController.value = TextEditingValue(text: next.searchText);
+        }
+      },
+    );
+
     return Container(
       padding: const EdgeInsets.only(top: 2),
       width: aedappfm.Responsive.isDesktop(context)
@@ -65,26 +77,25 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               bottom: 6,
             ),
             child: TextField(
+              controller: searchController,
               style: Theme.of(context)
                   .textTheme
                   .bodySmall!
                   .copyWith(fontFamily: aedappfm.AppThemeBase.addressFont),
               autocorrect: false,
-              onChanged: (text) {
+              onChanged: (text) async {
                 ref
                     .read(
                       PoolListFormProvider.poolListForm.notifier,
                     )
                     .setSearchText(text);
+
                 if (text.isNotEmpty) {
-                  ref
-                      .read(
-                        PoolListFormProvider.poolListForm.notifier,
-                      )
+                  await ref
+                      .read(PoolListFormProvider.poolListForm.notifier)
                       .setTabIndexSelected(PoolsListTab.searchPool);
                 }
               },
-              focusNode: searchFocus,
               textAlign: TextAlign.left,
               textInputAction: TextInputAction.none,
               keyboardType: TextInputType.text,
@@ -107,7 +118,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
 
   @override
   void dispose() {
-    searchFocus.dispose();
+    searchController.dispose();
     super.dispose();
   }
 }

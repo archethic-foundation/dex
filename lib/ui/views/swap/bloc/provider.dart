@@ -458,6 +458,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(
       slippageTolerance: slippageTolerance,
     );
+    if (state.tokenToSwap == null) {
+      return;
+    }
     final swapInfos = await calculateSwapInfos(
       state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       state.tokenToSwapAmount,

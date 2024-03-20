@@ -19,12 +19,15 @@ class SwapTokenIconRefresh extends ConsumerWidget {
         await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
         final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
         final swap = ref.read(SwapFormProvider.swapForm);
-        await swapNotifier.calculateSwapInfos(
-          swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
-          swap.tokenToSwapAmount,
-        );
-        await swapNotifier.getRatio();
-        await swapNotifier.getPool();
+
+        if (swap.tokenToSwap != null && swap.tokenSwapped != null) {
+          await swapNotifier.calculateSwapInfos(
+            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+            swap.tokenToSwapAmount,
+          );
+          await swapNotifier.getRatio();
+          await swapNotifier.getPool();
+        }
       },
       child: const Padding(
         padding: EdgeInsets.only(left: 5, bottom: 4),

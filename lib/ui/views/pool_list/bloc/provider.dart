@@ -24,17 +24,17 @@ Future<List<DexPool>> _poolsToDisplay(
   _PoolsToDisplayRef ref,
   PoolsListTab currentTab,
 ) async {
-  Future<List<DexPool>> getDexPoolForTab(PoolsListTab currentTab) {
+  Future<List<DexPool>> getDexPoolForTab(PoolsListTab currentTab) async {
     switch (currentTab) {
       case PoolsListTab.favoritePools:
-        return ref.watch(DexPoolProviders.favoritePools.future);
+        return await ref.read(DexPoolProviders.favoritePools.future);
       case PoolsListTab.verified:
-        return ref.watch(DexPoolProviders.verifiedPools.future);
+        return await ref.read(DexPoolProviders.verifiedPools.future);
       case PoolsListTab.myPools:
-        return ref.watch(DexPoolProviders.myPools.future);
+        return await ref.read(DexPoolProviders.myPools.future);
       case PoolsListTab.searchPool:
-        final poolListFormState = ref.watch(_poolListFormProvider);
-        return ref.watch(
+        final poolListFormState = ref.read(_poolListFormProvider);
+        return await ref.read(
           DexPoolProviders.getPoolListForSearch(
             poolListFormState.searchText,
           ).future,
@@ -68,8 +68,8 @@ Future<List<DexPool>> _poolsToDisplay(
   for (final pool in poolList) {
     if (pool.infos == null) {
       var poolPopulate =
-          await ref.watch(DexPoolProviders.getPoolInfos(pool).future);
-      poolPopulate = ref.watch(
+          await ref.read(DexPoolProviders.getPoolInfos(pool).future);
+      poolPopulate = ref.read(
         DexPoolProviders.populatePoolInfosWithTokenStats24h(
           poolPopulate!,
           transactionChainResult,
@@ -86,6 +86,7 @@ Future<List<DexPool>> _poolsToDisplay(
         .toUpperCase()
         .compareTo(b.pair.token1.symbol.toUpperCase()),
   );
+
   return finalPoolsList;
 }
 
@@ -98,18 +99,40 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
   PoolListFormNotifier();
 
   @override
-  PoolListFormState build() => const PoolListFormState();
+  PoolListFormState build() {
+    return const PoolListFormState(
+      poolsToDisplay: AsyncValue.loading(),
+    );
+  }
 
-  void setTabIndexSelected(
+  Future<void> setTabIndexSelected(
     PoolsListTab tabIndexSelected,
-  ) {
+  ) async {
     state = state.copyWith(
       tabIndexSelected: tabIndexSelected,
     );
+    await setPoolsToDisplay(tabIndexSelected);
   }
 
   void setSearchText(String searchText) {
     state = state.copyWith(searchText: searchText);
+  }
+
+  Future<void> setPoolsToDisplay(
+    PoolsListTab poolsListTab,
+  ) async {
+    state = state.copyWith(
+      poolsToDisplay: const AsyncValue.loading(),
+    );
+
+    final poolList = await ref.read(
+      PoolListFormProvider.poolsToDisplay(
+        poolsListTab,
+      ).future,
+    );
+    state = state.copyWith(
+      poolsToDisplay: AsyncValue.data(poolList),
+    );
   }
 }
 
