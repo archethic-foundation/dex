@@ -27,7 +27,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
   void initState() {
     super.initState();
     tokenAmountFocusNode = FocusNode();
-    tokenAmountController = TextEditingController();
+    _updateAmountTextController();
   }
 
   void _updateAmountTextController() {
