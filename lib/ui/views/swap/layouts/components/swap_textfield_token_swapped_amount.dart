@@ -31,26 +31,24 @@ class _SwapTokenSwappedAmountState
   void initState() {
     super.initState();
     tokenAmountFocusNode = FocusNode();
-    tokenAmountController = TextEditingController();
     _updateAmountTextController();
   }
 
   void _updateAmountTextController() {
     final swap = ref.read(SwapFormProvider.swapForm);
-    if (swap.tokenFormSelected == 1) {
-      tokenAmountController = TextEditingController();
-      tokenAmountController.value =
-          aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
-        TextEditingValue.empty,
-        TextEditingValue(
-          text: swap.tokenSwappedAmount == 0
-              ? ''
-              : swap.tokenSwappedAmount
-                  .formatNumber(precision: 8)
-                  .replaceAll(',', ''),
-        ),
-      );
-    }
+
+    tokenAmountController = TextEditingController();
+    tokenAmountController.value =
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
+      TextEditingValue.empty,
+      TextEditingValue(
+        text: swap.tokenSwappedAmount == 0
+            ? ''
+            : swap.tokenSwappedAmount
+                .formatNumber(precision: 8)
+                .replaceAll(',', ''),
+      ),
+    );
   }
 
   @override
@@ -72,9 +70,9 @@ class _SwapTokenSwappedAmountState
       WidgetsBinding.instance.addPostFrameCallback((_) {
         tokenAmountFocusNode.requestFocus();
       });
+    } else {
+      _updateAmountTextController();
     }
-
-    _updateAmountTextController();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

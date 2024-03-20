@@ -26,26 +26,23 @@ class _LiquidityAddToken1AmountState
   void initState() {
     super.initState();
     tokenAmountFocusNode = FocusNode();
-    tokenAmountController = TextEditingController();
     _updateAmountTextController();
   }
 
   void _updateAmountTextController() {
     final liquidityAdd = ref.read(LiquidityAddFormProvider.liquidityAddForm);
-    if (liquidityAdd.tokenFormSelected == 2) {
-      tokenAmountController = TextEditingController();
-      tokenAmountController.value =
-          aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
-        TextEditingValue.empty,
-        TextEditingValue(
-          text: liquidityAdd.token1Amount == 0
-              ? ''
-              : liquidityAdd.token1Amount
-                  .formatNumber(precision: 8)
-                  .replaceAll(',', ''),
-        ),
-      );
-    }
+    tokenAmountController = TextEditingController();
+    tokenAmountController.value =
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
+      TextEditingValue.empty,
+      TextEditingValue(
+        text: liquidityAdd.token1Amount == 0
+            ? ''
+            : liquidityAdd.token1Amount
+                .formatNumber(precision: 8)
+                .replaceAll(',', ''),
+      ),
+    );
   }
 
   @override
@@ -68,9 +65,9 @@ class _LiquidityAddToken1AmountState
       WidgetsBinding.instance.addPostFrameCallback((_) {
         tokenAmountFocusNode.requestFocus();
       });
+    } else {
+      _updateAmountTextController();
     }
-
-    _updateAmountTextController();
 
     return Column(
       children: [
