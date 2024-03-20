@@ -1,6 +1,5 @@
+import 'package:aedex/ui/views/main_screen/layouts/app_bar_menu_links.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,9 +7,7 @@ class AppBarWelcome extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
   const AppBarWelcome({
     super.key,
-    required this.onAEMenuTapped,
   });
-  final Function() onAEMenuTapped;
   @override
   Size get preferredSize => AppBar().preferredSize;
 
@@ -28,12 +25,9 @@ class _AppBarWelcomeState extends ConsumerState<AppBarWelcome> {
         elevation: 0,
         leading: const Header(withMenu: false),
         leadingWidth: MediaQuery.of(context).size.width,
-        actions: [
-          IconButton(
-            icon: const Icon(aedappfm.Iconsax.element_3),
-            onPressed: widget.onAEMenuTapped,
-          ),
-          const SizedBox(
+        actions: const [
+          AppBarMenuLinks(),
+          SizedBox(
             width: 16,
           ),
         ],
