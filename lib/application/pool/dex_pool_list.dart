@@ -60,28 +60,37 @@ Future<List<DexPool>> _getPoolListForSearch(
             pool.pair.token1.address!.toUpperCase() ==
                 searchText.toUpperCase() ||
             pool.pair.token2.address!.toUpperCase() ==
-                searchText.toUpperCase()) ||
+                searchText.toUpperCase() ||
+            pool.lpToken.address!.toUpperCase() == searchText.toUpperCase()) ||
         (searchText.toUpperCase() == 'UCO' &&
             (pool.pair.token1.isUCO || pool.pair.token2.isUCO));
   }
 
   final dexPools = <DexPool>[];
-  final poolList = await ref.watch(_getPoolListProvider.future);
-  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+  if (searchText.isEmpty ||
+      (searchText.length != 68 && searchText.toUpperCase() != 'UCO')) {
+    return dexPools;
+  }
 
+  final poolList = await ref.read(_getPoolListProvider.future);
+  //final poolsListDatasource = await HivePoolsListDatasource.getInstance();
   for (final pool in poolList) {
     if (!_poolMatchesSearch(pool)) continue;
 
-    final poolHive = poolsListDatasource.getPool(pool.poolAddress);
+    final poolHive =
+        await ref.read(DexPoolProviders.getPool(pool.poolAddress).future);
+
+    //final poolHive = poolsListDatasource.getPool(pool.poolAddress);
     if (poolHive == null) {
       final poolWithInfos = await ref.read(
         DexPoolProviders.getPoolInfos(pool).future,
       );
-      dexPools.add(poolWithInfos!);
+      if (poolWithInfos != null) {
+        dexPools.add(poolWithInfos);
+      }
     } else {
-      dexPools.add(poolHive.toDexPool());
+      dexPools.add(poolHive);
     }
   }
-
   return dexPools;
 }

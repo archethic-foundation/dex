@@ -10,20 +10,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:go_router/go_router.dart';
 
-class PoolListSearch extends ConsumerStatefulWidget {
-  const PoolListSearch({
+class PoolListShhetHeader extends ConsumerStatefulWidget {
+  const PoolListShhetHeader({
     super.key,
   });
   @override
-  ConsumerState<PoolListSearch> createState() => _PoolListSearchState();
+  ConsumerState<PoolListShhetHeader> createState() =>
+      _PoolListShhetHeaderState();
 }
 
-class _PoolListSearchState extends ConsumerState<PoolListSearch> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _PoolListShhetHeaderState extends ConsumerState<PoolListShhetHeader> {
   @override
   Widget build(BuildContext context) {
     return aedappfm.Responsive.isDesktop(context)
@@ -146,13 +142,21 @@ class _PoolListSearchState extends ConsumerState<PoolListSearch> {
           aedappfm.Iconsax.search_zoom_in,
         ],
         iconSize: 12,
-        selectedLabelIndex: (index) {
-          setState(() {
-            ref
-                .read(PoolListFormProvider.poolListForm.notifier)
-                .setTabIndexSelected(PoolsListTab.values[index]);
-            ref.invalidate(PoolListFormProvider.poolsToDisplay);
-          });
+        selectedLabelIndex: (index) async {
+          final poolListForm = ref.read(PoolListFormProvider.poolListForm);
+
+          ref.invalidate(
+            PoolListFormProvider.poolsToDisplay(
+              poolListForm.tabIndexSelected,
+            ),
+          );
+
+          await ref
+              .read(PoolListFormProvider.poolListForm.notifier)
+              .setTabIndexSelected(PoolsListTab.values[index]);
+          ref
+              .read(PoolListFormProvider.poolListForm.notifier)
+              .setSearchText('');
         },
         isScroll: false,
       ),

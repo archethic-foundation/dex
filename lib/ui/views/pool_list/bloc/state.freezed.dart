@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PoolListFormState {
   PoolsListTab get tabIndexSelected => throw _privateConstructorUsedError;
   String get searchText => throw _privateConstructorUsedError;
+  AsyncValue<List<DexPool>> get poolsToDisplay =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolListFormStateCopyWith<PoolListFormState> get copyWith =>
@@ -30,7 +32,10 @@ abstract class $PoolListFormStateCopyWith<$Res> {
           PoolListFormState value, $Res Function(PoolListFormState) then) =
       _$PoolListFormStateCopyWithImpl<$Res, PoolListFormState>;
   @useResult
-  $Res call({PoolsListTab tabIndexSelected, String searchText});
+  $Res call(
+      {PoolsListTab tabIndexSelected,
+      String searchText,
+      AsyncValue<List<DexPool>> poolsToDisplay});
 }
 
 /// @nodoc
@@ -48,6 +53,7 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
   $Res call({
     Object? tabIndexSelected = null,
     Object? searchText = null,
+    Object? poolsToDisplay = null,
   }) {
     return _then(_value.copyWith(
       tabIndexSelected: null == tabIndexSelected
@@ -58,6 +64,10 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
               as String,
+      poolsToDisplay: null == poolsToDisplay
+          ? _value.poolsToDisplay
+          : poolsToDisplay // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<DexPool>>,
     ) as $Val);
   }
 }
@@ -70,7 +80,10 @@ abstract class _$$PoolListFormStateImplCopyWith<$Res>
       __$$PoolListFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({PoolsListTab tabIndexSelected, String searchText});
+  $Res call(
+      {PoolsListTab tabIndexSelected,
+      String searchText,
+      AsyncValue<List<DexPool>> poolsToDisplay});
 }
 
 /// @nodoc
@@ -86,6 +99,7 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
   $Res call({
     Object? tabIndexSelected = null,
     Object? searchText = null,
+    Object? poolsToDisplay = null,
   }) {
     return _then(_$PoolListFormStateImpl(
       tabIndexSelected: null == tabIndexSelected
@@ -96,6 +110,10 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
               as String,
+      poolsToDisplay: null == poolsToDisplay
+          ? _value.poolsToDisplay
+          : poolsToDisplay // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<DexPool>>,
     ));
   }
 }
@@ -104,7 +122,9 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
 
 class _$PoolListFormStateImpl extends _PoolListFormState {
   const _$PoolListFormStateImpl(
-      {this.tabIndexSelected = PoolsListTab.verified, this.searchText = ''})
+      {this.tabIndexSelected = PoolsListTab.verified,
+      this.searchText = '',
+      required this.poolsToDisplay})
       : super._();
 
   @override
@@ -113,10 +133,12 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
   @override
   @JsonKey()
   final String searchText;
+  @override
+  final AsyncValue<List<DexPool>> poolsToDisplay;
 
   @override
   String toString() {
-    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected, searchText: $searchText)';
+    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected, searchText: $searchText, poolsToDisplay: $poolsToDisplay)';
   }
 
   @override
@@ -127,11 +149,14 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
             (identical(other.tabIndexSelected, tabIndexSelected) ||
                 other.tabIndexSelected == tabIndexSelected) &&
             (identical(other.searchText, searchText) ||
-                other.searchText == searchText));
+                other.searchText == searchText) &&
+            (identical(other.poolsToDisplay, poolsToDisplay) ||
+                other.poolsToDisplay == poolsToDisplay));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tabIndexSelected, searchText);
+  int get hashCode =>
+      Object.hash(runtimeType, tabIndexSelected, searchText, poolsToDisplay);
 
   @JsonKey(ignore: true)
   @override
@@ -143,14 +168,18 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
 
 abstract class _PoolListFormState extends PoolListFormState {
   const factory _PoolListFormState(
-      {final PoolsListTab tabIndexSelected,
-      final String searchText}) = _$PoolListFormStateImpl;
+          {final PoolsListTab tabIndexSelected,
+          final String searchText,
+          required final AsyncValue<List<DexPool>> poolsToDisplay}) =
+      _$PoolListFormStateImpl;
   const _PoolListFormState._() : super._();
 
   @override
   PoolsListTab get tabIndexSelected;
   @override
   String get searchText;
+  @override
+  AsyncValue<List<DexPool>> get poolsToDisplay;
   @override
   @JsonKey(ignore: true)
   _$$PoolListFormStateImplCopyWith<_$PoolListFormStateImpl> get copyWith =>

@@ -7,14 +7,12 @@ import 'package:aedex/domain/repositories/dex_farm.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DexFarmRepositoryImpl implements DexFarmRepository {
   @override
   Future<List<DexFarm>> getFarmList(
     String routerAddress,
     ApiService apiService,
-    Ref ref,
     List<DexPool> poolList,
   ) async =>
       RouterFactory(

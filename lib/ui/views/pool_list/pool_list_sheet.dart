@@ -1,20 +1,13 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_add_add_favorite_icon.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_add_remove_favorite_icon.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_list_search.dart';
-import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_list_sheet_header.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:flip_card/flip_card.dart';
-import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,9 +25,21 @@ class PoolListSheet extends ConsumerStatefulWidget {
 class _PoolListSheetState extends ConsumerState<PoolListSheet> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.pool;
+
+      final poolListForm = ref.read(PoolListFormProvider.poolListForm);
+
+      ref.invalidate(
+        PoolListFormProvider.poolsToDisplay(
+          poolListForm.tabIndexSelected,
+        ),
+      );
+
+      await ref
+          .read(PoolListFormProvider.poolListForm.notifier)
+          .setTabIndexSelected(PoolsListTab.verified);
     });
 
     super.initState();
@@ -51,9 +56,8 @@ class _PoolListSheetState extends ConsumerState<PoolListSheet> {
 Widget _body(BuildContext context, WidgetRef ref) {
   final selectedTab =
       ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
-  final asyncPools = ref.watch(
-    PoolListFormProvider.poolsToDisplay(selectedTab),
-  );
+  final asyncPools =
+      ref.watch(PoolListFormProvider.poolListForm).poolsToDisplay;
   final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
   final session = ref.watch(SessionProviders.session);
   return Stack(
@@ -65,50 +69,57 @@ Widget _body(BuildContext context, WidgetRef ref) {
             bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 80,
           ),
           child: asyncPools.when(
-            skipLoadingOnReload: selectedTab.skipLoadingOnReload,
-            loading: () => Stack(
-              alignment: Alignment.centerLeft,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (selectedTab == PoolsListTab.searchPool)
-                      SelectableText(
-                        'Searching in progress. Please wait',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
+            loading: () {
+              return Stack(
+                alignment: Alignment.centerLeft,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (selectedTab == PoolsListTab.searchPool)
+                        SelectableText(
+                          'Searching in progress. Please wait',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
                               ),
-                            ),
-                      )
-                    else
-                      SelectableText(
-                        'Loading in progress. Please wait',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
+                        )
+                      else
+                        SelectableText(
+                          'Loading in progress. Please wait',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
                               ),
-                            ),
+                        ),
+                      const SizedBox(
+                        width: 10,
                       ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                      width: 10,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 0.5,
-                        color: Colors.white,
+                      const SizedBox(
+                        height: 10,
+                        width: 10,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 0.5,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                ],
+              );
+            },
             error: (error, stackTrace) => aedappfm.ErrorMessage(
               failure: aedappfm.Failure.fromError(error),
               failureMessage: FailureMessage(
@@ -185,7 +196,10 @@ Widget _body(BuildContext context, WidgetRef ref) {
                           ),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(left: 2, right: 5),
+                      padding: EdgeInsets.only(
+                        left: 2,
+                        right: 5,
+                      ),
                       child: Icon(
                         aedappfm.Iconsax.star,
                         size: 14,
@@ -223,7 +237,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                   final pool = pools[index];
                   return PoolListItem(
                     key: Key(pool.poolAddress),
-                    pool: pool,
+                    poolAddress: pool.poolAddress,
                   );
                 },
               );
@@ -235,149 +249,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
         padding: EdgeInsets.only(
           top: 60,
         ),
-        child: PoolListSearch(),
+        child: PoolListShhetHeader(),
       ),
     ],
   );
-}
-
-class PoolListItem extends ConsumerStatefulWidget {
-  const PoolListItem({
-    super.key,
-    required this.pool,
-  });
-
-  final DexPool pool;
-
-  @override
-  ConsumerState<PoolListItem> createState() => _PoolListItemState();
-}
-
-class _PoolListItemState extends ConsumerState<PoolListItem> {
-  final flipCardController = FlipCardController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: aedappfm.SingleCard(
-            globalPadding: 0,
-            cardContent: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: FlipCard(
-                    controller: flipCardController,
-                    flipOnTouch: false,
-                    fill: Fill.fillBack,
-                    front: PoolDetailsFront(
-                      pool: widget.pool,
-                    ),
-                    back: PoolDetailsBack(
-                      pool: widget.pool,
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: DexArchethicOracleUco(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          top: 5,
-          right: 20,
-          child: Row(
-            children: [
-              if (widget.pool.isFavorite)
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: PoolAddRemoveFavoriteIcon(
-                    poolAddress: widget.pool.poolAddress,
-                  ),
-                )
-              else
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: PoolAddAddFavoriteIcon(
-                    poolAddress: widget.pool.poolAddress,
-                  ),
-                ),
-              SizedBox(
-                height: 40,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
-                          .withOpacity(1),
-                      width: 0.5,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 0,
-                  color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
-                      .withOpacity(1),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 7,
-                      bottom: 5,
-                      left: 10,
-                      right: 10,
-                    ),
-                    child: SelectableText(
-                      'Pool',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              InkWell(
-                onTap: () async {
-                  await flipCardController.toggleCard();
-                  setState(() {});
-                },
-                child: SizedBox(
-                  height: 40,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: aedappfm
-                            .ArchethicThemeBase.brightPurpleHoverBorder
-                            .withOpacity(1),
-                        width: 0.5,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    elevation: 0,
-                    color: aedappfm
-                        .ArchethicThemeBase.brightPurpleHoverBackground
-                        .withOpacity(1),
-                    child: const Padding(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                        bottom: 5,
-                        left: 10,
-                        right: 10,
-                      ),
-                      child: Icon(
-                        aedappfm.Iconsax.convertshape,
-                        size: 16,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 }

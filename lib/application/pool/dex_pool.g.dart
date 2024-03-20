@@ -38,7 +38,7 @@ final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
 );
 
 typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
-String _$getPoolHash() => r'7cfec911fabe07e1cb1dba7d31cafe613ef654fc';
+String _$getPoolHash() => r'38ab83c91e8f5a2eb90a87a721d3a07e90b7554a';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -315,7 +315,7 @@ class _GetPoolInfosProviderElement
 }
 
 String _$removePoolFromFavoriteHash() =>
-    r'03227f6f7797d8fbaf032faa8aa3cf6ac031a442';
+    r'81c275f54d2fdc60c39b8d456e3ae4f9acfbbf7e';
 
 /// See also [_removePoolFromFavorite].
 @ProviderFor(_removePoolFromFavorite)
@@ -444,6 +444,138 @@ class _RemovePoolFromFavoriteProviderElement
   @override
   String get poolGenesisAddress =>
       (origin as _RemovePoolFromFavoriteProvider).poolGenesisAddress;
+}
+
+String _$addPoolFromFavoriteHash() =>
+    r'de5ee27ad15691abb50977c149587dc4ab8b4b15';
+
+/// See also [_addPoolFromFavorite].
+@ProviderFor(_addPoolFromFavorite)
+const _addPoolFromFavoriteProvider = _AddPoolFromFavoriteFamily();
+
+/// See also [_addPoolFromFavorite].
+class _AddPoolFromFavoriteFamily extends Family<AsyncValue<void>> {
+  /// See also [_addPoolFromFavorite].
+  const _AddPoolFromFavoriteFamily();
+
+  /// See also [_addPoolFromFavorite].
+  _AddPoolFromFavoriteProvider call(
+    String poolGenesisAddress,
+  ) {
+    return _AddPoolFromFavoriteProvider(
+      poolGenesisAddress,
+    );
+  }
+
+  @override
+  _AddPoolFromFavoriteProvider getProviderOverride(
+    covariant _AddPoolFromFavoriteProvider provider,
+  ) {
+    return call(
+      provider.poolGenesisAddress,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_addPoolFromFavoriteProvider';
+}
+
+/// See also [_addPoolFromFavorite].
+class _AddPoolFromFavoriteProvider extends AutoDisposeFutureProvider<void> {
+  /// See also [_addPoolFromFavorite].
+  _AddPoolFromFavoriteProvider(
+    String poolGenesisAddress,
+  ) : this._internal(
+          (ref) => _addPoolFromFavorite(
+            ref as _AddPoolFromFavoriteRef,
+            poolGenesisAddress,
+          ),
+          from: _addPoolFromFavoriteProvider,
+          name: r'_addPoolFromFavoriteProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$addPoolFromFavoriteHash,
+          dependencies: _AddPoolFromFavoriteFamily._dependencies,
+          allTransitiveDependencies:
+              _AddPoolFromFavoriteFamily._allTransitiveDependencies,
+          poolGenesisAddress: poolGenesisAddress,
+        );
+
+  _AddPoolFromFavoriteProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.poolGenesisAddress,
+  }) : super.internal();
+
+  final String poolGenesisAddress;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(_AddPoolFromFavoriteRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _AddPoolFromFavoriteProvider._internal(
+        (ref) => create(ref as _AddPoolFromFavoriteRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        poolGenesisAddress: poolGenesisAddress,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _AddPoolFromFavoriteProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _AddPoolFromFavoriteProvider &&
+        other.poolGenesisAddress == poolGenesisAddress;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, poolGenesisAddress.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _AddPoolFromFavoriteRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `poolGenesisAddress` of this provider.
+  String get poolGenesisAddress;
+}
+
+class _AddPoolFromFavoriteProviderElement
+    extends AutoDisposeFutureProviderElement<void>
+    with _AddPoolFromFavoriteRef {
+  _AddPoolFromFavoriteProviderElement(super.provider);
+
+  @override
+  String get poolGenesisAddress =>
+      (origin as _AddPoolFromFavoriteProvider).poolGenesisAddress;
 }
 
 String _$myPoolsHash() => r'b941edfb7caff23b932c6085737e2b35c1f7a6e8';
@@ -1418,7 +1550,7 @@ final _getPoolListForUserProvider =
 
 typedef _GetPoolListForUserRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$getPoolListForSearchHash() =>
-    r'ded803bef885c469c17cc9fd018986ad3d869269';
+    r'1a81da7cceb20f46ff2d52bf2509e7f29d2f78aa';
 
 /// See also [_getPoolListForSearch].
 @ProviderFor(_getPoolListForSearch)
