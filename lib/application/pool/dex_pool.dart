@@ -42,7 +42,13 @@ Future<DexPool?> _getPool(
   _GetPoolRef ref,
   String genesisAddress,
 ) async {
-  return ref.read(_dexPoolRepositoryProvider).getPool(genesisAddress);
+  final tokenVerifiedList = ref
+      .read(aedappfm.VerifiedTokensProviders.verifiedTokens)
+      .verifiedTokensList;
+
+  return ref
+      .read(_dexPoolRepositoryProvider)
+      .getPool(genesisAddress, tokenVerifiedList);
 }
 
 @riverpod

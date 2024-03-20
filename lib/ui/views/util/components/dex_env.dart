@@ -118,6 +118,11 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                     await HivePreferencesDatasource.getInstance();
                 aedappfm.sl.get<aedappfm.LogManager>().logsActived =
                     preferences.isLogsActived();
+                await ref
+                    .read(
+                      aedappfm.VerifiedTokensProviders.verifiedTokens.notifier,
+                    )
+                    .init();
               },
             ),
           if (session.isConnected == false)

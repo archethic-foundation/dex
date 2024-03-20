@@ -12,10 +12,14 @@ Future<List<DexPool>> _getPoolList(
   final userBalance =
       await ref.read(BalanceProviders.getUserTokensBalance.future);
 
+  final tokenVerifiedList = ref
+      .read(aedappfm.VerifiedTokensProviders.verifiedTokens)
+      .verifiedTokensList;
+
   final resultPoolList = await RouterFactory(
     dexConf.routerGenesisAddress,
     apiService,
-  ).getPoolList(userBalance);
+  ).getPoolList(userBalance, tokenVerifiedList);
 
   await resultPoolList.map(
     success: (poolList) async {

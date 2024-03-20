@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
@@ -350,6 +351,19 @@ final routerProvider = Provider<GoRouter>(
             aedappfm.sl.get<aedappfm.LogManager>().logsActived =
                 preferences.isLogsActived();
           }
+        }
+        final verifiedTokensNetWork = ref
+            .read(
+              aedappfm.VerifiedTokensProviders.verifiedTokens,
+            )
+            .network;
+        if (verifiedTokensNetWork != aedappfm.EndpointUtil.getEnvironnement()) {
+          log('Loading verified tokens for network ${aedappfm.EndpointUtil.getEnvironnement()}');
+          await ref
+              .read(
+                aedappfm.VerifiedTokensProviders.verifiedTokens.notifier,
+              )
+              .init();
         }
 
         final ucidsTokens = ref.read(aedappfm.UcidsTokensProviders.ucidsTokens);

@@ -59,6 +59,7 @@ class RouterFactory with ModelParser {
   /// Return the infos of all the pools.
   Future<aedappfm.Result<List<DexPool>, aedappfm.Failure>> getPoolList(
     Balance? userBalance,
+    List<String> tokenVerifiedList,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -108,7 +109,7 @@ class RouterFactory with ModelParser {
           var tokenResult = tokenSDKToModel(entry.value, 0);
 
           final tokenVerified = await aedappfm.VerifiedTokensRepositoryImpl()
-              .isVerifiedToken(address);
+              .isVerifiedToken(address, tokenVerifiedList);
 
           tokenResult =
               tokenResult.copyWith(address: address, isVerified: tokenVerified);

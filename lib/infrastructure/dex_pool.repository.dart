@@ -14,16 +14,21 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
 
   final ApiService apiService;
   @override
-  Future<DexPool?> getPool(String poolAddress) async {
+  Future<DexPool?> getPool(
+    String poolAddress,
+    List<String> tokenVerifiedList,
+  ) async {
     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-
     final poolHive = poolsListDatasource.getPool(poolAddress);
     if (poolHive == null) {
       final dexConf = await DexConfigRepositoryImpl().getDexConfig();
       final resultPoolList = await RouterFactory(
         dexConf.routerGenesisAddress,
         apiService,
-      ).getPoolList(null);
+      ).getPoolList(
+        null,
+        tokenVerifiedList,
+      );
 
       return await resultPoolList.map(
         success: (poolList) async {

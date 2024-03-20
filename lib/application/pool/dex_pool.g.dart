@@ -38,7 +38,7 @@ final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
 );
 
 typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
-String _$getPoolHash() => r'38ab83c91e8f5a2eb90a87a721d3a07e90b7554a';
+String _$getPoolHash() => r'f87bd61361cfb101125290cb61c607ff8a5b3516';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -1518,7 +1518,7 @@ class _PopulatePoolInfosWithTokenStats24hProviderElement
           .transactionChainResult;
 }
 
-String _$getPoolListHash() => r'16e7eec455072fd0993f449847710e84fa505d08';
+String _$getPoolListHash() => r'2e255a046c9e040657bbee32b921741558aedb27';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)
