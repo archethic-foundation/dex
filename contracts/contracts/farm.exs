@@ -11,8 +11,6 @@ actions triggered_by: transaction, on: deposit() do
   previous_address = Chain.get_previous_address(transaction)
   user_genesis_address = Chain.get_genesis_address(previous_address)
 
-  State.set("reward_token_balance", get_reward_token_balance())
-
   deposits = nil
   if Time.now() > @START_DATE do
     res = calculate_new_rewards()
@@ -48,8 +46,6 @@ actions triggered_by: transaction, on: claim() do
   previous_address = Chain.get_previous_address(transaction)
   user_genesis_address = Chain.get_genesis_address(previous_address)
 
-  State.set("reward_token_balance", get_reward_token_balance())
-
   res = calculate_new_rewards()
   deposits = res.deposits
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
@@ -70,9 +66,6 @@ actions triggered_by: transaction, on: claim() do
   State.set("reward_distributed", reward_distributed + user_deposit.reward_amount)
 
   State.set("rewards_reserved", res.rewards_reserved - user_deposit.reward_amount)
-
-  reward_token_balance = State.get("reward_token_balance")
-  State.set("reward_token_balance", reward_token_balance - user_deposit.reward_amount)
 
   new_user_deposit = Map.set(user_deposit, "reward_amount", 0)
   deposits = Map.set(deposits, user_genesis_address, new_user_deposit)
@@ -95,8 +88,6 @@ condition triggered_by: transaction, on: withdraw(amount), as: [
 actions triggered_by: transaction, on: withdraw(amount) do
   previous_address = Chain.get_previous_address(transaction)
   user_genesis_address = Chain.get_genesis_address(previous_address)
-
-  State.set("reward_token_balance", get_reward_token_balance())
 
   deposits = nil
   rewards_reserved = 0
@@ -132,9 +123,6 @@ actions triggered_by: transaction, on: withdraw(amount) do
   State.set("reward_distributed", reward_distributed + user_deposit.reward_amount)
 
   State.set("rewards_reserved", rewards_reserved - user_deposit.reward_amount)
-
-  reward_token_balance = State.get("reward_token_balance")
-  State.set("reward_token_balance", reward_token_balance - user_deposit.reward_amount)
 
   lp_token_deposited = State.get("lp_token_deposited")
   State.set("lp_token_deposited", lp_token_deposited - amount)
@@ -180,9 +168,10 @@ end
 
 fun get_reward_token_balance() do
   if @REWARD_TOKEN == "UCO" do
-    Chain.get_uco_balance(contract.address)
+    contract.balance.uco
   else
-    Chain.get_token_balance(contract.address, @REWARD_TOKEN)
+    key = [token_address: @REWARD_TOKEN, token_id: 0]
+    Map.get(contract.balance.tokens, key, 0)
   end
 end
 
@@ -206,7 +195,13 @@ fun calculate_new_rewards() do
   now = Time.now()
 
   if last_calculation_timestamp < now && last_calculation_timestamp < @END_DATE && lp_token_deposited > 0 do
-    rewards_balance = State.get("reward_token_balance", 0)
+    rewards_balance = 0
+    if @REWARD_TOKEN == "UCO" do
+      rewards_balance = contract.balance.uco
+    else
+      key = [token_address: @REWARD_TOKEN, token_id: 0]
+      rewards_balance = Map.get(contract.balance.tokens, key, 0)
+    end
 
     available_balance = rewards_balance - rewards_reserved
 
@@ -244,7 +239,14 @@ fun calculate_new_rewards() do
 end
 
 export fun get_farm_infos() do
-  reward_token_balance = State.get("reward_token_balance")
+  reward_token_balance = 0
+  if @REWARD_TOKEN == "UCO" do
+    reward_token_balance = contract.balance.uco
+  else
+    key = [token_address: @REWARD_TOKEN, token_id: 0]
+    reward_token_balance = Map.get(contract.balance.tokens, key, 0)
+  end
+
   remaining_reward = nil
   if reward_token_balance != nil do
     remaining_reward = reward_token_balance - State.get("rewards_reserved", 0)
@@ -277,7 +279,14 @@ export fun get_user_infos(user_genesis_address) do
     now = Time.now()
 
     if now > @START_DATE && last_calculation_timestamp < now && last_calculation_timestamp < @END_DATE && lp_token_deposited > 0 do
-      rewards_balance = State.get("reward_token_balance", 0)
+      rewards_balance = 0
+      if @REWARD_TOKEN == "UCO" do
+        rewards_balance = contract.balance.uco
+      else
+        key = [token_address: @REWARD_TOKEN, token_id: 0]
+        rewards_balance = Map.get(contract.balance.tokens, key, 0)
+      end
+
       rewards_reserved = State.get("rewards_reserved", 0)
 
       available_balance = rewards_balance - rewards_reserved

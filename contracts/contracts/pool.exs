@@ -513,19 +513,17 @@ fun get_user_lp_amount(token_transfers) do
 end
 
 fun get_pool_balances() do
-  balances = Chain.get_balance(contract.address)
-
   token2_balance = 0
   if @TOKEN2 == "UCO" do
-    token2_balance = balances.uco
+    token2_balance = contract.balance.uco
   else
     token2_id = [token_address: @TOKEN2, token_id: 0]
-    token2_balance = Map.get(balances.tokens, token2_id, 0)
+    token2_balance = Map.get(contract.balance.tokens, token2_id, 0)
   end
 
   token1_id = [token_address: @TOKEN1, token_id: 0]
   [
-    token1: Map.get(balances.tokens, token1_id, 0),
+    token1: Map.get(contract.balance.tokens, token1_id, 0),
     token2: token2_balance
   ]
 end
