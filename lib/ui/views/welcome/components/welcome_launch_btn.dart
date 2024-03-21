@@ -1,9 +1,7 @@
-import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WelcomeLaunchBtn extends ConsumerStatefulWidget {
@@ -42,10 +40,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                   side: MaterialStateProperty.all(BorderSide.none),
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                 ),
-                onPressed: () {
-                  if (!context.mounted) return;
-                  context.go(SwapSheet.routerPage);
-                },
+                onPressed: () {},
                 child: Container(
                   alignment: Alignment.center,
                   height: 50,
@@ -62,7 +57,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                     ],
                   ),
                   child: Text(
-                    AppLocalizations.of(context)!.go,
+                    'Soon',
                     style: TextStyle(
                       color: Theme.of(context).textTheme.labelMedium!.color,
                       fontSize: 17,
