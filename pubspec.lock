@@ -284,10 +284,11 @@ packages:
   elegant_notification:
     dependency: "direct main"
     description:
-      name: elegant_notification
-      sha256: "94cf7377a939b101183a3093fea409c26c332511ba8d2da445ef8b251d460dc9"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: dev
+      resolved-ref: ec1f1e7a158649bdf312b4b5281d3a52baca45d1
+      url: "https://github.com/koukibadr/Elegant-Notification.git"
+    source: git
     version: "1.14.0"
   elliptic:
     dependency: transitive

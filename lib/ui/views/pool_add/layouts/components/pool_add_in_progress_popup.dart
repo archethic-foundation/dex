@@ -86,7 +86,14 @@ class PoolAddInProgressPopup {
           ..setFailure(null)
           ..setPoolAddOk(false)
           ..setWalletConfirmation(false);
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'reload': false.toString(),
+            },
+          ).toString(),
+        );
       },
     );
   }

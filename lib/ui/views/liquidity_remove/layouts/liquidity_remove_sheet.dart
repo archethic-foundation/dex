@@ -55,7 +55,14 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
             .initBalance();
       } catch (e) {
         if (mounted) {
-          context.go(PoolListSheet.routerPage);
+          context.go(
+            Uri(
+              path: PoolListSheet.routerPage,
+              queryParameters: {
+                'reload': false.toString(),
+              },
+            ).toString(),
+          );
         }
       }
     });

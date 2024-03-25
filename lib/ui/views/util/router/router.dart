@@ -76,8 +76,14 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: PoolListSheet.routerPage,
               pageBuilder: (context, state) {
-                return const NoTransitionPage(
-                  child: PoolListSheet(),
+                var reload = true;
+                if (state.uri.queryParameters['reload'] != null &&
+                    state.uri.queryParameters['reload']! == 'false') {
+                  reload = false;
+                }
+
+                return NoTransitionPage(
+                  child: PoolListSheet(reload: reload),
                 );
               },
             ),

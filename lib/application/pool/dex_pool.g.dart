@@ -658,7 +658,7 @@ final _putPoolListInfosToCacheProvider =
 );
 
 typedef _PutPoolListInfosToCacheRef = AutoDisposeFutureProviderRef<void>;
-String _$updatePoolInCacheHash() => r'f4b220a85cfa1612e5bd387fce5a1ed4aac409df';
+String _$updatePoolInCacheHash() => r'32fba6e37b5e9cea965eb19655a6f31708a55caf';
 
 /// See also [_updatePoolInCache].
 @ProviderFor(_updatePoolInCache)

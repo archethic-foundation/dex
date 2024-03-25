@@ -32,7 +32,11 @@ dependencies:
   decimal: ^2.3.3
 
   # A new flutter package to display notifications on top of the screen, full customizable with built-in themes
-  elegant_notification: ^1.14.0
+  #elegant_notification: ^1.14.0
+  elegant_notification:
+    git:
+      url: https://github.com/koukibadr/Elegant-Notification.git
+      ref: dev
 
   # A component that provides flip card animation. It could be used for hide and show details of a product.
   flip_card: ^0.7.0

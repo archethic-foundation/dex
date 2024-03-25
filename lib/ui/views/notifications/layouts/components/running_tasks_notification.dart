@@ -20,6 +20,10 @@ class RunningTasksNotificationWidget extends ConsumerWidget {
           child: ElegantNotification(
             icon: const SizedBox.shrink(),
             enableShadow: false,
+            stackedOptions: StackedOptions(
+              key: 'top',
+              itemOffset: const Offset(-5, -5),
+            ),
             background: Colors.transparent,
             description: Row(
               mainAxisAlignment: MainAxisAlignment.center,

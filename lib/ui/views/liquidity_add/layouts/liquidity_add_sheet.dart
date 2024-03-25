@@ -52,7 +52,14 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
             .initRatio();
       } catch (e) {
         if (mounted) {
-          context.go(PoolListSheet.routerPage);
+          context.go(
+            Uri(
+              path: PoolListSheet.routerPage,
+              queryParameters: {
+                'reload': false.toString(),
+              },
+            ).toString(),
+          );
         }
       }
     });

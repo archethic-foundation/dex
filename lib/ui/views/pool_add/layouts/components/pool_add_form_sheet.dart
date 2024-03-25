@@ -140,7 +140,14 @@ class PoolAddFormSheet extends ConsumerWidget {
                       ),
                       aedappfm.ButtonClose(
                         onPressed: () {
-                          context.go(PoolListSheet.routerPage);
+                          context.go(
+                            Uri(
+                              path: PoolListSheet.routerPage,
+                              queryParameters: {
+                                'reload': false.toString(),
+                              },
+                            ).toString(),
+                          );
                         },
                       ),
                     ],

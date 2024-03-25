@@ -101,7 +101,14 @@ class LiquidityRemoveInProgressPopup {
           ..setFailure(null)
           ..setLiquidityRemoveOk(false)
           ..setWalletConfirmation(false);
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'reload': false.toString(),
+            },
+          ).toString(),
+        );
       },
     );
   }

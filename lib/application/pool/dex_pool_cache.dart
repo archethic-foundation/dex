@@ -111,10 +111,11 @@ Future<void> _updatePoolInCache(
   _UpdatePoolInCacheRef ref,
   DexPool pool,
 ) async {
-  final poolWithInfos = await ref.read(_getPoolInfosProvider(pool).future);
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+  await poolsListDatasource.removePool(pool.poolAddress);
+  final poolWithInfos = await ref.read(_getPoolInfosProvider(pool).future);
   await poolsListDatasource.setPool(poolWithInfos!.toHive());
-  ref.invalidate(_getPoolListFromCacheProvider);
+  ref.invalidate(DexPoolProviders.getPool(poolWithInfos.poolAddress));
 }
 
 @riverpod

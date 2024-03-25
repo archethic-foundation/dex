@@ -13,10 +13,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolListSheet extends ConsumerStatefulWidget {
   const PoolListSheet({
+    this.reload = true,
     super.key,
   });
 
   static const routerPage = '/poolList';
+
+  final bool reload;
 
   @override
   ConsumerState<PoolListSheet> createState() => _PoolListSheetState();
@@ -25,22 +28,29 @@ class PoolListSheet extends ConsumerStatefulWidget {
 class _PoolListSheetState extends ConsumerState<PoolListSheet> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ref.read(navigationIndexMainScreenProvider.notifier).state =
-          NavigationIndex.pool;
+    if (widget.reload) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.pool;
 
-      final poolListForm = ref.read(PoolListFormProvider.poolListForm);
+        final poolListForm = ref.read(PoolListFormProvider.poolListForm);
 
-      ref.invalidate(
-        PoolListFormProvider.poolsToDisplay(
-          poolListForm.tabIndexSelected,
-        ),
-      );
+        ref.invalidate(
+          PoolListFormProvider.poolsToDisplay(
+            poolListForm.tabIndexSelected,
+          ),
+        );
 
-      await ref
-          .read(PoolListFormProvider.poolListForm.notifier)
-          .setTabIndexSelected(PoolsListTab.verified);
-    });
+        await ref
+            .read(PoolListFormProvider.poolListForm.notifier)
+            .setTabIndexSelected(PoolsListTab.verified);
+      });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.pool;
+      });
+    }
 
     super.initState();
   }
