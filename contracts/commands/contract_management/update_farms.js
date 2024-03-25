@@ -58,7 +58,7 @@ const handler = async function(argv) {
 
   updateTx = keychain.buildTransaction(updateTx, "Master", index).originSign(Utils.originPrivateKey)
 
-  updateTx.on("fullConfirmation", async (_confirmations) => {
+  updateTx.on("requiredConfirmation", async (_confirmations) => {
     const txAddress = Utils.uint8ArrayToHex(updateTx.address)
     console.log("Transaction validated !")
     console.log("Address:", txAddress)
@@ -69,7 +69,7 @@ const handler = async function(argv) {
     console.log("Contest:", context)
     console.log("Reason:", reason)
     process.exit(1)
-  }).send()
+  }).send(50)
 }
 
 export default {

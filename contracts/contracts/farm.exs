@@ -38,7 +38,13 @@ condition triggered_by: transaction, on: claim(), as: [
     genesis_address = Chain.get_genesis_address(previous_address)
 
     deposits = State.get("deposits", Map.new())
-    Map.get(deposits, genesis_address) != nil
+    if Map.get(deposits, genesis_address) != nil do
+      res = calculate_new_rewards()
+      user_deposit = Map.get(res.deposits, user_genesis_address)
+      user_deposit.reward_amount > 0
+    else
+      false
+    end
   )
 ]
 
@@ -103,14 +109,21 @@ actions triggered_by: transaction, on: withdraw(amount) do
 
   user_deposit = Map.get(deposits, user_genesis_address)
 
-  if @REWARD_TOKEN == "UCO" do
-    Contract.add_uco_transfer(to: transaction.address, amount: user_deposit.reward_amount)
-  else
-    Contract.add_token_transfer(
-      to: transaction.address,
-      amount: user_deposit.reward_amount,
-      token_address: @REWARD_TOKEN
-    )
+  if user_deposit.reward_amount > 0 do
+    if @REWARD_TOKEN == "UCO" do
+      Contract.add_uco_transfer(to: transaction.address, amount: user_deposit.reward_amount)
+    else
+      Contract.add_token_transfer(
+        to: transaction.address,
+        amount: user_deposit.reward_amount,
+        token_address: @REWARD_TOKEN
+      )
+    end
+
+    reward_distributed = State.get("reward_distributed", 0)
+    State.set("reward_distributed", reward_distributed + user_deposit.reward_amount)
+
+    State.set("rewards_reserved", rewards_reserved - user_deposit.reward_amount)
   end
 
   Contract.add_token_transfer(
@@ -118,11 +131,6 @@ actions triggered_by: transaction, on: withdraw(amount) do
     amount: amount,
     token_address: @LP_TOKEN_ADDRESS
   )
-
-  reward_distributed = State.get("reward_distributed", 0)
-  State.set("reward_distributed", reward_distributed + user_deposit.reward_amount)
-
-  State.set("rewards_reserved", rewards_reserved - user_deposit.reward_amount)
 
   lp_token_deposited = State.get("lp_token_deposited")
   State.set("lp_token_deposited", lp_token_deposited - amount)
