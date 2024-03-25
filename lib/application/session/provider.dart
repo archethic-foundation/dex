@@ -8,7 +8,6 @@ import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -73,10 +72,11 @@ class _SessionNotifier extends Notifier<Session> {
       );
       awc.ArchethicDAppClient? archethicDAppClient;
       try {
-        archethicDAppClient = awc.ArchethicDAppClient.websocket(
+        archethicDAppClient = awc.ArchethicDAppClient.auto(
           origin: const awc.RequestOrigin(
             name: 'aeSwap',
           ),
+          replyBaseUrl: '',
         );
       } catch (e) {
         throw const aedappfm.Failure.connectivityArchethic();
