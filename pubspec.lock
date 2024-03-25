@@ -44,10 +44,11 @@ packages:
   archethic_dapp_framework_flutter:
     dependency: "direct main"
     description:
-      name: archethic_dapp_framework_flutter
-      sha256: ee66d5d2743bc90d270e57e92ef13197298932f91f34b9c6f2de8f2a7302ce96
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: web_messagechannel_rpc
+      resolved-ref: "14a9343d143bf782903bc55929c63a7142b4cfe9"
+      url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
+    source: git
     version: "0.0.8"
   archethic_lib_dart:
     dependency: transitive
