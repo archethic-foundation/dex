@@ -2,7 +2,7 @@ name: aedex
 description: Enable direct peer-to-peer trading of digital assets on the Archethic blockchain, eliminating the need for centralized intermediaries.
 publish_to: "none"
 
-version: 0.0.11+34
+version: 0.0.11+35
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
