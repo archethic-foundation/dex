@@ -54,6 +54,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  # Customize Flutter's default white native splash screen with background color and splash image. Supports dark mode, full screen, and more.
+  flutter_native_splash: ^2.4.0
+
   # State management
   flutter_riverpod: ^2.5.1
 

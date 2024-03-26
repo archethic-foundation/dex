@@ -10,9 +10,11 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await DBHelper.setupDatabase();
   setupServiceLocator();
   setPathUrlStrategy();
@@ -53,6 +55,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           Timer.periodic(const Duration(minutes: 1), (timer) async {
         await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
       });
+      FlutterNativeSplash.remove();
     });
   }
 

@@ -71,7 +71,7 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
             )
             .toList();
       case PoolsListTab.searchPool:
-        final poolListFormState = ref.read(_poolListFormProvider);
+        final poolListFormState = ref.watch(_poolListFormProvider);
         return await ref.read(
           DexPoolProviders.getPoolListForSearch(
             poolListFormState.searchText,
