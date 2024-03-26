@@ -5,17 +5,13 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PoolAddAddFavoriteIcon extends ConsumerWidget {
-  const PoolAddAddFavoriteIcon({
+class PoolAddFavoriteIcon extends ConsumerWidget {
+  const PoolAddFavoriteIcon({
     required this.poolAddress,
-    this.iconSize = 14,
-    this.withLabel = false,
     super.key,
   });
 
   final String poolAddress;
-  final double iconSize;
-  final bool withLabel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

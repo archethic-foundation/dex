@@ -243,7 +243,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
         padding: EdgeInsets.only(
           top: 60,
         ),
-        child: PoolListShhetHeader(),
+        child: PoolListSheetHeader(),
       ),
     ],
   );

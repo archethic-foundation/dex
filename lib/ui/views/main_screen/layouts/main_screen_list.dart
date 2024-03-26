@@ -12,7 +12,6 @@ import 'package:aedex/util/browser_util_desktop.dart'
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -95,14 +94,7 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
           const aedappfm.AppBackground(
             backgroundImage: 'assets/images/background-welcome.png',
           ),
-          widget.body
-              .animate()
-              .fade(
-                duration: const Duration(milliseconds: 200),
-              )
-              .scale(
-                duration: const Duration(milliseconds: 200),
-              ),
+          widget.body,
         ],
       ),
       bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||

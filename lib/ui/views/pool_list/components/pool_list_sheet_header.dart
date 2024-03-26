@@ -11,16 +11,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:go_router/go_router.dart';
 
-class PoolListShhetHeader extends ConsumerStatefulWidget {
-  const PoolListShhetHeader({
+class PoolListSheetHeader extends ConsumerStatefulWidget {
+  const PoolListSheetHeader({
     super.key,
   });
   @override
-  ConsumerState<PoolListShhetHeader> createState() =>
-      _PoolListShhetHeaderState();
+  ConsumerState<PoolListSheetHeader> createState() =>
+      _PoolListSheetHeaderState();
 }
 
-class _PoolListShhetHeaderState extends ConsumerState<PoolListShhetHeader> {
+class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
   @override
   Widget build(BuildContext context) {
     return aedappfm.Responsive.isDesktop(context)

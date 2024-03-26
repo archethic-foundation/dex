@@ -8,17 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PoolAddRemoveFavoriteIcon extends ConsumerWidget {
-  const PoolAddRemoveFavoriteIcon({
+class PoolRemoveFavoriteIcon extends ConsumerWidget {
+  const PoolRemoveFavoriteIcon({
     required this.poolAddress,
-    this.iconSize = 14,
-    this.withLabel = false,
     super.key,
   });
 
   final String poolAddress;
-  final double iconSize;
-  final bool withLabel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
