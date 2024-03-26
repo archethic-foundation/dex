@@ -1,11 +1,11 @@
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_add_add_favorite_icon.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_add_remove_favorite_icon.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_add_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_refresh_icon.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_remove_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
@@ -52,6 +52,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
               child: aedappfm.SingleCard(
                 globalPadding: 0,
                 cardContent: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(20),
@@ -82,17 +83,23 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
               right: 20,
               child: Row(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: PoolRefreshIcon(
+                      poolAddress: poolDetail.poolAddress,
+                    ),
+                  ),
                   if (poolDetail.isFavorite)
                     Padding(
                       padding: const EdgeInsets.only(right: 5),
-                      child: PoolAddRemoveFavoriteIcon(
+                      child: PoolRemoveFavoriteIcon(
                         poolAddress: poolDetail.poolAddress,
                       ),
                     )
                   else
                     Padding(
                       padding: const EdgeInsets.only(right: 5),
-                      child: PoolAddAddFavoriteIcon(
+                      child: PoolAddFavoriteIcon(
                         poolAddress: poolDetail.poolAddress,
                       ),
                     ),
