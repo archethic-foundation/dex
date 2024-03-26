@@ -25,9 +25,9 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
     if (tokenHive == null) {
       final tokenMap = await aedappfm.sl.get<ApiService>().getToken(
         [address],
-        request: 'name, symbol',
+        request: 'name, symbol, type',
       );
-      if (tokenMap[address] != null) {
+      if (tokenMap[address] != null && tokenMap[address]!.type == 'fungible') {
         token = tokenSDKToModel(tokenMap[address]!, 0);
         token = token.copyWith(address: address);
         await tokensListDatasource.setToken(token.toHive());
