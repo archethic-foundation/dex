@@ -55,7 +55,7 @@ final _putPoolListInfosToCacheProvider =
 );
 
 typedef _PutPoolListInfosToCacheRef = AutoDisposeFutureProviderRef<void>;
-String _$updatePoolInCacheHash() => r'32fba6e37b5e9cea965eb19655a6f31708a55caf';
+String _$updatePoolInCacheHash() => r'6c51e67965fff8292b6fa37262468e914be55aef';
 
 /// Copied from Dart SDK
 class _SystemHash {
