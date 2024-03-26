@@ -247,7 +247,9 @@ class SwapInfos extends ConsumerWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  if (swap.pool != null)
+                  if (swap.pool != null &&
+                      swap.pool!.infos != null &&
+                      swap.tokenToSwap != null)
                     Tooltip(
                       message:
                           'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
