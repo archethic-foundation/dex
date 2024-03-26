@@ -243,6 +243,7 @@ class LiquidityAddFormNotifier
   }
 
   Future<void> setToken1Amount(
+    BuildContext context,
     double amount,
   ) async {
     state = state.copyWith(
@@ -251,10 +252,36 @@ class LiquidityAddFormNotifier
       token1Amount: amount,
     );
 
+    if (state.token1Amount > state.token1Balance) {
+      state = state.copyWith(
+        token2Amount: 0,
+      );
+
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .liquidityAddControlToken1AmountExceedBalance,
+        ),
+      );
+      return;
+    }
+
     await calculateTokenInfos();
+
+    if (state.token2Amount > state.token2Balance) {
+      if (context.mounted) {
+        setFailure(
+          aedappfm.Failure.other(
+            cause: AppLocalizations.of(context)!
+                .liquidityAddControlToken2AmountExceedBalance,
+          ),
+        );
+      }
+    }
   }
 
   Future<void> setToken2Amount(
+    BuildContext context,
     double amount,
   ) async {
     state = state.copyWith(
@@ -263,7 +290,32 @@ class LiquidityAddFormNotifier
       token2Amount: amount,
     );
 
+    if (state.token2Amount > state.token2Balance) {
+      state = state.copyWith(
+        token1Amount: 0,
+      );
+
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .liquidityAddControlToken2AmountExceedBalance,
+        ),
+      );
+      return;
+    }
+
     await calculateTokenInfos();
+
+    if (state.token1Amount > state.token1Balance) {
+      if (context.mounted) {
+        setFailure(
+          aedappfm.Failure.other(
+            cause: AppLocalizations.of(context)!
+                .liquidityAddControlToken1AmountExceedBalance,
+          ),
+        );
+      }
+    }
   }
 
   void estimateTokenMinAmounts() {
@@ -441,7 +493,7 @@ class LiquidityAddFormNotifier
           setFailure(const aedappfm.Failure.insufficientFunds());
           return false;
         } else {
-          await setToken1Amount(adjustedAmount);
+          if (context.mounted) await setToken1Amount(context, adjustedAmount);
           state = state.copyWith(messageMaxHalfUCO: true);
         }
       }
@@ -468,7 +520,7 @@ class LiquidityAddFormNotifier
           setFailure(const aedappfm.Failure.insufficientFunds());
           return false;
         } else {
-          await setToken2Amount(adjustedAmount);
+          if (context.mounted) await setToken2Amount(context, adjustedAmount);
           state = state.copyWith(messageMaxHalfUCO: true);
         }
       }

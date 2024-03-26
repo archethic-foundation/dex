@@ -134,6 +134,7 @@ class _LiquidityAddToken1AmountState
                                     liquidityAddNotifier
                                         .setTokenFormSelected(1);
                                     await liquidityAddNotifier.setToken1Amount(
+                                      context,
                                       double.tryParse(
                                             text.replaceAll(' ', ''),
                                           ) ??
@@ -206,6 +207,7 @@ class _LiquidityAddToken1AmountState
                     );
                     liquidityAddNotifier.setTokenFormSelected(1);
                     await liquidityAddNotifier.setToken1Amount(
+                      context,
                       (Decimal.parse(
                                 liquidityAdd.token1Balance.toString(),
                               ) /
@@ -229,8 +231,10 @@ class _LiquidityAddToken1AmountState
                       ),
                     );
                     liquidityAddNotifier.setTokenFormSelected(1);
-                    await liquidityAddNotifier
-                        .setToken1Amount(liquidityAdd.token1Balance);
+                    await liquidityAddNotifier.setToken1Amount(
+                      context,
+                      liquidityAdd.token1Balance,
+                    );
                   },
                 ),
               ],
