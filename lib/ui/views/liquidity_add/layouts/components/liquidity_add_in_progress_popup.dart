@@ -95,14 +95,7 @@ class LiquidityAddInProgressPopup {
           ..setFailure(null)
           ..setLiquidityAddOk(false)
           ..setWalletConfirmation(false);
-        context.go(
-          Uri(
-            path: PoolListSheet.routerPage,
-            queryParameters: {
-              'reload': false.toString(),
-            },
-          ).toString(),
-        );
+        context.go(PoolListSheet.routerPage);
       },
     );
   }

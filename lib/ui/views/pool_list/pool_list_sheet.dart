@@ -13,13 +13,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolListSheet extends ConsumerStatefulWidget {
   const PoolListSheet({
-    this.reload = true,
+    this.tab = PoolsListTab.verified,
     super.key,
   });
 
   static const routerPage = '/poolList';
 
-  final bool reload;
+  final PoolsListTab tab;
 
   @override
   ConsumerState<PoolListSheet> createState() => _PoolListSheetState();
@@ -28,30 +28,14 @@ class PoolListSheet extends ConsumerStatefulWidget {
 class _PoolListSheetState extends ConsumerState<PoolListSheet> {
   @override
   void initState() {
-    if (widget.reload) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        ref.read(navigationIndexMainScreenProvider.notifier).state =
-            NavigationIndex.pool;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.pool;
 
-        final poolListForm = ref.read(PoolListFormProvider.poolListForm);
-
-        ref.invalidate(
-          PoolListFormProvider.poolsToDisplay(
-            poolListForm.tabIndexSelected,
-          ),
-        );
-
-        await ref
-            .read(PoolListFormProvider.poolListForm.notifier)
-            .setTabIndexSelected(PoolsListTab.verified);
-      });
-    } else {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        ref.read(navigationIndexMainScreenProvider.notifier).state =
-            NavigationIndex.pool;
-      });
-    }
-
+      await ref
+          .read(PoolListFormProvider.poolListForm.notifier)
+          .setPoolsToDisplay(widget.tab);
+    });
     super.initState();
   }
 
@@ -246,7 +230,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 itemBuilder: (context, index) {
                   final pool = pools[index];
                   return PoolListItem(
-                    key: Key(pool.poolAddress),
+                    key: ValueKey(pool.poolAddress),
                     poolAddress: pool.poolAddress,
                   );
                 },

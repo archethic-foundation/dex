@@ -93,7 +93,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
                 if (text.isNotEmpty) {
                   await ref
                       .read(PoolListFormProvider.poolListForm.notifier)
-                      .setTabIndexSelected(PoolsListTab.searchPool);
+                      .setPoolsToDisplay(PoolsListTab.searchPool);
                 }
               },
               textAlign: TextAlign.left,

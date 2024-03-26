@@ -2,58 +2,6 @@
 part of 'dex_pool.dart';
 
 @riverpod
-Future<List<DexPool>> _myPools(
-  _MyPoolsRef ref,
-) async {
-  final pools = await ref.watch(_getPoolListFromCacheProvider.future);
-  return pools
-      .where(
-        (element) => element.lpTokenInUserBalance,
-      )
-      .toList();
-}
-
-@riverpod
-Future<List<DexPool>> _verifiedPools(
-  _VerifiedPoolsRef ref,
-) async {
-  final pools = await ref.watch(_getPoolListFromCacheProvider.future);
-  return pools
-      .where(
-        (element) => element.isVerified,
-      )
-      .toList();
-}
-
-@riverpod
-Future<List<DexPool>> _favoritePools(
-  _FavoritePoolsRef ref,
-) async {
-  final pools = await ref.watch(_getPoolListFromCacheProvider.future);
-  return pools
-      .where(
-        (element) => element.isFavorite,
-      )
-      .toList();
-}
-
-@riverpod
-Future<List<DexPool>> _getPoolListFromCache(
-  _GetPoolListFromCacheRef ref,
-) async {
-  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-
-  final poolListCached = poolsListDatasource
-      .getPoolsList()
-      .map(
-        (hiveObject) => hiveObject.toDexPool(),
-      )
-      .toList();
-
-  return poolListCached;
-}
-
-@riverpod
 Future<void> _putPoolListInfosToCache(
   _PutPoolListInfosToCacheRef ref,
 ) async {
@@ -102,8 +50,6 @@ Future<void> _putPoolListInfosToCache(
 
     await poolsListDatasource.setPool(poolWithInfos.toHive());
   }
-
-  ref.invalidate(_getPoolListFromCacheProvider);
 }
 
 @riverpod
@@ -113,7 +59,25 @@ Future<void> _updatePoolInCache(
 ) async {
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
   await poolsListDatasource.removePool(pool.poolAddress);
-  final poolWithInfos = await ref.read(_getPoolInfosProvider(pool).future);
+  var poolWithInfos = await ref.read(_getPoolInfosProvider(pool).future);
+
+  final fromCriteria =
+      (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
+              1000)
+          .round();
+  final transactionChainResult =
+      await aedappfm.sl.get<ApiService>().getTransactionChain(
+    {pool.poolAddress: ''},
+    request:
+        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
+    fromCriteria: fromCriteria,
+  );
+  poolWithInfos = ref.read(
+    DexPoolProviders.populatePoolInfosWithTokenStats24h(
+      poolWithInfos!,
+      transactionChainResult,
+    ),
+  );
   await poolsListDatasource.setPool(poolWithInfos!.toHive());
   ref.invalidate(DexPoolProviders.getPool(poolWithInfos.poolAddress));
 }
@@ -157,5 +121,4 @@ Future<void> _putPoolToCache(
   poolWithInfos = poolWithInfos!.copyWith(isFavorite: isFavorite);
 
   await poolsListDatasource.setPool(poolWithInfos.toHive());
-  ref.invalidate(_getPoolListFromCacheProvider);
 }

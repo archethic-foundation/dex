@@ -146,14 +146,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.go(
-                                  Uri(
-                                    path: PoolListSheet.routerPage,
-                                    queryParameters: {
-                                      'reload': false.toString(),
-                                    },
-                                  ).toString(),
-                                );
+                                context.go(PoolListSheet.routerPage);
                               },
                             ),
                           ),

@@ -8,7 +8,7 @@ Future<double> _getRatio(
   DexToken token,
 ) async {
   final apiService = aedappfm.sl.get<ApiService>();
-  final poolRatioResult = await PoolFactory(
+  final poolRatioResult = await PoolFactoryRepositoryImpl(
     poolGenesisAddress,
     apiService,
   ).getPoolRatio(
@@ -53,8 +53,65 @@ double _estimatePoolTVLInFiat(
   if (fiatValueToken1 == 0 && fiatValueToken2 > 0) {
     tvl = pool.pair.token2.reserve * fiatValueToken2 * 2;
   }
-
   return tvl;
+}
+
+@riverpod
+DexPool _populatePoolInfosWithTokenStats24h(
+  _PopulatePoolInfosWithTokenStats24hRef ref,
+  DexPool pool,
+  Map<String, List<Transaction>> transactionChainResult,
+) {
+  var token1TotalVolume24h = 0.0;
+  var token2TotalVolume24h = 0.0;
+  var token1TotalFee24h = 0.0;
+  var token2TotalFee24h = 0.0;
+  if (transactionChainResult[pool.poolAddress] != null &&
+      transactionChainResult[pool.poolAddress]!.isNotEmpty) {
+    final transaction = transactionChainResult[pool.poolAddress]!.first;
+    if (transaction.validationStamp != null &&
+        transaction.validationStamp!.ledgerOperations != null &&
+        transaction
+            .validationStamp!.ledgerOperations!.unspentOutputs.isNotEmpty) {
+      for (final unspentOutput
+          in transaction.validationStamp!.ledgerOperations!.unspentOutputs) {
+        if (unspentOutput.state != null) {
+          final state = unspentOutput.state;
+          token1TotalVolume24h = state!['stats'] == null ||
+                  state['stats']['token1_total_volume'] == null
+              ? 0
+              : Decimal.parse(
+                  state['stats']['token1_total_volume'].toString(),
+                ).toDouble();
+          token2TotalVolume24h = state['stats'] == null ||
+                  state['stats']['token2_total_volume'] == null
+              ? 0
+              : Decimal.parse(
+                  state['stats']['token2_total_volume'].toString(),
+                ).toDouble();
+          token1TotalFee24h = state['stats'] == null ||
+                  state['stats']['token1_total_fee'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token1_total_fee'].toString())
+                  .toDouble();
+          token2TotalFee24h = state['stats'] == null ||
+                  state['stats']['token2_total_fee'] == null
+              ? 0
+              : Decimal.parse(state['stats']['token2_total_fee'].toString())
+                  .toDouble();
+        }
+      }
+    }
+  }
+
+  var poolInfos = pool.infos!;
+  poolInfos = poolInfos.copyWith(
+    token1TotalVolume24h: token1TotalVolume24h,
+    token2TotalVolume24h: token2TotalVolume24h,
+    token1TotalFee24h: token1TotalFee24h,
+    token2TotalFee24h: token2TotalFee24h,
+  );
+  return pool.copyWith(infos: poolInfos);
 }
 
 @riverpod
@@ -156,62 +213,4 @@ double _estimatePoolTVLInFiat(
     volumeAllTime: volumeAllTime,
     feeAllTime: feeAllTime
   );
-}
-
-@riverpod
-DexPool _populatePoolInfosWithTokenStats24h(
-  _PopulatePoolInfosWithTokenStats24hRef ref,
-  DexPool pool,
-  Map<String, List<Transaction>> transactionChainResult,
-) {
-  var token1TotalVolume24h = 0.0;
-  var token2TotalVolume24h = 0.0;
-  var token1TotalFee24h = 0.0;
-  var token2TotalFee24h = 0.0;
-  if (transactionChainResult[pool.poolAddress] != null &&
-      transactionChainResult[pool.poolAddress]!.isNotEmpty) {
-    final transaction = transactionChainResult[pool.poolAddress]!.first;
-    if (transaction.validationStamp != null &&
-        transaction.validationStamp!.ledgerOperations != null &&
-        transaction
-            .validationStamp!.ledgerOperations!.unspentOutputs.isNotEmpty) {
-      for (final unspentOutput
-          in transaction.validationStamp!.ledgerOperations!.unspentOutputs) {
-        if (unspentOutput.state != null) {
-          final state = unspentOutput.state;
-          token1TotalVolume24h = state!['stats'] == null ||
-                  state['stats']['token1_total_volume'] == null
-              ? 0
-              : Decimal.parse(
-                  state['stats']['token1_total_volume'].toString(),
-                ).toDouble();
-          token2TotalVolume24h = state['stats'] == null ||
-                  state['stats']['token2_total_volume'] == null
-              ? 0
-              : Decimal.parse(
-                  state['stats']['token2_total_volume'].toString(),
-                ).toDouble();
-          token1TotalFee24h = state['stats'] == null ||
-                  state['stats']['token1_total_fee'] == null
-              ? 0
-              : Decimal.parse(state['stats']['token1_total_fee'].toString())
-                  .toDouble();
-          token2TotalFee24h = state['stats'] == null ||
-                  state['stats']['token2_total_fee'] == null
-              ? 0
-              : Decimal.parse(state['stats']['token2_total_fee'].toString())
-                  .toDouble();
-        }
-      }
-    }
-  }
-
-  var poolInfos = pool.infos!;
-  poolInfos = poolInfos.copyWith(
-    token1TotalVolume24h: token1TotalVolume24h,
-    token2TotalVolume24h: token2TotalVolume24h,
-    token1TotalFee24h: token1TotalFee24h,
-    token2TotalFee24h: token2TotalFee24h,
-  );
-  return pool.copyWith(infos: poolInfos);
 }
