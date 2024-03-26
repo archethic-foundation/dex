@@ -2,12 +2,12 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
+import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
@@ -174,7 +174,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               var _priceImpact = 0.0;
               var _protocolFees = 0.0;
 
-              final getSwapInfosResult = await PoolFactory(
+              final getSwapInfosResult = await PoolFactoryRepositoryImpl(
                 state.poolGenesisAddress,
                 apiService,
               ).getSwapInfos(tokenAddress, amount);

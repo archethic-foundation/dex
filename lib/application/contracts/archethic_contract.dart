@@ -4,10 +4,9 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:aedex/application/factory.dart';
-import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-
+import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -152,7 +151,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
   ) async {
     return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
-      final poolInfos = await PoolFactory(
+      final poolInfos = await PoolFactoryRepositoryImpl(
         poolGenesisAddress,
         apiService,
       ).getPoolInfos();
@@ -250,7 +249,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
 
       var expectedTokenLP = 0.0;
-      final expectedTokenLPResult = await PoolFactory(
+      final expectedTokenLPResult = await PoolFactoryRepositoryImpl(
         poolGenesisAddress,
         apiService,
       ).getLPTokenToMint(token1Amount, token2Amount);
@@ -269,7 +268,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
         );
       }
 
-      final poolInfos = await PoolFactory(
+      final poolInfos = await PoolFactoryRepositoryImpl(
         poolGenesisAddress,
         apiService,
       ).getPoolInfos();
@@ -387,7 +386,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
 
       var outputAmount = 0.0;
-      final getSwapInfosResult = await PoolFactory(
+      final getSwapInfosResult = await PoolFactoryRepositoryImpl(
         poolGenesisAddress,
         apiService,
       ).getSwapInfos(tokenToSwap.address!, tokenToSwapAmount);

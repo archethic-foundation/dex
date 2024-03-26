@@ -1,6 +1,6 @@
-import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_token.repository.dart';
+import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -79,7 +79,7 @@ Future<double> _estimateLPTokenInFiat(
   }
 
   final apiService = aedappfm.sl.get<ApiService>();
-  final amountsResult = await PoolFactory(poolAddress, apiService)
+  final amountsResult = await PoolFactoryRepositoryImpl(poolAddress, apiService)
       .getRemoveAmounts(lpTokenAmount);
   var amountToken1 = 0.0;
   var amountToken2 = 0.0;
