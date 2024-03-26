@@ -44,10 +44,11 @@ packages:
   archethic_dapp_framework_flutter:
     dependency: "direct main"
     description:
-      name: archethic_dapp_framework_flutter
-      sha256: "9173b7dcd080d89171870b57543f716e0a773a02b99f9eb54681a1c194fdbaa1"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: web_messagechannel_rpc
+      resolved-ref: "56759696a7465ce7c4c4f3fb2da4180d54966ff8"
+      url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
+    source: git
     version: "0.0.6"
   archethic_lib_dart:
     dependency: transitive
@@ -302,7 +303,7 @@ packages:
     description:
       path: "."
       ref: dev
-      resolved-ref: ec1f1e7a158649bdf312b4b5281d3a52baca45d1
+      resolved-ref: "7a1fa148843b461d1ba821abac01a04ec7a44e5e"
       url: "https://github.com/koukibadr/Elegant-Notification.git"
     source: git
     version: "1.14.0"

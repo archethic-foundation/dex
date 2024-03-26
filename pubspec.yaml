@@ -2,17 +2,17 @@ name: aedex
 description: Enable direct peer-to-peer trading of digital assets on the Archethic blockchain, eliminating the need for centralized intermediaries.
 publish_to: "none"
 
-version: 0.0.11+35
+version: 0.0.11+36
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  archethic_dapp_framework_flutter: ^0.0.0
-  #archethic_dapp_framework_flutter:
-  #  git:
-  #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
-  #    ref: main
+  #archethic_dapp_framework_flutter: ^0.0.0
+  archethic_dapp_framework_flutter:
+    git:
+      url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+      ref: web_messagechannel_rpc
   #archethic_dapp_framework_flutter:
   #  path: ../archethic-dapp-framework-flutter
 

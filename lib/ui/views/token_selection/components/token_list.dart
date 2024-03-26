@@ -53,19 +53,21 @@ class TokenList extends ConsumerWidget {
                   SizedBox(
                     child: Row(
                       children: [
-                        Text(
-                          AppLocalizations.of(context)!
-                              .token_selection_get_tokens_from_wallet,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyMedium!,
+                        Expanded(
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .token_selection_get_tokens_from_wallet,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyMedium!,
+                                  ),
                                 ),
-                              ),
+                          ),
                         ),
                         const SizedBox(width: 10),
                         const SizedBox(
@@ -117,9 +119,6 @@ class _TokensList extends ConsumerWidget {
           height: 10,
         ),
         shrinkWrap: true,
-        padding: const EdgeInsets.only(
-          left: 15,
-        ),
         itemCount: tokensFiltered.length,
         itemBuilder: (BuildContext context, int index) {
           return SingleToken(token: tokensFiltered[index])

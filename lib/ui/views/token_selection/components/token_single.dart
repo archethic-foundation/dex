@@ -39,85 +39,93 @@ class SingleToken extends StatelessWidget {
         onTap: () {
           Navigator.pop(context, token);
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const SizedBox(
-                  width: 10,
+        child: aedappfm.Responsive.isMobile(context) == false
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: _getContent(
+                  context,
+                  const EdgeInsets.only(right: 10),
                 ),
-                DexTokenIcon(
-                  tokenAddress: token.address == null ? 'UCO' : token.address!,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 3),
-                  child: Row(
-                    children: [
-                      if (token.isLpToken == false)
-                        Text(
-                          token.symbol,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyLarge!,
-                                ),
-                              ),
-                        ),
-                      if (token.isLpToken == false)
-                        const SizedBox(
-                          width: 3,
-                        ),
-                      if (token.isLpToken == false)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: VerifiedTokenIcon(
-                            address: token.isUCO ? 'UCO' : token.address!,
-                            iconSize: 12,
-                          ),
-                        ),
-                      if (token.isLpToken && token.lpTokenPair != null)
-                        Tooltip(
-                          message:
-                              'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol}',
-                          child: Text(
-                            'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol.reduceSymbol()}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol.reduceSymbol()}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if (token.address != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: FormatAddressLinkCopy(
-                  address: token.address!,
-                  fontSize: 11,
-                  reduceAddress: true,
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _getContent(
+                  context,
+                  const EdgeInsets.only(left: 40),
                 ),
               ),
-          ],
-        ),
       ),
     );
+  }
+
+  List<Widget> _getContent(
+      BuildContext context, EdgeInsetsGeometry paddingAddress) {
+    return [
+      Row(
+        children: [
+          const SizedBox(
+            width: 10,
+          ),
+          DexTokenIcon(
+            tokenAddress: token.address == null ? 'UCO' : token.address!,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 3),
+            child: Row(
+              children: [
+                if (token.isLpToken == false)
+                  Text(
+                    token.symbol,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge!,
+                          ),
+                        ),
+                  ),
+                if (token.isLpToken == false)
+                  const SizedBox(
+                    width: 3,
+                  ),
+                if (token.isLpToken == false)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: VerifiedTokenIcon(
+                      address: token.isUCO ? 'UCO' : token.address!,
+                      iconSize: 12,
+                    ),
+                  ),
+                if (token.isLpToken && token.lpTokenPair != null)
+                  Tooltip(
+                    message:
+                        'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol}',
+                    child: Text(
+                      'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol.reduceSymbol()}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      if (token.address != null)
+        Padding(
+          padding: paddingAddress,
+          child: FormatAddressLinkCopy(
+            address: token.address!,
+            fontSize: 11,
+            reduceAddress: true,
+          ),
+        ),
+    ];
   }
 }
