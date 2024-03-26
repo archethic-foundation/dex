@@ -90,7 +90,8 @@ class _SessionNotifier extends Notifier<Session> {
           _handleConnectionFailure(isBrave);
         },
         success: (result) async {
-          if (state.endpoint != result.endpointUrl) {
+          if (state.endpoint.isNotEmpty &&
+              state.endpoint != result.endpointUrl) {
             final poolsListDatasource =
                 await HivePoolsListDatasource.getInstance();
             await poolsListDatasource.clearAll();

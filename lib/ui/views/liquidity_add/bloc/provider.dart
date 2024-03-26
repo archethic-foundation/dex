@@ -1,15 +1,14 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/application/pool/pool_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
+import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -73,7 +72,7 @@ class LiquidityAddFormNotifier
   Future<void> initRatio() async {
     final apiService = aedappfm.sl.get<ApiService>();
     final equivalentAmounResult =
-        await PoolFactory(state.pool!.poolAddress, apiService)
+        await PoolFactoryRepositoryImpl(state.pool!.poolAddress, apiService)
             .getEquivalentAmount(
       state.token1!.isUCO ? 'UCO' : state.token1!.address!,
       1,
@@ -139,7 +138,7 @@ class LiquidityAddFormNotifier
       return;
     }
     final apiService = aedappfm.sl.get<ApiService>();
-    final expectedTokenLPResult = await PoolFactory(
+    final expectedTokenLPResult = await PoolFactoryRepositoryImpl(
       state.pool!.poolAddress,
       apiService,
     ).getLPTokenToMint(state.token1Amount, state.token2Amount);
@@ -171,9 +170,10 @@ class LiquidityAddFormNotifier
           _calculateEquivalentAmountTask = aedappfm.CancelableTask<double?>(
             task: () async {
               var _equivalentAmount = 0.0;
-              final equivalentAmountResult =
-                  await PoolFactory(state.pool!.poolAddress, apiService)
-                      .getEquivalentAmount(tokenAddress, amount);
+              final equivalentAmountResult = await PoolFactoryRepositoryImpl(
+                state.pool!.poolAddress,
+                apiService,
+              ).getEquivalentAmount(tokenAddress, amount);
 
               equivalentAmountResult.map(
                 success: (success) {

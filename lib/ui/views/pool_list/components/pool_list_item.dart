@@ -1,4 +1,5 @@
 import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_add_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_remove_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
@@ -38,6 +39,12 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
           return const SizedBox.shrink();
         }
 
+        Future.delayed(Duration.zero, () {
+          ref
+              .read(PoolItemProvider.poolItem(poolDetail.poolAddress).notifier)
+              .setPool(poolDetail);
+        });
+
         return Stack(
           children: [
             Padding(
@@ -54,9 +61,11 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                         fill: Fill.fillBack,
                         front: PoolDetailsFront(
                           pool: poolDetail,
+                          poolAddress: poolDetail.poolAddress,
                         ),
                         back: PoolDetailsBack(
                           pool: poolDetail,
+                          poolAddress: poolDetail.poolAddress,
                         ),
                       ),
                     ),

@@ -4,12 +4,15 @@ import 'dart:async';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
+import 'package:aedex/domain/repositories/pool_factory.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-class PoolFactory with ModelParser {
-  PoolFactory(this.factoryAddress, this.apiService);
+class PoolFactoryRepositoryImpl
+    with ModelParser
+    implements PoolFactoryRepository {
+  PoolFactoryRepositoryImpl(this.factoryAddress, this.apiService);
 
   final String factoryAddress;
   final ApiService apiService;
@@ -30,6 +33,7 @@ class PoolFactory with ModelParser {
   ///   },
   ///   "fee": 0.25
   /// }
+  @override
   Future<Map<String, dynamic>> getPoolInfos() async {
     final result = await apiService.callSCFunction(
       jsonRPCRequest: SCCallFunctionRequest(
@@ -46,6 +50,7 @@ class PoolFactory with ModelParser {
     return result;
   }
 
+  @override
   Future<aedappfm.Result<DexPool, aedappfm.Failure>> populatePoolInfos(
     DexPool poolInput,
   ) async {
@@ -62,6 +67,7 @@ class PoolFactory with ModelParser {
   /// Returns the equivalent amount of the other token of the pool. This should be used in the process of adding liquidity
   /// [tokenAddress] is the token you want to provide (result amount will be the other token)
   /// [tokenAmount] is the amount of token_address you want to provide
+  @override
   Future<aedappfm.Result<double?, aedappfm.Failure>> getEquivalentAmount(
     String tokenAddress,
     double tokenAmount,
@@ -88,6 +94,7 @@ class PoolFactory with ModelParser {
 
   /// Returns the pool ratio
   /// [tokenAddress] is the token you want to provide (result amount will be the other token)
+  @override
   Future<aedappfm.Result<double?, aedappfm.Failure>> getPoolRatio(
     String tokenAddress,
   ) async {
@@ -113,6 +120,7 @@ class PoolFactory with ModelParser {
   /// Returns the amount of LP token that will be minted if the amount of tokens are provided
   /// [token1Amount] Amount of token1 to provide (token1 is the first token returned by get_pair_tokens)
   /// [token1Amount] Amount of token2 to provide (token2 is the second token returned by get_pair_tokens)
+  @override
   Future<aedappfm.Result<double?, aedappfm.Failure>> getLPTokenToMint(
     double token1Amount,
     double token2Amount,
@@ -140,6 +148,7 @@ class PoolFactory with ModelParser {
   /// Returns the info about a swap: expected output_amount, fee and price impact
   /// [tokenAddress] One of the 2 tokens of the pool
   /// [amount] Amount of of this token you want to swap
+  @override
   Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>> getSwapInfos(
     String tokenAddress,
     double amount,
@@ -168,6 +177,7 @@ class PoolFactory with ModelParser {
 
   /// Returns amounts of token to get back when removing liquidity
   /// [lpTokenAmount] Number of lp token to remove
+  @override
   Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
       getRemoveAmounts(
     double lpTokenAmount,
@@ -196,6 +206,7 @@ class PoolFactory with ModelParser {
   /// In exchange of the liquidity, the user will receive some LP token.
   /// [token1MinAmount] is the minimum amount of token1 to add in liquidity (token1 is the first token returned by the function get_pair_tokens())
   /// [token2MinAmount] is the minimum amount of token2 to add in liquidity (token2 is the second token returned by the function get_pair_tokens())
+  @override
   Future<aedappfm.Result<void, aedappfm.Failure>> addLiquidity(
     double token1MinAmount,
     double token2MinAmount,
@@ -223,6 +234,7 @@ class PoolFactory with ModelParser {
   /// User must send the lp token he wants to remove to the burn address ("000...000")
   /// (don't forget to add the pool in recipient otherwise lp token will only be burned).
   /// The pool will calculate the share of the user and return the corresponding amount of both pool tokens.
+  @override
   Future<aedappfm.Result<void, aedappfm.Failure>> removeLiquidity() async {
     return aedappfm.Result.guard(
       () async {
@@ -245,6 +257,7 @@ class PoolFactory with ModelParser {
   /// The pool will calculate the output amount and send it to the user.
   /// User can specify a slippage tolerance by providing the minimum amount of the output token to receive.
   /// [minAmountToReceive] is the minimum amount of the output token to receive
+  @override
   Future<aedappfm.Result<void, aedappfm.Failure>> swap(
     double minAmountToReceive,
   ) async {

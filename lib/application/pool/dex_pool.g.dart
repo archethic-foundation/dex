@@ -23,7 +23,7 @@ final _dexPoolRepositoryProvider =
 
 typedef _DexPoolRepositoryRef = AutoDisposeProviderRef<DexPoolRepositoryImpl>;
 String _$invalidateDataUseCaseHash() =>
-    r'38131e0ba0da813e6ad515cfe2e8b7349233bd95';
+    r'37470bca8f7d6bab39331030db9bee9a1bfed9e2';
 
 /// See also [_invalidateDataUseCase].
 @ProviderFor(_invalidateDataUseCase)
@@ -38,7 +38,24 @@ final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
 );
 
 typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
-String _$getPoolHash() => r'f87bd61361cfb101125290cb61c607ff8a5b3516';
+String _$putPoolListInfosToCacheHash() =>
+    r'1f2bfc518f2b29bf3ce49aa0c8864073dbe69812';
+
+/// See also [_putPoolListInfosToCache].
+@ProviderFor(_putPoolListInfosToCache)
+final _putPoolListInfosToCacheProvider =
+    AutoDisposeFutureProvider<void>.internal(
+  _putPoolListInfosToCache,
+  name: r'_putPoolListInfosToCacheProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$putPoolListInfosToCacheHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _PutPoolListInfosToCacheRef = AutoDisposeFutureProviderRef<void>;
+String _$updatePoolInCacheHash() => r'32fba6e37b5e9cea965eb19655a6f31708a55caf';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -60,605 +77,6 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
-
-/// See also [_getPool].
-@ProviderFor(_getPool)
-const _getPoolProvider = _GetPoolFamily();
-
-/// See also [_getPool].
-class _GetPoolFamily extends Family<AsyncValue<DexPool?>> {
-  /// See also [_getPool].
-  const _GetPoolFamily();
-
-  /// See also [_getPool].
-  _GetPoolProvider call(
-    String genesisAddress,
-  ) {
-    return _GetPoolProvider(
-      genesisAddress,
-    );
-  }
-
-  @override
-  _GetPoolProvider getProviderOverride(
-    covariant _GetPoolProvider provider,
-  ) {
-    return call(
-      provider.genesisAddress,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_getPoolProvider';
-}
-
-/// See also [_getPool].
-class _GetPoolProvider extends AutoDisposeFutureProvider<DexPool?> {
-  /// See also [_getPool].
-  _GetPoolProvider(
-    String genesisAddress,
-  ) : this._internal(
-          (ref) => _getPool(
-            ref as _GetPoolRef,
-            genesisAddress,
-          ),
-          from: _getPoolProvider,
-          name: r'_getPoolProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getPoolHash,
-          dependencies: _GetPoolFamily._dependencies,
-          allTransitiveDependencies: _GetPoolFamily._allTransitiveDependencies,
-          genesisAddress: genesisAddress,
-        );
-
-  _GetPoolProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.genesisAddress,
-  }) : super.internal();
-
-  final String genesisAddress;
-
-  @override
-  Override overrideWith(
-    FutureOr<DexPool?> Function(_GetPoolRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _GetPoolProvider._internal(
-        (ref) => create(ref as _GetPoolRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        genesisAddress: genesisAddress,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<DexPool?> createElement() {
-    return _GetPoolProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _GetPoolProvider && other.genesisAddress == genesisAddress;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, genesisAddress.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _GetPoolRef on AutoDisposeFutureProviderRef<DexPool?> {
-  /// The parameter `genesisAddress` of this provider.
-  String get genesisAddress;
-}
-
-class _GetPoolProviderElement extends AutoDisposeFutureProviderElement<DexPool?>
-    with _GetPoolRef {
-  _GetPoolProviderElement(super.provider);
-
-  @override
-  String get genesisAddress => (origin as _GetPoolProvider).genesisAddress;
-}
-
-String _$getPoolInfosHash() => r'1bc7f25e7cdba4946109b73e9bc090b6412d4f1f';
-
-/// See also [_getPoolInfos].
-@ProviderFor(_getPoolInfos)
-const _getPoolInfosProvider = _GetPoolInfosFamily();
-
-/// See also [_getPoolInfos].
-class _GetPoolInfosFamily extends Family<AsyncValue<DexPool?>> {
-  /// See also [_getPoolInfos].
-  const _GetPoolInfosFamily();
-
-  /// See also [_getPoolInfos].
-  _GetPoolInfosProvider call(
-    DexPool poolInput,
-  ) {
-    return _GetPoolInfosProvider(
-      poolInput,
-    );
-  }
-
-  @override
-  _GetPoolInfosProvider getProviderOverride(
-    covariant _GetPoolInfosProvider provider,
-  ) {
-    return call(
-      provider.poolInput,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_getPoolInfosProvider';
-}
-
-/// See also [_getPoolInfos].
-class _GetPoolInfosProvider extends AutoDisposeFutureProvider<DexPool?> {
-  /// See also [_getPoolInfos].
-  _GetPoolInfosProvider(
-    DexPool poolInput,
-  ) : this._internal(
-          (ref) => _getPoolInfos(
-            ref as _GetPoolInfosRef,
-            poolInput,
-          ),
-          from: _getPoolInfosProvider,
-          name: r'_getPoolInfosProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getPoolInfosHash,
-          dependencies: _GetPoolInfosFamily._dependencies,
-          allTransitiveDependencies:
-              _GetPoolInfosFamily._allTransitiveDependencies,
-          poolInput: poolInput,
-        );
-
-  _GetPoolInfosProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.poolInput,
-  }) : super.internal();
-
-  final DexPool poolInput;
-
-  @override
-  Override overrideWith(
-    FutureOr<DexPool?> Function(_GetPoolInfosRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _GetPoolInfosProvider._internal(
-        (ref) => create(ref as _GetPoolInfosRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        poolInput: poolInput,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<DexPool?> createElement() {
-    return _GetPoolInfosProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _GetPoolInfosProvider && other.poolInput == poolInput;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, poolInput.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _GetPoolInfosRef on AutoDisposeFutureProviderRef<DexPool?> {
-  /// The parameter `poolInput` of this provider.
-  DexPool get poolInput;
-}
-
-class _GetPoolInfosProviderElement
-    extends AutoDisposeFutureProviderElement<DexPool?> with _GetPoolInfosRef {
-  _GetPoolInfosProviderElement(super.provider);
-
-  @override
-  DexPool get poolInput => (origin as _GetPoolInfosProvider).poolInput;
-}
-
-String _$removePoolFromFavoriteHash() =>
-    r'81c275f54d2fdc60c39b8d456e3ae4f9acfbbf7e';
-
-/// See also [_removePoolFromFavorite].
-@ProviderFor(_removePoolFromFavorite)
-const _removePoolFromFavoriteProvider = _RemovePoolFromFavoriteFamily();
-
-/// See also [_removePoolFromFavorite].
-class _RemovePoolFromFavoriteFamily extends Family<AsyncValue<void>> {
-  /// See also [_removePoolFromFavorite].
-  const _RemovePoolFromFavoriteFamily();
-
-  /// See also [_removePoolFromFavorite].
-  _RemovePoolFromFavoriteProvider call(
-    String poolGenesisAddress,
-  ) {
-    return _RemovePoolFromFavoriteProvider(
-      poolGenesisAddress,
-    );
-  }
-
-  @override
-  _RemovePoolFromFavoriteProvider getProviderOverride(
-    covariant _RemovePoolFromFavoriteProvider provider,
-  ) {
-    return call(
-      provider.poolGenesisAddress,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_removePoolFromFavoriteProvider';
-}
-
-/// See also [_removePoolFromFavorite].
-class _RemovePoolFromFavoriteProvider extends AutoDisposeFutureProvider<void> {
-  /// See also [_removePoolFromFavorite].
-  _RemovePoolFromFavoriteProvider(
-    String poolGenesisAddress,
-  ) : this._internal(
-          (ref) => _removePoolFromFavorite(
-            ref as _RemovePoolFromFavoriteRef,
-            poolGenesisAddress,
-          ),
-          from: _removePoolFromFavoriteProvider,
-          name: r'_removePoolFromFavoriteProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$removePoolFromFavoriteHash,
-          dependencies: _RemovePoolFromFavoriteFamily._dependencies,
-          allTransitiveDependencies:
-              _RemovePoolFromFavoriteFamily._allTransitiveDependencies,
-          poolGenesisAddress: poolGenesisAddress,
-        );
-
-  _RemovePoolFromFavoriteProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.poolGenesisAddress,
-  }) : super.internal();
-
-  final String poolGenesisAddress;
-
-  @override
-  Override overrideWith(
-    FutureOr<void> Function(_RemovePoolFromFavoriteRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _RemovePoolFromFavoriteProvider._internal(
-        (ref) => create(ref as _RemovePoolFromFavoriteRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        poolGenesisAddress: poolGenesisAddress,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<void> createElement() {
-    return _RemovePoolFromFavoriteProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _RemovePoolFromFavoriteProvider &&
-        other.poolGenesisAddress == poolGenesisAddress;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, poolGenesisAddress.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _RemovePoolFromFavoriteRef on AutoDisposeFutureProviderRef<void> {
-  /// The parameter `poolGenesisAddress` of this provider.
-  String get poolGenesisAddress;
-}
-
-class _RemovePoolFromFavoriteProviderElement
-    extends AutoDisposeFutureProviderElement<void>
-    with _RemovePoolFromFavoriteRef {
-  _RemovePoolFromFavoriteProviderElement(super.provider);
-
-  @override
-  String get poolGenesisAddress =>
-      (origin as _RemovePoolFromFavoriteProvider).poolGenesisAddress;
-}
-
-String _$addPoolFromFavoriteHash() =>
-    r'de5ee27ad15691abb50977c149587dc4ab8b4b15';
-
-/// See also [_addPoolFromFavorite].
-@ProviderFor(_addPoolFromFavorite)
-const _addPoolFromFavoriteProvider = _AddPoolFromFavoriteFamily();
-
-/// See also [_addPoolFromFavorite].
-class _AddPoolFromFavoriteFamily extends Family<AsyncValue<void>> {
-  /// See also [_addPoolFromFavorite].
-  const _AddPoolFromFavoriteFamily();
-
-  /// See also [_addPoolFromFavorite].
-  _AddPoolFromFavoriteProvider call(
-    String poolGenesisAddress,
-  ) {
-    return _AddPoolFromFavoriteProvider(
-      poolGenesisAddress,
-    );
-  }
-
-  @override
-  _AddPoolFromFavoriteProvider getProviderOverride(
-    covariant _AddPoolFromFavoriteProvider provider,
-  ) {
-    return call(
-      provider.poolGenesisAddress,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_addPoolFromFavoriteProvider';
-}
-
-/// See also [_addPoolFromFavorite].
-class _AddPoolFromFavoriteProvider extends AutoDisposeFutureProvider<void> {
-  /// See also [_addPoolFromFavorite].
-  _AddPoolFromFavoriteProvider(
-    String poolGenesisAddress,
-  ) : this._internal(
-          (ref) => _addPoolFromFavorite(
-            ref as _AddPoolFromFavoriteRef,
-            poolGenesisAddress,
-          ),
-          from: _addPoolFromFavoriteProvider,
-          name: r'_addPoolFromFavoriteProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$addPoolFromFavoriteHash,
-          dependencies: _AddPoolFromFavoriteFamily._dependencies,
-          allTransitiveDependencies:
-              _AddPoolFromFavoriteFamily._allTransitiveDependencies,
-          poolGenesisAddress: poolGenesisAddress,
-        );
-
-  _AddPoolFromFavoriteProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.poolGenesisAddress,
-  }) : super.internal();
-
-  final String poolGenesisAddress;
-
-  @override
-  Override overrideWith(
-    FutureOr<void> Function(_AddPoolFromFavoriteRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _AddPoolFromFavoriteProvider._internal(
-        (ref) => create(ref as _AddPoolFromFavoriteRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        poolGenesisAddress: poolGenesisAddress,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<void> createElement() {
-    return _AddPoolFromFavoriteProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _AddPoolFromFavoriteProvider &&
-        other.poolGenesisAddress == poolGenesisAddress;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, poolGenesisAddress.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _AddPoolFromFavoriteRef on AutoDisposeFutureProviderRef<void> {
-  /// The parameter `poolGenesisAddress` of this provider.
-  String get poolGenesisAddress;
-}
-
-class _AddPoolFromFavoriteProviderElement
-    extends AutoDisposeFutureProviderElement<void>
-    with _AddPoolFromFavoriteRef {
-  _AddPoolFromFavoriteProviderElement(super.provider);
-
-  @override
-  String get poolGenesisAddress =>
-      (origin as _AddPoolFromFavoriteProvider).poolGenesisAddress;
-}
-
-String _$myPoolsHash() => r'b941edfb7caff23b932c6085737e2b35c1f7a6e8';
-
-/// See also [_myPools].
-@ProviderFor(_myPools)
-final _myPoolsProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
-  _myPools,
-  name: r'_myPoolsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$myPoolsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _MyPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
-String _$verifiedPoolsHash() => r'9190cdc02b6c01948bc9ace40e4ad1a732bb14b1';
-
-/// See also [_verifiedPools].
-@ProviderFor(_verifiedPools)
-final _verifiedPoolsProvider =
-    AutoDisposeFutureProvider<List<DexPool>>.internal(
-  _verifiedPools,
-  name: r'_verifiedPoolsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$verifiedPoolsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _VerifiedPoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
-String _$favoritePoolsHash() => r'8912e8baec078b4c7136adac442c942d964f3f7b';
-
-/// See also [_favoritePools].
-@ProviderFor(_favoritePools)
-final _favoritePoolsProvider =
-    AutoDisposeFutureProvider<List<DexPool>>.internal(
-  _favoritePools,
-  name: r'_favoritePoolsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$favoritePoolsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _FavoritePoolsRef = AutoDisposeFutureProviderRef<List<DexPool>>;
-String _$getPoolListFromCacheHash() =>
-    r'd5f243bec2cd32d50eb2593ad2fcb39b54e79162';
-
-/// See also [_getPoolListFromCache].
-@ProviderFor(_getPoolListFromCache)
-final _getPoolListFromCacheProvider =
-    AutoDisposeFutureProvider<List<DexPool>>.internal(
-  _getPoolListFromCache,
-  name: r'_getPoolListFromCacheProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getPoolListFromCacheHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _GetPoolListFromCacheRef = AutoDisposeFutureProviderRef<List<DexPool>>;
-String _$putPoolListInfosToCacheHash() =>
-    r'fd20ce5911b0e244a4995b0d20468dc19ea2471b';
-
-/// See also [_putPoolListInfosToCache].
-@ProviderFor(_putPoolListInfosToCache)
-final _putPoolListInfosToCacheProvider =
-    AutoDisposeFutureProvider<void>.internal(
-  _putPoolListInfosToCache,
-  name: r'_putPoolListInfosToCacheProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$putPoolListInfosToCacheHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _PutPoolListInfosToCacheRef = AutoDisposeFutureProviderRef<void>;
-String _$updatePoolInCacheHash() => r'f4b220a85cfa1612e5bd387fce5a1ed4aac409df';
 
 /// See also [_updatePoolInCache].
 @ProviderFor(_updatePoolInCache)
@@ -786,7 +204,7 @@ class _UpdatePoolInCacheProviderElement
   DexPool get pool => (origin as _UpdatePoolInCacheProvider).pool;
 }
 
-String _$putPoolToCacheHash() => r'a7ab5f240480bc7fed374400dd344921afaf397e';
+String _$putPoolToCacheHash() => r'1fbcbb72f42038bc47a03e4e21e4a93cda1acbce';
 
 /// See also [_putPoolToCache].
 @ProviderFor(_putPoolToCache)
@@ -932,7 +350,7 @@ class _PutPoolToCacheProviderElement
   bool get isFavorite => (origin as _PutPoolToCacheProvider).isFavorite;
 }
 
-String _$getRatioHash() => r'd0e8379f3ff23a4e46630f2894dc74edca0ebccc';
+String _$getRatioHash() => r'ab779336d5767381e4e30930bda8546150c3af98';
 
 /// See also [_getRatio].
 @ProviderFor(_getRatio)
@@ -1206,6 +624,159 @@ class _EstimatePoolTVLInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
+String _$populatePoolInfosWithTokenStats24hHash() =>
+    r'c7a18f0e4649033f533bd61c8d7c638f6067e1e8';
+
+/// See also [_populatePoolInfosWithTokenStats24h].
+@ProviderFor(_populatePoolInfosWithTokenStats24h)
+const _populatePoolInfosWithTokenStats24hProvider =
+    _PopulatePoolInfosWithTokenStats24hFamily();
+
+/// See also [_populatePoolInfosWithTokenStats24h].
+class _PopulatePoolInfosWithTokenStats24hFamily extends Family<DexPool> {
+  /// See also [_populatePoolInfosWithTokenStats24h].
+  const _PopulatePoolInfosWithTokenStats24hFamily();
+
+  /// See also [_populatePoolInfosWithTokenStats24h].
+  _PopulatePoolInfosWithTokenStats24hProvider call(
+    DexPool pool,
+    Map<String, List<Transaction>> transactionChainResult,
+  ) {
+    return _PopulatePoolInfosWithTokenStats24hProvider(
+      pool,
+      transactionChainResult,
+    );
+  }
+
+  @override
+  _PopulatePoolInfosWithTokenStats24hProvider getProviderOverride(
+    covariant _PopulatePoolInfosWithTokenStats24hProvider provider,
+  ) {
+    return call(
+      provider.pool,
+      provider.transactionChainResult,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_populatePoolInfosWithTokenStats24hProvider';
+}
+
+/// See also [_populatePoolInfosWithTokenStats24h].
+class _PopulatePoolInfosWithTokenStats24hProvider
+    extends AutoDisposeProvider<DexPool> {
+  /// See also [_populatePoolInfosWithTokenStats24h].
+  _PopulatePoolInfosWithTokenStats24hProvider(
+    DexPool pool,
+    Map<String, List<Transaction>> transactionChainResult,
+  ) : this._internal(
+          (ref) => _populatePoolInfosWithTokenStats24h(
+            ref as _PopulatePoolInfosWithTokenStats24hRef,
+            pool,
+            transactionChainResult,
+          ),
+          from: _populatePoolInfosWithTokenStats24hProvider,
+          name: r'_populatePoolInfosWithTokenStats24hProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$populatePoolInfosWithTokenStats24hHash,
+          dependencies: _PopulatePoolInfosWithTokenStats24hFamily._dependencies,
+          allTransitiveDependencies: _PopulatePoolInfosWithTokenStats24hFamily
+              ._allTransitiveDependencies,
+          pool: pool,
+          transactionChainResult: transactionChainResult,
+        );
+
+  _PopulatePoolInfosWithTokenStats24hProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.pool,
+    required this.transactionChainResult,
+  }) : super.internal();
+
+  final DexPool pool;
+  final Map<String, List<Transaction>> transactionChainResult;
+
+  @override
+  Override overrideWith(
+    DexPool Function(_PopulatePoolInfosWithTokenStats24hRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _PopulatePoolInfosWithTokenStats24hProvider._internal(
+        (ref) => create(ref as _PopulatePoolInfosWithTokenStats24hRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        pool: pool,
+        transactionChainResult: transactionChainResult,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<DexPool> createElement() {
+    return _PopulatePoolInfosWithTokenStats24hProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _PopulatePoolInfosWithTokenStats24hProvider &&
+        other.pool == pool &&
+        other.transactionChainResult == transactionChainResult;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, pool.hashCode);
+    hash = _SystemHash.combine(hash, transactionChainResult.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _PopulatePoolInfosWithTokenStats24hRef
+    on AutoDisposeProviderRef<DexPool> {
+  /// The parameter `pool` of this provider.
+  DexPool get pool;
+
+  /// The parameter `transactionChainResult` of this provider.
+  Map<String, List<Transaction>> get transactionChainResult;
+}
+
+class _PopulatePoolInfosWithTokenStats24hProviderElement
+    extends AutoDisposeProviderElement<DexPool>
+    with _PopulatePoolInfosWithTokenStats24hRef {
+  _PopulatePoolInfosWithTokenStats24hProviderElement(super.provider);
+
+  @override
+  DexPool get pool =>
+      (origin as _PopulatePoolInfosWithTokenStats24hProvider).pool;
+  @override
+  Map<String, List<Transaction>> get transactionChainResult =>
+      (origin as _PopulatePoolInfosWithTokenStats24hProvider)
+          .transactionChainResult;
+}
+
 String _$estimateStatsHash() => r'890e53d17c258e234b5f378657bdfcd245377e07';
 
 /// See also [_estimateStats].
@@ -1365,37 +936,32 @@ class _EstimateStatsProviderElement extends AutoDisposeProviderElement<
   DexPool get pool => (origin as _EstimateStatsProvider).pool;
 }
 
-String _$populatePoolInfosWithTokenStats24hHash() =>
-    r'c7a18f0e4649033f533bd61c8d7c638f6067e1e8';
+String _$getPoolHash() => r'f87bd61361cfb101125290cb61c607ff8a5b3516';
 
-/// See also [_populatePoolInfosWithTokenStats24h].
-@ProviderFor(_populatePoolInfosWithTokenStats24h)
-const _populatePoolInfosWithTokenStats24hProvider =
-    _PopulatePoolInfosWithTokenStats24hFamily();
+/// See also [_getPool].
+@ProviderFor(_getPool)
+const _getPoolProvider = _GetPoolFamily();
 
-/// See also [_populatePoolInfosWithTokenStats24h].
-class _PopulatePoolInfosWithTokenStats24hFamily extends Family<DexPool> {
-  /// See also [_populatePoolInfosWithTokenStats24h].
-  const _PopulatePoolInfosWithTokenStats24hFamily();
+/// See also [_getPool].
+class _GetPoolFamily extends Family<AsyncValue<DexPool?>> {
+  /// See also [_getPool].
+  const _GetPoolFamily();
 
-  /// See also [_populatePoolInfosWithTokenStats24h].
-  _PopulatePoolInfosWithTokenStats24hProvider call(
-    DexPool pool,
-    Map<String, List<Transaction>> transactionChainResult,
+  /// See also [_getPool].
+  _GetPoolProvider call(
+    String genesisAddress,
   ) {
-    return _PopulatePoolInfosWithTokenStats24hProvider(
-      pool,
-      transactionChainResult,
+    return _GetPoolProvider(
+      genesisAddress,
     );
   }
 
   @override
-  _PopulatePoolInfosWithTokenStats24hProvider getProviderOverride(
-    covariant _PopulatePoolInfosWithTokenStats24hProvider provider,
+  _GetPoolProvider getProviderOverride(
+    covariant _GetPoolProvider provider,
   ) {
     return call(
-      provider.pool,
-      provider.transactionChainResult,
+      provider.genesisAddress,
     );
   }
 
@@ -1411,111 +977,482 @@ class _PopulatePoolInfosWithTokenStats24hFamily extends Family<DexPool> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'_populatePoolInfosWithTokenStats24hProvider';
+  String? get name => r'_getPoolProvider';
 }
 
-/// See also [_populatePoolInfosWithTokenStats24h].
-class _PopulatePoolInfosWithTokenStats24hProvider
-    extends AutoDisposeProvider<DexPool> {
-  /// See also [_populatePoolInfosWithTokenStats24h].
-  _PopulatePoolInfosWithTokenStats24hProvider(
-    DexPool pool,
-    Map<String, List<Transaction>> transactionChainResult,
+/// See also [_getPool].
+class _GetPoolProvider extends AutoDisposeFutureProvider<DexPool?> {
+  /// See also [_getPool].
+  _GetPoolProvider(
+    String genesisAddress,
   ) : this._internal(
-          (ref) => _populatePoolInfosWithTokenStats24h(
-            ref as _PopulatePoolInfosWithTokenStats24hRef,
-            pool,
-            transactionChainResult,
+          (ref) => _getPool(
+            ref as _GetPoolRef,
+            genesisAddress,
           ),
-          from: _populatePoolInfosWithTokenStats24hProvider,
-          name: r'_populatePoolInfosWithTokenStats24hProvider',
+          from: _getPoolProvider,
+          name: r'_getPoolProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$populatePoolInfosWithTokenStats24hHash,
-          dependencies: _PopulatePoolInfosWithTokenStats24hFamily._dependencies,
-          allTransitiveDependencies: _PopulatePoolInfosWithTokenStats24hFamily
-              ._allTransitiveDependencies,
-          pool: pool,
-          transactionChainResult: transactionChainResult,
+                  : _$getPoolHash,
+          dependencies: _GetPoolFamily._dependencies,
+          allTransitiveDependencies: _GetPoolFamily._allTransitiveDependencies,
+          genesisAddress: genesisAddress,
         );
 
-  _PopulatePoolInfosWithTokenStats24hProvider._internal(
+  _GetPoolProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.pool,
-    required this.transactionChainResult,
+    required this.genesisAddress,
   }) : super.internal();
 
-  final DexPool pool;
-  final Map<String, List<Transaction>> transactionChainResult;
+  final String genesisAddress;
 
   @override
   Override overrideWith(
-    DexPool Function(_PopulatePoolInfosWithTokenStats24hRef provider) create,
+    FutureOr<DexPool?> Function(_GetPoolRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: _PopulatePoolInfosWithTokenStats24hProvider._internal(
-        (ref) => create(ref as _PopulatePoolInfosWithTokenStats24hRef),
+      override: _GetPoolProvider._internal(
+        (ref) => create(ref as _GetPoolRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        pool: pool,
-        transactionChainResult: transactionChainResult,
+        genesisAddress: genesisAddress,
       ),
     );
   }
 
   @override
-  AutoDisposeProviderElement<DexPool> createElement() {
-    return _PopulatePoolInfosWithTokenStats24hProviderElement(this);
+  AutoDisposeFutureProviderElement<DexPool?> createElement() {
+    return _GetPoolProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is _PopulatePoolInfosWithTokenStats24hProvider &&
-        other.pool == pool &&
-        other.transactionChainResult == transactionChainResult;
+    return other is _GetPoolProvider && other.genesisAddress == genesisAddress;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, pool.hashCode);
-    hash = _SystemHash.combine(hash, transactionChainResult.hashCode);
+    hash = _SystemHash.combine(hash, genesisAddress.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin _PopulatePoolInfosWithTokenStats24hRef
-    on AutoDisposeProviderRef<DexPool> {
-  /// The parameter `pool` of this provider.
-  DexPool get pool;
-
-  /// The parameter `transactionChainResult` of this provider.
-  Map<String, List<Transaction>> get transactionChainResult;
+mixin _GetPoolRef on AutoDisposeFutureProviderRef<DexPool?> {
+  /// The parameter `genesisAddress` of this provider.
+  String get genesisAddress;
 }
 
-class _PopulatePoolInfosWithTokenStats24hProviderElement
-    extends AutoDisposeProviderElement<DexPool>
-    with _PopulatePoolInfosWithTokenStats24hRef {
-  _PopulatePoolInfosWithTokenStats24hProviderElement(super.provider);
+class _GetPoolProviderElement extends AutoDisposeFutureProviderElement<DexPool?>
+    with _GetPoolRef {
+  _GetPoolProviderElement(super.provider);
 
   @override
-  DexPool get pool =>
-      (origin as _PopulatePoolInfosWithTokenStats24hProvider).pool;
+  String get genesisAddress => (origin as _GetPoolProvider).genesisAddress;
+}
+
+String _$getPoolInfosHash() => r'1bc7f25e7cdba4946109b73e9bc090b6412d4f1f';
+
+/// See also [_getPoolInfos].
+@ProviderFor(_getPoolInfos)
+const _getPoolInfosProvider = _GetPoolInfosFamily();
+
+/// See also [_getPoolInfos].
+class _GetPoolInfosFamily extends Family<AsyncValue<DexPool?>> {
+  /// See also [_getPoolInfos].
+  const _GetPoolInfosFamily();
+
+  /// See also [_getPoolInfos].
+  _GetPoolInfosProvider call(
+    DexPool poolInput,
+  ) {
+    return _GetPoolInfosProvider(
+      poolInput,
+    );
+  }
+
   @override
-  Map<String, List<Transaction>> get transactionChainResult =>
-      (origin as _PopulatePoolInfosWithTokenStats24hProvider)
-          .transactionChainResult;
+  _GetPoolInfosProvider getProviderOverride(
+    covariant _GetPoolInfosProvider provider,
+  ) {
+    return call(
+      provider.poolInput,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getPoolInfosProvider';
+}
+
+/// See also [_getPoolInfos].
+class _GetPoolInfosProvider extends AutoDisposeFutureProvider<DexPool?> {
+  /// See also [_getPoolInfos].
+  _GetPoolInfosProvider(
+    DexPool poolInput,
+  ) : this._internal(
+          (ref) => _getPoolInfos(
+            ref as _GetPoolInfosRef,
+            poolInput,
+          ),
+          from: _getPoolInfosProvider,
+          name: r'_getPoolInfosProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getPoolInfosHash,
+          dependencies: _GetPoolInfosFamily._dependencies,
+          allTransitiveDependencies:
+              _GetPoolInfosFamily._allTransitiveDependencies,
+          poolInput: poolInput,
+        );
+
+  _GetPoolInfosProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.poolInput,
+  }) : super.internal();
+
+  final DexPool poolInput;
+
+  @override
+  Override overrideWith(
+    FutureOr<DexPool?> Function(_GetPoolInfosRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetPoolInfosProvider._internal(
+        (ref) => create(ref as _GetPoolInfosRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        poolInput: poolInput,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<DexPool?> createElement() {
+    return _GetPoolInfosProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetPoolInfosProvider && other.poolInput == poolInput;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, poolInput.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _GetPoolInfosRef on AutoDisposeFutureProviderRef<DexPool?> {
+  /// The parameter `poolInput` of this provider.
+  DexPool get poolInput;
+}
+
+class _GetPoolInfosProviderElement
+    extends AutoDisposeFutureProviderElement<DexPool?> with _GetPoolInfosRef {
+  _GetPoolInfosProviderElement(super.provider);
+
+  @override
+  DexPool get poolInput => (origin as _GetPoolInfosProvider).poolInput;
+}
+
+String _$removePoolFromFavoriteHash() =>
+    r'7b1ce05229a825883e8779eb723857e59f5def85';
+
+/// See also [_removePoolFromFavorite].
+@ProviderFor(_removePoolFromFavorite)
+const _removePoolFromFavoriteProvider = _RemovePoolFromFavoriteFamily();
+
+/// See also [_removePoolFromFavorite].
+class _RemovePoolFromFavoriteFamily extends Family<AsyncValue<void>> {
+  /// See also [_removePoolFromFavorite].
+  const _RemovePoolFromFavoriteFamily();
+
+  /// See also [_removePoolFromFavorite].
+  _RemovePoolFromFavoriteProvider call(
+    String poolGenesisAddress,
+  ) {
+    return _RemovePoolFromFavoriteProvider(
+      poolGenesisAddress,
+    );
+  }
+
+  @override
+  _RemovePoolFromFavoriteProvider getProviderOverride(
+    covariant _RemovePoolFromFavoriteProvider provider,
+  ) {
+    return call(
+      provider.poolGenesisAddress,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_removePoolFromFavoriteProvider';
+}
+
+/// See also [_removePoolFromFavorite].
+class _RemovePoolFromFavoriteProvider extends AutoDisposeFutureProvider<void> {
+  /// See also [_removePoolFromFavorite].
+  _RemovePoolFromFavoriteProvider(
+    String poolGenesisAddress,
+  ) : this._internal(
+          (ref) => _removePoolFromFavorite(
+            ref as _RemovePoolFromFavoriteRef,
+            poolGenesisAddress,
+          ),
+          from: _removePoolFromFavoriteProvider,
+          name: r'_removePoolFromFavoriteProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$removePoolFromFavoriteHash,
+          dependencies: _RemovePoolFromFavoriteFamily._dependencies,
+          allTransitiveDependencies:
+              _RemovePoolFromFavoriteFamily._allTransitiveDependencies,
+          poolGenesisAddress: poolGenesisAddress,
+        );
+
+  _RemovePoolFromFavoriteProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.poolGenesisAddress,
+  }) : super.internal();
+
+  final String poolGenesisAddress;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(_RemovePoolFromFavoriteRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _RemovePoolFromFavoriteProvider._internal(
+        (ref) => create(ref as _RemovePoolFromFavoriteRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        poolGenesisAddress: poolGenesisAddress,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _RemovePoolFromFavoriteProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _RemovePoolFromFavoriteProvider &&
+        other.poolGenesisAddress == poolGenesisAddress;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, poolGenesisAddress.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _RemovePoolFromFavoriteRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `poolGenesisAddress` of this provider.
+  String get poolGenesisAddress;
+}
+
+class _RemovePoolFromFavoriteProviderElement
+    extends AutoDisposeFutureProviderElement<void>
+    with _RemovePoolFromFavoriteRef {
+  _RemovePoolFromFavoriteProviderElement(super.provider);
+
+  @override
+  String get poolGenesisAddress =>
+      (origin as _RemovePoolFromFavoriteProvider).poolGenesisAddress;
+}
+
+String _$addPoolFromFavoriteHash() =>
+    r'8812c94a0a9be6ba64a9d7516f349ee7164fa900';
+
+/// See also [_addPoolFromFavorite].
+@ProviderFor(_addPoolFromFavorite)
+const _addPoolFromFavoriteProvider = _AddPoolFromFavoriteFamily();
+
+/// See also [_addPoolFromFavorite].
+class _AddPoolFromFavoriteFamily extends Family<AsyncValue<void>> {
+  /// See also [_addPoolFromFavorite].
+  const _AddPoolFromFavoriteFamily();
+
+  /// See also [_addPoolFromFavorite].
+  _AddPoolFromFavoriteProvider call(
+    String poolGenesisAddress,
+  ) {
+    return _AddPoolFromFavoriteProvider(
+      poolGenesisAddress,
+    );
+  }
+
+  @override
+  _AddPoolFromFavoriteProvider getProviderOverride(
+    covariant _AddPoolFromFavoriteProvider provider,
+  ) {
+    return call(
+      provider.poolGenesisAddress,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_addPoolFromFavoriteProvider';
+}
+
+/// See also [_addPoolFromFavorite].
+class _AddPoolFromFavoriteProvider extends AutoDisposeFutureProvider<void> {
+  /// See also [_addPoolFromFavorite].
+  _AddPoolFromFavoriteProvider(
+    String poolGenesisAddress,
+  ) : this._internal(
+          (ref) => _addPoolFromFavorite(
+            ref as _AddPoolFromFavoriteRef,
+            poolGenesisAddress,
+          ),
+          from: _addPoolFromFavoriteProvider,
+          name: r'_addPoolFromFavoriteProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$addPoolFromFavoriteHash,
+          dependencies: _AddPoolFromFavoriteFamily._dependencies,
+          allTransitiveDependencies:
+              _AddPoolFromFavoriteFamily._allTransitiveDependencies,
+          poolGenesisAddress: poolGenesisAddress,
+        );
+
+  _AddPoolFromFavoriteProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.poolGenesisAddress,
+  }) : super.internal();
+
+  final String poolGenesisAddress;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(_AddPoolFromFavoriteRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _AddPoolFromFavoriteProvider._internal(
+        (ref) => create(ref as _AddPoolFromFavoriteRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        poolGenesisAddress: poolGenesisAddress,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _AddPoolFromFavoriteProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _AddPoolFromFavoriteProvider &&
+        other.poolGenesisAddress == poolGenesisAddress;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, poolGenesisAddress.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _AddPoolFromFavoriteRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `poolGenesisAddress` of this provider.
+  String get poolGenesisAddress;
+}
+
+class _AddPoolFromFavoriteProviderElement
+    extends AutoDisposeFutureProviderElement<void>
+    with _AddPoolFromFavoriteRef {
+  _AddPoolFromFavoriteProviderElement(super.provider);
+
+  @override
+  String get poolGenesisAddress =>
+      (origin as _AddPoolFromFavoriteProvider).poolGenesisAddress;
 }
 
 String _$getPoolListHash() => r'2e255a046c9e040657bbee32b921741558aedb27';
@@ -1533,12 +1470,11 @@ final _getPoolListProvider = FutureProvider<List<DexPool>>.internal(
 
 typedef _GetPoolListRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForUserHash() =>
-    r'8c01e382a405d079f8573241d7b7b9ca020a1b4c';
+    r'3dbd56aaf4a29253b4533da97664a85817a1b3c8';
 
 /// See also [_getPoolListForUser].
 @ProviderFor(_getPoolListForUser)
-final _getPoolListForUserProvider =
-    AutoDisposeFutureProvider<List<DexPool>>.internal(
+final _getPoolListForUserProvider = FutureProvider<List<DexPool>>.internal(
   _getPoolListForUser,
   name: r'_getPoolListForUserProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -1548,9 +1484,9 @@ final _getPoolListForUserProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _GetPoolListForUserRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+typedef _GetPoolListForUserRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForSearchHash() =>
-    r'1a81da7cceb20f46ff2d52bf2509e7f29d2f78aa';
+    r'50382ec7cac1c33f8718fd824559648f00b7d56a';
 
 /// See also [_getPoolListForSearch].
 @ProviderFor(_getPoolListForSearch)

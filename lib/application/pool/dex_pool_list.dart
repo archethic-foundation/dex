@@ -33,7 +33,7 @@ Future<List<DexPool>> _getPoolList(
   return dexPools;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<DexPool>> _getPoolListForUser(
   _GetPoolListForUserRef ref,
 ) async {
@@ -77,24 +77,8 @@ Future<List<DexPool>> _getPoolListForSearch(
   }
 
   final poolList = await ref.read(_getPoolListProvider.future);
-  //final poolsListDatasource = await HivePoolsListDatasource.getInstance();
   for (final pool in poolList) {
-    if (!_poolMatchesSearch(pool)) continue;
-
-    final poolHive =
-        await ref.read(DexPoolProviders.getPool(pool.poolAddress).future);
-
-    //final poolHive = poolsListDatasource.getPool(pool.poolAddress);
-    if (poolHive == null) {
-      final poolWithInfos = await ref.read(
-        DexPoolProviders.getPoolInfos(pool).future,
-      );
-      if (poolWithInfos != null) {
-        dexPools.add(poolWithInfos);
-      }
-    } else {
-      dexPools.add(poolHive);
-    }
+    if (_poolMatchesSearch(pool)) dexPools.add(pool);
   }
   return dexPools;
 }

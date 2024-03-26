@@ -584,7 +584,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimateLPTokenInFiatHash() =>
-    r'32954548221616099ea4e43c55ee12708f58fc0e';
+    r'b71189b2c8777ab2bfddee6dab406e22a4e56f81';
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)

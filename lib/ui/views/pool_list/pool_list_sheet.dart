@@ -13,10 +13,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolListSheet extends ConsumerStatefulWidget {
   const PoolListSheet({
+    this.tab = PoolsListTab.verified,
     super.key,
   });
 
   static const routerPage = '/poolList';
+
+  final PoolsListTab tab;
 
   @override
   ConsumerState<PoolListSheet> createState() => _PoolListSheetState();
@@ -29,19 +32,10 @@ class _PoolListSheetState extends ConsumerState<PoolListSheet> {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.pool;
 
-      final poolListForm = ref.read(PoolListFormProvider.poolListForm);
-
-      ref.invalidate(
-        PoolListFormProvider.poolsToDisplay(
-          poolListForm.tabIndexSelected,
-        ),
-      );
-
       await ref
           .read(PoolListFormProvider.poolListForm.notifier)
-          .setTabIndexSelected(PoolsListTab.verified);
+          .setPoolsToDisplay(widget.tab);
     });
-
     super.initState();
   }
 
@@ -236,7 +230,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 itemBuilder: (context, index) {
                   final pool = pools[index];
                   return PoolListItem(
-                    key: Key(pool.poolAddress),
+                    key: ValueKey(pool.poolAddress),
                     poolAddress: pool.poolAddress,
                   );
                 },

@@ -328,17 +328,20 @@ class SwapConfirmInfos extends ConsumerWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    Tooltip(
-                      message:
-                          'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                      child: const Padding(
-                        padding: EdgeInsets.only(bottom: 2),
-                        child: Icon(
-                          aedappfm.Iconsax.info_circle,
-                          size: 13,
+                    if (swap.pool != null &&
+                        swap.pool!.infos != null &&
+                        swap.tokenToSwap != null)
+                      Tooltip(
+                        message:
+                            'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 2),
+                          child: Icon(
+                            aedappfm.Iconsax.info_circle,
+                            size: 13,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               if (swap.tokenSwapped != null &&

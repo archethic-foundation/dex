@@ -2,6 +2,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_search_bar.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -143,17 +144,17 @@ class _PoolListShhetHeaderState extends ConsumerState<PoolListShhetHeader> {
         ],
         iconSize: 12,
         selectedLabelIndex: (index) async {
-          final poolListForm = ref.read(PoolListFormProvider.poolListForm);
-
-          ref.invalidate(
-            PoolListFormProvider.poolsToDisplay(
-              poolListForm.tabIndexSelected,
-            ),
+          context.go(
+            Uri(
+              path: PoolListSheet.routerPage,
+              queryParameters: {
+                'tab': PoolsListTab.values[index].name,
+              },
+            ).toString(),
           );
-
           await ref
               .read(PoolListFormProvider.poolListForm.notifier)
-              .setTabIndexSelected(PoolsListTab.values[index]);
+              .setPoolsToDisplay(PoolsListTab.values[index]);
           ref
               .read(PoolListFormProvider.poolListForm.notifier)
               .setSearchText('');

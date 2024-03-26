@@ -14,6 +14,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/welcome/welcome_screen.dart';
@@ -76,8 +77,26 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: PoolListSheet.routerPage,
               pageBuilder: (context, state) {
-                return const NoTransitionPage(
-                  child: PoolListSheet(),
+                var tab = PoolsListTab.verified;
+                if (state.uri.queryParameters['tab'] != null) {
+                  if (state.uri.queryParameters['tab'] ==
+                      PoolsListTab.favoritePools.name) {
+                    tab = PoolsListTab.favoritePools;
+                  } else {
+                    if (state.uri.queryParameters['tab'] ==
+                        PoolsListTab.myPools.name) {
+                      tab = PoolsListTab.myPools;
+                    } else {
+                      if (state.uri.queryParameters['tab'] ==
+                          PoolsListTab.searchPool.name) {
+                        tab = PoolsListTab.searchPool;
+                      }
+                    }
+                  }
+                }
+
+                return NoTransitionPage(
+                  child: PoolListSheet(tab: tab),
                 );
               },
             ),
