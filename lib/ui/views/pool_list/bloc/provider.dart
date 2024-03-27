@@ -2,6 +2,7 @@
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
+import 'package:aedex/infrastructure/pool.repository.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -37,7 +38,10 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
     state = state.copyWith(searchText: searchText);
   }
 
-  Future<List<DexPool>> getDexPoolForTab(PoolsListTab currentTab) async {
+  Future<List<DexPool>> getDexPoolForTab(
+    PoolsListTab currentTab,
+    String? searchText,
+  ) async {
     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
     switch (currentTab) {
       case PoolsListTab.favoritePools:
@@ -71,10 +75,11 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
             )
             .toList();
       case PoolsListTab.searchPool:
-        final poolListFormState = ref.watch(_poolListFormProvider);
+        final poolList = await ref.read(DexPoolProviders.getPoolList.future);
         return await ref.read(
           DexPoolProviders.getPoolListForSearch(
-            poolListFormState.searchText,
+            searchText ?? '',
+            poolList,
           ).future,
         );
     }
@@ -88,7 +93,7 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
       poolsToDisplay: const AsyncValue.loading(),
     );
 
-    final poolList = await getDexPoolForTab(tabIndexSelected);
+    final poolList = await getDexPoolForTab(tabIndexSelected, state.searchText);
 
     final finalPoolsList = <DexPool>[];
 
@@ -112,19 +117,28 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
               fromCriteria: fromCriteria,
             );
 
+    final poolsWithoutInfos = <DexPool>[];
+
     for (final pool in poolList) {
       if (pool.infos == null) {
-        var poolPopulate =
-            await ref.read(DexPoolProviders.getPoolInfos(pool).future);
-        poolPopulate = ref.read(
+        poolsWithoutInfos.add(pool);
+      } else {
+        finalPoolsList.add(pool);
+      }
+    }
+
+    if (poolsWithoutInfos.isNotEmpty) {
+      final apiService = aedappfm.sl.get<ApiService>();
+      final poolListWithInfos = await PoolRepositoryImpl(apiService)
+          .getPoolInfosBatch(poolsWithoutInfos);
+      for (final poolWithInfos in poolListWithInfos) {
+        final poolPopulate = ref.read(
           DexPoolProviders.populatePoolInfosWithTokenStats24h(
-            poolPopulate!,
+            poolWithInfos,
             transactionChainResult,
           ),
         );
-        finalPoolsList.add(poolPopulate!);
-      } else {
-        finalPoolsList.add(pool);
+        finalPoolsList.add(poolPopulate);
       }
     }
 

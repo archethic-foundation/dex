@@ -59,7 +59,7 @@ class PoolFactoryRepositoryImpl
         final result = await getPoolInfos();
 
         final getPoolInfosResponse = GetPoolInfosResponse.fromJson(result);
-        return poolInfoToModel(poolInput, factoryAddress, getPoolInfosResponse);
+        return poolInfoToModel(poolInput, getPoolInfosResponse);
       },
     );
   }
