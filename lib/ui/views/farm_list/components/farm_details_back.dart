@@ -176,7 +176,7 @@ class FarmDetailsBack extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           SelectableText(
-                            '${farm.lpTokenDeposited.formatNumber()} ${farm.lpTokenDeposited > 1 ? 'LP Tokens' : 'LP Token'}',
+                            '${farm.lpTokenDeposited.formatNumber(precision: 8)} ${farm.lpTokenDeposited > 1 ? 'LP Tokens' : 'LP Token'}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!

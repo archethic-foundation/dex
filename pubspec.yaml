@@ -8,11 +8,11 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  # archethic_dapp_framework_flutter: ^0.0.0
-  archethic_dapp_framework_flutter:
-    git:
-      url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
-      ref: web_messagechannel_rpc
+  archethic_dapp_framework_flutter: ^0.0.0
+  #archethic_dapp_framework_flutter:
+  #  git:
+  #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+  #    ref: web_messagechannel_rpc
   #archethic_dapp_framework_flutter:
   #  path: ../archethic-dapp-framework-flutter
 
