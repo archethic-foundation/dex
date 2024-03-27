@@ -3,7 +3,6 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_selection.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
@@ -25,12 +24,10 @@ class SwapTokenSwappedAmount extends ConsumerStatefulWidget {
 class _SwapTokenSwappedAmountState
     extends ConsumerState<SwapTokenSwappedAmount> {
   late TextEditingController tokenAmountController;
-  late FocusNode tokenAmountFocusNode;
 
   @override
   void initState() {
     super.initState();
-    tokenAmountFocusNode = FocusNode();
     _updateAmountTextController();
   }
 
@@ -53,7 +50,6 @@ class _SwapTokenSwappedAmountState
 
   @override
   void dispose() {
-    tokenAmountFocusNode.dispose();
     tokenAmountController.dispose();
     super.dispose();
   }
@@ -66,11 +62,7 @@ class _SwapTokenSwappedAmountState
 
     final swap = ref.watch(SwapFormProvider.swapForm);
 
-    if (swap.tokenFormSelected == 2) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        tokenAmountFocusNode.requestFocus();
-      });
-    } else {
+    if (swap.tokenFormSelected != 2) {
       _updateAmountTextController();
     }
 
@@ -174,10 +166,9 @@ class _SwapTokenSwappedAmountState
                                               swapNotifier
                                                   .setTokenFormSelected(2);
                                             },
-                                            focusNode: tokenAmountFocusNode,
                                             textAlign: TextAlign.left,
                                             textInputAction:
-                                                TextInputAction.none,
+                                                TextInputAction.done,
                                             keyboardType: TextInputType.text,
                                             inputFormatters: <TextInputFormatter>[
                                               aedappfm.AmountTextInputFormatter(

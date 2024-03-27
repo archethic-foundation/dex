@@ -2,7 +2,6 @@
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_token_2_selection.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -21,12 +20,10 @@ class PoolAddToken2Amount extends ConsumerStatefulWidget {
 
 class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
   late TextEditingController tokenAmountController;
-  late FocusNode tokenAmountFocusNode;
 
   @override
   void initState() {
     super.initState();
-    tokenAmountFocusNode = FocusNode();
     _updateAmountTextController();
   }
 
@@ -48,7 +45,6 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
 
   @override
   void dispose() {
-    tokenAmountFocusNode.dispose();
     tokenAmountController.dispose();
     super.dispose();
   }
@@ -60,12 +56,6 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
     final poolAddNotifier = ref.watch(PoolAddFormProvider.poolAddForm.notifier);
 
     final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
-
-    if (poolAdd.tokenFormSelected == 2) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        tokenAmountFocusNode.requestFocus();
-      });
-    }
 
     return Column(
       children: [
@@ -143,9 +133,8 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                                         )
                                         .setTokenFormSelected(2);
                                   },
-                                  focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
-                                  textInputAction: TextInputAction.none,
+                                  textInputAction: TextInputAction.done,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
                                     aedappfm.AmountTextInputFormatter(
