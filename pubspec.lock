@@ -44,28 +44,27 @@ packages:
   archethic_dapp_framework_flutter:
     dependency: "direct main"
     description:
-      path: "."
-      ref: web_messagechannel_rpc
-      resolved-ref: "56759696a7465ce7c4c4f3fb2da4180d54966ff8"
-      url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
-    source: git
-    version: "0.0.6"
+      name: archethic_dapp_framework_flutter
+      sha256: "9c18b86ac9c7989011d841b7ff1681769f6ca27d49f6b26f26cf66a105d60865"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.7"
   archethic_lib_dart:
     dependency: transitive
     description:
       name: archethic_lib_dart
-      sha256: f2cd0e2516caa91fb675abeaf5b6e88d15c78252964b7335fd583458fd8a6a24
+      sha256: c5e252c062ecab7f8bdede233f7f337f0d44018459ebd7f772ed777875ca7de2
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.8"
+    version: "3.3.9"
   archethic_wallet_client:
     dependency: "direct main"
     description:
       name: archethic_wallet_client
-      sha256: f07adecdcf466e5caa5f779bf72622b27183645c52381257dca7ca7503c68686
+      sha256: "212d1194b0f27fbd52023d4f4cd677f9cf7e62c7f3d45392226b8c1f40fbbd67"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0-dev.1"
+    version: "1.1.0-dev.2"
   archive:
     dependency: transitive
     description:
