@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
@@ -63,11 +62,7 @@ class _LiquidityAddToken2AmountState
 
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
 
-    if (liquidityAdd.tokenFormSelected == 2) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        tokenAmountFocusNode.requestFocus();
-      });
-    } else {
+    if (liquidityAdd.tokenFormSelected != 2) {
       _updateAmountTextController();
     }
 
@@ -149,7 +144,7 @@ class _LiquidityAddToken2AmountState
                                   },
                                   focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
-                                  textInputAction: TextInputAction.none,
+                                  textInputAction: TextInputAction.done,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
                                     aedappfm.AmountTextInputFormatter(

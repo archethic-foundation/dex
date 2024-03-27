@@ -117,7 +117,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                             },
                             focusNode: tokenAmountFocusNode,
                             textAlign: TextAlign.left,
-                            textInputAction: TextInputAction.none,
+                            textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
                               aedappfm.AmountTextInputFormatter(precision: 8),

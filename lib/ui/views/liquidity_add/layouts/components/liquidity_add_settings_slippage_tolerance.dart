@@ -92,7 +92,7 @@ class LiquiditySettingsSlippageToleranceState
                   controller: slippageToleranceController,
                   focusNode: slippageToleranceFocusNode,
                   textAlign: TextAlign.right,
-                  textInputAction: TextInputAction.none,
+                  textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     aedappfm.AmountTextInputFormatter(),

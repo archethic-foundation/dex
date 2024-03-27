@@ -20,12 +20,10 @@ class LiquidityAddToken1Amount extends ConsumerStatefulWidget {
 class _LiquidityAddToken1AmountState
     extends ConsumerState<LiquidityAddToken1Amount> {
   late TextEditingController tokenAmountController;
-  late FocusNode tokenAmountFocusNode;
 
   @override
   void initState() {
     super.initState();
-    tokenAmountFocusNode = FocusNode();
     _updateAmountTextController();
   }
 
@@ -47,7 +45,6 @@ class _LiquidityAddToken1AmountState
 
   @override
   void dispose() {
-    tokenAmountFocusNode.dispose();
     tokenAmountController.dispose();
     super.dispose();
   }
@@ -61,11 +58,7 @@ class _LiquidityAddToken1AmountState
 
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
 
-    if (liquidityAdd.tokenFormSelected == 1) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        tokenAmountFocusNode.requestFocus();
-      });
-    } else {
+    if (liquidityAdd.tokenFormSelected != 1) {
       _updateAmountTextController();
     }
 
@@ -145,9 +138,8 @@ class _LiquidityAddToken1AmountState
                                     liquidityAddNotifier
                                         .setTokenFormSelected(1);
                                   },
-                                  focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
-                                  textInputAction: TextInputAction.none,
+                                  textInputAction: TextInputAction.done,
                                   keyboardType: TextInputType.text,
                                   inputFormatters: <TextInputFormatter>[
                                     aedappfm.AmountTextInputFormatter(

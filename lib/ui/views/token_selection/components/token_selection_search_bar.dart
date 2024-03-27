@@ -99,7 +99,7 @@ class TokenSelectionSearchBarState
                               },
                               focusNode: searchFocus,
                               textAlign: TextAlign.left,
-                              textInputAction: TextInputAction.none,
+                              textInputAction: TextInputAction.done,
                               keyboardType: TextInputType.text,
                               inputFormatters: <TextInputFormatter>[
                                 LengthLimitingTextInputFormatter(68),
