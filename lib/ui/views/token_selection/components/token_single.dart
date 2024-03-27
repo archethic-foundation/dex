@@ -59,7 +59,9 @@ class SingleToken extends StatelessWidget {
   }
 
   List<Widget> _getContent(
-      BuildContext context, EdgeInsetsGeometry paddingAddress) {
+    BuildContext context,
+    EdgeInsetsGeometry paddingAddress,
+  ) {
     return [
       Row(
         children: [

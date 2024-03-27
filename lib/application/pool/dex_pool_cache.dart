@@ -27,20 +27,22 @@ Future<void> _putPoolListInfosToCache(
             fromCriteria: fromCriteria,
           );
 
-  for (final pool in poolList) {
-    var poolWithInfos = await ref.read(
-      DexPoolProviders.getPoolInfos(pool).future,
-    );
+  //
+  final apiService = aedappfm.sl.get<ApiService>();
+  final poolListWithInfos =
+      await PoolRepositoryImpl(apiService).getPoolInfosBatch(poolList);
+
+  for (var poolWithInfos in poolListWithInfos) {
     poolWithInfos = ref.read(
       DexPoolProviders.populatePoolInfosWithTokenStats24h(
-        poolWithInfos!,
+        poolWithInfos,
         transactionChainResult,
       ),
     );
 
     // Check if favorite in cache
     final isPoolFavorite =
-        poolsListDatasource.getPool(poolWithInfos!.poolAddress);
+        poolsListDatasource.getPool(poolWithInfos.poolAddress);
     if (isPoolFavorite != null &&
         isPoolFavorite.isFavorite != null &&
         isPoolFavorite.isFavorite == true) {

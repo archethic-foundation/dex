@@ -58,6 +58,7 @@ Future<List<DexPool>> _getPoolListForUser(
 Future<List<DexPool>> _getPoolListForSearch(
   _GetPoolListForUserRef ref,
   String searchText,
+  List<DexPool> poolList,
 ) async {
   bool _poolMatchesSearch(DexPool pool) {
     return (pool.poolAddress.toUpperCase() == searchText.toUpperCase() ||
@@ -76,7 +77,6 @@ Future<List<DexPool>> _getPoolListForSearch(
     return dexPools;
   }
 
-  final poolList = await ref.read(_getPoolListProvider.future);
   for (final pool in poolList) {
     if (_poolMatchesSearch(pool)) dexPools.add(pool);
   }

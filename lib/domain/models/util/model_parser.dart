@@ -37,7 +37,6 @@ mixin ModelParser {
 
   Future<DexPool> poolInfoToModel(
     DexPool poolInput,
-    String poolAddress,
     GetPoolInfosResponse getPoolInfosResponse,
   ) async {
     var ratioToken1Token2 = 0.0;

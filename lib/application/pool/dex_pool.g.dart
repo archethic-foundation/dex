@@ -39,7 +39,7 @@ final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
 
 typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
 String _$putPoolListInfosToCacheHash() =>
-    r'1f2bfc518f2b29bf3ce49aa0c8864073dbe69812';
+    r'2a9dabdd4c6d5be7761a66406b53068ede775df0';
 
 /// See also [_putPoolListInfosToCache].
 @ProviderFor(_putPoolListInfosToCache)
@@ -1486,7 +1486,7 @@ final _getPoolListForUserProvider = FutureProvider<List<DexPool>>.internal(
 
 typedef _GetPoolListForUserRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForSearchHash() =>
-    r'50382ec7cac1c33f8718fd824559648f00b7d56a';
+    r'1d516c63cc764907b2c037668f8695080ddbe415';
 
 /// See also [_getPoolListForSearch].
 @ProviderFor(_getPoolListForSearch)
@@ -1500,9 +1500,11 @@ class _GetPoolListForSearchFamily extends Family<AsyncValue<List<DexPool>>> {
   /// See also [_getPoolListForSearch].
   _GetPoolListForSearchProvider call(
     String searchText,
+    List<DexPool> poolList,
   ) {
     return _GetPoolListForSearchProvider(
       searchText,
+      poolList,
     );
   }
 
@@ -1512,6 +1514,7 @@ class _GetPoolListForSearchFamily extends Family<AsyncValue<List<DexPool>>> {
   ) {
     return call(
       provider.searchText,
+      provider.poolList,
     );
   }
 
@@ -1536,10 +1539,12 @@ class _GetPoolListForSearchProvider
   /// See also [_getPoolListForSearch].
   _GetPoolListForSearchProvider(
     String searchText,
+    List<DexPool> poolList,
   ) : this._internal(
           (ref) => _getPoolListForSearch(
             ref as _GetPoolListForSearchRef,
             searchText,
+            poolList,
           ),
           from: _getPoolListForSearchProvider,
           name: r'_getPoolListForSearchProvider',
@@ -1551,6 +1556,7 @@ class _GetPoolListForSearchProvider
           allTransitiveDependencies:
               _GetPoolListForSearchFamily._allTransitiveDependencies,
           searchText: searchText,
+          poolList: poolList,
         );
 
   _GetPoolListForSearchProvider._internal(
@@ -1561,9 +1567,11 @@ class _GetPoolListForSearchProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.searchText,
+    required this.poolList,
   }) : super.internal();
 
   final String searchText;
+  final List<DexPool> poolList;
 
   @override
   Override overrideWith(
@@ -1579,6 +1587,7 @@ class _GetPoolListForSearchProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         searchText: searchText,
+        poolList: poolList,
       ),
     );
   }
@@ -1591,13 +1600,15 @@ class _GetPoolListForSearchProvider
   @override
   bool operator ==(Object other) {
     return other is _GetPoolListForSearchProvider &&
-        other.searchText == searchText;
+        other.searchText == searchText &&
+        other.poolList == poolList;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, searchText.hashCode);
+    hash = _SystemHash.combine(hash, poolList.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -1606,6 +1617,9 @@ class _GetPoolListForSearchProvider
 mixin _GetPoolListForSearchRef on AutoDisposeFutureProviderRef<List<DexPool>> {
   /// The parameter `searchText` of this provider.
   String get searchText;
+
+  /// The parameter `poolList` of this provider.
+  List<DexPool> get poolList;
 }
 
 class _GetPoolListForSearchProviderElement
@@ -1615,6 +1629,9 @@ class _GetPoolListForSearchProviderElement
 
   @override
   String get searchText => (origin as _GetPoolListForSearchProvider).searchText;
+  @override
+  List<DexPool> get poolList =>
+      (origin as _GetPoolListForSearchProvider).poolList;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
