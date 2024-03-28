@@ -90,13 +90,6 @@ class FarmClaimInProgressPopup {
           ? AppLocalizations.of(context)!.farmClaimProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        ref.read(
-          FarmClaimFormProvider.farmClaimForm.notifier,
-        )
-          ..setProcessInProgress(false)
-          ..setFailure(null)
-          ..setFarmClaimOk(false)
-          ..setWalletConfirmation(false);
         final session = ref.read(SessionProviders.session);
         final _farmClaim = ref.read(FarmClaimFormProvider.farmClaimForm);
         ref
@@ -113,9 +106,13 @@ class FarmClaimInProgressPopup {
             FarmListProvider.balance(
               _farmClaim.lpTokenAddress,
             ),
+          )
+          ..invalidate(
+            FarmClaimFormProvider.farmClaimForm,
           );
-
-        context.go(FarmListSheet.routerPage);
+        context
+          ..pop()
+          ..go(FarmListSheet.routerPage);
       },
     );
   }

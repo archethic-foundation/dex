@@ -89,13 +89,6 @@ class FarmWithdrawInProgressPopup {
           ? AppLocalizations.of(context)!.farmWithdrawProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        ref.read(
-          FarmWithdrawFormProvider.farmWithdrawForm.notifier,
-        )
-          ..setProcessInProgress(false)
-          ..setFailure(null)
-          ..setFarmWithdrawOk(false)
-          ..setWalletConfirmation(false);
         final session = ref.read(SessionProviders.session);
         final _farmWithdraw =
             ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
@@ -113,8 +106,13 @@ class FarmWithdrawInProgressPopup {
             FarmListProvider.balance(
               _farmWithdraw.dexFarmInfo!.lpToken!.address,
             ),
+          )
+          ..invalidate(
+            FarmWithdrawFormProvider.farmWithdrawForm,
           );
-        context.go(FarmListSheet.routerPage);
+        context
+          ..pop()
+          ..go(FarmListSheet.routerPage);
       },
     );
   }

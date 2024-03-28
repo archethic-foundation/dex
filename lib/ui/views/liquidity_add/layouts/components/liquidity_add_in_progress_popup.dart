@@ -88,14 +88,12 @@ class LiquidityAddInProgressPopup {
           ? AppLocalizations.of(context)!.liquidityAddProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        ref.read(
-          LiquidityAddFormProvider.liquidityAddForm.notifier,
-        )
-          ..setProcessInProgress(false)
-          ..setFailure(null)
-          ..setLiquidityAddOk(false)
-          ..setWalletConfirmation(false);
-        context.go(PoolListSheet.routerPage);
+        ref.invalidate(
+          LiquidityAddFormProvider.liquidityAddForm,
+        );
+        context
+          ..pop()
+          ..go(PoolListSheet.routerPage);
       },
     );
   }

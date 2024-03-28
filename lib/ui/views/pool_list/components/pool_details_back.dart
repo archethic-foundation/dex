@@ -431,9 +431,7 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                                                   children: [
                                                     SelectableText(
                                                       snapshot.data!
-                                                          .formatNumber(
-                                                        precision: 8,
-                                                      ),
+                                                          .formatNumber(),
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyLarge!
@@ -452,7 +450,7 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                                                             .supply >
                                                         0)
                                                       SelectableText(
-                                                        ' / ${poolItem.pool!.lpToken.supply.formatNumber(precision: 8)} ${poolItem.pool!.lpToken.supply > 1 ? 'LP Tokens' : 'LP Token'}',
+                                                        ' / ${poolItem.pool!.lpToken.supply.formatNumber()} ${poolItem.pool!.lpToken.supply > 1 ? 'LP Tokens' : 'LP Token'}',
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodyLarge!

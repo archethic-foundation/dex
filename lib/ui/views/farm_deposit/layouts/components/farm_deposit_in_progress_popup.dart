@@ -89,13 +89,6 @@ class FarmDepositInProgressPopup {
           ? AppLocalizations.of(context)!.farmDepositProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        ref.read(
-          FarmDepositFormProvider.farmDepositForm.notifier,
-        )
-          ..setProcessInProgress(false)
-          ..setFailure(null)
-          ..setFarmDepositOk(false)
-          ..setWalletConfirmation(false);
         final session = ref.read(SessionProviders.session);
         final _farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
         ref
@@ -112,9 +105,13 @@ class FarmDepositInProgressPopup {
             FarmListProvider.balance(
               _farmDeposit.dexFarmInfo!.lpToken!.address,
             ),
+          )
+          ..invalidate(
+            FarmDepositFormProvider.farmDepositForm,
           );
-
-        context.go(FarmListSheet.routerPage);
+        context
+          ..pop()
+          ..go(FarmListSheet.routerPage);
       },
     );
   }

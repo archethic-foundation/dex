@@ -79,14 +79,12 @@ class PoolAddInProgressPopup {
           ? AppLocalizations.of(context)!.poolAddProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        ref.read(
-          PoolAddFormProvider.poolAddForm.notifier,
-        )
-          ..setProcessInProgress(false)
-          ..setFailure(null)
-          ..setPoolAddOk(false)
-          ..setWalletConfirmation(false);
-        context.go(PoolListSheet.routerPage);
+        ref.invalidate(
+          PoolAddFormProvider.poolAddForm,
+        );
+        context
+          ..pop()
+          ..go(PoolListSheet.routerPage);
       },
     );
   }

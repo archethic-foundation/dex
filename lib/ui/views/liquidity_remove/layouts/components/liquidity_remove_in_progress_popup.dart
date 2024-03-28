@@ -94,14 +94,12 @@ class LiquidityRemoveInProgressPopup {
               .liquidityRemoveProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        ref.read(
-          LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
-        )
-          ..setProcessInProgress(false)
-          ..setFailure(null)
-          ..setLiquidityRemoveOk(false)
-          ..setWalletConfirmation(false);
-        context.go(PoolListSheet.routerPage);
+        ref.invalidate(
+          LiquidityRemoveFormProvider.liquidityRemoveForm,
+        );
+        context
+          ..pop()
+          ..go(PoolListSheet.routerPage);
       },
     );
   }
