@@ -254,7 +254,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
           onPressed: () {
             launchUrl(
               Uri.parse(
-                'https://github.com/archethic-foundation/bridge/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml',
+                'https://github.com/archethic-foundation/dex/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml',
               ),
             );
           },
