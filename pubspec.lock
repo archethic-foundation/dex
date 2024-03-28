@@ -45,10 +45,10 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_dapp_framework_flutter
-      sha256: ee66d5d2743bc90d270e57e92ef13197298932f91f34b9c6f2de8f2a7302ce96
+      sha256: "6a83a833be811beb0bea856e011f206393bca6639ce73a8e56e0c62bdcae37d4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.8"
+    version: "0.0.9"
   archethic_lib_dart:
     dependency: transitive
     description:
@@ -861,10 +861,10 @@ packages:
     dependency: transitive
     description:
       name: phoenix_socket
-      sha256: a9d62b25291c3fea7c4439376f33860fb27ff39a7d69a96063fc356e78dee87f
+      sha256: "21c0ed733db29a74d54f676aaab4800d8b7278bc0e4e95a7a7c5d7773464a2bf"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   pinenacl:
     dependency: transitive
     description:
