@@ -23,22 +23,40 @@ class FarmClaimFinalAmount extends ConsumerWidget {
     return finalAmount != null
         ? SelectableText(
             'Amount claimed: ${finalAmount.formatNumber(precision: 8)} ${farmClaim.rewardToken!.symbol}',
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 13,
+              ),
+            ),
           )
         : timeout == false
-            ? const Row(
+            ? Row(
                 children: [
                   SelectableText(
                     'Amount claimed: ',
+                    style: TextStyle(
+                      fontSize: aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 13,
+                      ),
+                    ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                     width: 10,
                     child: CircularProgressIndicator(strokeWidth: 1),
                   ),
                 ],
               )
-            : const SelectableText(
+            : SelectableText(
                 'Amount claimed: The amount could not be recovered',
+                style: TextStyle(
+                  fontSize: aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 13,
+                  ),
+                ),
               );
   }
 }

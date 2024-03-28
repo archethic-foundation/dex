@@ -522,10 +522,6 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
                   Column(
                     children: [
                       aedappfm.AppButton(
-                        fontSize: aedappfm.Responsive.fontSizeFromValue(
-                          context,
-                          desktopValue: 16,
-                        ),
                         background: aedappfm.ArchethicThemeBase.purple500,
                         labelBtn: 'Swap these tokens',
                         onPressed: () {
@@ -561,10 +557,6 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
                               labelBtn: aedappfm.Responsive.isDesktop(context)
                                   ? 'Add Liquidity'
                                   : 'Add Liquid.',
-                              fontSize: aedappfm.Responsive.fontSizeFromValue(
-                                context,
-                                desktopValue: 16,
-                              ),
                               onPressed: () {
                                 final poolJson =
                                     jsonEncode(poolItem.pool!.toJson());
@@ -626,10 +618,6 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
                               labelBtn: aedappfm.Responsive.isDesktop(context)
                                   ? 'Remove liquidity'
                                   : 'Rmv Liquid.',
-                              fontSize: aedappfm.Responsive.fontSizeFromValue(
-                                context,
-                                desktopValue: 16,
-                              ),
                               onPressed: () {
                                 final poolJson =
                                     jsonEncode(poolItem.pool!.toJson());

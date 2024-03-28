@@ -106,10 +106,6 @@ class _BalanceDetails extends ConsumerWidget {
                     farm.endDate!.isBefore(DateTime.now()))
                   aedappfm.ButtonValidate(
                     background: aedappfm.ArchethicThemeBase.purple500,
-                    fontSize: aedappfm.Responsive.fontSizeFromValue(
-                      context,
-                      desktopValue: 16,
-                    ),
                     labelBtn: 'Deposit LP Tokens (Farm closed)',
                     onPressed: () {},
                     controlOk: false,
@@ -147,10 +143,6 @@ class _BalanceDetails extends ConsumerWidget {
                 else
                   aedappfm.ButtonValidate(
                     background: aedappfm.ArchethicThemeBase.purple500,
-                    fontSize: aedappfm.Responsive.fontSizeFromValue(
-                      context,
-                      desktopValue: 16,
-                    ),
                     controlOk: balance != null && balance > 0,
                     labelBtn: 'Deposit LP Tokens',
                     onPressed: () {
@@ -218,10 +210,6 @@ class _BalanceDetails extends ConsumerWidget {
                       child: aedappfm.ButtonValidate(
                         background: aedappfm.ArchethicThemeBase.purple500,
                         controlOk: farm.lpTokenDeposited > 0,
-                        fontSize: aedappfm.Responsive.fontSizeFromValue(
-                          context,
-                          desktopValue: 16,
-                        ),
                         labelBtn: 'Withdraw',
                         onPressed: () {
                           final farmAddressJson = jsonEncode(farm.farmAddress);
@@ -289,10 +277,6 @@ class _BalanceDetails extends ConsumerWidget {
                       child: aedappfm.ButtonValidate(
                         background: aedappfm.ArchethicThemeBase.purple500,
                         controlOk: farm.remainingReward > 0,
-                        fontSize: aedappfm.Responsive.fontSizeFromValue(
-                          context,
-                          desktopValue: 16,
-                        ),
                         labelBtn: 'Claim',
                         onPressed: () async {
                           if (context.mounted) {

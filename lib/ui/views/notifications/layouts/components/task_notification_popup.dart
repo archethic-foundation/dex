@@ -324,34 +324,37 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
 
   void show(BuildContext context) {
     double? width;
+    if (aedappfm.Responsive.isMobile(context)) {
+      width = MediaQuery.of(context).size.width * 0.90;
+    } else {
+      if (aedappfm.Responsive.isTablet(context)) {
+        width = MediaQuery.of(context).size.width / 2;
+      } else {
+        width = MediaQuery.of(context).size.width / 3;
+      }
+    }
+
     double? height;
     switch (actionType) {
       case DexActionType.swap:
-        width = 450;
         height = 80;
         break;
       case DexActionType.addLiquidity:
-        width = 500;
         height = 80;
         break;
       case DexActionType.removeLiquidity:
-        width = 500;
         height = 160;
         break;
       case DexActionType.claimFarm:
-        width = 450;
         height = 80;
         break;
       case DexActionType.depositFarm:
-        width = 450;
         height = 80;
         break;
       case DexActionType.withdrawfarm:
-        width = 500;
         height = 120;
         break;
       case DexActionType.addPool:
-        width = 450;
         height = 80;
         break;
     }

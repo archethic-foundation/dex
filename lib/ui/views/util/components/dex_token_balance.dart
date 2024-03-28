@@ -97,7 +97,16 @@ class DexTokenBalance extends ConsumerWidget {
                               pool!.poolAddress,
                             ),
                             style: fiatTextStyleMedium
-                                ? Theme.of(context).textTheme.bodyMedium
+                                ? Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyMedium!,
+                                      ),
+                                    )
                                 : Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
@@ -125,7 +134,18 @@ class DexTokenBalance extends ConsumerWidget {
                               child: SelectableText(
                                 snapshot.data!,
                                 style: fiatTextStyleMedium
-                                    ? Theme.of(context).textTheme.bodyMedium
+                                    ? Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!,
+                                          ),
+                                        )
                                     : Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -171,12 +191,21 @@ class DexTokenBalance extends ConsumerWidget {
                   opacity: opacity,
                   child: SelectableText(
                     '${tokenBalance.formatNumber(precision: 8)} ${getSymbolDisplay(token!, tokenBalance)}',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: fiatTextStyleMedium
+                        ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyMedium!,
+                              ),
+                            )
+                        : Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyLarge!,
+                              ),
+                            ),
                   ),
                 ),
                 if (withFiat)
@@ -196,7 +225,16 @@ class DexTokenBalance extends ConsumerWidget {
                             pool!.poolAddress,
                           ),
                           style: fiatTextStyleMedium
-                              ? Theme.of(context).textTheme.bodyMedium
+                              ? Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyMedium!,
+                                    ),
+                                  )
                               : Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     fontSize: aedappfm.Responsive
                                         .fontSizeFromTextStyle(
@@ -225,7 +263,18 @@ class DexTokenBalance extends ConsumerWidget {
                               child: SelectableText(
                                 snapshot.data!,
                                 style: fiatTextStyleMedium
-                                    ? Theme.of(context).textTheme.bodyMedium
+                                    ? Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!,
+                                          ),
+                                        )
                                     : Theme.of(context)
                                         .textTheme
                                         .bodyLarge!

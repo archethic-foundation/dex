@@ -87,11 +87,6 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       aedappfm.AppButton(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromValue(
-                                          context,
-                                          desktopValue: 16,
-                                        ),
                                         labelBtn: AppLocalizations.of(
                                           context,
                                         )!
@@ -101,11 +96,6 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                         },
                                       ),
                                       aedappfm.AppButton(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromValue(
-                                          context,
-                                          desktopValue: 16,
-                                        ),
                                         labelBtn: AppLocalizations.of(
                                           context,
                                         )!

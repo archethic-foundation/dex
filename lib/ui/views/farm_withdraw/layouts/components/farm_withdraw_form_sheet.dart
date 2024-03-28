@@ -163,10 +163,6 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                               controlOk: farmWithdraw.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_withdraw,
-                              fontSize: aedappfm.Responsive.fontSizeFromValue(
-                                context,
-                                desktopValue: 16,
-                              ),
                               onPressed: () => ref
                                   .read(
                                     FarmWithdrawFormProvider

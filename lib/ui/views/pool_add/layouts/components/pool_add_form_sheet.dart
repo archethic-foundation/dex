@@ -99,10 +99,6 @@ class PoolAddFormSheet extends ConsumerWidget {
                         onPressed: () => ref
                             .read(PoolAddFormProvider.poolAddForm.notifier)
                             .validateForm(context),
-                        fontSize: aedappfm.Responsive.fontSizeFromValue(
-                          context,
-                          desktopValue: 16,
-                        ),
                         isConnected:
                             ref.watch(SessionProviders.session).isConnected,
                         displayWalletConnectOnPressed: () async {

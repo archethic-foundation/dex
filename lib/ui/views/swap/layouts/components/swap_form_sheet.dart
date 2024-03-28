@@ -84,10 +84,6 @@ class SwapFormSheet extends ConsumerWidget {
                 aedappfm.ButtonValidate(
                   controlOk: swap.isControlsOk,
                   labelBtn: AppLocalizations.of(context)!.btn_swap,
-                  fontSize: aedappfm.Responsive.fontSizeFromValue(
-                    context,
-                    desktopValue: 16,
-                  ),
                   onPressed: () => ref
                       .read(SwapFormProvider.swapForm.notifier)
                       .validateForm(context),

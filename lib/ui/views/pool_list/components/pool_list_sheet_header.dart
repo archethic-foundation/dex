@@ -69,6 +69,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
       fontSize: aedappfm.Responsive.fontSizeFromValue(
         context,
         desktopValue: 12,
+        ratioTablet: 0,
       ),
       height: 30,
       isConnected: ref.watch(SessionProviders.session).isConnected,

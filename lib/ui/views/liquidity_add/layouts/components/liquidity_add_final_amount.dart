@@ -23,22 +23,40 @@ class LiquidityAddFinalAmount extends ConsumerWidget {
     return finalAmount != null
         ? SelectableText(
             'LP Tokens obtained: ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? 'LP Tokens' : 'LP Token'}',
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 13,
+              ),
+            ),
           )
         : timeout == false
-            ? const Row(
+            ? Row(
                 children: [
                   SelectableText(
                     'LP Tokens obtained: ',
+                    style: TextStyle(
+                      fontSize: aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 13,
+                      ),
+                    ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                     width: 10,
                     child: CircularProgressIndicator(strokeWidth: 1),
                   ),
                 ],
               )
-            : const SelectableText(
+            : SelectableText(
                 'LP Tokens obtained: The amount could not be recovered',
+                style: TextStyle(
+                  fontSize: aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 13,
+                  ),
+                ),
               );
   }
 }

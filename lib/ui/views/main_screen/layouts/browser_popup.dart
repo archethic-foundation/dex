@@ -67,10 +67,6 @@ class BrowserPopup extends ConsumerWidget {
                     ),
                     const SizedBox(height: 40),
                     aedappfm.AppButton(
-                      fontSize: aedappfm.Responsive.fontSizeFromValue(
-                        context,
-                        desktopValue: 16,
-                      ),
                       labelBtn: AppLocalizations.of(context)!.btn_understand,
                       onPressed: () async {
                         if (!context.mounted) return;

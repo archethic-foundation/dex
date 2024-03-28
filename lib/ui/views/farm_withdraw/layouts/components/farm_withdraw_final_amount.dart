@@ -25,14 +25,26 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
         if (finalAmountWithdraw != null)
           SelectableText(
             'Amount withdrawed: ${finalAmountWithdraw.formatNumber(precision: 8)} ${finalAmountWithdraw > 1 ? 'LP Tokens' : 'LP Token'}',
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 13,
+              ),
+            ),
           )
         else if (timeout == false)
-          const Row(
+          Row(
             children: [
               SelectableText(
                 'Amount withdrawed: ',
+                style: TextStyle(
+                  fontSize: aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 13,
+                  ),
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
                 width: 10,
                 child: CircularProgressIndicator(strokeWidth: 1),
@@ -40,20 +52,38 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
             ],
           )
         else
-          const SelectableText(
+          SelectableText(
             'Amount withdrawed: The amount could not be recovered',
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 13,
+              ),
+            ),
           ),
         if (finalAmountReward != null)
           SelectableText(
             'Amount rewarded: ${finalAmountReward.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 13,
+              ),
+            ),
           )
         else if (timeout == false)
-          const Row(
+          Row(
             children: [
               SelectableText(
                 'Amount rewarded: ',
+                style: TextStyle(
+                  fontSize: aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 13,
+                  ),
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
                 width: 10,
                 child: CircularProgressIndicator(strokeWidth: 1),
@@ -61,8 +91,14 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
             ],
           )
         else
-          const SelectableText(
+          SelectableText(
             'Amount rewarded: The amount could not be recovered',
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 13,
+              ),
+            ),
           ),
       ],
     );

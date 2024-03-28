@@ -20,22 +20,40 @@ class SwapFinalAmount extends ConsumerWidget {
     return finalAmount != null
         ? SelectableText(
             'Final amount swapped: ${finalAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 13,
+              ),
+            ),
           )
         : timeout == false
-            ? const Row(
+            ? Row(
                 children: [
                   SelectableText(
                     'Final amount swapped: ',
+                    style: TextStyle(
+                      fontSize: aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 13,
+                      ),
+                    ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                     width: 10,
                     child: CircularProgressIndicator(strokeWidth: 1),
                   ),
                 ],
               )
-            : const SelectableText(
+            : SelectableText(
                 'Final amount swapped: The amount could not be recovered',
+                style: TextStyle(
+                  fontSize: aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 13,
+                  ),
+                ),
               );
   }
 }

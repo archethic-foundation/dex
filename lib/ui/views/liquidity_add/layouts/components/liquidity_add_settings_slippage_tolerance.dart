@@ -128,10 +128,6 @@ class LiquiditySettingsSlippageToleranceState
                   (double.tryParse(slippageToleranceController.text)! >= 0 &&
                       double.tryParse(slippageToleranceController.text)! < 100),
           labelBtn: AppLocalizations.of(context)!.btn_save,
-          fontSize: aedappfm.Responsive.fontSizeFromValue(
-            context,
-            desktopValue: 16,
-          ),
           onPressed: () {
             liquidityAddNotifier.setSlippageTolerance(
               double.tryParse(slippageToleranceController.text) ?? 0,

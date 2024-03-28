@@ -338,11 +338,6 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       aedappfm.AppButton(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromValue(
-                                          context,
-                                          desktopValue: 16,
-                                        ),
                                         labelBtn:
                                             AppLocalizations.of(context)!.no,
                                         onPressed: () async {
@@ -350,11 +345,6 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                         },
                                       ),
                                       aedappfm.AppButton(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromValue(
-                                          context,
-                                          desktopValue: 16,
-                                        ),
                                         labelBtn:
                                             AppLocalizations.of(context)!.yes,
                                         onPressed: () async {

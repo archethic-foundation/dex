@@ -91,10 +91,6 @@ class FarmDepositFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonValidate(
                               controlOk: farmDeposit.isControlsOk,
-                              fontSize: aedappfm.Responsive.fontSizeFromValue(
-                                context,
-                                desktopValue: 16,
-                              ),
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_deposit,
                               onPressed: () => ref
