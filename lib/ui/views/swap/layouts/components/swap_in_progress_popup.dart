@@ -3,14 +3,12 @@ import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_final_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_tx_addresses.dart';
-import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class SwapInProgressPopup {
   static List<Widget> body(
@@ -86,7 +84,15 @@ class SwapInProgressPopup {
         ref.invalidate(
           SwapFormProvider.swapForm,
         );
-        context.go(SwapSheet.routerPage);
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+      },
+      closeFunction: () {
+        ref.invalidate(
+          SwapFormProvider.swapForm,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
       },
     );
   }

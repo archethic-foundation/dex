@@ -1,3 +1,4 @@
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
@@ -229,9 +230,24 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 itemCount: pools.length,
                 itemBuilder: (context, index) {
                   final pool = pools[index];
-                  return PoolListItem(
-                    key: ValueKey(pool.poolAddress),
-                    poolAddress: pool.poolAddress,
+                  final asyncPoolDetail =
+                      ref.watch(DexPoolProviders.getPool(pool.poolAddress));
+                  return asyncPoolDetail.when(
+                    data: (poolDetail) {
+                      if (poolDetail == null) {
+                        return const SizedBox.shrink();
+                      }
+                      return PoolListItem(
+                        key: ValueKey(pool.poolAddress),
+                        poolDetail: pool,
+                      );
+                    },
+                    loading: () {
+                      return const SizedBox.shrink();
+                    },
+                    error: (error, stackTrace) {
+                      return const SizedBox.shrink();
+                    },
                   );
                 },
               );

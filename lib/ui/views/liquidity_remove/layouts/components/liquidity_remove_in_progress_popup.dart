@@ -97,9 +97,17 @@ class LiquidityRemoveInProgressPopup {
         ref.invalidate(
           LiquidityRemoveFormProvider.liquidityRemoveForm,
         );
-        context
-          ..pop()
-          ..go(PoolListSheet.routerPage);
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(PoolListSheet.routerPage);
+      },
+      closeFunction: () {
+        ref.invalidate(
+          LiquidityRemoveFormProvider.liquidityRemoveForm,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(PoolListSheet.routerPage);
       },
     );
   }

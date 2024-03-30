@@ -24,11 +24,9 @@ import 'package:go_router/go_router.dart';
 class PoolDetailsFront extends ConsumerStatefulWidget {
   const PoolDetailsFront({
     super.key,
-    required this.poolAddress,
     required this.pool,
   });
   final DexPool pool;
-  final String poolAddress;
 
   @override
   PoolDetailsFrontState createState() => PoolDetailsFrontState();

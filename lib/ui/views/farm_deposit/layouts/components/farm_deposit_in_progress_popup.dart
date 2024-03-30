@@ -109,9 +109,17 @@ class FarmDepositInProgressPopup {
           ..invalidate(
             FarmDepositFormProvider.farmDepositForm,
           );
-        context
-          ..pop()
-          ..go(FarmListSheet.routerPage);
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(FarmListSheet.routerPage);
+      },
+      closeFunction: () {
+        ref.invalidate(
+          FarmDepositFormProvider.farmDepositForm,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(FarmListSheet.routerPage);
       },
     );
   }

@@ -22,11 +22,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class PoolDetailsBack extends ConsumerStatefulWidget {
   const PoolDetailsBack({
     super.key,
-    required this.poolAddress,
     required this.pool,
   });
   final DexPool pool;
-  final String poolAddress;
 
   @override
   PoolDetailsBackState createState() => PoolDetailsBackState();

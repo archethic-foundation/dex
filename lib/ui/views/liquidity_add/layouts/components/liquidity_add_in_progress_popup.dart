@@ -91,9 +91,17 @@ class LiquidityAddInProgressPopup {
         ref.invalidate(
           LiquidityAddFormProvider.liquidityAddForm,
         );
-        context
-          ..pop()
-          ..go(PoolListSheet.routerPage);
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(PoolListSheet.routerPage);
+      },
+      closeFunction: () {
+        ref.invalidate(
+          LiquidityAddFormProvider.liquidityAddForm,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(PoolListSheet.routerPage);
       },
     );
   }

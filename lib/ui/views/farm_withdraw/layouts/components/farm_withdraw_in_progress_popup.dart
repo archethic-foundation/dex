@@ -110,9 +110,17 @@ class FarmWithdrawInProgressPopup {
           ..invalidate(
             FarmWithdrawFormProvider.farmWithdrawForm,
           );
-        context
-          ..pop()
-          ..go(FarmListSheet.routerPage);
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(FarmListSheet.routerPage);
+      },
+      closeFunction: () {
+        ref.invalidate(
+          FarmWithdrawFormProvider.farmWithdrawForm,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(FarmListSheet.routerPage);
       },
     );
   }

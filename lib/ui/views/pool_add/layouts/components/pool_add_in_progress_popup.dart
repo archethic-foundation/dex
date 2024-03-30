@@ -82,9 +82,17 @@ class PoolAddInProgressPopup {
         ref.invalidate(
           PoolAddFormProvider.poolAddForm,
         );
-        context
-          ..pop()
-          ..go(PoolListSheet.routerPage);
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(PoolListSheet.routerPage);
+      },
+      closeFunction: () {
+        ref.invalidate(
+          PoolAddFormProvider.poolAddForm,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        context.go(PoolListSheet.routerPage);
       },
     );
   }
