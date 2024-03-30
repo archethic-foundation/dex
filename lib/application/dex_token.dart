@@ -79,21 +79,16 @@ Future<double> _estimateLPTokenInFiat(
   }
 
   final apiService = aedappfm.sl.get<ApiService>();
-  final amountsResult = await PoolFactoryRepositoryImpl(poolAddress, apiService)
+  final amounts = await PoolFactoryRepositoryImpl(poolAddress, apiService)
       .getRemoveAmounts(lpTokenAmount);
   var amountToken1 = 0.0;
   var amountToken2 = 0.0;
-  amountsResult.map(
-    success: (success) {
-      if (success != null) {
-        amountToken1 =
-            success['token1'] == null ? 0.0 : success['token1'] as double;
-        amountToken2 =
-            success['token2'] == null ? 0.0 : success['token2'] as double;
-      }
-    },
-    failure: (failure) {},
-  );
+  if (amounts != null) {
+    amountToken1 =
+        amounts['token1'] == null ? 0.0 : amounts['token1'] as double;
+    amountToken2 =
+        amounts['token2'] == null ? 0.0 : amounts['token2'] as double;
+  }
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
     return amountToken1 * fiatValueToken1 + amountToken2 * fiatValueToken2;
