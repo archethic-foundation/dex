@@ -1,11 +1,11 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
@@ -14,6 +14,7 @@ import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -241,9 +242,6 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 18,
-                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -291,7 +289,7 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                                             message: poolItem
                                                 .pool!.pair.token1.symbol,
                                             child: SelectableText(
-                                              '${poolItem.pool!.pair.token1.reserve.formatNumber()} ${poolItem.pool!.pair.token1.symbol.reduceSymbol()}',
+                                              '${poolItem.pool!.pair.token1.reserve.formatNumber()} ${poolItem.pool!.pair.token1.symbol}',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge!
@@ -348,7 +346,7 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                                             message: poolItem
                                                 .pool!.pair.token2.symbol,
                                             child: SelectableText(
-                                              '${poolItem.pool!.pair.token2.reserve.formatNumber()} ${poolItem.pool!.pair.token2.symbol.reduceSymbol()}',
+                                              '${poolItem.pool!.pair.token2.reserve.formatNumber()} ${poolItem.pool!.pair.token2.symbol}',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge!
@@ -406,15 +404,15 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                                             poolItem.pool!.lpToken.address!,
                                           ).future,
                                         ),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
+                                        builder: (context, snapshotBalance) {
+                                          if (snapshotBalance.hasData) {
                                             var percentage = 0.0;
                                             if (poolItem.pool!.lpToken.supply >
                                                 0) {
                                               percentage =
                                                   (Decimal.parse('100') *
                                                           Decimal.parse(
-                                                            '${snapshot.data!}',
+                                                            '${snapshotBalance.data!}',
                                                           ) /
                                                           Decimal.parse(
                                                             '${poolItem.pool!.lpToken.supply}',
@@ -428,7 +426,7 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                                                 Row(
                                                   children: [
                                                     SelectableText(
-                                                      snapshot.data!
+                                                      snapshotBalance.data!
                                                           .formatNumber(),
                                                       style: Theme.of(context)
                                                           .textTheme
@@ -506,6 +504,89 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                                                         ),
                                                       ),
                                                 ),
+                                                if (snapshotBalance.data! > 0)
+                                                  FutureBuilder<
+                                                      Map<String, dynamic>?>(
+                                                    future:
+                                                        PoolFactoryRepositoryImpl(
+                                                      poolItem
+                                                          .pool!.poolAddress,
+                                                      aedappfm.sl
+                                                          .get<ApiService>(),
+                                                    ).getRemoveAmounts(
+                                                      snapshotBalance.data!,
+                                                    ),
+                                                    builder: (
+                                                      context,
+                                                      snapshotAmounts,
+                                                    ) {
+                                                      if (snapshotAmounts
+                                                              .hasData &&
+                                                          snapshotAmounts
+                                                                  .data !=
+                                                              null) {
+                                                        final amountToken1 =
+                                                            snapshotAmounts.data![
+                                                                        'token1'] ==
+                                                                    null
+                                                                ? 0.0
+                                                                : snapshotAmounts
+                                                                            .data![
+                                                                        'token1']
+                                                                    as double;
+                                                        final amountToken2 =
+                                                            snapshotAmounts.data![
+                                                                        'token2'] ==
+                                                                    null
+                                                                ? 0.0
+                                                                : snapshotAmounts
+                                                                            .data![
+                                                                        'token2']
+                                                                    as double;
+
+                                                        return SelectableText(
+                                                          'Equivalent ${amountToken1.formatNumber(precision: 2)} ${poolItem.pool!.pair.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber()} ${poolItem.pool!.pair.token2.symbol.reduceSymbol()}',
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyMedium!
+                                                                  .copyWith(
+                                                                    fontSize: aedappfm
+                                                                            .Responsive
+                                                                        .fontSizeFromTextStyle(
+                                                                      context,
+                                                                      Theme.of(
+                                                                        context,
+                                                                      )
+                                                                          .textTheme
+                                                                          .bodyMedium!,
+                                                                    ),
+                                                                  ),
+                                                        );
+                                                      }
+                                                      return const SizedBox
+                                                          .shrink();
+                                                    },
+                                                  )
+                                                else
+                                                  SelectableText(
+                                                    ' ',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                          fontSize: aedappfm
+                                                                  .Responsive
+                                                              .fontSizeFromTextStyle(
+                                                            context,
+                                                            Theme.of(
+                                                              context,
+                                                            )
+                                                                .textTheme
+                                                                .bodyMedium!,
+                                                          ),
+                                                        ),
+                                                  ),
                                               ],
                                             );
                                           }
@@ -519,9 +600,6 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
                             ],
                           ),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 10,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,

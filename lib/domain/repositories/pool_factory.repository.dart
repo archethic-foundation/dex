@@ -31,8 +31,7 @@ abstract class PoolFactoryRepository {
     double amount,
   );
 
-  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
-      getRemoveAmounts(
+  Future<Map<String, dynamic>?> getRemoveAmounts(
     double lpTokenAmount,
   );
 

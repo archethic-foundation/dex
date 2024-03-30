@@ -178,26 +178,21 @@ class PoolFactoryRepositoryImpl
   /// Returns amounts of token to get back when removing liquidity
   /// [lpTokenAmount] Number of lp token to remove
   @override
-  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
-      getRemoveAmounts(
+  Future<Map<String, dynamic>?> getRemoveAmounts(
     double lpTokenAmount,
   ) async {
-    return aedappfm.Result.guard(
-      () async {
-        final result = await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'get_remove_amounts',
-              args: [lpTokenAmount],
-            ),
-          ),
-          resultMap: true,
-        ) as Map<String, dynamic>?;
-        return result;
-      },
-    );
+    final result = await apiService.callSCFunction(
+      jsonRPCRequest: SCCallFunctionRequest(
+        method: 'contract_fun',
+        params: SCCallFunctionParams(
+          contract: factoryAddress.toUpperCase(),
+          function: 'get_remove_amounts',
+          args: [lpTokenAmount],
+        ),
+      ),
+      resultMap: true,
+    ) as Map<String, dynamic>?;
+    return result;
   }
 
   /// This action allow user to add liquidity to the pool. User must send tokens to the pool's genesis address.

@@ -60,25 +60,21 @@ class LiquidityRemoveFormNotifier
               aedappfm.CancelableTask<Map<String, dynamic>>(
             task: () async {
               var _removeAmounts = <String, dynamic>{};
-              final removeAmountsResult = await PoolFactoryRepositoryImpl(
+              final amounts = await PoolFactoryRepositoryImpl(
                 state.pool!.poolAddress,
                 apiService,
               ).getRemoveAmounts(lpTokenAmount);
 
-              removeAmountsResult.map(
-                success: (success) {
-                  if (success != null) {
-                    _removeAmounts = success;
-                  }
-                },
-                failure: (failure) {
-                  setFailure(
-                    aedappfm.Failure.other(
-                      cause: 'getRemoveAmountss error $failure',
-                    ),
-                  );
-                },
-              );
+              if (amounts != null) {
+                _removeAmounts = amounts;
+              } else {
+                setFailure(
+                  const aedappfm.Failure.other(
+                    cause: 'getRemoveAmounts null value',
+                  ),
+                );
+              }
+
               return _removeAmounts;
             },
           );
