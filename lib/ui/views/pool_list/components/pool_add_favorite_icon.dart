@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -16,12 +17,23 @@ class PoolAddFavoriteIcon extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
         ref.read(
           DexPoolProviders.addPoolFromFavorite(
             poolAddress,
           ),
         );
+        final poolListForm = ref.read(
+          PoolListFormProvider.poolListForm,
+        );
+
+        await ref
+            .read(
+              PoolListFormProvider.poolListForm.notifier,
+            )
+            .setPoolsToDisplay(
+              poolListForm.tabIndexSelected,
+            );
       },
       child: Tooltip(
         message: 'Add this pool in my favorites tab',

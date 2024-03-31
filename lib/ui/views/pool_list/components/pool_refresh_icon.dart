@@ -1,5 +1,5 @@
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -16,10 +16,19 @@ class PoolRefreshIcon extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
-      onTap: () {
-        ref
-          ..invalidate(DexPoolProviders.getPool(poolAddress))
-          ..invalidate(PoolItemProvider.poolItem(poolAddress));
+      onTap: () async {
+        ref.invalidate(DexPoolProviders.getPool(poolAddress));
+        final poolListForm = ref.read(
+          PoolListFormProvider.poolListForm,
+        );
+
+        await ref
+            .read(
+              PoolListFormProvider.poolListForm.notifier,
+            )
+            .setPoolsToDisplay(
+              poolListForm.tabIndexSelected,
+            );
       },
       child: Tooltip(
         message: 'Refresh information',
