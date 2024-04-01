@@ -44,19 +44,26 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
-      await ref
-          .read(
-            aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
-          )
-          .init();
-      await ref.read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier).init();
-      await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
-      _poolListTimer =
-          Timer.periodic(const Duration(minutes: 1), (timer) async {
+      try {
+        await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
+        await ref
+            .read(
+              aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
+            )
+            .init();
+        await ref
+            .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
+            .init();
         await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
-      });
-      FlutterNativeSplash.remove();
+        _poolListTimer =
+            Timer.periodic(const Duration(minutes: 1), (timer) async {
+          await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
+        });
+      } catch (e) {
+        aedappfm.sl.get<aedappfm.LogManager>().log('main initState $e');
+      } finally {
+        FlutterNativeSplash.remove();
+      }
     });
   }
 
