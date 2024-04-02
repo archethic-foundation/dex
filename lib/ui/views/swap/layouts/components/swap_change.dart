@@ -32,9 +32,12 @@ class SwapChange extends ConsumerWidget {
       children: [
         InkWell(
           onTap: swapNotifier.swapDirections,
-          child: const Icon(
+          child: Icon(
             aedappfm.Iconsax.arrange_square_2,
-            size: 24,
+            size: aedappfm.Responsive.fontSizeFromValue(
+              context,
+              desktopValue: 24,
+            ),
           ),
         ),
       ],

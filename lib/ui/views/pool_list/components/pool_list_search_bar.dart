@@ -78,10 +78,13 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
             ),
             child: TextField(
               controller: searchController,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(fontFamily: aedappfm.AppThemeBase.addressFont),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    fontFamily: aedappfm.AppThemeBase.addressFont,
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodySmall!,
+                    ),
+                  ),
               autocorrect: false,
               onChanged: (text) async {
                 ref

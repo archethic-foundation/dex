@@ -105,9 +105,9 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 30,
-                        right: 30,
+                      padding: EdgeInsets.only(
+                        left: aedappfm.Responsive.isMobile(context) ? 10 : 30,
+                        right: aedappfm.Responsive.isMobile(context) ? 10 : 30,
                         top: 11,
                         bottom: 5,
                       ),

@@ -84,9 +84,18 @@ class TokenSelectionSearchBarState
                           Padding(
                             padding: const EdgeInsets.only(left: 40, right: 10),
                             child: TextField(
-                              style: TextStyle(
-                                fontFamily: aedappfm.AppThemeBase.addressFont,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                    fontFamily:
+                                        aedappfm.AppThemeBase.addressFont,
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.titleMedium!,
+                                    ),
+                                  ),
                               autocorrect: false,
                               controller: searchController,
                               onChanged: (text) async {

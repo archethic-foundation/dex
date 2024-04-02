@@ -89,6 +89,12 @@ class SwapSettingsSlippageToleranceState
                   ),
                 ),
                 child: TextField(
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.titleMedium!,
+                        ),
+                      ),
                   autocorrect: false,
                   controller: slippageToleranceController,
                   focusNode: slippageToleranceFocusNode,

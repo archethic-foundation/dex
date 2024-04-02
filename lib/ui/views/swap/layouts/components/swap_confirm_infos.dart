@@ -231,6 +231,10 @@ class SwapConfirmInfos extends ConsumerWidget {
                     fiatAlignLeft: true,
                     fiatTextStyleMedium: true,
                     height: 20,
+                    digits: aedappfm.Responsive.isMobile(context) &&
+                            swap.tokenToSwapBalance > 1
+                        ? 2
+                        : 8,
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
@@ -242,6 +246,16 @@ class SwapConfirmInfos extends ConsumerWidget {
                     fiatVertical: true,
                     fiatTextStyleMedium: true,
                     height: 20,
+                    digits: aedappfm.Responsive.isMobile(context) &&
+                            (Decimal.parse(
+                                          swap.tokenToSwapBalance.toString(),
+                                        ) -
+                                        Decimal.parse(
+                                            swap.tokenToSwapAmount.toString()))
+                                    .toDouble() >
+                                1
+                        ? 2
+                        : 8,
                   ),
                 ],
               ),
@@ -255,6 +269,10 @@ class SwapConfirmInfos extends ConsumerWidget {
                     fiatAlignLeft: true,
                     fiatTextStyleMedium: true,
                     height: 20,
+                    digits: aedappfm.Responsive.isMobile(context) &&
+                            swap.tokenToSwapBalance > 1
+                        ? 2
+                        : 8,
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
@@ -266,6 +284,16 @@ class SwapConfirmInfos extends ConsumerWidget {
                     fiatVertical: true,
                     fiatTextStyleMedium: true,
                     height: 20,
+                    digits: aedappfm.Responsive.isMobile(context) &&
+                            (Decimal.parse(
+                                          swap.tokenSwappedBalance.toString(),
+                                        ) +
+                                        Decimal.parse(
+                                            swap.tokenSwappedAmount.toString()))
+                                    .toDouble() >
+                                1
+                        ? 2
+                        : 8,
                   ),
                 ],
               ),
@@ -287,7 +315,12 @@ class SwapConfirmInfos extends ConsumerWidget {
                     Tooltip(
                       message: swap.tokenToSwap!.symbol,
                       child: SelectableText(
-                        'Fees: ${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                        'Fees: ${swap.swapTotalFees.formatNumber(
+                          precision: aedappfm.Responsive.isMobile(context) &&
+                                  swap.swapTotalFees > 1
+                              ? 2
+                              : 8,
+                        )} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontSize:
                                   aedappfm.Responsive.fontSizeFromTextStyle(

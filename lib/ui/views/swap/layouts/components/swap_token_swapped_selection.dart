@@ -19,7 +19,7 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
     final swap = ref.watch(SwapFormProvider.swapForm);
 
     return Container(
-      width: 150,
+      width: aedappfm.Responsive.isMobile(context) ? 100 : 150,
       height: 30,
       decoration: BoxDecoration(
         color: aedappfm.AppThemeBase.sheetBackgroundTertiary.withOpacity(0.5),
@@ -58,7 +58,7 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                         left: 10,
                       ),
                       child: SizedBox(
-                        width: 100,
+                        width: aedappfm.Responsive.isMobile(context) ? 90 : 100,
                         child: Row(
                           children: [
                             DexTokenIcon(
@@ -92,10 +92,11 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                 ],
               ),
             ),
-            const Icon(
-              aedappfm.Iconsax.search_normal,
-              size: 12,
-            ),
+            if (aedappfm.Responsive.isMobile(context) == false)
+              const Icon(
+                aedappfm.Iconsax.search_normal,
+                size: 12,
+              ),
           ],
         ),
       ),

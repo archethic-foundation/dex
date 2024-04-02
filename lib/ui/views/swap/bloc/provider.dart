@@ -273,10 +273,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       state = state.copyWith(
         tokenToSwapAmount: swapInfos.outputAmount,
       );
-      swapInfos = await calculateSwapInfos(
-        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-        state.tokenToSwapAmount,
-      );
+      if (state.tokenToSwap != null) {
+        swapInfos = await calculateSwapInfos(
+          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+          state.tokenToSwapAmount,
+        );
+      }
     }
 
     final minToReceive = (Decimal.parse(swapInfos.outputAmount.toString()) *

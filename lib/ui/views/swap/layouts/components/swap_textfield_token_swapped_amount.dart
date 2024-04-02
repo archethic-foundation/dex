@@ -124,8 +124,11 @@ class _SwapTokenSwappedAmountState
                                     ),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 160,
+                                    padding: EdgeInsets.only(
+                                      left:
+                                          aedappfm.Responsive.isMobile(context)
+                                              ? 110
+                                              : 160,
                                       right: 70,
                                     ),
                                     child: swap.calculateAmountSwapped
@@ -148,7 +151,16 @@ class _SwapTokenSwappedAmountState
                                         : TextField(
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .titleMedium,
+                                                .titleMedium!
+                                                .copyWith(
+                                                  fontSize: aedappfm.Responsive
+                                                      .fontSizeFromTextStyle(
+                                                    context,
+                                                    Theme.of(context)
+                                                        .textTheme
+                                                        .titleMedium!,
+                                                  ),
+                                                ),
                                             autocorrect: false,
                                             controller: tokenAmountController,
                                             onChanged: (text) async {
@@ -203,8 +215,12 @@ class _SwapTokenSwappedAmountState
                 if (swap.tokenSwapped != null)
                   if (swap.calculationInProgress == false)
                     Positioned(
-                      top: 12,
-                      right: 10,
+                      top: aedappfm.Responsive.isMobile(context)
+                          ? 20
+                          : aedappfm.Responsive.isTablet(context)
+                              ? 18
+                              : 16,
+                      right: aedappfm.Responsive.isMobile(context) ? 5 : 10,
                       child: FutureBuilder<String>(
                         future: FiatValue().display(
                           ref,
@@ -217,12 +233,12 @@ class _SwapTokenSwappedAmountState
                               snapshot.data!,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyLarge!
+                                  .bodySmall!
                                   .copyWith(
                                     fontSize: aedappfm.Responsive
                                         .fontSizeFromTextStyle(
                                       context,
-                                      Theme.of(context).textTheme.bodyLarge!,
+                                      Theme.of(context).textTheme.bodySmall!,
                                     ),
                                   ),
                             );
@@ -260,6 +276,10 @@ class _SwapTokenSwappedAmountState
               DexTokenBalance(
                 tokenBalance: swap.tokenSwappedBalance,
                 token: swap.tokenSwapped,
+                digits: aedappfm.Responsive.isMobile(context) &&
+                        swap.tokenSwappedBalance > 1
+                    ? 2
+                    : 8,
               )
             else
               Container(

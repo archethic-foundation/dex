@@ -107,7 +107,16 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                             ),
                           ),
                           child: TextField(
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.titleMedium!,
+                                  ),
+                                ),
                             autocorrect: false,
                             controller: tokenAmountController,
                             onChanged: (text) async {

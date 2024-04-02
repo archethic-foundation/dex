@@ -123,8 +123,18 @@ class _LiquidityAddToken2AmountState
                                   ),
                                 )
                               : TextField(
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!,
+                                        ),
+                                      ),
                                   autocorrect: false,
                                   controller: tokenAmountController,
                                   onChanged: (text) async {

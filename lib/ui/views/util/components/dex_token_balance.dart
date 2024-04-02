@@ -20,12 +20,14 @@ class DexTokenBalance extends ConsumerWidget {
     this.fiatTextStyleMedium = false,
     this.height = 30,
     this.pool,
+    this.digits = 8,
     super.key,
   });
 
   final double tokenBalance;
   final DexToken? token;
   final DexPool? pool;
+  final int digits;
   final bool withFiat;
   final double height;
   final bool fiatVertical;
@@ -66,7 +68,7 @@ class DexTokenBalance extends ConsumerWidget {
                   Opacity(
                     opacity: opacity,
                     child: SelectableText(
-                      '${tokenBalance.formatNumber(precision: 8)} ${getSymbolDisplay(token!, tokenBalance)}',
+                      '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(token!, tokenBalance)}',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -190,7 +192,7 @@ class DexTokenBalance extends ConsumerWidget {
                 Opacity(
                   opacity: opacity,
                   child: SelectableText(
-                    '${tokenBalance.formatNumber(precision: 8)} ${getSymbolDisplay(token!, tokenBalance)}',
+                    '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(token!, tokenBalance)}',
                     style: fiatTextStyleMedium
                         ? Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize:
