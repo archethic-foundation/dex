@@ -80,7 +80,9 @@ class AppBarMenuLinks extends ConsumerWidget {
           onPressed: () {
             launchUrl(
               Uri.parse(
-                'https://bridge.archethic.net',
+                (Uri.base.toString().toLowerCase().contains('dex.archethic'))
+                    ? 'https://bridge.archethic.net'
+                    : 'https://bridge.testnet.archethic.net',
               ),
             );
           },
@@ -134,11 +136,11 @@ class AppBarMenuLinks extends ConsumerWidget {
             );
           },
         ),
-        if (aedappfm.EndpointUtil.getEnvironnement() == 'testnet')
+        if (Uri.base.toString().toLowerCase().contains('dex.testnet.archethic'))
           const SizedBox(
             height: 20,
           ),
-        if (aedappfm.EndpointUtil.getEnvironnement() == 'testnet')
+        if (Uri.base.toString().toLowerCase().contains('dex.testnet.archethic'))
           MenuItemButton(
             requestFocusOnHover: false,
             child: SizedBox(
