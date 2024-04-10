@@ -29,6 +29,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       key: Key(task.id),
       actionType: task.data.actionType,
       description: Wrap(
+        direction: Axis.vertical,
         children: [
           if (task.dateTask != null)
             SelectableText(
@@ -68,6 +69,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       key: Key(task.id),
       actionType: task.data.actionType,
       description: Wrap(
+        direction: Axis.vertical,
         children: [
           if (task.dateTask != null)
             SelectableText(
@@ -109,6 +111,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       key: Key(task.id),
       actionType: task.data.actionType,
       description: Wrap(
+        direction: Axis.vertical,
         children: [
           if (task.dateTask != null)
             SelectableText(
@@ -154,6 +157,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       key: Key(task.id),
       actionType: task.data.actionType,
       description: Wrap(
+        direction: Axis.vertical,
         children: [
           if (task.dateTask != null)
             SelectableText(
@@ -193,6 +197,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       key: Key(task.id),
       actionType: task.data.actionType,
       description: Wrap(
+        direction: Axis.vertical,
         children: [
           if (task.dateTask != null)
             SelectableText(
@@ -234,6 +239,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       key: Key(task.id),
       actionType: task.data.actionType,
       description: Wrap(
+        direction: Axis.vertical,
         children: [
           if (task.dateTask != null)
             SelectableText(
