@@ -251,7 +251,8 @@ class SwapConfirmInfos extends ConsumerWidget {
                                           swap.tokenToSwapBalance.toString(),
                                         ) -
                                         Decimal.parse(
-                                            swap.tokenToSwapAmount.toString()))
+                                          swap.tokenToSwapAmount.toString(),
+                                        ))
                                     .toDouble() >
                                 1
                         ? 2
@@ -289,7 +290,8 @@ class SwapConfirmInfos extends ConsumerWidget {
                                           swap.tokenSwappedBalance.toString(),
                                         ) +
                                         Decimal.parse(
-                                            swap.tokenSwappedAmount.toString()))
+                                          swap.tokenSwappedAmount.toString(),
+                                        ))
                                     .toDouble() >
                                 1
                         ? 2

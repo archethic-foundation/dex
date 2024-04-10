@@ -362,15 +362,14 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
     ElegantNotification(
       key: key,
       icon: icon,
-      radius: 16,
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
       background: Theme.of(context).colorScheme.background,
       description: description,
       title: title,
       showProgressIndicator: false,
       autoDismiss: false,
       action: action,
-      onActionPressed: onActionPressed,
-      enableShadow: false,
+      onNotificationPressed: onActionPressed,
       width: width,
       height: height,
     ).show(context);

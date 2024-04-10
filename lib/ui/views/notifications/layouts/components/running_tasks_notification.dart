@@ -19,7 +19,6 @@ class RunningTasksNotificationWidget extends ConsumerWidget {
           padding: const EdgeInsets.all(12),
           child: ElegantNotification(
             icon: const SizedBox.shrink(),
-            enableShadow: false,
             stackedOptions: StackedOptions(
               key: 'top',
               itemOffset: const Offset(-5, -5),
