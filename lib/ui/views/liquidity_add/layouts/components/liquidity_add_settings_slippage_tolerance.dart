@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -99,9 +100,10 @@ class LiquiditySettingsSlippageToleranceState
                   focusNode: slippageToleranceFocusNode,
                   textAlign: TextAlign.right,
                   textInputAction: TextInputAction.done,
-                  keyboardType: TextInputType.number,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: <TextInputFormatter>[
-                    aedappfm.AmountTextInputFormatter(),
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
                     LengthLimitingTextInputFormatter(5),
                   ],
                   onChanged: (_) {
@@ -128,6 +130,23 @@ class LiquiditySettingsSlippageToleranceState
             ),
           ],
         ),
+        if (slippageToleranceController.text.isNotEmpty &&
+            slippageToleranceController.text.isValidNumber() &&
+            (double.tryParse(slippageToleranceController.text)! < 0 ||
+                double.tryParse(slippageToleranceController.text)! > 100))
+          aedappfm.ErrorMessage(
+            failure: const aedappfm.Failure.other(
+              cause:
+                  'The slippage tolerance should be between 0 (no slippage) and 100%',
+            ),
+            failureMessage: FailureMessage(
+              context: context,
+              failure: const aedappfm.Failure.other(
+                cause:
+                    'The slippage tolerance should be between 0 (no slippage) and 100%',
+              ),
+            ).getMessage(),
+          ),
         aedappfm.ButtonValidate(
           controlOk:
               double.tryParse(slippageToleranceController.text) != null &&
