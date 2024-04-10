@@ -34,6 +34,7 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
     final archethicContract = ArchethicContract();
     final farmWithdrawNotifier =
         ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier);
+    final farmWithdraw = ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
 
     archethic.Transaction? transactionWithdraw;
     if (recoveryTransactionWithdraw != null) {
@@ -118,6 +119,7 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
         DexNotification.withdrawFarm(
           txAddress: transactionWithdraw!.address!.address,
           rewardToken: rewardToken,
+          isFarmClose: farmWithdraw.isFarmClose,
         ),
       );
 
@@ -134,10 +136,8 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
         ]),
         sleepDuration: const Duration(seconds: 3),
         until: (amounts) {
-          final amountReward = amounts[0];
           final amountWithdraw = amounts[1];
-
-          return amountReward > 0 && amountWithdraw > 0;
+          return amountWithdraw > 0;
         },
       ).timeout(
         const Duration(minutes: 1),
@@ -154,6 +154,7 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
           amountReward: amountReward,
           amountWithdraw: amountWithdraw,
           rewardToken: rewardToken,
+          isFarmClose: farmWithdraw.isFarmClose,
         ),
       );
 

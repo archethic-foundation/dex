@@ -244,107 +244,126 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  SelectableText(
-                    'Rewards',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
+              if (farmWithdraw.dexFarmUserInfo!.rewardAmount > 0)
+                Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        SelectableText(
+                          'Rewards',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
+                              ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 1,
+                            decoration: BoxDecoration(
+                              gradient: aedappfm.AppThemeBase.gradient,
+                            ),
                           ),
                         ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      decoration: BoxDecoration(
-                        gradient: aedappfm.AppThemeBase.gradient,
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              FutureBuilder<String>(
-                future: FiatValue().display(
-                  ref,
-                  farmWithdraw.dexFarmInfo!.rewardToken!,
-                  farmWithdraw.dexFarmUserInfo!.rewardAmount,
-                ),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'You will receive ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                          TextSpan(
-                            text: farmWithdraw.dexFarmUserInfo!.rewardAmount
-                                .formatNumber(precision: 8),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  color: aedappfm.AppThemeBase.secondaryColor,
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                          TextSpan(
-                            text:
-                                ' ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                          TextSpan(
-                            text: '${snapshot.data}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyMedium!,
-                                  ),
-                                ),
-                          ),
-                        ],
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        farmWithdraw.dexFarmInfo!.rewardToken!,
+                        farmWithdraw.dexFarmUserInfo!.rewardAmount,
                       ),
-                    );
-                  }
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'You will receive ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!,
+                                        ),
+                                      ),
+                                ),
+                                TextSpan(
+                                  text: farmWithdraw
+                                      .dexFarmUserInfo!.rewardAmount
+                                      .formatNumber(precision: 8),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        color: aedappfm
+                                            .AppThemeBase.secondaryColor,
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!,
+                                        ),
+                                      ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      ' ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!,
+                                        ),
+                                      ),
+                                ),
+                                TextSpan(
+                                  text: '${snapshot.data}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!,
+                                        ),
+                                      ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
 
-                  return const SizedBox.shrink();
-                },
-              ),
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ],
+                ),
               const SizedBox(
                 height: 10,
               ),

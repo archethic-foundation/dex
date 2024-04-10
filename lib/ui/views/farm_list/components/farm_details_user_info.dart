@@ -205,13 +205,16 @@ class FarmDetailsUserInfo extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              _BalanceDetails(farm: farm),
+              _BalanceDetails(
+                farm: farm,
+                rewardAmount: userInfos?.rewardAmount ?? 0,
+              ),
             ],
           );
         },
       );
     } else {
-      return _BalanceDetails(farm: farm);
+      return _BalanceDetails(farm: farm, rewardAmount: 0);
     }
   }
 }

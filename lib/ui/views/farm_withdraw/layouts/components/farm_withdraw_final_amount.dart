@@ -62,34 +62,42 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
             ),
           ),
         if (finalAmountReward != null)
-          SelectableText(
-            'Amount rewarded: ${finalAmountReward.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
-            style: TextStyle(
-              fontSize: aedappfm.Responsive.fontSizeFromValue(
-                context,
-                desktopValue: 13,
-              ),
-            ),
-          )
-        else if (timeout == false)
-          Row(
-            children: [
-              SelectableText(
-                'Amount rewarded: ',
-                style: TextStyle(
-                  fontSize: aedappfm.Responsive.fontSizeFromValue(
-                    context,
-                    desktopValue: 13,
-                  ),
+          if ((farmWithdraw.isFarmClose &&
+                  farmWithdraw.dexFarmUserInfo!.rewardAmount > 0) ||
+              farmWithdraw.isFarmClose == false)
+            SelectableText(
+              'Amount rewarded: ${finalAmountReward.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
+              style: TextStyle(
+                fontSize: aedappfm.Responsive.fontSizeFromValue(
+                  context,
+                  desktopValue: 13,
                 ),
               ),
-              const SizedBox(
-                height: 10,
-                width: 10,
-                child: CircularProgressIndicator(strokeWidth: 1),
-              ),
-            ],
-          )
+            )
+          else
+            const SizedBox.shrink()
+        else if (timeout == false)
+          if (farmWithdraw.dexFarmUserInfo!.rewardAmount > 0)
+            Row(
+              children: [
+                SelectableText(
+                  'Amount rewarded: ',
+                  style: TextStyle(
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 13,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: CircularProgressIndicator(strokeWidth: 1),
+                ),
+              ],
+            )
+          else
+            const SizedBox.shrink()
         else
           SelectableText(
             'Amount rewarded: The amount could not be recovered',

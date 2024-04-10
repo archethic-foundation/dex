@@ -56,25 +56,28 @@ class FarmDepositInProgressPopup {
           farmDeposit.transactionDepositFarm!.address!.address != null)
         const FarmDepositFinalAmount(),
       const Spacer(),
-      aedappfm.InProgressResumeBtn(
-        currentStep: farmDeposit.currentStep,
-        isProcessInProgress: farmDeposit.isProcessInProgress,
-        onPressed: () async {
-          ref
-              .read(
-                FarmDepositFormProvider.farmDepositForm.notifier,
-              )
-              .setResumeProcess(true);
+      if (farmDeposit.transactionDepositFarm == null ||
+          farmDeposit.transactionDepositFarm!.address == null ||
+          farmDeposit.transactionDepositFarm!.address!.address == null)
+        aedappfm.InProgressResumeBtn(
+          currentStep: farmDeposit.currentStep,
+          isProcessInProgress: farmDeposit.isProcessInProgress,
+          onPressed: () async {
+            ref
+                .read(
+                  FarmDepositFormProvider.farmDepositForm.notifier,
+                )
+                .setResumeProcess(true);
 
-          if (!context.mounted) return;
-          await ref
-              .read(
-                FarmDepositFormProvider.farmDepositForm.notifier,
-              )
-              .deposit(context, ref);
-        },
-        failure: farmDeposit.failure,
-      ),
+            if (!context.mounted) return;
+            await ref
+                .read(
+                  FarmDepositFormProvider.farmDepositForm.notifier,
+                )
+                .deposit(context, ref);
+          },
+          failure: farmDeposit.failure,
+        ),
     ];
   }
 

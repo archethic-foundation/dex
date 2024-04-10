@@ -81,67 +81,82 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                               ),
                             ),
                       ),
-                      FutureBuilder<String>(
-                        future: FiatValue().display(
-                          ref,
-                          farmWithdraw.dexFarmInfo!.rewardToken!,
-                          farmWithdraw.dexFarmUserInfo!.rewardAmount,
+                      if (farmWithdraw.dexFarmUserInfo!.rewardAmount == 0)
+                        SelectableText(
+                          'No reward are available',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
+                              ),
+                        )
+                      else
+                        FutureBuilder<String>(
+                          future: FiatValue().display(
+                            ref,
+                            farmWithdraw.dexFarmInfo!.rewardToken!,
+                            farmWithdraw.dexFarmUserInfo!.rewardAmount,
+                          ),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Row(
+                                children: [
+                                  SelectableText(
+                                    '${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                  SelectableText(
+                                    '${snapshot.data}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!,
+                                          ),
+                                        ),
+                                  ),
+                                  SelectableText(
+                                    ' are available for claiming.',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
                         ),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Row(
-                              children: [
-                                SelectableText(
-                                  '${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!,
-                                        ),
-                                      ),
-                                ),
-                                SelectableText(
-                                  '${snapshot.data}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!,
-                                        ),
-                                      ),
-                                ),
-                                SelectableText(
-                                  ' are available for claiming.',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!,
-                                        ),
-                                      ),
-                                ),
-                              ],
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
-                      ),
                       const FarmWithdrawAmount(),
                     ],
                   ),

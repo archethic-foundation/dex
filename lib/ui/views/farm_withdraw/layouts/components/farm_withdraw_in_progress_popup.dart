@@ -56,25 +56,28 @@ class FarmWithdrawInProgressPopup {
           farmWithdraw.transactionWithdrawFarm!.address!.address != null)
         const FarmWithdrawFinalAmount(),
       const Spacer(),
-      aedappfm.InProgressResumeBtn(
-        currentStep: farmWithdraw.currentStep,
-        isProcessInProgress: farmWithdraw.isProcessInProgress,
-        onPressed: () async {
-          ref
-              .read(
-                FarmWithdrawFormProvider.farmWithdrawForm.notifier,
-              )
-              .setResumeProcess(true);
+      if (farmWithdraw.transactionWithdrawFarm == null ||
+          farmWithdraw.transactionWithdrawFarm!.address == null ||
+          farmWithdraw.transactionWithdrawFarm!.address!.address == null)
+        aedappfm.InProgressResumeBtn(
+          currentStep: farmWithdraw.currentStep,
+          isProcessInProgress: farmWithdraw.isProcessInProgress,
+          onPressed: () async {
+            ref
+                .read(
+                  FarmWithdrawFormProvider.farmWithdrawForm.notifier,
+                )
+                .setResumeProcess(true);
 
-          if (!context.mounted) return;
-          await ref
-              .read(
-                FarmWithdrawFormProvider.farmWithdrawForm.notifier,
-              )
-              .withdraw(context, ref);
-        },
-        failure: farmWithdraw.failure,
-      ),
+            if (!context.mounted) return;
+            await ref
+                .read(
+                  FarmWithdrawFormProvider.farmWithdrawForm.notifier,
+                )
+                .withdraw(context, ref);
+          },
+          failure: farmWithdraw.failure,
+        ),
     ];
   }
 
