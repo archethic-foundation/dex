@@ -41,7 +41,7 @@ class LiquidityRemoveFormNotifier
     state = state.copyWith(pool: poolPopulated);
   }
 
-  Future<({double removeAmountToken1, double removeAmountToken2})>
+  Future<({double removeAmountToken1, double removeAmountToken2, bool cancel})>
       _calculateRemoveAmounts(
     double lpTokenAmount, {
     Duration delay = const Duration(milliseconds: 800),
@@ -86,7 +86,7 @@ class LiquidityRemoveFormNotifier
         },
       );
     } on aedappfm.CanceledTask {
-      return (removeAmountToken1: 0.0, removeAmountToken2: 0.0);
+      return (removeAmountToken1: 0.0, removeAmountToken2: 0.0, cancel: true);
     }
 
     return (
@@ -96,6 +96,7 @@ class LiquidityRemoveFormNotifier
       removeAmountToken2: removeAmounts['token2'] == null
           ? 0.0
           : removeAmounts['token2'] as double,
+      cancel: false,
     );
   }
 
@@ -156,6 +157,8 @@ class LiquidityRemoveFormNotifier
       lpTokenAmount: amount,
     );
 
+    if (amount == 0) return;
+
     if (amount > state.lpTokenBalance) {
       setFailure(
         const aedappfm.Failure.lpTokenAmountExceedBalance(),
@@ -167,7 +170,14 @@ class LiquidityRemoveFormNotifier
       return;
     }
 
+    state = state.copyWith(
+      calculationInProgress: true,
+    );
+
     final calculateRemoveAmountsResult = await _calculateRemoveAmounts(amount);
+    final isCalculateCancel = calculateRemoveAmountsResult.cancel;
+    if (isCalculateCancel) return;
+
     state = state.copyWith(
       token1AmountGetBack: calculateRemoveAmountsResult.removeAmountToken1,
       token2AmountGetBack: calculateRemoveAmountsResult.removeAmountToken2,
@@ -186,7 +196,10 @@ class LiquidityRemoveFormNotifier
         state.token2!.isUCO ? 'UCO' : state.token2!.address!,
       ).future,
     );
-    state = state.copyWith(token2Balance: balanceToken2);
+    state = state.copyWith(
+      token2Balance: balanceToken2,
+      calculationInProgress: false,
+    );
 
     if (amount > 0 &&
         (state.token1AmountGetBack == 0 || state.token2AmountGetBack == 0)) {
