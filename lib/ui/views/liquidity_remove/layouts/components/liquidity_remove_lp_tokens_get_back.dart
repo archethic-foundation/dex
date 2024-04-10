@@ -17,10 +17,78 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final liquidityRemove =
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+
+    if (liquidityRemove.calculationInProgress) {
+      return SizedBox(
+        height: 80,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SelectableText(
+              AppLocalizations.of(context)!.liquidityRemoveTokensGetBackHeader,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodyMedium!,
+                    ),
+                  ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  liquidityRemove.token1!.symbol,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
+                  overflow: TextOverflow.visible,
+                  textAlign: TextAlign.end,
+                ),
+                const SizedBox(
+                  height: 5,
+                  width: 5,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  liquidityRemove.token2!.symbol,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
+                  overflow: TextOverflow.visible,
+                  textAlign: TextAlign.end,
+                ),
+                const SizedBox(
+                  height: 5,
+                  width: 5,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
     if (liquidityRemove.lpTokenAmount <= 0 ||
         liquidityRemove.lpTokenAmount > liquidityRemove.lpTokenBalance) {
       return const SizedBox.shrink();
     }
+
     return SizedBox(
       height: 80,
       child: Column(

@@ -33,6 +33,7 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
     double? finalAmountToken2,
     double? finalAmountLPToken,
     Failure? failure,
+    @Default(false) bool calculationInProgress,
   }) = _LiquidityRemoveFormState;
   const LiquidityRemoveFormState._();
 
@@ -41,5 +42,6 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
       lpTokenBalance > 0 &&
       lpTokenAmount > 0 &&
       token1AmountGetBack > 0 &&
-      token2AmountGetBack > 0;
+      token2AmountGetBack > 0 &&
+      calculationInProgress == false;
 }
