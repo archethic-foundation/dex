@@ -31,4 +31,9 @@ class FarmWithdrawFormState with _$FarmWithdrawFormState {
   const FarmWithdrawFormState._();
 
   bool get isControlsOk => failure == null && amount > 0;
+
+  bool get isFarmClose =>
+      dexFarmInfo != null &&
+      dexFarmInfo!.endDate != null &&
+      dexFarmInfo!.endDate!.isBefore(DateTime.now());
 }

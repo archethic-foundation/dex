@@ -222,13 +222,14 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Liquidity supp. transaction address: ',
+        'Withdraw transaction address: ',
         task,
         context,
       );
     }
     final amountReward = task.data.amountReward as double;
     final amountWithdraw = task.data.amountWithdraw as double;
+    final isFarmClose = task.data.isFarmClose as bool;
     return TaskNotificationPopup.success(
       key: Key(task.id),
       actionType: task.data.actionType,
@@ -251,9 +252,10 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
           SelectableText(
             'Amount withdrawed: ${amountWithdraw.formatNumber(precision: 8)} ${amountWithdraw > 1 ? 'LP Tokens' : 'LP Token'}',
           ),
-          SelectableText(
-            'Amount rewarded: ${amountReward.formatNumber(precision: 8)} ${task.data.rewardToken!.symbol}',
-          ),
+          if ((isFarmClose == true && amountReward > 0) || isFarmClose == false)
+            SelectableText(
+              'Amount rewarded: ${amountReward.formatNumber(precision: 8)} ${task.data.rewardToken!.symbol}',
+            ),
         ],
       ),
     );

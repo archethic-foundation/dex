@@ -63,6 +63,7 @@ class DexNotification with _$DexNotification {
     String? txAddress,
     double? amountReward,
     double? amountWithdraw,
+    bool? isFarmClose,
     DexToken? rewardToken,
   }) = _DexNotificationWithdrawFarm;
 }

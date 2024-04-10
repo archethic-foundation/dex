@@ -55,25 +55,30 @@ class LiquidityAddInProgressPopup {
           liquidityAdd.transactionAddLiquidity!.address!.address != null)
         const LiquidityAddFinalAmount(),
       const Spacer(),
-      aedappfm.InProgressResumeBtn(
-        currentStep: liquidityAdd.currentStep,
-        isProcessInProgress: liquidityAdd.isProcessInProgress,
-        onPressed: () async {
-          ref
-              .read(
-                LiquidityAddFormProvider.liquidityAddForm.notifier,
-              )
-              .setResumeProcess(true);
+      if (liquidityAdd.pool == null ||
+          liquidityAdd.pool!.lpToken.address == null ||
+          liquidityAdd.transactionAddLiquidity == null ||
+          liquidityAdd.transactionAddLiquidity!.address == null ||
+          liquidityAdd.transactionAddLiquidity!.address!.address == null)
+        aedappfm.InProgressResumeBtn(
+          currentStep: liquidityAdd.currentStep,
+          isProcessInProgress: liquidityAdd.isProcessInProgress,
+          onPressed: () async {
+            ref
+                .read(
+                  LiquidityAddFormProvider.liquidityAddForm.notifier,
+                )
+                .setResumeProcess(true);
 
-          if (!context.mounted) return;
-          await ref
-              .read(
-                LiquidityAddFormProvider.liquidityAddForm.notifier,
-              )
-              .add(context, ref);
-        },
-        failure: liquidityAdd.failure,
-      ),
+            if (!context.mounted) return;
+            await ref
+                .read(
+                  LiquidityAddFormProvider.liquidityAddForm.notifier,
+                )
+                .add(context, ref);
+          },
+          failure: liquidityAdd.failure,
+        ),
     ];
   }
 

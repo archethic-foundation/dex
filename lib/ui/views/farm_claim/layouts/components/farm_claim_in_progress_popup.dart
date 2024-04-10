@@ -57,25 +57,28 @@ class FarmClaimInProgressPopup {
           farmClaim.transactionClaimFarm!.address!.address != null)
         const FarmClaimFinalAmount(),
       const Spacer(),
-      aedappfm.InProgressResumeBtn(
-        currentStep: farmClaim.currentStep,
-        isProcessInProgress: farmClaim.isProcessInProgress,
-        onPressed: () async {
-          ref
-              .read(
-                FarmClaimFormProvider.farmClaimForm.notifier,
-              )
-              .setResumeProcess(true);
+      if (farmClaim.transactionClaimFarm == null ||
+          farmClaim.transactionClaimFarm!.address == null ||
+          farmClaim.transactionClaimFarm!.address!.address == null)
+        aedappfm.InProgressResumeBtn(
+          currentStep: farmClaim.currentStep,
+          isProcessInProgress: farmClaim.isProcessInProgress,
+          onPressed: () async {
+            ref
+                .read(
+                  FarmClaimFormProvider.farmClaimForm.notifier,
+                )
+                .setResumeProcess(true);
 
-          if (!context.mounted) return;
-          await ref
-              .read(
-                FarmClaimFormProvider.farmClaimForm.notifier,
-              )
-              .claim(context, ref);
-        },
-        failure: farmClaim.failure,
-      ),
+            if (!context.mounted) return;
+            await ref
+                .read(
+                  FarmClaimFormProvider.farmClaimForm.notifier,
+                )
+                .claim(context, ref);
+          },
+          failure: farmClaim.failure,
+        ),
     ];
   }
 

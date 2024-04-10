@@ -58,25 +58,28 @@ class LiquidityRemoveInProgressPopup {
           liquidityRemove.transactionRemoveLiquidity!.address!.address != null)
         const LiquidityRemoveFinalAmount(),
       const Spacer(),
-      aedappfm.InProgressResumeBtn(
-        currentStep: liquidityRemove.currentStep,
-        isProcessInProgress: liquidityRemove.isProcessInProgress,
-        onPressed: () async {
-          ref
-              .read(
-                LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
-              )
-              .setResumeProcess(true);
+      if (liquidityRemove.transactionRemoveLiquidity == null ||
+          liquidityRemove.transactionRemoveLiquidity!.address == null ||
+          liquidityRemove.transactionRemoveLiquidity!.address!.address == null)
+        aedappfm.InProgressResumeBtn(
+          currentStep: liquidityRemove.currentStep,
+          isProcessInProgress: liquidityRemove.isProcessInProgress,
+          onPressed: () async {
+            ref
+                .read(
+                  LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
+                )
+                .setResumeProcess(true);
 
-          if (!context.mounted) return;
-          await ref
-              .read(
-                LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
-              )
-              .remove(context, ref);
-        },
-        failure: liquidityRemove.failure,
-      ),
+            if (!context.mounted) return;
+            await ref
+                .read(
+                  LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
+                )
+                .remove(context, ref);
+          },
+          failure: liquidityRemove.failure,
+        ),
     ];
   }
 

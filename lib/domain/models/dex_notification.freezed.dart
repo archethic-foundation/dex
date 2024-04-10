@@ -42,8 +42,13 @@ mixin _$DexNotification {
     required TResult Function(DexActionType actionType, String? txAddress,
             double? amount, String? farmAddress, bool? isUCO)
         depositFarm,
-    required TResult Function(DexActionType actionType, String? txAddress,
-            double? amountReward, double? amountWithdraw, DexToken? rewardToken)
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
         withdrawFarm,
   }) =>
       throw _privateConstructorUsedError;
@@ -76,6 +81,7 @@ mixin _$DexNotification {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
   }) =>
@@ -109,6 +115,7 @@ mixin _$DexNotification {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
     required TResult orElse(),
@@ -332,8 +339,13 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
     required TResult Function(DexActionType actionType, String? txAddress,
             double? amount, String? farmAddress, bool? isUCO)
         depositFarm,
-    required TResult Function(DexActionType actionType, String? txAddress,
-            double? amountReward, double? amountWithdraw, DexToken? rewardToken)
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
         withdrawFarm,
   }) {
     return swap(actionType, txAddress, amountSwapped, tokenSwapped);
@@ -369,6 +381,7 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
   }) {
@@ -405,6 +418,7 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
     required TResult orElse(),
@@ -623,8 +637,13 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
     required TResult Function(DexActionType actionType, String? txAddress,
             double? amount, String? farmAddress, bool? isUCO)
         depositFarm,
-    required TResult Function(DexActionType actionType, String? txAddress,
-            double? amountReward, double? amountWithdraw, DexToken? rewardToken)
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
         withdrawFarm,
   }) {
     return addLiquidity(actionType, txAddress, amount, lpToken);
@@ -660,6 +679,7 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
   }) {
@@ -696,6 +716,7 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
     required TResult orElse(),
@@ -985,8 +1006,13 @@ class _$DexNotificationRemoveLiquidityImpl
     required TResult Function(DexActionType actionType, String? txAddress,
             double? amount, String? farmAddress, bool? isUCO)
         depositFarm,
-    required TResult Function(DexActionType actionType, String? txAddress,
-            double? amountReward, double? amountWithdraw, DexToken? rewardToken)
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
         withdrawFarm,
   }) {
     return removeLiquidity(actionType, txAddress, amountToken1, amountToken2,
@@ -1023,6 +1049,7 @@ class _$DexNotificationRemoveLiquidityImpl
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
   }) {
@@ -1060,6 +1087,7 @@ class _$DexNotificationRemoveLiquidityImpl
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
     required TResult orElse(),
@@ -1288,8 +1316,13 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
     required TResult Function(DexActionType actionType, String? txAddress,
             double? amount, String? farmAddress, bool? isUCO)
         depositFarm,
-    required TResult Function(DexActionType actionType, String? txAddress,
-            double? amountReward, double? amountWithdraw, DexToken? rewardToken)
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
         withdrawFarm,
   }) {
     return claimFarm(actionType, txAddress, amount, rewardToken);
@@ -1325,6 +1358,7 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
   }) {
@@ -1361,6 +1395,7 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
     required TResult orElse(),
@@ -1576,8 +1611,13 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
     required TResult Function(DexActionType actionType, String? txAddress,
             double? amount, String? farmAddress, bool? isUCO)
         depositFarm,
-    required TResult Function(DexActionType actionType, String? txAddress,
-            double? amountReward, double? amountWithdraw, DexToken? rewardToken)
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
         withdrawFarm,
   }) {
     return depositFarm(actionType, txAddress, amount, farmAddress, isUCO);
@@ -1613,6 +1653,7 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
   }) {
@@ -1649,6 +1690,7 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
     required TResult orElse(),
@@ -1740,6 +1782,7 @@ abstract class _$$DexNotificationWithdrawFarmImplCopyWith<$Res>
       String? txAddress,
       double? amountReward,
       double? amountWithdraw,
+      bool? isFarmClose,
       DexToken? rewardToken});
 
   $DexTokenCopyWith<$Res>? get rewardToken;
@@ -1762,6 +1805,7 @@ class __$$DexNotificationWithdrawFarmImplCopyWithImpl<$Res>
     Object? txAddress = freezed,
     Object? amountReward = freezed,
     Object? amountWithdraw = freezed,
+    Object? isFarmClose = freezed,
     Object? rewardToken = freezed,
   }) {
     return _then(_$DexNotificationWithdrawFarmImpl(
@@ -1781,6 +1825,10 @@ class __$$DexNotificationWithdrawFarmImplCopyWithImpl<$Res>
           ? _value.amountWithdraw
           : amountWithdraw // ignore: cast_nullable_to_non_nullable
               as double?,
+      isFarmClose: freezed == isFarmClose
+          ? _value.isFarmClose
+          : isFarmClose // ignore: cast_nullable_to_non_nullable
+              as bool?,
       rewardToken: freezed == rewardToken
           ? _value.rewardToken
           : rewardToken // ignore: cast_nullable_to_non_nullable
@@ -1809,6 +1857,7 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
       this.txAddress,
       this.amountReward,
       this.amountWithdraw,
+      this.isFarmClose,
       this.rewardToken})
       : super._();
 
@@ -1822,11 +1871,13 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
   @override
   final double? amountWithdraw;
   @override
+  final bool? isFarmClose;
+  @override
   final DexToken? rewardToken;
 
   @override
   String toString() {
-    return 'DexNotification.withdrawFarm(actionType: $actionType, txAddress: $txAddress, amountReward: $amountReward, amountWithdraw: $amountWithdraw, rewardToken: $rewardToken)';
+    return 'DexNotification.withdrawFarm(actionType: $actionType, txAddress: $txAddress, amountReward: $amountReward, amountWithdraw: $amountWithdraw, isFarmClose: $isFarmClose, rewardToken: $rewardToken)';
   }
 
   @override
@@ -1842,13 +1893,15 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
                 other.amountReward == amountReward) &&
             (identical(other.amountWithdraw, amountWithdraw) ||
                 other.amountWithdraw == amountWithdraw) &&
+            (identical(other.isFarmClose, isFarmClose) ||
+                other.isFarmClose == isFarmClose) &&
             (identical(other.rewardToken, rewardToken) ||
                 other.rewardToken == rewardToken));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, actionType, txAddress,
-      amountReward, amountWithdraw, rewardToken);
+      amountReward, amountWithdraw, isFarmClose, rewardToken);
 
   @JsonKey(ignore: true)
   @override
@@ -1882,12 +1935,17 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
     required TResult Function(DexActionType actionType, String? txAddress,
             double? amount, String? farmAddress, bool? isUCO)
         depositFarm,
-    required TResult Function(DexActionType actionType, String? txAddress,
-            double? amountReward, double? amountWithdraw, DexToken? rewardToken)
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
         withdrawFarm,
   }) {
-    return withdrawFarm(
-        actionType, txAddress, amountReward, amountWithdraw, rewardToken);
+    return withdrawFarm(actionType, txAddress, amountReward, amountWithdraw,
+        isFarmClose, rewardToken);
   }
 
   @override
@@ -1920,11 +1978,12 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
   }) {
-    return withdrawFarm?.call(
-        actionType, txAddress, amountReward, amountWithdraw, rewardToken);
+    return withdrawFarm?.call(actionType, txAddress, amountReward,
+        amountWithdraw, isFarmClose, rewardToken);
   }
 
   @override
@@ -1957,13 +2016,14 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
             String? txAddress,
             double? amountReward,
             double? amountWithdraw,
+            bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
     required TResult orElse(),
   }) {
     if (withdrawFarm != null) {
-      return withdrawFarm(
-          actionType, txAddress, amountReward, amountWithdraw, rewardToken);
+      return withdrawFarm(actionType, txAddress, amountReward, amountWithdraw,
+          isFarmClose, rewardToken);
     }
     return orElse();
   }
@@ -2019,6 +2079,7 @@ abstract class _DexNotificationWithdrawFarm extends DexNotification {
       final String? txAddress,
       final double? amountReward,
       final double? amountWithdraw,
+      final bool? isFarmClose,
       final DexToken? rewardToken}) = _$DexNotificationWithdrawFarmImpl;
   const _DexNotificationWithdrawFarm._() : super._();
 
@@ -2028,6 +2089,7 @@ abstract class _DexNotificationWithdrawFarm extends DexNotification {
   String? get txAddress;
   double? get amountReward;
   double? get amountWithdraw;
+  bool? get isFarmClose;
   DexToken? get rewardToken;
   @override
   @JsonKey(ignore: true)

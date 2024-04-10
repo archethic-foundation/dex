@@ -3,9 +3,11 @@ part of 'farm_details_user_info.dart';
 class _BalanceDetails extends ConsumerWidget {
   const _BalanceDetails({
     required this.farm,
+    required this.rewardAmount,
   });
 
   final DexFarm farm;
+  final double rewardAmount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -273,72 +275,73 @@ class _BalanceDetails extends ConsumerWidget {
                         },
                       ),
                     ),
-                    Expanded(
-                      child: aedappfm.ButtonValidate(
-                        background: aedappfm.ArchethicThemeBase.purple500,
-                        controlOk: farm.remainingReward > 0,
-                        labelBtn: 'Claim',
-                        onPressed: () async {
-                          if (context.mounted) {
-                            final farmAddressJson =
-                                jsonEncode(farm.farmAddress);
-                            final farmAddressEncoded =
-                                Uri.encodeComponent(farmAddressJson);
+                    if (rewardAmount > 0)
+                      Expanded(
+                        child: aedappfm.ButtonValidate(
+                          background: aedappfm.ArchethicThemeBase.purple500,
+                          controlOk: farm.remainingReward > 0,
+                          labelBtn: 'Claim',
+                          onPressed: () async {
+                            if (context.mounted) {
+                              final farmAddressJson =
+                                  jsonEncode(farm.farmAddress);
+                              final farmAddressEncoded =
+                                  Uri.encodeComponent(farmAddressJson);
 
-                            final rewardTokenJson =
-                                jsonEncode(farm.rewardToken);
-                            final rewardTokenEncoded =
-                                Uri.encodeComponent(rewardTokenJson);
+                              final rewardTokenJson =
+                                  jsonEncode(farm.rewardToken);
+                              final rewardTokenEncoded =
+                                  Uri.encodeComponent(rewardTokenJson);
 
-                            final lpTokenAddressJson =
-                                jsonEncode(farm.lpToken!.address);
-                            final lpTokenAddressEncoded =
-                                Uri.encodeComponent(lpTokenAddressJson);
+                              final lpTokenAddressJson =
+                                  jsonEncode(farm.lpToken!.address);
+                              final lpTokenAddressEncoded =
+                                  Uri.encodeComponent(lpTokenAddressJson);
 
-                            context.go(
-                              Uri(
-                                path: FarmClaimSheet.routerPage,
-                                queryParameters: {
-                                  'farmAddress': farmAddressEncoded,
-                                  'rewardToken': rewardTokenEncoded,
-                                  'lpTokenAddress': lpTokenAddressEncoded,
-                                },
-                              ).toString(),
-                            );
-                          }
-                        },
-                        isConnected: session.isConnected,
-                        displayWalletConnectOnPressed: () async {
-                          final sessionNotifier =
-                              ref.read(SessionProviders.session.notifier);
-                          await sessionNotifier.connectToWallet();
+                              context.go(
+                                Uri(
+                                  path: FarmClaimSheet.routerPage,
+                                  queryParameters: {
+                                    'farmAddress': farmAddressEncoded,
+                                    'rewardToken': rewardTokenEncoded,
+                                    'lpTokenAddress': lpTokenAddressEncoded,
+                                  },
+                                ).toString(),
+                              );
+                            }
+                          },
+                          isConnected: session.isConnected,
+                          displayWalletConnectOnPressed: () async {
+                            final sessionNotifier =
+                                ref.read(SessionProviders.session.notifier);
+                            await sessionNotifier.connectToWallet();
 
-                          final session = ref.read(SessionProviders.session);
-                          if (session.error.isNotEmpty) {
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Theme.of(context)
-                                    .snackBarTheme
-                                    .backgroundColor,
-                                content: SelectableText(
-                                  session.error,
-                                  style: Theme.of(context)
+                            final session = ref.read(SessionProviders.session);
+                            if (session.error.isNotEmpty) {
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Theme.of(context)
                                       .snackBarTheme
-                                      .contentTextStyle,
+                                      .backgroundColor,
+                                  content: SelectableText(
+                                    session.error,
+                                    style: Theme.of(context)
+                                        .snackBarTheme
+                                        .contentTextStyle,
+                                  ),
+                                  duration: const Duration(seconds: 2),
                                 ),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
-                          } else {
-                            if (!context.mounted) return;
-                            context.go(
-                              '/',
-                            );
-                          }
-                        },
+                              );
+                            } else {
+                              if (!context.mounted) return;
+                              context.go(
+                                '/',
+                              );
+                            }
+                          },
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ],

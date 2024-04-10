@@ -48,25 +48,28 @@ class SwapInProgressPopup {
           swap.recoveryTransactionSwap!.address!.address != null)
         const SwapFinalAmount(),
       const Spacer(),
-      aedappfm.InProgressResumeBtn(
-        currentStep: swap.currentStep,
-        isProcessInProgress: swap.isProcessInProgress,
-        onPressed: () async {
-          ref
-              .read(
-                SwapFormProvider.swapForm.notifier,
-              )
-              .setResumeProcess(true);
+      if (swap.recoveryTransactionSwap == null ||
+          swap.recoveryTransactionSwap!.address == null ||
+          swap.recoveryTransactionSwap!.address!.address == null)
+        aedappfm.InProgressResumeBtn(
+          currentStep: swap.currentStep,
+          isProcessInProgress: swap.isProcessInProgress,
+          onPressed: () async {
+            ref
+                .read(
+                  SwapFormProvider.swapForm.notifier,
+                )
+                .setResumeProcess(true);
 
-          if (!context.mounted) return;
-          await ref
-              .read(
-                SwapFormProvider.swapForm.notifier,
-              )
-              .swap(context, ref);
-        },
-        failure: swap.failure,
-      ),
+            if (!context.mounted) return;
+            await ref
+                .read(
+                  SwapFormProvider.swapForm.notifier,
+                )
+                .swap(context, ref);
+          },
+          failure: swap.failure,
+        ),
     ];
   }
 
