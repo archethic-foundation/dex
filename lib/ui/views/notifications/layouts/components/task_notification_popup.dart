@@ -10,6 +10,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
     required DexActionType actionType,
     Widget? action,
     VoidCallback? onActionPressed,
+    required Color progressIndicatorColor,
   }) = _TaskNotificationPopup;
 
   factory TaskNotificationPopup._fromSwap(
@@ -279,6 +280,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
         actionType: actionType,
         action: action,
         onActionPressed: onActionPressed,
+        progressIndicatorColor: Colors.green,
       );
 
   factory TaskNotificationPopup.failure({
@@ -300,6 +302,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
         actionType: actionType,
         action: action,
         onActionPressed: onActionPressed,
+        progressIndicatorColor: Colors.red,
       );
 
   factory TaskNotificationPopup.fromTask(
@@ -366,8 +369,8 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       background: Theme.of(context).colorScheme.background,
       description: description,
       title: title,
-      showProgressIndicator: false,
-      autoDismiss: false,
+      toastDuration: const Duration(seconds: 20),
+      progressIndicatorColor: progressIndicatorColor,
       action: action,
       onNotificationPressed: onActionPressed,
       width: width,

@@ -23,6 +23,7 @@ mixin _$TaskNotificationPopup {
   DexActionType get actionType => throw _privateConstructorUsedError;
   Widget? get action => throw _privateConstructorUsedError;
   VoidCallback? get onActionPressed => throw _privateConstructorUsedError;
+  Color get progressIndicatorColor => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TaskNotificationPopupCopyWith<TaskNotificationPopup> get copyWith =>
@@ -42,7 +43,8 @@ abstract class $TaskNotificationPopupCopyWith<$Res> {
       Widget description,
       DexActionType actionType,
       Widget? action,
-      VoidCallback? onActionPressed});
+      VoidCallback? onActionPressed,
+      Color progressIndicatorColor});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$TaskNotificationPopupCopyWithImpl<$Res,
     Object? actionType = null,
     Object? action = freezed,
     Object? onActionPressed = freezed,
+    Object? progressIndicatorColor = null,
   }) {
     return _then(_value.copyWith(
       key: freezed == key
@@ -96,6 +99,10 @@ class _$TaskNotificationPopupCopyWithImpl<$Res,
           ? _value.onActionPressed
           : onActionPressed // ignore: cast_nullable_to_non_nullable
               as VoidCallback?,
+      progressIndicatorColor: null == progressIndicatorColor
+          ? _value.progressIndicatorColor
+          : progressIndicatorColor // ignore: cast_nullable_to_non_nullable
+              as Color,
     ) as $Val);
   }
 }
@@ -116,7 +123,8 @@ abstract class _$$TaskNotificationPopupImplCopyWith<$Res>
       Widget description,
       DexActionType actionType,
       Widget? action,
-      VoidCallback? onActionPressed});
+      VoidCallback? onActionPressed,
+      Color progressIndicatorColor});
 }
 
 /// @nodoc
@@ -138,6 +146,7 @@ class __$$TaskNotificationPopupImplCopyWithImpl<$Res>
     Object? actionType = null,
     Object? action = freezed,
     Object? onActionPressed = freezed,
+    Object? progressIndicatorColor = null,
   }) {
     return _then(_$TaskNotificationPopupImpl(
       key: freezed == key
@@ -168,6 +177,10 @@ class __$$TaskNotificationPopupImplCopyWithImpl<$Res>
           ? _value.onActionPressed
           : onActionPressed // ignore: cast_nullable_to_non_nullable
               as VoidCallback?,
+      progressIndicatorColor: null == progressIndicatorColor
+          ? _value.progressIndicatorColor
+          : progressIndicatorColor // ignore: cast_nullable_to_non_nullable
+              as Color,
     ));
   }
 }
@@ -182,7 +195,8 @@ class _$TaskNotificationPopupImpl extends _TaskNotificationPopup {
       required this.description,
       required this.actionType,
       this.action,
-      this.onActionPressed})
+      this.onActionPressed,
+      required this.progressIndicatorColor})
       : super._();
 
   @override
@@ -199,10 +213,12 @@ class _$TaskNotificationPopupImpl extends _TaskNotificationPopup {
   final Widget? action;
   @override
   final VoidCallback? onActionPressed;
+  @override
+  final Color progressIndicatorColor;
 
   @override
   String toString() {
-    return 'TaskNotificationPopup(key: $key, icon: $icon, title: $title, description: $description, actionType: $actionType, action: $action, onActionPressed: $onActionPressed)';
+    return 'TaskNotificationPopup(key: $key, icon: $icon, title: $title, description: $description, actionType: $actionType, action: $action, onActionPressed: $onActionPressed, progressIndicatorColor: $progressIndicatorColor)';
   }
 
   @override
@@ -219,12 +235,14 @@ class _$TaskNotificationPopupImpl extends _TaskNotificationPopup {
                 other.actionType == actionType) &&
             (identical(other.action, action) || other.action == action) &&
             (identical(other.onActionPressed, onActionPressed) ||
-                other.onActionPressed == onActionPressed));
+                other.onActionPressed == onActionPressed) &&
+            (identical(other.progressIndicatorColor, progressIndicatorColor) ||
+                other.progressIndicatorColor == progressIndicatorColor));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, key, icon, title, description,
-      actionType, action, onActionPressed);
+      actionType, action, onActionPressed, progressIndicatorColor);
 
   @JsonKey(ignore: true)
   @override
@@ -236,13 +254,15 @@ class _$TaskNotificationPopupImpl extends _TaskNotificationPopup {
 
 abstract class _TaskNotificationPopup extends TaskNotificationPopup {
   const factory _TaskNotificationPopup(
-      {final Key? key,
-      required final Widget icon,
-      final Widget? title,
-      required final Widget description,
-      required final DexActionType actionType,
-      final Widget? action,
-      final VoidCallback? onActionPressed}) = _$TaskNotificationPopupImpl;
+          {final Key? key,
+          required final Widget icon,
+          final Widget? title,
+          required final Widget description,
+          required final DexActionType actionType,
+          final Widget? action,
+          final VoidCallback? onActionPressed,
+          required final Color progressIndicatorColor}) =
+      _$TaskNotificationPopupImpl;
   const _TaskNotificationPopup._() : super._();
 
   @override
@@ -259,6 +279,8 @@ abstract class _TaskNotificationPopup extends TaskNotificationPopup {
   Widget? get action;
   @override
   VoidCallback? get onActionPressed;
+  @override
+  Color get progressIndicatorColor;
   @override
   @JsonKey(ignore: true)
   _$$TaskNotificationPopupImplCopyWith<_$TaskNotificationPopupImpl>
