@@ -22,6 +22,7 @@ mixin _$PoolItemState {
   double get fee24h => throw _privateConstructorUsedError;
   double get volumeAllTime => throw _privateConstructorUsedError;
   double get feeAllTime => throw _privateConstructorUsedError;
+  bool get refreshInProgress => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolItemStateCopyWith<PoolItemState> get copyWith =>
@@ -40,7 +41,8 @@ abstract class $PoolItemStateCopyWith<$Res> {
       double volume24h,
       double fee24h,
       double volumeAllTime,
-      double feeAllTime});
+      double feeAllTime,
+      bool refreshInProgress});
 
   $DexPoolCopyWith<$Res>? get pool;
 }
@@ -64,6 +66,7 @@ class _$PoolItemStateCopyWithImpl<$Res, $Val extends PoolItemState>
     Object? fee24h = null,
     Object? volumeAllTime = null,
     Object? feeAllTime = null,
+    Object? refreshInProgress = null,
   }) {
     return _then(_value.copyWith(
       poolAddress: null == poolAddress
@@ -90,6 +93,10 @@ class _$PoolItemStateCopyWithImpl<$Res, $Val extends PoolItemState>
           ? _value.feeAllTime
           : feeAllTime // ignore: cast_nullable_to_non_nullable
               as double,
+      refreshInProgress: null == refreshInProgress
+          ? _value.refreshInProgress
+          : refreshInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -120,7 +127,8 @@ abstract class _$$PoolItemStateImplCopyWith<$Res>
       double volume24h,
       double fee24h,
       double volumeAllTime,
-      double feeAllTime});
+      double feeAllTime,
+      bool refreshInProgress});
 
   @override
   $DexPoolCopyWith<$Res>? get pool;
@@ -143,6 +151,7 @@ class __$$PoolItemStateImplCopyWithImpl<$Res>
     Object? fee24h = null,
     Object? volumeAllTime = null,
     Object? feeAllTime = null,
+    Object? refreshInProgress = null,
   }) {
     return _then(_$PoolItemStateImpl(
       poolAddress: null == poolAddress
@@ -169,6 +178,10 @@ class __$$PoolItemStateImplCopyWithImpl<$Res>
           ? _value.feeAllTime
           : feeAllTime // ignore: cast_nullable_to_non_nullable
               as double,
+      refreshInProgress: null == refreshInProgress
+          ? _value.refreshInProgress
+          : refreshInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -182,7 +195,8 @@ class _$PoolItemStateImpl extends _PoolItemState {
       this.volume24h = 0.0,
       this.fee24h = 0.0,
       this.volumeAllTime = 0.0,
-      this.feeAllTime = 0.0})
+      this.feeAllTime = 0.0,
+      this.refreshInProgress = false})
       : super._();
 
   @override
@@ -201,10 +215,13 @@ class _$PoolItemStateImpl extends _PoolItemState {
   @override
   @JsonKey()
   final double feeAllTime;
+  @override
+  @JsonKey()
+  final bool refreshInProgress;
 
   @override
   String toString() {
-    return 'PoolItemState(poolAddress: $poolAddress, pool: $pool, volume24h: $volume24h, fee24h: $fee24h, volumeAllTime: $volumeAllTime, feeAllTime: $feeAllTime)';
+    return 'PoolItemState(poolAddress: $poolAddress, pool: $pool, volume24h: $volume24h, fee24h: $fee24h, volumeAllTime: $volumeAllTime, feeAllTime: $feeAllTime, refreshInProgress: $refreshInProgress)';
   }
 
   @override
@@ -221,12 +238,14 @@ class _$PoolItemStateImpl extends _PoolItemState {
             (identical(other.volumeAllTime, volumeAllTime) ||
                 other.volumeAllTime == volumeAllTime) &&
             (identical(other.feeAllTime, feeAllTime) ||
-                other.feeAllTime == feeAllTime));
+                other.feeAllTime == feeAllTime) &&
+            (identical(other.refreshInProgress, refreshInProgress) ||
+                other.refreshInProgress == refreshInProgress));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, poolAddress, pool, volume24h,
-      fee24h, volumeAllTime, feeAllTime);
+      fee24h, volumeAllTime, feeAllTime, refreshInProgress);
 
   @JsonKey(ignore: true)
   @override
@@ -242,7 +261,8 @@ abstract class _PoolItemState extends PoolItemState {
       final double volume24h,
       final double fee24h,
       final double volumeAllTime,
-      final double feeAllTime}) = _$PoolItemStateImpl;
+      final double feeAllTime,
+      final bool refreshInProgress}) = _$PoolItemStateImpl;
   const _PoolItemState._() : super._();
 
   @override
@@ -257,6 +277,8 @@ abstract class _PoolItemState extends PoolItemState {
   double get volumeAllTime;
   @override
   double get feeAllTime;
+  @override
+  bool get refreshInProgress;
   @override
   @JsonKey(ignore: true)
   _$$PoolItemStateImplCopyWith<_$PoolItemStateImpl> get copyWith =>

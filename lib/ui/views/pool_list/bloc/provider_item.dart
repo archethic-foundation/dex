@@ -25,6 +25,10 @@ class PoolItemNotifier
       volumeAllTime: stats.volumeAllTime,
     );
   }
+
+  void setRefreshInProgress(bool refreshInProgress) {
+    state = state.copyWith(refreshInProgress: refreshInProgress);
+  }
 }
 
 abstract class PoolItemProvider {

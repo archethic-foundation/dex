@@ -1,5 +1,6 @@
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -15,8 +16,15 @@ class PoolRefreshIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isRefreshSuccess =
+        ref.watch(PoolItemProvider.poolItem(poolAddress)).refreshInProgress;
     return InkWell(
       onTap: () async {
+        if (isRefreshSuccess) return;
+        ref
+            .read(PoolItemProvider.poolItem(poolAddress).notifier)
+            .setRefreshInProgress(true);
+
         ref.invalidate(DexPoolProviders.getPool(poolAddress));
         final poolListForm = ref.read(
           PoolListFormProvider.poolListForm,
@@ -29,6 +37,11 @@ class PoolRefreshIcon extends ConsumerWidget {
             .setPoolsToDisplay(
               poolListForm.tabIndexSelected,
             );
+
+        await Future.delayed(const Duration(seconds: 3));
+        ref
+            .read(PoolItemProvider.poolItem(poolAddress).notifier)
+            .setRefreshInProgress(false);
       },
       child: Tooltip(
         message: 'Refresh information',
@@ -44,18 +57,21 @@ class PoolRefreshIcon extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             elevation: 0,
-            color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
-                .withOpacity(1),
-            child: const Padding(
-              padding: EdgeInsets.only(
+            color: isRefreshSuccess
+                ? aedappfm.ArchethicThemeBase.systemPositive600
+                : aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
+                    .withOpacity(1),
+            child: Padding(
+              padding: const EdgeInsets.only(
                 top: 5,
                 bottom: 5,
                 left: 10,
                 right: 10,
               ),
               child: Icon(
-                aedappfm.Iconsax.refresh,
+                isRefreshSuccess ? Icons.check : aedappfm.Iconsax.refresh,
                 size: 16,
+                color: isRefreshSuccess ? Colors.white : null,
               ),
             ),
           ),
