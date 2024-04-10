@@ -72,11 +72,10 @@ class _SessionNotifier extends Notifier<Session> {
       );
       awc.ArchethicDAppClient? archethicDAppClient;
       try {
-        archethicDAppClient = awc.ArchethicDAppClient.auto(
+        archethicDAppClient = awc.ArchethicDAppClient.websocket(
           origin: const awc.RequestOrigin(
             name: 'aeSwap',
           ),
-          replyBaseUrl: '',
         );
       } catch (e) {
         throw const aedappfm.Failure.connectivityArchethic();
