@@ -71,6 +71,10 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         );
       }
     }
+
+    if (context.mounted) {
+      _controlBalances(context);
+    }
   }
 
   Future<void> setToken2(
@@ -105,15 +109,48 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return;
     }
 
-    if (state.token2 != null && state.token2Amount > state.token2Balance) {
+    if (context.mounted) {
+      _controlBalances(context);
+    }
+  }
+
+  void _controlBalances(BuildContext context) {
+    if (state.token1 != null &&
+        state.token1Amount > state.token1Balance &&
+        state.token2 != null &&
+        state.token2Amount > state.token2Balance &&
+        context.mounted) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .poolAddControl2TokensAmountExceedBalance,
+        ),
+      );
+      return;
+    }
+
+    if (state.token1 != null && state.token1Amount > state.token1Balance) {
       if (context.mounted) {
         setFailure(
           aedappfm.Failure.other(
             cause: AppLocalizations.of(context)!
-                .poolAddControlToken2AmountExceedBalance,
+                .poolAddControlToken1AmountExceedBalance,
           ),
         );
       }
+      return;
+    }
+
+    if (state.token2 != null &&
+        state.token2Amount > state.token2Balance &&
+        context.mounted) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .poolAddControlToken2AmountExceedBalance,
+        ),
+      );
+      return;
     }
   }
 
@@ -175,13 +212,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         ),
       );
     }
-    if (state.token2 != null && state.token2Amount > state.token2Balance) {
-      setFailure(
-        aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken2AmountExceedBalance,
-        ),
-      );
+
+    if (context.mounted) {
+      _controlBalances(context);
     }
   }
 
@@ -195,21 +228,8 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       token2Amount: amount,
     );
 
-    if (state.token1 != null && state.token1Amount > state.token1Balance) {
-      setFailure(
-        aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken1AmountExceedBalance,
-        ),
-      );
-    }
-    if (state.token2 != null && state.token2Amount > state.token2Balance) {
-      setFailure(
-        aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken2AmountExceedBalance,
-        ),
-      );
+    if (context.mounted) {
+      _controlBalances(context);
     }
   }
 
