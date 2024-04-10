@@ -13,6 +13,7 @@ class PoolItemState with _$PoolItemState {
     @Default(0.0) double fee24h,
     @Default(0.0) double volumeAllTime,
     @Default(0.0) double feeAllTime,
+    @Default(false) bool refreshInProgress,
   }) = _PoolItemState;
   const PoolItemState._();
 }
