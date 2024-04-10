@@ -45,20 +45,35 @@ class FarmWithdrawFormNotifier
   }
 
   void setAmount(
+    BuildContext context,
     double amount,
   ) {
     state = state.copyWith(
       failure: null,
       amount: amount,
     );
+
+    if (state.amount > state.dexFarmUserInfo!.depositedAmount) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!
+              .farmWithdrawControlLPTokenAmountExceedDeposited,
+        ),
+      );
+    }
   }
 
-  void setAmountMax() {
-    setAmount(state.dexFarmUserInfo!.depositedAmount);
+  void setAmountMax(
+    BuildContext context,
+  ) {
+    setAmount(context, state.dexFarmUserInfo!.depositedAmount);
   }
 
-  void setAmountHalf() {
+  void setAmountHalf(
+    BuildContext context,
+  ) {
     setAmount(
+      context,
       (Decimal.parse(state.dexFarmUserInfo!.depositedAmount.toString()) /
               Decimal.fromInt(2))
           .toDouble(),

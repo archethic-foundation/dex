@@ -121,6 +121,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                             controller: tokenAmountController,
                             onChanged: (text) async {
                               farmWithdrawNotifier.setAmount(
+                                context,
                                 double.tryParse(text.replaceAll(' ', '')) ?? 0,
                               );
                             },
@@ -188,7 +189,9 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                         .read(
                           FarmWithdrawFormProvider.farmWithdrawForm.notifier,
                         )
-                        .setAmountHalf();
+                        .setAmountHalf(
+                          context,
+                        );
                     _updateAmountTextController();
                   },
                 ),
@@ -202,7 +205,9 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                         .read(
                           FarmWithdrawFormProvider.farmWithdrawForm.notifier,
                         )
-                        .setAmountMax();
+                        .setAmountMax(
+                          context,
+                        );
                     _updateAmountTextController();
                   },
                 ),
