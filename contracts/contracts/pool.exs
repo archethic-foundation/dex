@@ -335,7 +335,7 @@ export fun get_swap_infos(token_address, amount) do
 
   if reserves.token1 > 0 && reserves.token2 > 0 do
     fee = amount * 0.0025
-    protocol_fee = amount * State.get("protocol_fee", 0.25) / 100
+    protocol_fee = amount * State.get("protocol_fee", 0) / 100
     amount_with_fee = amount - fee - protocol_fee
 
     market_price = 0
@@ -412,7 +412,7 @@ export fun get_pool_infos() do
       supply: State.get("lp_token_supply", 0)
     ],
     fee: 0.25,
-    protocol_fee: State.get("protocol_fee", 0.25),
+    protocol_fee: State.get("protocol_fee", 0),
     stats: stats
   ]
 end
