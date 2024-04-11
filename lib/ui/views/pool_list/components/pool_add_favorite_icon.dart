@@ -32,7 +32,8 @@ class PoolAddFavoriteIcon extends ConsumerWidget {
               PoolListFormProvider.poolListForm.notifier,
             )
             .setPoolsToDisplay(
-              poolListForm.tabIndexSelected,
+              tabIndexSelected: poolListForm.tabIndexSelected,
+              cancelToken: UniqueKey().toString(),
             );
       },
       child: Tooltip(

@@ -55,11 +55,11 @@ Future<List<DexPool>> _getPoolListForUser(
 }
 
 @riverpod
-Future<List<DexPool>> _getPoolListForSearch(
-  _GetPoolListForUserRef ref,
+List<DexPool> _getPoolListForSearch(
+  _GetPoolListForSearchRef ref,
   String searchText,
   List<DexPool> poolList,
-) async {
+) {
   bool _poolMatchesSearch(DexPool pool) {
     return (pool.poolAddress.toUpperCase() == searchText.toUpperCase() ||
             pool.pair.token1.address!.toUpperCase() ==

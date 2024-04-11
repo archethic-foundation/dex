@@ -35,7 +35,10 @@ class _PoolListSheetState extends ConsumerState<PoolListSheet> {
 
       await ref
           .read(PoolListFormProvider.poolListForm.notifier)
-          .setPoolsToDisplay(widget.tab);
+          .setPoolsToDisplay(
+            tabIndexSelected: widget.tab,
+            cancelToken: UniqueKey().toString(),
+          );
     });
     super.initState();
   }
