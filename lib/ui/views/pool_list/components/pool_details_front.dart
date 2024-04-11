@@ -138,7 +138,7 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
                                     poolItem.pool!.lpTokenInUserBalance,
                               ),
                               LiquidityFavoriteIcon(
-                                isFavorite: poolItem.pool!.isFavorite,
+                                isFavorite: widget.pool.isFavorite,
                               ),
                             ],
                           ),
