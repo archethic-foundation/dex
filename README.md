@@ -206,6 +206,11 @@ This action allow user to withdraw all or a part of it's deposited lp token. In 
 - `amount` is the amount the user wants to withdraw
 
 ```elixir
+udpate_dates(new_start_date, new_end_date)
+```
+This action can be triggered only by the Master address of the dex. The farm will update the start and end date.
+
+```elixir
 update_code()
 ```
 This action can be triggered only by the Router contract of the dex. It allow the Router to request the farm to update it's code. The farm will request the new code using the function `get_farm_code` of the Factory (see above).
@@ -299,21 +304,23 @@ node dex --help
 dex [command]
 
 Commands:
-  dex init_keychain     Initialize the dex keychain with the primary services
-  dex deploy_factory    Deploy the factory
-  dex deploy_router     Deploy the router
-  dex update_router     Update the router
-  dex update_pools      Update all pool code
-  dex update_farms      Update all farm code
-  dex create_tokens     Create tokens and send them to user address
-  dex deploy_pool       Deploy a pool for the token specified
-  dex add_liquidity     Add liquidity to a pool
-  dex remove_liquidity  Remove liquidity from a pool
-  dex swap              Swap exact token for token
-  dex deploy_farm       Deploy a farm for a lp token and a reward token
-  dex deposit           Deposit LP Token in a farm
-  dex claim             Claim token from a farming pool
-  dex withdraw          Withdraw LP token from a farming pool and claim rewards
+  dex init_keychain        Initialize the dex keychain with the primary services
+  dex deploy_factory       Deploy the factory
+  dex deploy_router        Deploy the router
+  dex update_router        Update the router
+  dex update_pools         Update all pool code
+  dex update_farms         Update all farm code
+  dex update_protocol_fee  Update the protocol fee for a pool
+  dex update_farm_dates    Update the start and end date of a farm
+  dex create_tokens        Create tokens and send them to user address
+  dex deploy_pool          Deploy a pool for the token specified
+  dex add_liquidity        Add liquidity to a pool
+  dex remove_liquidity     Remove liquidity from a pool
+  dex swap                 Swap exact token for token
+  dex deploy_farm          Deploy a farm for a lp token and a reward token
+  dex deposit              Deposit LP Token in a farm
+  dex claim                Claim token from a farming pool
+  dex withdraw             Withdraw LP token from a farming pool and claim rewards
 ```
 
 For each command you can get the help:

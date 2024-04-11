@@ -35,6 +35,7 @@ export fun get_farm_code(lp_token, start_date, end_date, reward_token, farm_gene
 
   router_address = @ROUTER_ADDRESS
   factory_address = @FACTORY_ADDRESS
+  master_address = @MASTER_ADDRESS
 
 """
 @FARM_CODE

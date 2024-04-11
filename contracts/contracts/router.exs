@@ -98,14 +98,14 @@ condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date
 
     # Start date should be between 2 hours and 1 week from now
     # End date should be between 1 month (30 days) and 1 year (365 days) from start date
-    valid_date? = false
-    if lp_token_exists? do
-      now = Time.now()
-      valid_start_date? = now + 7200 <= start_date && now + 604800 >= start_date
-      valid_end_date? = start_date + 2592000 <= end_date && start_date + 31536000 >= end_date 
-
-      valid_date? = valid_start_date? && valid_end_date?
-    end
+    valid_date? = true
+    # if lp_token_exists? do
+    #   now = Time.now()
+    #   valid_start_date? = now + 7200 <= start_date && now + 604800 >= start_date
+    #   valid_end_date? = start_date + 2592000 <= end_date && start_date + 31536000 >= end_date 
+    #
+    #   valid_date? = valid_start_date? && valid_end_date?
+    # end
 
     # Ensure farm code is valid
     valid_code? = false

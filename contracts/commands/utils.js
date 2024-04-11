@@ -121,6 +121,8 @@ export function getFactoryCode(keychain) {
   farmCode = farmCode.replaceAll("@ROUTER_ADDRESS", "0x#{router_address}")
   // Replace factory address
   farmCode = farmCode.replaceAll("@FACTORY_ADDRESS", "0x#{factory_address}")
+  // Replace master address
+  farmCode = farmCode.replaceAll("@MASTER_ADDRESS", "0x#{master_address}")
 
   let factoryCode = fs.readFileSync(factoryContractPath, "utf8")
   // Replace router address
