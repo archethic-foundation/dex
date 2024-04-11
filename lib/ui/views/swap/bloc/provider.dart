@@ -39,6 +39,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double fees,
         double priceImpact,
         double protocolFees,
+        bool cancel,
       })>? _calculateSwapInfosTask;
 
   Future<void> getPool() async {
@@ -122,6 +123,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         double fees,
         double priceImpact,
         double protocolFees,
+        bool cancel,
       })> calculateSwapInfos(
     String tokenAddress,
     double amount, {
@@ -133,6 +135,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         fees: 0.0,
         priceImpact: 0.0,
         protocolFees: 0.0,
+        cancel: false,
       );
     }
     final apiService = aedappfm.sl.get<ApiService>();
@@ -141,6 +144,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       double outputAmount,
       double priceImpact,
       double protocolFees,
+      bool cancel,
     }) result;
     try {
       result = await Future<
@@ -149,6 +153,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             double fees,
             double priceImpact,
             double protocolFees,
+            bool cancel,
           })>(
         () async {
           if (amount <= 0) {
@@ -157,6 +162,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
               fees: 0.0,
               priceImpact: 0.0,
               protocolFees: 0.0,
+              cancel: false,
             );
           }
 
@@ -167,6 +173,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 double fees,
                 double priceImpact,
                 double protocolFees,
+                bool cancel,
               })>(
             task: () async {
               var _outputAmount = 0.0;
@@ -209,6 +216,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
                 fees: _fees,
                 priceImpact: _priceImpact,
                 protocolFees: _protocolFees,
+                cancel: false,
               );
             },
           );
@@ -220,6 +228,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
             fees: __result == null ? 0.0 : __result.fees,
             priceImpact: __result == null ? 0.0 : __result.priceImpact,
             protocolFees: __result == null ? 0.0 : __result.protocolFees,
+            cancel: false,
           );
         },
       );
@@ -229,6 +238,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         fees: 0.0,
         priceImpact: 0.0,
         protocolFees: 0.0,
+        cancel: true,
       );
     }
     return (
@@ -236,12 +246,18 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       fees: result.fees,
       priceImpact: result.priceImpact,
       protocolFees: result.protocolFees,
+      cancel: false,
     );
   }
 
   Future<void> calculateOutputAmount() async {
-    var swapInfos =
-        (fees: 0.0, outputAmount: 0.0, priceImpact: 0.0, protocolFees: 0.0);
+    var swapInfos = (
+      fees: 0.0,
+      outputAmount: 0.0,
+      priceImpact: 0.0,
+      protocolFees: 0.0,
+      cancel: false,
+    );
 
     if (state.tokenFormSelected == 1) {
       if (state.tokenToSwapAmount == 0) {
@@ -258,6 +274,15 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       state = state.copyWith(
         tokenSwappedAmount: swapInfos.outputAmount,
       );
+
+      if (swapInfos.cancel == false && (state.tokenSwappedAmount == 0)) {
+        setFailure(
+          const aedappfm.Failure.other(
+            cause:
+                'The entered amount is too low to execute a swap. Please increase the amount.',
+          ),
+        );
+      }
     } else {
       if (state.tokenSwappedAmount == 0) {
         return;
@@ -270,6 +295,15 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
         state.tokenSwappedAmount,
       );
+
+      if (swapInfos.cancel == false && (state.tokenSwappedAmount == 0)) {
+        setFailure(
+          const aedappfm.Failure.other(
+            cause:
+                'The entered amount is too low to execute a swap. Please increase the amount.',
+          ),
+        );
+      }
       state = state.copyWith(
         tokenToSwapAmount: swapInfos.outputAmount,
       );
@@ -278,6 +312,15 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
           state.tokenToSwapAmount,
         );
+
+        if (swapInfos.cancel == false && (state.tokenToSwapAmount == 0)) {
+          setFailure(
+            const aedappfm.Failure.other(
+              cause:
+                  'The entered amount is too low to execute a swap. Please increase the amount.',
+            ),
+          );
+        }
       }
     }
 
