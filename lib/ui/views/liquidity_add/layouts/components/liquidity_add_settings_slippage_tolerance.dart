@@ -147,6 +147,13 @@ class LiquiditySettingsSlippageToleranceState
               ),
             ).getMessage(),
           ),
+        if (slippageToleranceController.text.isNotEmpty &&
+            slippageToleranceController.text.isValidNumber() &&
+            double.tryParse(slippageToleranceController.text)! >= 3)
+          const aedappfm.InfoBanner(
+            'Warning. Your transaction may be significantly impacted due to high slippage.',
+            aedappfm.InfoBannerType.error,
+          ),
         aedappfm.ButtonValidate(
           controlOk:
               double.tryParse(slippageToleranceController.text) != null &&
