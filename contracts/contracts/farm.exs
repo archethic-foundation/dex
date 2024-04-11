@@ -146,6 +146,46 @@ actions triggered_by: transaction, on: withdraw(amount) do
   State.set("deposits", deposits)
 end
 
+condition triggered_by: transaction, on: update_dates(new_start_date, new_end_date), as: [
+  previous_public_key: (
+    # Can only be updated by master chain of the dex
+    previous_address = Chain.get_previous_address()
+    Chain.get_genesis_address(previous_address) == @MASTER_ADDRESS
+  ),
+  content: (
+    # Can update date only if farm is already ended
+    now = Time.now()
+
+    valid_update_date? = now >= @END_DATE
+    valid_start_date? = now + 7200 <= new_start_date && now + 604800 >= new_start_date
+    valid_end_date? = new_start_date + 2592000 <= new_end_date && new_start_date + 31536000 >= new_end_date 
+
+    valid_update_date? && valid_start_date? && valid_end_date?
+  )
+]
+
+actions triggered_by: transaction, on: update_dates(new_start_date, new_end_date) do
+  params = [
+    @LP_TOKEN_ADDRESS,
+    new_start_date,
+    new_end_date,
+    @REWARD_TOKEN,
+    @FARM_ADDRESS
+  ]
+
+  new_code = Contract.call_function(@FACTORY_ADDRESS, "get_farm_code", params)
+
+  if Code.is_valid?(new_code) && !Code.is_same?(new_code, contract.code) do
+    Contract.set_type("contract")
+    Contract.set_code(new_code)
+
+    res = calculate_new_rewards()
+    State.set("deposits", res.deposits)
+    State.set("rewards_reserved", res.rewards_reserved)
+    State.set("last_calculation_timestamp", res.last_calculation_timestamp)
+  end
+end
+
 condition triggered_by: transaction, on: update_code(), as: [
   previous_public_key: (
     # Pool code can only be updated from the router contract of the dex
