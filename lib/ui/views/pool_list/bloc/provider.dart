@@ -76,21 +76,23 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
             .toList();
       case PoolsListTab.searchPool:
         final poolList = await ref.read(DexPoolProviders.getPoolList.future);
-        return await ref.read(
+        return ref.read(
           DexPoolProviders.getPoolListForSearch(
             searchText ?? '',
             poolList,
-          ).future,
+          ),
         );
     }
   }
 
-  Future<void> setPoolsToDisplay(
-    PoolsListTab tabIndexSelected,
-  ) async {
+  Future<void> setPoolsToDisplay({
+    required PoolsListTab tabIndexSelected,
+    required String cancelToken,
+  }) async {
     state = state.copyWith(
       tabIndexSelected: tabIndexSelected,
       poolsToDisplay: const AsyncValue.loading(),
+      cancelToken: cancelToken,
     );
 
     final poolList = await getDexPoolForTab(tabIndexSelected, state.searchText);
@@ -142,9 +144,11 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
       }
     }
 
-    state = state.copyWith(
-      poolsToDisplay: AsyncValue.data(finalPoolsList),
-    );
+    if (state.cancelToken == cancelToken) {
+      state = state.copyWith(
+        poolsToDisplay: AsyncValue.data(finalPoolsList),
+      );
+    }
   }
 }
 

@@ -20,6 +20,7 @@ mixin _$PoolListFormState {
   String get searchText => throw _privateConstructorUsedError;
   AsyncValue<List<DexPool>> get poolsToDisplay =>
       throw _privateConstructorUsedError;
+  String? get cancelToken => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolListFormStateCopyWith<PoolListFormState> get copyWith =>
@@ -35,7 +36,8 @@ abstract class $PoolListFormStateCopyWith<$Res> {
   $Res call(
       {PoolsListTab tabIndexSelected,
       String searchText,
-      AsyncValue<List<DexPool>> poolsToDisplay});
+      AsyncValue<List<DexPool>> poolsToDisplay,
+      String? cancelToken});
 }
 
 /// @nodoc
@@ -54,6 +56,7 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
     Object? tabIndexSelected = null,
     Object? searchText = null,
     Object? poolsToDisplay = null,
+    Object? cancelToken = freezed,
   }) {
     return _then(_value.copyWith(
       tabIndexSelected: null == tabIndexSelected
@@ -68,6 +71,10 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
           ? _value.poolsToDisplay
           : poolsToDisplay // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<DexPool>>,
+      cancelToken: freezed == cancelToken
+          ? _value.cancelToken
+          : cancelToken // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -83,7 +90,8 @@ abstract class _$$PoolListFormStateImplCopyWith<$Res>
   $Res call(
       {PoolsListTab tabIndexSelected,
       String searchText,
-      AsyncValue<List<DexPool>> poolsToDisplay});
+      AsyncValue<List<DexPool>> poolsToDisplay,
+      String? cancelToken});
 }
 
 /// @nodoc
@@ -100,6 +108,7 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
     Object? tabIndexSelected = null,
     Object? searchText = null,
     Object? poolsToDisplay = null,
+    Object? cancelToken = freezed,
   }) {
     return _then(_$PoolListFormStateImpl(
       tabIndexSelected: null == tabIndexSelected
@@ -114,6 +123,10 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
           ? _value.poolsToDisplay
           : poolsToDisplay // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<DexPool>>,
+      cancelToken: freezed == cancelToken
+          ? _value.cancelToken
+          : cancelToken // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -124,7 +137,8 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
   const _$PoolListFormStateImpl(
       {this.tabIndexSelected = PoolsListTab.verified,
       this.searchText = '',
-      required this.poolsToDisplay})
+      required this.poolsToDisplay,
+      this.cancelToken})
       : super._();
 
   @override
@@ -135,10 +149,12 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
   final String searchText;
   @override
   final AsyncValue<List<DexPool>> poolsToDisplay;
+  @override
+  final String? cancelToken;
 
   @override
   String toString() {
-    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected, searchText: $searchText, poolsToDisplay: $poolsToDisplay)';
+    return 'PoolListFormState(tabIndexSelected: $tabIndexSelected, searchText: $searchText, poolsToDisplay: $poolsToDisplay, cancelToken: $cancelToken)';
   }
 
   @override
@@ -151,12 +167,14 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
             (identical(other.searchText, searchText) ||
                 other.searchText == searchText) &&
             (identical(other.poolsToDisplay, poolsToDisplay) ||
-                other.poolsToDisplay == poolsToDisplay));
+                other.poolsToDisplay == poolsToDisplay) &&
+            (identical(other.cancelToken, cancelToken) ||
+                other.cancelToken == cancelToken));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, tabIndexSelected, searchText, poolsToDisplay);
+  int get hashCode => Object.hash(
+      runtimeType, tabIndexSelected, searchText, poolsToDisplay, cancelToken);
 
   @JsonKey(ignore: true)
   @override
@@ -168,10 +186,10 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
 
 abstract class _PoolListFormState extends PoolListFormState {
   const factory _PoolListFormState(
-          {final PoolsListTab tabIndexSelected,
-          final String searchText,
-          required final AsyncValue<List<DexPool>> poolsToDisplay}) =
-      _$PoolListFormStateImpl;
+      {final PoolsListTab tabIndexSelected,
+      final String searchText,
+      required final AsyncValue<List<DexPool>> poolsToDisplay,
+      final String? cancelToken}) = _$PoolListFormStateImpl;
   const _PoolListFormState._() : super._();
 
   @override
@@ -180,6 +198,8 @@ abstract class _PoolListFormState extends PoolListFormState {
   String get searchText;
   @override
   AsyncValue<List<DexPool>> get poolsToDisplay;
+  @override
+  String? get cancelToken;
   @override
   @JsonKey(ignore: true)
   _$$PoolListFormStateImplCopyWith<_$PoolListFormStateImpl> get copyWith =>

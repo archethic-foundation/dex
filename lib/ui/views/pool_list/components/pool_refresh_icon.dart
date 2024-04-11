@@ -29,13 +29,11 @@ class PoolRefreshIcon extends ConsumerWidget {
         final poolListForm = ref.read(
           PoolListFormProvider.poolListForm,
         );
-
         await ref
-            .read(
-              PoolListFormProvider.poolListForm.notifier,
-            )
+            .read(PoolListFormProvider.poolListForm.notifier)
             .setPoolsToDisplay(
-              poolListForm.tabIndexSelected,
+              tabIndexSelected: poolListForm.tabIndexSelected,
+              cancelToken: UniqueKey().toString(),
             );
 
         await Future.delayed(const Duration(seconds: 3));

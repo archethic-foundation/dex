@@ -155,7 +155,10 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           );
           await ref
               .read(PoolListFormProvider.poolListForm.notifier)
-              .setPoolsToDisplay(PoolsListTab.values[index]);
+              .setPoolsToDisplay(
+                tabIndexSelected: PoolsListTab.values[index],
+                cancelToken: UniqueKey().toString(),
+              );
           ref
               .read(PoolListFormProvider.poolListForm.notifier)
               .setSearchText('');

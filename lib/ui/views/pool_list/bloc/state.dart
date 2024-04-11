@@ -12,6 +12,7 @@ class PoolListFormState with _$PoolListFormState {
     @Default(PoolsListTab.verified) PoolsListTab tabIndexSelected,
     @Default('') String searchText,
     required AsyncValue<List<DexPool>> poolsToDisplay,
+    String? cancelToken,
   }) = _PoolListFormState;
   const PoolListFormState._();
 }

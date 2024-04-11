@@ -1486,14 +1486,14 @@ final _getPoolListForUserProvider = FutureProvider<List<DexPool>>.internal(
 
 typedef _GetPoolListForUserRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForSearchHash() =>
-    r'1d516c63cc764907b2c037668f8695080ddbe415';
+    r'97a05577a87ca0b808612809ba8ed684bfdae08d';
 
 /// See also [_getPoolListForSearch].
 @ProviderFor(_getPoolListForSearch)
 const _getPoolListForSearchProvider = _GetPoolListForSearchFamily();
 
 /// See also [_getPoolListForSearch].
-class _GetPoolListForSearchFamily extends Family<AsyncValue<List<DexPool>>> {
+class _GetPoolListForSearchFamily extends Family<List<DexPool>> {
   /// See also [_getPoolListForSearch].
   const _GetPoolListForSearchFamily();
 
@@ -1534,8 +1534,7 @@ class _GetPoolListForSearchFamily extends Family<AsyncValue<List<DexPool>>> {
 }
 
 /// See also [_getPoolListForSearch].
-class _GetPoolListForSearchProvider
-    extends AutoDisposeFutureProvider<List<DexPool>> {
+class _GetPoolListForSearchProvider extends AutoDisposeProvider<List<DexPool>> {
   /// See also [_getPoolListForSearch].
   _GetPoolListForSearchProvider(
     String searchText,
@@ -1575,7 +1574,7 @@ class _GetPoolListForSearchProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<DexPool>> Function(_GetPoolListForSearchRef provider) create,
+    List<DexPool> Function(_GetPoolListForSearchRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -1593,7 +1592,7 @@ class _GetPoolListForSearchProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<DexPool>> createElement() {
+  AutoDisposeProviderElement<List<DexPool>> createElement() {
     return _GetPoolListForSearchProviderElement(this);
   }
 
@@ -1614,7 +1613,7 @@ class _GetPoolListForSearchProvider
   }
 }
 
-mixin _GetPoolListForSearchRef on AutoDisposeFutureProviderRef<List<DexPool>> {
+mixin _GetPoolListForSearchRef on AutoDisposeProviderRef<List<DexPool>> {
   /// The parameter `searchText` of this provider.
   String get searchText;
 
@@ -1623,7 +1622,7 @@ mixin _GetPoolListForSearchRef on AutoDisposeFutureProviderRef<List<DexPool>> {
 }
 
 class _GetPoolListForSearchProviderElement
-    extends AutoDisposeFutureProviderElement<List<DexPool>>
+    extends AutoDisposeProviderElement<List<DexPool>>
     with _GetPoolListForSearchRef {
   _GetPoolListForSearchProviderElement(super.provider);
 

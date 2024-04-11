@@ -117,7 +117,10 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                                     .poolListForm.notifier,
                                               )
                                               .setPoolsToDisplay(
-                                                poolListForm.tabIndexSelected,
+                                                tabIndexSelected: poolListForm
+                                                    .tabIndexSelected,
+                                                cancelToken:
+                                                    UniqueKey().toString(),
                                               );
 
                                           if (!context.mounted) {
