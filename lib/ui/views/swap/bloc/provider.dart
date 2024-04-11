@@ -275,7 +275,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         tokenSwappedAmount: swapInfos.outputAmount,
       );
 
-      if (swapInfos.cancel == false && (state.tokenSwappedAmount == 0)) {
+      if (swapInfos.cancel == false &&
+          state.tokenSwapped != null &&
+          state.tokenSwappedAmount == 0) {
         setFailure(
           const aedappfm.Failure.other(
             cause:
@@ -296,7 +298,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         state.tokenSwappedAmount,
       );
 
-      if (swapInfos.cancel == false && (state.tokenSwappedAmount == 0)) {
+      if (swapInfos.cancel == false &&
+          state.tokenSwapped != null &&
+          state.tokenSwappedAmount == 0) {
         setFailure(
           const aedappfm.Failure.other(
             cause:
@@ -313,7 +317,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
           state.tokenToSwapAmount,
         );
 
-        if (swapInfos.cancel == false && (state.tokenToSwapAmount == 0)) {
+        if (swapInfos.cancel == false &&
+            state.tokenToSwap == null &&
+            state.tokenToSwapAmount == 0) {
           setFailure(
             const aedappfm.Failure.other(
               cause:

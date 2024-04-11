@@ -61,9 +61,9 @@ Future<DexFarm?> _getFarmInfos(
 
   if (remainingRewardInFiat > 0 &&
       estimateLPTokenInFiat > 0 &&
-      dexFarmInput.endDate != null &&
-      now.isBefore(dexFarmInput.endDate!)) {
-    final secondsUntilEnd = dexFarmInput.endDate!.difference(now).inSeconds;
+      farmInfos.endDate != null &&
+      now.isBefore(farmInfos.endDate!)) {
+    final secondsUntilEnd = farmInfos.endDate!.difference(now).inSeconds;
 
     if (secondsUntilEnd > 0) {
       // 31 536 000 second in a year

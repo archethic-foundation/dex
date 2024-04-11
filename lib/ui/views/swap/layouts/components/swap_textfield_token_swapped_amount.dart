@@ -181,7 +181,10 @@ class _SwapTokenSwappedAmountState
                                             textAlign: TextAlign.left,
                                             textInputAction:
                                                 TextInputAction.done,
-                                            keyboardType: TextInputType.text,
+                                            keyboardType: const TextInputType
+                                                .numberWithOptions(
+                                              decimal: true,
+                                            ),
                                             inputFormatters: <TextInputFormatter>[
                                               aedappfm.AmountTextInputFormatter(
                                                 precision: 8,
