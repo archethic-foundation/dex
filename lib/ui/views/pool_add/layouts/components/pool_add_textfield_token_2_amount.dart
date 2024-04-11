@@ -145,7 +145,10 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                                   },
                                   textAlign: TextAlign.left,
                                   textInputAction: TextInputAction.done,
-                                  keyboardType: TextInputType.text,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
                                   inputFormatters: <TextInputFormatter>[
                                     aedappfm.AmountTextInputFormatter(
                                       precision: 8,
