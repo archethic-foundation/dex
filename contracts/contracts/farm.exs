@@ -178,11 +178,16 @@ actions triggered_by: transaction, on: update_dates(new_start_date, new_end_date
   if Code.is_valid?(new_code) && !Code.is_same?(new_code, contract.code) do
     Contract.set_type("contract")
     Contract.set_code(new_code)
+    Contract.add_recipient(
+      address: @ROUTER_ADDRESS,
+      action: "update_farm_dates",
+      args: [new_start_date, new_end_date]
+    )
 
     res = calculate_new_rewards()
     State.set("deposits", res.deposits)
     State.set("rewards_reserved", res.rewards_reserved)
-    State.set("last_calculation_timestamp", res.last_calculation_timestamp)
+    State.delete("last_calculation_timestamp")
   end
 end
 
