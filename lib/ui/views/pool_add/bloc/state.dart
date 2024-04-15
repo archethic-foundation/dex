@@ -31,6 +31,7 @@ class PoolAddFormState with _$PoolAddFormState {
     Transaction? recoveryTransactionAddPoolLiquidity,
     String? recoveryPoolGenesisAddress,
     Failure? failure,
+    DateTime? consentDateTime,
   }) = _PoolAddFormState;
   const PoolAddFormState._();
 

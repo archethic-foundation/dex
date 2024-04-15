@@ -328,6 +328,12 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return;
     }
 
+    final session = ref.read(SessionProviders.session);
+    DateTime? consentDateTime;
+    consentDateTime = await aedappfm.ConsentRepositoryImpl()
+        .getConsentTime(session.genesisAddress);
+    state = state.copyWith(consentDateTime: consentDateTime);
+
     setPoolAddProcessStep(
       aedappfm.ProcessStep.confirmation,
     );
@@ -494,6 +500,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     final dexConfig =
         await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+
+    final session = ref.read(SessionProviders.session);
+    await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     await AddPoolCase().run(
       ref,

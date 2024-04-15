@@ -22,7 +22,7 @@ final _dexFarmRepositoryProvider =
 );
 
 typedef _DexFarmRepositoryRef = AutoDisposeProviderRef<DexFarmRepositoryImpl>;
-String _$getFarmInfosHash() => r'5704ac1a0690398eac946c338d73c1d10c27c8d0';
+String _$getFarmInfosHash() => r'ddf1e7542d946a822e8d680eaaa0596f9d8ca601';
 
 /// Copied from Dart SDK
 class _SystemHash {

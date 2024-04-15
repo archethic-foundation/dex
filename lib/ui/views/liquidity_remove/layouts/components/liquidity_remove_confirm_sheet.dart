@@ -4,17 +4,27 @@ import 'dart:async';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_infos.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_popup.dart';
+import 'package:aedex/ui/views/util/consent_uri.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LiquidityRemoveConfirmSheet extends ConsumerWidget {
+class LiquidityRemoveConfirmSheet extends ConsumerStatefulWidget {
   const LiquidityRemoveConfirmSheet({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LiquidityRemoveConfirmSheet> createState() =>
+      LiquidityRemoveConfirmSheetState();
+}
+
+class LiquidityRemoveConfirmSheetState
+    extends ConsumerState<LiquidityRemoveConfirmSheet> {
+  bool consentChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
     final liquidityRemove =
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
     if (liquidityRemove.lpToken == null) {
@@ -46,9 +56,26 @@ class LiquidityRemoveConfirmSheet extends ConsumerWidget {
             height: 20,
           ),
           const Spacer(),
+          if (liquidityRemove.consentDateTime == null)
+            aedappfm.ConsentToCheck(
+              consentChecked: consentChecked,
+              onToggleConsent: (newValue) {
+                setState(() {
+                  consentChecked = newValue!;
+                });
+              },
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
+            )
+          else
+            aedappfm.ConsentAlready(
+              consentDateTime: liquidityRemove.consentDateTime!,
+            ),
           aedappfm.ButtonConfirm(
             labelBtn:
                 AppLocalizations.of(context)!.btn_confirm_liquidity_remove,
+            disabled:
+                !consentChecked && liquidityRemove.consentDateTime == null,
             onPressed: () async {
               final liquidityRemoveNotifier = ref.read(
                 LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,

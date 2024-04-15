@@ -22,6 +22,7 @@ class FarmDepositFormState with _$FarmDepositFormState {
     @Default(0.0) double lpTokenBalance,
     Failure? failure,
     double? finalAmount,
+    DateTime? consentDateTime,
   }) = _FarmDepositFormState;
   const FarmDepositFormState._();
 

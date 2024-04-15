@@ -40,6 +40,7 @@ class LiquidityAddFormState with _$LiquidityAddFormState {
     @Default(false) bool calculationInProgress,
     double? finalAmount,
     Failure? failure,
+    DateTime? consentDateTime,
   }) = _LiquidityAddFormState;
   const LiquidityAddFormState._();
 

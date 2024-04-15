@@ -40,6 +40,7 @@ mixin _$LiquidityRemoveFormState {
   double? get finalAmountLPToken => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
   bool get calculationInProgress => throw _privateConstructorUsedError;
+  DateTime? get consentDateTime => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LiquidityRemoveFormStateCopyWith<LiquidityRemoveFormState> get copyWith =>
@@ -75,7 +76,8 @@ abstract class $LiquidityRemoveFormStateCopyWith<$Res> {
       double? finalAmountToken2,
       double? finalAmountLPToken,
       Failure? failure,
-      bool calculationInProgress});
+      bool calculationInProgress,
+      DateTime? consentDateTime});
 
   $DexPoolCopyWith<$Res>? get pool;
   $DexTokenCopyWith<$Res>? get token1;
@@ -122,6 +124,7 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
     Object? finalAmountLPToken = freezed,
     Object? failure = freezed,
     Object? calculationInProgress = null,
+    Object? consentDateTime = freezed,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -216,6 +219,10 @@ class _$LiquidityRemoveFormStateCopyWithImpl<$Res,
           ? _value.calculationInProgress
           : calculationInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
+      consentDateTime: freezed == consentDateTime
+          ? _value.consentDateTime
+          : consentDateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -325,7 +332,8 @@ abstract class _$$LiquidityRemoveFormStateImplCopyWith<$Res>
       double? finalAmountToken2,
       double? finalAmountLPToken,
       Failure? failure,
-      bool calculationInProgress});
+      bool calculationInProgress,
+      DateTime? consentDateTime});
 
   @override
   $DexPoolCopyWith<$Res>? get pool;
@@ -377,6 +385,7 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
     Object? finalAmountLPToken = freezed,
     Object? failure = freezed,
     Object? calculationInProgress = null,
+    Object? consentDateTime = freezed,
   }) {
     return _then(_$LiquidityRemoveFormStateImpl(
       processStep: null == processStep
@@ -471,6 +480,10 @@ class __$$LiquidityRemoveFormStateImplCopyWithImpl<$Res>
           ? _value.calculationInProgress
           : calculationInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
+      consentDateTime: freezed == consentDateTime
+          ? _value.consentDateTime
+          : consentDateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -501,7 +514,8 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
       this.finalAmountToken2,
       this.finalAmountLPToken,
       this.failure,
-      this.calculationInProgress = false})
+      this.calculationInProgress = false,
+      this.consentDateTime})
       : super._();
 
   @override
@@ -564,10 +578,12 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
   @override
   @JsonKey()
   final bool calculationInProgress;
+  @override
+  final DateTime? consentDateTime;
 
   @override
   String toString() {
-    return 'LiquidityRemoveFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, token1Balance: $token1Balance, token2Balance: $token2Balance, transactionRemoveLiquidity: $transactionRemoveLiquidity, finalAmountToken1: $finalAmountToken1, finalAmountToken2: $finalAmountToken2, finalAmountLPToken: $finalAmountLPToken, failure: $failure, calculationInProgress: $calculationInProgress)';
+    return 'LiquidityRemoveFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, isProcessInProgress: $isProcessInProgress, liquidityRemoveOk: $liquidityRemoveOk, walletConfirmation: $walletConfirmation, token1: $token1, token2: $token2, lpToken: $lpToken, lpTokenBalance: $lpTokenBalance, lpTokenAmount: $lpTokenAmount, token1AmountGetBack: $token1AmountGetBack, token2AmountGetBack: $token2AmountGetBack, networkFees: $networkFees, token1Balance: $token1Balance, token2Balance: $token2Balance, transactionRemoveLiquidity: $transactionRemoveLiquidity, finalAmountToken1: $finalAmountToken1, finalAmountToken2: $finalAmountToken2, finalAmountLPToken: $finalAmountLPToken, failure: $failure, calculationInProgress: $calculationInProgress, consentDateTime: $consentDateTime)';
   }
 
   @override
@@ -617,7 +633,9 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
                 other.finalAmountLPToken == finalAmountLPToken) &&
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.calculationInProgress, calculationInProgress) ||
-                other.calculationInProgress == calculationInProgress));
+                other.calculationInProgress == calculationInProgress) &&
+            (identical(other.consentDateTime, consentDateTime) ||
+                other.consentDateTime == consentDateTime));
   }
 
   @override
@@ -645,7 +663,8 @@ class _$LiquidityRemoveFormStateImpl extends _LiquidityRemoveFormState {
         finalAmountToken2,
         finalAmountLPToken,
         failure,
-        calculationInProgress
+        calculationInProgress,
+        consentDateTime
       ]);
 
   @JsonKey(ignore: true)
@@ -680,7 +699,8 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
       final double? finalAmountToken2,
       final double? finalAmountLPToken,
       final Failure? failure,
-      final bool calculationInProgress}) = _$LiquidityRemoveFormStateImpl;
+      final bool calculationInProgress,
+      final DateTime? consentDateTime}) = _$LiquidityRemoveFormStateImpl;
   const _LiquidityRemoveFormState._() : super._();
 
   @override
@@ -729,6 +749,8 @@ abstract class _LiquidityRemoveFormState extends LiquidityRemoveFormState {
   Failure? get failure;
   @override
   bool get calculationInProgress;
+  @override
+  DateTime? get consentDateTime;
   @override
   @JsonKey(ignore: true)
   _$$LiquidityRemoveFormStateImplCopyWith<_$LiquidityRemoveFormStateImpl>

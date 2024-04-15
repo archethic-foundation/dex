@@ -618,6 +618,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       return;
     }
 
+    final session = ref.read(SessionProviders.session);
+    DateTime? consentDateTime;
+    consentDateTime = await aedappfm.ConsentRepositoryImpl()
+        .getConsentTime(session.genesisAddress);
+    state = state.copyWith(consentDateTime: consentDateTime);
+
     setSwapProcessStep(
       aedappfm.ProcessStep.confirmation,
     );
@@ -721,6 +727,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       setProcessInProgress(false);
       return;
     }
+
+    final session = ref.read(SessionProviders.session);
+    await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     final finalAmount = await SwapCase().run(
       ref,

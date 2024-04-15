@@ -23,6 +23,7 @@ class FarmClaimFormState with _$FarmClaimFormState {
     String? farmAddress,
     DexToken? rewardToken,
     String? lpTokenAddress,
+    DateTime? consentDateTime,
   }) = _FarmClaimFormState;
   const FarmClaimFormState._();
 

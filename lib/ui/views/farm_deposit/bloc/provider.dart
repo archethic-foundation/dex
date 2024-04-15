@@ -119,6 +119,12 @@ class FarmDepositFormNotifier
       return;
     }
 
+    final session = ref.read(SessionProviders.session);
+    DateTime? consentDateTime;
+    consentDateTime = await aedappfm.ConsentRepositoryImpl()
+        .getConsentTime(session.genesisAddress);
+    state = state.copyWith(consentDateTime: consentDateTime);
+
     setFarmDepositProcessStep(
       aedappfm.ProcessStep.confirmation,
     );
@@ -165,6 +171,9 @@ class FarmDepositFormNotifier
       setProcessInProgress(false);
       return;
     }
+
+    final session = ref.read(SessionProviders.session);
+    await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     final finalAmount = await DepositFarmCase().run(
       ref,

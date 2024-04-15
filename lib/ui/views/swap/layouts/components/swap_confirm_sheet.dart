@@ -4,17 +4,25 @@ import 'dart:async';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_popup.dart';
+import 'package:aedex/ui/views/util/consent_uri.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SwapConfirmSheet extends ConsumerWidget {
+class SwapConfirmSheet extends ConsumerStatefulWidget {
   const SwapConfirmSheet({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SwapConfirmSheet> createState() => SwapConfirmSheetState();
+}
+
+class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
+  bool consentChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
     final swap = ref.watch(SwapFormProvider.swapForm);
     if (swap.tokenToSwap == null || swap.tokenSwapped == null) {
       return const SizedBox.shrink();
@@ -44,8 +52,22 @@ class SwapConfirmSheet extends ConsumerWidget {
             height: 20,
           ),
           const Spacer(),
+          if (swap.consentDateTime == null)
+            aedappfm.ConsentToCheck(
+              consentChecked: consentChecked,
+              onToggleConsent: (newValue) {
+                setState(() {
+                  consentChecked = newValue!;
+                });
+              },
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
+            )
+          else
+            aedappfm.ConsentAlready(consentDateTime: swap.consentDateTime!),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_swap,
+            disabled: !consentChecked && swap.consentDateTime == null,
             onPressed: () async {
               final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
               unawaited(swapNotifier.swap(context, ref));
