@@ -1,4 +1,5 @@
 import 'package:aedex/application/notification.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -149,6 +150,12 @@ class FarmWithdrawFormNotifier
       return;
     }
 
+    final session = ref.read(SessionProviders.session);
+    DateTime? consentDateTime;
+    consentDateTime = await aedappfm.ConsentRepositoryImpl()
+        .getConsentTime(session.genesisAddress);
+    state = state.copyWith(consentDateTime: consentDateTime);
+
     setFarmWithdrawProcessStep(
       aedappfm.ProcessStep.confirmation,
     );
@@ -195,6 +202,9 @@ class FarmWithdrawFormNotifier
       setProcessInProgress(false);
       return;
     }
+
+    final session = ref.read(SessionProviders.session);
+    await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     final finalAmounts = await WithdrawFarmCase().run(
       ref,

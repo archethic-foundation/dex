@@ -27,6 +27,7 @@ class FarmWithdrawFormState with _$FarmWithdrawFormState {
     String? lpTokenAddress,
     double? finalAmountReward,
     double? finalAmountWithdraw,
+    DateTime? consentDateTime,
   }) = _FarmWithdrawFormState;
   const FarmWithdrawFormState._();
 

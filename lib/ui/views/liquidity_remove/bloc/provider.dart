@@ -284,6 +284,12 @@ class LiquidityRemoveFormNotifier
       return;
     }
 
+    final session = ref.read(SessionProviders.session);
+    DateTime? consentDateTime;
+    consentDateTime = await aedappfm.ConsentRepositoryImpl()
+        .getConsentTime(session.genesisAddress);
+    state = state.copyWith(consentDateTime: consentDateTime);
+
     setLiquidityRemoveProcessStep(
       aedappfm.ProcessStep.confirmation,
     );
@@ -328,6 +334,9 @@ class LiquidityRemoveFormNotifier
       setProcessInProgress(false);
       return;
     }
+
+    final session = ref.read(SessionProviders.session);
+    await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     final finalAmounts = await RemoveLiquidityCase().run(
       state.pool!.poolAddress,

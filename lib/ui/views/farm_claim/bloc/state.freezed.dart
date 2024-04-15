@@ -29,6 +29,7 @@ mixin _$FarmClaimFormState {
   String? get farmAddress => throw _privateConstructorUsedError;
   DexToken? get rewardToken => throw _privateConstructorUsedError;
   String? get lpTokenAddress => throw _privateConstructorUsedError;
+  DateTime? get consentDateTime => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FarmClaimFormStateCopyWith<FarmClaimFormState> get copyWith =>
@@ -54,7 +55,8 @@ abstract class $FarmClaimFormStateCopyWith<$Res> {
       double? finalAmount,
       String? farmAddress,
       DexToken? rewardToken,
-      String? lpTokenAddress});
+      String? lpTokenAddress,
+      DateTime? consentDateTime});
 
   $DexFarmUserInfosCopyWith<$Res>? get dexFarmUserInfo;
   $TransactionCopyWith<$Res>? get transactionClaimFarm;
@@ -88,6 +90,7 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     Object? farmAddress = freezed,
     Object? rewardToken = freezed,
     Object? lpTokenAddress = freezed,
+    Object? consentDateTime = freezed,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -142,6 +145,10 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
           ? _value.lpTokenAddress
           : lpTokenAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      consentDateTime: freezed == consentDateTime
+          ? _value.consentDateTime
+          : consentDateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -215,7 +222,8 @@ abstract class _$$FarmClaimFormStateImplCopyWith<$Res>
       double? finalAmount,
       String? farmAddress,
       DexToken? rewardToken,
-      String? lpTokenAddress});
+      String? lpTokenAddress,
+      DateTime? consentDateTime});
 
   @override
   $DexFarmUserInfosCopyWith<$Res>? get dexFarmUserInfo;
@@ -251,6 +259,7 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
     Object? farmAddress = freezed,
     Object? rewardToken = freezed,
     Object? lpTokenAddress = freezed,
+    Object? consentDateTime = freezed,
   }) {
     return _then(_$FarmClaimFormStateImpl(
       processStep: null == processStep
@@ -305,6 +314,10 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
           ? _value.lpTokenAddress
           : lpTokenAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      consentDateTime: freezed == consentDateTime
+          ? _value.consentDateTime
+          : consentDateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -325,7 +338,8 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       this.finalAmount,
       this.farmAddress,
       this.rewardToken,
-      this.lpTokenAddress})
+      this.lpTokenAddress,
+      this.consentDateTime})
       : super._();
 
   @override
@@ -360,10 +374,12 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   final DexToken? rewardToken;
   @override
   final String? lpTokenAddress;
+  @override
+  final DateTime? consentDateTime;
 
   @override
   String toString() {
-    return 'FarmClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount, farmAddress: $farmAddress, rewardToken: $rewardToken, lpTokenAddress: $lpTokenAddress)';
+    return 'FarmClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount, farmAddress: $farmAddress, rewardToken: $rewardToken, lpTokenAddress: $lpTokenAddress, consentDateTime: $consentDateTime)';
   }
 
   @override
@@ -395,7 +411,9 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
             (identical(other.rewardToken, rewardToken) ||
                 other.rewardToken == rewardToken) &&
             (identical(other.lpTokenAddress, lpTokenAddress) ||
-                other.lpTokenAddress == lpTokenAddress));
+                other.lpTokenAddress == lpTokenAddress) &&
+            (identical(other.consentDateTime, consentDateTime) ||
+                other.consentDateTime == consentDateTime));
   }
 
   @override
@@ -413,7 +431,8 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       finalAmount,
       farmAddress,
       rewardToken,
-      lpTokenAddress);
+      lpTokenAddress,
+      consentDateTime);
 
   @JsonKey(ignore: true)
   @override
@@ -437,7 +456,8 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
       final double? finalAmount,
       final String? farmAddress,
       final DexToken? rewardToken,
-      final String? lpTokenAddress}) = _$FarmClaimFormStateImpl;
+      final String? lpTokenAddress,
+      final DateTime? consentDateTime}) = _$FarmClaimFormStateImpl;
   const _FarmClaimFormState._() : super._();
 
   @override
@@ -466,6 +486,8 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   DexToken? get rewardToken;
   @override
   String? get lpTokenAddress;
+  @override
+  DateTime? get consentDateTime;
   @override
   @JsonKey(ignore: true)
   _$$FarmClaimFormStateImplCopyWith<_$FarmClaimFormStateImpl> get copyWith =>

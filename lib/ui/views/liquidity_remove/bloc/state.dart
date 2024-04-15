@@ -34,6 +34,7 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
     double? finalAmountLPToken,
     Failure? failure,
     @Default(false) bool calculationInProgress,
+    DateTime? consentDateTime,
   }) = _LiquidityRemoveFormState;
   const LiquidityRemoveFormState._();
 

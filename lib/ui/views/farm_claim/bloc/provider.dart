@@ -1,4 +1,5 @@
 import 'package:aedex/application/notification.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/claim_farm.usecase.dart';
@@ -99,6 +100,12 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
       return;
     }
 
+    final session = ref.read(SessionProviders.session);
+    DateTime? consentDateTime;
+    consentDateTime = await aedappfm.ConsentRepositoryImpl()
+        .getConsentTime(session.genesisAddress);
+    state = state.copyWith(consentDateTime: consentDateTime);
+
     setFarmClaimProcessStep(
       aedappfm.ProcessStep.confirmation,
     );
@@ -126,6 +133,9 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
       setProcessInProgress(false);
       return;
     }
+
+    final session = ref.read(SessionProviders.session);
+    await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     final finalAmount = await ClaimFarmCase().run(
       ref,

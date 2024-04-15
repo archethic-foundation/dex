@@ -41,6 +41,7 @@ class SwapFormState with _$SwapFormState {
     Transaction? recoveryTransactionSwap,
     @Default(false) bool calculationInProgress,
     DexPool? pool,
+    DateTime? consentDateTime,
   }) = _SwapFormState;
   const SwapFormState._();
 

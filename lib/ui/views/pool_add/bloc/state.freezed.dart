@@ -40,6 +40,7 @@ mixin _$PoolAddFormState {
       throw _privateConstructorUsedError;
   String? get recoveryPoolGenesisAddress => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
+  DateTime? get consentDateTime => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PoolAddFormStateCopyWith<PoolAddFormState> get copyWith =>
@@ -73,7 +74,8 @@ abstract class $PoolAddFormStateCopyWith<$Res> {
       Transaction? recoveryTransactionAddPoolTransfer,
       Transaction? recoveryTransactionAddPoolLiquidity,
       String? recoveryPoolGenesisAddress,
-      Failure? failure});
+      Failure? failure,
+      DateTime? consentDateTime});
 
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
@@ -117,6 +119,7 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     Object? recoveryTransactionAddPoolLiquidity = freezed,
     Object? recoveryPoolGenesisAddress = freezed,
     Object? failure = freezed,
+    Object? consentDateTime = freezed,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -205,6 +208,10 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      consentDateTime: freezed == consentDateTime
+          ? _value.consentDateTime
+          : consentDateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -315,7 +322,8 @@ abstract class _$$PoolAddFormStateImplCopyWith<$Res>
       Transaction? recoveryTransactionAddPoolTransfer,
       Transaction? recoveryTransactionAddPoolLiquidity,
       String? recoveryPoolGenesisAddress,
-      Failure? failure});
+      Failure? failure,
+      DateTime? consentDateTime});
 
   @override
   $DexTokenCopyWith<$Res>? get token1;
@@ -363,6 +371,7 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
     Object? recoveryTransactionAddPoolLiquidity = freezed,
     Object? recoveryPoolGenesisAddress = freezed,
     Object? failure = freezed,
+    Object? consentDateTime = freezed,
   }) {
     return _then(_$PoolAddFormStateImpl(
       processStep: null == processStep
@@ -451,6 +460,10 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      consentDateTime: freezed == consentDateTime
+          ? _value.consentDateTime
+          : consentDateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -479,7 +492,8 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
       this.recoveryTransactionAddPoolTransfer,
       this.recoveryTransactionAddPoolLiquidity,
       this.recoveryPoolGenesisAddress,
-      this.failure})
+      this.failure,
+      this.consentDateTime})
       : super._();
 
   @override
@@ -538,10 +552,12 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
   final String? recoveryPoolGenesisAddress;
   @override
   final Failure? failure;
+  @override
+  final DateTime? consentDateTime;
 
   @override
   String toString() {
-    return 'PoolAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, recoveryTransactionAddPool: $recoveryTransactionAddPool, recoveryTransactionAddPoolTransfer: $recoveryTransactionAddPoolTransfer, recoveryTransactionAddPoolLiquidity: $recoveryTransactionAddPoolLiquidity, recoveryPoolGenesisAddress: $recoveryPoolGenesisAddress, failure: $failure)';
+    return 'PoolAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, isProcessInProgress: $isProcessInProgress, poolAddOk: $poolAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, slippage: $slippage, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, networkFees: $networkFees, recoveryTransactionAddPool: $recoveryTransactionAddPool, recoveryTransactionAddPoolTransfer: $recoveryTransactionAddPoolTransfer, recoveryTransactionAddPoolLiquidity: $recoveryTransactionAddPoolLiquidity, recoveryPoolGenesisAddress: $recoveryPoolGenesisAddress, failure: $failure, consentDateTime: $consentDateTime)';
   }
 
   @override
@@ -595,7 +611,9 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
                     recoveryPoolGenesisAddress) ||
                 other.recoveryPoolGenesisAddress ==
                     recoveryPoolGenesisAddress) &&
-            (identical(other.failure, failure) || other.failure == failure));
+            (identical(other.failure, failure) || other.failure == failure) &&
+            (identical(other.consentDateTime, consentDateTime) ||
+                other.consentDateTime == consentDateTime));
   }
 
   @override
@@ -621,7 +639,8 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
         recoveryTransactionAddPoolTransfer,
         recoveryTransactionAddPoolLiquidity,
         recoveryPoolGenesisAddress,
-        failure
+        failure,
+        consentDateTime
       ]);
 
   @JsonKey(ignore: true)
@@ -654,7 +673,8 @@ abstract class _PoolAddFormState extends PoolAddFormState {
       final Transaction? recoveryTransactionAddPoolTransfer,
       final Transaction? recoveryTransactionAddPoolLiquidity,
       final String? recoveryPoolGenesisAddress,
-      final Failure? failure}) = _$PoolAddFormStateImpl;
+      final Failure? failure,
+      final DateTime? consentDateTime}) = _$PoolAddFormStateImpl;
   const _PoolAddFormState._() : super._();
 
   @override
@@ -699,6 +719,8 @@ abstract class _PoolAddFormState extends PoolAddFormState {
   String? get recoveryPoolGenesisAddress;
   @override
   Failure? get failure;
+  @override
+  DateTime? get consentDateTime;
   @override
   @JsonKey(ignore: true)
   _$$PoolAddFormStateImplCopyWith<_$PoolAddFormStateImpl> get copyWith =>

@@ -404,6 +404,12 @@ class LiquidityAddFormNotifier
       return;
     }
 
+    final session = ref.read(SessionProviders.session);
+    DateTime? consentDateTime;
+    consentDateTime = await aedappfm.ConsentRepositoryImpl()
+        .getConsentTime(session.genesisAddress);
+    state = state.copyWith(consentDateTime: consentDateTime);
+
     setLiquidityAddProcessStep(
       aedappfm.ProcessStep.confirmation,
     );
@@ -537,6 +543,9 @@ class LiquidityAddFormNotifier
       setProcessInProgress(false);
       return;
     }
+
+    final session = ref.read(SessionProviders.session);
+    await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     final finalAmount = await AddLiquidityCase().run(
       ref,
