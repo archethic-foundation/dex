@@ -67,6 +67,8 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
           else
             aedappfm.ConsentAlready(
               consentDateTime: farmClaim.consentDateTime!,
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_claim,

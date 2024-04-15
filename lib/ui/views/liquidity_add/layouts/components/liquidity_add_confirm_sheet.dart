@@ -68,6 +68,8 @@ class LiquidityAddConfirmSheetState
           else
             aedappfm.ConsentAlready(
               consentDateTime: liquidityAdd.consentDateTime!,
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_liquidity_add,

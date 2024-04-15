@@ -68,6 +68,8 @@ class FarmDepositConfirmSheetState
           else
             aedappfm.ConsentAlready(
               consentDateTime: farmDeposit.consentDateTime!,
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_deposit,

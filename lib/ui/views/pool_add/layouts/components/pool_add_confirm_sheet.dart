@@ -63,7 +63,11 @@ class PoolAddConfirmSheetState extends ConsumerState<PoolAddConfirmSheet> {
               uriTermsOfUse: kURITermsOfUse,
             )
           else
-            aedappfm.ConsentAlready(consentDateTime: poolAdd.consentDateTime!),
+            aedappfm.ConsentAlready(
+              consentDateTime: poolAdd.consentDateTime!,
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
+            ),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_pool_add,
             disabled: !consentChecked && poolAdd.consentDateTime == null,

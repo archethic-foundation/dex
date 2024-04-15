@@ -70,6 +70,8 @@ class LiquidityRemoveConfirmSheetState
           else
             aedappfm.ConsentAlready(
               consentDateTime: liquidityRemove.consentDateTime!,
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
             labelBtn:

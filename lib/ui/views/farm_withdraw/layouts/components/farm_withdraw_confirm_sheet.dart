@@ -67,6 +67,8 @@ class FarmWithdrawConfirmSheetState
           else
             aedappfm.ConsentAlready(
               consentDateTime: farmWithdraw.consentDateTime!,
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_withdraw,

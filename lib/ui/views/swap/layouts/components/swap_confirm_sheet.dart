@@ -64,7 +64,11 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
               uriTermsOfUse: kURITermsOfUse,
             )
           else
-            aedappfm.ConsentAlready(consentDateTime: swap.consentDateTime!),
+            aedappfm.ConsentAlready(
+              consentDateTime: swap.consentDateTime!,
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
+            ),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_swap,
             disabled: !consentChecked && swap.consentDateTime == null,
