@@ -104,9 +104,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               },
               textAlign: TextAlign.left,
               textInputAction: TextInputAction.done,
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
+              keyboardType: TextInputType.text,
               inputFormatters: <TextInputFormatter>[
                 LengthLimitingTextInputFormatter(68),
                 aedappfm.UpperCaseTextFormatter(),
