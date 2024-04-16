@@ -45,26 +45,26 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_dapp_framework_flutter
-      sha256: "851188314e7b5b84010bb7da3994bf4947d899c9f75e73b39a500550b5b2651a"
+      sha256: e4ee365be75698a00de9910dba611b3b942e0bdb60e308c569a7a846d5edcb0e
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.5"
+    version: "1.1.6"
   archethic_lib_dart:
     dependency: transitive
     description:
       name: archethic_lib_dart
-      sha256: "9bc7f6ebbb8b5cf0e7828818c957a804366b0e88f92999ed5a0fa57e72424f27"
+      sha256: ca6f2585372a899964556078701b6cda582ebbd2daa6d9662f62c20c5f6c75da
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.12"
+    version: "3.3.13"
   archethic_wallet_client:
     dependency: "direct main"
     description:
       name: archethic_wallet_client
-      sha256: "34de464321a45d2b346cc1ed8707c9bcc8af16fa47e0a3c97b5cbdd8fc848d14"
+      sha256: "46631cd56f7af7fbf6bbb984d8ce50b3ba7776a398341f459b2ab81c51a82553"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.2"
+    version: "1.2.3"
   archive:
     dependency: transitive
     description:
@@ -1217,10 +1217,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_web
-      sha256: "3692a459204a33e04bc94f5fb91158faf4f2c8903281ddd82915adecdb1a901d"
+      sha256: "8d9e750d8c9338601e709cd0885f95825086bd8b642547f26bda435aade95d8a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   url_launcher_windows:
     dependency: transitive
     description:
