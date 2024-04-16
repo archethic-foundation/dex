@@ -146,6 +146,15 @@ class LiquidityAddFormNotifier
       success: (success) {
         if (success != null) {
           state = state.copyWith(expectedTokenLP: success);
+
+          if (success == 0) {
+            setFailure(
+              const aedappfm.Failure.other(
+                cause:
+                    'Please increase the amount of tokens added to be eligible for receiving LP Tokens.',
+              ),
+            );
+          }
         }
       },
       failure: (failure) {},

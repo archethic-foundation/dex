@@ -174,12 +174,20 @@ class LiquidityAddInfos extends ConsumerWidget {
             ),
             SelectableText(
               '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.bodyMedium!,
-                    ),
-                  ),
+              style: liquidityAdd.expectedTokenLP == 0
+                  ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: aedappfm.ArchethicThemeBase.systemWarning600,
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      )
+                  : Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
             ),
           ],
         ),
