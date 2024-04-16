@@ -264,7 +264,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       if (expectedTokenLP == 0) {
         throw const aedappfm.Failure.other(
-          cause: "Pool doesn't have liquidity, please fill both token amount",
+          cause:
+              'Please increase the amount of tokens added to be eligible for receiving LP Tokens.',
         );
       }
 
