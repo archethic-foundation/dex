@@ -7,6 +7,7 @@ import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
 import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
+import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -155,6 +156,15 @@ mixin ModelParser {
       ),
     );
 
+    // Check if favorite in cache
+    var _isFavorite = false;
+    final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+    final isPoolFavorite =
+        poolsListDatasource.getPool(getPoolListResponse.address);
+    if (isPoolFavorite != null) {
+      _isFavorite = isPoolFavorite.isFavorite!;
+    }
+
     return DexPool(
       poolAddress: getPoolListResponse.address,
       pair: dexPair,
@@ -165,9 +175,7 @@ mixin ModelParser {
         isLpToken: true,
       ),
       lpTokenInUserBalance: lpTokenInUserBalance,
-      isFavorite: lpTokenInUserBalance == false &&
-          dexPair.token1.isVerified == false &&
-          dexPair.token2.isVerified == false,
+      isFavorite: _isFavorite,
     );
   }
 
