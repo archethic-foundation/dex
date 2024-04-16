@@ -144,9 +144,22 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
       }
     }
 
+    final finalPoolsListWithFav = <DexPool>[];
+    for (var finalPool in finalPoolsList) {
+      // Check if favorite in cache
+      var _isFavorite = false;
+      final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+      final isPoolFavorite = poolsListDatasource.getPool(finalPool.poolAddress);
+      if (isPoolFavorite != null) {
+        _isFavorite = isPoolFavorite.isFavorite!;
+      }
+      finalPool = finalPool.copyWith(isFavorite: _isFavorite);
+      finalPoolsListWithFav.add(finalPool);
+    }
+
     if (state.cancelToken == cancelToken) {
       state = state.copyWith(
-        poolsToDisplay: AsyncValue.data(finalPoolsList),
+        poolsToDisplay: AsyncValue.data(finalPoolsListWithFav),
       );
     }
   }
