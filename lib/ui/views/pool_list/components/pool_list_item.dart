@@ -74,7 +74,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
           ),
         ),
         Positioned(
-          top: aedappfm.Responsive.isMobile(context) ? -3 : 5,
+          top: -3,
           right: 20,
           child: Row(
             children: [

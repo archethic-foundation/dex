@@ -613,6 +613,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
+  void setRefreshInProgress(bool refreshInProgress) {
+    state = state.copyWith(refreshInProgress: refreshInProgress);
+  }
+
   Future<void> validateForm(BuildContext context) async {
     if (await control(context) == false) {
       return;

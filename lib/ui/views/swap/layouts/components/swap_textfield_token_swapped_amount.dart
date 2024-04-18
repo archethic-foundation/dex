@@ -72,10 +72,10 @@ class _SwapTokenSwappedAmountState
       children: [
         SelectableText(
           AppLocalizations.of(context)!.swapToEstimatedLbl,
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,
-                  Theme.of(context).textTheme.bodySmall!,
+                  Theme.of(context).textTheme.bodyLarge!,
                 ),
               ),
         ),

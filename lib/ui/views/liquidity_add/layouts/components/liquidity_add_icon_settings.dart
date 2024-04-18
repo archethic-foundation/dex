@@ -18,9 +18,36 @@ class LiquidityAddTokenIconSettings extends ConsumerWidget {
           context,
         );
       },
-      child: const Padding(
-        padding: EdgeInsets.only(left: 5, bottom: 4),
-        child: Icon(aedappfm.Iconsax.setting_2, size: 14),
+      child: Tooltip(
+        message: 'Set slippage tolerance information',
+        child: SizedBox(
+          height: 40,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
+                    .withOpacity(1),
+                width: 0.5,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            elevation: 0,
+            color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
+                .withOpacity(1),
+            child: const Padding(
+              padding: EdgeInsets.only(
+                top: 5,
+                bottom: 5,
+                left: 10,
+                right: 10,
+              ),
+              child: Icon(
+                aedappfm.Iconsax.setting_2,
+                size: 16,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

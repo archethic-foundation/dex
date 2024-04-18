@@ -41,7 +41,8 @@ class BrowserPopup extends ConsumerWidget {
                 ),
               ),
               child: aedappfm.ArchethicScrollbar(
-                thumbVisibility: aedappfm.Responsive.isDesktop(context),
+                thumbVisibility: aedappfm.Responsive.isDesktop(context) ||
+                    aedappfm.Responsive.isTablet(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,

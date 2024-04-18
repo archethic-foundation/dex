@@ -105,6 +105,9 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         Stack(
                           alignment: Alignment.topRight,
                           children: [

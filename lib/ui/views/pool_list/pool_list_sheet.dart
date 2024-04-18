@@ -63,8 +63,14 @@ Widget _body(BuildContext context, WidgetRef ref) {
       Center(
         child: Padding(
           padding: EdgeInsets.only(
-            top: aedappfm.Responsive.isDesktop(context) ? 140 : 90,
-            bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 0,
+            top: aedappfm.Responsive.isDesktop(context) ||
+                    aedappfm.Responsive.isTablet(context)
+                ? 140
+                : 90,
+            bottom: aedappfm.Responsive.isDesktop(context) ||
+                    aedappfm.Responsive.isTablet(context)
+                ? 40
+                : 0,
           ),
           child: asyncPools.when(
             loading: () {
@@ -219,7 +225,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: MediaQuery.of(context).size.width >= 1500
                       ? 3
-                      : aedappfm.Responsive.isDesktop(context)
+                      : aedappfm.Responsive.isDesktop(context) ||
+                              aedappfm.Responsive.isTablet(context)
                           ? 2
                           : 1,
                   mainAxisExtent: 550,
@@ -227,8 +234,14 @@ Widget _body(BuildContext context, WidgetRef ref) {
                   mainAxisSpacing: 10,
                 ),
                 padding: EdgeInsets.only(
-                  left: aedappfm.Responsive.isDesktop(context) ? 50 : 5,
-                  right: aedappfm.Responsive.isDesktop(context) ? 50 : 5,
+                  left: aedappfm.Responsive.isDesktop(context) ||
+                          aedappfm.Responsive.isTablet(context)
+                      ? 50
+                      : 5,
+                  right: aedappfm.Responsive.isDesktop(context) ||
+                          aedappfm.Responsive.isTablet(context)
+                      ? 50
+                      : 5,
                 ),
                 itemCount: pools.length,
                 itemBuilder: (context, index) {

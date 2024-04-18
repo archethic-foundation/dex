@@ -56,7 +56,8 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
           final tvl = ref.watch(
             DexPoolProviders.estimatePoolTVLInFiat(pool),
           );
-          return aedappfm.Responsive.isDesktop(context)
+          return aedappfm.Responsive.isDesktop(context) ||
+                  aedappfm.Responsive.isTablet(context)
               ? DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),

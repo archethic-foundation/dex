@@ -78,15 +78,16 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
           children: [
             SelectableText(
               AppLocalizations.of(context)!.swapFromLbl,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                       context,
-                      Theme.of(context).textTheme.bodySmall!,
+                      Theme.of(context).textTheme.bodyLarge!,
                     ),
                   ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SelectableText(
                   '${AppLocalizations.of(context)!.slippage_tolerance} ${swap.slippageTolerance}%',
@@ -108,6 +109,9 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
               ],
             ),
           ],
+        ),
+        const SizedBox(
+          height: 5,
         ),
         Stack(
           alignment: Alignment.centerLeft,

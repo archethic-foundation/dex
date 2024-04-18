@@ -40,7 +40,8 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
 
     return Container(
       padding: const EdgeInsets.only(top: 2),
-      width: aedappfm.Responsive.isDesktop(context)
+      width: aedappfm.Responsive.isDesktop(context) ||
+              aedappfm.Responsive.isTablet(context)
           ? 300
           : MediaQuery.of(context).size.width - 100,
       height: 31,
