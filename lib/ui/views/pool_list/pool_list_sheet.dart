@@ -63,7 +63,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
       Center(
         child: Padding(
           padding: EdgeInsets.only(
-            top: aedappfm.Responsive.isDesktop(context) ? 140 : 160,
+            top: aedappfm.Responsive.isDesktop(context) ? 140 : 90,
             bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 0,
           ),
           child: asyncPools.when(
@@ -258,11 +258,11 @@ Widget _body(BuildContext context, WidgetRef ref) {
           ),
         ),
       ),
-      const Padding(
+      Padding(
         padding: EdgeInsets.only(
-          top: 60,
+          top: aedappfm.Responsive.isMobile(context) ? 0 : 60,
         ),
-        child: PoolListSheetHeader(),
+        child: const PoolListSheetHeader(),
       ),
     ],
   );

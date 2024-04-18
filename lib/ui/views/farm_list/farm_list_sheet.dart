@@ -45,8 +45,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
   return Center(
     child: Padding(
       padding: EdgeInsets.only(
-        top: 100,
-        bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 80,
+        top: aedappfm.Responsive.isDesktop(context) ? 100 : 0,
+        bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 0,
       ),
       child: asyncFarms.when(
         skipLoadingOnRefresh: true,

@@ -38,7 +38,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           )
         : Padding(
             padding: const EdgeInsets.only(
-              top: 20,
+              top: 5,
             ),
             child: Column(
               children: [

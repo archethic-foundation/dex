@@ -96,7 +96,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
           ),
         ),
         Positioned(
-          top: 5,
+          top: aedappfm.Responsive.isMobile(context) ? -3 : 5,
           right: 20,
           child: Row(
             children: [
