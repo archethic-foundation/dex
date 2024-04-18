@@ -63,8 +63,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
       Center(
         child: Padding(
           padding: EdgeInsets.only(
-            top: aedappfm.Responsive.isDesktop(context) ? 140 : 200,
-            bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 80,
+            top: aedappfm.Responsive.isDesktop(context) ? 140 : 160,
+            bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 0,
           ),
           child: asyncPools.when(
             loading: () {

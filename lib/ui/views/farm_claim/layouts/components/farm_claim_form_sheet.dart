@@ -45,7 +45,12 @@ class FarmClaimFormSheet extends ConsumerWidget {
                   child: SelectionArea(
                     child: SelectableText(
                       AppLocalizations.of(context)!.farmClaimFormTitle,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.titleMedium!,
+                            ),
+                          ),
                     ),
                   ),
                 ),

@@ -86,23 +86,45 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          const aedappfm.AppBackground(
-            backgroundImage: 'assets/images/background-welcome.png',
-          ),
+          if (!aedappfm.Responsive.isMobile(context))
+            const aedappfm.AppBackground(
+              backgroundImage: 'assets/images/background-welcome.png',
+            ),
           Align(
             child: SafeArea(
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: aedappfm.Responsive.isMobile(context)
+                    ? BorderRadius.zero
+                    : BorderRadius.circular(20),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                   child: Container(
                     width: 650,
+                    height: aedappfm.Responsive.isMobile(context)
+                        ? MediaQuery.of(context).size.height
+                        : null,
                     decoration: BoxDecoration(
-                      color: aedappfm.AppThemeBase.sheetBackground,
-                      border: Border.all(
-                        color: aedappfm.AppThemeBase.sheetBorder,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
+                      image: aedappfm.Responsive.isMobile(context)
+                          ? const DecorationImage(
+                              image: AssetImage(
+                                'assets/images/main-background.png',
+                              ),
+                              fit: BoxFit.fitHeight,
+                              alignment: Alignment.centerRight,
+                              opacity: 0.7,
+                            )
+                          : null,
+                      color: aedappfm.Responsive.isMobile(context)
+                          ? null
+                          : aedappfm.AppThemeBase.sheetBackground,
+                      border: aedappfm.Responsive.isMobile(context)
+                          ? null
+                          : Border.all(
+                              color: aedappfm.AppThemeBase.sheetBorder,
+                            ),
+                      borderRadius: aedappfm.Responsive.isMobile(context)
+                          ? BorderRadius.zero
+                          : BorderRadius.circular(20),
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(
@@ -112,6 +134,7 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                         bottom: 5,
                       ),
                       child: aedappfm.ArchethicScrollbar(
+                        thumbVisibility: aedappfm.Responsive.isDesktop(context),
                         child: IntrinsicHeight(
                           child: Column(
                             children: [

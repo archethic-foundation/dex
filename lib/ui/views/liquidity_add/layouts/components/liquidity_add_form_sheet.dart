@@ -41,7 +41,12 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                   child: SelectionArea(
                     child: SelectableText(
                       AppLocalizations.of(context)!.liquidityAddFormTitle,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.titleMedium!,
+                            ),
+                          ),
                     ),
                   ),
                 ),
@@ -60,232 +65,234 @@ class LiquidityAddFormSheet extends ConsumerWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (liquidityAdd.token1 != null)
-                        PoolInfoCard(
-                          poolGenesisAddress: liquidityAdd.pool!.poolAddress,
-                          tokenAddressRatioPrimary:
-                              liquidityAdd.token1!.address == null
-                                  ? 'UCO'
-                                  : liquidityAdd.token1!.address!,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (liquidityAdd.token1 != null)
+                          PoolInfoCard(
+                            poolGenesisAddress: liquidityAdd.pool!.poolAddress,
+                            tokenAddressRatioPrimary:
+                                liquidityAdd.token1!.address == null
+                                    ? 'UCO'
+                                    : liquidityAdd.token1!.address!,
+                          ),
+                        const SizedBox(
+                          height: 10,
                         ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SelectableText(
-                            '${AppLocalizations.of(context)!.slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                          const Align(
-                            alignment: Alignment.centerRight,
-                            child: LiquidityAddTokenIconSettings(),
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        alignment: Alignment.topRight,
-                        children: [
-                          const LiquidityAddToken1Amount(),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              right: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                if (liquidityAdd.token1 != null &&
-                                    liquidityAdd.token1Amount > 0)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 12),
-                                    child: FutureBuilder<String>(
-                                      future: FiatValue().display(
-                                        ref,
-                                        liquidityAdd.token1!,
-                                        liquidityAdd.token1Amount,
-                                      ),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return SelectableText(
-                                            snapshot.data!,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium,
-                                          );
-                                        }
-                                        return const SizedBox.shrink();
-                                      },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SelectableText(
+                              '${AppLocalizations.of(context)!.slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
                                     ),
                                   ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 9),
-                                  child: DexTokenInfos(
-                                    token: liquidityAdd.token1,
-                                  ),
-                                ),
-                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Stack(
-                        alignment: Alignment.topRight,
-                        children: [
-                          const LiquidityAddToken2Amount(),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              right: 10,
+                            const Align(
+                              alignment: Alignment.centerRight,
+                              child: LiquidityAddTokenIconSettings(),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                if (liquidityAdd.token2 != null &&
-                                    liquidityAdd.token2Amount > 0)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 12),
-                                    child: FutureBuilder<String>(
-                                      future: FiatValue().display(
-                                        ref,
-                                        liquidityAdd.token2!,
-                                        liquidityAdd.token2Amount,
+                          ],
+                        ),
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            const LiquidityAddToken1Amount(),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  if (liquidityAdd.token1 != null &&
+                                      liquidityAdd.token1Amount > 0)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 12),
+                                      child: FutureBuilder<String>(
+                                        future: FiatValue().display(
+                                          ref,
+                                          liquidityAdd.token1!,
+                                          liquidityAdd.token1Amount,
+                                        ),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return SelectableText(
+                                              snapshot.data!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            );
+                                          }
+                                          return const SizedBox.shrink();
+                                        },
                                       ),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return SelectableText(
-                                            snapshot.data!,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium,
-                                          );
-                                        }
-                                        return const SizedBox.shrink();
-                                      },
+                                    ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 9),
+                                    child: DexTokenInfos(
+                                      token: liquidityAdd.token1,
                                     ),
                                   ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 9),
-                                  child: DexTokenInfos(
-                                    token: liquidityAdd.token2,
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const LiquidityAddInfos(),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (liquidityAdd.messageMaxHalfUCO)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: SizedBox(
-                            height: 40,
-                            child: aedappfm.InfoBanner(
-                              'This process requires a maximum of ${liquidityAdd.feesEstimatedUCO.formatNumber(precision: 8)} UCO in transaction fees to be completed.',
-                              aedappfm.InfoBannerType.request,
-                            ),
-                          ),
+                          ],
                         ),
-                      aedappfm.ErrorMessage(
-                        failure: liquidityAdd.failure,
-                        failureMessage: FailureMessage(
-                          context: context,
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            const LiquidityAddToken2Amount(),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  if (liquidityAdd.token2 != null &&
+                                      liquidityAdd.token2Amount > 0)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 12),
+                                      child: FutureBuilder<String>(
+                                        future: FiatValue().display(
+                                          ref,
+                                          liquidityAdd.token2!,
+                                          liquidityAdd.token2Amount,
+                                        ),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return SelectableText(
+                                              snapshot.data!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            );
+                                          }
+                                          return const SizedBox.shrink();
+                                        },
+                                      ),
+                                    ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 9),
+                                    child: DexTokenInfos(
+                                      token: liquidityAdd.token2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const LiquidityAddInfos(),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (liquidityAdd.messageMaxHalfUCO)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: SizedBox(
+                              height: 40,
+                              child: aedappfm.InfoBanner(
+                                'This process requires a maximum of ${liquidityAdd.feesEstimatedUCO.formatNumber(precision: 8)} UCO in transaction fees to be completed.',
+                                aedappfm.InfoBannerType.request,
+                              ),
+                            ),
+                          ),
+                        aedappfm.ErrorMessage(
                           failure: liquidityAdd.failure,
-                        ).getMessage(),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: aedappfm.ButtonValidate(
-                              controlOk: liquidityAdd.isControlsOk,
-                              labelBtn: AppLocalizations.of(context)!
-                                  .btn_liquidity_add,
-                              onPressed: () => ref
-                                  .read(
-                                    LiquidityAddFormProvider
-                                        .liquidityAddForm.notifier,
-                                  )
-                                  .validateForm(context),
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
-                              displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
+                          failureMessage: FailureMessage(
+                            context: context,
+                            failure: liquidityAdd.failure,
+                          ).getMessage(),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: aedappfm.ButtonValidate(
+                                controlOk: liquidityAdd.isControlsOk,
+                                labelBtn: AppLocalizations.of(context)!
+                                    .btn_liquidity_add,
+                                onPressed: () => ref
+                                    .read(
+                                      LiquidityAddFormProvider
+                                          .liquidityAddForm.notifier,
+                                    )
+                                    .validateForm(context),
+                                isConnected: ref
+                                    .watch(SessionProviders.session)
+                                    .isConnected,
+                                displayWalletConnectOnPressed: () async {
+                                  final sessionNotifier = ref
+                                      .read(SessionProviders.session.notifier);
+                                  await sessionNotifier.connectToWallet();
 
-                                final session =
-                                    ref.read(SessionProviders.session);
-                                if (session.error.isNotEmpty) {
-                                  if (!context.mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: Theme.of(context)
-                                          .snackBarTheme
-                                          .backgroundColor,
-                                      content: SelectableText(
-                                        session.error,
-                                        style: Theme.of(context)
+                                  final session =
+                                      ref.read(SessionProviders.session);
+                                  if (session.error.isNotEmpty) {
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Theme.of(context)
                                             .snackBarTheme
-                                            .contentTextStyle,
+                                            .backgroundColor,
+                                        content: SelectableText(
+                                          session.error,
+                                          style: Theme.of(context)
+                                              .snackBarTheme
+                                              .contentTextStyle,
+                                        ),
+                                        duration: const Duration(seconds: 2),
                                       ),
-                                      duration: const Duration(seconds: 2),
-                                    ),
-                                  );
-                                } else {
-                                  if (!context.mounted) return;
-                                  context.go(
-                                    '/',
-                                  );
-                                }
-                              },
+                                    );
+                                  } else {
+                                    if (!context.mounted) return;
+                                    context.go(
+                                      '/',
+                                    );
+                                  }
+                                },
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: aedappfm.ButtonClose(
-                              onPressed: () {
-                                context.go(PoolListSheet.routerPage);
-                              },
+                            Expanded(
+                              child: aedappfm.ButtonClose(
+                                onPressed: () {
+                                  context.go(PoolListSheet.routerPage);
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

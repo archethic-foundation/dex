@@ -6,6 +6,7 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
+import 'package:aedex/ui/views/pool_list/bloc/state_item.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
@@ -55,122 +56,22 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
         );
 
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Tooltip(
-                                message: poolItem.pool!.pair.token1.symbol,
-                                child: SelectableText(
-                                  poolItem.pool!.pair.token1.symbol
-                                      .reduceSymbol(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                              const SelectableText('/'),
-                              Tooltip(
-                                message: poolItem.pool!.pair.token2.symbol,
-                                child: SelectableText(
-                                  poolItem.pool!.pair.token2.symbol
-                                      .reduceSymbol(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 2),
-                                child: DexPairIcons(
-                                  token1Address:
-                                      poolItem.pool!.pair.token1.address == null
-                                          ? 'UCO'
-                                          : poolItem.pool!.pair.token1.address!,
-                                  token2Address:
-                                      poolItem.pool!.pair.token2.address == null
-                                          ? 'UCO'
-                                          : poolItem.pool!.pair.token2.address!,
-                                  iconSize: 22,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              VerifiedPoolIcon(
-                                isVerified: poolItem.pool!.isVerified,
-                              ),
-                              LiquidityPositionsIcon(
-                                lpTokenInUserBalance:
-                                    poolItem.pool!.lpTokenInUserBalance,
-                              ),
-                              LiquidityFavoriteIcon(
-                                isFavorite: widget.pool.isFavorite,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SelectableText(
-                            'TVL',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                          SelectableText(
-                            '\$${tvl.formatNumber(precision: 2)}',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Tooltip(
+                          message: poolItem.pool!.pair.token1.symbol,
+                          child: SelectableText(
+                            poolItem.pool!.pair.token1.symbol.reduceSymbol(),
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium!
@@ -180,510 +81,545 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
                                     context,
                                     Theme.of(context).textTheme.headlineMedium!,
                                   ),
-                                  color: aedappfm.AppThemeBase.secondaryColor,
                                 ),
                           ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Stack(
-                            alignment: Alignment.centerRight,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: SelectableText(
-                                  '24h',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!,
-                                        ),
-                                      ),
+                        ),
+                        const SelectableText('/'),
+                        Tooltip(
+                          message: poolItem.pool!.pair.token2.symbol,
+                          child: SelectableText(
+                            poolItem.pool!.pair.token2.symbol.reduceSymbol(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.headlineMedium!,
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 25),
-                                child: SelectableText(
-                                  'APR',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                            ],
                           ),
-                          if (tvl > 0)
-                            SelectableText(
-                              '${(Decimal.parse(poolItem.fee24h.toString()) * Decimal.parse('365') * Decimal.parse('100') / Decimal.parse(tvl.toString())).toDouble().formatNumber(precision: 2)}%',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium!,
-                                    ),
-                                    color: aedappfm.AppThemeBase.secondaryColor,
-                                  ),
-                            )
-                          else
-                            SelectableText(
-                              '0.00%',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium!,
-                                    ),
-                                    color: aedappfm.AppThemeBase.secondaryColor,
-                                  ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2),
+                          child: DexPairIcons(
+                            token1Address:
+                                poolItem.pool!.pair.token1.address == null
+                                    ? 'UCO'
+                                    : poolItem.pool!.pair.token1.address!,
+                            token2Address:
+                                poolItem.pool!.pair.token2.address == null
+                                    ? 'UCO'
+                                    : poolItem.pool!.pair.token2.address!,
+                            iconSize: 22,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        VerifiedPoolIcon(
+                          isVerified: poolItem.pool!.isVerified,
+                        ),
+                        LiquidityPositionsIcon(
+                          lpTokenInUserBalance:
+                              poolItem.pool!.lpTokenInUserBalance,
+                        ),
+                        LiquidityFavoriteIcon(
+                          isFavorite: widget.pool.isFavorite,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SelectableText(
+                      'TVL',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
                             ),
-                        ],
+                          ),
+                    ),
+                    SelectableText(
+                      '\$${tvl.formatNumber(precision: 2)}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.headlineMedium!,
+                            ),
+                            color: aedappfm.AppThemeBase.secondaryColor,
+                          ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: SelectableText(
+                            '24h',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodySmall!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 25),
+                          child: SelectableText(
+                            'APR',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (tvl > 0)
+                      SelectableText(
+                        '${(Decimal.parse(poolItem.fee24h.toString()) * Decimal.parse('365') * Decimal.parse('100') / Decimal.parse(tvl.toString())).toDouble().formatNumber(precision: 2)}%',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.headlineMedium!,
+                              ),
+                              color: aedappfm.AppThemeBase.secondaryColor,
+                            ),
+                      )
+                    else
+                      SelectableText(
+                        '0.00%',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.headlineMedium!,
+                              ),
+                              color: aedappfm.AppThemeBase.secondaryColor,
+                            ),
                       ),
-                    ],
-                  ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: SelectableText(
+                            '24h',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodySmall!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 25),
+                          child: SelectableText(
+                            'Volume',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: SelectableText(
+                            '24h',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodySmall!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 25),
+                          child: SelectableText(
+                            'Fees',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      '\$${poolItem.volume24h.formatNumber(precision: poolItem.volume24h > 1 ? 2 : 8)}',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
+                    ),
+                    SelectableText(
+                      '\$${poolItem.fee24h.formatNumber(precision: poolItem.fee24h > 1 ? 2 : 8)}',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: SelectableText(
+                            'All',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodySmall!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: SelectableText(
+                            'Volume',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: SelectableText(
+                            'All',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodySmall!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: SelectableText(
+                            'Fees',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.bodyLarge!,
+                                  ),
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      '\$${poolItem.volumeAllTime.formatNumber(precision: poolItem.volumeAllTime > 1 ? 2 : 8)}',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
+                    ),
+                    SelectableText(
+                      '\$${poolItem.feeAllTime.formatNumber(precision: poolItem.feeAllTime > 1 ? 2 : 8)}',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            if (aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context))
+              Column(
+                children: [
+                  _swapButton(context, poolItem),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
-                  Column(
+                  Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Stack(
-                            alignment: Alignment.centerRight,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: SelectableText(
-                                  '24h',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 25),
-                                child: SelectableText(
-                                  'Volume',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Stack(
-                            alignment: Alignment.centerRight,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: SelectableText(
-                                  '24h',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 25),
-                                child: SelectableText(
-                                  'Fees',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                      Expanded(
+                        child: _addLiquidityButton(context, poolItem),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SelectableText(
-                            '\$${poolItem.volume24h.formatNumber(precision: poolItem.volume24h > 1 ? 2 : 8)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                          SelectableText(
-                            '\$${poolItem.fee24h.formatNumber(precision: poolItem.fee24h > 1 ? 2 : 8)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Stack(
-                            alignment: Alignment.centerRight,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: SelectableText(
-                                  'All',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 17),
-                                child: SelectableText(
-                                  'Volume',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Stack(
-                            alignment: Alignment.centerRight,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: SelectableText(
-                                  'All',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 17),
-                                child: SelectableText(
-                                  'Fees',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!,
-                                        ),
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SelectableText(
-                            '\$${poolItem.volumeAllTime.formatNumber(precision: poolItem.volumeAllTime > 1 ? 2 : 8)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                          SelectableText(
-                            '\$${poolItem.feeAllTime.formatNumber(precision: poolItem.feeAllTime > 1 ? 2 : 8)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Column(
-                    children: [
-                      aedappfm.AppButton(
-                        background: aedappfm.ArchethicThemeBase.purple500,
-                        labelBtn: 'Swap these tokens',
-                        onPressed: () {
-                          final tokenToSwapJson =
-                              jsonEncode(poolItem.pool!.pair.token1.toJson());
-                          final tokenSwappedJson =
-                              jsonEncode(poolItem.pool!.pair.token2.toJson());
-                          final tokenToSwapEncoded =
-                              Uri.encodeComponent(tokenToSwapJson);
-                          final tokenSwappedEncoded =
-                              Uri.encodeComponent(tokenSwappedJson);
-
-                          context.go(
-                            Uri(
-                              path: SwapSheet.routerPage,
-                              queryParameters: {
-                                'tokenToSwap': tokenToSwapEncoded,
-                                'tokenSwapped': tokenSwappedEncoded,
-                              },
-                            ).toString(),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: aedappfm.ButtonValidate(
-                              background: aedappfm.ArchethicThemeBase.purple500,
-                              controlOk: true,
-                              labelBtn: aedappfm.Responsive.isDesktop(context)
-                                  ? 'Add Liquidity'
-                                  : 'Add Liquid.',
-                              onPressed: () {
-                                final poolJson =
-                                    jsonEncode(poolItem.pool!.toJson());
-                                final pairJson =
-                                    jsonEncode(poolItem.pool!.pair.toJson());
-                                final poolEncoded =
-                                    Uri.encodeComponent(poolJson);
-                                final pairEncoded =
-                                    Uri.encodeComponent(pairJson);
-                                context.go(
-                                  Uri(
-                                    path: LiquidityAddSheet.routerPage,
-                                    queryParameters: {
-                                      'pool': poolEncoded,
-                                      'pair': pairEncoded,
-                                    },
-                                  ).toString(),
-                                );
-                              },
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
-                              displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
-                                final session =
-                                    ref.read(SessionProviders.session);
-                                if (session.error.isNotEmpty) {
-                                  if (!context.mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: Theme.of(context)
-                                          .snackBarTheme
-                                          .backgroundColor,
-                                      content: SelectableText(
-                                        session.error,
-                                        style: Theme.of(context)
-                                            .snackBarTheme
-                                            .contentTextStyle,
-                                      ),
-                                      duration: const Duration(seconds: 2),
-                                    ),
-                                  );
-                                } else {
-                                  if (!context.mounted) return;
-                                  context.go(
-                                    '/',
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                          Expanded(
-                            child: aedappfm.ButtonValidate(
-                              background: aedappfm.ArchethicThemeBase.purple500,
-                              controlOk: poolItem.pool!.lpTokenInUserBalance,
-                              labelBtn: aedappfm.Responsive.isDesktop(context)
-                                  ? 'Remove liquidity'
-                                  : 'Rmv Liquid.',
-                              onPressed: () {
-                                final poolJson =
-                                    jsonEncode(poolItem.pool!.toJson());
-                                final pairJson =
-                                    jsonEncode(poolItem.pool!.pair.toJson());
-                                final lpTokenJson =
-                                    jsonEncode(poolItem.pool!.lpToken.toJson());
-                                final poolEncoded =
-                                    Uri.encodeComponent(poolJson);
-                                final pairEncoded =
-                                    Uri.encodeComponent(pairJson);
-                                final lpTokenEncoded =
-                                    Uri.encodeComponent(lpTokenJson);
-                                context.go(
-                                  Uri(
-                                    path: LiquidityRemoveSheet.routerPage,
-                                    queryParameters: {
-                                      'pool': poolEncoded,
-                                      'pair': pairEncoded,
-                                      'lpToken': lpTokenEncoded,
-                                    },
-                                  ).toString(),
-                                );
-                              },
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
-                              displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
-                                final session =
-                                    ref.read(SessionProviders.session);
-                                if (session.error.isNotEmpty) {
-                                  if (!context.mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: Theme.of(context)
-                                          .snackBarTheme
-                                          .backgroundColor,
-                                      content: SelectableText(
-                                        session.error,
-                                        style: Theme.of(context)
-                                            .snackBarTheme
-                                            .contentTextStyle,
-                                      ),
-                                      duration: const Duration(seconds: 2),
-                                    ),
-                                  );
-                                } else {
-                                  if (!context.mounted) return;
-                                  context.go(
-                                    '/',
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        ],
+                      Expanded(
+                        child: _removeLiquidityButton(context, poolItem),
                       ),
                     ],
                   ),
                 ],
+              )
+            else
+              Column(
+                children: [
+                  _swapButton(context, poolItem),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _addLiquidityButton(context, poolItem),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _removeLiquidityButton(context, poolItem),
+                ],
               ),
-            ),
           ],
         );
+      },
+    );
+  }
+
+  Widget _swapButton(BuildContext context, PoolItemState poolItem) {
+    return aedappfm.AppButton(
+      background: aedappfm.ArchethicThemeBase.purple500,
+      labelBtn: 'Swap these tokens',
+      onPressed: () {
+        final tokenToSwapJson = jsonEncode(poolItem.pool!.pair.token1.toJson());
+        final tokenSwappedJson =
+            jsonEncode(poolItem.pool!.pair.token2.toJson());
+        final tokenToSwapEncoded = Uri.encodeComponent(tokenToSwapJson);
+        final tokenSwappedEncoded = Uri.encodeComponent(tokenSwappedJson);
+
+        context.go(
+          Uri(
+            path: SwapSheet.routerPage,
+            queryParameters: {
+              'tokenToSwap': tokenToSwapEncoded,
+              'tokenSwapped': tokenSwappedEncoded,
+            },
+          ).toString(),
+        );
+      },
+    );
+  }
+
+  Widget _addLiquidityButton(BuildContext context, PoolItemState poolItem) {
+    return aedappfm.ButtonValidate(
+      background: aedappfm.ArchethicThemeBase.purple500,
+      controlOk: true,
+      labelBtn: 'Add Liquidity',
+      onPressed: () {
+        final poolJson = jsonEncode(poolItem.pool!.toJson());
+        final pairJson = jsonEncode(poolItem.pool!.pair.toJson());
+        final poolEncoded = Uri.encodeComponent(poolJson);
+        final pairEncoded = Uri.encodeComponent(pairJson);
+        context.go(
+          Uri(
+            path: LiquidityAddSheet.routerPage,
+            queryParameters: {
+              'pool': poolEncoded,
+              'pair': pairEncoded,
+            },
+          ).toString(),
+        );
+      },
+      isConnected: ref.watch(SessionProviders.session).isConnected,
+      displayWalletConnectOnPressed: () async {
+        final sessionNotifier = ref.read(SessionProviders.session.notifier);
+        await sessionNotifier.connectToWallet();
+
+        final session = ref.read(SessionProviders.session);
+        if (session.error.isNotEmpty) {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
+              content: SelectableText(
+                session.error,
+                style: Theme.of(context).snackBarTheme.contentTextStyle,
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          if (!context.mounted) return;
+          context.go(
+            '/',
+          );
+        }
+      },
+    );
+  }
+
+  Widget _removeLiquidityButton(BuildContext context, PoolItemState poolItem) {
+    return aedappfm.ButtonValidate(
+      background: aedappfm.ArchethicThemeBase.purple500,
+      controlOk: poolItem.pool!.lpTokenInUserBalance,
+      labelBtn: 'Remove liquidity',
+      onPressed: () {
+        final poolJson = jsonEncode(poolItem.pool!.toJson());
+        final pairJson = jsonEncode(poolItem.pool!.pair.toJson());
+        final lpTokenJson = jsonEncode(poolItem.pool!.lpToken.toJson());
+        final poolEncoded = Uri.encodeComponent(poolJson);
+        final pairEncoded = Uri.encodeComponent(pairJson);
+        final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
+        context.go(
+          Uri(
+            path: LiquidityRemoveSheet.routerPage,
+            queryParameters: {
+              'pool': poolEncoded,
+              'pair': pairEncoded,
+              'lpToken': lpTokenEncoded,
+            },
+          ).toString(),
+        );
+      },
+      isConnected: ref.watch(SessionProviders.session).isConnected,
+      displayWalletConnectOnPressed: () async {
+        final sessionNotifier = ref.read(SessionProviders.session.notifier);
+        await sessionNotifier.connectToWallet();
+
+        final session = ref.read(SessionProviders.session);
+        if (session.error.isNotEmpty) {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
+              content: SelectableText(
+                session.error,
+                style: Theme.of(context).snackBarTheme.contentTextStyle,
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          if (!context.mounted) return;
+          context.go(
+            '/',
+          );
+        }
       },
     );
   }

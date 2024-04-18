@@ -69,7 +69,8 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
       fontSize: aedappfm.Responsive.fontSizeFromValue(
         context,
         desktopValue: 12,
-        ratioTablet: 0,
+        ratioTablet: -8,
+        ratioMobile: -8,
       ),
       height: 30,
       isConnected: ref.watch(SessionProviders.session).isConnected,
@@ -121,18 +122,26 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
         ],
         selectedTextStyle: TextStyle(
           color: Colors.white,
-          fontSize:
-              aedappfm.Responsive.fontSizeFromValue(context, desktopValue: 12),
+          fontSize: aedappfm.Responsive.fontSizeFromValue(
+            context,
+            desktopValue: 12,
+            ratioTablet: 0,
+            ratioMobile: 0,
+          ),
           fontWeight: FontWeight.w400,
         ),
         unSelectedTextStyle: TextStyle(
           color: Colors.white.withOpacity(0.5),
-          fontSize:
-              aedappfm.Responsive.fontSizeFromValue(context, desktopValue: 12),
+          fontSize: aedappfm.Responsive.fontSizeFromValue(
+            context,
+            desktopValue: 12,
+            ratioTablet: 0,
+            ratioMobile: 0,
+          ),
           fontWeight: FontWeight.w400,
         ),
         labels: const [
-          'Verified pools',
+          'Verified',
           'My pools',
           'Favorites',
           'Results',
