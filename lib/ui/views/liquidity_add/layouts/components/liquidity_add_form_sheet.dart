@@ -135,7 +135,17 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                               snapshot.data!,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .titleMedium,
+                                                  .titleMedium!
+                                                  .copyWith(
+                                                    fontSize: aedappfm
+                                                            .Responsive
+                                                        .fontSizeFromTextStyle(
+                                                      context,
+                                                      Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium!,
+                                                    ),
+                                                  ),
                                             );
                                           }
                                           return const SizedBox.shrink();
@@ -186,7 +196,17 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                               snapshot.data!,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .titleMedium,
+                                                  .titleMedium!
+                                                  .copyWith(
+                                                    fontSize: aedappfm
+                                                            .Responsive
+                                                        .fontSizeFromTextStyle(
+                                                      context,
+                                                      Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium!,
+                                                    ),
+                                                  ),
                                             );
                                           }
                                           return const SizedBox.shrink();

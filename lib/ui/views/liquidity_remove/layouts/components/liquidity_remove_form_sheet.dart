@@ -61,101 +61,104 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (liquidityRemove.token1 != null)
-                        PoolInfoCard(
-                          poolGenesisAddress: liquidityRemove.pool!.poolAddress,
-                          tokenAddressRatioPrimary:
-                              liquidityRemove.token1!.address == null
-                                  ? 'UCO'
-                                  : liquidityRemove.token1!.address!,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (liquidityRemove.token1 != null)
+                          PoolInfoCard(
+                            poolGenesisAddress:
+                                liquidityRemove.pool!.poolAddress,
+                            tokenAddressRatioPrimary:
+                                liquidityRemove.token1!.address == null
+                                    ? 'UCO'
+                                    : liquidityRemove.token1!.address!,
+                          ),
+                        const SizedBox(
+                          height: 20,
                         ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const LiquidityRemoveLPTokenAmount(),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const LiquidityRemoveTokensGetBack(),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      aedappfm.ErrorMessage(
-                        failure: liquidityRemove.failure,
-                        failureMessage: FailureMessage(
-                          context: context,
+                        const LiquidityRemoveLPTokenAmount(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const LiquidityRemoveTokensGetBack(),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        aedappfm.ErrorMessage(
                           failure: liquidityRemove.failure,
-                        ).getMessage(),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: aedappfm.ButtonValidate(
-                              controlOk: liquidityRemove.isControlsOk,
-                              labelBtn: AppLocalizations.of(context)!
-                                  .btn_liquidity_remove,
-                              onPressed: () => ref
-                                  .read(
-                                    LiquidityRemoveFormProvider
-                                        .liquidityRemoveForm.notifier,
-                                  )
-                                  .validateForm(context),
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
-                              displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
+                          failureMessage: FailureMessage(
+                            context: context,
+                            failure: liquidityRemove.failure,
+                          ).getMessage(),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: aedappfm.ButtonValidate(
+                                controlOk: liquidityRemove.isControlsOk,
+                                labelBtn: AppLocalizations.of(context)!
+                                    .btn_liquidity_remove,
+                                onPressed: () => ref
+                                    .read(
+                                      LiquidityRemoveFormProvider
+                                          .liquidityRemoveForm.notifier,
+                                    )
+                                    .validateForm(context),
+                                isConnected: ref
+                                    .watch(SessionProviders.session)
+                                    .isConnected,
+                                displayWalletConnectOnPressed: () async {
+                                  final sessionNotifier = ref
+                                      .read(SessionProviders.session.notifier);
+                                  await sessionNotifier.connectToWallet();
 
-                                final session =
-                                    ref.read(SessionProviders.session);
-                                if (session.error.isNotEmpty) {
-                                  if (!context.mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: Theme.of(context)
-                                          .snackBarTheme
-                                          .backgroundColor,
-                                      content: SelectableText(
-                                        session.error,
-                                        style: Theme.of(context)
+                                  final session =
+                                      ref.read(SessionProviders.session);
+                                  if (session.error.isNotEmpty) {
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Theme.of(context)
                                             .snackBarTheme
-                                            .contentTextStyle,
+                                            .backgroundColor,
+                                        content: SelectableText(
+                                          session.error,
+                                          style: Theme.of(context)
+                                              .snackBarTheme
+                                              .contentTextStyle,
+                                        ),
+                                        duration: const Duration(seconds: 2),
                                       ),
-                                      duration: const Duration(seconds: 2),
-                                    ),
-                                  );
-                                } else {
-                                  if (!context.mounted) return;
-                                  context.go(
-                                    '/',
-                                  );
-                                }
-                              },
+                                    );
+                                  } else {
+                                    if (!context.mounted) return;
+                                    context.go(
+                                      '/',
+                                    );
+                                  }
+                                },
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: aedappfm.ButtonClose(
-                              onPressed: () {
-                                context.go(PoolListSheet.routerPage);
-                              },
+                            Expanded(
+                              child: aedappfm.ButtonClose(
+                                onPressed: () {
+                                  context.go(PoolListSheet.routerPage);
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

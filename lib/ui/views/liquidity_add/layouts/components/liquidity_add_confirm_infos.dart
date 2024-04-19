@@ -213,6 +213,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     tokenBalance: liquidityAdd.token1Balance,
                     token: liquidityAdd.token1,
                     height: 20,
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                     fiatVertical: true,
                     fiatAlignLeft: true,
                     fiatTextStyleMedium: true,
@@ -223,6 +224,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                             ) -
                             Decimal.parse(liquidityAdd.token1Amount.toString()))
                         .toDouble(),
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                     token: liquidityAdd.token1,
                     height: 20,
                     fiatVertical: true,
@@ -237,6 +239,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     tokenBalance: liquidityAdd.token2Balance,
                     token: liquidityAdd.token2,
                     height: 20,
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                     fiatVertical: true,
                     fiatAlignLeft: true,
                     fiatTextStyleMedium: true,
@@ -247,6 +250,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                             ) -
                             Decimal.parse(liquidityAdd.token2Amount.toString()))
                         .toDouble(),
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                     token: liquidityAdd.token2,
                     height: 20,
                     fiatVertical: true,
