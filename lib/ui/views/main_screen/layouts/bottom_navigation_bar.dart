@@ -1,8 +1,12 @@
 import 'dart:ui';
+
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/util/icon_size.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -32,14 +36,82 @@ class _BottomNavigationBarMainScreenState
         child: BottomNavigationBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          items: widget.listNavigationLabelIcon
-              .map(
-                (item) => BottomNavigationBarItem(
-                  label: item.$1,
-                  icon: Icon(item.$2),
-                ),
-              )
-              .toList(),
+          selectedFontSize: 10,
+          unselectedFontSize: 10,
+          selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: widget.listNavigationLabelIcon.map((item) {
+            var selected = false;
+            final tabSelected = ref
+                .read(
+                  navigationIndexMainScreenProvider.notifier,
+                )
+                .state;
+            var widthContainer = 0.0;
+            switch (item.$2) {
+              case aedappfm.Iconsax.arrange_circle_2:
+                if (tabSelected == NavigationIndex.swap) {
+                  widthContainer = 30;
+                  selected = true;
+                }
+                break;
+              case aedappfm.Iconsax.wallet_money:
+                if (tabSelected == NavigationIndex.pool) {
+                  widthContainer = 45;
+                  selected = true;
+                }
+                break;
+              case aedappfm.Iconsax.coin5:
+                if (tabSelected == NavigationIndex.farm) {
+                  widthContainer = 30;
+                  selected = true;
+                }
+                break;
+              default:
+            }
+
+            return BottomNavigationBarItem(
+              label: '',
+              icon: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        item.$2,
+                        weight: IconSize.weightM,
+                        opticalSize: IconSize.opticalSizeM,
+                        grade: IconSize.gradeM,
+                      ),
+                      Text(
+                        item.$1,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (selected)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50),
+                      child: Container(
+                        width: widthContainer,
+                        height: 2,
+                        color: aedappfm.ArchethicThemeBase.neutral0,
+                      ),
+                    ),
+                ],
+              ),
+            );
+          }).toList(),
           currentIndex: widget.navDrawerIndex.index,
           onTap: (int selectedIndex) {
             switch (selectedIndex) {

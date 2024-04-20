@@ -45,8 +45,14 @@ Widget _body(BuildContext context, WidgetRef ref) {
   return Center(
     child: Padding(
       padding: EdgeInsets.only(
-        top: 100,
-        bottom: aedappfm.Responsive.isDesktop(context) ? 40 : 80,
+        top: aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? 100
+            : 0,
+        bottom: aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? 40
+            : 0,
       ),
       child: asyncFarms.when(
         skipLoadingOnRefresh: true,
@@ -57,7 +63,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: MediaQuery.of(context).size.width >= 1500
                 ? 3
-                : aedappfm.Responsive.isDesktop(context)
+                : aedappfm.Responsive.isDesktop(context) ||
+                        aedappfm.Responsive.isTablet(context)
                     ? 2
                     : 1,
             mainAxisExtent: 640,
@@ -65,8 +72,14 @@ Widget _body(BuildContext context, WidgetRef ref) {
             mainAxisSpacing: 10,
           ),
           padding: EdgeInsets.only(
-            left: aedappfm.Responsive.isDesktop(context) ? 50 : 5,
-            right: aedappfm.Responsive.isDesktop(context) ? 50 : 5,
+            left: aedappfm.Responsive.isDesktop(context) ||
+                    aedappfm.Responsive.isTablet(context)
+                ? 50
+                : 5,
+            right: aedappfm.Responsive.isDesktop(context) ||
+                    aedappfm.Responsive.isTablet(context)
+                ? 50
+                : 5,
           ),
           itemCount: farms.length,
           itemBuilder: (context, index) {

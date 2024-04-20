@@ -76,7 +76,20 @@ class FarmDetailsBack extends ConsumerWidget {
                           ),
                           FormatAddressLinkCopy(
                             address: farm.farmAddress.toUpperCase(),
-                            header: '',
+                            header: 'Farm address: ',
+                            typeAddress: TypeAddressLinkCopy.chain,
+                            reduceAddress: true,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .fontSize!,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          FormatAddressLinkCopy(
+                            address: farm.lpToken!.address!.toUpperCase(),
+                            header: 'LP Token address: ',
                             typeAddress: TypeAddressLinkCopy.chain,
                             reduceAddress: true,
                             fontSize: Theme.of(context)

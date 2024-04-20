@@ -23,7 +23,8 @@ class PoolListSheetHeader extends ConsumerStatefulWidget {
 class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
   @override
   Widget build(BuildContext context) {
-    return aedappfm.Responsive.isDesktop(context)
+    return aedappfm.Responsive.isDesktop(context) ||
+            aedappfm.Responsive.isTablet(context)
         ? Padding(
             padding: const EdgeInsets.only(top: 20, left: 30, right: 30),
             child: Row(
@@ -38,7 +39,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           )
         : Padding(
             padding: const EdgeInsets.only(
-              top: 20,
+              top: 5,
             ),
             child: Column(
               children: [
@@ -62,7 +63,10 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
     return aedappfm.ButtonValidate(
       background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: true,
-      labelBtn: aedappfm.Responsive.isDesktop(context) ? 'Create Pool' : '+',
+      labelBtn: aedappfm.Responsive.isDesktop(context) ||
+              aedappfm.Responsive.isTablet(context)
+          ? 'Create Pool'
+          : '+',
       onPressed: () {
         context.go(PoolAddSheet.routerPage);
       },
@@ -70,6 +74,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
         context,
         desktopValue: 12,
         ratioTablet: 0,
+        ratioMobile: -8,
       ),
       height: 30,
       isConnected: ref.watch(SessionProviders.session).isConnected,
@@ -106,7 +111,10 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
       child: FlutterToggleTab(
         begin: Alignment.center,
         end: Alignment.center,
-        width: aedappfm.Responsive.isDesktop(context) ? 40 : 95,
+        width: aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? 40
+            : 95,
         unSelectedBackgroundColors: [
           aedappfm.ArchethicThemeBase.purple500.withOpacity(0.5),
           aedappfm.ArchethicThemeBase.purple500.withOpacity(0.5),
@@ -121,18 +129,26 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
         ],
         selectedTextStyle: TextStyle(
           color: Colors.white,
-          fontSize:
-              aedappfm.Responsive.fontSizeFromValue(context, desktopValue: 12),
+          fontSize: aedappfm.Responsive.fontSizeFromValue(
+            context,
+            desktopValue: 12,
+            ratioTablet: 0,
+            ratioMobile: 0,
+          ),
           fontWeight: FontWeight.w400,
         ),
         unSelectedTextStyle: TextStyle(
           color: Colors.white.withOpacity(0.5),
-          fontSize:
-              aedappfm.Responsive.fontSizeFromValue(context, desktopValue: 12),
+          fontSize: aedappfm.Responsive.fontSizeFromValue(
+            context,
+            desktopValue: 12,
+            ratioTablet: 0,
+            ratioMobile: 0,
+          ),
           fontWeight: FontWeight.w400,
         ),
         labels: const [
-          'Verified pools',
+          'Verified',
           'My pools',
           'Favorites',
           'Results',

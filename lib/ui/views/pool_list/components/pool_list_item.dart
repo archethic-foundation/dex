@@ -74,7 +74,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
           ),
         ),
         Positioned(
-          top: 5,
+          top: -3,
           right: 20,
           child: Row(
             children: [

@@ -16,6 +16,9 @@ class BrowserPopup extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.transparent.withAlpha(120),
       body: AlertDialog(
+        insetPadding: const EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         content: ClipRRect(
@@ -38,11 +41,21 @@ class BrowserPopup extends ConsumerWidget {
                 ),
               ),
               child: aedappfm.ArchethicScrollbar(
+                thumbVisibility: aedappfm.Responsive.isDesktop(context) ||
+                    aedappfm.Responsive.isTablet(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SelectableText('Warning'),
+                    SelectableText(
+                      'Warning',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.titleMedium!,
+                            ),
+                          ),
+                    ),
                     const SizedBox(height: 20),
                     Linkify(
                       text: AppLocalizations.of(context)!
@@ -51,13 +64,22 @@ class BrowserPopup extends ConsumerWidget {
                       options: const LinkifyOptions(
                         humanize: false,
                       ),
-                      linkStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyMedium!,
+                            ),
+                          ),
+                      linkStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(
+                            decoration: TextDecoration.underline,
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyMedium!,
+                            ),
+                          ),
                       onOpen: (link) async {
                         final uri = Uri.parse(link.url);
                         if (!await canLaunchUrl(uri)) return;

@@ -96,7 +96,7 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
           ),
         ),
         Positioned(
-          top: 5,
+          top: -3,
           right: 20,
           child: Row(
             children: [

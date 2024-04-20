@@ -42,6 +42,7 @@ class SwapFormState with _$SwapFormState {
     @Default(false) bool calculationInProgress,
     DexPool? pool,
     DateTime? consentDateTime,
+    @Default(false) bool refreshInProgress,
   }) = _SwapFormState;
   const SwapFormState._();
 

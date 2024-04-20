@@ -31,6 +31,12 @@ class VerifiedPoolIcon extends ConsumerWidget {
             padding: const EdgeInsets.only(right: 5),
             child: SelectableText(
               AppLocalizations.of(context)!.poolCardPoolVerified,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodyLarge!,
+                    ),
+                  ),
             ),
           ),
         Padding(

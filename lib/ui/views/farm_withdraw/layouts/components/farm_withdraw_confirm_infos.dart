@@ -150,6 +150,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                           tokenBalance: snapshot.data!,
                           token: farmWithdraw.dexFarmInfo!.lpToken,
                           withFiat: false,
+                          digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                           height: 20,
                         ),
                         DexTokenBalance(
@@ -161,6 +162,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                                   ))
                               .toDouble(),
                           token: farmWithdraw.dexFarmInfo!.lpToken,
+                          digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                           withFiat: false,
                           height: 20,
                         ),
@@ -228,6 +230,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     token: farmWithdraw.dexFarmInfo!.lpToken,
                     withFiat: false,
                     height: 20,
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                   ),
                   DexTokenBalance(
                     tokenBalance: (Decimal.parse(
@@ -241,6 +244,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     token: farmWithdraw.dexFarmInfo!.lpToken,
                     withFiat: false,
                     height: 20,
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                   ),
                 ],
               ),

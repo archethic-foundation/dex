@@ -40,7 +40,8 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
 
     return Container(
       padding: const EdgeInsets.only(top: 2),
-      width: aedappfm.Responsive.isDesktop(context)
+      width: aedappfm.Responsive.isDesktop(context) ||
+              aedappfm.Responsive.isTablet(context)
           ? 300
           : MediaQuery.of(context).size.width - 100,
       height: 31,
@@ -74,17 +75,11 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
             padding: const EdgeInsets.only(
               left: 30,
               right: 10,
-              bottom: 6,
+              bottom: 3,
             ),
             child: TextField(
               controller: searchController,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontFamily: aedappfm.AppThemeBase.addressFont,
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.bodySmall!,
-                    ),
-                  ),
+              style: Theme.of(context).textTheme.bodySmall,
               autocorrect: false,
               onChanged: (text) async {
                 ref
@@ -111,8 +106,8 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               ],
               decoration: InputDecoration(
                 border: InputBorder.none,
+                isDense: true,
                 hintText: 'Search by pool or token address or "UCO"',
-                contentPadding: const EdgeInsets.only(bottom: 17),
                 hintStyle: Theme.of(context).textTheme.bodySmall,
               ),
             ),

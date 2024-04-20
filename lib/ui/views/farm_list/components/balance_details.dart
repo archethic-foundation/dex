@@ -102,252 +102,253 @@ class _BalanceDetails extends ConsumerWidget {
               SizedBox(
                 height: session.isConnected ? 240 : 190,
               ),
-            Column(
-              children: [
-                if (farm.endDate != null &&
-                    farm.endDate!.isBefore(DateTime.now()))
-                  aedappfm.ButtonValidate(
-                    background: aedappfm.ArchethicThemeBase.purple500,
-                    labelBtn: 'Deposit LP Tokens (Farm closed)',
-                    onPressed: () {},
-                    controlOk: false,
-                    displayWalletConnect: true,
-                    isConnected: session.isConnected,
-                    displayWalletConnectOnPressed: () async {
-                      final sessionNotifier =
-                          ref.read(SessionProviders.session.notifier);
-                      await sessionNotifier.connectToWallet();
-
-                      final session = ref.read(SessionProviders.session);
-                      if (session.error.isNotEmpty) {
-                        if (!context.mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor:
-                                Theme.of(context).snackBarTheme.backgroundColor,
-                            content: SelectableText(
-                              session.error,
-                              style: Theme.of(context)
-                                  .snackBarTheme
-                                  .contentTextStyle,
-                            ),
-                            duration: const Duration(seconds: 2),
-                          ),
-                        );
-                      } else {
-                        if (!context.mounted) return;
-                        context.go(
-                          '/',
-                        );
-                      }
-                    },
-                  )
-                else
-                  aedappfm.ButtonValidate(
-                    background: aedappfm.ArchethicThemeBase.purple500,
-                    controlOk: balance != null && balance > 0,
-                    labelBtn: 'Deposit LP Tokens',
-                    onPressed: () {
-                      final farmAddressJson = jsonEncode(farm.farmAddress);
-                      final farmAddressEncoded =
-                          Uri.encodeComponent(farmAddressJson);
-
-                      final lpTokenAddressJson =
-                          jsonEncode(farm.lpToken!.address);
-                      final lpTokenAddressEncoded =
-                          Uri.encodeComponent(lpTokenAddressJson);
-
-                      final poolAddressJson = jsonEncode(farm.poolAddress);
-                      final poolAddressEncoded =
-                          Uri.encodeComponent(poolAddressJson);
-
-                      context.go(
-                        Uri(
-                          path: FarmDepositSheet.routerPage,
-                          queryParameters: {
-                            'farmAddress': farmAddressEncoded,
-                            'lpTokenAddress': lpTokenAddressEncoded,
-                            'poolAddress': poolAddressEncoded,
-                          },
-                        ).toString(),
-                      );
-                    },
-                    displayWalletConnect: true,
-                    isConnected: session.isConnected,
-                    displayWalletConnectOnPressed: () async {
-                      final sessionNotifier =
-                          ref.read(SessionProviders.session.notifier);
-                      await sessionNotifier.connectToWallet();
-
-                      final session = ref.read(SessionProviders.session);
-                      if (session.error.isNotEmpty) {
-                        if (!context.mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor:
-                                Theme.of(context).snackBarTheme.backgroundColor,
-                            content: SelectableText(
-                              session.error,
-                              style: Theme.of(context)
-                                  .snackBarTheme
-                                  .contentTextStyle,
-                            ),
-                            duration: const Duration(seconds: 2),
-                          ),
-                        );
-                      } else {
-                        if (!context.mounted) return;
-                        context.go(
-                          '/',
-                        );
-                      }
-                    },
+            if (aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context))
+              Column(
+                children: [
+                  _depositButton(context, ref, balance),
+                  const SizedBox(
+                    height: 30,
                   ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: aedappfm.ButtonValidate(
-                        background: aedappfm.ArchethicThemeBase.purple500,
-                        controlOk: farm.lpTokenDeposited > 0,
-                        labelBtn: 'Withdraw',
-                        onPressed: () {
-                          final farmAddressJson = jsonEncode(farm.farmAddress);
-                          final farmAddressEncoded =
-                              Uri.encodeComponent(farmAddressJson);
-
-                          final rewardTokenJson = jsonEncode(farm.rewardToken);
-                          final rewardTokenEncoded =
-                              Uri.encodeComponent(rewardTokenJson);
-
-                          final lpTokenAddressJson =
-                              jsonEncode(farm.lpToken!.address);
-                          final lpTokenAddressEncoded =
-                              Uri.encodeComponent(lpTokenAddressJson);
-
-                          final poolAddressJson = jsonEncode(farm.poolAddress);
-                          final poolAddressEncoded =
-                              Uri.encodeComponent(poolAddressJson);
-
-                          context.go(
-                            Uri(
-                              path: FarmWithdrawSheet.routerPage,
-                              queryParameters: {
-                                'farmAddress': farmAddressEncoded,
-                                'rewardToken': rewardTokenEncoded,
-                                'lpTokenAddress': lpTokenAddressEncoded,
-                                'poolAddress': poolAddressEncoded,
-                              },
-                            ).toString(),
-                          );
-                        },
-                        isConnected: session.isConnected,
-                        displayWalletConnectOnPressed: () async {
-                          final sessionNotifier =
-                              ref.read(SessionProviders.session.notifier);
-                          await sessionNotifier.connectToWallet();
-
-                          final session = ref.read(SessionProviders.session);
-                          if (session.error.isNotEmpty) {
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Theme.of(context)
-                                    .snackBarTheme
-                                    .backgroundColor,
-                                content: SelectableText(
-                                  session.error,
-                                  style: Theme.of(context)
-                                      .snackBarTheme
-                                      .contentTextStyle,
-                                ),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
-                          } else {
-                            if (!context.mounted) return;
-                            context.go(
-                              '/',
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    if (rewardAmount > 0)
+                  Row(
+                    children: [
                       Expanded(
-                        child: aedappfm.ButtonValidate(
-                          background: aedappfm.ArchethicThemeBase.purple500,
-                          controlOk: farm.remainingReward > 0,
-                          labelBtn: 'Claim',
-                          onPressed: () async {
-                            if (context.mounted) {
-                              final farmAddressJson =
-                                  jsonEncode(farm.farmAddress);
-                              final farmAddressEncoded =
-                                  Uri.encodeComponent(farmAddressJson);
-
-                              final rewardTokenJson =
-                                  jsonEncode(farm.rewardToken);
-                              final rewardTokenEncoded =
-                                  Uri.encodeComponent(rewardTokenJson);
-
-                              final lpTokenAddressJson =
-                                  jsonEncode(farm.lpToken!.address);
-                              final lpTokenAddressEncoded =
-                                  Uri.encodeComponent(lpTokenAddressJson);
-
-                              context.go(
-                                Uri(
-                                  path: FarmClaimSheet.routerPage,
-                                  queryParameters: {
-                                    'farmAddress': farmAddressEncoded,
-                                    'rewardToken': rewardTokenEncoded,
-                                    'lpTokenAddress': lpTokenAddressEncoded,
-                                  },
-                                ).toString(),
-                              );
-                            }
-                          },
-                          isConnected: session.isConnected,
-                          displayWalletConnectOnPressed: () async {
-                            final sessionNotifier =
-                                ref.read(SessionProviders.session.notifier);
-                            await sessionNotifier.connectToWallet();
-
-                            final session = ref.read(SessionProviders.session);
-                            if (session.error.isNotEmpty) {
-                              if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Theme.of(context)
-                                      .snackBarTheme
-                                      .backgroundColor,
-                                  content: SelectableText(
-                                    session.error,
-                                    style: Theme.of(context)
-                                        .snackBarTheme
-                                        .contentTextStyle,
-                                  ),
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
-                            } else {
-                              if (!context.mounted) return;
-                              context.go(
-                                '/',
-                              );
-                            }
-                          },
-                        ),
+                        child: _widthdrawButton(context, ref),
                       ),
-                  ],
-                ),
-              ],
-            ),
+                      Expanded(
+                        child: _claimButton(context, ref),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            else
+              Column(
+                children: [
+                  _depositButton(context, ref, balance),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _widthdrawButton(context, ref),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _claimButton(context, ref),
+                ],
+              ),
           ],
         );
+      },
+    );
+  }
+
+  Widget _depositButton(BuildContext context, WidgetRef ref, double? balance) {
+    final session = ref.watch(SessionProviders.session);
+    return farm.endDate != null && farm.endDate!.isBefore(DateTime.now())
+        ? aedappfm.ButtonValidate(
+            background: aedappfm.ArchethicThemeBase.purple500,
+            labelBtn: 'Deposit LP Tokens (Farm closed)',
+            onPressed: () {},
+            controlOk: false,
+            displayWalletConnect: true,
+            isConnected: session.isConnected,
+            displayWalletConnectOnPressed: () async {
+              final sessionNotifier =
+                  ref.read(SessionProviders.session.notifier);
+              await sessionNotifier.connectToWallet();
+
+              final session = ref.read(SessionProviders.session);
+              if (session.error.isNotEmpty) {
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor:
+                        Theme.of(context).snackBarTheme.backgroundColor,
+                    content: SelectableText(
+                      session.error,
+                      style: Theme.of(context).snackBarTheme.contentTextStyle,
+                    ),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              } else {
+                if (!context.mounted) return;
+                context.go(
+                  '/',
+                );
+              }
+            },
+          )
+        : aedappfm.ButtonValidate(
+            background: aedappfm.ArchethicThemeBase.purple500,
+            controlOk: balance != null && balance > 0,
+            labelBtn: 'Deposit LP Tokens',
+            onPressed: () {
+              final farmAddressJson = jsonEncode(farm.farmAddress);
+              final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
+
+              final lpTokenAddressJson = jsonEncode(farm.lpToken!.address);
+              final lpTokenAddressEncoded =
+                  Uri.encodeComponent(lpTokenAddressJson);
+
+              final poolAddressJson = jsonEncode(farm.poolAddress);
+              final poolAddressEncoded = Uri.encodeComponent(poolAddressJson);
+
+              context.go(
+                Uri(
+                  path: FarmDepositSheet.routerPage,
+                  queryParameters: {
+                    'farmAddress': farmAddressEncoded,
+                    'lpTokenAddress': lpTokenAddressEncoded,
+                    'poolAddress': poolAddressEncoded,
+                  },
+                ).toString(),
+              );
+            },
+            displayWalletConnect: true,
+            isConnected: session.isConnected,
+            displayWalletConnectOnPressed: () async {
+              final sessionNotifier =
+                  ref.read(SessionProviders.session.notifier);
+              await sessionNotifier.connectToWallet();
+
+              final session = ref.read(SessionProviders.session);
+              if (session.error.isNotEmpty) {
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor:
+                        Theme.of(context).snackBarTheme.backgroundColor,
+                    content: SelectableText(
+                      session.error,
+                      style: Theme.of(context).snackBarTheme.contentTextStyle,
+                    ),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              } else {
+                if (!context.mounted) return;
+                context.go(
+                  '/',
+                );
+              }
+            },
+          );
+  }
+
+  Widget _widthdrawButton(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(SessionProviders.session);
+    return aedappfm.ButtonValidate(
+      background: aedappfm.ArchethicThemeBase.purple500,
+      controlOk: farm.lpTokenDeposited > 0,
+      labelBtn: 'Withdraw',
+      onPressed: () {
+        final farmAddressJson = jsonEncode(farm.farmAddress);
+        final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
+
+        final rewardTokenJson = jsonEncode(farm.rewardToken);
+        final rewardTokenEncoded = Uri.encodeComponent(rewardTokenJson);
+
+        final lpTokenAddressJson = jsonEncode(farm.lpToken!.address);
+        final lpTokenAddressEncoded = Uri.encodeComponent(lpTokenAddressJson);
+
+        final poolAddressJson = jsonEncode(farm.poolAddress);
+        final poolAddressEncoded = Uri.encodeComponent(poolAddressJson);
+
+        context.go(
+          Uri(
+            path: FarmWithdrawSheet.routerPage,
+            queryParameters: {
+              'farmAddress': farmAddressEncoded,
+              'rewardToken': rewardTokenEncoded,
+              'lpTokenAddress': lpTokenAddressEncoded,
+              'poolAddress': poolAddressEncoded,
+            },
+          ).toString(),
+        );
+      },
+      isConnected: session.isConnected,
+      displayWalletConnectOnPressed: () async {
+        final sessionNotifier = ref.read(SessionProviders.session.notifier);
+        await sessionNotifier.connectToWallet();
+
+        final session = ref.read(SessionProviders.session);
+        if (session.error.isNotEmpty) {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
+              content: SelectableText(
+                session.error,
+                style: Theme.of(context).snackBarTheme.contentTextStyle,
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          if (!context.mounted) return;
+          context.go(
+            '/',
+          );
+        }
+      },
+    );
+  }
+
+  Widget _claimButton(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(SessionProviders.session);
+
+    return aedappfm.ButtonValidate(
+      background: aedappfm.ArchethicThemeBase.purple500,
+      controlOk: farm.remainingReward > 0,
+      labelBtn: 'Claim',
+      onPressed: () async {
+        if (context.mounted) {
+          final farmAddressJson = jsonEncode(farm.farmAddress);
+          final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
+
+          final rewardTokenJson = jsonEncode(farm.rewardToken);
+          final rewardTokenEncoded = Uri.encodeComponent(rewardTokenJson);
+
+          final lpTokenAddressJson = jsonEncode(farm.lpToken!.address);
+          final lpTokenAddressEncoded = Uri.encodeComponent(lpTokenAddressJson);
+
+          context.go(
+            Uri(
+              path: FarmClaimSheet.routerPage,
+              queryParameters: {
+                'farmAddress': farmAddressEncoded,
+                'rewardToken': rewardTokenEncoded,
+                'lpTokenAddress': lpTokenAddressEncoded,
+              },
+            ).toString(),
+          );
+        }
+      },
+      isConnected: session.isConnected,
+      displayWalletConnectOnPressed: () async {
+        final sessionNotifier = ref.read(SessionProviders.session.notifier);
+        await sessionNotifier.connectToWallet();
+
+        final session = ref.read(SessionProviders.session);
+        if (session.error.isNotEmpty) {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
+              content: SelectableText(
+                session.error,
+                style: Theme.of(context).snackBarTheme.contentTextStyle,
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          if (!context.mounted) return;
+          context.go(
+            '/',
+          );
+        }
       },
     );
   }

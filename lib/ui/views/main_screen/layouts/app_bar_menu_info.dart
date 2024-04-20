@@ -318,6 +318,9 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                     child: Builder(
                       builder: (context) {
                         return AlertDialog(
+                          insetPadding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                          ),
                           backgroundColor:
                               aedappfm.AppThemeBase.backgroundPopupColor,
                           contentPadding: const EdgeInsets.only(
@@ -329,7 +332,6 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                               horizontal: 10,
                             ),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Padding(
@@ -337,8 +339,18 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                   child: Text(
                                     AppLocalizations.of(context)!
                                         .confirmationPopupTitle,
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!,
+                                          ),
+                                        ),
                                   ),
                                 ),
                                 Padding(
@@ -346,6 +358,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                   child: Text(
                                     AppLocalizations.of(context)!
                                         .connectionWalletDisconnectWarning,
+                                    softWrap: true,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -364,29 +377,35 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                   height: 20,
                                 ),
                                 Container(
-                                  width: double.infinity,
+                                  constraints: const BoxConstraints(
+                                    minWidth: 100,
+                                  ),
+                                  width: MediaQuery.of(context).size.width / 2,
                                   padding: const EdgeInsets.only(
                                     bottom: 20,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      aedappfm.AppButton(
-                                        labelBtn:
-                                            AppLocalizations.of(context)!.no,
-                                        onPressed: () async {
-                                          context.pop();
-                                        },
+                                      Expanded(
+                                        child: aedappfm.AppButton(
+                                          labelBtn:
+                                              AppLocalizations.of(context)!.no,
+                                          onPressed: () async {
+                                            context.pop();
+                                          },
+                                        ),
                                       ),
-                                      aedappfm.AppButton(
-                                        labelBtn:
-                                            AppLocalizations.of(context)!.yes,
-                                        onPressed: () async {
-                                          await sessionNotifier
-                                              .cancelConnection();
-                                          if (!context.mounted) return;
-                                          context.pop();
-                                        },
+                                      Expanded(
+                                        child: aedappfm.AppButton(
+                                          labelBtn:
+                                              AppLocalizations.of(context)!.yes,
+                                          onPressed: () async {
+                                            await sessionNotifier
+                                                .cancelConnection();
+                                            if (!context.mounted) return;
+                                            context.pop();
+                                          },
+                                        ),
                                       ),
                                     ],
                                   ),

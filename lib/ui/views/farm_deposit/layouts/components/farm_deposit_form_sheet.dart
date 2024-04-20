@@ -44,7 +44,12 @@ class FarmDepositFormSheet extends ConsumerWidget {
                   child: SelectionArea(
                     child: SelectableText(
                       AppLocalizations.of(context)!.farmDepositFormTitle,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.titleMedium!,
+                            ),
+                          ),
                     ),
                   ),
                 ),

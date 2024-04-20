@@ -13,7 +13,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PoolInfoCard extends ConsumerWidget {
+class PoolInfoCard extends ConsumerStatefulWidget {
   const PoolInfoCard({
     required this.poolGenesisAddress,
     required this.tokenAddressRatioPrimary,
@@ -24,110 +24,65 @@ class PoolInfoCard extends ConsumerWidget {
   final String tokenAddressRatioPrimary;
 
   @override
+  ConsumerState<PoolInfoCard> createState() => _PoolInfoCardState();
+}
+
+class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
+  bool _isExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(
     BuildContext context,
-    WidgetRef ref,
   ) {
-    final cardHeight = aedappfm.Responsive.isDesktop(context) ? 125.0 : 220.0;
-
-    if (poolGenesisAddress.isEmpty) {
-      return SizedBox(height: cardHeight);
+    if (widget.poolGenesisAddress.isEmpty) {
+      return const SizedBox.shrink();
     }
 
     return FutureBuilder<DexPool?>(
-      future: ref.watch(DexPoolProviders.getPool(poolGenesisAddress).future),
+      future:
+          ref.watch(DexPoolProviders.getPool(widget.poolGenesisAddress).future),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final pool = snapshot.data;
           if (pool == null) {
-            return SizedBox(height: cardHeight);
+            return const SizedBox.shrink();
           }
 
           final tvl = ref.watch(
             DexPoolProviders.estimatePoolTVLInFiat(pool),
           );
-          return Container(
-            height: cardHeight,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
-              border: Border.all(
-                color: aedappfm.AppThemeBase.sheetBorderSecondary,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 20,
-              ),
-              child: aedappfm.Responsive.isDesktop(context)
-                  ? Row(
+          return aedappfm.Responsive.isDesktop(context) ||
+                  aedappfm.Responsive.isTablet(context)
+              ? DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
+                    border: Border.all(
+                      color: aedappfm.AppThemeBase.sheetBorderSecondary,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                      left: 20,
+                      right: 20,
+                    ),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                DexTokenIcon(
-                                  tokenAddress: pool.pair.token1.address == null
-                                      ? 'UCO'
-                                      : pool.pair.token1.address!,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Tooltip(
-                                  message: pool.pair.token1.symbol,
-                                  child: SelectableText(
-                                    pool.pair.token1.symbol.reduceSymbol(),
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  child: SelectableText('/'),
-                                ),
-                                DexTokenIcon(
-                                  tokenAddress: pool.pair.token2.address == null
-                                      ? 'UCO'
-                                      : pool.pair.token2.address!,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Tooltip(
-                                  message: pool.pair.token2.symbol,
-                                  child: SelectableText(
-                                    pool.pair.token2.symbol.reduceSymbol(),
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            _getPairName(context, pool),
                             const SizedBox(
                               height: 10,
                             ),
-                            DexRatio(
-                              ratio: tokenAddressRatioPrimary.toUpperCase() ==
-                                      pool.pair.token1.address!.toUpperCase()
-                                  ? pool.infos!.ratioToken1Token2
-                                  : pool.infos!.ratioToken2Token1,
-                              token1Symbol: tokenAddressRatioPrimary
-                                          .toUpperCase() ==
-                                      pool.pair.token1.address!.toUpperCase()
-                                  ? pool.pair.token1.symbol.reduceSymbol()
-                                  : pool.pair.token2.symbol.reduceSymbol(),
-                              token2Symbol: tokenAddressRatioPrimary
-                                          .toUpperCase() ==
-                                      pool.pair.token1.address!.toUpperCase()
-                                  ? pool.pair.token2.symbol.reduceSymbol()
-                                  : pool.pair.token1.symbol.reduceSymbol(),
-                            ),
+                            _getRatio(context, pool),
                             const SizedBox(
                               height: 10,
                             ),
@@ -141,252 +96,19 @@ class PoolInfoCard extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                SelectableText(
-                                  AppLocalizations.of(context)!.poolCardPooled,
-                                  style: Theme.of(context).textTheme.labelSmall,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                FormatAddressLink(
-                                  address: pool.poolAddress,
-                                  typeAddress: TypeAddressLink.chain,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        VerifiedTokenIcon(
-                                          address: pool.pair.token1.address!,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Tooltip(
-                                          message: pool.pair.token1.symbol,
-                                          child: SelectableText(
-                                            '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol.reduceSymbol()}',
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        if (pool.pair.token1.isUCO == false)
-                                          FormatAddressLink(
-                                            address: pool.pair.token1.address!,
-                                          )
-                                        else
-                                          const SizedBox(
-                                            width: 12,
-                                          ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        VerifiedTokenIcon(
-                                          address: pool.pair.token2.address!,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Tooltip(
-                                          message: pool.pair.token2.symbol,
-                                          child: SelectableText(
-                                            '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol.reduceSymbol()}',
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        if (pool.pair.token2.isUCO == false)
-                                          FormatAddressLink(
-                                            address: pool.pair.token2.address!,
-                                          )
-                                        else
-                                          const SizedBox(
-                                            width: 12,
-                                          ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            _getPairValues(context, pool),
                             SelectableText(
                               'TVL: \$${tvl.formatNumber(precision: 2)}',
-                            ),
-                            DexFees(
-                              fees: pool.infos!.fees,
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                DexTokenIcon(
-                                  tokenAddress: pool.pair.token1.address == null
-                                      ? 'UCO'
-                                      : pool.pair.token1.address!,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Tooltip(
-                                  message: pool.pair.token1.symbol,
-                                  child: SelectableText(
-                                    pool.pair.token1.symbol.reduceSymbol(),
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  child: SelectableText('/'),
-                                ),
-                                DexTokenIcon(
-                                  tokenAddress: pool.pair.token2.address == null
-                                      ? 'UCO'
-                                      : pool.pair.token2.address!,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Tooltip(
-                                  message: pool.pair.token2.symbol,
-                                  child: SelectableText(
-                                    pool.pair.token2.symbol.reduceSymbol(),
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DexRatio(
-                              ratio: tokenAddressRatioPrimary.toUpperCase() ==
-                                      pool.pair.token1.address!.toUpperCase()
-                                  ? pool.infos!.ratioToken1Token2
-                                  : pool.infos!.ratioToken2Token1,
-                              token1Symbol: tokenAddressRatioPrimary
-                                          .toUpperCase() ==
-                                      pool.pair.token1.address!.toUpperCase()
-                                  ? pool.pair.token1.symbol.reduceSymbol()
-                                  : pool.pair.token2.symbol.reduceSymbol(),
-                              token2Symbol: tokenAddressRatioPrimary
-                                          .toUpperCase() ==
-                                      pool.pair.token1.address!.toUpperCase()
-                                  ? pool.pair.token2.symbol.reduceSymbol()
-                                  : pool.pair.token1.symbol.reduceSymbol(),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            VerifiedPoolIcon(
-                              isVerified: pool.isVerified,
-                              withLabel: true,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                SelectableText(
-                                  AppLocalizations.of(context)!.poolCardPooled,
-                                  style: Theme.of(context).textTheme.labelSmall,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                FormatAddressLink(
-                                  address: pool.poolAddress,
-                                  typeAddress: TypeAddressLink.chain,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        VerifiedTokenIcon(
-                                          address: pool.pair.token1.address!,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Tooltip(
-                                          message: pool.pair.token1.symbol,
-                                          child: SelectableText(
-                                            '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol.reduceSymbol()}',
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        if (pool.pair.token1.isUCO == false)
-                                          FormatAddressLink(
-                                            address: pool.pair.token1.address!,
-                                          )
-                                        else
-                                          const SizedBox(
-                                            width: 12,
-                                          ),
-                                      ],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontSize: aedappfm.Responsive
+                                        .fontSizeFromTextStyle(
+                                      context,
+                                      Theme.of(context).textTheme.bodyLarge!,
                                     ),
-                                    Row(
-                                      children: [
-                                        VerifiedTokenIcon(
-                                          address: pool.pair.token2.address!,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Tooltip(
-                                          message: pool.pair.token2.symbol,
-                                          child: SelectableText(
-                                            '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol.reduceSymbol()}',
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        if (pool.pair.token2.isUCO == false)
-                                          FormatAddressLink(
-                                            address: pool.pair.token2.address!,
-                                          )
-                                        else
-                                          const SizedBox(
-                                            width: 12,
-                                          ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SelectableText(
-                              'TVL: \$${tvl.formatNumber(precision: 2)}',
+                                  ),
                             ),
                             DexFees(
                               fees: pool.infos!.fees,
@@ -395,14 +117,253 @@ class PoolInfoCard extends ConsumerWidget {
                         ),
                       ],
                     ),
-            ),
-          )
-              .animate()
-              .fade(duration: const Duration(milliseconds: 200))
-              .scale(duration: const Duration(milliseconds: 200));
+                  ),
+                )
+              : Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
+                          border: Border.all(
+                            color: aedappfm.AppThemeBase.sheetBorderSecondary,
+                          ),
+                        ),
+                        child: ExpansionPanelList(
+                          expansionCallback: (int index, bool isExpanded) {
+                            setState(() {
+                              _isExpanded = isExpanded;
+                            });
+                          },
+                          children: [
+                            ExpansionPanel(
+                              canTapOnHeader: true,
+                              backgroundColor: Colors.transparent,
+                              headerBuilder: (
+                                BuildContext context,
+                                bool isExpanded,
+                              ) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 5,
+                                    bottom: 5,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      _getPairName(context, pool),
+                                      _getRatio(context, pool),
+                                    ],
+                                  ),
+                                );
+                              },
+                              body: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 5,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    _getPairValues(context, pool),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        VerifiedPoolIcon(
+                                          isVerified: pool.isVerified,
+                                          withLabel: true,
+                                        ),
+                                        SelectableText(
+                                          'TVL: \$${tvl.formatNumber(precision: 2)}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                fontSize: aedappfm.Responsive
+                                                    .fontSizeFromTextStyle(
+                                                  context,
+                                                  Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!,
+                                                ),
+                                              ),
+                                        ),
+                                        DexFees(
+                                          fees: pool.infos!.fees,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              isExpanded: _isExpanded,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+                  .animate()
+                  .fade(duration: const Duration(milliseconds: 200))
+                  .scale(duration: const Duration(milliseconds: 200));
         }
-        return SizedBox(height: cardHeight);
+        return const SizedBox.shrink();
       },
+    );
+  }
+
+  Widget _getPairName(
+    BuildContext context,
+    DexPool pool,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        DexTokenIcon(
+          tokenAddress: pool.pair.token1.address == null
+              ? 'UCO'
+              : pool.pair.token1.address!,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Tooltip(
+          message: pool.pair.token1.symbol,
+          child: SelectableText(
+            pool.pair.token1.symbol.reduceSymbol(),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(left: 10, right: 10),
+          child: SelectableText('/'),
+        ),
+        DexTokenIcon(
+          tokenAddress: pool.pair.token2.address == null
+              ? 'UCO'
+              : pool.pair.token2.address!,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Tooltip(
+          message: pool.pair.token2.symbol,
+          child: SelectableText(
+            pool.pair.token2.symbol.reduceSymbol(),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getRatio(BuildContext context, DexPool pool) {
+    return DexRatio(
+      ratio: widget.tokenAddressRatioPrimary.toUpperCase() ==
+              pool.pair.token1.address!.toUpperCase()
+          ? pool.infos!.ratioToken1Token2
+          : pool.infos!.ratioToken2Token1,
+      token1Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
+              pool.pair.token1.address!.toUpperCase()
+          ? pool.pair.token1.symbol.reduceSymbol()
+          : pool.pair.token2.symbol.reduceSymbol(),
+      token2Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
+              pool.pair.token1.address!.toUpperCase()
+          ? pool.pair.token2.symbol.reduceSymbol()
+          : pool.pair.token1.symbol.reduceSymbol(),
+    );
+  }
+
+  Widget _getPairValues(BuildContext context, DexPool pool) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                SelectableText(
+                  AppLocalizations.of(context)!.poolCardPooled,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyLarge!,
+                        ),
+                      ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                FormatAddressLink(
+                  address: pool.poolAddress,
+                  typeAddress: TypeAddressLink.chain,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                VerifiedTokenIcon(
+                  address: pool.pair.token1.address!,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Tooltip(
+                  message: pool.pair.token1.symbol,
+                  child: SelectableText(
+                    '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol.reduceSymbol()}',
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                if (pool.pair.token1.isUCO == false)
+                  FormatAddressLink(
+                    address: pool.pair.token1.address!,
+                  )
+                else
+                  const SizedBox(
+                    width: 12,
+                  ),
+              ],
+            ),
+            Row(
+              children: [
+                VerifiedTokenIcon(
+                  address: pool.pair.token2.address!,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Tooltip(
+                  message: pool.pair.token2.symbol,
+                  child: SelectableText(
+                    '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol.reduceSymbol()}',
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                if (pool.pair.token2.isUCO == false)
+                  FormatAddressLink(
+                    address: pool.pair.token2.address!,
+                  )
+                else
+                  const SizedBox(
+                    width: 12,
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

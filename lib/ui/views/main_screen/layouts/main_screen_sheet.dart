@@ -10,7 +10,6 @@ import 'package:aedex/util/browser_util_desktop.dart'
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -86,44 +85,65 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          const aedappfm.AppBackground(
-            backgroundImage: 'assets/images/background-welcome.png',
-          ),
+          if (!aedappfm.Responsive.isMobile(context))
+            const aedappfm.AppBackground(
+              backgroundImage: 'assets/images/background-welcome.png',
+            ),
           Align(
-            child: SafeArea(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Container(
-                    width: 650,
-                    decoration: BoxDecoration(
-                      color: aedappfm.AppThemeBase.sheetBackground,
-                      border: Border.all(
-                        color: aedappfm.AppThemeBase.sheetBorder,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: aedappfm.Responsive.isMobile(context) ? 10 : 30,
-                        right: aedappfm.Responsive.isMobile(context) ? 10 : 30,
-                        top: 11,
-                        bottom: 5,
-                      ),
-                      child: aedappfm.ArchethicScrollbar(
-                        child: IntrinsicHeight(
-                          child: Column(
-                            children: [
-                              if (widget.currentStep ==
-                                  aedappfm.ProcessStep.form)
-                                widget.formSheet
-                              else
-                                widget.confirmSheet,
-                              if (widget.bottomWidget != null)
-                                widget.bottomWidget!,
-                            ],
+            child: ClipRRect(
+              borderRadius: aedappfm.Responsive.isMobile(context)
+                  ? BorderRadius.zero
+                  : BorderRadius.circular(20),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  width: 650,
+                  height: aedappfm.Responsive.isMobile(context)
+                      ? MediaQuery.of(context).size.height
+                      : null,
+                  decoration: BoxDecoration(
+                    image: aedappfm.Responsive.isMobile(context)
+                        ? const DecorationImage(
+                            image: AssetImage(
+                              'assets/images/main-background.png',
+                            ),
+                            fit: BoxFit.fitHeight,
+                            alignment: Alignment.centerRight,
+                            opacity: 0.7,
+                          )
+                        : null,
+                    color: aedappfm.Responsive.isMobile(context)
+                        ? null
+                        : aedappfm.AppThemeBase.sheetBackground,
+                    border: aedappfm.Responsive.isMobile(context)
+                        ? null
+                        : Border.all(
+                            color: aedappfm.AppThemeBase.sheetBorder,
                           ),
+                    borderRadius: aedappfm.Responsive.isMobile(context)
+                        ? BorderRadius.zero
+                        : BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: aedappfm.Responsive.isMobile(context) ? 10 : 30,
+                      right: aedappfm.Responsive.isMobile(context) ? 10 : 30,
+                      top: 11,
+                      bottom: 5,
+                    ),
+                    child: aedappfm.ArchethicScrollbar(
+                      thumbVisibility: aedappfm.Responsive.isDesktop(context) ||
+                          aedappfm.Responsive.isTablet(context),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          children: [
+                            if (widget.currentStep == aedappfm.ProcessStep.form)
+                              widget.formSheet
+                            else
+                              widget.confirmSheet,
+                            if (widget.bottomWidget != null)
+                              widget.bottomWidget!,
+                          ],
                         ),
                       ),
                     ),
@@ -131,14 +151,7 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                 ),
               ),
             ),
-          )
-              .animate()
-              .fade(
-                duration: const Duration(milliseconds: 200),
-              )
-              .scale(
-                duration: const Duration(milliseconds: 200),
-              ),
+          ),
         ],
       ),
       bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||

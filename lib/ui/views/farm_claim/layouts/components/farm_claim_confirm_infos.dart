@@ -169,6 +169,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                         DexTokenBalance(
                           tokenBalance: snapshot.data!,
                           token: farmClaim.rewardToken,
+                          digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                           withFiat: false,
                           height: 20,
                         ),
@@ -182,6 +183,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                                   ))
                               .toDouble(),
                           token: farmClaim.rewardToken,
+                          digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                           withFiat: false,
                           height: 20,
                         ),

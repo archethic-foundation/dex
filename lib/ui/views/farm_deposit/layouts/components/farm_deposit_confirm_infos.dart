@@ -132,6 +132,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                     tokenBalance: farmDeposit.lpTokenBalance,
                     token: farmDeposit.dexFarmInfo!.lpToken,
                     withFiat: false,
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                     height: 20,
                   ),
                   DexTokenBalance(
@@ -143,6 +144,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                             ))
                         .toDouble(),
                     token: farmDeposit.dexFarmInfo!.lpToken,
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                     withFiat: false,
                     height: 20,
                   ),
@@ -205,6 +207,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                     tokenBalance: farmDeposit.dexFarmInfo!.lpTokenDeposited,
                     token: farmDeposit.dexFarmInfo!.lpToken,
                     withFiat: false,
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                     height: 20,
                   ),
                   DexTokenBalance(
@@ -217,6 +220,7 @@ class FarmDepositConfirmInfos extends ConsumerWidget {
                             ))
                         .toDouble(),
                     token: farmDeposit.dexFarmInfo!.lpToken,
+                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                     withFiat: false,
                     height: 20,
                   ),

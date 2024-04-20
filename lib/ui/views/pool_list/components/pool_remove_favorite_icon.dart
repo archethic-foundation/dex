@@ -34,6 +34,10 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                       return Scaffold(
                         backgroundColor: Colors.transparent,
                         body: AlertDialog(
+                          insetPadding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                          ),
+                          buttonPadding: EdgeInsets.zero,
                           backgroundColor:
                               aedappfm.AppThemeBase.backgroundPopupColor,
                           contentPadding: const EdgeInsets.only(
@@ -45,7 +49,6 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                               horizontal: 10,
                             ),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Padding(
@@ -53,8 +56,18 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                   child: Text(
                                     AppLocalizations.of(context)!
                                         .confirmationPopupTitle,
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!,
+                                          ),
+                                        ),
                                   ),
                                 ),
                                 Padding(
@@ -79,55 +92,61 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                   height: 20,
                                 ),
                                 Container(
-                                  width: double.infinity,
+                                  constraints: const BoxConstraints(
+                                    minWidth: 100,
+                                  ),
+                                  width: MediaQuery.of(context).size.width / 2,
                                   padding: const EdgeInsets.only(
                                     bottom: 20,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      aedappfm.AppButton(
-                                        labelBtn: AppLocalizations.of(
-                                          context,
-                                        )!
-                                            .no,
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
+                                      Expanded(
+                                        child: aedappfm.AppButton(
+                                          labelBtn: AppLocalizations.of(
+                                            context,
+                                          )!
+                                              .no,
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
                                       ),
-                                      aedappfm.AppButton(
-                                        labelBtn: AppLocalizations.of(
-                                          context,
-                                        )!
-                                            .yes,
-                                        onPressed: () async {
-                                          ref.read(
-                                            DexPoolProviders
-                                                .removePoolFromFavorite(
-                                              poolAddress,
-                                            ),
-                                          );
-                                          final poolListForm = ref.read(
-                                            PoolListFormProvider.poolListForm,
-                                          );
+                                      Expanded(
+                                        child: aedappfm.AppButton(
+                                          labelBtn: AppLocalizations.of(
+                                            context,
+                                          )!
+                                              .yes,
+                                          onPressed: () async {
+                                            ref.read(
+                                              DexPoolProviders
+                                                  .removePoolFromFavorite(
+                                                poolAddress,
+                                              ),
+                                            );
+                                            final poolListForm = ref.read(
+                                              PoolListFormProvider.poolListForm,
+                                            );
 
-                                          await ref
-                                              .read(
-                                                PoolListFormProvider
-                                                    .poolListForm.notifier,
-                                              )
-                                              .setPoolsToDisplay(
-                                                tabIndexSelected: poolListForm
-                                                    .tabIndexSelected,
-                                                cancelToken:
-                                                    UniqueKey().toString(),
-                                              );
+                                            await ref
+                                                .read(
+                                                  PoolListFormProvider
+                                                      .poolListForm.notifier,
+                                                )
+                                                .setPoolsToDisplay(
+                                                  tabIndexSelected: poolListForm
+                                                      .tabIndexSelected,
+                                                  cancelToken:
+                                                      UniqueKey().toString(),
+                                                );
 
-                                          if (!context.mounted) {
-                                            return;
-                                          }
-                                          Navigator.of(context).pop();
-                                        },
+                                            if (!context.mounted) {
+                                              return;
+                                            }
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
                                       ),
                                     ],
                                   ),

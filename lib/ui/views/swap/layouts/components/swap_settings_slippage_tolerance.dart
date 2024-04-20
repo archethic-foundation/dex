@@ -150,7 +150,8 @@ class SwapSettingsSlippageToleranceState
           ),
         if (slippageToleranceController.text.isNotEmpty &&
             slippageToleranceController.text.isValidNumber() &&
-            double.tryParse(slippageToleranceController.text)! >= 3)
+            double.tryParse(slippageToleranceController.text)! >= 3 &&
+            double.tryParse(slippageToleranceController.text)! <= 100)
           const aedappfm.InfoBanner(
             'Warning. Your transaction may be significantly impacted due to high slippage.',
             aedappfm.InfoBannerType.error,
