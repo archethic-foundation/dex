@@ -43,7 +43,6 @@ class SwapFormSheet extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: SizedBox(
-                      height: 40,
                       child: aedappfm.InfoBanner(
                         'The swap process requires a maximum of ${swap.feesEstimatedUCO.formatNumber(precision: 8)} in transaction fees to be completed.',
                         aedappfm.InfoBannerType.request,
