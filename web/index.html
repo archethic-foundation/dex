@@ -40,7 +40,16 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer=""></script>
-  <script defer="" data-domain="dex.testnet.archethic.net" src="https://plausible.io/js/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var domain = window.location.hostname;
+      var script = document.createElement('script');
+      script.defer = true;
+      script.setAttribute('data-domain', domain);
+      script.src = 'https://plausible.io/js/script.js';
+      document.head.appendChild(script);
+    });
+  </script>
 
 
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
