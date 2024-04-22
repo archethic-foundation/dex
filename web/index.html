@@ -146,24 +146,25 @@
 
 
   <script>
-    window.onload = function () {
+    document.addEventListener('DOMContentLoaded', function () {
       var domain = window.location.hostname;
-      console.log("Domaine récupéré:", domain);
+      console.log("Plausible - Retrieved Domain:", domain);
+
       var script = document.createElement('script');
       script.defer = true;
       script.setAttribute('data-domain', domain);
       script.src = 'https://plausible.io/js/script.js';
-      console.log("URL du script:", script.src);
+
       document.head.appendChild(script);
 
       script.onload = function () {
-        console.log("Script Plausible chargé avec succès.");
+        console.log("Plausible - Script successfully loaded.");
       };
 
       script.onerror = function (error) {
-        console.log("Erreur lors du chargement du script:", error);
+        console.log("Plausible - Error loading the script:", error);
       };
-    };
+    });
   </script>
 
 
