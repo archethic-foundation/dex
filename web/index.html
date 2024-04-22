@@ -153,7 +153,8 @@
       var script = document.createElement('script');
       script.defer = true;
       script.setAttribute('data-domain', domain);
-      script.src = 'https://plausible.io/js/script.js';
+      var cacheBuster = "t=" + new Date().getTime();
+      script.src = 'https://plausible.io/js/script.js?' + cacheBuster;
 
       document.head.appendChild(script);
 
