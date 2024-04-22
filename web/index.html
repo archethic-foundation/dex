@@ -40,17 +40,6 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer=""></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var domain = window.location.hostname;
-      var script = document.createElement('script');
-      script.defer = true;
-      script.setAttribute('data-domain', domain);
-      script.src = 'https://plausible.io/js/script.js';
-      document.head.appendChild(script);
-    });
-  </script>
-
 
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
   <style id="splash-screen-style">
@@ -156,6 +145,26 @@
   </script>
 
 
+  <script>
+    window.onload = function () {
+      var domain = window.location.hostname;
+      console.log("Domaine récupéré:", domain);
+      var script = document.createElement('script');
+      script.defer = true;
+      script.setAttribute('data-domain', domain);
+      script.src = 'https://plausible.io/js/script.js';
+      console.log("URL du script:", script.src);
+      document.head.appendChild(script);
+
+      script.onload = function () {
+        console.log("Script Plausible chargé avec succès.");
+      };
+
+      script.onerror = function (error) {
+        console.log("Erreur lors du chargement du script:", error);
+      };
+    };
+  </script>
 
 
 </body>
