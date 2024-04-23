@@ -83,15 +83,12 @@ class _DexEnvState extends ConsumerState<DexEnv> {
               ),
               child: Row(
                 children: [
-                  // TODO(reddwarf03): MAINNET
                   Text(
-                    '${aedappfm.EndpointUtil.getEnvironnementLabel(
+                    aedappfm.EndpointUtil.getEnvironnementLabel(
                       'https://mainnet.archethic.net',
-                    )} (Soon)',
+                    ),
                     style: const TextStyle(
                       fontSize: 12,
-                      // TODO(reddwarf03): MAINNET
-                      color: Colors.grey,
                     ),
                   ),
                   if (session.endpoint == 'https://mainnet.archethic.net')
@@ -105,8 +102,6 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 ],
               ),
               onPressed: () async {
-                // TODO(reddwarf03): MAINNET
-                //return;
                 if (session.endpoint == 'https://mainnet.archethic.net') return;
                 final poolsListDatasource =
                     await HivePoolsListDatasource.getInstance();

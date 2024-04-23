@@ -9,9 +9,7 @@ part 'state.freezed.dart';
 @freezed
 class Session with _$Session {
   const factory Session({
-    // TODO(reddwarf03): MAINNET
-    //@Default('mainnet') String envSelected,
-    @Default('testnet') String envSelected,
+    @Default('mainnet') String envSelected,
     @Default('') String endpoint,
     @Default('') String nameAccount,
     @Default('') String oldNameAccount,

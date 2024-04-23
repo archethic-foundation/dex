@@ -12,8 +12,8 @@
         },
         {
             "name": "mainnet",
-            "routerGenesisAddress": "",
-            "factoryGenesisAddress": ""
+            "routerGenesisAddress": "000077cec9d9dbc0183caf843cbb4828a932bb1457e382ac83b31ad6f9755dd50ffc",
+            "factoryGenesisAddress": "00004ce47b2828e923eb679fef311dd458aa0571c67db5cb46b4e0793cac525ac791"
         }
     ]
 }
