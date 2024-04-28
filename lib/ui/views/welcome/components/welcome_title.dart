@@ -12,21 +12,16 @@ class WelcomeTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 70,
-          ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, top: 100),
+            padding: const EdgeInsets.only(top: 130),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 aedappfm.GradientText(
                   'SWAP',
                   style: const TextStyle(
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.w600,
                   ),
                   gradient: aedappfm.AppThemeBase.gradientWelcomeTxt,
@@ -38,9 +33,9 @@ class WelcomeTitle extends StatelessWidget {
                       curve: Curves.easeOutQuad,
                     ),
                 SelectableText(
-                  ' assets on-chain,',
+                  ' assets on-chain',
                   style: const TextStyle(
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.w400,
                   ),
                   textScaler: TextScaler.linear(
@@ -56,29 +51,27 @@ class WelcomeTitle extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 40),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SelectableText(
-                  'add liquidity & access yield farming',
-                  style: const TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w400,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SelectableText(
+                'and access yield farming\nby adding liquidity',
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.center,
+                textScaler: TextScaler.linear(
+                  aedappfm.ScaleSize.textScaleFactor(context),
+                ),
+              )
+                  .animate(delay: 300.ms)
+                  .fadeIn(duration: 400.ms, delay: 300.ms)
+                  .move(
+                    begin: const Offset(-16, 0),
+                    curve: Curves.easeOutQuad,
                   ),
-                  textScaler: TextScaler.linear(
-                    aedappfm.ScaleSize.textScaleFactor(context),
-                  ),
-                )
-                    .animate(delay: 300.ms)
-                    .fadeIn(duration: 400.ms, delay: 300.ms)
-                    .move(
-                      begin: const Offset(-16, 0),
-                      curve: Curves.easeOutQuad,
-                    ),
-              ],
-            ),
+            ],
           ),
           const Spacer(),
         ],

@@ -63,7 +63,7 @@ class Header extends ConsumerWidget {
               ),
             if (aedappfm.Responsive.isMobile(context) == false)
               Padding(
-                padding: const EdgeInsets.only(bottom: 7),
+                padding: const EdgeInsets.only(bottom: 4),
                 child: SelectableText(
                   'aeSwap',
                   style: TextStyle(
