@@ -10,8 +10,8 @@ _$GetFarmListResponseImpl _$$GetFarmListResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$GetFarmListResponseImpl(
       lpTokenAddress: json['lp_token_address'] as String,
-      startDate: json['start_date'] as int,
-      endDate: json['end_date'] as int,
+      startDate: (json['start_date'] as num).toInt(),
+      endDate: (json['end_date'] as num).toInt(),
       rewardTokenAddress: json['reward_token'] as String,
       address: json['address'] as String,
     );

@@ -47,6 +47,7 @@ mixin _$LiquidityAddFormState {
   double? get finalAmount => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
+  PoolsListTab get poolsListTab => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LiquidityAddFormStateCopyWith<LiquidityAddFormState> get copyWith =>
@@ -89,7 +90,8 @@ abstract class $LiquidityAddFormStateCopyWith<$Res> {
       bool calculationInProgress,
       double? finalAmount,
       Failure? failure,
-      DateTime? consentDateTime});
+      DateTime? consentDateTime,
+      PoolsListTab poolsListTab});
 
   $DexTokenCopyWith<$Res>? get token1;
   $DexTokenCopyWith<$Res>? get token2;
@@ -142,6 +144,7 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     Object? finalAmount = freezed,
     Object? failure = freezed,
     Object? consentDateTime = freezed,
+    Object? poolsListTab = null,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -264,6 +267,10 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      poolsListTab: null == poolsListTab
+          ? _value.poolsListTab
+          : poolsListTab // ignore: cast_nullable_to_non_nullable
+              as PoolsListTab,
     ) as $Val);
   }
 
@@ -367,7 +374,8 @@ abstract class _$$LiquidityAddFormStateImplCopyWith<$Res>
       bool calculationInProgress,
       double? finalAmount,
       Failure? failure,
-      DateTime? consentDateTime});
+      DateTime? consentDateTime,
+      PoolsListTab poolsListTab});
 
   @override
   $DexTokenCopyWith<$Res>? get token1;
@@ -423,6 +431,7 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
     Object? finalAmount = freezed,
     Object? failure = freezed,
     Object? consentDateTime = freezed,
+    Object? poolsListTab = null,
   }) {
     return _then(_$LiquidityAddFormStateImpl(
       processStep: null == processStep
@@ -545,6 +554,10 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      poolsListTab: null == poolsListTab
+          ? _value.poolsListTab
+          : poolsListTab // ignore: cast_nullable_to_non_nullable
+              as PoolsListTab,
     ));
   }
 }
@@ -582,7 +595,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
       this.calculationInProgress = false,
       this.finalAmount,
       this.failure,
-      this.consentDateTime})
+      this.consentDateTime,
+      this.poolsListTab = PoolsListTab.verified})
       : super._();
 
   @override
@@ -668,10 +682,13 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
   final Failure? failure;
   @override
   final DateTime? consentDateTime;
+  @override
+  @JsonKey()
+  final PoolsListTab poolsListTab;
 
   @override
   String toString() {
-    return 'LiquidityAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, feesEstimatedUCO: $feesEstimatedUCO, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, finalAmount: $finalAmount, failure: $failure, consentDateTime: $consentDateTime)';
+    return 'LiquidityAddFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateToken1: $calculateToken1, calculateToken2: $calculateToken2, tokenFormSelected: $tokenFormSelected, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, liquidityAddOk: $liquidityAddOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, token1: $token1, token2: $token2, ratio: $ratio, slippageTolerance: $slippageTolerance, token1Balance: $token1Balance, token1Amount: $token1Amount, token2Balance: $token2Balance, token2Amount: $token2Amount, token1minAmount: $token1minAmount, token2minAmount: $token2minAmount, networkFees: $networkFees, expectedTokenLP: $expectedTokenLP, feesEstimatedUCO: $feesEstimatedUCO, pool: $pool, lpTokenBalance: $lpTokenBalance, transactionAddLiquidity: $transactionAddLiquidity, calculationInProgress: $calculationInProgress, finalAmount: $finalAmount, failure: $failure, consentDateTime: $consentDateTime, poolsListTab: $poolsListTab)';
   }
 
   @override
@@ -734,7 +751,9 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
                 other.finalAmount == finalAmount) &&
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.consentDateTime, consentDateTime) ||
-                other.consentDateTime == consentDateTime));
+                other.consentDateTime == consentDateTime) &&
+            (identical(other.poolsListTab, poolsListTab) ||
+                other.poolsListTab == poolsListTab));
   }
 
   @override
@@ -769,7 +788,8 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
         calculationInProgress,
         finalAmount,
         failure,
-        consentDateTime
+        consentDateTime,
+        poolsListTab
       ]);
 
   @JsonKey(ignore: true)
@@ -811,7 +831,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
       final bool calculationInProgress,
       final double? finalAmount,
       final Failure? failure,
-      final DateTime? consentDateTime}) = _$LiquidityAddFormStateImpl;
+      final DateTime? consentDateTime,
+      final PoolsListTab poolsListTab}) = _$LiquidityAddFormStateImpl;
   const _LiquidityAddFormState._() : super._();
 
   @override
@@ -874,6 +895,8 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   Failure? get failure;
   @override
   DateTime? get consentDateTime;
+  @override
+  PoolsListTab get poolsListTab;
   @override
   @JsonKey(ignore: true)
   _$$LiquidityAddFormStateImplCopyWith<_$LiquidityAddFormStateImpl>

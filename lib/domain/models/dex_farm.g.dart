@@ -30,7 +30,7 @@ _$DexFarmImpl _$$DexFarmImplFromJson(Map<String, dynamic> json) =>
       remainingRewardInFiat:
           (json['remainingRewardInFiat'] as num?)?.toDouble() ?? 0,
       lpTokenDeposited: (json['lpTokenDeposited'] as num?)?.toDouble() ?? 0,
-      nbDeposit: json['nbDeposit'] as int? ?? 0,
+      nbDeposit: (json['nbDeposit'] as num?)?.toInt() ?? 0,
       estimateLPTokenInFiat:
           (json['estimateLPTokenInFiat'] as num?)?.toDouble() ?? 0,
       statsRewardDistributed:

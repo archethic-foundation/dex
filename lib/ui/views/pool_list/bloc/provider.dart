@@ -19,6 +19,21 @@ enum PoolsListTab {
   final bool skipLoadingOnReload;
 }
 
+PoolsListTab poolsListTabFromJson(String json) {
+  switch (json) {
+    case 'verified':
+      return PoolsListTab.verified;
+    case 'myPools':
+      return PoolsListTab.myPools;
+    case 'favoritePools':
+      return PoolsListTab.favoritePools;
+    case 'searchPool':
+      return PoolsListTab.searchPool;
+    default:
+      throw Exception('Unknown PoolsListTab value: $json');
+  }
+}
+
 final _poolListFormProvider =
     NotifierProvider<PoolListFormNotifier, PoolListFormState>(
   PoolListFormNotifier.new,

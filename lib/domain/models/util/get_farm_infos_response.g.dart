@@ -11,11 +11,11 @@ _$GetFarmInfosResponseImpl _$$GetFarmInfosResponseImplFromJson(
     _$GetFarmInfosResponseImpl(
       lpTokenAddress: json['lp_token_address'] as String,
       rewardToken: json['reward_token'] as String,
-      startDate: json['start_date'] as int,
-      endDate: json['end_date'] as int,
+      startDate: (json['start_date'] as num).toInt(),
+      endDate: (json['end_date'] as num).toInt(),
       remainingReward: (json['remaining_reward'] as num?)?.toDouble(),
       lpTokenDeposited: (json['lp_token_deposited'] as num).toDouble(),
-      nbDeposit: json['nb_deposit'] as int,
+      nbDeposit: (json['nb_deposit'] as num).toInt(),
       stats: Stats.fromJson(json['stats'] as Map<String, dynamic>),
     );
 

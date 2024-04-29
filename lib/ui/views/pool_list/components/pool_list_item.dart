@@ -1,4 +1,5 @@
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
@@ -17,9 +18,11 @@ class PoolListItem extends ConsumerStatefulWidget {
   const PoolListItem({
     super.key,
     required this.poolDetail,
+    required this.tab,
   });
 
   final DexPool poolDetail;
+  final PoolsListTab tab;
 
   @override
   ConsumerState<PoolListItem> createState() => _PoolListItemState();
@@ -31,7 +34,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      ref
+      await ref
           .read(
             PoolItemProvider.poolItem(widget.poolDetail.poolAddress).notifier,
           )
@@ -59,6 +62,7 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                     fill: Fill.fillBack,
                     front: PoolDetailsFront(
                       pool: widget.poolDetail,
+                      tab: widget.tab,
                     ),
                     back: PoolDetailsBack(
                       pool: widget.poolDetail,

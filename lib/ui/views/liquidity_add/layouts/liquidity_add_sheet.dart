@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_co
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,13 @@ class LiquidityAddSheet extends ConsumerStatefulWidget {
   const LiquidityAddSheet({
     required this.pool,
     required this.pair,
+    required this.poolsListTab,
     super.key,
   });
 
   final DexPool pool;
   final DexPair pair;
+  final PoolsListTab poolsListTab;
 
   static const routerPage = '/liquidityAdd';
 
@@ -38,6 +41,7 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
             NavigationIndex.pool;
 
         ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+          ..setPoolsListTab(widget.poolsListTab)
           ..setToken1(widget.pair.token1)
           ..setToken2(widget.pair.token2);
 
@@ -52,7 +56,14 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
             .initRatio();
       } catch (e) {
         if (mounted) {
-          context.go(PoolListSheet.routerPage);
+          context.go(
+            Uri(
+              path: PoolListSheet.routerPage,
+              queryParameters: {
+                'tab': widget.poolsListTab,
+              },
+            ).toString(),
+          );
         }
       }
     });

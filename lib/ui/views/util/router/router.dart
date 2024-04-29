@@ -137,8 +137,10 @@ final routerProvider = Provider<GoRouter>(
               pageBuilder: (context, state) {
                 DexPool? pool;
                 DexPair? pair;
+                PoolsListTab? poolsListTab;
                 final poolEncoded = state.uri.queryParameters['pool'];
                 final pairEncoded = state.uri.queryParameters['pair'];
+                final poolsListTabEncoded = state.uri.queryParameters['tab'];
                 if (poolEncoded != null) {
                   final poolJson = Uri.decodeComponent(poolEncoded);
                   pool = DexPool.fromJson(jsonDecode(poolJson));
@@ -146,6 +148,11 @@ final routerProvider = Provider<GoRouter>(
                 if (pairEncoded != null) {
                   final pairJson = Uri.decodeComponent(pairEncoded);
                   pair = DexPair.fromJson(jsonDecode(pairJson));
+                }
+                if (poolsListTabEncoded != null) {
+                  poolsListTab = poolsListTabFromJson(
+                    Uri.decodeComponent(poolsListTabEncoded),
+                  );
                 }
 
                 if (pool == null || pair == null) {
@@ -155,7 +162,11 @@ final routerProvider = Provider<GoRouter>(
                 }
 
                 return NoTransitionPage(
-                  child: LiquidityAddSheet(pool: pool, pair: pair),
+                  child: LiquidityAddSheet(
+                    pool: pool,
+                    pair: pair,
+                    poolsListTab: poolsListTab ?? PoolsListTab.verified,
+                  ),
                 );
               },
             ),
@@ -165,9 +176,11 @@ final routerProvider = Provider<GoRouter>(
                 DexPool? pool;
                 DexPair? pair;
                 DexToken? lpToken;
+                PoolsListTab? poolsListTab;
                 final poolEncoded = state.uri.queryParameters['pool'];
                 final pairEncoded = state.uri.queryParameters['pair'];
                 final lpTokenEncoded = state.uri.queryParameters['lpToken'];
+                final poolsListTabEncoded = state.uri.queryParameters['tab'];
                 if (poolEncoded != null) {
                   final poolJson = Uri.decodeComponent(poolEncoded);
                   pool = DexPool.fromJson(jsonDecode(poolJson));
@@ -179,6 +192,11 @@ final routerProvider = Provider<GoRouter>(
                 if (lpTokenEncoded != null) {
                   final lpTokenJson = Uri.decodeComponent(lpTokenEncoded);
                   lpToken = DexToken.fromJson(jsonDecode(lpTokenJson));
+                }
+                if (poolsListTabEncoded != null) {
+                  poolsListTab = poolsListTabFromJson(
+                    Uri.decodeComponent(poolsListTabEncoded),
+                  );
                 }
 
                 if (pool == null || pair == null || lpToken == null) {
@@ -192,6 +210,7 @@ final routerProvider = Provider<GoRouter>(
                     pool: pool,
                     pair: pair,
                     lpToken: lpToken,
+                    poolsListTab: poolsListTab ?? PoolsListTab.verified,
                   ),
                 );
               },

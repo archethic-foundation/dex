@@ -87,6 +87,10 @@ class LiquidityAddInProgressPopup {
     WidgetRef ref,
   ) {
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+
+    final poolsListTabEncoded =
+        Uri.encodeComponent(liquidityAdd.poolsListTab.name);
+
     return aedappfm.PopupCloseButton(
       warningCloseWarning: liquidityAdd.isProcessInProgress,
       warningCloseLabel: liquidityAdd.isProcessInProgress == true
@@ -98,7 +102,14 @@ class LiquidityAddInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
       },
       closeFunction: () {
         ref.invalidate(
@@ -106,7 +117,14 @@ class LiquidityAddInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
       },
     );
   }

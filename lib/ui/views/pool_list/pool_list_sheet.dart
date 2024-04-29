@@ -46,12 +46,12 @@ class _PoolListSheetState extends ConsumerState<PoolListSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenList(
-      body: _body(context, ref),
+      body: _body(context, ref, widget.tab),
     );
   }
 }
 
-Widget _body(BuildContext context, WidgetRef ref) {
+Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
   final selectedTab =
       ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
   final asyncPools =
@@ -256,6 +256,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                       return PoolListItem(
                         key: ValueKey(pool.poolAddress),
                         poolDetail: pool,
+                        tab: tab,
                       );
                     },
                     loading: () {

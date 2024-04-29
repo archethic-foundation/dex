@@ -1,4 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_final_amount.dart';
@@ -90,6 +89,9 @@ class LiquidityRemoveInProgressPopup {
     final liquidityRemove =
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
 
+    final poolsListTabEncoded =
+        Uri.encodeComponent(liquidityRemove.poolsListTab.name);
+
     return aedappfm.PopupCloseButton(
       warningCloseWarning: liquidityRemove.isProcessInProgress,
       warningCloseLabel: liquidityRemove.isProcessInProgress == true
@@ -102,7 +104,14 @@ class LiquidityRemoveInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
       },
       closeFunction: () {
         ref.invalidate(
@@ -110,7 +119,14 @@ class LiquidityRemoveInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
       },
     );
   }

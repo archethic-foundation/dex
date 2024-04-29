@@ -5,6 +5,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state_item.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
@@ -26,8 +27,10 @@ class PoolDetailsFront extends ConsumerStatefulWidget {
   const PoolDetailsFront({
     super.key,
     required this.pool,
+    required this.tab,
   });
   final DexPool pool;
+  final PoolsListTab tab;
 
   @override
   PoolDetailsFrontState createState() => PoolDetailsFrontState();
@@ -535,12 +538,14 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
         final pairJson = jsonEncode(poolItem.pool!.pair.toJson());
         final poolEncoded = Uri.encodeComponent(poolJson);
         final pairEncoded = Uri.encodeComponent(pairJson);
+        final poolsListTabEncoded = Uri.encodeComponent(widget.tab.name);
         context.go(
           Uri(
             path: LiquidityAddSheet.routerPage,
             queryParameters: {
               'pool': poolEncoded,
               'pair': pairEncoded,
+              'tab': poolsListTabEncoded,
             },
           ).toString(),
         );
@@ -585,6 +590,7 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
         final poolEncoded = Uri.encodeComponent(poolJson);
         final pairEncoded = Uri.encodeComponent(pairJson);
         final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
+        final poolsListTabEncoded = Uri.encodeComponent(widget.tab.name);
         context.go(
           Uri(
             path: LiquidityRemoveSheet.routerPage,
@@ -592,6 +598,7 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
               'pool': poolEncoded,
               'pair': pairEncoded,
               'lpToken': lpTokenEncoded,
+              'tab': poolsListTabEncoded,
             },
           ).toString(),
         );

@@ -2,6 +2,7 @@
 
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -35,6 +36,7 @@ class LiquidityRemoveFormState with _$LiquidityRemoveFormState {
     Failure? failure,
     @Default(false) bool calculationInProgress,
     DateTime? consentDateTime,
+    @Default(PoolsListTab.verified) PoolsListTab poolsListTab,
   }) = _LiquidityRemoveFormState;
   const LiquidityRemoveFormState._();
 
