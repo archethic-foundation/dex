@@ -1,3 +1,4 @@
+import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state_item.dart';
@@ -15,10 +16,27 @@ class PoolItemNotifier
   }
 
   // ignore: use_setters_to_change_properties
-  void setPool(DexPool pool) {
+  Future<void> setPool(DexPool pool) async {
     final stats = ref.read(DexPoolProviders.estimateStats(pool));
+    //
+    var lpTokenInUserBalance = false;
+    final userBalance =
+        await ref.read(BalanceProviders.getUserTokensBalance.future);
+    if (userBalance != null) {
+      for (final userTokensBalance in userBalance.token) {
+        if (pool.lpToken.address!.toUpperCase() ==
+            userTokensBalance.address!.toUpperCase()) {
+          lpTokenInUserBalance = true;
+        }
+      }
+    }
+
+    final poolUpdated = pool.copyWith(
+      lpTokenInUserBalance: lpTokenInUserBalance,
+    );
+
     state = state.copyWith(
-      pool: pool,
+      pool: poolUpdated,
       fee24h: stats.fee24h,
       feeAllTime: stats.feeAllTime,
       volume24h: stats.volume24h,
