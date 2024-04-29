@@ -95,7 +95,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
             onPressed: () {
               launchUrl(
                 Uri.parse(
-                  'https://wiki.archethic.net',
+                  'https://wiki.archethic.net/participate/dex/',
                 ),
               );
             },
@@ -191,7 +191,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
           onPressed: () {
             launchUrl(
               Uri.parse(
-                'https://wiki.archethic.net/participate/dex/usage/aeSwap',
+                'https://wiki.archethic.net/participate/dex/Guide_Usage/',
               ),
             );
           },
