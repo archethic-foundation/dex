@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_form_sheet.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +16,13 @@ class PoolAddSheet extends ConsumerStatefulWidget {
   const PoolAddSheet({
     this.token1,
     this.token2,
+    required this.poolsListTab,
     super.key,
   });
 
   final DexToken? token1;
   final DexToken? token2;
+  final PoolsListTab poolsListTab;
 
   static const routerPage = '/poolAdd';
 
@@ -36,6 +39,10 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
           ref.read(navigationIndexMainScreenProvider.notifier).state =
               NavigationIndex.pool;
 
+          ref
+              .read(PoolAddFormProvider.poolAddForm.notifier)
+              .setPoolsListTab(widget.poolsListTab);
+
           if (context.mounted) {
             await ref
                 .read(PoolAddFormProvider.poolAddForm.notifier)
@@ -49,7 +56,14 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
           }
         } catch (e) {
           if (mounted) {
-            context.go(PoolListSheet.routerPage);
+            context.go(
+              Uri(
+                path: PoolListSheet.routerPage,
+                queryParameters: {
+                  'tab': widget.poolsListTab,
+                },
+              ).toString(),
+            );
           }
         }
       });

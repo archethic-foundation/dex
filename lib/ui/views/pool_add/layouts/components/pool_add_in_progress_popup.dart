@@ -73,6 +73,8 @@ class PoolAddInProgressPopup {
     WidgetRef ref,
   ) {
     final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolsListTabEncoded = Uri.encodeComponent(poolAdd.poolsListTab.name);
+
     return aedappfm.PopupCloseButton(
       warningCloseWarning: poolAdd.isProcessInProgress,
       warningCloseLabel: poolAdd.isProcessInProgress == true
@@ -84,7 +86,14 @@ class PoolAddInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
       },
       closeFunction: () {
         ref.invalidate(
@@ -92,7 +101,14 @@ class PoolAddInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
       },
     );
   }

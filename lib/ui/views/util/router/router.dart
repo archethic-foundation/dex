@@ -113,8 +113,10 @@ final routerProvider = Provider<GoRouter>(
               pageBuilder: (context, state) {
                 DexToken? token1;
                 DexToken? token2;
+                PoolsListTab? poolsListTab;
                 final token1Encoded = state.uri.queryParameters['token1'];
                 final token2Encoded = state.uri.queryParameters['token2'];
+                final poolsListTabEncoded = state.uri.queryParameters['tab'];
                 if (token1Encoded != null) {
                   final token1Json = Uri.decodeComponent(token1Encoded);
                   token1 = DexToken.fromJson(jsonDecode(token1Json));
@@ -123,11 +125,16 @@ final routerProvider = Provider<GoRouter>(
                   final token2Json = Uri.decodeComponent(token2Encoded);
                   token2 = DexToken.fromJson(jsonDecode(token2Json));
                 }
-
+                if (poolsListTabEncoded != null) {
+                  poolsListTab = poolsListTabFromJson(
+                    Uri.decodeComponent(poolsListTabEncoded),
+                  );
+                }
                 return NoTransitionPage(
                   child: PoolAddSheet(
                     token1: token1,
                     token2: token2,
+                    poolsListTab: poolsListTab ?? PoolsListTab.verified,
                   ),
                 );
               },
