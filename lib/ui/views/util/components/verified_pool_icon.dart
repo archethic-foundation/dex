@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -31,18 +32,13 @@ class VerifiedPoolIcon extends ConsumerWidget {
             padding: const EdgeInsets.only(right: 5),
             child: SelectableText(
               AppLocalizations.of(context)!.poolCardPoolVerified,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.bodyLarge!,
-                    ),
-                  ),
+              style: AppTextStyles.bodyLarge(context),
             ),
           ),
         Padding(
           padding: const EdgeInsets.only(bottom: 3, right: 3),
           child: Tooltip(
-            message: 'This pool has been verified by Archethic',
+            message: AppLocalizations.of(context)!.verifiedPoolIconTooltip,
             child: Icon(
               aedappfm.Iconsax.verify,
               color: aedappfm.ArchethicThemeBase.systemPositive500,

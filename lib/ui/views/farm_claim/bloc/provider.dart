@@ -4,6 +4,7 @@ import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/claim_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/state.dart';
+import 'package:aedex/ui/views/farm_list/components/farm_list_item.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -144,6 +145,12 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
       state.rewardToken!,
     );
     state = state.copyWith(finalAmount: finalAmount);
+
+    if (context.mounted) {
+      final farmListItemState =
+          context.findAncestorStateOfType<FarmListItemState>();
+      await farmListItemState?.reload();
+    }
   }
 }
 

@@ -123,4 +123,10 @@ Future<void> _putPoolToCache(
   poolWithInfos = poolWithInfos!.copyWith(isFavorite: isFavorite);
 
   await poolsListDatasource.setPool(poolWithInfos.toHive());
+
+  await ref
+      .read(
+        PoolItemProvider.poolItem(poolWithInfos.poolAddress).notifier,
+      )
+      .setPool(poolWithInfos);
 }

@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -33,12 +34,7 @@ class LiquidityAddInfos extends ConsumerWidget {
                 message: liquidityAdd.token1!.symbol,
                 child: SelectableText(
                   'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyMedium(context),
                 ),
               ),
               const SizedBox(
@@ -57,12 +53,7 @@ class LiquidityAddInfos extends ConsumerWidget {
                 message: liquidityAdd.token2!.symbol,
                 child: SelectableText(
                   'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyMedium(context),
                 ),
               ),
               const SizedBox(
@@ -79,12 +70,7 @@ class LiquidityAddInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Expected LP Token',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
               const SizedBox(
                 height: 5,
@@ -109,24 +95,14 @@ class LiquidityAddInfos extends ConsumerWidget {
               message: liquidityAdd.token1!.symbol,
               child: SelectableText(
                 'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
             ),
             Tooltip(
               message: liquidityAdd.token1!.symbol,
               child: SelectableText(
                 '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
             ),
           ],
@@ -138,24 +114,14 @@ class LiquidityAddInfos extends ConsumerWidget {
               message: liquidityAdd.token2!.symbol,
               child: SelectableText(
                 'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
             ),
             Tooltip(
               message: liquidityAdd.token2!.symbol,
               child: SelectableText(
                 '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
             ),
           ],
@@ -165,12 +131,7 @@ class LiquidityAddInfos extends ConsumerWidget {
           children: [
             SelectableText(
               'Expected LP Token',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.bodyMedium!,
-                    ),
-                  ),
+              style: AppTextStyles.bodyMedium(context),
             ),
             SelectableText(
               '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
@@ -182,12 +143,7 @@ class LiquidityAddInfos extends ConsumerWidget {
                           Theme.of(context).textTheme.bodyMedium!,
                         ),
                       )
-                  : Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  : AppTextStyles.bodyMedium(context),
             ),
           ],
         ),

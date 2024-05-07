@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_change.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_icon_refresh.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_icon_settings.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_to_swap_selection.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -78,12 +79,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
           children: [
             SelectableText(
               AppLocalizations.of(context)!.swapFromLbl,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.bodyLarge!,
-                    ),
-                  ),
+              style: AppTextStyles.bodyLarge(context),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -91,12 +87,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
               children: [
                 SelectableText(
                   '${AppLocalizations.of(context)!.slippage_tolerance} ${swap.slippageTolerance}%',
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyLarge!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyLarge(context),
                 ),
                 const Align(
                   alignment: Alignment.centerRight,

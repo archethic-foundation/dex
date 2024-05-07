@@ -136,7 +136,8 @@ class FarmClaimFormSheet extends ConsumerWidget {
                                         ),
                                   ),
                                   TextSpan(
-                                    text: 'are available for claiming.',
+                                    text: AppLocalizations.of(context)!
+                                        .farmClaimFormText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!

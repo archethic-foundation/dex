@@ -1,6 +1,7 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 
@@ -48,33 +49,18 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: 'Please confirm the withdraw of ',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      text: AppLocalizations.of(context)!
+                          .farmWithdrawConfirmInfosText,
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                     TextSpan(
                       text: farmWithdraw.amount.formatNumber(precision: 8),
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: aedappfm.AppThemeBase.secondaryColor,
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyLargeSecondaryColor(context),
                     ),
                     TextSpan(
                       text:
-                          ' ${farmWithdraw.amount > 1 ? 'LP Tokens' : 'LP Token'}',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                          ' ${farmWithdraw.amount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
                 ),
@@ -85,13 +71,9 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
               Row(
                 children: [
                   SelectableText(
-                    'Your balance',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    AppLocalizations.of(context)!
+                        .farmWithdrawConfirmYourBalance,
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   const SizedBox(
                     width: 5,
@@ -111,21 +93,11 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),
@@ -178,13 +150,9 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
               Row(
                 children: [
                   SelectableText(
-                    "Farm's balance",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    AppLocalizations.of(context)!
+                        .farmWithdrawConfirmFarmBalance,
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   const SizedBox(
                     width: 5,
@@ -204,21 +172,11 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),
@@ -250,6 +208,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
               ),
               if (farmWithdraw.dexFarmUserInfo!.rewardAmount > 0)
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
                       height: 20,
@@ -257,17 +216,9 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     Row(
                       children: [
                         SelectableText(
-                          'Rewards',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyLarge!,
-                                ),
-                              ),
+                          AppLocalizations.of(context)!
+                              .farmWithdrawConfirmRewards,
+                          style: AppTextStyles.bodyLarge(context),
                         ),
                         const SizedBox(
                           width: 5,
@@ -294,7 +245,8 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'You will receive ',
+                                  text: AppLocalizations.of(context)!
+                                      .farmWithdrawConfirmYouWillReceive,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!

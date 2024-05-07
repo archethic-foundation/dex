@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
@@ -47,21 +48,11 @@ class SwapConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     'Swap',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     'Mininum received',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),
@@ -73,24 +64,11 @@ class SwapConfirmInfos extends ConsumerWidget {
                       TextSpan(
                         text:
                             '    - ${swap.tokenToSwapAmount.formatNumber(precision: 8)}',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: aedappfm.AppThemeBase.secondaryColor,
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        style: AppTextStyles.bodyLargeSecondaryColor(context),
                       ),
                       TextSpan(
                         text: ' ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
                   ),
@@ -108,31 +86,13 @@ class SwapConfirmInfos extends ConsumerWidget {
                           TextSpan(
                             text:
                                 '≈ + ${swap.tokenSwappedAmount.formatNumber(precision: 8)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  color: aedappfm.AppThemeBase.secondaryColor,
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
+                            style:
+                                AppTextStyles.bodyLargeSecondaryColor(context),
                           ),
                           TextSpan(
                             text:
                                 ' ${swap.tokenSwapped!.symbol.reduceSymbol()}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
+                            style: AppTextStyles.bodyLarge(context),
                           ),
                         ],
                       ),
@@ -145,16 +105,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                         message: swap.tokenSwapped!.symbol,
                         child: SelectableText(
                           '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyLarge!,
-                                ),
-                              ),
+                          style: AppTextStyles.bodyLarge(context),
                         ),
                       ),
                       FutureBuilder<String>(
@@ -167,16 +118,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                           if (snapshot.hasData) {
                             return SelectableText(
                               snapshot.data!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyMedium!,
-                                    ),
-                                  ),
+                              style: AppTextStyles.bodyMedium(context),
                             );
                           }
                           return const SizedBox.shrink();
@@ -203,21 +145,11 @@ class SwapConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),
@@ -323,13 +255,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                               ? 2
                               : 8,
                         )} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        style: AppTextStyles.bodyLarge(context),
                       ),
                     ),
                     const SizedBox(
@@ -345,16 +271,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                         if (snapshot.hasData) {
                           return SelectableText(
                             snapshot.data!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyMedium!,
-                                  ),
-                                ),
+                            style: AppTextStyles.bodyMedium(context),
                           );
                         }
                         return const SizedBox.shrink();

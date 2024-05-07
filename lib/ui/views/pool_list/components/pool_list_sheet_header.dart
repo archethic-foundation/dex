@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:go_router/go_router.dart';
@@ -65,7 +66,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
       controlOk: true,
       labelBtn: aedappfm.Responsive.isDesktop(context) ||
               aedappfm.Responsive.isTablet(context)
-          ? 'Create Pool'
+          ? AppLocalizations.of(context)!.poolCreatePoolButton
           : '+',
       onPressed: () {
         context.go(PoolAddSheet.routerPage);
@@ -147,11 +148,11 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           ),
           fontWeight: FontWeight.w400,
         ),
-        labels: const [
-          'Verified',
-          'My pools',
-          'Favorites',
-          'Results',
+        labels: [
+          AppLocalizations.of(context)!.poolListTabVerified,
+          AppLocalizations.of(context)!.poolListTabMyPools,
+          AppLocalizations.of(context)!.poolListTabFavorites,
+          AppLocalizations.of(context)!.poolListTabResults,
         ],
         icons: const [
           aedappfm.Iconsax.verify,

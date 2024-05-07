@@ -1,5 +1,6 @@
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_fees.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
@@ -98,17 +99,8 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                           children: [
                             _getPairValues(context, pool),
                             SelectableText(
-                              'TVL: \$${tvl.formatNumber(precision: 2)}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyLarge!,
-                                    ),
-                                  ),
+                              '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl.formatNumber(precision: 2)}',
+                              style: AppTextStyles.bodyLarge(context),
                             ),
                             DexFees(
                               fees: pool.infos!.fees,
@@ -178,7 +170,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                           withLabel: true,
                                         ),
                                         SelectableText(
-                                          'TVL: \$${tvl.formatNumber(precision: 2)}',
+                                          '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl.formatNumber(precision: 2)}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyLarge!
@@ -291,12 +283,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
               children: [
                 SelectableText(
                   AppLocalizations.of(context)!.poolCardPooled,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyLarge!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyLarge(context),
                 ),
                 const SizedBox(
                   width: 5,

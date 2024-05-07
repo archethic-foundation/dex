@@ -1,14 +1,18 @@
 import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm_user_infos.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
+import 'package:aedex/ui/views/farm_list/components/farm_refresh_icon.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmListItem extends ConsumerStatefulWidget {
@@ -20,11 +24,55 @@ class FarmListItem extends ConsumerStatefulWidget {
   final DexFarm farm;
 
   @override
-  ConsumerState<FarmListItem> createState() => _FarmListItemState();
+  ConsumerState<FarmListItem> createState() => FarmListItemState();
 }
 
-class _FarmListItemState extends ConsumerState<FarmListItem> {
+class FarmListItemState extends ConsumerState<FarmListItem> {
   final flipCardController = FlipCardController();
+  DexFarm? farmInfos;
+  DexFarmUserInfos? userInfos;
+  double? userBalance;
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      await loadInfo();
+    });
+
+    super.initState();
+  }
+
+  Future<void> loadInfo() async {
+    farmInfos = await ref.watch(
+      DexFarmProviders.getFarmInfos(
+        widget.farm.farmAddress,
+        widget.farm.poolAddress,
+        dexFarmInput: widget.farm,
+      ).future,
+    );
+    setState(() {});
+    final session = ref.watch(SessionProviders.session);
+    if (session.isConnected) {
+      userInfos = await ref.watch(
+        DexFarmProviders.getUserInfos(
+          widget.farm.farmAddress,
+          session.genesisAddress,
+        ).future,
+      );
+      setState(() {});
+    }
+
+    userBalance = await ref.watch(
+      FarmListProvider.balance(widget.farm.lpToken!.address).future,
+    );
+    setState(() {});
+  }
+
+  Future<void> reload() async {
+    farmInfos = null;
+    userInfos = null;
+    userBalance = null;
+    await loadInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,64 +82,29 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
           padding: const EdgeInsets.only(top: 20),
           child: aedappfm.SingleCard(
             globalPadding: 0,
-            cardContent: FutureBuilder<DexFarm?>(
-              future: ref.watch(
-                DexFarmProviders.getFarmInfos(
-                  widget.farm.farmAddress,
-                  widget.farm.poolAddress,
-                  dexFarmInput: widget.farm,
-                ).future,
-              ),
-              builder: (context, farmInfosSnapshot) {
-                if (farmInfosSnapshot.hasData) {
-                  final farmInfos = farmInfosSnapshot.data;
-
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: FlipCard(
-                          controller: flipCardController,
-                          flipOnTouch: false,
-                          fill: Fill.fillBack,
-                          front: FarmDetailsFront(
-                            farm: farmInfos!,
-                          ),
-                          back: FarmDetailsBack(
-                            farm: farmInfos,
-                          ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: DexArchethicOracleUco(),
-                      ),
-                    ],
-                  );
-                }
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: FlipCard(
-                        controller: flipCardController,
-                        flipOnTouch: false,
-                        fill: Fill.fillBack,
-                        front: FarmDetailsFront(
-                          farm: widget.farm,
-                        ),
-                        back: FarmDetailsBack(
-                          farm: widget.farm,
-                        ),
-                      ),
+            cardContent: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: FlipCard(
+                    controller: flipCardController,
+                    flipOnTouch: false,
+                    fill: Fill.fillBack,
+                    front: FarmDetailsFront(
+                      farm: farmInfos ?? widget.farm,
+                      userInfos: userInfos,
+                      userBalance: userBalance,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: DexArchethicOracleUco(),
+                    back: FarmDetailsBack(
+                      farm: farmInfos ?? widget.farm,
                     ),
-                  ],
-                );
-              },
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: DexArchethicOracleUco(),
+                ),
+              ],
             ),
           ),
         ),
@@ -100,6 +113,10 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
           right: 20,
           child: Row(
             children: [
+              FarmRefreshIcon(
+                farmAddress: widget.farm.farmAddress,
+                lpTokenAddress: widget.farm.lpToken!.address ?? '',
+              ),
               SizedBox(
                 height: 40,
                 child: Card(
@@ -121,8 +138,8 @@ class _FarmListItemState extends ConsumerState<FarmListItem> {
                       left: 10,
                       right: 10,
                     ),
-                    child: SelectableText(
-                      'Farming',
+                    child: Text(
+                      AppLocalizations.of(context)!.farmCardTitle,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

@@ -73,7 +73,8 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
-                                    'Remove the pool from favorite tab?',
+                                    AppLocalizations.of(context)!
+                                        .poolRemoveFavoriteIconConfirmation,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -165,7 +166,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
         );
       },
       child: Tooltip(
-        message: 'Remove this pool from my favorites tab',
+        message: AppLocalizations.of(context)!.poolRemoveFavoriteIconTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

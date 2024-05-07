@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -60,12 +61,7 @@ class LiquiditySettingsSlippageToleranceState
                   children: [
                     TextSpan(
                       text: AppLocalizations.of(context)!.slippage_tolerance,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
                 ),
@@ -120,12 +116,7 @@ class LiquiditySettingsSlippageToleranceState
               padding: const EdgeInsets.only(left: 5),
               child: SelectableText(
                 '%',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyLarge!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyLarge(context),
               ),
             ),
           ],

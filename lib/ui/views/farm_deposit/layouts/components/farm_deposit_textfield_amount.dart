@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 
@@ -175,14 +176,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                     farmDeposit.lpTokenBalance,
                     farmDeposit.dexFarmInfo!.poolAddress,
                   ),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyMedium(context),
                 ),
               ],
             ),

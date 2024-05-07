@@ -21,7 +21,7 @@ class FarmListSheet extends ConsumerStatefulWidget {
 class _FarmListSheetState extends ConsumerState<FarmListSheet> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.farm;
     });
@@ -31,66 +31,62 @@ class _FarmListSheetState extends ConsumerState<FarmListSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScreenList(
-      body: _body(context, ref),
+    final asyncFarms = ref.watch(
+      DexFarmProviders.getFarmList,
     );
-  }
-}
 
-Widget _body(BuildContext context, WidgetRef ref) {
-  final asyncFarms = ref.watch(
-    DexFarmProviders.getFarmList,
-  );
-
-  return Center(
-    child: Padding(
-      padding: EdgeInsets.only(
-        top: aedappfm.Responsive.isDesktop(context) ||
-                aedappfm.Responsive.isTablet(context)
-            ? 100
-            : 0,
-        bottom: aedappfm.Responsive.isDesktop(context) ||
-                aedappfm.Responsive.isTablet(context)
-            ? 40
-            : 0,
-      ),
-      child: asyncFarms.when(
-        skipLoadingOnRefresh: true,
-        skipLoadingOnReload: true,
-        error: (error, stacktrace) => const aedappfm.Loading(),
-        loading: aedappfm.Loading.new,
-        data: (farms) => GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: MediaQuery.of(context).size.width >= 1500
-                ? 3
-                : aedappfm.Responsive.isDesktop(context) ||
-                        aedappfm.Responsive.isTablet(context)
-                    ? 2
-                    : 1,
-            mainAxisExtent: 640,
-            crossAxisSpacing: 30,
-            mainAxisSpacing: 10,
-          ),
+    return MainScreenList(
+      body: Center(
+        child: Padding(
           padding: EdgeInsets.only(
-            left: aedappfm.Responsive.isDesktop(context) ||
+            top: aedappfm.Responsive.isDesktop(context) ||
                     aedappfm.Responsive.isTablet(context)
-                ? 50
-                : 5,
-            right: aedappfm.Responsive.isDesktop(context) ||
+                ? 100
+                : 0,
+            bottom: aedappfm.Responsive.isDesktop(context) ||
                     aedappfm.Responsive.isTablet(context)
-                ? 50
-                : 5,
+                ? 40
+                : 0,
           ),
-          itemCount: farms.length,
-          itemBuilder: (context, index) {
-            final farm = farms[index];
-            return FarmListItem(
-              key: Key(farm.farmAddress),
-              farm: farm,
-            );
-          },
+          child: asyncFarms.when(
+            skipLoadingOnRefresh: true,
+            skipLoadingOnReload: true,
+            error: (error, stacktrace) => const aedappfm.Loading(),
+            loading: aedappfm.Loading.new,
+            data: (farms) => GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: MediaQuery.of(context).size.width >= 1500
+                    ? 3
+                    : aedappfm.Responsive.isDesktop(context) ||
+                            aedappfm.Responsive.isTablet(context)
+                        ? 2
+                        : 1,
+                mainAxisExtent: 640,
+                crossAxisSpacing: 30,
+                mainAxisSpacing: 10,
+              ),
+              padding: EdgeInsets.only(
+                left: aedappfm.Responsive.isDesktop(context) ||
+                        aedappfm.Responsive.isTablet(context)
+                    ? 50
+                    : 5,
+                right: aedappfm.Responsive.isDesktop(context) ||
+                        aedappfm.Responsive.isTablet(context)
+                    ? 50
+                    : 5,
+              ),
+              itemCount: farms.length,
+              itemBuilder: (context, index) {
+                final farm = farms[index];
+                return FarmListItem(
+                  key: Key(farm.farmAddress),
+                  farm: farm,
+                );
+              },
+            ),
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

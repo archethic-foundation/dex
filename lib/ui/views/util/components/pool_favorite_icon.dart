@@ -2,6 +2,7 @@
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityFavoriteIcon extends ConsumerWidget {
@@ -26,7 +27,7 @@ class LiquidityFavoriteIcon extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 3),
           child: Tooltip(
-            message: 'Favorite pool',
+            message: AppLocalizations.of(context)!.liquidityFavoriteIconTooltip,
             child: Icon(
               aedappfm.Iconsax.star,
               color: aedappfm.ArchethicThemeBase.systemWarning600,

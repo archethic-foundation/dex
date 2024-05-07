@@ -5,11 +5,12 @@ import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_sheet_header.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolListSheet extends ConsumerStatefulWidget {
@@ -82,31 +83,13 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                     children: [
                       if (selectedTab == PoolsListTab.searchPool)
                         SelectableText(
-                          'Searching in progress. Please wait',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyLarge!,
-                                ),
-                              ),
+                          AppLocalizations.of(context)!.poolListSearching,
+                          style: AppTextStyles.bodyLarge(context),
                         )
                       else
                         SelectableText(
-                          'Loading in progress. Please wait',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyLarge!,
-                                ),
-                              ),
+                          AppLocalizations.of(context)!.poolListLoading,
+                          style: AppTextStyles.bodyLarge(context),
                         ),
                       const SizedBox(
                         width: 10,
@@ -138,13 +121,9 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SelectableText(
-                      'Please, connect your wallet to list your pools with position.',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      AppLocalizations.of(context)!
+                          .poolListConnectWalletMyPools,
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
                 );
@@ -156,14 +135,9 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SelectableText(
-                        'Please enter your search criteria.',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        AppLocalizations.of(context)!
+                            .poolListEnterSearchCriteria,
+                        style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
                   );
@@ -172,14 +146,8 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SelectableText(
-                        'No results found.',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        AppLocalizations.of(context)!.poolListNoResult,
+                        style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
                   );
@@ -191,13 +159,8 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     SelectableText(
-                      'To add your favorite pools to this tab, please click on the',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      AppLocalizations.of(context)!.poolListAddFavoriteText1,
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(
@@ -210,13 +173,8 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                       ),
                     ),
                     SelectableText(
-                      'icon in the pool cards header.',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      AppLocalizations.of(context)!.poolListAddFavoriteText2,
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
                 );

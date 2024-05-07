@@ -29,7 +29,7 @@ class Header extends ConsumerWidget {
             top: 40,
             left: 65,
             child: SelectableText(
-              'Decentralized Exchange',
+              AppLocalizations.of(context)!.headerDecentralizedExchange,
               style: TextStyle(
                 fontSize: 10.5,
                 color: aedappfm.ArchethicThemeBase.neutral0,

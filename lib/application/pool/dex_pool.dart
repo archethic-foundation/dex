@@ -9,6 +9,7 @@ import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/pool.repository.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';

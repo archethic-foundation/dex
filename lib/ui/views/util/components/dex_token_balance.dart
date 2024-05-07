@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 
@@ -8,6 +9,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DexTokenBalance extends ConsumerWidget {
@@ -68,13 +70,8 @@ class DexTokenBalance extends ConsumerWidget {
                   Opacity(
                     opacity: opacity,
                     child: SelectableText(
-                      '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(token!, tokenBalance)}',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(context, token!, tokenBalance)}',
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ),
                 ],
@@ -99,26 +96,8 @@ class DexTokenBalance extends ConsumerWidget {
                               pool!.poolAddress,
                             ),
                             style: fiatTextStyleMedium
-                                ? Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontSize: aedappfm.Responsive
-                                          .fontSizeFromTextStyle(
-                                        context,
-                                        Theme.of(context).textTheme.bodyMedium!,
-                                      ),
-                                    )
-                                : Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                      fontSize: aedappfm.Responsive
-                                          .fontSizeFromTextStyle(
-                                        context,
-                                        Theme.of(context).textTheme.bodyLarge!,
-                                      ),
-                                    ),
+                                ? AppTextStyles.bodyMedium(context)
+                                : AppTextStyles.bodyLarge(context),
                           ),
                         ),
                       )
@@ -192,22 +171,10 @@ class DexTokenBalance extends ConsumerWidget {
                 Opacity(
                   opacity: opacity,
                   child: SelectableText(
-                    '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(token!, tokenBalance)}',
+                    '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(context, token!, tokenBalance)}',
                     style: fiatTextStyleMedium
-                        ? Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyMedium!,
-                              ),
-                            )
-                        : Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        ? AppTextStyles.bodyMedium(context)
+                        : AppTextStyles.bodyLarge(context),
                   ),
                 ),
                 if (withFiat)
@@ -227,23 +194,8 @@ class DexTokenBalance extends ConsumerWidget {
                             pool!.poolAddress,
                           ),
                           style: fiatTextStyleMedium
-                              ? Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyMedium!,
-                                    ),
-                                  )
-                              : Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyLarge!,
-                                    ),
-                                  ),
+                              ? AppTextStyles.bodyMedium(context)
+                              : AppTextStyles.bodyLarge(context),
                         ),
                       ),
                     )
@@ -308,12 +260,16 @@ class DexTokenBalance extends ConsumerWidget {
             );
   }
 
-  String getSymbolDisplay(DexToken token, double balance) {
+  String getSymbolDisplay(
+    BuildContext context,
+    DexToken token,
+    double balance,
+  ) {
     if (token.isLpToken == true) {
       if (balance > 1) {
-        return 'LP Tokens';
+        return AppLocalizations.of(context)!.lpTokens;
       } else {
-        return 'LP Token';
+        return AppLocalizations.of(context)!.lpToken;
       }
     }
     return token.symbol.reduceSymbol();

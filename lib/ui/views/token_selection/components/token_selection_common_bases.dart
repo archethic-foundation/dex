@@ -1,4 +1,5 @@
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -26,12 +27,7 @@ class TokenSelectionCommonBases extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
             AppLocalizations.of(context)!.token_selection_common_bases_title,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                    context,
-                    Theme.of(context).textTheme.bodyLarge!,
-                  ),
-                ),
+            style: AppTextStyles.bodyLarge(context),
           ),
         ),
         Wrap(
@@ -101,16 +97,7 @@ class TokenSelectionCommonBases extends ConsumerWidget {
                           padding: const EdgeInsets.only(top: 1),
                           child: Text(
                             token.symbol,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
+                            style: AppTextStyles.bodyLarge(context),
                           ),
                         ),
                         const SizedBox(

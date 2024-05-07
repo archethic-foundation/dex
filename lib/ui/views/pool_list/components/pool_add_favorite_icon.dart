@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddFavoriteIcon extends ConsumerWidget {
@@ -37,7 +38,7 @@ class PoolAddFavoriteIcon extends ConsumerWidget {
             );
       },
       child: Tooltip(
-        message: 'Add this pool in my favorites tab',
+        message: AppLocalizations.of(context)!.poolAddFavoriteIconTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

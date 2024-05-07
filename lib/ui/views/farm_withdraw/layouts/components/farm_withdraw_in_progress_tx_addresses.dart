@@ -1,6 +1,7 @@
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmWithdrawInProgressTxAddresses extends ConsumerWidget {
@@ -26,7 +27,7 @@ class FarmWithdrawInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: farmWithdraw.transactionWithdrawFarm!.address!.address!
                 .toUpperCase(),
-            header: 'Withdraw transaction address: ',
+            header: AppLocalizations.of(context)!.farmWithdrawTxAddress,
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
