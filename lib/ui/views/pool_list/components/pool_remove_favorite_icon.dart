@@ -6,14 +6,17 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PoolRemoveFavoriteIcon extends ConsumerWidget {
   const PoolRemoveFavoriteIcon({
     required this.poolAddress,
+    required this.onRemoved,
     super.key,
   });
 
   final String poolAddress;
+  final VoidCallback onRemoved;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +32,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
               child: Builder(
                 builder: (context) {
                   return Consumer(
-                    builder: (context, ref, _) {
+                    builder: (buildContext, ref, _) {
                       return Scaffold(
                         backgroundColor: Colors.transparent,
                         body: AlertDialog(
@@ -108,7 +111,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                           )!
                                               .no,
                                           onPressed: () {
-                                            Navigator.of(context).pop();
+                                            context.pop();
                                           },
                                         ),
                                       ),
@@ -125,10 +128,8 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                                 poolAddress,
                                               ),
                                             );
-
-                                            if (context.mounted) {
-                                              Navigator.of(context).pop();
-                                            }
+                                            context.pop();
+                                            onRemoved();
                                           },
                                         ),
                                       ),

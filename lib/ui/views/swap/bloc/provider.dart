@@ -746,9 +746,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
     state = state.copyWith(finalAmount: finalAmount);
 
-    if (state.pool != null) {
-      ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
-    }
+    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
   }
 }
 

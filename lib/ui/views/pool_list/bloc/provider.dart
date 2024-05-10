@@ -1,13 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/infrastructure/hive/favorite_pools.hive.dart';
-import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
-import 'package:aedex/infrastructure/pool.repository.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 enum PoolsListTab {
@@ -54,64 +52,7 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
     state = state.copyWith(searchText: searchText);
   }
 
-  Future<List<DexPool>> getDexPoolForTab(
-    PoolsListTab currentTab,
-    String? searchText,
-  ) async {
-    final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-    switch (currentTab) {
-      case PoolsListTab.favoritePools:
-        final favoritePoolsDatasource =
-            await HiveFavoritePoolsDatasource.getInstance();
-        return poolsListDatasource
-            .getPoolsList(
-              aedappfm.EndpointUtil.getEnvironnement(),
-            )
-            .map(
-              (hiveObject) => hiveObject.toDexPool(),
-            )
-            .where((element) {
-          return favoritePoolsDatasource.isFavoritePool(
-            aedappfm.EndpointUtil.getEnvironnement(),
-            element.poolAddress,
-          );
-        }).toList();
-      case PoolsListTab.verified:
-        return poolsListDatasource
-            .getPoolsList(
-              aedappfm.EndpointUtil.getEnvironnement(),
-            )
-            .map(
-              (hiveObject) => hiveObject.toDexPool(),
-            )
-            .where(
-              (element) => element.isVerified,
-            )
-            .toList();
-      case PoolsListTab.myPools:
-        return poolsListDatasource
-            .getPoolsList(
-              aedappfm.EndpointUtil.getEnvironnement(),
-            )
-            .map(
-              (hiveObject) => hiveObject.toDexPool(),
-            )
-            .where(
-              (element) => element.lpTokenInUserBalance,
-            )
-            .toList();
-      case PoolsListTab.searchPool:
-        final poolList = await ref.read(DexPoolProviders.getPoolList.future);
-        return ref.read(
-          DexPoolProviders.getPoolListForSearch(
-            searchText ?? '',
-            poolList,
-          ),
-        );
-    }
-  }
-
-  Future<void> setPoolsToDisplay({
+  Future<void> getPoolsList({
     required PoolsListTab tabIndexSelected,
     required String cancelToken,
   }) async {
@@ -121,74 +62,57 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
       cancelToken: cancelToken,
     );
 
-    final poolList = await getDexPoolForTab(tabIndexSelected, state.searchText);
+    var poolListFiltered = <DexPool>[];
+    final poolList = await ref.read(DexPoolProviders.getPoolList.future);
 
-    final finalPoolsList = <DexPool>[];
-
-    final fromCriteria = (DateTime.now()
-                .subtract(const Duration(days: 1))
-                .millisecondsSinceEpoch /
-            1000)
-        .round();
-    final tx24hAddress = <String, String>{};
-    for (final pool in poolList) {
-      if (pool.infos == null) {
-        tx24hAddress[pool.poolAddress] = '';
-      }
-    }
-
-    final transactionChainResult =
-        await aedappfm.sl.get<ApiService>().getTransactionChain(
-              tx24hAddress,
-              request:
-                  ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
-              fromCriteria: fromCriteria,
-            );
-
-    final poolsWithoutInfos = <DexPool>[];
-
-    for (final pool in poolList) {
-      if (pool.infos == null) {
-        poolsWithoutInfos.add(pool);
-      } else {
-        finalPoolsList.add(pool);
-      }
-    }
-
-    if (poolsWithoutInfos.isNotEmpty) {
-      final apiService = aedappfm.sl.get<ApiService>();
-      final poolListWithInfos = await PoolRepositoryImpl(apiService)
-          .getPoolInfosBatch(poolsWithoutInfos);
-      for (final poolWithInfos in poolListWithInfos) {
-        final poolPopulate = ref.read(
-          DexPoolProviders.populatePoolInfosWithTokenStats24h(
-            poolWithInfos,
-            transactionChainResult,
+    switch (tabIndexSelected) {
+      case PoolsListTab.favoritePools:
+        final favoritePoolsDatasource =
+            await HiveFavoritePoolsDatasource.getInstance();
+        poolListFiltered = poolList.where((element) {
+          return favoritePoolsDatasource.isFavoritePool(
+            aedappfm.EndpointUtil.getEnvironnement(),
+            element.poolAddress,
+          );
+        }).toList();
+        break;
+      case PoolsListTab.verified:
+        poolListFiltered = poolList
+            .where(
+              (element) => element.isVerified,
+            )
+            .toList();
+        break;
+      case PoolsListTab.myPools:
+        final userBalance = ref.read(SessionProviders.session).userBalance;
+        if (userBalance != null) {
+          for (final pool in poolList) {
+            var lpTokenInUserBalance = false;
+            for (final userTokensBalance in userBalance.token) {
+              if (pool.lpToken.address!.toUpperCase() ==
+                  userTokensBalance.address!.toUpperCase()) {
+                lpTokenInUserBalance = true;
+              }
+            }
+            if (lpTokenInUserBalance) {
+              poolListFiltered.add(pool.copyWith(lpTokenInUserBalance: true));
+            }
+          }
+        }
+        break;
+      case PoolsListTab.searchPool:
+        poolListFiltered = ref.read(
+          DexPoolProviders.getPoolListForSearch(
+            state.searchText,
+            poolList,
           ),
         );
-        finalPoolsList.add(poolPopulate);
-      }
-    }
-
-    final finalPoolsListWithFav = <DexPool>[];
-    for (var finalPool in finalPoolsList) {
-      // Check if favorite in cache
-      var _isFavorite = false;
-      final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-      final isPoolFavorite = poolsListDatasource.getPool(
-        aedappfm.EndpointUtil.getEnvironnement(),
-        finalPool.poolAddress,
-      );
-      if (isPoolFavorite != null) {
-        _isFavorite = isPoolFavorite.isFavorite!;
-      }
-      finalPool = finalPool.copyWith(isFavorite: _isFavorite);
-      finalPoolsListWithFav.add(finalPool);
+        break;
     }
 
     if (state.cancelToken == cancelToken) {
       state = state.copyWith(
-        poolsToDisplay: AsyncValue.data(finalPoolsListWithFav),
+        poolsToDisplay: AsyncValue.data(poolListFiltered),
       );
     }
   }

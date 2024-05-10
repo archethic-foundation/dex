@@ -34,9 +34,7 @@ class _PoolListSheetState extends ConsumerState<PoolListSheet> {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.pool;
 
-      await ref
-          .read(PoolListFormProvider.poolListForm.notifier)
-          .setPoolsToDisplay(
+      await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
             tabIndexSelected: widget.tab,
             cancelToken: UniqueKey().toString(),
           );
@@ -85,23 +83,19 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                         SelectableText(
                           AppLocalizations.of(context)!.poolListSearching,
                           style: AppTextStyles.bodyLarge(context),
-                        )
-                      else
-                        SelectableText(
-                          AppLocalizations.of(context)!.poolListLoading,
-                          style: AppTextStyles.bodyLarge(context),
                         ),
                       const SizedBox(
                         width: 10,
                       ),
-                      const SizedBox(
-                        height: 10,
-                        width: 10,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 0.5,
-                          color: Colors.white,
+                      if (selectedTab == PoolsListTab.searchPool)
+                        const SizedBox(
+                          height: 10,
+                          width: 10,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 0.5,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ],

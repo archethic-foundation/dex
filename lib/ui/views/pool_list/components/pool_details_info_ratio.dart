@@ -18,6 +18,9 @@ class PoolDetailsInfoRatio extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    if (pool == null || pool!.infos == null) {
+      return const SizedBox.shrink();
+    }
     return Column(
       children: [
         Row(

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/state.dart';
+import 'package:aedex/infrastructure/balance.repository.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -56,6 +57,13 @@ class _SessionNotifier extends Notifier<Session> {
           ? "Please, open your Archethic Wallet and disable Brave's shield."
           : 'Please, open your Archethic Wallet.',
     );
+  }
+
+  Future<void> refreshUserBalance() async {
+    final userBalance = await BalanceRepositoryImpl().getUserTokensBalance(
+      state.genesisAddress,
+    );
+    state = state.copyWith(userBalance: userBalance);
   }
 
   Future<void> connectToWallet({

@@ -1,16 +1,16 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 part of 'dex_pool.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<List<DexPool>> _getPoolList(
   _GetPoolListRef ref,
 ) async {
   final dexConf =
-      await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
+      await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
   final apiService = aedappfm.sl.get<ApiService>();
   final dexPools = <DexPool>[];
-  final userBalance =
-      await ref.read(BalanceProviders.getUserTokensBalance.future);
+
+  await ref.read(SessionProviders.session.notifier).refreshUserBalance();
 
   final tokenVerifiedList = ref
       .read(aedappfm.VerifiedTokensProviders.verifiedTokens)
@@ -19,7 +19,7 @@ Future<List<DexPool>> _getPoolList(
   final resultPoolList = await RouterFactory(
     dexConf.routerGenesisAddress,
     apiService,
-  ).getPoolList(userBalance, tokenVerifiedList);
+  ).getPoolList(tokenVerifiedList);
 
   await resultPoolList.map(
     success: (poolList) async {
@@ -29,27 +29,6 @@ Future<List<DexPool>> _getPoolList(
     },
     failure: (failure) {},
   );
-
-  return dexPools;
-}
-
-@Riverpod(keepAlive: true)
-Future<List<DexPool>> _getPoolListForUser(
-  _GetPoolListForUserRef ref,
-) async {
-  final dexPools = <DexPool>[];
-  final poolList = await ref.read(_getPoolListProvider.future);
-
-  for (final pool in poolList) {
-    if (pool.isVerified || pool.lpTokenInUserBalance) {
-      dexPools.add(pool);
-    }
-  }
-
-  dexPools.sort((a, b) {
-    if (a.isVerified == b.isVerified) return 0;
-    return a.isVerified ? -1 : 1;
-  });
 
   return dexPools;
 }

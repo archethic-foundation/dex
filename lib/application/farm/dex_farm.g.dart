@@ -354,7 +354,7 @@ class _GetUserInfosProviderElement
       (origin as _GetUserInfosProvider).userGenesisAddress;
 }
 
-String _$getFarmListHash() => r'0456f766ef58590668b33c6c7082f651f4888d15';
+String _$getFarmListHash() => r'3ffd89c3ee68b5bb411b7e34295bd0add078eaf7';
 
 /// See also [_getFarmList].
 @ProviderFor(_getFarmList)

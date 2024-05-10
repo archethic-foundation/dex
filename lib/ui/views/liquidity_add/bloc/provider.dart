@@ -39,7 +39,7 @@ class LiquidityAddFormNotifier
     state = state.copyWith(pool: pool);
 
     final poolPopulated =
-        await ref.read(DexPoolProviders.getPoolInfos(pool).future);
+        await ref.read(DexPoolProviders.loadPoolCard(pool).future);
     state = state.copyWith(pool: poolPopulated);
   }
 
@@ -576,9 +576,7 @@ class LiquidityAddFormNotifier
     );
     state = state.copyWith(finalAmount: finalAmount);
 
-    if (state.pool != null) {
-      ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
-    }
+    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
     if (context.mounted) {
       final poolListItemState =
           context.findAncestorStateOfType<PoolListItemState>();

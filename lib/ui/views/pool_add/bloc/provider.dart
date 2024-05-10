@@ -1,6 +1,5 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -526,9 +525,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
           state.recoveryTransactionAddPoolLiquidity,
     );
 
-    ref.read(
-      DexPoolProviders.putPoolToCache(state.recoveryPoolGenesisAddress!),
-    );
+    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
   }
 }
 

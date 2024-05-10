@@ -187,23 +187,5 @@ class _GetBalanceProviderElement
   @override
   String get tokenAddress => (origin as _GetBalanceProvider).tokenAddress;
 }
-
-String _$getUserTokensBalanceHash() =>
-    r'1ff331ab1a62f0d5d9fff06ae4e26a708f06f8cc';
-
-/// See also [_getUserTokensBalance].
-@ProviderFor(_getUserTokensBalance)
-final _getUserTokensBalanceProvider =
-    AutoDisposeFutureProvider<Balance?>.internal(
-  _getUserTokensBalance,
-  name: r'_getUserTokensBalanceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getUserTokensBalanceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _GetUserTokensBalanceRef = AutoDisposeFutureProviderRef<Balance?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -36,9 +38,10 @@ class _PoolRefreshIconState extends ConsumerState<PoolRefreshIcon> {
             isRefreshSuccess = true;
           },
         );
-        final poolListItemState =
-            context.findAncestorStateOfType<PoolListItemState>();
-        await poolListItemState?.reload();
+
+        unawaited(
+          context.findAncestorStateOfType<PoolListItemState>()?.reload(),
+        );
 
         await Future.delayed(const Duration(seconds: 3));
         setState(

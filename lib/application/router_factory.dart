@@ -58,7 +58,6 @@ class RouterFactory with ModelParser {
 
   /// Return the infos of all the pools.
   Future<aedappfm.Result<List<DexPool>, aedappfm.Failure>> getPoolList(
-    Balance? userBalance,
     List<String> tokenVerifiedList,
   ) async {
     return aedappfm.Result.guard(
@@ -133,7 +132,6 @@ class RouterFactory with ModelParser {
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
             await poolListItemToModel(
-              userBalance,
               getPoolListResponse,
             ),
           );

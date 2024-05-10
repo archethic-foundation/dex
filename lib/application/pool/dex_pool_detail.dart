@@ -16,17 +16,6 @@ Future<DexPool?> _getPool(
 }
 
 @riverpod
-Future<DexPool?> _getPoolInfos(
-  _GetPoolInfosRef ref,
-  DexPool poolInput,
-) async {
-  final poolInfos =
-      await ref.watch(_dexPoolRepositoryProvider).populatePoolInfos(poolInput);
-
-  return poolInfos;
-}
-
-@riverpod
 Future<DexPool> _loadPoolCard(
   _LoadPoolCardRef ref,
   DexPool poolInput, {
@@ -58,26 +47,24 @@ Future<DexPool> _loadPoolCard(
   }
 
   // Load dynamic values
-  final tvl = ref.read(DexPoolProviders.estimatePoolTVLInFiat(poolOutput));
-  final fromCriteria =
-      (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
-              1000)
-          .round();
-  final transactionChainResult =
-      await aedappfm.sl.get<ApiService>().getTransactionChain(
-    {poolInput.poolAddress: ''},
-    request:
-        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
-    fromCriteria: fromCriteria,
+  final userBalance = ref.read(SessionProviders.session).userBalance;
+  var lpTokenInUserBalance = false;
+  if (userBalance != null) {
+    for (final userTokensBalance in userBalance.token) {
+      if (poolOutput.lpToken.address!.toUpperCase() ==
+          userTokensBalance.address!.toUpperCase()) {
+        lpTokenInUserBalance = true;
+      }
+    }
+  }
+  poolOutput = poolOutput.copyWith(
+    lpTokenInUserBalance: lpTokenInUserBalance,
   );
 
-  poolOutput = ref.read(
-    DexPoolProviders.populatePoolInfosWithTokenStats24h(
-      poolOutput,
-      transactionChainResult,
-    ),
-  );
-  final stats = ref.read(DexPoolProviders.estimateStats(poolOutput));
+  final tvl = ref.read(DexPoolProviders.estimatePoolTVLInFiat(poolOutput));
+
+  poolOutput =
+      await ref.read(DexPoolProviders.estimateStats(poolOutput).future);
 
   // Favorite
   final favoritePoolsDatasource =
@@ -91,10 +78,6 @@ Future<DexPool> _loadPoolCard(
     isFavorite: isFavorite,
     infos: poolOutput.infos!.copyWith(
       tvl: tvl,
-      fee24h: stats.fee24h,
-      feeAllTime: stats.feeAllTime,
-      volume24h: stats.volume24h,
-      volumeAllTime: stats.volumeAllTime,
     ),
   );
 }

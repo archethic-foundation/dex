@@ -84,7 +84,6 @@ mixin ModelParser {
   }
 
   Future<DexPool> poolListItemToModel(
-    archethic.Balance? userBalance,
     GetPoolListResponse getPoolListResponse,
   ) async {
     final tokens = getPoolListResponse.tokens.split('/');
@@ -139,16 +138,6 @@ mixin ModelParser {
       lpTokenSymbol = lpToken.symbol;
     }
 
-    var lpTokenInUserBalance = false;
-    if (userBalance != null) {
-      for (final userTokensBalance in userBalance.token) {
-        if (getPoolListResponse.lpTokenAddress.toUpperCase() ==
-            userTokensBalance.address!.toUpperCase()) {
-          lpTokenInUserBalance = true;
-        }
-      }
-    }
-
     final dexPair = DexPair(
       token1: DexToken(
         address: tokens[0].toUpperCase(),
@@ -184,7 +173,7 @@ mixin ModelParser {
         symbol: lpTokenSymbol,
         isLpToken: true,
       ),
-      lpTokenInUserBalance: lpTokenInUserBalance,
+      lpTokenInUserBalance: false,
       isFavorite: _isFavorite,
     );
   }

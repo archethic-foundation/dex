@@ -22,6 +22,7 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
     WidgetRef ref,
   ) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Stack(
           alignment: Alignment.centerRight,

@@ -69,7 +69,18 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           ? AppLocalizations.of(context)!.poolCreatePoolButton
           : '+',
       onPressed: () {
-        context.go(PoolAddSheet.routerPage);
+        final selectedTab =
+            ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
+
+        final poolsListTabEncoded = Uri.encodeComponent(selectedTab.name);
+        context.go(
+          Uri(
+            path: PoolAddSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
       },
       fontSize: aedappfm.Responsive.fontSizeFromValue(
         context,
@@ -172,7 +183,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           );
           await ref
               .read(PoolListFormProvider.poolListForm.notifier)
-              .setPoolsToDisplay(
+              .getPoolsList(
                 tabIndexSelected: PoolsListTab.values[index],
                 cancelToken: UniqueKey().toString(),
               );

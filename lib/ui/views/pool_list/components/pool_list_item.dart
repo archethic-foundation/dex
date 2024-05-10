@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_refresh_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_remove_favorite_icon.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -14,6 +15,7 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PoolListItem extends ConsumerStatefulWidget {
   const PoolListItem({
@@ -107,6 +109,24 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   padding: const EdgeInsets.only(right: 5),
                   child: PoolRemoveFavoriteIcon(
                     poolAddress: widget.pool.poolAddress,
+                    onRemoved: () async {
+                      context.go(
+                        Uri(
+                          path: PoolListSheet.routerPage,
+                          queryParameters: {
+                            'tab': Uri.encodeComponent(
+                              PoolsListTab.favoritePools.name,
+                            ),
+                          },
+                        ).toString(),
+                      );
+                      await ref
+                          .read(PoolListFormProvider.poolListForm.notifier)
+                          .getPoolsList(
+                            tabIndexSelected: PoolsListTab.favoritePools,
+                            cancelToken: UniqueKey().toString(),
+                          );
+                    },
                   ),
                 )
               else
@@ -132,12 +152,12 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                       .withOpacity(1),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                      top: 7,
+                      top: 9,
                       bottom: 5,
                       left: 10,
                       right: 10,
                     ),
-                    child: SelectableText(
+                    child: Text(
                       AppLocalizations.of(context)!.poolCardTitle,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),

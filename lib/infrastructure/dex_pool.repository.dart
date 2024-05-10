@@ -29,10 +29,7 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
       final resultPoolList = await RouterFactory(
         dexConf.routerGenesisAddress,
         apiService,
-      ).getPoolList(
-        null,
-        tokenVerifiedList,
-      );
+      ).getPoolList(tokenVerifiedList);
 
       return await resultPoolList.map(
         success: (poolList) async {

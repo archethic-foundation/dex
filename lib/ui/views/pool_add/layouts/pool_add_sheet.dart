@@ -33,15 +33,14 @@ class PoolAddSheet extends ConsumerStatefulWidget {
 class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   @override
   void initState() {
-    if (widget.token1 != null && widget.token2 != null) {
-      Future.delayed(Duration.zero, () async {
+    Future.delayed(Duration.zero, () async {
+      ref
+          .read(PoolAddFormProvider.poolAddForm.notifier)
+          .setPoolsListTab(widget.poolsListTab);
+      if (widget.token1 != null && widget.token2 != null) {
         try {
           ref.read(navigationIndexMainScreenProvider.notifier).state =
               NavigationIndex.pool;
-
-          ref
-              .read(PoolAddFormProvider.poolAddForm.notifier)
-              .setPoolsListTab(widget.poolsListTab);
 
           if (context.mounted) {
             await ref
@@ -66,8 +65,9 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
             );
           }
         }
-      });
-    }
+      }
+    });
+
     super.initState();
   }
 

@@ -57,15 +57,45 @@ double _estimatePoolTVLInFiat(
 }
 
 @riverpod
-DexPool _populatePoolInfosWithTokenStats24h(
-  _PopulatePoolInfosWithTokenStats24hRef ref,
+Future<DexPool> _estimateStats(
+  _EstimateStatsRef ref,
   DexPool pool,
-  Map<String, List<Transaction>> transactionChainResult,
-) {
+) async {
+  var volume24h = 0.0;
+  var fee24h = 0.0;
+  var volumeAllTime = 0.0;
+  var feeAllTime = 0.0;
+
+  var priceToken1 = 0.0;
+  var priceToken2 = 0.0;
+
+  var token1TotalVolumeCurrentFiat = 0.0;
+  var token2TotalVolumeCurrentFiat = 0.0;
+  var token1TotalVolume24hFiat = 0.0;
+  var token2TotalVolume24hFiat = 0.0;
+
+  var token1TotalFeeCurrentFiat = 0.0;
+  var token2TotalFeeCurrentFiat = 0.0;
+  var token1TotalFee24hFiat = 0.0;
+  var token2TotalFee24hFiat = 0.0;
+
   var token1TotalVolume24h = 0.0;
   var token2TotalVolume24h = 0.0;
   var token1TotalFee24h = 0.0;
   var token2TotalFee24h = 0.0;
+
+  final fromCriteria =
+      (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
+              1000)
+          .round();
+  final transactionChainResult =
+      await aedappfm.sl.get<ApiService>().getTransactionChain(
+    {pool.poolAddress: ''},
+    request:
+        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
+    fromCriteria: fromCriteria,
+  );
+
   if (transactionChainResult[pool.poolAddress] != null &&
       transactionChainResult[pool.poolAddress]!.isNotEmpty) {
     final transaction = transactionChainResult[pool.poolAddress]!.first;
@@ -103,44 +133,6 @@ DexPool _populatePoolInfosWithTokenStats24h(
       }
     }
   }
-
-  var poolInfos = pool.infos!;
-  poolInfos = poolInfos.copyWith(
-    token1TotalVolume24h: token1TotalVolume24h,
-    token2TotalVolume24h: token2TotalVolume24h,
-    token1TotalFee24h: token1TotalFee24h,
-    token2TotalFee24h: token2TotalFee24h,
-  );
-  return pool.copyWith(infos: poolInfos);
-}
-
-@riverpod
-({
-  double volume24h,
-  double fee24h,
-  double volumeAllTime,
-  double feeAllTime,
-}) _estimateStats(
-  _EstimateStatsRef ref,
-  DexPool pool,
-) {
-  var volume24h = 0.0;
-  var fee24h = 0.0;
-  var volumeAllTime = 0.0;
-  var feeAllTime = 0.0;
-
-  var priceToken1 = 0.0;
-  var priceToken2 = 0.0;
-
-  var token1TotalVolumeCurrentFiat = 0.0;
-  var token2TotalVolumeCurrentFiat = 0.0;
-  var token1TotalVolume24hFiat = 0.0;
-  var token2TotalVolume24hFiat = 0.0;
-
-  var token1TotalFeeCurrentFiat = 0.0;
-  var token2TotalFeeCurrentFiat = 0.0;
-  var token1TotalFee24hFiat = 0.0;
-  var token2TotalFee24hFiat = 0.0;
 
   final archethicOracleUCO =
       ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
@@ -207,10 +199,16 @@ DexPool _populatePoolInfosWithTokenStats24h(
     fee24h = feeAllTime - (token1TotalFee24hFiat + token2TotalFee24hFiat);
   }
 
-  return (
-    volume24h: volume24h,
+  var poolInfos = pool.infos!;
+  poolInfos = poolInfos.copyWith(
+    token1TotalVolume24h: token1TotalVolume24h,
+    token2TotalVolume24h: token2TotalVolume24h,
+    token1TotalFee24h: token1TotalFee24h,
+    token2TotalFee24h: token2TotalFee24h,
     fee24h: fee24h,
+    feeAllTime: feeAllTime,
+    volume24h: volume24h,
     volumeAllTime: volumeAllTime,
-    feeAllTime: feeAllTime
   );
+  return pool.copyWith(infos: poolInfos);
 }
