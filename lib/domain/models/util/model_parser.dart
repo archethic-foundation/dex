@@ -99,7 +99,10 @@ mixin ModelParser {
       token1Symbol = 'UCO';
       token1Verified = true;
     } else {
-      final token1 = tokensListDatasource.getToken(tokens[0]);
+      final token1 = tokensListDatasource.getToken(
+        aedappfm.EndpointUtil.getEnvironnement(),
+        tokens[0],
+      );
       if (token1 != null) {
         token1Name = token1.name;
         token1Symbol = token1.symbol;
@@ -114,7 +117,10 @@ mixin ModelParser {
       token2Symbol = 'UCO';
       token2Verified = true;
     } else {
-      final token2 = tokensListDatasource.getToken(tokens[1]);
+      final token2 = tokensListDatasource.getToken(
+        aedappfm.EndpointUtil.getEnvironnement(),
+        tokens[1],
+      );
       if (token2 != null) {
         token2Name = token2.name;
         token2Symbol = token2.symbol;
@@ -124,8 +130,10 @@ mixin ModelParser {
 
     var lpTokenName = '';
     var lpTokenSymbol = '';
-    final lpToken =
-        tokensListDatasource.getToken(getPoolListResponse.lpTokenAddress);
+    final lpToken = tokensListDatasource.getToken(
+      aedappfm.EndpointUtil.getEnvironnement(),
+      getPoolListResponse.lpTokenAddress,
+    );
     if (lpToken != null) {
       lpTokenName = lpToken.name;
       lpTokenSymbol = lpToken.symbol;
@@ -159,8 +167,10 @@ mixin ModelParser {
     // Check if favorite in cache
     var _isFavorite = false;
     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-    final isPoolFavorite =
-        poolsListDatasource.getPool(getPoolListResponse.address);
+    final isPoolFavorite = poolsListDatasource.getPool(
+      aedappfm.EndpointUtil.getEnvironnement(),
+      getPoolListResponse.address,
+    );
     if (isPoolFavorite != null) {
       _isFavorite = isPoolFavorite.isFavorite!;
     }

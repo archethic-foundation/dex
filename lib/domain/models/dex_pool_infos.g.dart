@@ -8,6 +8,7 @@ part of 'dex_pool_infos.dart';
 
 _$DexPoolInfosImpl _$$DexPoolInfosImplFromJson(Map<String, dynamic> json) =>
     _$DexPoolInfosImpl(
+      tvl: (json['tvl'] as num?)?.toDouble(),
       fees: (json['fees'] as num).toDouble(),
       protocolFees: (json['protocolFees'] as num).toDouble(),
       ratioToken1Token2: (json['ratioToken1Token2'] as num).toDouble(),
@@ -20,10 +21,15 @@ _$DexPoolInfosImpl _$$DexPoolInfosImplFromJson(Map<String, dynamic> json) =>
       token2TotalVolume24h: (json['token2TotalVolume24h'] as num?)?.toDouble(),
       token1TotalFee24h: (json['token1TotalFee24h'] as num?)?.toDouble(),
       token2TotalFee24h: (json['token2TotalFee24h'] as num?)?.toDouble(),
+      fee24h: (json['fee24h'] as num?)?.toDouble(),
+      feeAllTime: (json['feeAllTime'] as num?)?.toDouble(),
+      volume24h: (json['volume24h'] as num?)?.toDouble(),
+      volumeAllTime: (json['volumeAllTime'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$DexPoolInfosImplToJson(_$DexPoolInfosImpl instance) =>
     <String, dynamic>{
+      'tvl': instance.tvl,
       'fees': instance.fees,
       'protocolFees': instance.protocolFees,
       'ratioToken1Token2': instance.ratioToken1Token2,
@@ -36,4 +42,8 @@ Map<String, dynamic> _$$DexPoolInfosImplToJson(_$DexPoolInfosImpl instance) =>
       'token2TotalVolume24h': instance.token2TotalVolume24h,
       'token1TotalFee24h': instance.token1TotalFee24h,
       'token2TotalFee24h': instance.token2TotalFee24h,
+      'fee24h': instance.fee24h,
+      'feeAllTime': instance.feeAllTime,
+      'volume24h': instance.volume24h,
+      'volumeAllTime': instance.volumeAllTime,
     };

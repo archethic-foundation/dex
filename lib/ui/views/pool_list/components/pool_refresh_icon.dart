@@ -1,13 +1,11 @@
-import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PoolRefreshIcon extends ConsumerWidget {
+class PoolRefreshIcon extends ConsumerStatefulWidget {
   const PoolRefreshIcon({
     required this.poolAddress,
     super.key,
@@ -16,31 +14,38 @@ class PoolRefreshIcon extends ConsumerWidget {
   final String poolAddress;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isRefreshSuccess =
-        ref.watch(PoolItemProvider.poolItem(poolAddress)).refreshInProgress;
+  ConsumerState<PoolRefreshIcon> createState() => _PoolRefreshIconState();
+}
+
+class _PoolRefreshIconState extends ConsumerState<PoolRefreshIcon> {
+  bool? isRefreshSuccess;
+
+  @override
+  void initState() {
+    super.initState();
+    isRefreshSuccess = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        if (isRefreshSuccess) return;
-        ref
-            .read(PoolItemProvider.poolItem(poolAddress).notifier)
-            .setRefreshInProgress(true);
-
-        ref.invalidate(DexPoolProviders.getPool(poolAddress));
-        final poolListForm = ref.read(
-          PoolListFormProvider.poolListForm,
+        if (isRefreshSuccess != null && isRefreshSuccess == true) return;
+        setState(
+          () {
+            isRefreshSuccess = true;
+          },
         );
-        await ref
-            .read(PoolListFormProvider.poolListForm.notifier)
-            .setPoolsToDisplay(
-              tabIndexSelected: poolListForm.tabIndexSelected,
-              cancelToken: UniqueKey().toString(),
-            );
+        final poolListItemState =
+            context.findAncestorStateOfType<PoolListItemState>();
+        await poolListItemState?.reload();
 
         await Future.delayed(const Duration(seconds: 3));
-        ref
-            .read(PoolItemProvider.poolItem(poolAddress).notifier)
-            .setRefreshInProgress(false);
+        setState(
+          () {
+            isRefreshSuccess = false;
+          },
+        );
       },
       child: Tooltip(
         message: AppLocalizations.of(context)!.poolRefreshIconTooltip,
@@ -56,7 +61,7 @@ class PoolRefreshIcon extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             elevation: 0,
-            color: isRefreshSuccess
+            color: isRefreshSuccess != null && isRefreshSuccess == true
                 ? aedappfm.ArchethicThemeBase.systemPositive600
                 : aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
                     .withOpacity(1),
@@ -68,9 +73,13 @@ class PoolRefreshIcon extends ConsumerWidget {
                 right: 10,
               ),
               child: Icon(
-                isRefreshSuccess ? Icons.check : aedappfm.Iconsax.refresh,
+                isRefreshSuccess != null && isRefreshSuccess == true
+                    ? Icons.check
+                    : aedappfm.Iconsax.refresh,
                 size: 16,
-                color: isRefreshSuccess ? Colors.white : null,
+                color: isRefreshSuccess != null && isRefreshSuccess == true
+                    ? Colors.white
+                    : null,
               ),
             ),
           ),

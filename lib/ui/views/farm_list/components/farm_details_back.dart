@@ -8,7 +8,7 @@ import 'package:aedex/ui/views/farm_list/components/farm_details_info_remaining_
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FarmDetailsBack extends ConsumerWidget {
+class FarmDetailsBack extends ConsumerStatefulWidget {
   const FarmDetailsBack({
     super.key,
     required this.farm,
@@ -17,22 +17,32 @@ class FarmDetailsBack extends ConsumerWidget {
   final DexFarm farm;
 
   @override
+  FarmDetailsBackState createState() => FarmDetailsBackState();
+}
+
+class FarmDetailsBackState extends ConsumerState<FarmDetailsBack>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(
     BuildContext context,
-    WidgetRef ref,
   ) {
+    super.build(context);
+
     return Column(
       children: [
-        FarmDetailsInfoHeader(farm: farm),
-        FarmDetailsInfoAddresses(farm: farm),
+        FarmDetailsInfoHeader(farm: widget.farm),
+        FarmDetailsInfoAddresses(farm: widget.farm),
         const SizedBox(height: 40),
-        FarmDetailsInfoRemainingReward(farm: farm),
+        FarmDetailsInfoRemainingReward(farm: widget.farm),
         const SizedBox(height: 10),
-        FarmDetailsInfoLPDeposited(farm: farm),
+        FarmDetailsInfoLPDeposited(farm: widget.farm),
         const SizedBox(height: 10),
-        FarmDetailsInfoNbDeposit(farm: farm),
+        FarmDetailsInfoNbDeposit(farm: widget.farm),
         const SizedBox(height: 10),
-        FarmDetailsInfoDistributedRewards(farm: farm),
+        FarmDetailsInfoDistributedRewards(farm: widget.farm),
       ],
     );
   }

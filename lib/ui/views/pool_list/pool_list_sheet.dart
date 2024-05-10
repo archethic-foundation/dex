@@ -213,7 +213,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                       }
                       return PoolListItem(
                         key: ValueKey(pool.poolAddress),
-                        poolDetail: pool,
+                        pool: pool,
                         tab: tab,
                       );
                     },

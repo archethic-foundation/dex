@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/infrastructure/hive/favorite_pools.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/pool.repository.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state.dart';
@@ -60,18 +61,26 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
     switch (currentTab) {
       case PoolsListTab.favoritePools:
+        final favoritePoolsDatasource =
+            await HiveFavoritePoolsDatasource.getInstance();
         return poolsListDatasource
-            .getPoolsList()
+            .getPoolsList(
+              aedappfm.EndpointUtil.getEnvironnement(),
+            )
             .map(
               (hiveObject) => hiveObject.toDexPool(),
             )
-            .where(
-              (element) => element.isFavorite,
-            )
-            .toList();
+            .where((element) {
+          return favoritePoolsDatasource.isFavoritePool(
+            aedappfm.EndpointUtil.getEnvironnement(),
+            element.poolAddress,
+          );
+        }).toList();
       case PoolsListTab.verified:
         return poolsListDatasource
-            .getPoolsList()
+            .getPoolsList(
+              aedappfm.EndpointUtil.getEnvironnement(),
+            )
             .map(
               (hiveObject) => hiveObject.toDexPool(),
             )
@@ -81,7 +90,9 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
             .toList();
       case PoolsListTab.myPools:
         return poolsListDatasource
-            .getPoolsList()
+            .getPoolsList(
+              aedappfm.EndpointUtil.getEnvironnement(),
+            )
             .map(
               (hiveObject) => hiveObject.toDexPool(),
             )
@@ -164,7 +175,10 @@ class PoolListFormNotifier extends Notifier<PoolListFormState> {
       // Check if favorite in cache
       var _isFavorite = false;
       final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-      final isPoolFavorite = poolsListDatasource.getPool(finalPool.poolAddress);
+      final isPoolFavorite = poolsListDatasource.getPool(
+        aedappfm.EndpointUtil.getEnvironnement(),
+        finalPool.poolAddress,
+      );
       if (isPoolFavorite != null) {
         _isFavorite = isPoolFavorite.isFavorite!;
       }

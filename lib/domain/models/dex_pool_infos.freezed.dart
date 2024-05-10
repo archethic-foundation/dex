@@ -20,6 +20,7 @@ DexPoolInfos _$DexPoolInfosFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DexPoolInfos {
+  double? get tvl => throw _privateConstructorUsedError;
   double get fees => throw _privateConstructorUsedError;
   double get protocolFees => throw _privateConstructorUsedError;
   double get ratioToken1Token2 => throw _privateConstructorUsedError;
@@ -32,6 +33,10 @@ mixin _$DexPoolInfos {
   double? get token2TotalVolume24h => throw _privateConstructorUsedError;
   double? get token1TotalFee24h => throw _privateConstructorUsedError;
   double? get token2TotalFee24h => throw _privateConstructorUsedError;
+  double? get fee24h => throw _privateConstructorUsedError;
+  double? get feeAllTime => throw _privateConstructorUsedError;
+  double? get volume24h => throw _privateConstructorUsedError;
+  double? get volumeAllTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,7 +51,8 @@ abstract class $DexPoolInfosCopyWith<$Res> {
       _$DexPoolInfosCopyWithImpl<$Res, DexPoolInfos>;
   @useResult
   $Res call(
-      {double fees,
+      {double? tvl,
+      double fees,
       double protocolFees,
       double ratioToken1Token2,
       double ratioToken2Token1,
@@ -57,7 +63,11 @@ abstract class $DexPoolInfosCopyWith<$Res> {
       double? token1TotalVolume24h,
       double? token2TotalVolume24h,
       double? token1TotalFee24h,
-      double? token2TotalFee24h});
+      double? token2TotalFee24h,
+      double? fee24h,
+      double? feeAllTime,
+      double? volume24h,
+      double? volumeAllTime});
 }
 
 /// @nodoc
@@ -73,6 +83,7 @@ class _$DexPoolInfosCopyWithImpl<$Res, $Val extends DexPoolInfos>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? tvl = freezed,
     Object? fees = null,
     Object? protocolFees = null,
     Object? ratioToken1Token2 = null,
@@ -85,8 +96,16 @@ class _$DexPoolInfosCopyWithImpl<$Res, $Val extends DexPoolInfos>
     Object? token2TotalVolume24h = freezed,
     Object? token1TotalFee24h = freezed,
     Object? token2TotalFee24h = freezed,
+    Object? fee24h = freezed,
+    Object? feeAllTime = freezed,
+    Object? volume24h = freezed,
+    Object? volumeAllTime = freezed,
   }) {
     return _then(_value.copyWith(
+      tvl: freezed == tvl
+          ? _value.tvl
+          : tvl // ignore: cast_nullable_to_non_nullable
+              as double?,
       fees: null == fees
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
@@ -134,6 +153,22 @@ class _$DexPoolInfosCopyWithImpl<$Res, $Val extends DexPoolInfos>
       token2TotalFee24h: freezed == token2TotalFee24h
           ? _value.token2TotalFee24h
           : token2TotalFee24h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      fee24h: freezed == fee24h
+          ? _value.fee24h
+          : fee24h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      feeAllTime: freezed == feeAllTime
+          ? _value.feeAllTime
+          : feeAllTime // ignore: cast_nullable_to_non_nullable
+              as double?,
+      volume24h: freezed == volume24h
+          ? _value.volume24h
+          : volume24h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      volumeAllTime: freezed == volumeAllTime
+          ? _value.volumeAllTime
+          : volumeAllTime // ignore: cast_nullable_to_non_nullable
               as double?,
     ) as $Val);
   }
@@ -148,7 +183,8 @@ abstract class _$$DexPoolInfosImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {double fees,
+      {double? tvl,
+      double fees,
       double protocolFees,
       double ratioToken1Token2,
       double ratioToken2Token1,
@@ -159,7 +195,11 @@ abstract class _$$DexPoolInfosImplCopyWith<$Res>
       double? token1TotalVolume24h,
       double? token2TotalVolume24h,
       double? token1TotalFee24h,
-      double? token2TotalFee24h});
+      double? token2TotalFee24h,
+      double? fee24h,
+      double? feeAllTime,
+      double? volume24h,
+      double? volumeAllTime});
 }
 
 /// @nodoc
@@ -173,6 +213,7 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? tvl = freezed,
     Object? fees = null,
     Object? protocolFees = null,
     Object? ratioToken1Token2 = null,
@@ -185,8 +226,16 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
     Object? token2TotalVolume24h = freezed,
     Object? token1TotalFee24h = freezed,
     Object? token2TotalFee24h = freezed,
+    Object? fee24h = freezed,
+    Object? feeAllTime = freezed,
+    Object? volume24h = freezed,
+    Object? volumeAllTime = freezed,
   }) {
     return _then(_$DexPoolInfosImpl(
+      tvl: freezed == tvl
+          ? _value.tvl
+          : tvl // ignore: cast_nullable_to_non_nullable
+              as double?,
       fees: null == fees
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
@@ -235,6 +284,22 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
           ? _value.token2TotalFee24h
           : token2TotalFee24h // ignore: cast_nullable_to_non_nullable
               as double?,
+      fee24h: freezed == fee24h
+          ? _value.fee24h
+          : fee24h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      feeAllTime: freezed == feeAllTime
+          ? _value.feeAllTime
+          : feeAllTime // ignore: cast_nullable_to_non_nullable
+              as double?,
+      volume24h: freezed == volume24h
+          ? _value.volume24h
+          : volume24h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      volumeAllTime: freezed == volumeAllTime
+          ? _value.volumeAllTime
+          : volumeAllTime // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -243,7 +308,8 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DexPoolInfosImpl extends _DexPoolInfos {
   const _$DexPoolInfosImpl(
-      {required this.fees,
+      {this.tvl,
+      required this.fees,
       required this.protocolFees,
       required this.ratioToken1Token2,
       required this.ratioToken2Token1,
@@ -254,12 +320,18 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
       this.token1TotalVolume24h,
       this.token2TotalVolume24h,
       this.token1TotalFee24h,
-      this.token2TotalFee24h})
+      this.token2TotalFee24h,
+      this.fee24h,
+      this.feeAllTime,
+      this.volume24h,
+      this.volumeAllTime})
       : super._();
 
   factory _$DexPoolInfosImpl.fromJson(Map<String, dynamic> json) =>
       _$$DexPoolInfosImplFromJson(json);
 
+  @override
+  final double? tvl;
   @override
   final double fees;
   @override
@@ -284,10 +356,18 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
   final double? token1TotalFee24h;
   @override
   final double? token2TotalFee24h;
+  @override
+  final double? fee24h;
+  @override
+  final double? feeAllTime;
+  @override
+  final double? volume24h;
+  @override
+  final double? volumeAllTime;
 
   @override
   String toString() {
-    return 'DexPoolInfos(fees: $fees, protocolFees: $protocolFees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume, token1TotalVolume24h: $token1TotalVolume24h, token2TotalVolume24h: $token2TotalVolume24h, token1TotalFee24h: $token1TotalFee24h, token2TotalFee24h: $token2TotalFee24h)';
+    return 'DexPoolInfos(tvl: $tvl, fees: $fees, protocolFees: $protocolFees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume, token1TotalVolume24h: $token1TotalVolume24h, token2TotalVolume24h: $token2TotalVolume24h, token1TotalFee24h: $token1TotalFee24h, token2TotalFee24h: $token2TotalFee24h, fee24h: $fee24h, feeAllTime: $feeAllTime, volume24h: $volume24h, volumeAllTime: $volumeAllTime)';
   }
 
   @override
@@ -295,6 +375,7 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DexPoolInfosImpl &&
+            (identical(other.tvl, tvl) || other.tvl == tvl) &&
             (identical(other.fees, fees) || other.fees == fees) &&
             (identical(other.protocolFees, protocolFees) ||
                 other.protocolFees == protocolFees) &&
@@ -317,13 +398,21 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
             (identical(other.token1TotalFee24h, token1TotalFee24h) ||
                 other.token1TotalFee24h == token1TotalFee24h) &&
             (identical(other.token2TotalFee24h, token2TotalFee24h) ||
-                other.token2TotalFee24h == token2TotalFee24h));
+                other.token2TotalFee24h == token2TotalFee24h) &&
+            (identical(other.fee24h, fee24h) || other.fee24h == fee24h) &&
+            (identical(other.feeAllTime, feeAllTime) ||
+                other.feeAllTime == feeAllTime) &&
+            (identical(other.volume24h, volume24h) ||
+                other.volume24h == volume24h) &&
+            (identical(other.volumeAllTime, volumeAllTime) ||
+                other.volumeAllTime == volumeAllTime));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      tvl,
       fees,
       protocolFees,
       ratioToken1Token2,
@@ -335,7 +424,11 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
       token1TotalVolume24h,
       token2TotalVolume24h,
       token1TotalFee24h,
-      token2TotalFee24h);
+      token2TotalFee24h,
+      fee24h,
+      feeAllTime,
+      volume24h,
+      volumeAllTime);
 
   @JsonKey(ignore: true)
   @override
@@ -353,7 +446,8 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
 
 abstract class _DexPoolInfos extends DexPoolInfos {
   const factory _DexPoolInfos(
-      {required final double fees,
+      {final double? tvl,
+      required final double fees,
       required final double protocolFees,
       required final double ratioToken1Token2,
       required final double ratioToken2Token1,
@@ -364,12 +458,18 @@ abstract class _DexPoolInfos extends DexPoolInfos {
       final double? token1TotalVolume24h,
       final double? token2TotalVolume24h,
       final double? token1TotalFee24h,
-      final double? token2TotalFee24h}) = _$DexPoolInfosImpl;
+      final double? token2TotalFee24h,
+      final double? fee24h,
+      final double? feeAllTime,
+      final double? volume24h,
+      final double? volumeAllTime}) = _$DexPoolInfosImpl;
   const _DexPoolInfos._() : super._();
 
   factory _DexPoolInfos.fromJson(Map<String, dynamic> json) =
       _$DexPoolInfosImpl.fromJson;
 
+  @override
+  double? get tvl;
   @override
   double get fees;
   @override
@@ -394,6 +494,14 @@ abstract class _DexPoolInfos extends DexPoolInfos {
   double? get token1TotalFee24h;
   @override
   double? get token2TotalFee24h;
+  @override
+  double? get fee24h;
+  @override
+  double? get feeAllTime;
+  @override
+  double? get volume24h;
+  @override
+  double? get volumeAllTime;
   @override
   @JsonKey(ignore: true)
   _$$DexPoolInfosImplCopyWith<_$DexPoolInfosImpl> get copyWith =>

@@ -39,7 +39,7 @@ final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
 
 typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
 String _$putPoolListInfosToCacheHash() =>
-    r'2a9dabdd4c6d5be7761a66406b53068ede775df0';
+    r'600e62c61a26cec95198cf21a4d66e067f37bcd9';
 
 /// See also [_putPoolListInfosToCache].
 @ProviderFor(_putPoolListInfosToCache)
@@ -55,7 +55,7 @@ final _putPoolListInfosToCacheProvider =
 );
 
 typedef _PutPoolListInfosToCacheRef = AutoDisposeFutureProviderRef<void>;
-String _$updatePoolInCacheHash() => r'6c51e67965fff8292b6fa37262468e914be55aef';
+String _$updatePoolInCacheHash() => r'5ffc0c6583ec5241528bd74907253cfa8ff434e4';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -204,7 +204,7 @@ class _UpdatePoolInCacheProviderElement
   DexPool get pool => (origin as _UpdatePoolInCacheProvider).pool;
 }
 
-String _$putPoolToCacheHash() => r'48f07d009c6fb84de091db88c19757e67f080d30';
+String _$putPoolToCacheHash() => r'876f07cc8ef272537300434c60de4f01d7aeaa7c';
 
 /// See also [_putPoolToCache].
 @ProviderFor(_putPoolToCache)
@@ -1191,8 +1191,153 @@ class _GetPoolInfosProviderElement
   DexPool get poolInput => (origin as _GetPoolInfosProvider).poolInput;
 }
 
+String _$loadPoolCardHash() => r'473d4d472012fe43119cfc519cfbe10bdc0840f8';
+
+/// See also [_loadPoolCard].
+@ProviderFor(_loadPoolCard)
+const _loadPoolCardProvider = _LoadPoolCardFamily();
+
+/// See also [_loadPoolCard].
+class _LoadPoolCardFamily extends Family<AsyncValue<DexPool>> {
+  /// See also [_loadPoolCard].
+  const _LoadPoolCardFamily();
+
+  /// See also [_loadPoolCard].
+  _LoadPoolCardProvider call(
+    DexPool poolInput, {
+    bool forceLoadFromBC = false,
+  }) {
+    return _LoadPoolCardProvider(
+      poolInput,
+      forceLoadFromBC: forceLoadFromBC,
+    );
+  }
+
+  @override
+  _LoadPoolCardProvider getProviderOverride(
+    covariant _LoadPoolCardProvider provider,
+  ) {
+    return call(
+      provider.poolInput,
+      forceLoadFromBC: provider.forceLoadFromBC,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_loadPoolCardProvider';
+}
+
+/// See also [_loadPoolCard].
+class _LoadPoolCardProvider extends AutoDisposeFutureProvider<DexPool> {
+  /// See also [_loadPoolCard].
+  _LoadPoolCardProvider(
+    DexPool poolInput, {
+    bool forceLoadFromBC = false,
+  }) : this._internal(
+          (ref) => _loadPoolCard(
+            ref as _LoadPoolCardRef,
+            poolInput,
+            forceLoadFromBC: forceLoadFromBC,
+          ),
+          from: _loadPoolCardProvider,
+          name: r'_loadPoolCardProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$loadPoolCardHash,
+          dependencies: _LoadPoolCardFamily._dependencies,
+          allTransitiveDependencies:
+              _LoadPoolCardFamily._allTransitiveDependencies,
+          poolInput: poolInput,
+          forceLoadFromBC: forceLoadFromBC,
+        );
+
+  _LoadPoolCardProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.poolInput,
+    required this.forceLoadFromBC,
+  }) : super.internal();
+
+  final DexPool poolInput;
+  final bool forceLoadFromBC;
+
+  @override
+  Override overrideWith(
+    FutureOr<DexPool> Function(_LoadPoolCardRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _LoadPoolCardProvider._internal(
+        (ref) => create(ref as _LoadPoolCardRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        poolInput: poolInput,
+        forceLoadFromBC: forceLoadFromBC,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<DexPool> createElement() {
+    return _LoadPoolCardProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _LoadPoolCardProvider &&
+        other.poolInput == poolInput &&
+        other.forceLoadFromBC == forceLoadFromBC;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, poolInput.hashCode);
+    hash = _SystemHash.combine(hash, forceLoadFromBC.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _LoadPoolCardRef on AutoDisposeFutureProviderRef<DexPool> {
+  /// The parameter `poolInput` of this provider.
+  DexPool get poolInput;
+
+  /// The parameter `forceLoadFromBC` of this provider.
+  bool get forceLoadFromBC;
+}
+
+class _LoadPoolCardProviderElement
+    extends AutoDisposeFutureProviderElement<DexPool> with _LoadPoolCardRef {
+  _LoadPoolCardProviderElement(super.provider);
+
+  @override
+  DexPool get poolInput => (origin as _LoadPoolCardProvider).poolInput;
+  @override
+  bool get forceLoadFromBC => (origin as _LoadPoolCardProvider).forceLoadFromBC;
+}
+
 String _$removePoolFromFavoriteHash() =>
-    r'7b1ce05229a825883e8779eb723857e59f5def85';
+    r'811908ba75f9f687313b27c9cae6b052bdfb8a21';
 
 /// See also [_removePoolFromFavorite].
 @ProviderFor(_removePoolFromFavorite)
@@ -1324,7 +1469,7 @@ class _RemovePoolFromFavoriteProviderElement
 }
 
 String _$addPoolFromFavoriteHash() =>
-    r'8812c94a0a9be6ba64a9d7516f349ee7164fa900';
+    r'da6f979a82a4132f34f169ca7a60f24970d7abfa';
 
 /// See also [_addPoolFromFavorite].
 @ProviderFor(_addPoolFromFavorite)

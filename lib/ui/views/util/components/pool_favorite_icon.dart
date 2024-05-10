@@ -1,22 +1,20 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LiquidityFavoriteIcon extends ConsumerWidget {
+class LiquidityFavoriteIcon extends StatelessWidget {
   const LiquidityFavoriteIcon({
     required this.isFavorite,
     this.iconSize = 14,
     super.key,
   });
 
-  final double iconSize;
   final bool isFavorite;
+  final double iconSize;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     if (isFavorite == false) {
       return const SizedBox(
         height: 16,

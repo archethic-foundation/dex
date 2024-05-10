@@ -6,14 +6,12 @@ Future<void> _removePoolFromFavorite(
   _RemovePoolFromFavoriteRef ref,
   String poolGenesisAddress,
 ) async {
-  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-  final poolHive = poolsListDatasource.getPool(poolGenesisAddress);
-  var pool = poolHive!.toDexPool();
-
-  pool = pool.copyWith(isFavorite: false);
-  await poolsListDatasource.setPool(pool.toHive());
-
-  ref.invalidate(DexPoolProviders.getPool(poolGenesisAddress));
+  final favoritePoolsDatasource =
+      await HiveFavoritePoolsDatasource.getInstance();
+  await favoritePoolsDatasource.removeFavoritePool(
+    aedappfm.EndpointUtil.getEnvironnement(),
+    poolGenesisAddress,
+  );
 }
 
 @riverpod
@@ -21,12 +19,10 @@ Future<void> _addPoolFromFavorite(
   _AddPoolFromFavoriteRef ref,
   String poolGenesisAddress,
 ) async {
-  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-  final poolHive = poolsListDatasource.getPool(poolGenesisAddress);
-  var pool = poolHive!.toDexPool();
-
-  pool = pool.copyWith(isFavorite: true);
-  await poolsListDatasource.setPool(pool.toHive());
-
-  ref.invalidate(DexPoolProviders.getPool(poolGenesisAddress));
+  final favoritePoolsDatasource =
+      await HiveFavoritePoolsDatasource.getInstance();
+  await favoritePoolsDatasource.addFavoritePool(
+    aedappfm.EndpointUtil.getEnvironnement(),
+    poolGenesisAddress,
+  );
 }

@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -126,26 +125,10 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                                 poolAddress,
                                               ),
                                             );
-                                            final poolListForm = ref.read(
-                                              PoolListFormProvider.poolListForm,
-                                            );
 
-                                            await ref
-                                                .read(
-                                                  PoolListFormProvider
-                                                      .poolListForm.notifier,
-                                                )
-                                                .setPoolsToDisplay(
-                                                  tabIndexSelected: poolListForm
-                                                      .tabIndexSelected,
-                                                  cancelToken:
-                                                      UniqueKey().toString(),
-                                                );
-
-                                            if (!context.mounted) {
-                                              return;
+                                            if (context.mounted) {
+                                              Navigator.of(context).pop();
                                             }
-                                            Navigator.of(context).pop();
                                           },
                                         ),
                                       ),

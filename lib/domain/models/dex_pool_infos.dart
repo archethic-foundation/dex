@@ -7,6 +7,7 @@ part 'dex_pool_infos.g.dart';
 @freezed
 class DexPoolInfos with _$DexPoolInfos {
   const factory DexPoolInfos({
+    double? tvl,
     required double fees,
     required double protocolFees,
     required double ratioToken1Token2,
@@ -19,6 +20,10 @@ class DexPoolInfos with _$DexPoolInfos {
     double? token2TotalVolume24h,
     double? token1TotalFee24h,
     double? token2TotalFee24h,
+    double? fee24h,
+    double? feeAllTime,
+    double? volume24h,
+    double? volumeAllTime,
   }) = _DexPoolInfos;
   const DexPoolInfos._();
 

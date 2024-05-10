@@ -1,7 +1,5 @@
-import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_apr.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_buttons.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_fees.dart';
@@ -34,51 +32,40 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
     BuildContext context,
   ) {
     super.build(context);
-    return Consumer(
-      builder: (context, ref, _) {
-        final poolItem =
-            ref.watch(PoolItemProvider.poolItem(widget.pool.poolAddress));
-
-        if (poolItem.pool == null) {
-          return const SizedBox.shrink();
-        }
-        final tvl = ref.watch(
-          DexPoolProviders.estimatePoolTVLInFiat(poolItem.pool),
-        );
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        PoolDetailsInfoHeader(pool: widget.pool),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            PoolDetailsInfoHeader(pool: poolItem.pool),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                PoolDetailsInfoTVL(tvl: tvl),
-                PoolDetailsInfoAPR(tvl: tvl, fee24h: poolItem.fee24h),
-              ],
+            PoolDetailsInfoTVL(tvl: widget.pool.infos?.tvl ?? 0),
+            PoolDetailsInfoAPR(
+              tvl: widget.pool.infos?.tvl ?? 0,
+              fee24h: widget.pool.infos?.fee24h ?? 0,
             ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                PoolDetailsInfoVolume(
-                  volume24h: poolItem.volume24h,
-                  volumeAllTime: poolItem.volumeAllTime,
-                ),
-                PoolDetailsInfoFees(
-                  fees24h: poolItem.fee24h,
-                  feesAllTime: poolItem.feeAllTime,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            PoolDetailsInfoButtons(poolItem: poolItem, tab: widget.tab),
           ],
-        );
-      },
+        ),
+        const SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            PoolDetailsInfoVolume(
+              volume24h: widget.pool.infos?.volume24h,
+              volumeAllTime: widget.pool.infos?.volumeAllTime,
+            ),
+            PoolDetailsInfoFees(
+              fees24h: widget.pool.infos?.fee24h,
+              feesAllTime: widget.pool.infos?.feeAllTime,
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        PoolDetailsInfoButtons(pool: widget.pool, tab: widget.tab),
+      ],
     );
   }
 }

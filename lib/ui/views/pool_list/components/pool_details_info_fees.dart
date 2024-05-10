@@ -12,8 +12,8 @@ class PoolDetailsInfoFees extends ConsumerWidget {
     required this.fees24h,
   });
 
-  final double feesAllTime;
-  final double fees24h;
+  final double? feesAllTime;
+  final double? fees24h;
 
   @override
   Widget build(
@@ -48,7 +48,9 @@ class PoolDetailsInfoFees extends ConsumerWidget {
           ],
         ),
         SelectableText(
-          '\$${fees24h.formatNumber(precision: fees24h > 1 ? 2 : 8)}',
+          fees24h == null
+              ? ''
+              : '\$${fees24h!.formatNumber(precision: fees24h! > 1 ? 2 : 8)}',
           style: AppTextStyles.bodyLarge(context),
         ),
         const SizedBox(
@@ -79,7 +81,9 @@ class PoolDetailsInfoFees extends ConsumerWidget {
           ],
         ),
         SelectableText(
-          '\$${feesAllTime.formatNumber(precision: feesAllTime > 1 ? 2 : 8)}',
+          feesAllTime == null
+              ? ''
+              : '\$${feesAllTime!.formatNumber(precision: feesAllTime! > 1 ? 2 : 8)}',
           style: AppTextStyles.bodyLarge(context),
         ),
       ],

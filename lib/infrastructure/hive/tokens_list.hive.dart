@@ -8,8 +8,6 @@ class HiveTokensListDatasource {
   static const String _tokensListBox = 'tokensListBox';
   final Box<DexTokenHive> _box;
 
-  static const String aeSwapTokensList = 'ae_swap_token_list';
-
   bool get shouldBeReloaded => _box.isEmpty;
 
   // This doesn't have to be a singleton.
@@ -19,27 +17,36 @@ class HiveTokensListDatasource {
     return HiveTokensListDatasource._(box);
   }
 
-  Future<void> setTokensList(List<DexTokenHive> v) async {
+  Future<void> setTokensList(String env, List<DexTokenHive> v) async {
     await _box.clear();
     for (final token in v) {
-      await _box.put(token.address!.toUpperCase(), token);
+      await _box.put(
+        '${env.toUpperCase()}-${token.address!.toUpperCase()}',
+        token,
+      );
     }
   }
 
-  Future<void> setToken(DexTokenHive v) async {
-    await _box.put(v.address, v);
+  Future<void> setToken(String env, DexTokenHive v) async {
+    await _box.put('${env.toUpperCase()}-${v.address!.toUpperCase()}', v);
   }
 
-  DexTokenHive? getToken(String key) {
-    return _box.get(key.toUpperCase());
+  DexTokenHive? getToken(String env, String key) {
+    return _box.get('${env.toUpperCase()}-${key.toUpperCase()}');
   }
 
-  Future<void> removeToken(DexTokenHive v) async {
-    await _box.delete(v.address!.toUpperCase());
+  Future<void> removeToken(String env, DexTokenHive v) async {
+    await _box.delete('${env.toUpperCase()}-${v.address!.toUpperCase()}');
   }
 
-  List<DexTokenHive> getTokensList() {
-    return _box.values.toList();
+  List<DexTokenHive> getTokensList(String env) {
+    final list = <DexTokenHive>[];
+    for (final String key in _box.keys) {
+      if (key.startsWith(env.toUpperCase()) && _box.get(key) != null) {
+        list.add(_box.get(key)!);
+      }
+    }
+    return list;
   }
 
   Future<void> clearAll() async {

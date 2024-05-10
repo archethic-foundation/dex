@@ -41,8 +41,10 @@ Future<void> _putPoolListInfosToCache(
     );
 
     // Check if favorite in cache
-    final isPoolFavorite =
-        poolsListDatasource.getPool(poolWithInfos.poolAddress);
+    final isPoolFavorite = poolsListDatasource.getPool(
+      aedappfm.EndpointUtil.getEnvironnement(),
+      poolWithInfos.poolAddress,
+    );
     if (isPoolFavorite != null &&
         isPoolFavorite.isFavorite != null &&
         isPoolFavorite.isFavorite == true) {
@@ -50,7 +52,10 @@ Future<void> _putPoolListInfosToCache(
           poolWithInfos.copyWith(isFavorite: isPoolFavorite.isFavorite!);
     }
 
-    await poolsListDatasource.setPool(poolWithInfos.toHive());
+    await poolsListDatasource.setPool(
+      aedappfm.EndpointUtil.getEnvironnement(),
+      poolWithInfos.toHive(),
+    );
   }
 }
 
@@ -60,7 +65,10 @@ Future<void> _updatePoolInCache(
   DexPool pool,
 ) async {
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-  await poolsListDatasource.removePool(pool.poolAddress);
+  await poolsListDatasource.removePool(
+    aedappfm.EndpointUtil.getEnvironnement(),
+    pool.poolAddress,
+  );
   var poolWithInfos = await ref.read(_getPoolInfosProvider(pool).future);
 
   final fromCriteria =
@@ -80,7 +88,10 @@ Future<void> _updatePoolInCache(
       transactionChainResult,
     ),
   );
-  await poolsListDatasource.setPool(poolWithInfos!.toHive());
+  await poolsListDatasource.setPool(
+    aedappfm.EndpointUtil.getEnvironnement(),
+    poolWithInfos!.toHive(),
+  );
   ref.invalidate(DexPoolProviders.getPool(poolWithInfos.poolAddress));
 }
 
@@ -122,11 +133,8 @@ Future<void> _putPoolToCache(
   );
   poolWithInfos = poolWithInfos!.copyWith(isFavorite: isFavorite);
 
-  await poolsListDatasource.setPool(poolWithInfos.toHive());
-
-  await ref
-      .read(
-        PoolItemProvider.poolItem(poolWithInfos.poolAddress).notifier,
-      )
-      .setPool(poolWithInfos);
+  await poolsListDatasource.setPool(
+    aedappfm.EndpointUtil.getEnvironnement(),
+    poolWithInfos.toHive(),
+  );
 }

@@ -1,5 +1,4 @@
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_addresses.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_deposited.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_header.dart';
@@ -30,26 +29,16 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
     BuildContext context,
   ) {
     super.build(context);
-    return Consumer(
-      builder: (context, ref, _) {
-        final poolItem =
-            ref.watch(PoolItemProvider.poolItem(widget.pool.poolAddress));
-        if (poolItem.pool == null) {
-          return const SizedBox.shrink();
-        }
-
-        return Column(
-          children: [
-            PoolDetailsInfoHeader(pool: poolItem.pool),
-            PoolDetailsInfoAddresses(pool: poolItem.pool),
-            PoolDetailsInfoDeposited(pool: poolItem.pool),
-            PoolDetailsInfoSwapFees(poolInfos: poolItem.pool!.infos),
-            PoolDetailsInfoProtocolFees(poolInfos: poolItem.pool!.infos),
-            const SizedBox(height: 10),
-            PoolDetailsInfoRatio(pool: poolItem.pool),
-          ],
-        );
-      },
+    return Column(
+      children: [
+        PoolDetailsInfoHeader(pool: widget.pool),
+        PoolDetailsInfoAddresses(pool: widget.pool),
+        PoolDetailsInfoDeposited(pool: widget.pool),
+        PoolDetailsInfoSwapFees(poolInfos: widget.pool.infos),
+        PoolDetailsInfoProtocolFees(poolInfos: widget.pool.infos),
+        const SizedBox(height: 10),
+        PoolDetailsInfoRatio(pool: widget.pool),
+      ],
     );
   }
 }

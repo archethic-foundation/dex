@@ -1,6 +1,6 @@
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
@@ -18,30 +18,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class PoolListItem extends ConsumerStatefulWidget {
   const PoolListItem({
     super.key,
-    required this.poolDetail,
+    required this.pool,
     required this.tab,
   });
 
-  final DexPool poolDetail;
+  final DexPool pool;
   final PoolsListTab tab;
 
   @override
-  ConsumerState<PoolListItem> createState() => _PoolListItemState();
+  ConsumerState<PoolListItem> createState() => PoolListItemState();
 }
 
-class _PoolListItemState extends ConsumerState<PoolListItem> {
+class PoolListItemState extends ConsumerState<PoolListItem> {
   final flipCardController = FlipCardController();
+  DexPool? poolInfos;
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await ref
-          .read(
-            PoolItemProvider.poolItem(widget.poolDetail.poolAddress).notifier,
-          )
-          .setPool(widget.poolDetail);
+      await loadInfo();
     });
     super.initState();
+  }
+
+  Future<void> loadInfo({bool forceLoadFromBC = false}) async {
+    poolInfos = await ref.watch(
+      DexPoolProviders.loadPoolCard(
+        widget.pool,
+        forceLoadFromBC: forceLoadFromBC,
+      ).future,
+    );
+    setState(() {});
+  }
+
+  Future<void> reload() async {
+    await loadInfo(
+      forceLoadFromBC: true,
+    );
   }
 
   @override
@@ -62,11 +75,11 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                     flipOnTouch: false,
                     fill: Fill.fillBack,
                     front: PoolDetailsFront(
-                      pool: widget.poolDetail,
+                      pool: poolInfos ?? widget.pool,
                       tab: widget.tab,
                     ),
                     back: PoolDetailsBack(
-                      pool: widget.poolDetail,
+                      pool: poolInfos ?? widget.pool,
                     ),
                   ),
                 ),
@@ -86,21 +99,21 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
               Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: PoolRefreshIcon(
-                  poolAddress: widget.poolDetail.poolAddress,
+                  poolAddress: widget.pool.poolAddress,
                 ),
               ),
-              if (widget.poolDetail.isFavorite)
+              if (poolInfos != null && poolInfos!.isFavorite)
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: PoolRemoveFavoriteIcon(
-                    poolAddress: widget.poolDetail.poolAddress,
+                    poolAddress: widget.pool.poolAddress,
                   ),
                 )
               else
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: PoolAddFavoriteIcon(
-                    poolAddress: widget.poolDetail.poolAddress,
+                    poolAddress: widget.pool.poolAddress,
                   ),
                 ),
               SizedBox(

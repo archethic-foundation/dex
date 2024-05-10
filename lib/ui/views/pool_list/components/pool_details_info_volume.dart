@@ -12,9 +12,9 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
     required this.volume24h,
   });
 
-  final double volumeAllTime;
+  final double? volumeAllTime;
 
-  final double volume24h;
+  final double? volume24h;
 
   @override
   Widget build(
@@ -49,7 +49,9 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
           ],
         ),
         SelectableText(
-          '\$${volume24h.formatNumber(precision: volume24h > 1 ? 2 : 8)}',
+          volume24h == null
+              ? ''
+              : '\$${volume24h!.formatNumber(precision: volume24h! > 1 ? 2 : 8)}',
           style: AppTextStyles.bodyLarge(context),
         ),
         const SizedBox(
@@ -80,7 +82,9 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
           ],
         ),
         SelectableText(
-          '\$${volumeAllTime.formatNumber(precision: volumeAllTime > 1 ? 2 : 8)}',
+          volumeAllTime == null
+              ? ''
+              : '\$${volumeAllTime!.formatNumber(precision: volumeAllTime! > 1 ? 2 : 8)}',
           style: AppTextStyles.bodyLarge(context),
         ),
       ],

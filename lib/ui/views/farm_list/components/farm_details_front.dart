@@ -12,7 +12,7 @@ import 'package:aedex/ui/views/farm_list/components/farm_details_info_your_rewar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FarmDetailsFront extends ConsumerWidget {
+class FarmDetailsFront extends ConsumerStatefulWidget {
   const FarmDetailsFront({
     super.key,
     required this.farm,
@@ -25,51 +25,61 @@ class FarmDetailsFront extends ConsumerWidget {
   final double? userBalance;
 
   @override
+  FarmDetailsFrontState createState() => FarmDetailsFrontState();
+}
+
+class FarmDetailsFrontState extends ConsumerState<FarmDetailsFront>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(
     BuildContext context,
-    WidgetRef ref,
   ) {
+    super.build(context);
+
     final session = ref.watch(SessionProviders.session);
     return Column(
       children: [
-        FarmDetailsInfoHeader(farm: farm),
-        FarmDetailsInfoAPR(farm: farm),
-        FarmDetailsInfoTokenReward(farm: farm),
+        FarmDetailsInfoHeader(farm: widget.farm),
+        FarmDetailsInfoAPR(farm: widget.farm),
+        FarmDetailsInfoTokenReward(farm: widget.farm),
         const SizedBox(height: 20),
-        FarmDetailsInfoPeriod(farm: farm),
+        FarmDetailsInfoPeriod(farm: widget.farm),
         const SizedBox(height: 9),
         if (session.isConnected)
           Column(
             children: [
               FarmDetailsInfoYourDepositedAmount(
-                farm: farm,
-                userInfos: userInfos,
+                farm: widget.farm,
+                userInfos: widget.userInfos,
               ),
               const SizedBox(
                 height: 10,
               ),
               FarmDetailsInfoYourRewardAmount(
-                farm: farm,
-                userInfos: userInfos,
+                farm: widget.farm,
+                userInfos: widget.userInfos,
               ),
               const SizedBox(
                 height: 10,
               ),
               FarmDetailsInfoYourAvailableLP(
-                farm: farm,
-                balance: userBalance,
+                farm: widget.farm,
+                balance: widget.userBalance,
               ),
               FarmDetailsButtons(
-                farm: farm,
-                rewardAmount: userInfos?.rewardAmount ?? 0,
-                depositedAmount: userInfos?.depositedAmount ?? 0,
-                userBalance: userBalance,
+                farm: widget.farm,
+                rewardAmount: widget.userInfos?.rewardAmount ?? 0,
+                depositedAmount: widget.userInfos?.depositedAmount ?? 0,
+                userBalance: widget.userBalance,
               ),
             ],
           )
         else
           FarmDetailsButtons(
-            farm: farm,
+            farm: widget.farm,
             rewardAmount: 0,
             depositedAmount: 0,
             userBalance: 0,
