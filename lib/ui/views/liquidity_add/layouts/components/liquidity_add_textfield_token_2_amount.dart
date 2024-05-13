@@ -21,12 +21,10 @@ class LiquidityAddToken2Amount extends ConsumerStatefulWidget {
 class _LiquidityAddToken2AmountState
     extends ConsumerState<LiquidityAddToken2Amount> {
   late TextEditingController tokenAmountController;
-  late FocusNode tokenAmountFocusNode;
 
   @override
   void initState() {
     super.initState();
-    tokenAmountFocusNode = FocusNode();
     _updateAmountTextController();
   }
 
@@ -48,7 +46,6 @@ class _LiquidityAddToken2AmountState
 
   @override
   void dispose() {
-    tokenAmountFocusNode.dispose();
     tokenAmountController.dispose();
     super.dispose();
   }
@@ -152,7 +149,6 @@ class _LiquidityAddToken2AmountState
                                     liquidityAddNotifier
                                         .setTokenFormSelected(2);
                                   },
-                                  focusNode: tokenAmountFocusNode,
                                   textAlign: TextAlign.left,
                                   textInputAction: TextInputAction.done,
                                   keyboardType:

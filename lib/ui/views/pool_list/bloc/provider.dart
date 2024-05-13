@@ -34,11 +34,11 @@ PoolsListTab poolsListTabFromJson(String json) {
 }
 
 final _poolListFormProvider =
-    NotifierProvider<PoolListFormNotifier, PoolListFormState>(
+    AutoDisposeNotifierProvider<PoolListFormNotifier, PoolListFormState>(
   PoolListFormNotifier.new,
 );
 
-class PoolListFormNotifier extends Notifier<PoolListFormState> {
+class PoolListFormNotifier extends AutoDisposeNotifier<PoolListFormState> {
   PoolListFormNotifier();
 
   @override

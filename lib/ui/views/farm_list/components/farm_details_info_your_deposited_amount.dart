@@ -1,5 +1,4 @@
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 
@@ -13,11 +12,9 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
   const FarmDetailsInfoYourDepositedAmount({
     super.key,
     required this.farm,
-    required this.userInfos,
   });
 
   final DexFarm farm;
-  final DexFarmUserInfos? userInfos;
 
   @override
   Widget build(
@@ -34,7 +31,7 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
         ),
         Wrap(
           children: [
-            if (userInfos == null)
+            if (farm.depositedAmount == null)
               const Padding(
                 padding: EdgeInsets.only(top: 5),
                 child: SizedBox(
@@ -47,21 +44,21 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SelectableText(
-                  userInfos != null
-                      ? '${userInfos!.depositedAmount.formatNumber()} ${userInfos!.depositedAmount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}'
-                      : '',
+                  farm.depositedAmount == null
+                      ? ''
+                      : '${farm.depositedAmount!.formatNumber()} ${farm.depositedAmount! > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
                   style: AppTextStyles.bodyLarge(context),
                 ),
                 SelectableText(
-                  userInfos != null
-                      ? DEXLPTokenFiatValue().display(
+                  farm.depositedAmount == null
+                      ? ''
+                      : DEXLPTokenFiatValue().display(
                           ref,
                           farm.lpTokenPair!.token1,
                           farm.lpTokenPair!.token2,
-                          userInfos!.depositedAmount,
+                          farm.depositedAmount!,
                           farm.poolAddress,
-                        )
-                      : '',
+                        ),
                   style: AppTextStyles.bodyMedium(context),
                 ),
               ],

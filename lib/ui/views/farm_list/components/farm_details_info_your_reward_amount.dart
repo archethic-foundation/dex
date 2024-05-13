@@ -1,5 +1,4 @@
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 
@@ -13,11 +12,9 @@ class FarmDetailsInfoYourRewardAmount extends ConsumerWidget {
   const FarmDetailsInfoYourRewardAmount({
     super.key,
     required this.farm,
-    required this.userInfos,
   });
 
   final DexFarm farm;
-  final DexFarmUserInfos? userInfos;
 
   @override
   Widget build(
@@ -34,7 +31,7 @@ class FarmDetailsInfoYourRewardAmount extends ConsumerWidget {
         ),
         Wrap(
           children: [
-            if (userInfos == null)
+            if (farm.rewardAmount == null)
               const Padding(
                 padding: EdgeInsets.only(top: 5),
                 child: SizedBox(
@@ -47,25 +44,21 @@ class FarmDetailsInfoYourRewardAmount extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SelectableText(
-                  userInfos == null
+                  farm.rewardAmount == null
                       ? ''
-                      : '${userInfos!.rewardAmount.formatNumber(precision: 8)} ${farm.rewardToken!.symbol}',
+                      : '${farm.rewardAmount!.formatNumber(precision: 8)} ${farm.rewardToken!.symbol}',
                   style: AppTextStyles.bodyLargeSecondaryColor(context),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                if (userInfos == null)
-                  SelectableText(
-                    '',
-                    style: AppTextStyles.bodyMedium(context),
-                  )
-                else
+                if (farm.rewardAmount != null)
+                  const SizedBox(
+                    width: 5,
+                  ),
+                if (farm.rewardAmount != null)
                   FutureBuilder<String>(
                     future: FiatValue().display(
                       ref,
                       farm.rewardToken!,
-                      userInfos!.rewardAmount,
+                      farm.rewardAmount!,
                     ),
                     builder: (context, fiatSnapshot) {
                       if (!fiatSnapshot.hasData) {

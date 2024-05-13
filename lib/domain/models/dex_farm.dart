@@ -23,6 +23,10 @@ class DexFarm with _$DexFarm {
     @Default(0) int nbDeposit,
     @Default(0) double estimateLPTokenInFiat,
     @Default(0.0) double statsRewardDistributed,
+
+    // User info
+    double? depositedAmount,
+    double? rewardAmount,
   }) = _DexFarm;
   const DexFarm._();
 

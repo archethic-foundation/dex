@@ -1,4 +1,3 @@
-import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
@@ -30,9 +29,11 @@ class PoolListSheet extends ConsumerStatefulWidget {
 class _PoolListSheetState extends ConsumerState<PoolListSheet> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.pool;
+
+      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
 
       await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
             tabIndexSelected: widget.tab,
@@ -197,26 +198,10 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                 ),
                 itemCount: pools.length,
                 itemBuilder: (context, index) {
-                  final pool = pools[index];
-                  final asyncPoolDetail =
-                      ref.watch(DexPoolProviders.getPool(pool.poolAddress));
-                  return asyncPoolDetail.when(
-                    data: (poolDetail) {
-                      if (poolDetail == null) {
-                        return const SizedBox.shrink();
-                      }
-                      return PoolListItem(
-                        key: ValueKey(pool.poolAddress),
-                        pool: pool,
-                        tab: tab,
-                      );
-                    },
-                    loading: () {
-                      return const SizedBox.shrink();
-                    },
-                    error: (error, stackTrace) {
-                      return const SizedBox.shrink();
-                    },
+                  return PoolListItem(
+                    key: ValueKey(pools[index].poolAddress),
+                    pool: pools[index],
+                    tab: tab,
                   );
                 },
               );

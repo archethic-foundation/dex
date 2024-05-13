@@ -14,6 +14,7 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
 
   final ApiService apiService;
 
+  // TODO(reddwarf03): remove
   @override
   Future<DexPool?> getPool(
     String poolAddress,

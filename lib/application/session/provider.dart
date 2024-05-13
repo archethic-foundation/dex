@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
@@ -14,6 +15,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -36,6 +38,43 @@ class _SessionNotifier extends Notifier<Session> {
       ..invalidate(DexTokensProviders.getTokenFromAddress)
       ..invalidate(DexTokensProviders.getTokenIcon)
       ..read(DexPoolProviders.invalidateData);
+  }
+
+  Future<void> updateCtxInfo(BuildContext context) async {
+    if (state.isConnected == false && state.endpoint.isEmpty) {
+      await connectToWallet(
+        forceConnection: false,
+      );
+    }
+
+    if (state.isConnected == false && state.endpoint.isEmpty) {
+      if (context.mounted) {
+        connectEndpoint(state.envSelected);
+        final preferences = await HivePreferencesDatasource.getInstance();
+        aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+            preferences.isLogsActived();
+      }
+    }
+
+    final verifiedTokensNetWork =
+        ref.read(aedappfm.VerifiedTokensProviders.verifiedTokens).network;
+    if (verifiedTokensNetWork != state.envSelected) {
+      log('Loading verified tokens for network ${state.envSelected}');
+      await ref
+          .read(aedappfm.VerifiedTokensProviders.verifiedTokens.notifier)
+          .init(state.envSelected);
+    }
+
+    final ucidsTokens = ref.read(aedappfm.UcidsTokensProviders.ucidsTokens);
+    if (ucidsTokens.isEmpty) {
+      await ref
+          .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
+          .init(state.envSelected);
+    }
+    final coinPrice = ref.read(aedappfm.CoinPriceProviders.coinPrice);
+    if (coinPrice.timestamp == null) {
+      await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
+    }
   }
 
   void connectEndpoint(String env) {

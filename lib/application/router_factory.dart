@@ -116,12 +116,7 @@ class RouterFactory with ModelParser {
         for (final entry in tokenResultMap.entries) {
           final address = entry.key.toUpperCase();
           var tokenResult = tokenSDKToModel(entry.value, 0);
-
-          final tokenVerified = await aedappfm.VerifiedTokensRepositoryImpl()
-              .isVerifiedToken(address, tokenVerifiedList);
-
-          tokenResult =
-              tokenResult.copyWith(address: address, isVerified: tokenVerified);
+          tokenResult = tokenResult.copyWith(address: address);
           await tokensListDatasource.setToken(
             aedappfm.EndpointUtil.getEnvironnement(),
             tokenResult.toHive(),
@@ -131,9 +126,7 @@ class RouterFactory with ModelParser {
         for (final result in results) {
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
-            await poolListItemToModel(
-              getPoolListResponse,
-            ),
+            await poolListItemToModel(getPoolListResponse, tokenVerifiedList),
           );
         }
 
@@ -171,7 +164,10 @@ class RouterFactory with ModelParser {
           );
 
           farmList.add(
-            await farmListToModel(getFarmListResponse, dexpool),
+            await farmListToModel(
+              getFarmListResponse,
+              dexpool,
+            ),
           );
         }
 

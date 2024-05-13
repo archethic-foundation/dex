@@ -40,12 +40,9 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    Future.delayed(Duration.zero, () async {
       try {
         await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
-        await ref
-            .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
-            .init();
         await ref
             .read(
               aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,

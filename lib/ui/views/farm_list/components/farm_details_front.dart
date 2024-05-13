@@ -1,6 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_buttons.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_info_apr.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_info_header.dart';
@@ -16,12 +15,10 @@ class FarmDetailsFront extends ConsumerStatefulWidget {
   const FarmDetailsFront({
     super.key,
     required this.farm,
-    required this.userInfos,
     required this.userBalance,
   });
 
   final DexFarm farm;
-  final DexFarmUserInfos? userInfos;
   final double? userBalance;
 
   @override
@@ -53,14 +50,12 @@ class FarmDetailsFrontState extends ConsumerState<FarmDetailsFront>
             children: [
               FarmDetailsInfoYourDepositedAmount(
                 farm: widget.farm,
-                userInfos: widget.userInfos,
               ),
               const SizedBox(
                 height: 10,
               ),
               FarmDetailsInfoYourRewardAmount(
                 farm: widget.farm,
-                userInfos: widget.userInfos,
               ),
               const SizedBox(
                 height: 10,
@@ -71,18 +66,21 @@ class FarmDetailsFrontState extends ConsumerState<FarmDetailsFront>
               ),
               FarmDetailsButtons(
                 farm: widget.farm,
-                rewardAmount: widget.userInfos?.rewardAmount ?? 0,
-                depositedAmount: widget.userInfos?.depositedAmount ?? 0,
+                rewardAmount: widget.farm.rewardAmount,
+                depositedAmount: widget.farm.depositedAmount,
                 userBalance: widget.userBalance,
               ),
             ],
           )
         else
-          FarmDetailsButtons(
-            farm: widget.farm,
-            rewardAmount: 0,
-            depositedAmount: 0,
-            userBalance: 0,
+          Padding(
+            padding: const EdgeInsets.only(top: 185),
+            child: FarmDetailsButtons(
+              farm: widget.farm,
+              rewardAmount: 0,
+              depositedAmount: 0,
+              userBalance: 0,
+            ),
           ),
       ],
     );

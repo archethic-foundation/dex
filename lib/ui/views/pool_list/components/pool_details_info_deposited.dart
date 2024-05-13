@@ -150,7 +150,9 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                               Row(
                                 children: [
                                   SelectableText(
-                                    snapshotBalance.data!.formatNumber(),
+                                    pool!.lpToken.supply == 0
+                                        ? ''
+                                        : snapshotBalance.data!.formatNumber(),
                                     style: AppTextStyles.bodyLarge(context),
                                   ),
                                   if (pool!.lpToken.supply > 0)

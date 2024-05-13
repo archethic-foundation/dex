@@ -31,22 +31,29 @@ Future<DexPool> _loadPoolCard(
   );
 
   if (forceLoadFromBC == true || poolHive == null) {
-    // Load from BC
-    final apiService = aedappfm.sl.get<ApiService>();
-    final poolFactory =
-        PoolFactoryRepositoryImpl(poolInput.poolAddress, apiService);
-    poolOutput = await poolFactory.populatePoolInfos(poolInput).valueOrThrow;
-
     // Set to cache
     await poolsListDatasource.setPool(
       aedappfm.EndpointUtil.getEnvironnement(),
-      poolOutput.toHive(),
+      poolInput.toHive(),
     );
+    poolOutput = poolInput;
   } else {
     poolOutput = poolHive.toDexPool();
   }
 
   // Load dynamic values
+  final apiService = aedappfm.sl.get<ApiService>();
+  final poolFactory =
+      PoolFactoryRepositoryImpl(poolInput.poolAddress, apiService);
+  final populatePoolInfosResult =
+      await poolFactory.populatePoolInfos(poolInput);
+  populatePoolInfosResult.map(
+    success: (success) {
+      poolOutput = success;
+    },
+    failure: (failure) {},
+  );
+
   final userBalance = ref.read(SessionProviders.session).userBalance;
   var lpTokenInUserBalance = false;
   if (userBalance != null) {

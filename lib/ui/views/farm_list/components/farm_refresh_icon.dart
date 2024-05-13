@@ -43,11 +43,14 @@ class _FarmRefreshIconState extends ConsumerState<FarmRefreshIcon> {
         await farmListItemState?.reload();
 
         await Future.delayed(const Duration(seconds: 3));
-        setState(
-          () {
-            isRefreshSuccess = false;
-          },
-        );
+
+        if (mounted) {
+          setState(
+            () {
+              isRefreshSuccess = false;
+            },
+          );
+        }
       },
       child: Tooltip(
         message: AppLocalizations.of(context)!.refreshIconToolTip,

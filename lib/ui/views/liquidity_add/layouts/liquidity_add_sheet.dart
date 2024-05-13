@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
@@ -39,6 +40,10 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.pool;
+
+        await ref
+            .read(SessionProviders.session.notifier)
+            .updateCtxInfo(context);
 
         ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
           ..setPoolsListTab(widget.poolsListTab)

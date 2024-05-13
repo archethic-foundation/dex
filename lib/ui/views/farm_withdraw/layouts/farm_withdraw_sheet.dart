@@ -43,6 +43,10 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.farm;
 
+        await ref
+            .read(SessionProviders.session.notifier)
+            .updateCtxInfo(context);
+
         ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
@@ -64,9 +68,10 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
             context.go(FarmListSheet.routerPage);
           }
         } else {
-          ref
-              .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
-              .setDexFarmInfo(farmInfo);
+          ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+            ..setDexFarmInfo(farmInfo)
+            ..setRewardAmount(farmInfo.rewardAmount)
+            ..setDepositedAmount(farmInfo.depositedAmount);
         }
 
         final session = ref.read(SessionProviders.session);
@@ -74,22 +79,6 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
           if (mounted) {
             context.go(FarmListSheet.routerPage);
           }
-        }
-
-        final farmUserInfo = await ref.read(
-          DexFarmProviders.getUserInfos(
-            widget.farmAddress,
-            session.genesisAddress,
-          ).future,
-        );
-        if (farmUserInfo == null) {
-          if (mounted) {
-            context.go(FarmListSheet.routerPage);
-          }
-        } else {
-          ref
-              .read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
-              .setDexFarmUserInfo(farmUserInfo);
         }
       } catch (e) {
         if (mounted) {

@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
 
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -18,8 +16,6 @@ import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/welcome/welcome_screen.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -262,6 +258,7 @@ final routerProvider = Provider<GoRouter>(
                 String? farmAddress;
                 DexToken? rewardToken;
                 String? lpTokenAddress;
+                double? rewardAmount;
 
                 final farmAddressEncoded =
                     state.uri.queryParameters['farmAddress'];
@@ -287,9 +284,18 @@ final routerProvider = Provider<GoRouter>(
                   lpTokenAddress = jsonDecode(lpTokenAddressJson);
                 }
 
+                final rewardAmountEncoded =
+                    state.uri.queryParameters['rewardAmount'];
+                if (rewardAmountEncoded != null) {
+                  final rewardAmountJson =
+                      Uri.decodeComponent(rewardAmountEncoded);
+                  rewardAmount = jsonDecode(rewardAmountJson);
+                }
+
                 if (farmAddress == null ||
                     rewardToken == null ||
-                    lpTokenAddress == null) {
+                    lpTokenAddress == null ||
+                    rewardAmount == null) {
                   return const NoTransitionPage(
                     child: FarmListSheet(),
                   );
@@ -300,6 +306,7 @@ final routerProvider = Provider<GoRouter>(
                     farmAddress: farmAddress,
                     rewardToken: rewardToken,
                     lpTokenAddress: lpTokenAddress,
+                    rewardAmount: rewardAmount,
                   ),
                 );
               },
@@ -373,53 +380,12 @@ final routerProvider = Provider<GoRouter>(
           },
         ),
       ],
+      // ignore: body_might_complete_normally_nullable
       redirect: (context, state) async {
         final preferences = await HivePreferencesDatasource.getInstance();
         if (preferences.isFirstConnection()) {
           await preferences.setFirstConnection(false);
           if (context.mounted) return WelcomeScreen.routerPage;
-        }
-
-        var session = ref.read(SessionProviders.session);
-        if (session.isConnected == false && session.endpoint.isEmpty) {
-          await ref.read(SessionProviders.session.notifier).connectToWallet(
-                forceConnection: false,
-              );
-        }
-        session = ref.read(SessionProviders.session);
-        if (session.isConnected == false && session.endpoint.isEmpty) {
-          if (context.mounted) {
-            ref
-                .read(SessionProviders.session.notifier)
-                .connectEndpoint(session.envSelected);
-            final preferences = await HivePreferencesDatasource.getInstance();
-            aedappfm.sl.get<aedappfm.LogManager>().logsActived =
-                preferences.isLogsActived();
-          }
-        }
-        final verifiedTokensNetWork = ref
-            .read(
-              aedappfm.VerifiedTokensProviders.verifiedTokens,
-            )
-            .network;
-        if (verifiedTokensNetWork != aedappfm.EndpointUtil.getEnvironnement()) {
-          log('Loading verified tokens for network ${aedappfm.EndpointUtil.getEnvironnement()}');
-          await ref
-              .read(
-                aedappfm.VerifiedTokensProviders.verifiedTokens.notifier,
-              )
-              .init();
-        }
-
-        final ucidsTokens = ref.read(aedappfm.UcidsTokensProviders.ucidsTokens);
-        if (ucidsTokens.isEmpty) {
-          await ref
-              .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
-              .init();
-        }
-        final coinPrice = ref.read(aedappfm.CoinPriceProviders.coinPrice);
-        if (coinPrice.timestamp == null) {
-          await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
         }
 
         return null;

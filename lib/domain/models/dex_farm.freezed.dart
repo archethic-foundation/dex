@@ -33,7 +33,10 @@ mixin _$DexFarm {
   double get lpTokenDeposited => throw _privateConstructorUsedError;
   int get nbDeposit => throw _privateConstructorUsedError;
   double get estimateLPTokenInFiat => throw _privateConstructorUsedError;
-  double get statsRewardDistributed => throw _privateConstructorUsedError;
+  double get statsRewardDistributed =>
+      throw _privateConstructorUsedError; // User info
+  double? get depositedAmount => throw _privateConstructorUsedError;
+  double? get rewardAmount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -59,7 +62,9 @@ abstract class $DexFarmCopyWith<$Res> {
       double lpTokenDeposited,
       int nbDeposit,
       double estimateLPTokenInFiat,
-      double statsRewardDistributed});
+      double statsRewardDistributed,
+      double? depositedAmount,
+      double? rewardAmount});
 
   $DexTokenCopyWith<$Res>? get lpToken;
   $DexPairCopyWith<$Res>? get lpTokenPair;
@@ -93,6 +98,8 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
     Object? nbDeposit = null,
     Object? estimateLPTokenInFiat = null,
     Object? statsRewardDistributed = null,
+    Object? depositedAmount = freezed,
+    Object? rewardAmount = freezed,
   }) {
     return _then(_value.copyWith(
       farmAddress: null == farmAddress
@@ -151,6 +158,14 @@ class _$DexFarmCopyWithImpl<$Res, $Val extends DexFarm>
           ? _value.statsRewardDistributed
           : statsRewardDistributed // ignore: cast_nullable_to_non_nullable
               as double,
+      depositedAmount: freezed == depositedAmount
+          ? _value.depositedAmount
+          : depositedAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rewardAmount: freezed == rewardAmount
+          ? _value.rewardAmount
+          : rewardAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -212,7 +227,9 @@ abstract class _$$DexFarmImplCopyWith<$Res> implements $DexFarmCopyWith<$Res> {
       double lpTokenDeposited,
       int nbDeposit,
       double estimateLPTokenInFiat,
-      double statsRewardDistributed});
+      double statsRewardDistributed,
+      double? depositedAmount,
+      double? rewardAmount});
 
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -247,6 +264,8 @@ class __$$DexFarmImplCopyWithImpl<$Res>
     Object? nbDeposit = null,
     Object? estimateLPTokenInFiat = null,
     Object? statsRewardDistributed = null,
+    Object? depositedAmount = freezed,
+    Object? rewardAmount = freezed,
   }) {
     return _then(_$DexFarmImpl(
       farmAddress: null == farmAddress
@@ -305,6 +324,14 @@ class __$$DexFarmImplCopyWithImpl<$Res>
           ? _value.statsRewardDistributed
           : statsRewardDistributed // ignore: cast_nullable_to_non_nullable
               as double,
+      depositedAmount: freezed == depositedAmount
+          ? _value.depositedAmount
+          : depositedAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rewardAmount: freezed == rewardAmount
+          ? _value.rewardAmount
+          : rewardAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -326,7 +353,9 @@ class _$DexFarmImpl extends _DexFarm {
       this.lpTokenDeposited = 0,
       this.nbDeposit = 0,
       this.estimateLPTokenInFiat = 0,
-      this.statsRewardDistributed = 0.0})
+      this.statsRewardDistributed = 0.0,
+      this.depositedAmount,
+      this.rewardAmount})
       : super._();
 
   factory _$DexFarmImpl.fromJson(Map<String, dynamic> json) =>
@@ -369,10 +398,15 @@ class _$DexFarmImpl extends _DexFarm {
   @override
   @JsonKey()
   final double statsRewardDistributed;
+// User info
+  @override
+  final double? depositedAmount;
+  @override
+  final double? rewardAmount;
 
   @override
   String toString() {
-    return 'DexFarm(farmAddress: $farmAddress, poolAddress: $poolAddress, apr: $apr, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit, estimateLPTokenInFiat: $estimateLPTokenInFiat, statsRewardDistributed: $statsRewardDistributed)';
+    return 'DexFarm(farmAddress: $farmAddress, poolAddress: $poolAddress, apr: $apr, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, lpTokenDeposited: $lpTokenDeposited, nbDeposit: $nbDeposit, estimateLPTokenInFiat: $estimateLPTokenInFiat, statsRewardDistributed: $statsRewardDistributed, depositedAmount: $depositedAmount, rewardAmount: $rewardAmount)';
   }
 
   @override
@@ -404,7 +438,11 @@ class _$DexFarmImpl extends _DexFarm {
             (identical(other.estimateLPTokenInFiat, estimateLPTokenInFiat) ||
                 other.estimateLPTokenInFiat == estimateLPTokenInFiat) &&
             (identical(other.statsRewardDistributed, statsRewardDistributed) ||
-                other.statsRewardDistributed == statsRewardDistributed));
+                other.statsRewardDistributed == statsRewardDistributed) &&
+            (identical(other.depositedAmount, depositedAmount) ||
+                other.depositedAmount == depositedAmount) &&
+            (identical(other.rewardAmount, rewardAmount) ||
+                other.rewardAmount == rewardAmount));
   }
 
   @JsonKey(ignore: true)
@@ -424,7 +462,9 @@ class _$DexFarmImpl extends _DexFarm {
       lpTokenDeposited,
       nbDeposit,
       estimateLPTokenInFiat,
-      statsRewardDistributed);
+      statsRewardDistributed,
+      depositedAmount,
+      rewardAmount);
 
   @JsonKey(ignore: true)
   @override
@@ -455,7 +495,9 @@ abstract class _DexFarm extends DexFarm {
       final double lpTokenDeposited,
       final int nbDeposit,
       final double estimateLPTokenInFiat,
-      final double statsRewardDistributed}) = _$DexFarmImpl;
+      final double statsRewardDistributed,
+      final double? depositedAmount,
+      final double? rewardAmount}) = _$DexFarmImpl;
   const _DexFarm._() : super._();
 
   factory _DexFarm.fromJson(Map<String, dynamic> json) = _$DexFarmImpl.fromJson;
@@ -488,6 +530,10 @@ abstract class _DexFarm extends DexFarm {
   double get estimateLPTokenInFiat;
   @override
   double get statsRewardDistributed;
+  @override // User info
+  double? get depositedAmount;
+  @override
+  double? get rewardAmount;
   @override
   @JsonKey(ignore: true)
   _$$DexFarmImplCopyWith<_$DexFarmImpl> get copyWith =>

@@ -1,4 +1,6 @@
+import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_favorite_icon.dart';
@@ -38,25 +40,42 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await loadInfo();
+      if (mounted) {
+        await loadInfo();
+      }
     });
     super.initState();
   }
 
   Future<void> loadInfo({bool forceLoadFromBC = false}) async {
-    poolInfos = await ref.watch(
+    poolInfos = await ref.read(
       DexPoolProviders.loadPoolCard(
         widget.pool,
         forceLoadFromBC: forceLoadFromBC,
       ).future,
     );
-    setState(() {});
+    final session = ref.watch(SessionProviders.session);
+    ref.invalidate(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        widget.pool.lpToken.address!,
+      ),
+    );
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> reload() async {
-    await loadInfo(
-      forceLoadFromBC: true,
-    );
+    poolInfos = null;
+    if (mounted) {
+      setState(() {});
+    }
+    if (mounted) {
+      await loadInfo(
+        forceLoadFromBC: true,
+      );
+    }
   }
 
   @override

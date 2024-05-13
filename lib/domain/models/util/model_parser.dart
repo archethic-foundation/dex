@@ -1,3 +1,4 @@
+import 'package:aedex/application/farm/farm_factory.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
@@ -85,6 +86,7 @@ mixin ModelParser {
 
   Future<DexPool> poolListItemToModel(
     GetPoolListResponse getPoolListResponse,
+    List<String> tokenVerifiedList,
   ) async {
     final tokens = getPoolListResponse.tokens.split('/');
     final tokensListDatasource = await HiveTokensListDatasource.getInstance();
@@ -103,9 +105,11 @@ mixin ModelParser {
         tokens[0],
       );
       if (token1 != null) {
+        final tokenVerified = await aedappfm.VerifiedTokensRepositoryImpl()
+            .isVerifiedToken(token1.address!, tokenVerifiedList);
         token1Name = token1.name;
         token1Symbol = token1.symbol;
-        token1Verified = token1.verified;
+        token1Verified = tokenVerified;
       }
     }
 
@@ -121,9 +125,11 @@ mixin ModelParser {
         tokens[1],
       );
       if (token2 != null) {
+        final tokenVerified = await aedappfm.VerifiedTokensRepositoryImpl()
+            .isVerifiedToken(token2.address!, tokenVerifiedList);
         token2Name = token2.name;
         token2Symbol = token2.symbol;
-        token2Verified = token2.verified;
+        token2Verified = tokenVerified;
       }
     }
 
@@ -212,7 +218,6 @@ mixin ModelParser {
         rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
       }
     }
-
     return DexFarm(
       startDate: DateTime.fromMillisecondsSinceEpoch(
         getFarmListResponse.startDate * 1000,
@@ -231,7 +236,8 @@ mixin ModelParser {
   Future<DexFarm> farmInfosToModel(
     String farmGenesisAddress,
     GetFarmInfosResponse getFarmInfosResponse,
-    DexPool pool, {
+    DexPool pool,
+    String userGenesisAddress, {
     DexFarm? dexFarmInput,
   }) async {
     var remainingReward = 0.0;
@@ -258,10 +264,28 @@ mixin ModelParser {
       remainingReward = getFarmInfosResponse.remainingReward!;
     }
 
+    final farmFactory = FarmFactory(
+      farmGenesisAddress,
+      aedappfm.sl.get<archethic.ApiService>(),
+    );
+
+    var depositedAmount = 0.0;
+    var rewardAmount = 0.0;
+    final farmInfosResult = await farmFactory.getUserInfos(userGenesisAddress);
+    farmInfosResult.map(
+      success: (farmInfosResultSuccess) {
+        depositedAmount = farmInfosResultSuccess.depositedAmount;
+        rewardAmount = farmInfosResultSuccess.rewardAmount;
+      },
+      failure: (failure) {},
+    );
+
     DexFarm? dexFarm = DexFarm(
       lpTokenDeposited: getFarmInfosResponse.lpTokenDeposited,
       nbDeposit: getFarmInfosResponse.nbDeposit,
       remainingReward: remainingReward,
+      rewardAmount: rewardAmount,
+      depositedAmount: depositedAmount,
       startDate: DateTime.fromMillisecondsSinceEpoch(
         getFarmInfosResponse.startDate * 1000,
       ),

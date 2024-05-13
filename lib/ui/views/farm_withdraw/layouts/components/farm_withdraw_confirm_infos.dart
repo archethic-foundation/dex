@@ -206,7 +206,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
-              if (farmWithdraw.dexFarmUserInfo!.rewardAmount > 0)
+              if (farmWithdraw.rewardAmount! > 0)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -237,7 +237,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                       future: FiatValue().display(
                         ref,
                         farmWithdraw.dexFarmInfo!.rewardToken!,
-                        farmWithdraw.dexFarmUserInfo!.rewardAmount,
+                        farmWithdraw.rewardAmount!,
                       ),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -261,8 +261,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                                       ),
                                 ),
                                 TextSpan(
-                                  text: farmWithdraw
-                                      .dexFarmUserInfo!.rewardAmount
+                                  text: farmWithdraw.rewardAmount!
                                       .formatNumber(precision: 8),
                                   style: Theme.of(context)
                                       .textTheme

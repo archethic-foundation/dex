@@ -37,9 +37,9 @@ double _estimatePoolTVLInFiat(
   var fiatValueToken2 = 0.0;
   var tvl = 0.0;
   fiatValueToken1 =
-      ref.watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token1));
+      ref.read(DexTokensProviders.estimateTokenInFiat(pool.pair.token1));
   fiatValueToken2 =
-      ref.watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token2));
+      ref.read(DexTokensProviders.estimateTokenInFiat(pool.pair.token2));
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
     tvl = pool.pair.token1.reserve * fiatValueToken1 +
@@ -84,6 +84,7 @@ Future<DexPool> _estimateStats(
   var token1TotalFee24h = 0.0;
   var token2TotalFee24h = 0.0;
 
+  Transaction? transaction;
   final fromCriteria =
       (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
               1000)
@@ -92,13 +93,16 @@ Future<DexPool> _estimateStats(
       await aedappfm.sl.get<ApiService>().getTransactionChain(
     {pool.poolAddress: ''},
     request:
-        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
+        ' address, chainLength, validationStamp { ledgerOperations { unspentOutputs { state } } }',
     fromCriteria: fromCriteria,
+    orderAsc: false,
   );
-
   if (transactionChainResult[pool.poolAddress] != null &&
-      transactionChainResult[pool.poolAddress]!.isNotEmpty) {
-    final transaction = transactionChainResult[pool.poolAddress]!.first;
+      transactionChainResult[pool.poolAddress]!.length > 1) {
+    transaction = transactionChainResult[pool.poolAddress]!.first;
+  }
+
+  if (transaction != null) {
     if (transaction.validationStamp != null &&
         transaction.validationStamp!.ledgerOperations != null &&
         transaction
@@ -140,7 +144,7 @@ Future<DexPool> _estimateStats(
   if (pool.pair.token1.symbol == 'UCO') {
     priceToken1 = archethicOracleUCO.usd;
   } else {
-    priceToken1 = ref.watch(
+    priceToken1 = ref.read(
       aedappfm.CoinPriceProviders.coinPriceFromAddress(
         pool.pair.token1.address!,
       ),
@@ -150,7 +154,7 @@ Future<DexPool> _estimateStats(
   if (pool.pair.token2.symbol == 'UCO') {
     priceToken2 = archethicOracleUCO.usd;
   } else {
-    priceToken2 = ref.watch(
+    priceToken2 = ref.read(
       aedappfm.CoinPriceProviders.coinPriceFromAddress(
         pool.pair.token2.address!,
       ),
@@ -177,13 +181,11 @@ Future<DexPool> _estimateStats(
     token1TotalFeeCurrentFiat = priceToken1 * poolDetails.token1TotalFee;
     token2TotalFeeCurrentFiat = priceToken2 * poolDetails.token2TotalFee;
 
-    token1TotalVolume24hFiat =
-        priceToken1 * (poolDetails.token1TotalVolume24h ?? 0);
-    token2TotalVolume24hFiat =
-        priceToken2 * (poolDetails.token2TotalVolume24h ?? 0);
+    token1TotalVolume24hFiat = priceToken1 * token1TotalVolume24h;
+    token2TotalVolume24hFiat = priceToken2 * token2TotalVolume24h;
 
-    token1TotalFee24hFiat = priceToken1 * (poolDetails.token1TotalFee24h ?? 0);
-    token2TotalFee24hFiat = priceToken2 * (poolDetails.token2TotalFee24h ?? 0);
+    token1TotalFee24hFiat = priceToken1 * token1TotalFee24h;
+    token2TotalFee24hFiat = priceToken2 * token2TotalFee24h;
   }
 
   volumeAllTime = token1TotalVolumeCurrentFiat + token2TotalVolumeCurrentFiat;

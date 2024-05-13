@@ -205,7 +205,7 @@ class _GetRatioProviderElement extends AutoDisposeFutureProviderElement<double>
 }
 
 String _$estimatePoolTVLInFiatHash() =>
-    r'170da1d201b9d6b4bd35cf848b5e7fef2d34876a';
+    r'9766fc5d3e258589d599654f78bb81dfbcd3328f';
 
 /// See also [_estimatePoolTVLInFiat].
 @ProviderFor(_estimatePoolTVLInFiat)
@@ -333,7 +333,7 @@ class _EstimatePoolTVLInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'36e04a9825d982244e35e804d825c8c279432dda';
+String _$estimateStatsHash() => r'4a28672db6a988988a1d41a6078f36bedbed6162';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -588,7 +588,7 @@ class _GetPoolProviderElement extends AutoDisposeFutureProviderElement<DexPool?>
   String get genesisAddress => (origin as _GetPoolProvider).genesisAddress;
 }
 
-String _$loadPoolCardHash() => r'4dc83ef208f0c5d9d4797ad5b4ae848d7bb2fa04';
+String _$loadPoolCardHash() => r'3ce156ad66a475d9fb60d522006199bf96a9cbb4';
 
 /// See also [_loadPoolCard].
 @ProviderFor(_loadPoolCard)

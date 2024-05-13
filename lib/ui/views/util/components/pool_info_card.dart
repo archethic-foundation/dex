@@ -30,183 +30,184 @@ class PoolInfoCard extends ConsumerStatefulWidget {
 
 class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
   bool _isExpanded = false;
+  DexPool? pool;
+  double? tvl;
 
   @override
   void initState() {
+    Future.delayed(Duration.zero, () async {
+      await loadInfo();
+    });
     super.initState();
+  }
+
+  Future<void> loadInfo({bool forceLoadFromBC = false}) async {
+    pool = await ref
+        .read(DexPoolProviders.getPool(widget.poolGenesisAddress).future);
+    pool = await ref.read(DexPoolProviders.loadPoolCard(pool!).future);
+    tvl = ref.read(
+      DexPoolProviders.estimatePoolTVLInFiat(pool),
+    );
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(
     BuildContext context,
   ) {
-    if (widget.poolGenesisAddress.isEmpty) {
+    if (widget.poolGenesisAddress.isEmpty ||
+        pool == null ||
+        pool!.infos == null ||
+        tvl == null) {
       return const SizedBox.shrink();
     }
 
-    return FutureBuilder<DexPool?>(
-      future:
-          ref.watch(DexPoolProviders.getPool(widget.poolGenesisAddress).future),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final pool = snapshot.data;
-          if (pool == null) {
-            return const SizedBox.shrink();
-          }
-
-          final tvl = ref.watch(
-            DexPoolProviders.estimatePoolTVLInFiat(pool),
-          );
-          return aedappfm.Responsive.isDesktop(context) ||
-                  aedappfm.Responsive.isTablet(context)
-              ? DecoratedBox(
+    return aedappfm.Responsive.isDesktop(context) ||
+            aedappfm.Responsive.isTablet(context)
+        ? DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
+              border: Border.all(
+                color: aedappfm.AppThemeBase.sheetBorderSecondary,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 20,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      _getPairName(context, pool!),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      _getRatio(context, pool!),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      VerifiedPoolIcon(
+                        isVerified: pool!.isVerified,
+                        withLabel: true,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _getPairValues(context, pool!),
+                      SelectableText(
+                        '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl!.formatNumber(precision: 2)}',
+                        style: AppTextStyles.bodyLarge(context),
+                      ),
+                      DexFees(
+                        fees: pool!.infos!.fees,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        : Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: DecoratedBox(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(10),
                     color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
                     border: Border.all(
                       color: aedappfm.AppThemeBase.sheetBorderSecondary,
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            _getPairName(context, pool),
-                            const SizedBox(
-                              height: 10,
+                  child: ExpansionPanelList(
+                    expansionCallback: (int index, bool isExpanded) {
+                      setState(() {
+                        _isExpanded = isExpanded;
+                      });
+                    },
+                    children: [
+                      ExpansionPanel(
+                        canTapOnHeader: true,
+                        backgroundColor: Colors.transparent,
+                        headerBuilder: (
+                          BuildContext context,
+                          bool isExpanded,
+                        ) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                              top: 5,
+                              bottom: 5,
                             ),
-                            _getRatio(context, pool),
-                            const SizedBox(
-                              height: 10,
+                            child: Column(
+                              children: [
+                                _getPairName(context, pool!),
+                                _getRatio(context, pool!),
+                              ],
                             ),
-                            VerifiedPoolIcon(
-                              isVerified: pool.isVerified,
-                              withLabel: true,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            _getPairValues(context, pool),
-                            SelectableText(
-                              '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl.formatNumber(precision: 2)}',
-                              style: AppTextStyles.bodyLarge(context),
-                            ),
-                            DexFees(
-                              fees: pool.infos!.fees,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: aedappfm.AppThemeBase.sheetBackgroundSecondary,
-                          border: Border.all(
-                            color: aedappfm.AppThemeBase.sheetBorderSecondary,
+                          );
+                        },
+                        body: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 10,
+                            right: 10,
+                            bottom: 5,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _getPairValues(context, pool!),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  VerifiedPoolIcon(
+                                    isVerified: pool!.isVerified,
+                                    withLabel: true,
+                                  ),
+                                  SelectableText(
+                                    '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl!.formatNumber(precision: 2)}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                  DexFees(
+                                    fees: pool!.infos!.fees,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        child: ExpansionPanelList(
-                          expansionCallback: (int index, bool isExpanded) {
-                            setState(() {
-                              _isExpanded = isExpanded;
-                            });
-                          },
-                          children: [
-                            ExpansionPanel(
-                              canTapOnHeader: true,
-                              backgroundColor: Colors.transparent,
-                              headerBuilder: (
-                                BuildContext context,
-                                bool isExpanded,
-                              ) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 5,
-                                    bottom: 5,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      _getPairName(context, pool),
-                                      _getRatio(context, pool),
-                                    ],
-                                  ),
-                                );
-                              },
-                              body: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
-                                  bottom: 5,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    _getPairValues(context, pool),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        VerifiedPoolIcon(
-                                          isVerified: pool.isVerified,
-                                          withLabel: true,
-                                        ),
-                                        SelectableText(
-                                          '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl.formatNumber(precision: 2)}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .copyWith(
-                                                fontSize: aedappfm.Responsive
-                                                    .fontSizeFromTextStyle(
-                                                  context,
-                                                  Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!,
-                                                ),
-                                              ),
-                                        ),
-                                        DexFees(
-                                          fees: pool.infos!.fees,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              isExpanded: _isExpanded,
-                            ),
-                          ],
-                        ),
+                        isExpanded: _isExpanded,
                       ),
-                    ),
-                  ],
-                )
-                  .animate()
-                  .fade(duration: const Duration(milliseconds: 200))
-                  .scale(duration: const Duration(milliseconds: 200));
-        }
-        return const SizedBox.shrink();
-      },
-    );
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+            .animate()
+            .fade(duration: const Duration(milliseconds: 200))
+            .scale(duration: const Duration(milliseconds: 200));
   }
 
   Widget _getPairName(
@@ -255,20 +256,22 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
   }
 
   Widget _getRatio(BuildContext context, DexPool pool) {
-    return DexRatio(
-      ratio: widget.tokenAddressRatioPrimary.toUpperCase() ==
-              pool.pair.token1.address!.toUpperCase()
-          ? pool.infos!.ratioToken1Token2
-          : pool.infos!.ratioToken2Token1,
-      token1Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
-              pool.pair.token1.address!.toUpperCase()
-          ? pool.pair.token1.symbol.reduceSymbol()
-          : pool.pair.token2.symbol.reduceSymbol(),
-      token2Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
-              pool.pair.token1.address!.toUpperCase()
-          ? pool.pair.token2.symbol.reduceSymbol()
-          : pool.pair.token1.symbol.reduceSymbol(),
-    );
+    return pool.infos != null
+        ? DexRatio(
+            ratio: widget.tokenAddressRatioPrimary.toUpperCase() ==
+                    pool.pair.token1.address!.toUpperCase()
+                ? pool.infos!.ratioToken1Token2
+                : pool.infos!.ratioToken2Token1,
+            token1Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
+                    pool.pair.token1.address!.toUpperCase()
+                ? pool.pair.token1.symbol.reduceSymbol()
+                : pool.pair.token2.symbol.reduceSymbol(),
+            token2Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
+                    pool.pair.token1.address!.toUpperCase()
+                ? pool.pair.token2.symbol.reduceSymbol()
+                : pool.pair.token1.symbol.reduceSymbol(),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _getPairValues(BuildContext context, DexPool pool) {
@@ -276,7 +279,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(

@@ -39,16 +39,16 @@ class _PoolRefreshIconState extends ConsumerState<PoolRefreshIcon> {
           },
         );
 
-        unawaited(
-          context.findAncestorStateOfType<PoolListItemState>()?.reload(),
-        );
+        await context.findAncestorStateOfType<PoolListItemState>()?.reload();
 
         await Future.delayed(const Duration(seconds: 3));
-        setState(
-          () {
-            isRefreshSuccess = false;
-          },
-        );
+        if (mounted) {
+          setState(
+            () {
+              isRefreshSuccess = false;
+            },
+          );
+        }
       },
       child: Tooltip(
         message: AppLocalizations.of(context)!.poolRefreshIconTooltip,

@@ -295,21 +295,22 @@ class SwapInfos extends ConsumerWidget {
                 'Ratio',
                 style: AppTextStyles.bodyMedium(context),
               ),
-              DexRatio(
-                ratio: tokenAddressRatioPrimary.toUpperCase() ==
-                        swap.pool?.pair.token1.address!.toUpperCase()
-                    ? swap.pool!.infos!.ratioToken1Token2
-                    : swap.pool!.infos!.ratioToken2Token1,
-                token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                        swap.pool!.pair.token1.address!.toUpperCase()
-                    ? swap.pool!.pair.token1.symbol
-                    : swap.pool!.pair.token2.symbol,
-                token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                        swap.pool!.pair.token1.address!.toUpperCase()
-                    ? swap.pool!.pair.token2.symbol
-                    : swap.pool!.pair.token1.symbol,
-                textStyle: AppTextStyles.bodyMedium(context),
-              ),
+              if (swap.pool != null && swap.pool!.infos != null)
+                DexRatio(
+                  ratio: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool?.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.infos!.ratioToken1Token2
+                      : swap.pool!.infos!.ratioToken2Token1,
+                  token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool!.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.pair.token1.symbol
+                      : swap.pool!.pair.token2.symbol,
+                  token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool!.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.pair.token2.symbol
+                      : swap.pool!.pair.token1.symbol,
+                  textStyle: AppTextStyles.bodyMedium(context),
+                ),
             ],
           ),
         ],

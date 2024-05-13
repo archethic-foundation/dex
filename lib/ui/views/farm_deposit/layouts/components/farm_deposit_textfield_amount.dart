@@ -176,7 +176,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                     farmDeposit.lpTokenBalance,
                     farmDeposit.dexFarmInfo!.poolAddress,
                   ),
-                  style: AppTextStyles.bodyMedium(context),
+                  style: AppTextStyles.bodyLarge(context),
                 ),
               ],
             ),

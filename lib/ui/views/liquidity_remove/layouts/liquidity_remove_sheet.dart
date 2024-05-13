@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -43,6 +44,10 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.pool;
+
+        await ref
+            .read(SessionProviders.session.notifier)
+            .updateCtxInfo(context);
 
         ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
           ..setPoolsListTab(widget.poolsListTab)

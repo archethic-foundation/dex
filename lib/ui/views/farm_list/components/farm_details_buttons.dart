@@ -22,8 +22,8 @@ class FarmDetailsButtons extends ConsumerWidget {
   });
 
   final DexFarm farm;
-  final double rewardAmount;
-  final double depositedAmount;
+  final double? rewardAmount;
+  final double? depositedAmount;
   final double? userBalance;
 
   @override
@@ -171,7 +171,7 @@ class FarmDetailsButtons extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
     return aedappfm.ButtonValidate(
       background: aedappfm.ArchethicThemeBase.purple500,
-      controlOk: depositedAmount > 0,
+      controlOk: depositedAmount != null && depositedAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
       onPressed: () {
         final farmAddressJson = jsonEncode(farm.farmAddress);
@@ -231,7 +231,7 @@ class FarmDetailsButtons extends ConsumerWidget {
 
     return aedappfm.ButtonValidate(
       background: aedappfm.ArchethicThemeBase.purple500,
-      controlOk: rewardAmount > 0,
+      controlOk: rewardAmount != null && rewardAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
       onPressed: () async {
         if (context.mounted) {
@@ -244,6 +244,9 @@ class FarmDetailsButtons extends ConsumerWidget {
           final lpTokenAddressJson = jsonEncode(farm.lpToken!.address);
           final lpTokenAddressEncoded = Uri.encodeComponent(lpTokenAddressJson);
 
+          final rewardAmountJson = jsonEncode(farm.rewardAmount);
+          final rewardAmountEncoded = Uri.encodeComponent(rewardAmountJson);
+
           context.go(
             Uri(
               path: FarmClaimSheet.routerPage,
@@ -251,6 +254,7 @@ class FarmDetailsButtons extends ConsumerWidget {
                 'farmAddress': farmAddressEncoded,
                 'rewardToken': rewardTokenEncoded,
                 'lpTokenAddress': lpTokenAddressEncoded,
+                'rewardAmount': rewardAmountEncoded,
               },
             ).toString(),
           );

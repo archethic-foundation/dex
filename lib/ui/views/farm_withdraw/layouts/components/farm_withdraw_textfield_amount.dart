@@ -156,7 +156,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
             Row(
               children: [
                 DexTokenBalance(
-                  tokenBalance: farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                  tokenBalance: farmWithdraw.depositedAmount!,
                   token: farmWithdraw.dexFarmInfo!.lpToken,
                   withFiat: false,
                 ),
@@ -168,10 +168,10 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                     ref,
                     farmWithdraw.dexFarmInfo!.lpTokenPair!.token1,
                     farmWithdraw.dexFarmInfo!.lpTokenPair!.token2,
-                    farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                    farmWithdraw.depositedAmount!,
                     farmWithdraw.dexFarmInfo!.poolAddress,
                   ),
-                  style: AppTextStyles.bodyMedium(context),
+                  style: AppTextStyles.bodyLarge(context),
                 ),
               ],
             ),
@@ -181,7 +181,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
             Row(
               children: [
                 aedappfm.ButtonHalf(
-                  balanceAmount: farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                  balanceAmount: farmWithdraw.depositedAmount!,
                   onTap: () {
                     ref
                         .read(
@@ -197,7 +197,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                   width: 10,
                 ),
                 aedappfm.ButtonMax(
-                  balanceAmount: farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                  balanceAmount: farmWithdraw.depositedAmount!,
                   onTap: () {
                     ref
                         .read(

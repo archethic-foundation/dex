@@ -1,7 +1,5 @@
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_back.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_details_front.dart';
@@ -30,46 +28,42 @@ class FarmListItem extends ConsumerStatefulWidget {
 class FarmListItemState extends ConsumerState<FarmListItem> {
   final flipCardController = FlipCardController();
   DexFarm? farmInfos;
-  DexFarmUserInfos? userInfos;
   double? userBalance;
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await loadInfo();
+      if (mounted) {
+        await loadInfo();
+      }
     });
-
     super.initState();
   }
 
   Future<void> loadInfo() async {
-    farmInfos = await ref.watch(
-      DexFarmProviders.getFarmInfos(
-        widget.farm.farmAddress,
-        widget.farm.poolAddress,
-        dexFarmInput: widget.farm,
-      ).future,
-    );
-    setState(() {});
-    final session = ref.watch(SessionProviders.session);
-    if (session.isConnected) {
-      userInfos = await ref.watch(
-        DexFarmProviders.getUserInfos(
+    if (!mounted) return;
+
+    try {
+      farmInfos = await ref.read(
+        DexFarmProviders.getFarmInfos(
           widget.farm.farmAddress,
-          session.genesisAddress,
+          widget.farm.poolAddress,
+          dexFarmInput: widget.farm,
         ).future,
       );
-      setState(() {});
-    }
 
-    userBalance = await ref.watch(
-      FarmListProvider.balance(widget.farm.lpToken!.address).future,
-    );
-    setState(() {});
+      userBalance = await ref.read(
+        FarmListFormProvider.balance(widget.farm.lpToken!.address).future,
+      );
+
+      if (mounted) {
+        setState(() {});
+      }
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   Future<void> reload() async {
     farmInfos = null;
-    userInfos = null;
     userBalance = null;
     await loadInfo();
   }
@@ -92,7 +86,6 @@ class FarmListItemState extends ConsumerState<FarmListItem> {
                     fill: Fill.fillBack,
                     front: FarmDetailsFront(
                       farm: farmInfos ?? widget.farm,
-                      userInfos: userInfos,
                       userBalance: userBalance,
                     ),
                     back: FarmDetailsBack(

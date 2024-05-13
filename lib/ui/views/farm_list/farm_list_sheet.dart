@@ -1,7 +1,9 @@
-import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/components/farm_list_item.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
+import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -14,6 +16,7 @@ class FarmListSheet extends ConsumerStatefulWidget {
   });
 
   static const routerPage = '/farmList';
+
   @override
   ConsumerState<FarmListSheet> createState() => _FarmListSheetState();
 }
@@ -24,6 +27,12 @@ class _FarmListSheetState extends ConsumerState<FarmListSheet> {
     Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.farm;
+
+      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
+
+      await ref.read(FarmListFormProvider.farmListForm.notifier).getFarmsList(
+            cancelToken: UniqueKey().toString(),
+          );
     });
 
     super.initState();
@@ -31,62 +40,84 @@ class _FarmListSheetState extends ConsumerState<FarmListSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final asyncFarms = ref.watch(
-      DexFarmProviders.getFarmList,
-    );
-
     return MainScreenList(
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: aedappfm.Responsive.isDesktop(context) ||
-                    aedappfm.Responsive.isTablet(context)
-                ? 100
-                : 0,
-            bottom: aedappfm.Responsive.isDesktop(context) ||
-                    aedappfm.Responsive.isTablet(context)
-                ? 40
-                : 0,
-          ),
-          child: asyncFarms.when(
-            skipLoadingOnRefresh: true,
-            skipLoadingOnReload: true,
-            error: (error, stacktrace) => const aedappfm.Loading(),
-            loading: aedappfm.Loading.new,
-            data: (farms) => GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: MediaQuery.of(context).size.width >= 1500
-                    ? 3
-                    : aedappfm.Responsive.isDesktop(context) ||
-                            aedappfm.Responsive.isTablet(context)
-                        ? 2
-                        : 1,
-                mainAxisExtent: 640,
-                crossAxisSpacing: 30,
-                mainAxisSpacing: 10,
-              ),
-              padding: EdgeInsets.only(
-                left: aedappfm.Responsive.isDesktop(context) ||
-                        aedappfm.Responsive.isTablet(context)
-                    ? 50
-                    : 5,
-                right: aedappfm.Responsive.isDesktop(context) ||
-                        aedappfm.Responsive.isTablet(context)
-                    ? 50
-                    : 5,
-              ),
-              itemCount: farms.length,
-              itemBuilder: (context, index) {
-                final farm = farms[index];
-                return FarmListItem(
-                  key: Key(farm.farmAddress),
-                  farm: farm,
-                );
-              },
-            ),
-          ),
-        ),
-      ),
+      body: _body(context, ref),
     );
   }
+}
+
+@override
+Widget _body(BuildContext context, WidgetRef ref) {
+  final asyncFarms =
+      ref.watch(FarmListFormProvider.farmListForm).farmsToDisplay;
+
+  return Center(
+    child: Padding(
+      padding: EdgeInsets.only(
+        top: aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? 100
+            : 0,
+        bottom: aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? 40
+            : 0,
+      ),
+      child: asyncFarms.when(
+        error: (error, stackTrace) => aedappfm.ErrorMessage(
+          failure: aedappfm.Failure.fromError(error),
+          failureMessage: FailureMessage(
+            context: context,
+            failure: aedappfm.Failure.fromError(error),
+          ).getMessage(),
+        ),
+        loading: () {
+          return const Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+        data: (farms) => GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: MediaQuery.of(context).size.width >= 1500
+                ? 3
+                : aedappfm.Responsive.isDesktop(context) ||
+                        aedappfm.Responsive.isTablet(context)
+                    ? 2
+                    : 1,
+            mainAxisExtent: 640,
+            crossAxisSpacing: 30,
+            mainAxisSpacing: 10,
+          ),
+          padding: EdgeInsets.only(
+            left: aedappfm.Responsive.isDesktop(context) ||
+                    aedappfm.Responsive.isTablet(context)
+                ? 50
+                : 5,
+            right: aedappfm.Responsive.isDesktop(context) ||
+                    aedappfm.Responsive.isTablet(context)
+                ? 50
+                : 5,
+          ),
+          itemCount: farms.length,
+          itemBuilder: (context, index) {
+            final farm = farms[index];
+            return FarmListItem(
+              key: Key(farm.farmAddress),
+              farm: farm,
+            );
+          },
+        ),
+      ),
+    ),
+  );
 }

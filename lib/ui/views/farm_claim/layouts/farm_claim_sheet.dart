@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
@@ -19,12 +18,14 @@ class FarmClaimSheet extends ConsumerStatefulWidget {
     required this.farmAddress,
     required this.rewardToken,
     required this.lpTokenAddress,
+    required this.rewardAmount,
     super.key,
   });
 
   final String farmAddress;
   final DexToken rewardToken;
   final String lpTokenAddress;
+  final double rewardAmount;
 
   static const routerPage = '/farmClaim';
 
@@ -41,32 +42,20 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.farm;
 
+        await ref
+            .read(SessionProviders.session.notifier)
+            .updateCtxInfo(context);
+
         ref.read(FarmClaimFormProvider.farmClaimForm.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
-          ..setLpTokenAddress(widget.lpTokenAddress);
-
+          ..setLpTokenAddress(widget.lpTokenAddress)
+          ..setRewardAmount(widget.rewardAmount);
         final session = ref.read(SessionProviders.session);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.go(FarmListSheet.routerPage);
           }
-        }
-
-        final farmUserInfo = await ref.read(
-          DexFarmProviders.getUserInfos(
-            widget.farmAddress,
-            session.genesisAddress,
-          ).future,
-        );
-        if (farmUserInfo == null) {
-          if (mounted) {
-            context.go(FarmListSheet.routerPage);
-          }
-        } else {
-          ref
-              .read(FarmClaimFormProvider.farmClaimForm.notifier)
-              .setDexFarmUserInfo(farmUserInfo);
         }
       } catch (e) {
         if (mounted) {

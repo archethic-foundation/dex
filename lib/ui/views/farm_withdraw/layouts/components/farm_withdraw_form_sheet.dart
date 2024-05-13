@@ -21,7 +21,8 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
     if (farmWithdraw.dexFarmInfo == null ||
-        farmWithdraw.dexFarmUserInfo == null) {
+        farmWithdraw.rewardToken == null ||
+        farmWithdraw.depositedAmount == null) {
       return const Padding(
         padding: EdgeInsets.only(top: 120, bottom: 120),
         child: SizedBox(
@@ -79,7 +80,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                         AppLocalizations.of(context)!.farmWithdrawFormText,
                         style: AppTextStyles.bodyLarge(context),
                       ),
-                      if (farmWithdraw.dexFarmUserInfo!.rewardAmount == 0)
+                      if (farmWithdraw.rewardAmount == 0)
                         SelectableText(
                           AppLocalizations.of(context)!
                               .farmWithdrawFormTextNoRewardText1,
@@ -90,14 +91,31 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                           future: FiatValue().display(
                             ref,
                             farmWithdraw.dexFarmInfo!.rewardToken!,
-                            farmWithdraw.dexFarmUserInfo!.rewardAmount,
+                            farmWithdraw.rewardAmount!,
                           ),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Row(
                                 children: [
                                   SelectableText(
-                                    '${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
+                                    farmWithdraw.rewardAmount!.formatNumber(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: aedappfm
+                                              .AppThemeBase.secondaryColor,
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                  SelectableText(
+                                    ' ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -115,14 +133,14 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                                     '${snapshot.data}',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyMedium!
+                                        .bodyLarge!
                                         .copyWith(
                                           fontSize: aedappfm.Responsive
                                               .fontSizeFromTextStyle(
                                             context,
                                             Theme.of(context)
                                                 .textTheme
-                                                .bodyMedium!,
+                                                .bodyLarge!,
                                           ),
                                         ),
                                   ),

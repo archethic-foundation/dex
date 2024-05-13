@@ -23,7 +23,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
-    if (farmClaim.dexFarmUserInfo == null) {
+    if (farmClaim.rewardAmount == null) {
       return const SizedBox.shrink();
     }
     final session = ref.watch(SessionProviders.session);
@@ -47,7 +47,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                 future: FiatValue().display(
                   ref,
                   farmClaim.rewardToken!,
-                  farmClaim.dexFarmUserInfo!.rewardAmount,
+                  farmClaim.rewardAmount!,
                 ),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -60,7 +60,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                             style: AppTextStyles.bodyLarge(context),
                           ),
                           TextSpan(
-                            text: farmClaim.dexFarmUserInfo!.rewardAmount
+                            text: farmClaim.rewardAmount!
                                 .formatNumber(precision: 8),
                             style:
                                 AppTextStyles.bodyLargeSecondaryColor(context),
@@ -134,8 +134,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                                     snapshot.data!.toString(),
                                   ) +
                                   Decimal.parse(
-                                    farmClaim.dexFarmUserInfo!.rewardAmount
-                                        .toString(),
+                                    farmClaim.rewardAmount.toString(),
                                   ))
                               .toDouble(),
                           token: farmClaim.rewardToken,

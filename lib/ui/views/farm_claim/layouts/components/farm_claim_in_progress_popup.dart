@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/usecases/claim_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_final_amount.dart';
@@ -93,20 +92,13 @@ class FarmClaimInProgressPopup {
           ? AppLocalizations.of(context)!.farmClaimProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        final session = ref.read(SessionProviders.session);
         final _farmClaim = ref.read(FarmClaimFormProvider.farmClaimForm);
         ref
           ..invalidate(
             DexFarmProviders.getFarmList,
           )
           ..invalidate(
-            DexFarmProviders.getUserInfos(
-              _farmClaim.farmAddress!,
-              session.genesisAddress,
-            ),
-          )
-          ..invalidate(
-            FarmListProvider.balance(
+            FarmListFormProvider.balance(
               _farmClaim.lpTokenAddress,
             ),
           )

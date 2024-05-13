@@ -63,8 +63,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
             ),
           ),
         if (finalAmountReward != null)
-          if ((farmWithdraw.isFarmClose &&
-                  farmWithdraw.dexFarmUserInfo!.rewardAmount > 0) ||
+          if ((farmWithdraw.isFarmClose && farmWithdraw.rewardAmount! > 0) ||
               farmWithdraw.isFarmClose == false)
             SelectableText(
               '${AppLocalizations.of(context)!.farmWithdrawFinalAmountReward} ${finalAmountReward.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
@@ -78,7 +77,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
           else
             const SizedBox.shrink()
         else if (timeout == false)
-          if (farmWithdraw.dexFarmUserInfo!.rewardAmount > 0)
+          if (farmWithdraw.rewardAmount! > 0)
             Row(
               children: [
                 SelectableText(
