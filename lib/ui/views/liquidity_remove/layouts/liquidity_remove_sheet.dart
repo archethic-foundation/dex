@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -7,6 +8,7 @@ import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_rem
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +20,14 @@ class LiquidityRemoveSheet extends ConsumerStatefulWidget {
     required this.pool,
     required this.pair,
     required this.lpToken,
+    required this.poolsListTab,
     super.key,
   });
 
   final DexPool pool;
   final DexPair pair;
   final DexToken lpToken;
+  final PoolsListTab poolsListTab;
 
   static const routerPage = '/liquidityRemove';
 
@@ -41,7 +45,12 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.pool;
 
+        await ref
+            .read(SessionProviders.session.notifier)
+            .updateCtxInfo(context);
+
         ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
+          ..setPoolsListTab(widget.poolsListTab)
           ..setToken1(widget.pair.token1)
           ..setToken2(widget.pair.token2)
           ..setLpToken(widget.lpToken);
@@ -55,7 +64,14 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
             .initBalance();
       } catch (e) {
         if (mounted) {
-          context.go(PoolListSheet.routerPage);
+          context.go(
+            Uri(
+              path: PoolListSheet.routerPage,
+              queryParameters: {
+                'tab': widget.poolsListTab,
+              },
+            ).toString(),
+          );
         }
       }
     });

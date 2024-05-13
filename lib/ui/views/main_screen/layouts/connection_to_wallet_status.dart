@@ -70,6 +70,9 @@ class _ConnectionToWalletStatusState
                   ),
                 );
               }
+              if (context.mounted) {
+                await sessionNotifier.updateCtxInfo(context);
+              }
             },
             child: ShaderMask(
               blendMode: BlendMode.srcIn,

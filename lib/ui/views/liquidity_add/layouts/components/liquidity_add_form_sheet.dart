@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
@@ -88,16 +89,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                           children: [
                             SelectableText(
                               '${AppLocalizations.of(context)!.slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyLarge!,
-                                    ),
-                                  ),
+                              style: AppTextStyles.bodyLarge(context),
                             ),
                             const Align(
                               alignment: Alignment.centerRight,
@@ -306,7 +298,19 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             Expanded(
                               child: aedappfm.ButtonClose(
                                 onPressed: () {
-                                  context.go(PoolListSheet.routerPage);
+                                  final poolsListTabEncoded =
+                                      Uri.encodeComponent(
+                                    liquidityAdd.poolsListTab.name,
+                                  );
+
+                                  context.go(
+                                    Uri(
+                                      path: PoolListSheet.routerPage,
+                                      queryParameters: {
+                                        'tab': poolsListTabEncoded,
+                                      },
+                                    ).toString(),
+                                  );
                                 },
                               ),
                             ),

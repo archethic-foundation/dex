@@ -1,6 +1,8 @@
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class DexPriceImpact extends StatelessWidget {
   const DexPriceImpact({
@@ -20,7 +22,7 @@ class DexPriceImpact extends StatelessWidget {
       children: [
         if (withLabel!)
           SelectableText(
-            'Price impact: ${priceImpact.formatNumber()}%',
+            '${AppLocalizations.of(context)!.priceImpact} ${priceImpact.formatNumber()}%',
             style: priceImpact > 5
                 ? textStyle?.copyWith(
                       color: aedappfm.ArchethicThemeBase.systemDanger500,
@@ -45,14 +47,7 @@ class DexPriceImpact extends StatelessWidget {
                                 Theme.of(context).textTheme.bodyLarge!,
                               ),
                             )
-                    : textStyle ??
-                        Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                    : textStyle ?? AppTextStyles.bodyLarge(context),
           )
         else
           SelectableText(
@@ -72,20 +67,13 @@ class DexPriceImpact extends StatelessWidget {
                               color:
                                   aedappfm.ArchethicThemeBase.systemWarning600,
                             )
-                    : textStyle ??
-                        Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                    : textStyle ?? AppTextStyles.bodyLarge(context),
           ),
         if (priceImpact > 1)
           Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Tooltip(
-              message: 'Warning, the price impact is high.',
+              message: AppLocalizations.of(context)!.priceImpactHighTooltip,
               child: Icon(
                 Icons.warning,
                 color: priceImpact > 5

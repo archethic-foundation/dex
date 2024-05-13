@@ -22,7 +22,7 @@ final _dexFarmRepositoryProvider =
 );
 
 typedef _DexFarmRepositoryRef = AutoDisposeProviderRef<DexFarmRepositoryImpl>;
-String _$getFarmInfosHash() => r'ddf1e7542d946a822e8d680eaaa0596f9d8ca601';
+String _$getFarmInfosHash() => r'044528f19eb6d52d83758f56f71d900df5c19659';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -205,160 +205,11 @@ class _GetFarmInfosProviderElement
   DexFarm? get dexFarmInput => (origin as _GetFarmInfosProvider).dexFarmInput;
 }
 
-String _$getUserInfosHash() => r'3d0d27ade16181e5df87c29457886f8c0b1ed239';
-
-/// See also [_getUserInfos].
-@ProviderFor(_getUserInfos)
-const _getUserInfosProvider = _GetUserInfosFamily();
-
-/// See also [_getUserInfos].
-class _GetUserInfosFamily extends Family<AsyncValue<DexFarmUserInfos?>> {
-  /// See also [_getUserInfos].
-  const _GetUserInfosFamily();
-
-  /// See also [_getUserInfos].
-  _GetUserInfosProvider call(
-    String farmGenesisAddress,
-    String userGenesisAddress,
-  ) {
-    return _GetUserInfosProvider(
-      farmGenesisAddress,
-      userGenesisAddress,
-    );
-  }
-
-  @override
-  _GetUserInfosProvider getProviderOverride(
-    covariant _GetUserInfosProvider provider,
-  ) {
-    return call(
-      provider.farmGenesisAddress,
-      provider.userGenesisAddress,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_getUserInfosProvider';
-}
-
-/// See also [_getUserInfos].
-class _GetUserInfosProvider
-    extends AutoDisposeFutureProvider<DexFarmUserInfos?> {
-  /// See also [_getUserInfos].
-  _GetUserInfosProvider(
-    String farmGenesisAddress,
-    String userGenesisAddress,
-  ) : this._internal(
-          (ref) => _getUserInfos(
-            ref as _GetUserInfosRef,
-            farmGenesisAddress,
-            userGenesisAddress,
-          ),
-          from: _getUserInfosProvider,
-          name: r'_getUserInfosProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getUserInfosHash,
-          dependencies: _GetUserInfosFamily._dependencies,
-          allTransitiveDependencies:
-              _GetUserInfosFamily._allTransitiveDependencies,
-          farmGenesisAddress: farmGenesisAddress,
-          userGenesisAddress: userGenesisAddress,
-        );
-
-  _GetUserInfosProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.farmGenesisAddress,
-    required this.userGenesisAddress,
-  }) : super.internal();
-
-  final String farmGenesisAddress;
-  final String userGenesisAddress;
-
-  @override
-  Override overrideWith(
-    FutureOr<DexFarmUserInfos?> Function(_GetUserInfosRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _GetUserInfosProvider._internal(
-        (ref) => create(ref as _GetUserInfosRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        farmGenesisAddress: farmGenesisAddress,
-        userGenesisAddress: userGenesisAddress,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<DexFarmUserInfos?> createElement() {
-    return _GetUserInfosProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _GetUserInfosProvider &&
-        other.farmGenesisAddress == farmGenesisAddress &&
-        other.userGenesisAddress == userGenesisAddress;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, farmGenesisAddress.hashCode);
-    hash = _SystemHash.combine(hash, userGenesisAddress.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _GetUserInfosRef on AutoDisposeFutureProviderRef<DexFarmUserInfos?> {
-  /// The parameter `farmGenesisAddress` of this provider.
-  String get farmGenesisAddress;
-
-  /// The parameter `userGenesisAddress` of this provider.
-  String get userGenesisAddress;
-}
-
-class _GetUserInfosProviderElement
-    extends AutoDisposeFutureProviderElement<DexFarmUserInfos?>
-    with _GetUserInfosRef {
-  _GetUserInfosProviderElement(super.provider);
-
-  @override
-  String get farmGenesisAddress =>
-      (origin as _GetUserInfosProvider).farmGenesisAddress;
-  @override
-  String get userGenesisAddress =>
-      (origin as _GetUserInfosProvider).userGenesisAddress;
-}
-
-String _$getFarmListHash() => r'0456f766ef58590668b33c6c7082f651f4888d15';
+String _$getFarmListHash() => r'af1840e7d71223a1171be0edd0793034cc4baea0';
 
 /// See also [_getFarmList].
 @ProviderFor(_getFarmList)
-final _getFarmListProvider = FutureProvider<List<DexFarm>>.internal(
+final _getFarmListProvider = AutoDisposeFutureProvider<List<DexFarm>>.internal(
   _getFarmList,
   name: r'_getFarmListProvider',
   debugGetCreateSourceHash:
@@ -367,6 +218,6 @@ final _getFarmListProvider = FutureProvider<List<DexFarm>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _GetFarmListRef = FutureProviderRef<List<DexFarm>>;
+typedef _GetFarmListRef = AutoDisposeFutureProviderRef<List<DexFarm>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

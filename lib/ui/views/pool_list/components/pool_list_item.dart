@@ -1,43 +1,81 @@
+import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider_item.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_add_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_refresh_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_remove_favorite_icon.dart';
+import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PoolListItem extends ConsumerStatefulWidget {
   const PoolListItem({
     super.key,
-    required this.poolDetail,
+    required this.pool,
+    required this.tab,
   });
 
-  final DexPool poolDetail;
+  final DexPool pool;
+  final PoolsListTab tab;
 
   @override
-  ConsumerState<PoolListItem> createState() => _PoolListItemState();
+  ConsumerState<PoolListItem> createState() => PoolListItemState();
 }
 
-class _PoolListItemState extends ConsumerState<PoolListItem> {
+class PoolListItemState extends ConsumerState<PoolListItem> {
   final flipCardController = FlipCardController();
+  DexPool? poolInfos;
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      ref
-          .read(
-            PoolItemProvider.poolItem(widget.poolDetail.poolAddress).notifier,
-          )
-          .setPool(widget.poolDetail);
+      if (mounted) {
+        await loadInfo();
+      }
     });
     super.initState();
+  }
+
+  Future<void> loadInfo({bool forceLoadFromBC = false}) async {
+    poolInfos = await ref.read(
+      DexPoolProviders.loadPoolCard(
+        widget.pool,
+        forceLoadFromBC: forceLoadFromBC,
+      ).future,
+    );
+    final session = ref.watch(SessionProviders.session);
+    ref.invalidate(
+      BalanceProviders.getBalance(
+        session.genesisAddress,
+        widget.pool.lpToken.address!,
+      ),
+    );
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> reload() async {
+    poolInfos = null;
+    if (mounted) {
+      setState(() {});
+    }
+    if (mounted) {
+      await loadInfo(
+        forceLoadFromBC: true,
+      );
+    }
   }
 
   @override
@@ -58,10 +96,11 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                     flipOnTouch: false,
                     fill: Fill.fillBack,
                     front: PoolDetailsFront(
-                      pool: widget.poolDetail,
+                      pool: poolInfos ?? widget.pool,
+                      tab: widget.tab,
                     ),
                     back: PoolDetailsBack(
-                      pool: widget.poolDetail,
+                      pool: poolInfos ?? widget.pool,
                     ),
                   ),
                 ),
@@ -81,21 +120,39 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
               Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: PoolRefreshIcon(
-                  poolAddress: widget.poolDetail.poolAddress,
+                  poolAddress: widget.pool.poolAddress,
                 ),
               ),
-              if (widget.poolDetail.isFavorite)
+              if (poolInfos != null && poolInfos!.isFavorite)
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: PoolRemoveFavoriteIcon(
-                    poolAddress: widget.poolDetail.poolAddress,
+                    poolAddress: widget.pool.poolAddress,
+                    onRemoved: () async {
+                      context.go(
+                        Uri(
+                          path: PoolListSheet.routerPage,
+                          queryParameters: {
+                            'tab': Uri.encodeComponent(
+                              PoolsListTab.favoritePools.name,
+                            ),
+                          },
+                        ).toString(),
+                      );
+                      await ref
+                          .read(PoolListFormProvider.poolListForm.notifier)
+                          .getPoolsList(
+                            tabIndexSelected: PoolsListTab.favoritePools,
+                            cancelToken: UniqueKey().toString(),
+                          );
+                    },
                   ),
                 )
               else
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: PoolAddFavoriteIcon(
-                    poolAddress: widget.poolDetail.poolAddress,
+                    poolAddress: widget.pool.poolAddress,
                   ),
                 ),
               SizedBox(
@@ -114,13 +171,13 @@ class _PoolListItemState extends ConsumerState<PoolListItem> {
                       .withOpacity(1),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                      top: 7,
+                      top: 9,
                       bottom: 5,
                       left: 10,
                       right: 10,
                     ),
-                    child: SelectableText(
-                      'Pool',
+                    child: Text(
+                      AppLocalizations.of(context)!.poolCardTitle,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

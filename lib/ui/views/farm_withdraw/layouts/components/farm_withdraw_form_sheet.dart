@@ -2,10 +2,9 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_textfield_amount.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -22,7 +21,8 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
     if (farmWithdraw.dexFarmInfo == null ||
-        farmWithdraw.dexFarmUserInfo == null) {
+        farmWithdraw.rewardToken == null ||
+        farmWithdraw.depositedAmount == null) {
       return const Padding(
         padding: EdgeInsets.only(top: 120, bottom: 120),
         child: SizedBox(
@@ -77,42 +77,45 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SelectableText(
-                        'You can withdraw all or part of your deposited LP tokens. At the same time, this will claim your rewards.',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        AppLocalizations.of(context)!.farmWithdrawFormText,
+                        style: AppTextStyles.bodyLarge(context),
                       ),
-                      if (farmWithdraw.dexFarmUserInfo!.rewardAmount == 0)
+                      if (farmWithdraw.rewardAmount == 0)
                         SelectableText(
-                          'No reward are available',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyLarge!,
-                                ),
-                              ),
+                          AppLocalizations.of(context)!
+                              .farmWithdrawFormTextNoRewardText1,
+                          style: AppTextStyles.bodyLarge(context),
                         )
                       else
                         FutureBuilder<String>(
                           future: FiatValue().display(
                             ref,
                             farmWithdraw.dexFarmInfo!.rewardToken!,
-                            farmWithdraw.dexFarmUserInfo!.rewardAmount,
+                            farmWithdraw.rewardAmount!,
                           ),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Row(
                                 children: [
                                   SelectableText(
-                                    '${farmWithdraw.dexFarmUserInfo!.rewardAmount.formatNumber()} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
+                                    farmWithdraw.rewardAmount!.formatNumber(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: aedappfm
+                                              .AppThemeBase.secondaryColor,
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                  SelectableText(
+                                    ' ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol} ',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -130,19 +133,20 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                                     '${snapshot.data}',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyMedium!
+                                        .bodyLarge!
                                         .copyWith(
                                           fontSize: aedappfm.Responsive
                                               .fontSizeFromTextStyle(
                                             context,
                                             Theme.of(context)
                                                 .textTheme
-                                                .bodyMedium!,
+                                                .bodyLarge!,
                                           ),
                                         ),
                                   ),
                                   SelectableText(
-                                    ' are available for claiming.',
+                                    AppLocalizations.of(context)!
+                                        .farmWithdrawFormTextNoRewardText2,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!

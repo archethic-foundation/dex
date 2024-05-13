@@ -2,11 +2,13 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
+import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class DexEnv extends ConsumerStatefulWidget {
   const DexEnv({
@@ -113,11 +115,9 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                     await HivePreferencesDatasource.getInstance();
                 aedappfm.sl.get<aedappfm.LogManager>().logsActived =
                     preferences.isLogsActived();
-                await ref
-                    .read(
-                      aedappfm.VerifiedTokensProviders.verifiedTokens.notifier,
-                    )
-                    .init();
+                if (context.mounted) {
+                  context.go(SwapSheet.routerPage);
+                }
               },
             ),
           if (session.isConnected == false)
@@ -162,10 +162,22 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 ref
                     .read(SessionProviders.session.notifier)
                     .connectEndpoint('testnet');
+                ref
+                  ..invalidate(aedappfm.UcidsTokensProviders.ucidsTokens)
+                  ..invalidate(aedappfm.CoinPriceProviders.coinPrice);
+                if (context.mounted) {
+                  await ref
+                      .read(SessionProviders.session.notifier)
+                      .updateCtxInfo(context);
+                }
+
                 final preferences =
                     await HivePreferencesDatasource.getInstance();
                 aedappfm.sl.get<aedappfm.LogManager>().logsActived =
                     preferences.isLogsActived();
+                if (context.mounted) {
+                  context.go(SwapSheet.routerPage);
+                }
               },
             ),
         ],

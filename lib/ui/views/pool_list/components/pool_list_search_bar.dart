@@ -4,6 +4,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolListSearchBar extends ConsumerStatefulWidget {
@@ -91,7 +92,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
                 if (text.isNotEmpty) {
                   await ref
                       .read(PoolListFormProvider.poolListForm.notifier)
-                      .setPoolsToDisplay(
+                      .getPoolsList(
                         tabIndexSelected: PoolsListTab.searchPool,
                         cancelToken: UniqueKey().toString(),
                       );
@@ -107,7 +108,7 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 isDense: true,
-                hintText: 'Search by pool or token address or "UCO"',
+                hintText: AppLocalizations.of(context)!.poolListSearchBarHint,
                 hintStyle: Theme.of(context).textTheme.bodySmall,
               ),
             ),

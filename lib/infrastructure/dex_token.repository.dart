@@ -21,7 +21,10 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
   ) async {
     DexToken? token;
     final tokensListDatasource = await HiveTokensListDatasource.getInstance();
-    final tokenHive = tokensListDatasource.getToken(address);
+    final tokenHive = tokensListDatasource.getToken(
+      aedappfm.EndpointUtil.getEnvironnement(),
+      address,
+    );
     if (tokenHive == null) {
       final tokenMap = await aedappfm.sl.get<ApiService>().getToken(
         [address],
@@ -30,7 +33,10 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
       if (tokenMap[address] != null && tokenMap[address]!.type == 'fungible') {
         token = tokenSDKToModel(tokenMap[address]!, 0);
         token = token.copyWith(address: address);
-        await tokensListDatasource.setToken(token.toHive());
+        await tokensListDatasource.setToken(
+          aedappfm.EndpointUtil.getEnvironnement(),
+          token.toHive(),
+        );
       }
     } else {
       token = tokenHive.toModel();

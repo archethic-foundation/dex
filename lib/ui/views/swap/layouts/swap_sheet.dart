@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
@@ -32,6 +33,8 @@ class _SwapSheetState extends ConsumerState<SwapSheet> {
     Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.swap;
+
+      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
 
       try {
         if (widget.tokenToSwap != null && widget.tokenSwapped != null) {

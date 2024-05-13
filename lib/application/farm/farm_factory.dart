@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
 import 'package:aedex/domain/models/util/get_user_infos_response.dart';
@@ -41,6 +40,7 @@ class FarmFactory with ModelParser {
   Future<aedappfm.Result<DexFarm, aedappfm.Failure>> populateFarmInfos(
     DexPool pool,
     DexFarm farmInput,
+    String userGenesisAddress,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -51,6 +51,7 @@ class FarmFactory with ModelParser {
           factoryAddress,
           getFarmInfosResponse,
           pool,
+          userGenesisAddress,
           dexFarmInput: farmInput,
         );
       },
@@ -58,7 +59,9 @@ class FarmFactory with ModelParser {
   }
 
   /// Returns the informations of a user who has deposited lp token in the farm
-  Future<aedappfm.Result<DexFarmUserInfos, aedappfm.Failure>> getUserInfos(
+  Future<
+      aedappfm.Result<({double depositedAmount, double rewardAmount}),
+          aedappfm.Failure>> getUserInfos(
     String userGenesisAddress,
   ) async {
     return aedappfm.Result.guard(
@@ -76,7 +79,7 @@ class FarmFactory with ModelParser {
         ) as Map<String, dynamic>?;
 
         final getUserInfosResponse = GetUserInfosResponse.fromJson(results!);
-        return DexFarmUserInfos(
+        return (
           depositedAmount: getUserInfosResponse.depositedAmount,
           rewardAmount: getUserInfosResponse.rewardAmount,
         );

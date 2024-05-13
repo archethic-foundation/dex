@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -13,7 +12,6 @@ class FarmClaimFormState with _$FarmClaimFormState {
     @Default(ProcessStep.form) ProcessStep processStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
-    DexFarmUserInfos? dexFarmUserInfo,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool farmClaimOk,
     @Default(false) bool walletConfirmation,
@@ -24,11 +22,10 @@ class FarmClaimFormState with _$FarmClaimFormState {
     DexToken? rewardToken,
     String? lpTokenAddress,
     DateTime? consentDateTime,
+    double? rewardAmount,
   }) = _FarmClaimFormState;
   const FarmClaimFormState._();
 
   bool get isControlsOk =>
-      failure == null &&
-      dexFarmUserInfo != null &&
-      dexFarmUserInfo!.rewardAmount > 0;
+      failure == null && rewardAmount != null && rewardAmount! > 0;
 }

@@ -1,9 +1,9 @@
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
+import 'package:aedex/ui/views/farm_list/components/farm_list_item.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
@@ -39,12 +39,6 @@ class FarmWithdrawFormNotifier
     );
   }
 
-  void setDexFarmUserInfo(DexFarmUserInfos dexFarmUserInfo) {
-    state = state.copyWith(
-      dexFarmUserInfo: dexFarmUserInfo,
-    );
-  }
-
   void setAmount(
     BuildContext context,
     double amount,
@@ -54,7 +48,7 @@ class FarmWithdrawFormNotifier
       amount: amount,
     );
 
-    if (state.amount > state.dexFarmUserInfo!.depositedAmount) {
+    if (state.amount > state.depositedAmount!) {
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
@@ -64,10 +58,16 @@ class FarmWithdrawFormNotifier
     }
   }
 
-  void setAmountMax(
-    BuildContext context,
-  ) {
-    setAmount(context, state.dexFarmUserInfo!.depositedAmount);
+  void setDepositedAmount(double? depositedAmount) {
+    state = state.copyWith(depositedAmount: depositedAmount);
+  }
+
+  void setRewardAmount(double? rewardAmount) {
+    state = state.copyWith(rewardAmount: rewardAmount);
+  }
+
+  void setAmountMax(BuildContext context) {
+    setAmount(context, state.depositedAmount!);
   }
 
   void setAmountHalf(
@@ -75,8 +75,7 @@ class FarmWithdrawFormNotifier
   ) {
     setAmount(
       context,
-      (Decimal.parse(state.dexFarmUserInfo!.depositedAmount.toString()) /
-              Decimal.fromInt(2))
+      (Decimal.parse(state.depositedAmount.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
   }
@@ -181,7 +180,7 @@ class FarmWithdrawFormNotifier
       return false;
     }
 
-    if (state.amount > state.dexFarmUserInfo!.depositedAmount) {
+    if (state.amount > state.depositedAmount!) {
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
@@ -219,6 +218,12 @@ class FarmWithdrawFormNotifier
       finalAmountReward: finalAmounts.finalAmountReward,
       finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
     );
+
+    if (context.mounted) {
+      final farmListItemState =
+          context.findAncestorStateOfType<FarmListItemState>();
+      await farmListItemState?.reload();
+    }
   }
 }
 

@@ -1,9 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddFavoriteIcon extends ConsumerWidget {
@@ -23,21 +24,14 @@ class PoolAddFavoriteIcon extends ConsumerWidget {
             poolAddress,
           ),
         );
-        final poolListForm = ref.read(
-          PoolListFormProvider.poolListForm,
-        );
-
-        await ref
-            .read(
-              PoolListFormProvider.poolListForm.notifier,
-            )
-            .setPoolsToDisplay(
-              tabIndexSelected: poolListForm.tabIndexSelected,
-              cancelToken: UniqueKey().toString(),
-            );
+        if (context.mounted) {
+          final poolListItemState =
+              context.findAncestorStateOfType<PoolListItemState>();
+          await poolListItemState?.reload();
+        }
       },
       child: Tooltip(
-        message: 'Add this pool in my favorites tab',
+        message: AppLocalizations.of(context)!.poolAddFavoriteIconTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

@@ -16,12 +16,75 @@ Future<DexPool?> _getPool(
 }
 
 @riverpod
-Future<DexPool?> _getPoolInfos(
-  _GetPoolInfosRef ref,
-  DexPool poolInput,
-) async {
-  final poolInfos =
-      await ref.watch(_dexPoolRepositoryProvider).populatePoolInfos(poolInput);
+Future<DexPool> _loadPoolCard(
+  _LoadPoolCardRef ref,
+  DexPool poolInput, {
+  bool forceLoadFromBC = false,
+}) async {
+  DexPool poolOutput;
 
-  return poolInfos;
+  // Load from cache
+  final poolsListDatasource = await HivePoolsListDatasource.getInstance();
+  final poolHive = poolsListDatasource.getPool(
+    aedappfm.EndpointUtil.getEnvironnement(),
+    poolInput.poolAddress,
+  );
+
+  if (forceLoadFromBC == true || poolHive == null) {
+    // Set to cache
+    await poolsListDatasource.setPool(
+      aedappfm.EndpointUtil.getEnvironnement(),
+      poolInput.toHive(),
+    );
+    poolOutput = poolInput;
+  } else {
+    poolOutput = poolHive.toDexPool();
+  }
+
+  // Load dynamic values
+  final apiService = aedappfm.sl.get<ApiService>();
+  final poolFactory =
+      PoolFactoryRepositoryImpl(poolInput.poolAddress, apiService);
+  final populatePoolInfosResult =
+      await poolFactory.populatePoolInfos(poolInput);
+  populatePoolInfosResult.map(
+    success: (success) {
+      poolOutput = success;
+    },
+    failure: (failure) {},
+  );
+
+  final userBalance = ref.read(SessionProviders.session).userBalance;
+  var lpTokenInUserBalance = false;
+  if (userBalance != null) {
+    for (final userTokensBalance in userBalance.token) {
+      if (poolOutput.lpToken.address!.toUpperCase() ==
+          userTokensBalance.address!.toUpperCase()) {
+        lpTokenInUserBalance = true;
+      }
+    }
+  }
+  poolOutput = poolOutput.copyWith(
+    lpTokenInUserBalance: lpTokenInUserBalance,
+  );
+
+  final tvl = ref.read(DexPoolProviders.estimatePoolTVLInFiat(poolOutput));
+
+  poolOutput =
+      await ref.read(DexPoolProviders.estimateStats(poolOutput).future);
+
+  // Favorite
+  final favoritePoolsDatasource =
+      await HiveFavoritePoolsDatasource.getInstance();
+  final isFavorite = favoritePoolsDatasource.isFavoritePool(
+    aedappfm.EndpointUtil.getEnvironnement(),
+    poolInput.poolAddress,
+  );
+
+  return poolOutput.copyWith(
+    isFavorite: isFavorite,
+    infos: poolOutput.infos!.copyWith(
+      tvl: tvl,
+    ),
+  );
 }

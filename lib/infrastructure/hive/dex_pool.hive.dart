@@ -64,6 +64,7 @@ class DexPoolHive extends HiveObject {
 class DexPoolInfosHive extends HiveObject {
   DexPoolInfosHive({
     required this.fees,
+    required this.tvl,
     required this.protocolFees,
     required this.ratioToken1Token2,
     required this.ratioToken2Token1,
@@ -75,6 +76,10 @@ class DexPoolInfosHive extends HiveObject {
     required this.token2TotalVolume24h,
     required this.token1TotalFee24h,
     required this.token2TotalFee24h,
+    required this.fee24h,
+    required this.feeAllTime,
+    required this.volume24h,
+    required this.volumeAllTime,
   });
 
   @HiveField(1)
@@ -116,8 +121,24 @@ class DexPoolInfosHive extends HiveObject {
   @HiveField(13)
   double? token2TotalFee24h;
 
+  @HiveField(14)
+  double? tvl;
+
+  @HiveField(15)
+  double? fee24h;
+
+  @HiveField(16)
+  double? feeAllTime;
+
+  @HiveField(17)
+  double? volume24h;
+
+  @HiveField(18)
+  double? volumeAllTime;
+
   DexPoolInfos toModel() => DexPoolInfos(
         fees: fees,
+        tvl: tvl ?? 0,
         protocolFees: protocolFees,
         ratioToken1Token2: ratioToken1Token2,
         ratioToken2Token1: ratioToken2Token1,
@@ -129,12 +150,17 @@ class DexPoolInfosHive extends HiveObject {
         token1TotalVolume24h: token1TotalVolume24h ?? 0,
         token2TotalFee24h: token2TotalFee24h ?? 0,
         token2TotalVolume24h: token2TotalVolume24h ?? 0,
+        fee24h: fee24h ?? 0,
+        feeAllTime: feeAllTime ?? 0,
+        volume24h: volume24h ?? 0,
+        volumeAllTime: volumeAllTime ?? 0,
       );
 }
 
 extension DexPoolInfosHiveConversionExt on DexPoolInfos {
   DexPoolInfosHive toHive() => DexPoolInfosHive(
         fees: fees,
+        tvl: tvl,
         protocolFees: protocolFees,
         ratioToken1Token2: ratioToken1Token2,
         ratioToken2Token1: ratioToken2Token1,
@@ -146,6 +172,10 @@ extension DexPoolInfosHiveConversionExt on DexPoolInfos {
         token1TotalVolume24h: token1TotalVolume24h,
         token2TotalFee24h: token2TotalFee24h,
         token2TotalVolume24h: token2TotalVolume24h,
+        fee24h: fee24h,
+        feeAllTime: feeAllTime,
+        volume24h: volume24h,
+        volumeAllTime: volumeAllTime,
       );
 }
 

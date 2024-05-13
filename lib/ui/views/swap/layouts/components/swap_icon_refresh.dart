@@ -6,20 +6,35 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SwapTokenIconRefresh extends ConsumerWidget {
+class SwapTokenIconRefresh extends ConsumerStatefulWidget {
   const SwapTokenIconRefresh({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isRefreshSuccess =
-        ref.watch(SwapFormProvider.swapForm).refreshInProgress;
+  ConsumerState<SwapTokenIconRefresh> createState() =>
+      _SwapTokenIconRefreshState();
+}
 
+class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
+  bool? isRefreshSuccess;
+
+  @override
+  void initState() {
+    super.initState();
+    isRefreshSuccess = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        if (isRefreshSuccess) return;
-        ref.read(SwapFormProvider.swapForm.notifier).setRefreshInProgress(true);
+        if (isRefreshSuccess != null && isRefreshSuccess == true) return;
+        setState(
+          () {
+            isRefreshSuccess = true;
+          },
+        );
 
         ref.invalidate(aedappfm.CoinPriceProviders.coinPrice);
         await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
@@ -36,9 +51,13 @@ class SwapTokenIconRefresh extends ConsumerWidget {
         }
 
         await Future.delayed(const Duration(seconds: 3));
-        ref
-            .read(SwapFormProvider.swapForm.notifier)
-            .setRefreshInProgress(false);
+        if (mounted) {
+          setState(
+            () {
+              isRefreshSuccess = false;
+            },
+          );
+        }
       },
       child: Tooltip(
         message: 'Refresh information',
@@ -54,7 +73,7 @@ class SwapTokenIconRefresh extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             elevation: 0,
-            color: isRefreshSuccess
+            color: isRefreshSuccess != null && isRefreshSuccess == true
                 ? aedappfm.ArchethicThemeBase.systemPositive600
                 : aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
                     .withOpacity(1),
@@ -66,9 +85,13 @@ class SwapTokenIconRefresh extends ConsumerWidget {
                 right: 10,
               ),
               child: Icon(
-                isRefreshSuccess ? Icons.check : aedappfm.Iconsax.refresh,
+                isRefreshSuccess != null && isRefreshSuccess == true
+                    ? Icons.check
+                    : aedappfm.Iconsax.refresh,
                 size: 16,
-                color: isRefreshSuccess ? Colors.white : null,
+                color: isRefreshSuccess != null && isRefreshSuccess == true
+                    ? Colors.white
+                    : null,
               ),
             ),
           ),

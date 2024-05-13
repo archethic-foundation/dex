@@ -48,7 +48,6 @@ mixin _$SwapFormState {
   bool get calculationInProgress => throw _privateConstructorUsedError;
   DexPool? get pool => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
-  bool get refreshInProgress => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SwapFormStateCopyWith<SwapFormState> get copyWith =>
@@ -92,8 +91,7 @@ abstract class $SwapFormStateCopyWith<$Res> {
       Transaction? recoveryTransactionSwap,
       bool calculationInProgress,
       DexPool? pool,
-      DateTime? consentDateTime,
-      bool refreshInProgress});
+      DateTime? consentDateTime});
 
   $DexTokenCopyWith<$Res>? get tokenToSwap;
   $DexTokenCopyWith<$Res>? get tokenSwapped;
@@ -146,7 +144,6 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     Object? calculationInProgress = null,
     Object? pool = freezed,
     Object? consentDateTime = freezed,
-    Object? refreshInProgress = null,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -273,10 +270,6 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      refreshInProgress: null == refreshInProgress
-          ? _value.refreshInProgress
-          : refreshInProgress // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 
@@ -380,8 +373,7 @@ abstract class _$$SwapFormStateImplCopyWith<$Res>
       Transaction? recoveryTransactionSwap,
       bool calculationInProgress,
       DexPool? pool,
-      DateTime? consentDateTime,
-      bool refreshInProgress});
+      DateTime? consentDateTime});
 
   @override
   $DexTokenCopyWith<$Res>? get tokenToSwap;
@@ -437,7 +429,6 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
     Object? calculationInProgress = null,
     Object? pool = freezed,
     Object? consentDateTime = freezed,
-    Object? refreshInProgress = null,
   }) {
     return _then(_$SwapFormStateImpl(
       processStep: null == processStep
@@ -564,10 +555,6 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      refreshInProgress: null == refreshInProgress
-          ? _value.refreshInProgress
-          : refreshInProgress // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -606,8 +593,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
       this.recoveryTransactionSwap,
       this.calculationInProgress = false,
       this.pool,
-      this.consentDateTime,
-      this.refreshInProgress = false})
+      this.consentDateTime})
       : super._();
 
   @override
@@ -696,13 +682,10 @@ class _$SwapFormStateImpl extends _SwapFormState {
   final DexPool? pool;
   @override
   final DateTime? consentDateTime;
-  @override
-  @JsonKey()
-  final bool refreshInProgress;
 
   @override
   String toString() {
-    return 'SwapFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateAmountToSwap: $calculateAmountToSwap, calculateAmountSwapped: $calculateAmountSwapped, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, feesEstimatedUCO: $feesEstimatedUCO, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, calculationInProgress: $calculationInProgress, pool: $pool, consentDateTime: $consentDateTime, refreshInProgress: $refreshInProgress)';
+    return 'SwapFormState(processStep: $processStep, resumeProcess: $resumeProcess, calculateAmountToSwap: $calculateAmountToSwap, calculateAmountSwapped: $calculateAmountSwapped, currentStep: $currentStep, tokenFormSelected: $tokenFormSelected, poolGenesisAddress: $poolGenesisAddress, tokenToSwap: $tokenToSwap, isProcessInProgress: $isProcessInProgress, swapOk: $swapOk, walletConfirmation: $walletConfirmation, messageMaxHalfUCO: $messageMaxHalfUCO, tokenToSwapBalance: $tokenToSwapBalance, tokenToSwapAmount: $tokenToSwapAmount, tokenSwapped: $tokenSwapped, tokenSwappedBalance: $tokenSwappedBalance, tokenSwappedAmount: $tokenSwappedAmount, ratio: $ratio, swapFees: $swapFees, swapProtocolFees: $swapProtocolFees, slippageTolerance: $slippageTolerance, minToReceive: $minToReceive, priceImpact: $priceImpact, estimatedReceived: $estimatedReceived, feesEstimatedUCO: $feesEstimatedUCO, finalAmount: $finalAmount, failure: $failure, recoveryTransactionSwap: $recoveryTransactionSwap, calculationInProgress: $calculationInProgress, pool: $pool, consentDateTime: $consentDateTime)';
   }
 
   @override
@@ -768,9 +751,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
                 other.calculationInProgress == calculationInProgress) &&
             (identical(other.pool, pool) || other.pool == pool) &&
             (identical(other.consentDateTime, consentDateTime) ||
-                other.consentDateTime == consentDateTime) &&
-            (identical(other.refreshInProgress, refreshInProgress) ||
-                other.refreshInProgress == refreshInProgress));
+                other.consentDateTime == consentDateTime));
   }
 
   @override
@@ -806,8 +787,7 @@ class _$SwapFormStateImpl extends _SwapFormState {
         recoveryTransactionSwap,
         calculationInProgress,
         pool,
-        consentDateTime,
-        refreshInProgress
+        consentDateTime
       ]);
 
   @JsonKey(ignore: true)
@@ -849,8 +829,7 @@ abstract class _SwapFormState extends SwapFormState {
       final Transaction? recoveryTransactionSwap,
       final bool calculationInProgress,
       final DexPool? pool,
-      final DateTime? consentDateTime,
-      final bool refreshInProgress}) = _$SwapFormStateImpl;
+      final DateTime? consentDateTime}) = _$SwapFormStateImpl;
   const _SwapFormState._() : super._();
 
   @override
@@ -915,8 +894,6 @@ abstract class _SwapFormState extends SwapFormState {
   DexPool? get pool;
   @override
   DateTime? get consentDateTime;
-  @override
-  bool get refreshInProgress;
   @override
   @JsonKey(ignore: true)
   _$$SwapFormStateImplCopyWith<_$SwapFormStateImpl> get copyWith =>

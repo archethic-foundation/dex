@@ -37,9 +37,9 @@ double _estimatePoolTVLInFiat(
   var fiatValueToken2 = 0.0;
   var tvl = 0.0;
   fiatValueToken1 =
-      ref.watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token1));
+      ref.read(DexTokensProviders.estimateTokenInFiat(pool.pair.token1));
   fiatValueToken2 =
-      ref.watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token2));
+      ref.read(DexTokensProviders.estimateTokenInFiat(pool.pair.token2));
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
     tvl = pool.pair.token1.reserve * fiatValueToken1 +
@@ -57,18 +57,52 @@ double _estimatePoolTVLInFiat(
 }
 
 @riverpod
-DexPool _populatePoolInfosWithTokenStats24h(
-  _PopulatePoolInfosWithTokenStats24hRef ref,
+Future<DexPool> _estimateStats(
+  _EstimateStatsRef ref,
   DexPool pool,
-  Map<String, List<Transaction>> transactionChainResult,
-) {
+) async {
+  var volume24h = 0.0;
+  var fee24h = 0.0;
+  var volumeAllTime = 0.0;
+  var feeAllTime = 0.0;
+
+  var priceToken1 = 0.0;
+  var priceToken2 = 0.0;
+
+  var token1TotalVolumeCurrentFiat = 0.0;
+  var token2TotalVolumeCurrentFiat = 0.0;
+  var token1TotalVolume24hFiat = 0.0;
+  var token2TotalVolume24hFiat = 0.0;
+
+  var token1TotalFeeCurrentFiat = 0.0;
+  var token2TotalFeeCurrentFiat = 0.0;
+  var token1TotalFee24hFiat = 0.0;
+  var token2TotalFee24hFiat = 0.0;
+
   var token1TotalVolume24h = 0.0;
   var token2TotalVolume24h = 0.0;
   var token1TotalFee24h = 0.0;
   var token2TotalFee24h = 0.0;
+
+  Transaction? transaction;
+  final fromCriteria =
+      (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
+              1000)
+          .round();
+  final transactionChainResult =
+      await aedappfm.sl.get<ApiService>().getTransactionChain(
+    {pool.poolAddress: ''},
+    request:
+        ' address, chainLength, validationStamp { ledgerOperations { unspentOutputs { state } } }',
+    fromCriteria: fromCriteria,
+    orderAsc: false,
+  );
   if (transactionChainResult[pool.poolAddress] != null &&
-      transactionChainResult[pool.poolAddress]!.isNotEmpty) {
-    final transaction = transactionChainResult[pool.poolAddress]!.first;
+      transactionChainResult[pool.poolAddress]!.length > 1) {
+    transaction = transactionChainResult[pool.poolAddress]!.first;
+  }
+
+  if (transaction != null) {
     if (transaction.validationStamp != null &&
         transaction.validationStamp!.ledgerOperations != null &&
         transaction
@@ -104,51 +138,13 @@ DexPool _populatePoolInfosWithTokenStats24h(
     }
   }
 
-  var poolInfos = pool.infos!;
-  poolInfos = poolInfos.copyWith(
-    token1TotalVolume24h: token1TotalVolume24h,
-    token2TotalVolume24h: token2TotalVolume24h,
-    token1TotalFee24h: token1TotalFee24h,
-    token2TotalFee24h: token2TotalFee24h,
-  );
-  return pool.copyWith(infos: poolInfos);
-}
-
-@riverpod
-({
-  double volume24h,
-  double fee24h,
-  double volumeAllTime,
-  double feeAllTime,
-}) _estimateStats(
-  _EstimateStatsRef ref,
-  DexPool pool,
-) {
-  var volume24h = 0.0;
-  var fee24h = 0.0;
-  var volumeAllTime = 0.0;
-  var feeAllTime = 0.0;
-
-  var priceToken1 = 0.0;
-  var priceToken2 = 0.0;
-
-  var token1TotalVolumeCurrentFiat = 0.0;
-  var token2TotalVolumeCurrentFiat = 0.0;
-  var token1TotalVolume24hFiat = 0.0;
-  var token2TotalVolume24hFiat = 0.0;
-
-  var token1TotalFeeCurrentFiat = 0.0;
-  var token2TotalFeeCurrentFiat = 0.0;
-  var token1TotalFee24hFiat = 0.0;
-  var token2TotalFee24hFiat = 0.0;
-
   final archethicOracleUCO =
       ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
   if (pool.pair.token1.symbol == 'UCO') {
     priceToken1 = archethicOracleUCO.usd;
   } else {
-    priceToken1 = ref.watch(
+    priceToken1 = ref.read(
       aedappfm.CoinPriceProviders.coinPriceFromAddress(
         pool.pair.token1.address!,
       ),
@@ -158,7 +154,7 @@ DexPool _populatePoolInfosWithTokenStats24h(
   if (pool.pair.token2.symbol == 'UCO') {
     priceToken2 = archethicOracleUCO.usd;
   } else {
-    priceToken2 = ref.watch(
+    priceToken2 = ref.read(
       aedappfm.CoinPriceProviders.coinPriceFromAddress(
         pool.pair.token2.address!,
       ),
@@ -185,13 +181,11 @@ DexPool _populatePoolInfosWithTokenStats24h(
     token1TotalFeeCurrentFiat = priceToken1 * poolDetails.token1TotalFee;
     token2TotalFeeCurrentFiat = priceToken2 * poolDetails.token2TotalFee;
 
-    token1TotalVolume24hFiat =
-        priceToken1 * (poolDetails.token1TotalVolume24h ?? 0);
-    token2TotalVolume24hFiat =
-        priceToken2 * (poolDetails.token2TotalVolume24h ?? 0);
+    token1TotalVolume24hFiat = priceToken1 * token1TotalVolume24h;
+    token2TotalVolume24hFiat = priceToken2 * token2TotalVolume24h;
 
-    token1TotalFee24hFiat = priceToken1 * (poolDetails.token1TotalFee24h ?? 0);
-    token2TotalFee24hFiat = priceToken2 * (poolDetails.token2TotalFee24h ?? 0);
+    token1TotalFee24hFiat = priceToken1 * token1TotalFee24h;
+    token2TotalFee24hFiat = priceToken2 * token2TotalFee24h;
   }
 
   volumeAllTime = token1TotalVolumeCurrentFiat + token2TotalVolumeCurrentFiat;
@@ -207,10 +201,16 @@ DexPool _populatePoolInfosWithTokenStats24h(
     fee24h = feeAllTime - (token1TotalFee24hFiat + token2TotalFee24hFiat);
   }
 
-  return (
-    volume24h: volume24h,
+  var poolInfos = pool.infos!;
+  poolInfos = poolInfos.copyWith(
+    token1TotalVolume24h: token1TotalVolume24h,
+    token2TotalVolume24h: token2TotalVolume24h,
+    token1TotalFee24h: token1TotalFee24h,
+    token2TotalFee24h: token2TotalFee24h,
     fee24h: fee24h,
+    feeAllTime: feeAllTime,
+    volume24h: volume24h,
     volumeAllTime: volumeAllTime,
-    feeAllTime: feeAllTime
   );
+  return pool.copyWith(infos: poolInfos);
 }

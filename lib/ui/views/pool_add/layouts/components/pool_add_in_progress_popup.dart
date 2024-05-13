@@ -2,6 +2,7 @@
 import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_tx_addresses.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -73,6 +74,8 @@ class PoolAddInProgressPopup {
     WidgetRef ref,
   ) {
     final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolsListTabEncoded = Uri.encodeComponent(poolAdd.poolsListTab.name);
+
     return aedappfm.PopupCloseButton(
       warningCloseWarning: poolAdd.isProcessInProgress,
       warningCloseLabel: poolAdd.isProcessInProgress == true
@@ -84,15 +87,34 @@ class PoolAddInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(PoolListSheet.routerPage);
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
       },
-      closeFunction: () {
+      closeFunction: () async {
         ref.invalidate(
           PoolAddFormProvider.poolAddForm,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(PoolListSheet.routerPage);
+
+        context.go(
+          Uri(
+            path: PoolListSheet.routerPage,
+            queryParameters: {
+              'tab': poolsListTabEncoded,
+            },
+          ).toString(),
+        );
+        await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
+              tabIndexSelected: poolAdd.poolsListTab,
+              cancelToken: UniqueKey().toString(),
+            );
       },
     );
   }

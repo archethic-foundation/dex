@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -32,6 +33,7 @@ class PoolAddFormState with _$PoolAddFormState {
     String? recoveryPoolGenesisAddress,
     Failure? failure,
     DateTime? consentDateTime,
+    @Default(PoolsListTab.verified) PoolsListTab poolsListTab,
   }) = _PoolAddFormState;
   const PoolAddFormState._();
 

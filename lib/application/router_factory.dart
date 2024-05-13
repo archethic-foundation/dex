@@ -58,7 +58,6 @@ class RouterFactory with ModelParser {
 
   /// Return the infos of all the pools.
   Future<aedappfm.Result<List<DexPool>, aedappfm.Failure>> getPoolList(
-    Balance? userBalance,
     List<String> tokenVerifiedList,
   ) async {
     return aedappfm.Result.guard(
@@ -84,17 +83,27 @@ class RouterFactory with ModelParser {
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           final tokens = getPoolListResponse.tokens.split('/');
           if (tokens[0] != 'UCO') {
-            if (tokensListDatasource.getToken(tokens[0]) == null) {
+            if (tokensListDatasource.getToken(
+                  aedappfm.EndpointUtil.getEnvironnement(),
+                  tokens[0],
+                ) ==
+                null) {
               tokensAddresses.add(tokens[0]);
             }
           }
           if (tokens[1] != 'UCO') {
-            if (tokensListDatasource.getToken(tokens[1]) == null) {
+            if (tokensListDatasource.getToken(
+                  aedappfm.EndpointUtil.getEnvironnement(),
+                  tokens[1],
+                ) ==
+                null) {
               tokensAddresses.add(tokens[1]);
             }
           }
-          if (tokensListDatasource
-                  .getToken(getPoolListResponse.lpTokenAddress) ==
+          if (tokensListDatasource.getToken(
+                aedappfm.EndpointUtil.getEnvironnement(),
+                getPoolListResponse.lpTokenAddress,
+              ) ==
               null) {
             tokensAddresses.add(getPoolListResponse.lpTokenAddress);
           }
@@ -107,22 +116,17 @@ class RouterFactory with ModelParser {
         for (final entry in tokenResultMap.entries) {
           final address = entry.key.toUpperCase();
           var tokenResult = tokenSDKToModel(entry.value, 0);
-
-          final tokenVerified = await aedappfm.VerifiedTokensRepositoryImpl()
-              .isVerifiedToken(address, tokenVerifiedList);
-
-          tokenResult =
-              tokenResult.copyWith(address: address, isVerified: tokenVerified);
-          await tokensListDatasource.setToken(tokenResult.toHive());
+          tokenResult = tokenResult.copyWith(address: address);
+          await tokensListDatasource.setToken(
+            aedappfm.EndpointUtil.getEnvironnement(),
+            tokenResult.toHive(),
+          );
         }
 
         for (final result in results) {
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
-            await poolListItemToModel(
-              userBalance,
-              getPoolListResponse,
-            ),
+            await poolListItemToModel(getPoolListResponse, tokenVerifiedList),
           );
         }
 
@@ -160,7 +164,10 @@ class RouterFactory with ModelParser {
           );
 
           farmList.add(
-            await farmListToModel(getFarmListResponse, dexpool),
+            await farmListToModel(
+              getFarmListResponse,
+              dexpool,
+            ),
           );
         }
 

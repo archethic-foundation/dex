@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
@@ -49,22 +50,12 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.poolAddConfirmNewPoolLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!
                         .poolAddConfirmWithLiquidityLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),
@@ -84,17 +75,9 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             message: poolAdd.token1!.symbol,
                             child: SelectableText(
                               poolAdd.token1!.symbol.reduceSymbol(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    color: aedappfm.AppThemeBase.secondaryColor,
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyLarge!,
-                                    ),
-                                  ),
+                              style: AppTextStyles.bodyLargeSecondaryColor(
+                                context,
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -135,17 +118,9 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             message: poolAdd.token2!.symbol,
                             child: SelectableText(
                               poolAdd.token2!.symbol.reduceSymbol(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    color: aedappfm.AppThemeBase.secondaryColor,
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyLarge!,
-                                    ),
-                                  ),
+                              style: AppTextStyles.bodyLargeSecondaryColor(
+                                context,
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -183,32 +158,14 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                               TextSpan(
                                 text:
                                     '+ ${poolAdd.token1Amount.formatNumber(precision: 8)}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                      color:
-                                          aedappfm.AppThemeBase.secondaryColor,
-                                      fontSize: aedappfm.Responsive
-                                          .fontSizeFromTextStyle(
-                                        context,
-                                        Theme.of(context).textTheme.bodyLarge!,
-                                      ),
-                                    ),
+                                style: AppTextStyles.bodyLargeSecondaryColor(
+                                  context,
+                                ),
                               ),
                               TextSpan(
                                 text:
                                     ' ${poolAdd.token1!.symbol.reduceSymbol()}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                      fontSize: aedappfm.Responsive
-                                          .fontSizeFromTextStyle(
-                                        context,
-                                        Theme.of(context).textTheme.bodyLarge!,
-                                      ),
-                                    ),
+                                style: AppTextStyles.bodyLarge(context),
                               ),
                             ],
                           ),
@@ -381,21 +338,11 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),

@@ -1,11 +1,11 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -29,6 +29,10 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
   @override
   PoolAddFormState build() => const PoolAddFormState();
+
+  void setPoolsListTab(PoolsListTab poolsListTab) {
+    state = state.copyWith(poolsListTab: poolsListTab);
+  }
 
   Future<void> setToken1(
     DexToken token,
@@ -521,9 +525,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
           state.recoveryTransactionAddPoolLiquidity,
     );
 
-    ref.read(
-      DexPoolProviders.putPoolToCache(state.recoveryPoolGenesisAddress!),
-    );
+    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
   }
 }
 

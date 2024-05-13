@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -15,7 +14,6 @@ class FarmWithdrawFormState with _$FarmWithdrawFormState {
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
     DexFarm? dexFarmInfo,
-    DexFarmUserInfos? dexFarmUserInfo,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool farmWithdrawOk,
     @Default(false) bool walletConfirmation,
@@ -28,6 +26,8 @@ class FarmWithdrawFormState with _$FarmWithdrawFormState {
     double? finalAmountReward,
     double? finalAmountWithdraw,
     DateTime? consentDateTime,
+    double? depositedAmount,
+    double? rewardAmount,
   }) = _FarmWithdrawFormState;
   const FarmWithdrawFormState._();
 

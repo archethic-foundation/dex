@@ -1,20 +1,22 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PoolRemoveFavoriteIcon extends ConsumerWidget {
   const PoolRemoveFavoriteIcon({
     required this.poolAddress,
+    required this.onRemoved,
     super.key,
   });
 
   final String poolAddress;
+  final VoidCallback onRemoved;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +32,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
               child: Builder(
                 builder: (context) {
                   return Consumer(
-                    builder: (context, ref, _) {
+                    builder: (buildContext, ref, _) {
                       return Scaffold(
                         backgroundColor: Colors.transparent,
                         body: AlertDialog(
@@ -73,7 +75,8 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
-                                    'Remove the pool from favorite tab?',
+                                    AppLocalizations.of(context)!
+                                        .poolRemoveFavoriteIconConfirmation,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -108,7 +111,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                           )!
                                               .no,
                                           onPressed: () {
-                                            Navigator.of(context).pop();
+                                            context.pop();
                                           },
                                         ),
                                       ),
@@ -125,26 +128,8 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                                 poolAddress,
                                               ),
                                             );
-                                            final poolListForm = ref.read(
-                                              PoolListFormProvider.poolListForm,
-                                            );
-
-                                            await ref
-                                                .read(
-                                                  PoolListFormProvider
-                                                      .poolListForm.notifier,
-                                                )
-                                                .setPoolsToDisplay(
-                                                  tabIndexSelected: poolListForm
-                                                      .tabIndexSelected,
-                                                  cancelToken:
-                                                      UniqueKey().toString(),
-                                                );
-
-                                            if (!context.mounted) {
-                                              return;
-                                            }
-                                            Navigator.of(context).pop();
+                                            context.pop();
+                                            onRemoved();
                                           },
                                         ),
                                       ),
@@ -165,7 +150,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
         );
       },
       child: Tooltip(
-        message: 'Remove this pool from my favorites tab',
+        message: AppLocalizations.of(context)!.poolRemoveFavoriteIconTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

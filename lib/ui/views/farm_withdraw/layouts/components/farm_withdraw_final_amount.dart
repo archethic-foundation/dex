@@ -2,6 +2,7 @@ import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmWithdrawFinalAmount extends ConsumerWidget {
@@ -24,7 +25,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
       children: [
         if (finalAmountWithdraw != null)
           SelectableText(
-            'Amount withdrawed: ${finalAmountWithdraw.formatNumber(precision: 8)} ${finalAmountWithdraw > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmWithdrawFinalAmount} ${finalAmountWithdraw.formatNumber(precision: 8)} ${finalAmountWithdraw > 1 ? 'LP Tokens' : 'LP Token'}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -36,7 +37,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
           Row(
             children: [
               SelectableText(
-                'Amount withdrawed: ',
+                AppLocalizations.of(context)!.farmWithdrawFinalAmount,
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,
@@ -53,7 +54,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
           )
         else
           SelectableText(
-            'Amount withdrawed: The amount could not be recovered',
+            '${AppLocalizations.of(context)!.farmWithdrawFinalAmount} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -62,11 +63,10 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
             ),
           ),
         if (finalAmountReward != null)
-          if ((farmWithdraw.isFarmClose &&
-                  farmWithdraw.dexFarmUserInfo!.rewardAmount > 0) ||
+          if ((farmWithdraw.isFarmClose && farmWithdraw.rewardAmount! > 0) ||
               farmWithdraw.isFarmClose == false)
             SelectableText(
-              'Amount rewarded: ${finalAmountReward.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
+              '${AppLocalizations.of(context)!.farmWithdrawFinalAmountReward} ${finalAmountReward.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
               style: TextStyle(
                 fontSize: aedappfm.Responsive.fontSizeFromValue(
                   context,
@@ -77,11 +77,11 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
           else
             const SizedBox.shrink()
         else if (timeout == false)
-          if (farmWithdraw.dexFarmUserInfo!.rewardAmount > 0)
+          if (farmWithdraw.rewardAmount! > 0)
             Row(
               children: [
                 SelectableText(
-                  'Amount rewarded: ',
+                  AppLocalizations.of(context)!.farmWithdrawFinalAmountReward,
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
@@ -100,7 +100,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
             const SizedBox.shrink()
         else
           SelectableText(
-            'Amount rewarded: The amount could not be recovered',
+            '${AppLocalizations.of(context)!.farmWithdrawFinalAmountReward} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class BrowserPopup extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SelectableText(
-                      'Warning',
+                      AppLocalizations.of(context)!.warning,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -64,12 +65,7 @@ class BrowserPopup extends ConsumerWidget {
                       options: const LinkifyOptions(
                         humanize: false,
                       ),
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyMedium!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyMedium(context),
                       linkStyle: Theme.of(context)
                           .textTheme
                           .bodyMedium!

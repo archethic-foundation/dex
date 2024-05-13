@@ -1,4 +1,5 @@
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
@@ -6,6 +7,7 @@ import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class SingleToken extends StatelessWidget {
@@ -105,15 +107,10 @@ class SingleToken extends StatelessWidget {
           if (token.isLpToken && token.lpTokenPair != null)
             Tooltip(
               message:
-                  'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol}',
+                  '${AppLocalizations.of(context)!.tokenSelectionSingleTokenLPTooltip} ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol}',
               child: Text(
-                'LP Token for pair ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol.reduceSymbol()}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol.reduceSymbol()}',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyLarge!,
-                      ),
-                    ),
+                '${AppLocalizations.of(context)!.tokenSelectionSingleTokenLPTooltip} ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol.reduceSymbol()}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                style: AppTextStyles.bodyLarge(context),
               ),
             ),
         ],

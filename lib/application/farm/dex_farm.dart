@@ -2,8 +2,8 @@ import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_user_infos.dart';
 import 'package:aedex/infrastructure/dex_farm.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -26,7 +26,7 @@ Future<DexFarm?> _getFarmInfos(
   String poolAddress, {
   DexFarm? dexFarmInput,
 }) async {
-  final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
+  final poolList = await ref.read(DexPoolProviders.getPoolList.future);
 
   final pool = poolList.firstWhereOrNull(
     (poolSelect) =>
@@ -34,15 +34,17 @@ Future<DexFarm?> _getFarmInfos(
   );
   if (pool == null) return null;
 
+  final userGenesisAddress = ref.read(SessionProviders.session).genesisAddress;
   final farmInfos =
       await ref.watch(_dexFarmRepositoryProvider).populateFarmInfos(
             farmGenesisAddress,
             pool,
             dexFarmInput!,
+            userGenesisAddress,
           );
 
   var apr = 0.0;
-  final estimateLPTokenInFiat = await ref.watch(
+  final estimateLPTokenInFiat = await ref.read(
     DexTokensProviders.estimateLPTokenInFiat(
       farmInfos.lpTokenPair!.token1,
       farmInfos.lpTokenPair!.token2,
@@ -53,7 +55,7 @@ Future<DexFarm?> _getFarmInfos(
   final now = DateTime.now().toUtc();
 
   final priceTokenInFiat =
-      ref.watch(DexTokensProviders.estimateTokenInFiat(farmInfos.rewardToken!));
+      ref.read(DexTokensProviders.estimateTokenInFiat(farmInfos.rewardToken!));
 
   final remainingRewardInFiat = (Decimal.parse('$priceTokenInFiat') *
           Decimal.parse('${farmInfos.remainingReward}'))
@@ -83,21 +85,7 @@ Future<DexFarm?> _getFarmInfos(
   );
 }
 
-@riverpod
-Future<DexFarmUserInfos?> _getUserInfos(
-  _GetUserInfosRef ref,
-  String farmGenesisAddress,
-  String userGenesisAddress,
-) async {
-  final farmInfos = await ref
-      .watch(_dexFarmRepositoryProvider)
-      .getUserInfos(farmGenesisAddress, userGenesisAddress);
-
-  return farmInfos;
-}
-
 abstract class DexFarmProviders {
   static final getFarmList = _getFarmListProvider;
   static const getFarmInfos = _getFarmInfosProvider;
-  static const getUserInfos = _getUserInfosProvider;
 }

@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
@@ -58,12 +59,7 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'Fees',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyMedium(context),
                 ),
                 const SizedBox(
                   height: 5,
@@ -79,12 +75,7 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'Price impact',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyMedium(context),
                 ),
                 const SizedBox(
                   height: 5,
@@ -100,12 +91,7 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'Minimum received',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyMedium(context),
                 ),
                 const SizedBox(
                   height: 5,
@@ -121,12 +107,7 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'TVL',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyMedium(context),
                 ),
                 const SizedBox(
                   height: 5,
@@ -142,12 +123,7 @@ class SwapInfos extends ConsumerWidget {
               children: [
                 SelectableText(
                   'Ratio',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyMedium(context),
                 ),
                 const SizedBox(
                   height: 5,
@@ -195,12 +171,7 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Fees',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
               Row(
                 children: [
@@ -208,12 +179,7 @@ class SwapInfos extends ConsumerWidget {
                     message: swap.tokenToSwap!.symbol,
                     child: SelectableText(
                       '${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyMedium!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyMedium(context),
                     ),
                   ),
                   const SizedBox(
@@ -229,16 +195,7 @@ class SwapInfos extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return SelectableText(
                           snapshot.data!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyMedium!,
-                                ),
-                              ),
+                          style: AppTextStyles.bodyMedium(context),
                         );
                       }
                       return const SizedBox.shrink();
@@ -270,22 +227,12 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Price impact',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
               DexPriceImpact(
                 priceImpact: swap.priceImpact,
                 withLabel: false,
-                textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                textStyle: AppTextStyles.bodyMedium(context),
               ),
             ],
           ),
@@ -294,12 +241,7 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Minimum received',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
               Row(
                 children: [
@@ -307,12 +249,7 @@ class SwapInfos extends ConsumerWidget {
                     message: swap.tokenSwapped!.symbol,
                     child: SelectableText(
                       '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyMedium!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyMedium(context),
                     ),
                   ),
                   const SizedBox(
@@ -328,16 +265,7 @@ class SwapInfos extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return SelectableText(
                           snapshot.data!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyMedium!,
-                                ),
-                              ),
+                          style: AppTextStyles.bodyMedium(context),
                         );
                       }
                       return const SizedBox.shrink();
@@ -352,21 +280,11 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'TVL',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
               SelectableText(
                 '\$${tvl.formatNumber(precision: 2)}',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
             ],
           ),
@@ -375,33 +293,24 @@ class SwapInfos extends ConsumerWidget {
             children: [
               SelectableText(
                 'Ratio',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
+                style: AppTextStyles.bodyMedium(context),
               ),
-              DexRatio(
-                ratio: tokenAddressRatioPrimary.toUpperCase() ==
-                        swap.pool?.pair.token1.address!.toUpperCase()
-                    ? swap.pool!.infos!.ratioToken1Token2
-                    : swap.pool!.infos!.ratioToken2Token1,
-                token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                        swap.pool!.pair.token1.address!.toUpperCase()
-                    ? swap.pool!.pair.token1.symbol
-                    : swap.pool!.pair.token2.symbol,
-                token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                        swap.pool!.pair.token1.address!.toUpperCase()
-                    ? swap.pool!.pair.token2.symbol
-                    : swap.pool!.pair.token1.symbol,
-                textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    ),
-              ),
+              if (swap.pool != null && swap.pool!.infos != null)
+                DexRatio(
+                  ratio: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool?.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.infos!.ratioToken1Token2
+                      : swap.pool!.infos!.ratioToken2Token1,
+                  token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool!.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.pair.token1.symbol
+                      : swap.pool!.pair.token2.symbol,
+                  token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                          swap.pool!.pair.token1.address!.toUpperCase()
+                      ? swap.pool!.pair.token2.symbol
+                      : swap.pool!.pair.token1.symbol,
+                  textStyle: AppTextStyles.bodyMedium(context),
+                ),
             ],
           ),
         ],

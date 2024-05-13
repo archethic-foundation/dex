@@ -7,6 +7,8 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -37,8 +39,12 @@ class LiquidityAddFormNotifier
     state = state.copyWith(pool: pool);
 
     final poolPopulated =
-        await ref.read(DexPoolProviders.getPoolInfos(pool).future);
+        await ref.read(DexPoolProviders.loadPoolCard(pool).future);
     state = state.copyWith(pool: poolPopulated);
+  }
+
+  void setPoolsListTab(PoolsListTab poolsListTab) {
+    state = state.copyWith(poolsListTab: poolsListTab);
   }
 
   Future<void> initBalances() async {
@@ -570,8 +576,11 @@ class LiquidityAddFormNotifier
     );
     state = state.copyWith(finalAmount: finalAmount);
 
-    if (state.pool != null) {
-      ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
+    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+    if (context.mounted) {
+      final poolListItemState =
+          context.findAncestorStateOfType<PoolListItemState>();
+      await poolListItemState?.reload();
     }
   }
 }

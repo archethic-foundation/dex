@@ -1,6 +1,7 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -22,7 +23,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
-    if (farmClaim.dexFarmUserInfo == null) {
+    if (farmClaim.rewardAmount == null) {
       return const SizedBox.shrink();
     }
     final session = ref.watch(SessionProviders.session);
@@ -46,7 +47,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                 future: FiatValue().display(
                   ref,
                   farmClaim.rewardToken!,
-                  farmClaim.dexFarmUserInfo!.rewardAmount,
+                  farmClaim.rewardAmount!,
                 ),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -54,58 +55,23 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Please confirm the claim of ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
+                            text: AppLocalizations.of(context)!
+                                .farmClaimConfirmInfosText,
+                            style: AppTextStyles.bodyLarge(context),
                           ),
                           TextSpan(
-                            text: farmClaim.dexFarmUserInfo!.rewardAmount
+                            text: farmClaim.rewardAmount!
                                 .formatNumber(precision: 8),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  color: aedappfm.AppThemeBase.secondaryColor,
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
+                            style:
+                                AppTextStyles.bodyLargeSecondaryColor(context),
                           ),
                           TextSpan(
                             text: ' ${farmClaim.rewardToken!.symbol}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyLarge!,
-                                  ),
-                                ),
+                            style: AppTextStyles.bodyLarge(context),
                           ),
                           TextSpan(
                             text: ' ${snapshot.data} ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.bodyMedium!,
-                                  ),
-                                ),
+                            style: AppTextStyles.bodyLarge(context),
                           ),
                         ],
                       ),
@@ -131,21 +97,11 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),
@@ -178,8 +134,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                                     snapshot.data!.toString(),
                                   ) +
                                   Decimal.parse(
-                                    farmClaim.dexFarmUserInfo!.rewardAmount
-                                        .toString(),
+                                    farmClaim.rewardAmount.toString(),
                                   ))
                               .toDouble(),
                           token: farmClaim.rewardToken,

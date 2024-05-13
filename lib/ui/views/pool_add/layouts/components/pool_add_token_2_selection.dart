@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/token_selection_popup.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -48,12 +49,7 @@ class PoolAddToken2Selection extends ConsumerWidget {
                 if (poolAdd.token2 == null)
                   Text(
                     AppLocalizations.of(context)!.btn_selectToken,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   )
                 else
                   Padding(
@@ -75,16 +71,7 @@ class PoolAddToken2Selection extends ConsumerWidget {
                           Expanded(
                             child: Text(
                               poolAdd.token2!.symbol,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyLarge!,
-                                    ),
-                                  ),
+                              style: AppTextStyles.bodyLarge(context),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

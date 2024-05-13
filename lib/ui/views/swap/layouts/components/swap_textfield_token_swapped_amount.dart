@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_token_swapped_selection.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -72,12 +73,7 @@ class _SwapTokenSwappedAmountState
       children: [
         SelectableText(
           AppLocalizations.of(context)!.swapToEstimatedLbl,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                  context,
-                  Theme.of(context).textTheme.bodyLarge!,
-                ),
-              ),
+          style: AppTextStyles.bodyLarge(context),
         ),
         Stack(
           alignment: Alignment.centerLeft,

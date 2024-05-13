@@ -3,6 +3,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityPositionsIcon extends ConsumerWidget {
@@ -33,7 +34,8 @@ class LiquidityPositionsIcon extends ConsumerWidget {
             right: 3,
           ),
           child: Tooltip(
-            message: 'You have liquidity positions',
+            message:
+                AppLocalizations.of(context)!.liquidityPositionsIconTooltip,
             child: Icon(
               aedappfm.Iconsax.receipt,
               color: aedappfm.ArchethicThemeBase.systemInfo500,

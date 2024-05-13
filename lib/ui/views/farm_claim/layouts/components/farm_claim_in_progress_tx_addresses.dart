@@ -1,6 +1,7 @@
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmClaimInProgressTxAddresses extends ConsumerWidget {
@@ -26,7 +27,7 @@ class FarmClaimInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address:
                 farmClaim.transactionClaimFarm!.address!.address!.toUpperCase(),
-            header: 'Claim transaction address: ',
+            header: AppLocalizations.of(context)!.farmClaimTxAddress,
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

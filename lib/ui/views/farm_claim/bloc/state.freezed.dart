@@ -19,7 +19,6 @@ mixin _$FarmClaimFormState {
   ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
-  DexFarmUserInfos? get dexFarmUserInfo => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get farmClaimOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
@@ -30,6 +29,7 @@ mixin _$FarmClaimFormState {
   DexToken? get rewardToken => throw _privateConstructorUsedError;
   String? get lpTokenAddress => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
+  double? get rewardAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FarmClaimFormStateCopyWith<FarmClaimFormState> get copyWith =>
@@ -46,7 +46,6 @@ abstract class $FarmClaimFormStateCopyWith<$Res> {
       {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
-      DexFarmUserInfos? dexFarmUserInfo,
       bool isProcessInProgress,
       bool farmClaimOk,
       bool walletConfirmation,
@@ -56,9 +55,9 @@ abstract class $FarmClaimFormStateCopyWith<$Res> {
       String? farmAddress,
       DexToken? rewardToken,
       String? lpTokenAddress,
-      DateTime? consentDateTime});
+      DateTime? consentDateTime,
+      double? rewardAmount});
 
-  $DexFarmUserInfosCopyWith<$Res>? get dexFarmUserInfo;
   $TransactionCopyWith<$Res>? get transactionClaimFarm;
   $FailureCopyWith<$Res>? get failure;
   $DexTokenCopyWith<$Res>? get rewardToken;
@@ -80,7 +79,6 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? dexFarmUserInfo = freezed,
     Object? isProcessInProgress = null,
     Object? farmClaimOk = null,
     Object? walletConfirmation = null,
@@ -91,6 +89,7 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     Object? rewardToken = freezed,
     Object? lpTokenAddress = freezed,
     Object? consentDateTime = freezed,
+    Object? rewardAmount = freezed,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -105,10 +104,6 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      dexFarmUserInfo: freezed == dexFarmUserInfo
-          ? _value.dexFarmUserInfo
-          : dexFarmUserInfo // ignore: cast_nullable_to_non_nullable
-              as DexFarmUserInfos?,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -149,19 +144,11 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      rewardAmount: freezed == rewardAmount
+          ? _value.rewardAmount
+          : rewardAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DexFarmUserInfosCopyWith<$Res>? get dexFarmUserInfo {
-    if (_value.dexFarmUserInfo == null) {
-      return null;
-    }
-
-    return $DexFarmUserInfosCopyWith<$Res>(_value.dexFarmUserInfo!, (value) {
-      return _then(_value.copyWith(dexFarmUserInfo: value) as $Val);
-    });
   }
 
   @override
@@ -213,7 +200,6 @@ abstract class _$$FarmClaimFormStateImplCopyWith<$Res>
       {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
-      DexFarmUserInfos? dexFarmUserInfo,
       bool isProcessInProgress,
       bool farmClaimOk,
       bool walletConfirmation,
@@ -223,10 +209,9 @@ abstract class _$$FarmClaimFormStateImplCopyWith<$Res>
       String? farmAddress,
       DexToken? rewardToken,
       String? lpTokenAddress,
-      DateTime? consentDateTime});
+      DateTime? consentDateTime,
+      double? rewardAmount});
 
-  @override
-  $DexFarmUserInfosCopyWith<$Res>? get dexFarmUserInfo;
   @override
   $TransactionCopyWith<$Res>? get transactionClaimFarm;
   @override
@@ -249,7 +234,6 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
     Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? dexFarmUserInfo = freezed,
     Object? isProcessInProgress = null,
     Object? farmClaimOk = null,
     Object? walletConfirmation = null,
@@ -260,6 +244,7 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
     Object? rewardToken = freezed,
     Object? lpTokenAddress = freezed,
     Object? consentDateTime = freezed,
+    Object? rewardAmount = freezed,
   }) {
     return _then(_$FarmClaimFormStateImpl(
       processStep: null == processStep
@@ -274,10 +259,6 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      dexFarmUserInfo: freezed == dexFarmUserInfo
-          ? _value.dexFarmUserInfo
-          : dexFarmUserInfo // ignore: cast_nullable_to_non_nullable
-              as DexFarmUserInfos?,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -318,6 +299,10 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      rewardAmount: freezed == rewardAmount
+          ? _value.rewardAmount
+          : rewardAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -329,7 +314,6 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
-      this.dexFarmUserInfo,
       this.isProcessInProgress = false,
       this.farmClaimOk = false,
       this.walletConfirmation = false,
@@ -339,7 +323,8 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       this.farmAddress,
       this.rewardToken,
       this.lpTokenAddress,
-      this.consentDateTime})
+      this.consentDateTime,
+      this.rewardAmount})
       : super._();
 
   @override
@@ -351,8 +336,6 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   @override
   @JsonKey()
   final int currentStep;
-  @override
-  final DexFarmUserInfos? dexFarmUserInfo;
   @override
   @JsonKey()
   final bool isProcessInProgress;
@@ -376,10 +359,12 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
   final String? lpTokenAddress;
   @override
   final DateTime? consentDateTime;
+  @override
+  final double? rewardAmount;
 
   @override
   String toString() {
-    return 'FarmClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmUserInfo: $dexFarmUserInfo, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount, farmAddress: $farmAddress, rewardToken: $rewardToken, lpTokenAddress: $lpTokenAddress, consentDateTime: $consentDateTime)';
+    return 'FarmClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, farmClaimOk: $farmClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarm: $transactionClaimFarm, failure: $failure, finalAmount: $finalAmount, farmAddress: $farmAddress, rewardToken: $rewardToken, lpTokenAddress: $lpTokenAddress, consentDateTime: $consentDateTime, rewardAmount: $rewardAmount)';
   }
 
   @override
@@ -393,8 +378,6 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
-            (identical(other.dexFarmUserInfo, dexFarmUserInfo) ||
-                other.dexFarmUserInfo == dexFarmUserInfo) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
                 other.isProcessInProgress == isProcessInProgress) &&
             (identical(other.farmClaimOk, farmClaimOk) ||
@@ -413,7 +396,9 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
             (identical(other.lpTokenAddress, lpTokenAddress) ||
                 other.lpTokenAddress == lpTokenAddress) &&
             (identical(other.consentDateTime, consentDateTime) ||
-                other.consentDateTime == consentDateTime));
+                other.consentDateTime == consentDateTime) &&
+            (identical(other.rewardAmount, rewardAmount) ||
+                other.rewardAmount == rewardAmount));
   }
 
   @override
@@ -422,7 +407,6 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       processStep,
       resumeProcess,
       currentStep,
-      dexFarmUserInfo,
       isProcessInProgress,
       farmClaimOk,
       walletConfirmation,
@@ -432,7 +416,8 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       farmAddress,
       rewardToken,
       lpTokenAddress,
-      consentDateTime);
+      consentDateTime,
+      rewardAmount);
 
   @JsonKey(ignore: true)
   @override
@@ -447,7 +432,6 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
       {final ProcessStep processStep,
       final bool resumeProcess,
       final int currentStep,
-      final DexFarmUserInfos? dexFarmUserInfo,
       final bool isProcessInProgress,
       final bool farmClaimOk,
       final bool walletConfirmation,
@@ -457,7 +441,8 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
       final String? farmAddress,
       final DexToken? rewardToken,
       final String? lpTokenAddress,
-      final DateTime? consentDateTime}) = _$FarmClaimFormStateImpl;
+      final DateTime? consentDateTime,
+      final double? rewardAmount}) = _$FarmClaimFormStateImpl;
   const _FarmClaimFormState._() : super._();
 
   @override
@@ -466,8 +451,6 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   bool get resumeProcess;
   @override
   int get currentStep;
-  @override
-  DexFarmUserInfos? get dexFarmUserInfo;
   @override
   bool get isProcessInProgress;
   @override
@@ -488,6 +471,8 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   String? get lpTokenAddress;
   @override
   DateTime? get consentDateTime;
+  @override
+  double? get rewardAmount;
   @override
   @JsonKey(ignore: true)
   _$$FarmClaimFormStateImplCopyWith<_$FarmClaimFormStateImpl> get copyWith =>

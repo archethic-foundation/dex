@@ -8,8 +8,6 @@ class HivePoolsListDatasource {
   static const String _poolsListBox = 'poolsListBox';
   final Box<DexPoolHive> _box;
 
-  static const String aeSwapPoolsList = 'ae_swap_pool_list';
-
   bool get shouldBeReloaded => _box.isEmpty;
 
   // This doesn't have to be a singleton.
@@ -20,35 +18,51 @@ class HivePoolsListDatasource {
   }
 
   Future<void> setPoolInfos(
+    String env,
     String poolAddress,
     DexPoolInfosHive poolInfos,
   ) async {
-    final pool = _box.get(poolAddress);
+    final pool = _box.get('${env.toUpperCase()}-${poolAddress.toUpperCase()}');
     if (pool == null) return;
-    await _box.put(poolAddress, pool.copyWith(details: poolInfos));
+    await _box.put(
+      '${env.toUpperCase()}-${poolAddress.toUpperCase()}',
+      pool.copyWith(details: poolInfos),
+    );
   }
 
-  Future<void> setPoolsList(List<DexPoolHive> v) async {
+  Future<void> setPoolsList(
+    String env,
+    List<DexPoolHive> v,
+  ) async {
     await _box.clear();
     for (final pool in v) {
-      await _box.put(pool.poolAddress, pool);
+      await _box.put(
+        '${env.toUpperCase()}-${pool.poolAddress.toUpperCase()}',
+        pool,
+      );
     }
   }
 
-  Future<void> setPool(DexPoolHive v) async {
-    await _box.put(v.poolAddress, v);
+  Future<void> setPool(String env, DexPoolHive v) async {
+    await _box.put('${env.toUpperCase()}-${v.poolAddress.toUpperCase()}', v);
   }
 
-  DexPoolHive? getPool(String key) {
-    return _box.get(key);
+  DexPoolHive? getPool(String env, String key) {
+    return _box.get('${env.toUpperCase()}-${key.toUpperCase()}');
   }
 
-  Future<void> removePool(String poolAddress) async {
-    await _box.delete(poolAddress);
+  Future<void> removePool(String env, String poolAddress) async {
+    await _box.delete('${env.toUpperCase()}-${poolAddress.toUpperCase()}');
   }
 
-  List<DexPoolHive> getPoolsList() {
-    return _box.values.toList();
+  List<DexPoolHive> getPoolsList(String env) {
+    final list = <DexPoolHive>[];
+    for (final String key in _box.keys) {
+      if (key.startsWith(env.toUpperCase()) && _box.get(key) != null) {
+        list.add(_box.get(key)!);
+      }
+    }
+    return list;
   }
 
   Future<void> clearAll() async {

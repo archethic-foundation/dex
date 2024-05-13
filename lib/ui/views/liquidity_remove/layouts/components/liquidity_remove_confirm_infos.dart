@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -46,34 +47,18 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                   children: [
                     TextSpan(
                       text: 'Please, confirm the removal of ',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                     TextSpan(
                       text:
                           '${liquidityRemove.lpTokenAmount.formatNumber(precision: 8)} ',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: aedappfm.AppThemeBase.secondaryColor,
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyLargeSecondaryColor(context),
                     ),
                     TextSpan(
                       text: liquidityRemove.lpTokenAmount > 1
                           ? 'LP Tokens from the liquidity pool.'
                           : 'LP Token from the liquidity pool.',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
                 ),
@@ -95,21 +80,11 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),
@@ -186,21 +161,11 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
                     AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        ),
+                    style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
               ),

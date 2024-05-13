@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_final_amount.dart';
@@ -92,20 +91,13 @@ class FarmDepositInProgressPopup {
           ? AppLocalizations.of(context)!.farmDepositProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        final session = ref.read(SessionProviders.session);
         final _farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
         ref
           ..invalidate(
             DexFarmProviders.getFarmList,
           )
           ..invalidate(
-            DexFarmProviders.getUserInfos(
-              _farmDeposit.dexFarmInfo!.farmAddress,
-              session.genesisAddress,
-            ),
-          )
-          ..invalidate(
-            FarmListProvider.balance(
+            FarmListFormProvider.balance(
               _farmDeposit.dexFarmInfo!.lpToken!.address,
             ),
           )

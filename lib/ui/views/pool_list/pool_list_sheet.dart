@@ -1,15 +1,15 @@
-import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_list_sheet_header.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolListSheet extends ConsumerStatefulWidget {
@@ -29,13 +29,13 @@ class PoolListSheet extends ConsumerStatefulWidget {
 class _PoolListSheetState extends ConsumerState<PoolListSheet> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.pool;
 
-      await ref
-          .read(PoolListFormProvider.poolListForm.notifier)
-          .setPoolsToDisplay(
+      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
+
+      await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
             tabIndexSelected: widget.tab,
             cancelToken: UniqueKey().toString(),
           );
@@ -46,12 +46,12 @@ class _PoolListSheetState extends ConsumerState<PoolListSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenList(
-      body: _body(context, ref),
+      body: _body(context, ref, widget.tab),
     );
   }
 }
 
-Widget _body(BuildContext context, WidgetRef ref) {
+Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
   final selectedTab =
       ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
   final asyncPools =
@@ -82,43 +82,21 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     children: [
                       if (selectedTab == PoolsListTab.searchPool)
                         SelectableText(
-                          'Searching in progress. Please wait',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyLarge!,
-                                ),
-                              ),
-                        )
-                      else
-                        SelectableText(
-                          'Loading in progress. Please wait',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.bodyLarge!,
-                                ),
-                              ),
+                          AppLocalizations.of(context)!.poolListSearching,
+                          style: AppTextStyles.bodyLarge(context),
                         ),
                       const SizedBox(
                         width: 10,
                       ),
-                      const SizedBox(
-                        height: 10,
-                        width: 10,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 0.5,
-                          color: Colors.white,
+                      if (selectedTab == PoolsListTab.searchPool)
+                        const SizedBox(
+                          height: 10,
+                          width: 10,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 0.5,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ],
@@ -138,13 +116,9 @@ Widget _body(BuildContext context, WidgetRef ref) {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SelectableText(
-                      'Please, connect your wallet to list your pools with position.',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      AppLocalizations.of(context)!
+                          .poolListConnectWalletMyPools,
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
                 );
@@ -156,14 +130,9 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SelectableText(
-                        'Please enter your search criteria.',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        AppLocalizations.of(context)!
+                            .poolListEnterSearchCriteria,
+                        style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
                   );
@@ -172,14 +141,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SelectableText(
-                        'No results found.',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
+                        AppLocalizations.of(context)!.poolListNoResult,
+                        style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
                   );
@@ -191,13 +154,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     SelectableText(
-                      'To add your favorite pools to this tab, please click on the',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      AppLocalizations.of(context)!.poolListAddFavoriteText1,
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(
@@ -210,13 +168,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
                       ),
                     ),
                     SelectableText(
-                      'icon in the pool cards header.',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      AppLocalizations.of(context)!.poolListAddFavoriteText2,
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
                 );
@@ -245,25 +198,10 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 ),
                 itemCount: pools.length,
                 itemBuilder: (context, index) {
-                  final pool = pools[index];
-                  final asyncPoolDetail =
-                      ref.watch(DexPoolProviders.getPool(pool.poolAddress));
-                  return asyncPoolDetail.when(
-                    data: (poolDetail) {
-                      if (poolDetail == null) {
-                        return const SizedBox.shrink();
-                      }
-                      return PoolListItem(
-                        key: ValueKey(pool.poolAddress),
-                        poolDetail: pool,
-                      );
-                    },
-                    loading: () {
-                      return const SizedBox.shrink();
-                    },
-                    error: (error, stackTrace) {
-                      return const SizedBox.shrink();
-                    },
+                  return PoolListItem(
+                    key: ValueKey(pools[index].poolAddress),
+                    pool: pools[index],
+                    tab: tab,
                   );
                 },
               );

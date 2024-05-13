@@ -13,22 +13,24 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
   DexPoolRepositoryImpl({required this.apiService});
 
   final ApiService apiService;
+
+  // TODO(reddwarf03): remove
   @override
   Future<DexPool?> getPool(
     String poolAddress,
     List<String> tokenVerifiedList,
   ) async {
     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-    final poolHive = poolsListDatasource.getPool(poolAddress);
+    final poolHive = poolsListDatasource.getPool(
+      aedappfm.EndpointUtil.getEnvironnement(),
+      poolAddress,
+    );
     if (poolHive == null) {
       final dexConf = await DexConfigRepositoryImpl().getDexConfig();
       final resultPoolList = await RouterFactory(
         dexConf.routerGenesisAddress,
         apiService,
-      ).getPoolList(
-        null,
-        tokenVerifiedList,
-      );
+      ).getPoolList(tokenVerifiedList);
 
       return await resultPoolList.map(
         success: (poolList) async {
@@ -36,7 +38,10 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
             if (poolInput.poolAddress.toUpperCase() ==
                 poolAddress.toUpperCase()) {
               final pool = await populatePoolInfos(poolInput);
-              await poolsListDatasource.setPool(pool.toHive());
+              await poolsListDatasource.setPool(
+                aedappfm.EndpointUtil.getEnvironnement(),
+                pool.toHive(),
+              );
               return pool;
             }
           }
@@ -48,7 +53,9 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
       );
     }
 
-    return poolsListDatasource.getPool(poolAddress)?.toDexPool();
+    return poolsListDatasource
+        .getPool(aedappfm.EndpointUtil.getEnvironnement(), poolAddress)
+        ?.toDexPool();
   }
 
   @override

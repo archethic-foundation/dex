@@ -1,153 +1,84 @@
-part of 'farm_details_user_info.dart';
+import 'dart:convert';
 
-class _BalanceDetails extends ConsumerWidget {
-  const _BalanceDetails({
+import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
+import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
+import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+class FarmDetailsButtons extends ConsumerWidget {
+  const FarmDetailsButtons({
+    super.key,
     required this.farm,
     required this.rewardAmount,
+    required this.depositedAmount,
+    required this.userBalance,
   });
 
   final DexFarm farm;
-  final double rewardAmount;
+  final double? rewardAmount;
+  final double? depositedAmount;
+  final double? userBalance;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
-    return FutureBuilder<double>(
-      future: ref.watch(
-        FarmListProvider.balance(farm.lpToken!.address).future,
-      ),
-      builder: (context, balanceSnapshot) {
-        final balance = balanceSnapshot.data;
-        return Column(
-          children: [
-            if (session.isConnected)
-              Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SelectableText(
-                        'Your available LP Tokens',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodyLarge!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            ),
-                      ),
-                      if (balance == null)
-                        const Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 0.5,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 25,
-                              width: 20,
-                            ),
-                          ],
-                        )
-                      else
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            SelectableText(
-                              '${balance.formatNumber()} ${balance > 1 ? 'LP Tokens' : 'LP Token'}',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyLarge!.copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyLarge!,
-                                    ),
-                                  ),
-                            ),
-                            SelectableText(
-                              DEXLPTokenFiatValue().display(
-                                ref,
-                                farm.lpTokenPair!.token1,
-                                farm.lpTokenPair!.token2,
-                                balance,
-                                farm.poolAddress,
-                              ),
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium!.copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.bodyMedium!,
-                                    ),
-                                  ),
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                ],
-              )
-            else
-              SizedBox(
-                height: session.isConnected ? 240 : 190,
+    return Column(
+      children: [
+        if (aedappfm.Responsive.isDesktop(context) ||
+            aedappfm.Responsive.isTablet(context))
+          Column(
+            children: [
+              _depositButton(context, ref, userBalance),
+              const SizedBox(
+                height: 30,
               ),
-            if (aedappfm.Responsive.isDesktop(context) ||
-                aedappfm.Responsive.isTablet(context))
-              Column(
+              Row(
                 children: [
-                  _depositButton(context, ref, balance),
-                  const SizedBox(
-                    height: 30,
+                  Expanded(
+                    child: _widthdrawButton(context, ref),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _widthdrawButton(context, ref),
-                      ),
-                      Expanded(
-                        child: _claimButton(context, ref),
-                      ),
-                    ],
+                  Expanded(
+                    child: _claimButton(context, ref),
                   ),
-                ],
-              )
-            else
-              Column(
-                children: [
-                  _depositButton(context, ref, balance),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _widthdrawButton(context, ref),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _claimButton(context, ref),
                 ],
               ),
-          ],
-        );
-      },
+            ],
+          )
+        else
+          Column(
+            children: [
+              _depositButton(context, ref, userBalance),
+              const SizedBox(
+                height: 10,
+              ),
+              _widthdrawButton(context, ref),
+              const SizedBox(
+                height: 10,
+              ),
+              _claimButton(context, ref),
+            ],
+          ),
+      ],
     );
   }
 
-  Widget _depositButton(BuildContext context, WidgetRef ref, double? balance) {
+  Widget _depositButton(
+    BuildContext context,
+    WidgetRef ref,
+    double? userBalance,
+  ) {
     final session = ref.watch(SessionProviders.session);
     return farm.endDate != null && farm.endDate!.isBefore(DateTime.now())
         ? aedappfm.ButtonValidate(
             background: aedappfm.ArchethicThemeBase.purple500,
-            labelBtn: 'Deposit LP Tokens (Farm closed)',
+            labelBtn: AppLocalizations.of(context)!
+                .farmDetailsButtonDepositFarmClosed,
             onPressed: () {},
             controlOk: false,
             displayWalletConnect: true,
@@ -181,8 +112,8 @@ class _BalanceDetails extends ConsumerWidget {
           )
         : aedappfm.ButtonValidate(
             background: aedappfm.ArchethicThemeBase.purple500,
-            controlOk: balance != null && balance > 0,
-            labelBtn: 'Deposit LP Tokens',
+            controlOk: userBalance != null && userBalance > 0,
+            labelBtn: AppLocalizations.of(context)!.farmDetailsButtonDeposit,
             onPressed: () {
               final farmAddressJson = jsonEncode(farm.farmAddress);
               final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
@@ -240,8 +171,8 @@ class _BalanceDetails extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
     return aedappfm.ButtonValidate(
       background: aedappfm.ArchethicThemeBase.purple500,
-      controlOk: farm.lpTokenDeposited > 0,
-      labelBtn: 'Withdraw',
+      controlOk: depositedAmount != null && depositedAmount! > 0,
+      labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
       onPressed: () {
         final farmAddressJson = jsonEncode(farm.farmAddress);
         final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
@@ -300,8 +231,8 @@ class _BalanceDetails extends ConsumerWidget {
 
     return aedappfm.ButtonValidate(
       background: aedappfm.ArchethicThemeBase.purple500,
-      controlOk: farm.remainingReward > 0,
-      labelBtn: 'Claim',
+      controlOk: rewardAmount != null && rewardAmount! > 0,
+      labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
       onPressed: () async {
         if (context.mounted) {
           final farmAddressJson = jsonEncode(farm.farmAddress);
@@ -313,6 +244,9 @@ class _BalanceDetails extends ConsumerWidget {
           final lpTokenAddressJson = jsonEncode(farm.lpToken!.address);
           final lpTokenAddressEncoded = Uri.encodeComponent(lpTokenAddressJson);
 
+          final rewardAmountJson = jsonEncode(farm.rewardAmount);
+          final rewardAmountEncoded = Uri.encodeComponent(rewardAmountJson);
+
           context.go(
             Uri(
               path: FarmClaimSheet.routerPage,
@@ -320,6 +254,7 @@ class _BalanceDetails extends ConsumerWidget {
                 'farmAddress': farmAddressEncoded,
                 'rewardToken': rewardTokenEncoded,
                 'lpTokenAddress': lpTokenAddressEncoded,
+                'rewardAmount': rewardAmountEncoded,
               },
             ).toString(),
           );

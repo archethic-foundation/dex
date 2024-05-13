@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -35,12 +36,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                   child: SelectionArea(
                     child: SelectableText(
                       AppLocalizations.of(context)!.poolAddFormTitle,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodyLarge!,
-                            ),
-                          ),
+                      style: AppTextStyles.bodyLarge(context),
                     ),
                   ),
                 ),
@@ -136,7 +132,18 @@ class PoolAddFormSheet extends ConsumerWidget {
                       ),
                       aedappfm.ButtonClose(
                         onPressed: () {
-                          context.go(PoolListSheet.routerPage);
+                          final poolsListTabEncoded = Uri.encodeComponent(
+                            poolAdd.poolsListTab.name,
+                          );
+
+                          context.go(
+                            Uri(
+                              path: PoolListSheet.routerPage,
+                              queryParameters: {
+                                'tab': poolsListTabEncoded,
+                              },
+                            ).toString(),
+                          );
                         },
                       ),
                     ],

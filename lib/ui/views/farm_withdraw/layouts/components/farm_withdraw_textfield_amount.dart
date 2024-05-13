@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 
@@ -155,7 +156,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
             Row(
               children: [
                 DexTokenBalance(
-                  tokenBalance: farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                  tokenBalance: farmWithdraw.depositedAmount!,
                   token: farmWithdraw.dexFarmInfo!.lpToken,
                   withFiat: false,
                 ),
@@ -167,15 +168,10 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                     ref,
                     farmWithdraw.dexFarmInfo!.lpTokenPair!.token1,
                     farmWithdraw.dexFarmInfo!.lpTokenPair!.token2,
-                    farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                    farmWithdraw.depositedAmount!,
                     farmWithdraw.dexFarmInfo!.poolAddress,
                   ),
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      ),
+                  style: AppTextStyles.bodyLarge(context),
                 ),
               ],
             ),
@@ -185,7 +181,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
             Row(
               children: [
                 aedappfm.ButtonHalf(
-                  balanceAmount: farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                  balanceAmount: farmWithdraw.depositedAmount!,
                   onTap: () {
                     ref
                         .read(
@@ -201,7 +197,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                   width: 10,
                 ),
                 aedappfm.ButtonMax(
-                  balanceAmount: farmWithdraw.dexFarmUserInfo!.depositedAmount,
+                  balanceAmount: farmWithdraw.depositedAmount!,
                   onTap: () {
                     ref
                         .read(

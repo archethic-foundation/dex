@@ -2,6 +2,7 @@ import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmDepositFinalAmount extends ConsumerWidget {
@@ -22,7 +23,7 @@ class FarmDepositFinalAmount extends ConsumerWidget {
 
     return finalAmount != null
         ? SelectableText(
-            'Amount deposited: ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmDepositFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? 'LP Tokens' : 'LP Token'}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -34,7 +35,7 @@ class FarmDepositFinalAmount extends ConsumerWidget {
             ? Row(
                 children: [
                   SelectableText(
-                    'Amount deposited: ',
+                    AppLocalizations.of(context)!.farmDepositFinalAmount,
                     style: TextStyle(
                       fontSize: aedappfm.Responsive.fontSizeFromValue(
                         context,
@@ -50,7 +51,7 @@ class FarmDepositFinalAmount extends ConsumerWidget {
                 ],
               )
             : SelectableText(
-                'Amount deposited: The amount could not be recovered',
+                '${AppLocalizations.of(context)!.farmDepositFinalAmount} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,

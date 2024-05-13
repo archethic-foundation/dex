@@ -20,7 +20,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
-    if (farmClaim.dexFarmUserInfo == null) {
+    if (farmClaim.rewardAmount == null) {
       return const Padding(
         padding: EdgeInsets.only(top: 60, bottom: 60),
         child: SizedBox(
@@ -79,7 +79,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                         future: FiatValue().display(
                           ref,
                           farmClaim.rewardToken!,
-                          farmClaim.dexFarmUserInfo!.rewardAmount,
+                          farmClaim.rewardAmount!,
                         ),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -87,8 +87,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                               TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: farmClaim
-                                        .dexFarmUserInfo!.rewardAmount
+                                    text: farmClaim.rewardAmount!
                                         .formatNumber(precision: 8),
                                     style: Theme.of(context)
                                         .textTheme
@@ -124,19 +123,20 @@ class FarmClaimFormSheet extends ConsumerWidget {
                                     text: ' ${snapshot.data} ',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyMedium!
+                                        .bodyLarge!
                                         .copyWith(
                                           fontSize: aedappfm.Responsive
                                               .fontSizeFromTextStyle(
                                             context,
                                             Theme.of(context)
                                                 .textTheme
-                                                .bodyMedium!,
+                                                .bodyLarge!,
                                           ),
                                         ),
                                   ),
                                   TextSpan(
-                                    text: 'are available for claiming.',
+                                    text: AppLocalizations.of(context)!
+                                        .farmClaimFormText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!

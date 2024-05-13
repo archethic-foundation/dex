@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/ui/views/util/router/router.dart';
 import 'package:aedex/util/service_locator.dart';
@@ -42,8 +40,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    Future.delayed(Duration.zero, () async {
       try {
         await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
         await ref
@@ -51,14 +48,6 @@ class _MyAppState extends ConsumerState<MyApp> {
               aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
             )
             .init();
-        await ref
-            .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
-            .init();
-        await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
-        _poolListTimer =
-            Timer.periodic(const Duration(minutes: 1), (timer) async {
-          await ref.read(DexPoolProviders.putPoolListInfosToCache.future);
-        });
       } catch (e) {
         aedappfm.sl.get<aedappfm.LogManager>().log('main initState $e');
       } finally {

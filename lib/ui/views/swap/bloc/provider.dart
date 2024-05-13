@@ -43,8 +43,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       })>? _calculateSwapInfosTask;
 
   Future<void> getPool() async {
-    final pool = await ref
+    var pool = await ref
         .read(DexPoolProviders.getPool(state.poolGenesisAddress).future);
+    pool = await ref.read(DexPoolProviders.loadPoolCard(pool!).future);
+
     setPool(pool);
   }
 
@@ -613,10 +615,6 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
-  void setRefreshInProgress(bool refreshInProgress) {
-    state = state.copyWith(refreshInProgress: refreshInProgress);
-  }
-
   Future<void> validateForm(BuildContext context) async {
     if (await control(context) == false) {
       return;
@@ -746,9 +744,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
     state = state.copyWith(finalAmount: finalAmount);
 
-    if (state.pool != null) {
-      ref.read(DexPoolProviders.updatePoolInCache(state.pool!));
-    }
+    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
   }
 }
 

@@ -23,6 +23,7 @@ mixin _$Session {
   String get genesisAddress => throw _privateConstructorUsedError;
   String get error => throw _privateConstructorUsedError;
   bool get isConnected => throw _privateConstructorUsedError;
+  Balance? get userBalance => throw _privateConstructorUsedError;
   Subscription<Account>? get accountSub => throw _privateConstructorUsedError;
   StreamSubscription<Account>? get accountStreamSub =>
       throw _privateConstructorUsedError;
@@ -44,9 +45,11 @@ abstract class $SessionCopyWith<$Res> {
       String genesisAddress,
       String error,
       bool isConnected,
+      Balance? userBalance,
       Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
 
+  $BalanceCopyWith<$Res>? get userBalance;
   $SubscriptionCopyWith<Account, $Res>? get accountSub;
 }
 
@@ -70,6 +73,7 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
     Object? genesisAddress = null,
     Object? error = null,
     Object? isConnected = null,
+    Object? userBalance = freezed,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
   }) {
@@ -102,6 +106,10 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
           ? _value.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
               as bool,
+      userBalance: freezed == userBalance
+          ? _value.userBalance
+          : userBalance // ignore: cast_nullable_to_non_nullable
+              as Balance?,
       accountSub: freezed == accountSub
           ? _value.accountSub
           : accountSub // ignore: cast_nullable_to_non_nullable
@@ -111,6 +119,18 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
           : accountStreamSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<Account>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BalanceCopyWith<$Res>? get userBalance {
+    if (_value.userBalance == null) {
+      return null;
+    }
+
+    return $BalanceCopyWith<$Res>(_value.userBalance!, (value) {
+      return _then(_value.copyWith(userBalance: value) as $Val);
+    });
   }
 
   @override
@@ -141,9 +161,12 @@ abstract class _$$SessionImplCopyWith<$Res> implements $SessionCopyWith<$Res> {
       String genesisAddress,
       String error,
       bool isConnected,
+      Balance? userBalance,
       Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
 
+  @override
+  $BalanceCopyWith<$Res>? get userBalance;
   @override
   $SubscriptionCopyWith<Account, $Res>? get accountSub;
 }
@@ -166,6 +189,7 @@ class __$$SessionImplCopyWithImpl<$Res>
     Object? genesisAddress = null,
     Object? error = null,
     Object? isConnected = null,
+    Object? userBalance = freezed,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
   }) {
@@ -198,6 +222,10 @@ class __$$SessionImplCopyWithImpl<$Res>
           ? _value.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
               as bool,
+      userBalance: freezed == userBalance
+          ? _value.userBalance
+          : userBalance // ignore: cast_nullable_to_non_nullable
+              as Balance?,
       accountSub: freezed == accountSub
           ? _value.accountSub
           : accountSub // ignore: cast_nullable_to_non_nullable
@@ -221,6 +249,7 @@ class _$SessionImpl extends _Session {
       this.genesisAddress = '',
       this.error = '',
       this.isConnected = false,
+      this.userBalance,
       this.accountSub,
       this.accountStreamSub})
       : super._();
@@ -247,13 +276,15 @@ class _$SessionImpl extends _Session {
   @JsonKey()
   final bool isConnected;
   @override
+  final Balance? userBalance;
+  @override
   final Subscription<Account>? accountSub;
   @override
   final StreamSubscription<Account>? accountStreamSub;
 
   @override
   String toString() {
-    return 'Session(envSelected: $envSelected, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
+    return 'Session(envSelected: $envSelected, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, userBalance: $userBalance, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
   }
 
   @override
@@ -274,6 +305,8 @@ class _$SessionImpl extends _Session {
             (identical(other.error, error) || other.error == error) &&
             (identical(other.isConnected, isConnected) ||
                 other.isConnected == isConnected) &&
+            (identical(other.userBalance, userBalance) ||
+                other.userBalance == userBalance) &&
             (identical(other.accountSub, accountSub) ||
                 other.accountSub == accountSub) &&
             (identical(other.accountStreamSub, accountStreamSub) ||
@@ -290,6 +323,7 @@ class _$SessionImpl extends _Session {
       genesisAddress,
       error,
       isConnected,
+      userBalance,
       accountSub,
       accountStreamSub);
 
@@ -309,6 +343,7 @@ abstract class _Session extends Session {
       final String genesisAddress,
       final String error,
       final bool isConnected,
+      final Balance? userBalance,
       final Subscription<Account>? accountSub,
       final StreamSubscription<Account>? accountStreamSub}) = _$SessionImpl;
   const _Session._() : super._();
@@ -327,6 +362,8 @@ abstract class _Session extends Session {
   String get error;
   @override
   bool get isConnected;
+  @override
+  Balance? get userBalance;
   @override
   Subscription<Account>? get accountSub;
   @override

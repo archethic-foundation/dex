@@ -2,6 +2,7 @@ import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmClaimFinalAmount extends ConsumerWidget {
@@ -22,7 +23,7 @@ class FarmClaimFinalAmount extends ConsumerWidget {
 
     return finalAmount != null
         ? SelectableText(
-            'Amount claimed: ${finalAmount.formatNumber(precision: 8)} ${farmClaim.rewardToken!.symbol}',
+            '${AppLocalizations.of(context)!.farmClaimFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${farmClaim.rewardToken!.symbol}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -34,7 +35,7 @@ class FarmClaimFinalAmount extends ConsumerWidget {
             ? Row(
                 children: [
                   SelectableText(
-                    'Amount claimed: ',
+                    AppLocalizations.of(context)!.farmClaimFinalAmount,
                     style: TextStyle(
                       fontSize: aedappfm.Responsive.fontSizeFromValue(
                         context,
@@ -50,7 +51,7 @@ class FarmClaimFinalAmount extends ConsumerWidget {
                 ],
               )
             : SelectableText(
-                'Amount claimed: The amount could not be recovered',
+                '${AppLocalizations.of(context)!.farmClaimFinalAmount} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,

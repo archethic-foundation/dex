@@ -25,7 +25,7 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
   @override
   Widget build(BuildContext context) {
     final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
-    if (farmClaim.dexFarmUserInfo == null) {
+    if (farmClaim.rewardAmount == null) {
       return const SizedBox.shrink();
     }
 
@@ -35,7 +35,7 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
         children: [
           aedappfm.ButtonConfirmBack(
             title: AppLocalizations.of(context)!.farmClaimConfirmTitle,
-            onPressed: farmClaim.dexFarmUserInfo == null
+            onPressed: farmClaim.rewardAmount == null
                 ? null
                 : () {
                     ref
