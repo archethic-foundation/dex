@@ -93,7 +93,7 @@ Future<DexPool> _estimateStats(
       await aedappfm.sl.get<ApiService>().getTransactionChain(
     {pool.poolAddress: ''},
     request:
-        ' address, chainLength, validationStamp { ledgerOperations { unspentOutputs { state } } }',
+        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
     fromCriteria: fromCriteria,
     orderAsc: false,
   );

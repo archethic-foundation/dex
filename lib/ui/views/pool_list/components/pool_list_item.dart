@@ -54,13 +54,15 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
         forceLoadFromBC: forceLoadFromBC,
       ).future,
     );
-    final session = ref.watch(SessionProviders.session);
-    ref.invalidate(
-      BalanceProviders.getBalance(
-        session.genesisAddress,
-        widget.pool.lpToken.address!,
-      ),
-    );
+    if (mounted) {
+      final session = ref.watch(SessionProviders.session);
+      ref.invalidate(
+        BalanceProviders.getBalance(
+          session.genesisAddress,
+          widget.pool.lpToken.address!,
+        ),
+      );
+    }
     if (mounted) {
       setState(() {});
     }
