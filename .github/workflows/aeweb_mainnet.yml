@@ -43,6 +43,6 @@ jobs:
           path: "build/web"
           sslCertificateFile: "certificate_dex_mainnet.crt"
           sslKey: ${{ secrets.SSL_KEY_MAINNET }}
-          keychainFundingService: "archethic-wallet-ARCHETHIC.NET"
+          keychainFundingService: "archethic-wallet-archethic-front-app"
           keychainWebsiteService: "aeweb-DEX"
        
