@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - mainnet
+      - main
 
 jobs:
   deploy_to_aeweb:
