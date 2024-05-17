@@ -6,7 +6,6 @@ import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -105,19 +104,6 @@ class _SwapTokenSwappedAmountState
                                           .primaryContainer,
                                       width: 0.5,
                                     ),
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Theme.of(context)
-                                            .colorScheme
-                                            .background
-                                            .withOpacity(1),
-                                        Theme.of(context)
-                                            .colorScheme
-                                            .background
-                                            .withOpacity(0.3),
-                                      ],
-                                      stops: const [0, 1],
-                                    ),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.only(
@@ -145,6 +131,7 @@ class _SwapTokenSwappedAmountState
                                             ),
                                           )
                                         : TextField(
+                                            enabled: false,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium!
@@ -291,7 +278,7 @@ class _SwapTokenSwappedAmountState
                   ),
                 ),
               ),
-            if (swap.tokenSwappedBalance > 0)
+            /*if (swap.tokenSwappedBalance > 0)
               Row(
                 children: [
                   aedappfm.ButtonHalf(
@@ -338,7 +325,7 @@ class _SwapTokenSwappedAmountState
                     },
                   ),
                 ],
-              ),
+              ),*/
           ],
         ),
       ],
