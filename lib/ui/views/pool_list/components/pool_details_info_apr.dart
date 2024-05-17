@@ -24,27 +24,42 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Stack(
-          alignment: Alignment.centerRight,
+        Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: SelectableText(
-                AppLocalizations.of(context)!.time24h,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodySmall!,
-                      ),
-                    ),
+              padding: const EdgeInsets.only(bottom: 2, right: 5),
+              child: Tooltip(
+                message: AppLocalizations.of(context)!.apr24hTooltip,
+                triggerMode: TooltipTriggerMode.tap,
+                child: Icon(
+                  Icons.help,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: SelectableText(
-                AppLocalizations.of(context)!.poolDetailsInfoAPR,
-                style: AppTextStyles.bodyLarge(context),
-              ),
+            Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: SelectableText(
+                    AppLocalizations.of(context)!.time24h,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodySmall!,
+                          ),
+                        ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 25),
+                  child: SelectableText(
+                    AppLocalizations.of(context)!.poolDetailsInfoAPR,
+                    style: AppTextStyles.bodyLarge(context),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
