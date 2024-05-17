@@ -86,7 +86,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             reduceAddress: true,
           ),
           SelectableText(
-            'LP Tokens burned: ${amount.formatNumber(precision: 8)} ${task.data.amount! > 1 ? 'LP Tokens' : 'LP Token'}',
+            'LP Tokens obtained: ${amount.formatNumber(precision: 8)} ${task.data.amount! > 1 ? 'LP Tokens' : 'LP Token'}',
           ),
         ],
       ),
