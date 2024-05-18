@@ -203,7 +203,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                                                   as double;
 
                                       return SelectableText(
-                                        '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: 2)} ${pool!.pair.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber()} ${pool!.pair.token2.symbol.reduceSymbol()}',
+                                        '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${pool!.pair.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${pool!.pair.token2.symbol.reduceSymbol()}',
                                         style:
                                             AppTextStyles.bodyMedium(context),
                                       );
