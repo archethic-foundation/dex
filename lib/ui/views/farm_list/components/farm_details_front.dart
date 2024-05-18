@@ -40,9 +40,15 @@ class FarmDetailsFrontState extends ConsumerState<FarmDetailsFront>
     return Column(
       children: [
         FarmDetailsInfoHeader(farm: widget.farm),
-        FarmDetailsInfoAPR(farm: widget.farm),
-        FarmDetailsInfoTokenReward(farm: widget.farm),
-        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FarmDetailsInfoAPR(farm: widget.farm),
+            FarmDetailsInfoTokenReward(farm: widget.farm),
+          ],
+        ),
+        const SizedBox(height: 10),
         FarmDetailsInfoPeriod(farm: widget.farm),
         const SizedBox(height: 9),
         if (session.isConnected)

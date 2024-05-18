@@ -31,6 +31,7 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
               child: Tooltip(
                 message: AppLocalizations.of(context)!.apr24hTooltip,
                 triggerMode: TooltipTriggerMode.tap,
+                showDuration: const Duration(seconds: 5),
                 child: Icon(
                   Icons.help,
                   color: Theme.of(context).colorScheme.primary,
