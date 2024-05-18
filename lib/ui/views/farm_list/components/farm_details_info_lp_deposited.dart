@@ -25,9 +25,11 @@ class FarmDetailsInfoLPDeposited extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SelectableText(
-          AppLocalizations.of(context)!.farmDetailsInfoLPDeposited,
-          style: AppTextStyles.bodyLarge(context),
+        Expanded(
+          child: SelectableText(
+            AppLocalizations.of(context)!.farmDetailsInfoLPDeposited,
+            style: AppTextStyles.bodyLarge(context),
+          ),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,

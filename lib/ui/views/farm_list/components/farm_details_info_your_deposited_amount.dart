@@ -26,9 +26,11 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SelectableText(
-          AppLocalizations.of(context)!.farmDetailsInfoYourDepositedAmount,
-          style: AppTextStyles.bodyLarge(context),
+        Expanded(
+          child: SelectableText(
+            AppLocalizations.of(context)!.farmDetailsInfoYourDepositedAmount,
+            style: AppTextStyles.bodyLarge(context),
+          ),
         ),
         Wrap(
           children: [
