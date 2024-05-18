@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -40,6 +42,22 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
         await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
         final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
         final swap = ref.read(SwapFormProvider.swapForm);
+
+        final session = ref.read(SessionProviders.session);
+        final balanceToSwap = await ref.read(
+          BalanceProviders.getBalance(
+            session.genesisAddress,
+            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+          ).future,
+        );
+        swapNotifier.setTokenToSwapBalance(balanceToSwap);
+        final balanceSwapped = await ref.read(
+          BalanceProviders.getBalance(
+            session.genesisAddress,
+            swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
+          ).future,
+        );
+        swapNotifier.setTokenSwappedBalance(balanceSwapped);
 
         if (swap.tokenToSwap != null && swap.tokenSwapped != null) {
           await swapNotifier.calculateSwapInfos(

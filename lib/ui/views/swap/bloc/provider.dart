@@ -537,6 +537,14 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
+  void setTokenToSwapBalance(double tokenToSwapBalance) {
+    state = state.copyWith(tokenToSwapBalance: tokenToSwapBalance);
+  }
+
+  void setTokenSwappedBalance(double tokenSwappedBalance) {
+    state = state.copyWith(tokenSwappedBalance: tokenSwappedBalance);
+  }
+
   void setMinimumReceived(
     double minToReceive,
   ) {
