@@ -10,12 +10,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-class SingleToken extends StatelessWidget {
+class SingleToken extends StatefulWidget {
   const SingleToken({super.key, required this.token});
 
   final DexToken token;
+
+  @override
+  SingleTokenState createState() => SingleTokenState();
+}
+
+class SingleTokenState extends State<SingleToken>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Container(
       height: 60,
       alignment: Alignment.centerLeft,
@@ -40,7 +52,7 @@ class SingleToken extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.pop(context, token);
+          Navigator.pop(context, widget.token);
         },
         child: Row(
           children: [
@@ -48,7 +60,8 @@ class SingleToken extends StatelessWidget {
               width: 10,
             ),
             DexTokenIcon(
-              tokenAddress: token.address == null ? 'UCO' : token.address!,
+              tokenAddress:
+                  widget.token.address == null ? 'UCO' : widget.token.address!,
             ),
             const SizedBox(
               width: 10,
@@ -60,9 +73,9 @@ class SingleToken extends StatelessWidget {
                 ..._getContent(
                   context,
                 ),
-                if (token.address != null)
+                if (widget.token.address != null)
                   FormatAddressLinkCopy(
-                    address: token.address!,
+                    address: widget.token.address!,
                     reduceAddress: true,
                     fontSize:
                         Theme.of(context).textTheme.titleMedium!.fontSize!,
@@ -82,9 +95,9 @@ class SingleToken extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (token.isLpToken == false)
+          if (widget.token.isLpToken == false)
             Text(
-              token.symbol,
+              widget.token.symbol,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                       context,
@@ -92,24 +105,24 @@ class SingleToken extends StatelessWidget {
                     ),
                   ),
             ),
-          if (token.isLpToken == false)
+          if (widget.token.isLpToken == false)
             const SizedBox(
               width: 3,
             ),
-          if (token.isLpToken == false)
+          if (widget.token.isLpToken == false)
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: VerifiedTokenIcon(
-                address: token.isUCO ? 'UCO' : token.address!,
+                address: widget.token.isUCO ? 'UCO' : widget.token.address!,
                 iconSize: 12,
               ),
             ),
-          if (token.isLpToken && token.lpTokenPair != null)
+          if (widget.token.isLpToken && widget.token.lpTokenPair != null)
             Tooltip(
               message:
-                  '${AppLocalizations.of(context)!.tokenSelectionSingleTokenLPTooltip} ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol}',
+                  '${AppLocalizations.of(context)!.tokenSelectionSingleTokenLPTooltip} ${widget.token.lpTokenPair!.token1.isUCO ? 'UCO' : widget.token.lpTokenPair!.token1.symbol}/${widget.token.lpTokenPair!.token2.isUCO ? 'UCO' : widget.token.lpTokenPair!.token2.symbol}',
               child: Text(
-                '${AppLocalizations.of(context)!.tokenSelectionSingleTokenLPTooltip} ${token.lpTokenPair!.token1.isUCO ? 'UCO' : token.lpTokenPair!.token1.symbol.reduceSymbol()}/${token.lpTokenPair!.token2.isUCO ? 'UCO' : token.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                '${AppLocalizations.of(context)!.tokenSelectionSingleTokenLPTooltip} ${widget.token.lpTokenPair!.token1.isUCO ? 'UCO' : widget.token.lpTokenPair!.token1.symbol.reduceSymbol()}/${widget.token.lpTokenPair!.token2.isUCO ? 'UCO' : widget.token.lpTokenPair!.token2.symbol.reduceSymbol()}',
                 style: AppTextStyles.bodyLarge(context),
               ),
             ),

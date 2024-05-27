@@ -5,7 +5,6 @@ import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/components/token_single.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -106,11 +105,7 @@ class _TokensList extends ConsumerWidget {
         shrinkWrap: true,
         itemCount: tokensFiltered.length,
         itemBuilder: (BuildContext context, int index) {
-          return SingleToken(token: tokensFiltered[index])
-              .animate(delay: (100 * index).ms)
-              .fadeIn(duration: 900.ms, delay: 200.ms)
-              .shimmer(blendMode: BlendMode.srcOver, color: Colors.white12)
-              .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad);
+          return SingleToken(token: tokensFiltered[index]);
         },
       ),
     );
