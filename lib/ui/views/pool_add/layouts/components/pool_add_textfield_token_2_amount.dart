@@ -30,8 +30,11 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
   void _updateAmountTextController() {
     final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
     tokenAmountController = TextEditingController();
-    tokenAmountController.value =
-        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
+    tokenAmountController.value = aedappfm.AmountTextInputFormatter(
+      precision: 8,
+      thousandsSeparator: ',',
+      useUnifyDecimalSeparator: false,
+    ).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: poolAdd.token2Amount == 0
@@ -130,7 +133,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                                     poolAddNotifier.setToken2Amount(
                                       context,
                                       double.tryParse(
-                                            text.replaceAll(' ', ''),
+                                            text.replaceAll(',', ''),
                                           ) ??
                                           0,
                                     );
@@ -152,6 +155,8 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                                   inputFormatters: <TextInputFormatter>[
                                     aedappfm.AmountTextInputFormatter(
                                       precision: 8,
+                                      thousandsSeparator: ',',
+                                      useUnifyDecimalSeparator: false,
                                     ),
                                   ],
                                   decoration: const InputDecoration(

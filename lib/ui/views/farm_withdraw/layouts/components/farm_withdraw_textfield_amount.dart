@@ -33,8 +33,11 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
   void _updateAmountTextController() {
     final farmWithdraw = ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
     tokenAmountController = TextEditingController();
-    tokenAmountController.value =
-        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
+    tokenAmountController.value = aedappfm.AmountTextInputFormatter(
+      precision: 8,
+      thousandsSeparator: ',',
+      useUnifyDecimalSeparator: false,
+    ).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: farmWithdraw.amount == 0
@@ -123,7 +126,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                             onChanged: (text) async {
                               farmWithdrawNotifier.setAmount(
                                 context,
-                                double.tryParse(text.replaceAll(' ', '')) ?? 0,
+                                double.tryParse(text.replaceAll(',', '')) ?? 0,
                               );
                             },
                             focusNode: tokenAmountFocusNode,
@@ -133,7 +136,11 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                               decimal: true,
                             ),
                             inputFormatters: <TextInputFormatter>[
-                              aedappfm.AmountTextInputFormatter(precision: 8),
+                              aedappfm.AmountTextInputFormatter(
+                                precision: 8,
+                                thousandsSeparator: ',',
+                                useUnifyDecimalSeparator: false,
+                              ),
                               LengthLimitingTextInputFormatter(10),
                             ],
                             decoration: const InputDecoration(

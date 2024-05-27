@@ -33,8 +33,11 @@ class _LiquidityRemoveLPTokenAmountState
     final liquidityRemove =
         ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm);
     tokenAmountController = TextEditingController();
-    tokenAmountController.value =
-        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
+    tokenAmountController.value = aedappfm.AmountTextInputFormatter(
+      precision: 8,
+      thousandsSeparator: ',',
+      useUnifyDecimalSeparator: false,
+    ).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: liquidityRemove.lpTokenAmount == 0
@@ -123,7 +126,7 @@ class _LiquidityRemoveLPTokenAmountState
                             controller: tokenAmountController,
                             onChanged: (text) async {
                               await liquidityRemoveNotifier.setLPTokenAmount(
-                                double.tryParse(text.replaceAll(' ', '')) ?? 0,
+                                double.tryParse(text.replaceAll(',', '')) ?? 0,
                               );
                             },
                             focusNode: tokenAmountFocusNode,
@@ -133,7 +136,11 @@ class _LiquidityRemoveLPTokenAmountState
                               decimal: true,
                             ),
                             inputFormatters: <TextInputFormatter>[
-                              aedappfm.AmountTextInputFormatter(precision: 8),
+                              aedappfm.AmountTextInputFormatter(
+                                precision: 8,
+                                thousandsSeparator: ',',
+                                useUnifyDecimalSeparator: false,
+                              ),
                               LengthLimitingTextInputFormatter(10),
                             ],
                             decoration: const InputDecoration(
