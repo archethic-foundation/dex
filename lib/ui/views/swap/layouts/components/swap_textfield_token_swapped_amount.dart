@@ -131,7 +131,7 @@ class _SwapTokenSwappedAmountState
                                             ),
                                           )
                                         : TextField(
-                                            enabled: false,
+                                            readOnly: true,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium!
