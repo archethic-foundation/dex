@@ -59,25 +59,15 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
+                      SelectableText(
+                        liquidityAdd.token1Amount.formatNumber(precision: 8),
+                        style: AppTextStyles.bodyLargeSecondaryColor(context),
+                      ),
                       Tooltip(
                         message: liquidityAdd.token1!.symbol,
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: liquidityAdd.token1Amount
-                                    .formatNumber(precision: 8),
-                                style: AppTextStyles.bodyLargeSecondaryColor(
-                                  context,
-                                ),
-                              ),
-                              TextSpan(
-                                text:
-                                    ' ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-                                style: AppTextStyles.bodyLarge(context),
-                              ),
-                            ],
-                          ),
+                        child: SelectableText(
+                          ' ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                          style: AppTextStyles.bodyLarge(context),
                         ),
                       ),
                     ],
@@ -85,7 +75,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   Tooltip(
                     message: liquidityAdd.token1!.symbol,
                     child: SelectableText(
-                      '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                      '+${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ),
@@ -97,7 +87,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   Row(
                     children: [
                       SelectableText(
-                        '${liquidityAdd.token2Amount}',
+                        liquidityAdd.token2Amount.formatNumber(precision: 8),
                         style: AppTextStyles.bodyLargeSecondaryColor(context),
                       ),
                       Tooltip(

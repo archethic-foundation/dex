@@ -33,8 +33,11 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
   void _updateAmountTextController() {
     final farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
     tokenAmountController = TextEditingController();
-    tokenAmountController.value =
-        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
+    tokenAmountController.value = aedappfm.AmountTextInputFormatter(
+      precision: 8,
+      thousandsSeparator: ',',
+      useUnifyDecimalSeparator: false,
+    ).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: farmDeposit.amount == 0
@@ -120,7 +123,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                             controller: tokenAmountController,
                             onChanged: (text) async {
                               farmDepositNotifier.setAmount(
-                                double.tryParse(text.replaceAll(' ', '')) ?? 0,
+                                double.tryParse(text.replaceAll(',', '')) ?? 0,
                               );
                             },
                             focusNode: tokenAmountFocusNode,
@@ -130,7 +133,11 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                               decimal: true,
                             ),
                             inputFormatters: <TextInputFormatter>[
-                              aedappfm.AmountTextInputFormatter(precision: 8),
+                              aedappfm.AmountTextInputFormatter(
+                                precision: 8,
+                                thousandsSeparator: ',',
+                                useUnifyDecimalSeparator: false,
+                              ),
                               LengthLimitingTextInputFormatter(
                                 farmDeposit.lpTokenBalance
                                         .formatNumber(

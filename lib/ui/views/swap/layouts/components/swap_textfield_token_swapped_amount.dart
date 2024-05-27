@@ -35,8 +35,11 @@ class _SwapTokenSwappedAmountState
     final swap = ref.read(SwapFormProvider.swapForm);
 
     tokenAmountController = TextEditingController();
-    tokenAmountController.value =
-        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
+    tokenAmountController.value = aedappfm.AmountTextInputFormatter(
+      precision: 8,
+      thousandsSeparator: ',',
+      useUnifyDecimalSeparator: false,
+    ).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: swap.tokenSwappedAmount == 0
@@ -152,7 +155,7 @@ class _SwapTokenSwappedAmountState
                                               await swapNotifier
                                                   .setTokenSwappedAmount(
                                                 double.tryParse(
-                                                      text.replaceAll(' ', ''),
+                                                      text.replaceAll(',', ''),
                                                     ) ??
                                                     0,
                                               );
@@ -171,6 +174,8 @@ class _SwapTokenSwappedAmountState
                                             inputFormatters: <TextInputFormatter>[
                                               aedappfm.AmountTextInputFormatter(
                                                 precision: 8,
+                                                thousandsSeparator: ',',
+                                                useUnifyDecimalSeparator: false,
                                               ),
                                               LengthLimitingTextInputFormatter(
                                                 swap.tokenSwappedBalance
@@ -285,7 +290,9 @@ class _SwapTokenSwappedAmountState
                     balanceAmount: swap.tokenSwappedBalance,
                     onTap: () async {
                       tokenAmountController.value =
-                          aedappfm.AmountTextInputFormatter(precision: 8)
+                          aedappfm.AmountTextInputFormatter(precision: 8,
+      thousandsSeparator: ',',
+      useUnifyDecimalSeparator: false,)
                               .formatEditUpdate(
                         TextEditingValue.empty,
                         TextEditingValue(
@@ -312,7 +319,9 @@ class _SwapTokenSwappedAmountState
                     balanceAmount: swap.tokenSwappedBalance,
                     onTap: () async {
                       tokenAmountController.value =
-                          aedappfm.AmountTextInputFormatter(precision: 8)
+                          aedappfm.AmountTextInputFormatter(precision: 8,
+      thousandsSeparator: ',',
+      useUnifyDecimalSeparator: false,)
                               .formatEditUpdate(
                         TextEditingValue.empty,
                         TextEditingValue(
