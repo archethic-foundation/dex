@@ -78,7 +78,11 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         setFailure(
           const aedappfm.Failure.other(cause: "You can't swap the same tokens"),
         );
-        state = state.copyWith(ratio: 0, pool: null);
+        state = state.copyWith(
+          ratio: 0,
+          pool: null,
+          calculationInProgress: false,
+        );
         return;
       }
 
@@ -261,6 +265,15 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       cancel: false,
     );
 
+    if (state.tokenToSwap != null &&
+        state.tokenSwapped != null &&
+        state.tokenToSwap!.address == state.tokenSwapped!.address) {
+      setFailure(
+        const aedappfm.Failure.other(cause: "You can't swap the same tokens"),
+      );
+      return;
+    }
+
     if (state.tokenFormSelected == 1) {
       if (state.tokenToSwapAmount == 0) {
         return;
@@ -422,7 +435,11 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         setFailure(
           const aedappfm.Failure.other(cause: "You can't swap the same tokens"),
         );
-        state = state.copyWith(ratio: 0, pool: null);
+        state = state.copyWith(
+          ratio: 0,
+          pool: null,
+          calculationInProgress: false,
+        );
         return;
       }
 
