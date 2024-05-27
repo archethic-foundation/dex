@@ -73,7 +73,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
             ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
 
         final poolsListTabEncoded = Uri.encodeComponent(selectedTab.name);
-        context.go(
+        context.push(
           Uri(
             path: PoolAddSheet.routerPage,
             queryParameters: {
