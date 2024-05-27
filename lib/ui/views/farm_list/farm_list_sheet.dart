@@ -90,8 +90,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: MediaQuery.of(context).size.width >= 1500
                 ? 3
-                : aedappfm.Responsive.isDesktop(context) ||
-                        aedappfm.Responsive.isTablet(context)
+                : aedappfm.Responsive.isDesktop(context)
                     ? 2
                     : 1,
             mainAxisExtent: 640,

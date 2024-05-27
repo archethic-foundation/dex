@@ -33,92 +33,81 @@ class FarmDetailsInfoYourAvailableLP extends ConsumerWidget {
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SelectableText(
               AppLocalizations.of(context)!.farmDetailsInfoYourAvailableLP,
               style: AppTextStyles.bodyLarge(context),
             ),
-            Wrap(
-              children: [
-                if (balance == null)
-                  const Padding(
-                    padding: EdgeInsets.only(top: 5),
-                    child: SizedBox(
-                      height: 10,
-                      width: 10,
-                      child: CircularProgressIndicator(strokeWidth: 1),
-                    ),
-                  ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SelectableText(
-                      balance == null
-                          ? ''
-                          : '${balance!.formatNumber()} ${balance! > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
-                      style: AppTextStyles.bodyLarge(context),
-                    ),
-                    SelectableText(
-                      balance == null
-                          ? ''
-                          : DEXLPTokenFiatValue().display(
-                              ref,
-                              farm.lpTokenPair!.token1,
-                              farm.lpTokenPair!.token2,
-                              balance!,
-                              farm.poolAddress,
-                            ),
-                      style: AppTextStyles.bodyMedium(context),
-                    ),
-                    if (balance != null && balance! > 0)
-                      FutureBuilder<Map<String, dynamic>?>(
-                        future: PoolFactoryRepositoryImpl(
-                          farm.poolAddress,
-                          aedappfm.sl.get<ApiService>(),
-                        ).getRemoveAmounts(
-                          balance!,
-                        ),
-                        builder: (
-                          context,
-                          snapshotAmounts,
-                        ) {
-                          if (snapshotAmounts.hasData &&
-                              snapshotAmounts.data != null) {
-                            final amountToken1 =
-                                snapshotAmounts.data!['token1'] == null
-                                    ? 0.0
-                                    : snapshotAmounts.data!['token1'] as double;
-                            final amountToken2 =
-                                snapshotAmounts.data!['token2'] == null
-                                    ? 0.0
-                                    : snapshotAmounts.data!['token2'] as double;
-
-                            return SelectableText(
-                              '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token2.symbol.reduceSymbol()}',
-                              style: AppTextStyles.bodyMedium(context),
-                            );
-                          }
-                          return SelectableText(
-                            ' ',
-                            style: AppTextStyles.bodyMedium(context),
-                          );
-                        },
-                      )
-                    else
-                      SelectableText(
-                        ' ',
-                        style: AppTextStyles.bodyMedium(context),
-                      ),
-                  ],
+            if (balance == null)
+              const Padding(
+                padding: EdgeInsets.only(top: 5),
+                child: SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: CircularProgressIndicator(strokeWidth: 1),
                 ),
-              ],
-            ),
+              )
+            else
+              SelectableText(
+                balance == null
+                    ? ''
+                    : '${balance!.formatNumber()} ${balance! > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                style: AppTextStyles.bodyLarge(context),
+              ),
           ],
         ),
+        SelectableText(
+          balance == null
+              ? ''
+              : DEXLPTokenFiatValue().display(
+                  ref,
+                  farm.lpTokenPair!.token1,
+                  farm.lpTokenPair!.token2,
+                  balance!,
+                  farm.poolAddress,
+                ),
+          style: AppTextStyles.bodyMedium(context),
+        ),
+        if (balance != null && balance! > 0)
+          FutureBuilder<Map<String, dynamic>?>(
+            future: PoolFactoryRepositoryImpl(
+              farm.poolAddress,
+              aedappfm.sl.get<ApiService>(),
+            ).getRemoveAmounts(
+              balance!,
+            ),
+            builder: (
+              context,
+              snapshotAmounts,
+            ) {
+              if (snapshotAmounts.hasData && snapshotAmounts.data != null) {
+                final amountToken1 = snapshotAmounts.data!['token1'] == null
+                    ? 0.0
+                    : snapshotAmounts.data!['token1'] as double;
+                final amountToken2 = snapshotAmounts.data!['token2'] == null
+                    ? 0.0
+                    : snapshotAmounts.data!['token2'] as double;
+
+                return SelectableText(
+                  '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                  style: AppTextStyles.bodyMedium(context),
+                );
+              }
+              return SelectableText(
+                ' ',
+                style: AppTextStyles.bodyMedium(context),
+              );
+            },
+          )
+        else
+          SelectableText(
+            ' ',
+            style: AppTextStyles.bodyMedium(context),
+          ),
         const SizedBox(
           height: 40,
         ),
