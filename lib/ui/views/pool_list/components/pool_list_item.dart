@@ -9,6 +9,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_refresh_icon.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_remove_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/pool_tx_list/pool_tx_list_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -157,6 +158,47 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                     poolAddress: widget.pool.poolAddress,
                   ),
                 ),
+              InkWell(
+                onTap: () async {
+                  await PoolTxListPopup.getDialog(
+                    context,
+                    poolInfos!,
+                  );
+                },
+                child: SizedBox(
+                  height: 40,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: aedappfm
+                            .ArchethicThemeBase.brightPurpleHoverBorder
+                            .withOpacity(1),
+                        width: 0.5,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 0,
+                    color: aedappfm
+                        .ArchethicThemeBase.brightPurpleHoverBackground
+                        .withOpacity(1),
+                    child: const Padding(
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        left: 10,
+                        right: 10,
+                      ),
+                      child: Icon(
+                        aedappfm.Iconsax.receipt_item,
+                        size: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
               SizedBox(
                 height: 40,
                 child: Card(

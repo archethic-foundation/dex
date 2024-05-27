@@ -333,7 +333,7 @@ class _EstimatePoolTVLInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'4a28672db6a988988a1d41a6078f36bedbed6162';
+String _$estimateStatsHash() => r'cea5373b1cdc6a459bb208a78f09bbbf9e5e926d';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -1157,6 +1157,154 @@ class _GetPoolListForSearchProviderElement
   @override
   List<DexPool> get poolList =>
       (origin as _GetPoolListForSearchProvider).poolList;
+}
+
+String _$getPoolTxListHash() => r'30774298ab0c3ff4f20119001c68c40b1ca131cc';
+
+/// See also [_getPoolTxList].
+@ProviderFor(_getPoolTxList)
+const _getPoolTxListProvider = _GetPoolTxListFamily();
+
+/// See also [_getPoolTxList].
+class _GetPoolTxListFamily extends Family<AsyncValue<List<DexPoolTx>>> {
+  /// See also [_getPoolTxList].
+  const _GetPoolTxListFamily();
+
+  /// See also [_getPoolTxList].
+  _GetPoolTxListProvider call(
+    DexPool pool,
+    String lastTransactionAddress,
+  ) {
+    return _GetPoolTxListProvider(
+      pool,
+      lastTransactionAddress,
+    );
+  }
+
+  @override
+  _GetPoolTxListProvider getProviderOverride(
+    covariant _GetPoolTxListProvider provider,
+  ) {
+    return call(
+      provider.pool,
+      provider.lastTransactionAddress,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getPoolTxListProvider';
+}
+
+/// See also [_getPoolTxList].
+class _GetPoolTxListProvider
+    extends AutoDisposeFutureProvider<List<DexPoolTx>> {
+  /// See also [_getPoolTxList].
+  _GetPoolTxListProvider(
+    DexPool pool,
+    String lastTransactionAddress,
+  ) : this._internal(
+          (ref) => _getPoolTxList(
+            ref as _GetPoolTxListRef,
+            pool,
+            lastTransactionAddress,
+          ),
+          from: _getPoolTxListProvider,
+          name: r'_getPoolTxListProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getPoolTxListHash,
+          dependencies: _GetPoolTxListFamily._dependencies,
+          allTransitiveDependencies:
+              _GetPoolTxListFamily._allTransitiveDependencies,
+          pool: pool,
+          lastTransactionAddress: lastTransactionAddress,
+        );
+
+  _GetPoolTxListProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.pool,
+    required this.lastTransactionAddress,
+  }) : super.internal();
+
+  final DexPool pool;
+  final String lastTransactionAddress;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<DexPoolTx>> Function(_GetPoolTxListRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetPoolTxListProvider._internal(
+        (ref) => create(ref as _GetPoolTxListRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        pool: pool,
+        lastTransactionAddress: lastTransactionAddress,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<DexPoolTx>> createElement() {
+    return _GetPoolTxListProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetPoolTxListProvider &&
+        other.pool == pool &&
+        other.lastTransactionAddress == lastTransactionAddress;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, pool.hashCode);
+    hash = _SystemHash.combine(hash, lastTransactionAddress.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _GetPoolTxListRef on AutoDisposeFutureProviderRef<List<DexPoolTx>> {
+  /// The parameter `pool` of this provider.
+  DexPool get pool;
+
+  /// The parameter `lastTransactionAddress` of this provider.
+  String get lastTransactionAddress;
+}
+
+class _GetPoolTxListProviderElement
+    extends AutoDisposeFutureProviderElement<List<DexPoolTx>>
+    with _GetPoolTxListRef {
+  _GetPoolTxListProviderElement(super.provider);
+
+  @override
+  DexPool get pool => (origin as _GetPoolTxListProvider).pool;
+  @override
+  String get lastTransactionAddress =>
+      (origin as _GetPoolTxListProvider).lastTransactionAddress;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

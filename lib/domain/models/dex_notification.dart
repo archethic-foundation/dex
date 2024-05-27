@@ -1,18 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/domain/enum/dex_action_type.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dex_notification.freezed.dart';
-
-enum DexActionType {
-  swap,
-  addLiquidity,
-  removeLiquidity,
-  claimFarm,
-  depositFarm,
-  withdrawfarm,
-  addPool
-}
 
 @freezed
 class DexNotification with _$DexNotification {
@@ -59,7 +50,7 @@ class DexNotification with _$DexNotification {
   }) = _DexNotificationDepositFarm;
 
   const factory DexNotification.withdrawFarm({
-    @Default(DexActionType.withdrawfarm) DexActionType actionType,
+    @Default(DexActionType.withdrawFarm) DexActionType actionType,
     String? txAddress,
     double? amountReward,
     double? amountWithdraw,

@@ -327,7 +327,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
           TaskNotificationPopup._fromClaimFarm(task, context),
         DexActionType.depositFarm =>
           TaskNotificationPopup._fromDepositFarm(task, context),
-        DexActionType.withdrawfarm =>
+        DexActionType.withdrawFarm =>
           TaskNotificationPopup._fromWithdrawFarm(task, context),
         DexActionType.addPool =>
           TaskNotificationPopup._fromRemoveLiquidity(task, context),
@@ -362,7 +362,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
       case DexActionType.depositFarm:
         height = 80;
         break;
-      case DexActionType.withdrawfarm:
+      case DexActionType.withdrawFarm:
         height = 120;
         break;
       case DexActionType.addPool:

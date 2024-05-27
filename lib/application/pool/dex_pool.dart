@@ -2,7 +2,9 @@ import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/enum/dex_action_type.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_pool_tx.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
@@ -20,6 +22,7 @@ part 'dex_pool_calculation.dart';
 part 'dex_pool_detail.dart';
 part 'dex_pool_favorite.dart';
 part 'dex_pool_list.dart';
+part 'dex_pool_tx_list.dart';
 
 @riverpod
 DexPoolRepositoryImpl _dexPoolRepository(_DexPoolRepositoryRef ref) =>
@@ -40,6 +43,9 @@ abstract class DexPoolProviders {
   // Pool List
   static final getPoolList = _getPoolListProvider;
   static const getPoolListForSearch = _getPoolListForSearchProvider;
+
+  // Pool transactions list
+  static const getPoolTxList = _getPoolTxListProvider;
 
   // Pool Detail
   static const getPool = _getPoolProvider;
