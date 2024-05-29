@@ -23,7 +23,7 @@ class PoolListSingle extends ConsumerWidget {
       fontSize: aedappfm.Responsive.fontSizeFromValue(
         context,
         desktopValue: 13,
-        ratioMobile: 1,
+        ratioMobile: 3,
         ratioTablet: 1,
       ),
     );
@@ -88,15 +88,16 @@ class PoolListSingle extends ConsumerWidget {
                     dexPoolTx.token2Amount != null &&
                     dexPoolTx.token2 != null)
                   SelectableText(
-                    '${dexPoolTx.token1Amount!.formatNumber(precision: 8)} ${dexPoolTx.token1!.symbol.trim()} ${dexPoolTx.typeTx == DexActionType.swap ? ' for ' : ' and '} ${dexPoolTx.token2Amount!.formatNumber(precision: 8)} ${dexPoolTx.token2!.symbol.trim()}',
+                    '${dexPoolTx.token1Amount!.formatNumber(precision: aedappfm.Responsive.isMobile(context) == true ? 2 : 8)} ${dexPoolTx.token1!.symbol.trim()} ${dexPoolTx.typeTx == DexActionType.swap ? ' for ' : ' and '} ${dexPoolTx.token2Amount!.formatNumber(precision: aedappfm.Responsive.isMobile(context) == true ? 2 : 8)} ${dexPoolTx.token2!.symbol.trim()}',
                     style: style,
                   )
                 else
                   const SelectableText(''),
-                SelectableText(
-                  'Account',
-                  style: style,
-                ),
+                if (aedappfm.Responsive.isMobile(context) == false)
+                  SelectableText(
+                    'Account',
+                    style: style,
+                  ),
               ],
             ),
             Row(
@@ -119,16 +120,26 @@ class PoolListSingle extends ConsumerWidget {
                     ),
                   ],
                 ),
-                if (dexPoolTx.addressAccount != null)
-                  FormatAddressLinkCopy(
-                    address: dexPoolTx.addressAccount!.toUpperCase(),
-                    typeAddress: TypeAddressLinkCopy.chain,
-                    reduceAddress: true,
-                    ratioMobile: 1,
-                    ratioTablet: 1,
-                  ),
+                if (aedappfm.Responsive.isMobile(context) == false)
+                  if (dexPoolTx.addressAccount != null)
+                    FormatAddressLinkCopy(
+                      address: dexPoolTx.addressAccount!.toUpperCase(),
+                      typeAddress: TypeAddressLinkCopy.chain,
+                      reduceAddress: true,
+                      ratioMobile: 1,
+                      ratioTablet: 1,
+                    ),
               ],
             ),
+            if (aedappfm.Responsive.isMobile(context) == true)
+              if (dexPoolTx.addressAccount != null)
+                FormatAddressLinkCopy(
+                  address: dexPoolTx.addressAccount!.toUpperCase(),
+                  typeAddress: TypeAddressLinkCopy.chain,
+                  reduceAddress: true,
+                  ratioMobile: 3,
+                  ratioTablet: 1,
+                ),
           ],
         ),
       ),
