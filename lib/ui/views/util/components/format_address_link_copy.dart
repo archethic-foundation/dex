@@ -19,6 +19,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
     this.header,
     this.tooltipCopy,
     this.tooltipLink,
+    this.ratioMobile = 4,
+    this.ratioTablet = 2,
     super.key,
   });
 
@@ -29,6 +31,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
   final String? header;
   final String? tooltipCopy;
   final String? tooltipLink;
+  final double ratioMobile;
+  final double ratioTablet;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,6 +48,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                 fontSize: aedappfm.Responsive.fontSizeFromValue(
                   context,
                   desktopValue: fontSize,
+                  ratioMobile: ratioMobile,
+                  ratioTablet: ratioTablet,
                 ),
               ),
             ),
@@ -59,6 +65,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                 fontSize: aedappfm.Responsive.fontSizeFromValue(
                   context,
                   desktopValue: fontSize,
+                  ratioMobile: ratioMobile,
+                  ratioTablet: ratioTablet,
                 ),
               ),
             ),
@@ -93,6 +101,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                     size: aedappfm.Responsive.fontSizeFromValue(
                           context,
                           desktopValue: fontSize,
+                          ratioMobile: ratioMobile,
+                          ratioTablet: ratioTablet,
                         ) -
                         1,
                   )
@@ -103,6 +113,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                       size: aedappfm.Responsive.fontSizeFromValue(
                             context,
                             desktopValue: fontSize,
+                            ratioMobile: ratioMobile,
+                            ratioTablet: ratioTablet,
                           ) -
                           1,
                     ),
@@ -147,6 +159,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                     size: aedappfm.Responsive.fontSizeFromValue(
                           context,
                           desktopValue: fontSize,
+                          ratioMobile: ratioMobile,
+                          ratioTablet: ratioTablet,
                         ) -
                         1,
                   )
@@ -157,6 +171,8 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                       size: aedappfm.Responsive.fontSizeFromValue(
                             context,
                             desktopValue: fontSize,
+                            ratioMobile: ratioMobile,
+                            ratioTablet: ratioTablet,
                           ) -
                           1,
                     ),

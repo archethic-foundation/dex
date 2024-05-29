@@ -1853,7 +1853,7 @@ class __$$DexNotificationWithdrawFarmImplCopyWithImpl<$Res>
 
 class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
   const _$DexNotificationWithdrawFarmImpl(
-      {this.actionType = DexActionType.withdrawfarm,
+      {this.actionType = DexActionType.withdrawFarm,
       this.txAddress,
       this.amountReward,
       this.amountWithdraw,

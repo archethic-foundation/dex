@@ -1,4 +1,5 @@
 import 'package:aedex/application/notification.dart';
+import 'package:aedex/domain/enum/dex_action_type.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart'

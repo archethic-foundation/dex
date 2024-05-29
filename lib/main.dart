@@ -35,8 +35,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  Timer? _poolListTimer;
-
   @override
   void initState() {
     super.initState();
@@ -54,12 +52,6 @@ class _MyAppState extends ConsumerState<MyApp> {
         FlutterNativeSplash.remove();
       }
     });
-  }
-
-  @override
-  void dispose() {
-    _poolListTimer?.cancel();
-    super.dispose();
   }
 
   @override

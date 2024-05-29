@@ -16,15 +16,6 @@ dependencies:
   #archethic_dapp_framework_flutter:
   #  path: ../archethic-dapp-framework-flutter
 
-  # A client dart library to interact with Archethic Wallet RPC API.
-  archethic_wallet_client: ^1.2.0
-  #archethic_wallet_client:
-  #  git:
-  #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
-  #    ref: web_extension_support
-  # archethic_wallet_client:
-  #   path: ../archethic-wallet-client-dart
-
   # Collections and utilities functions and classes related to collections.
   collection: ^1.18.0
 
@@ -88,6 +79,9 @@ dependencies:
 
   # A package exposing annotations for riverpod_generator
   riverpod_annotation: ^2.3.5
+
+  # timeago is a dart library that converts a date into a humanized text.
+  timeago: ^3.6.1
 
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.2.5
