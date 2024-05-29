@@ -18,7 +18,7 @@ extension DexActionTypeExtension on DexActionType {
       case DexActionType.addLiquidity:
         return 'Add liquidity';
       case DexActionType.removeLiquidity:
-        return 'Remove liquidty';
+        return 'Remove liquidity';
       case DexActionType.claimFarm:
         return 'Claim';
       case DexActionType.depositFarm:

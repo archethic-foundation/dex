@@ -83,10 +83,16 @@ class PoolListSingle extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SelectableText(
-                  '${dexPoolTx.token1Amount! < 0.01 ? '<' : ''}${dexPoolTx.token1Amount!.formatNumber(precision: 2)} ${dexPoolTx.pair!.token1.symbol.trim()} ${dexPoolTx.typeTx == DexActionType.swap ? ' for ' : ' and '} ${dexPoolTx.token2Amount! < 0.01 ? '<' : ''}${dexPoolTx.token2Amount!.formatNumber(precision: 2)} ${dexPoolTx.pair!.token2.symbol.trim()}',
-                  style: style,
-                ),
+                if (dexPoolTx.token1Amount != null &&
+                    dexPoolTx.token1 != null &&
+                    dexPoolTx.token2Amount != null &&
+                    dexPoolTx.token2 != null)
+                  SelectableText(
+                    '${dexPoolTx.token1Amount!.formatNumber(precision: 8)} ${dexPoolTx.token1!.symbol.trim()} ${dexPoolTx.typeTx == DexActionType.swap ? ' for ' : ' and '} ${dexPoolTx.token2Amount!.formatNumber(precision: 8)} ${dexPoolTx.token2!.symbol.trim()}',
+                    style: style,
+                  )
+                else
+                  const SelectableText(''),
                 SelectableText(
                   'Account',
                   style: style,
@@ -98,10 +104,16 @@ class PoolListSingle extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    SelectableText(
-                      'Total value: ${dexPoolTx.totalValue! < 0.01 ? '<' : ''} ${dexPoolTx.totalValue == null ? r'$0' : '\$${dexPoolTx.totalValue!.formatNumber(precision: 2)}'}',
-                      style: style,
-                    ),
+                    if (dexPoolTx.totalValue == null)
+                      SelectableText(
+                        '',
+                        style: style,
+                      )
+                    else
+                      SelectableText(
+                        'Total value: ${dexPoolTx.totalValue! < 0.01 ? '<' : ''} ${dexPoolTx.totalValue == null ? r'$0' : '\$${dexPoolTx.totalValue!.formatNumber(precision: 2)}'}',
+                        style: style,
+                      ),
                     const SizedBox(
                       width: 10,
                     ),

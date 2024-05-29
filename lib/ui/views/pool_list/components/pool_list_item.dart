@@ -160,10 +160,12 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                 ),
               InkWell(
                 onTap: () async {
-                  await PoolTxListPopup.getDialog(
-                    context,
-                    poolInfos!,
-                  );
+                  if (poolInfos != null) {
+                    await PoolTxListPopup.getDialog(
+                      context,
+                      poolInfos!,
+                    );
+                  }
                 },
                 child: SizedBox(
                   height: 40,

@@ -1,3 +1,4 @@
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/enum/dex_action_type.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
@@ -5,8 +6,10 @@ import 'package:aedex/domain/models/dex_pool_tx.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_header.dart';
 import 'package:aedex/ui/views/pool_tx_list/components/pool_tx_single.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class PoolTxList extends ConsumerStatefulWidget {
   const PoolTxList({
@@ -113,7 +116,7 @@ class PoolTxListState extends ConsumerState<PoolTxList> {
     }
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         PoolDetailsInfoHeader(pool: widget.pool),
@@ -127,7 +130,7 @@ class PoolTxListState extends ConsumerState<PoolTxList> {
                 style: AppTextStyles.bodyLarge(context),
               ),
             ),
-            DropdownButton<String>(
+            /*DropdownButton<String>(
               value: selectedFilter,
               hint: Text(
                 'Filter Transactions',
@@ -146,13 +149,13 @@ class PoolTxListState extends ConsumerState<PoolTxList> {
                   child: Text(key),
                 );
               }).toList(),
-            ),
+            ),*/
           ],
         ),
         Stack(
           children: [
             SizedBox(
-              height: 350,
+              height: 310,
               child: ListView.separated(
                 controller: _scrollController,
                 separatorBuilder: (context, index) => const SizedBox(
@@ -183,7 +186,43 @@ class PoolTxListState extends ConsumerState<PoolTxList> {
             ),
           ],
         ),
+        ratioTokens(context, ref),
       ],
+    );
+  }
+
+  Widget ratioTokens(BuildContext context, WidgetRef ref) {
+    final fiatValueToken1 = ref
+        .watch(DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token1));
+    final fiatValueToken2 = ref
+        .watch(DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token2));
+    final timestamp = DateFormat.yMd(
+      Localizations.localeOf(context).languageCode,
+    ).add_Hm().format(
+          DateTime.now().toLocal(),
+        );
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (fiatValueToken1 > 0)
+            Text(
+              '1 ${widget.pool.pair.token1.symbol} = \$${fiatValueToken1.formatNumber()} ($timestamp)',
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+              ),
+            ),
+          if (fiatValueToken2 > 0)
+            Text(
+              '1 ${widget.pool.pair.token2.symbol} = \$${fiatValueToken2.formatNumber()} ($timestamp)',
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

@@ -10,9 +10,12 @@ _$DexPoolTxImpl _$$DexPoolTxImplFromJson(Map<String, dynamic> json) =>
     _$DexPoolTxImpl(
       addressTx: json['addressTx'] as String?,
       typeTx: $enumDecodeNullable(_$DexActionTypeEnumMap, json['typeTx']),
-      pair: json['pair'] == null
+      token1: json['token1'] == null
           ? null
-          : DexPair.fromJson(json['pair'] as Map<String, dynamic>),
+          : DexToken.fromJson(json['token1'] as Map<String, dynamic>),
+      token2: json['token2'] == null
+          ? null
+          : DexToken.fromJson(json['token2'] as Map<String, dynamic>),
       totalValue: (json['totalValue'] as num?)?.toDouble(),
       token1Amount: (json['token1Amount'] as num?)?.toDouble(),
       token2Amount: (json['token2Amount'] as num?)?.toDouble(),
@@ -25,7 +28,8 @@ Map<String, dynamic> _$$DexPoolTxImplToJson(_$DexPoolTxImpl instance) =>
     <String, dynamic>{
       'addressTx': instance.addressTx,
       'typeTx': _$DexActionTypeEnumMap[instance.typeTx],
-      'pair': instance.pair,
+      'token1': instance.token1,
+      'token2': instance.token2,
       'totalValue': instance.totalValue,
       'token1Amount': instance.token1Amount,
       'token2Amount': instance.token2Amount,

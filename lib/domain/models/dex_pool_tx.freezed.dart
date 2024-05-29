@@ -22,7 +22,8 @@ DexPoolTx _$DexPoolTxFromJson(Map<String, dynamic> json) {
 mixin _$DexPoolTx {
   String? get addressTx => throw _privateConstructorUsedError;
   DexActionType? get typeTx => throw _privateConstructorUsedError;
-  DexPair? get pair => throw _privateConstructorUsedError;
+  DexToken? get token1 => throw _privateConstructorUsedError;
+  DexToken? get token2 => throw _privateConstructorUsedError;
   double? get totalValue => throw _privateConstructorUsedError;
   double? get token1Amount => throw _privateConstructorUsedError;
   double? get token2Amount => throw _privateConstructorUsedError;
@@ -43,14 +44,16 @@ abstract class $DexPoolTxCopyWith<$Res> {
   $Res call(
       {String? addressTx,
       DexActionType? typeTx,
-      DexPair? pair,
+      DexToken? token1,
+      DexToken? token2,
       double? totalValue,
       double? token1Amount,
       double? token2Amount,
       String? addressAccount,
       DateTime? time});
 
-  $DexPairCopyWith<$Res>? get pair;
+  $DexTokenCopyWith<$Res>? get token1;
+  $DexTokenCopyWith<$Res>? get token2;
 }
 
 /// @nodoc
@@ -68,7 +71,8 @@ class _$DexPoolTxCopyWithImpl<$Res, $Val extends DexPoolTx>
   $Res call({
     Object? addressTx = freezed,
     Object? typeTx = freezed,
-    Object? pair = freezed,
+    Object? token1 = freezed,
+    Object? token2 = freezed,
     Object? totalValue = freezed,
     Object? token1Amount = freezed,
     Object? token2Amount = freezed,
@@ -84,10 +88,14 @@ class _$DexPoolTxCopyWithImpl<$Res, $Val extends DexPoolTx>
           ? _value.typeTx
           : typeTx // ignore: cast_nullable_to_non_nullable
               as DexActionType?,
-      pair: freezed == pair
-          ? _value.pair
-          : pair // ignore: cast_nullable_to_non_nullable
-              as DexPair?,
+      token1: freezed == token1
+          ? _value.token1
+          : token1 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token2: freezed == token2
+          ? _value.token2
+          : token2 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
       totalValue: freezed == totalValue
           ? _value.totalValue
           : totalValue // ignore: cast_nullable_to_non_nullable
@@ -113,13 +121,25 @@ class _$DexPoolTxCopyWithImpl<$Res, $Val extends DexPoolTx>
 
   @override
   @pragma('vm:prefer-inline')
-  $DexPairCopyWith<$Res>? get pair {
-    if (_value.pair == null) {
+  $DexTokenCopyWith<$Res>? get token1 {
+    if (_value.token1 == null) {
       return null;
     }
 
-    return $DexPairCopyWith<$Res>(_value.pair!, (value) {
-      return _then(_value.copyWith(pair: value) as $Val);
+    return $DexTokenCopyWith<$Res>(_value.token1!, (value) {
+      return _then(_value.copyWith(token1: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get token2 {
+    if (_value.token2 == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.token2!, (value) {
+      return _then(_value.copyWith(token2: value) as $Val);
     });
   }
 }
@@ -135,7 +155,8 @@ abstract class _$$DexPoolTxImplCopyWith<$Res>
   $Res call(
       {String? addressTx,
       DexActionType? typeTx,
-      DexPair? pair,
+      DexToken? token1,
+      DexToken? token2,
       double? totalValue,
       double? token1Amount,
       double? token2Amount,
@@ -143,7 +164,9 @@ abstract class _$$DexPoolTxImplCopyWith<$Res>
       DateTime? time});
 
   @override
-  $DexPairCopyWith<$Res>? get pair;
+  $DexTokenCopyWith<$Res>? get token1;
+  @override
+  $DexTokenCopyWith<$Res>? get token2;
 }
 
 /// @nodoc
@@ -159,7 +182,8 @@ class __$$DexPoolTxImplCopyWithImpl<$Res>
   $Res call({
     Object? addressTx = freezed,
     Object? typeTx = freezed,
-    Object? pair = freezed,
+    Object? token1 = freezed,
+    Object? token2 = freezed,
     Object? totalValue = freezed,
     Object? token1Amount = freezed,
     Object? token2Amount = freezed,
@@ -175,10 +199,14 @@ class __$$DexPoolTxImplCopyWithImpl<$Res>
           ? _value.typeTx
           : typeTx // ignore: cast_nullable_to_non_nullable
               as DexActionType?,
-      pair: freezed == pair
-          ? _value.pair
-          : pair // ignore: cast_nullable_to_non_nullable
-              as DexPair?,
+      token1: freezed == token1
+          ? _value.token1
+          : token1 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      token2: freezed == token2
+          ? _value.token2
+          : token2 // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
       totalValue: freezed == totalValue
           ? _value.totalValue
           : totalValue // ignore: cast_nullable_to_non_nullable
@@ -209,7 +237,8 @@ class _$DexPoolTxImpl extends _DexPoolTx {
   const _$DexPoolTxImpl(
       {this.addressTx,
       this.typeTx,
-      this.pair,
+      this.token1,
+      this.token2,
       this.totalValue,
       this.token1Amount,
       this.token2Amount,
@@ -225,7 +254,9 @@ class _$DexPoolTxImpl extends _DexPoolTx {
   @override
   final DexActionType? typeTx;
   @override
-  final DexPair? pair;
+  final DexToken? token1;
+  @override
+  final DexToken? token2;
   @override
   final double? totalValue;
   @override
@@ -239,7 +270,7 @@ class _$DexPoolTxImpl extends _DexPoolTx {
 
   @override
   String toString() {
-    return 'DexPoolTx(addressTx: $addressTx, typeTx: $typeTx, pair: $pair, totalValue: $totalValue, token1Amount: $token1Amount, token2Amount: $token2Amount, addressAccount: $addressAccount, time: $time)';
+    return 'DexPoolTx(addressTx: $addressTx, typeTx: $typeTx, token1: $token1, token2: $token2, totalValue: $totalValue, token1Amount: $token1Amount, token2Amount: $token2Amount, addressAccount: $addressAccount, time: $time)';
   }
 
   @override
@@ -250,7 +281,8 @@ class _$DexPoolTxImpl extends _DexPoolTx {
             (identical(other.addressTx, addressTx) ||
                 other.addressTx == addressTx) &&
             (identical(other.typeTx, typeTx) || other.typeTx == typeTx) &&
-            (identical(other.pair, pair) || other.pair == pair) &&
+            (identical(other.token1, token1) || other.token1 == token1) &&
+            (identical(other.token2, token2) || other.token2 == token2) &&
             (identical(other.totalValue, totalValue) ||
                 other.totalValue == totalValue) &&
             (identical(other.token1Amount, token1Amount) ||
@@ -264,8 +296,8 @@ class _$DexPoolTxImpl extends _DexPoolTx {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, addressTx, typeTx, pair,
-      totalValue, token1Amount, token2Amount, addressAccount, time);
+  int get hashCode => Object.hash(runtimeType, addressTx, typeTx, token1,
+      token2, totalValue, token1Amount, token2Amount, addressAccount, time);
 
   @JsonKey(ignore: true)
   @override
@@ -285,7 +317,8 @@ abstract class _DexPoolTx extends DexPoolTx {
   const factory _DexPoolTx(
       {final String? addressTx,
       final DexActionType? typeTx,
-      final DexPair? pair,
+      final DexToken? token1,
+      final DexToken? token2,
       final double? totalValue,
       final double? token1Amount,
       final double? token2Amount,
@@ -301,7 +334,9 @@ abstract class _DexPoolTx extends DexPoolTx {
   @override
   DexActionType? get typeTx;
   @override
-  DexPair? get pair;
+  DexToken? get token1;
+  @override
+  DexToken? get token2;
   @override
   double? get totalValue;
   @override

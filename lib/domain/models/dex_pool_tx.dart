@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/enum/dex_action_type.dart';
-import 'package:aedex/domain/models/dex_pair.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dex_pool_tx.freezed.dart';
@@ -11,7 +11,8 @@ class DexPoolTx with _$DexPoolTx {
   const factory DexPoolTx({
     String? addressTx,
     DexActionType? typeTx,
-    DexPair? pair,
+    DexToken? token1,
+    DexToken? token2,
     double? totalValue,
     double? token1Amount,
     double? token2Amount,
