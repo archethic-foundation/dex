@@ -35,7 +35,7 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                 Tooltip(
                   message: pool!.pair.token1.symbol,
                   child: SelectableText(
-                    pool!.pair.token1.symbol.reduceSymbol(),
+                    pool!.pair.token1.symbol.reduceSymbol(lengthMax: 6),
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                           fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                             context,
@@ -48,7 +48,7 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                 Tooltip(
                   message: pool!.pair.token2.symbol,
                   child: SelectableText(
-                    pool!.pair.token2.symbol.reduceSymbol(),
+                    pool!.pair.token2.symbol.reduceSymbol(lengthMax: 6),
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                           fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                             context,

@@ -31,13 +31,19 @@
                 "name": "Wrapped Polygon",
                 "symbol": "aeMATIC",
                 "address": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1",
-                "icon": "Polygon.svg"
+                "icon": "Matic.svg"
             },
             {
                 "name": "Wrapped BNB",
                 "symbol": "aeBNB",
                 "address": "0000288BF6F0E12457B125DC54D2DFA4EB010BE3073CF02E10FB79B696180F55B827",
-                "icon": "BSC.svg"
+                "icon": "BNB.svg"
+            },
+            {
+                "name": "Archethic aeEURe",
+                "symbol": "aeEURe",
+                "address": "00001ED63AC2850CEA282D3D0CA5047418BC2720CB49D15B611D2845611F605716A1",
+                "icon": "EURe.svg"
             }
         ],
         "mainnet": [
