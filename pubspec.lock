@@ -44,10 +44,11 @@ packages:
   archethic_dapp_framework_flutter:
     dependency: "direct main"
     description:
-      name: archethic_dapp_framework_flutter
-      sha256: "123d67032b9c26a4e5b2b02f610654c113420afeb816ade8fa05e19bfced2ad2"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: browserextension_fix_async
+      resolved-ref: "89afd8d2c1972b4eb5edd0fd4df5a910717d7176"
+      url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
+    source: git
     version: "1.1.22"
   archethic_lib_dart:
     dependency: transitive
@@ -60,10 +61,11 @@ packages:
   archethic_wallet_client:
     dependency: transitive
     description:
-      name: archethic_wallet_client
-      sha256: "7f5c2a5cf88788597390f1ae9a091d8e0e95a6fac3665c20f66637390f1690ba"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: browserextension_fix_async
+      resolved-ref: "78671e4957d729c6e8fe5d5035e590c1e120f306"
+      url: "https://github.com/archethic-foundation/archethic-wallet-client-dart.git"
+    source: git
     version: "1.2.6"
   archive:
     dependency: transitive
