@@ -1,13 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_form_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,9 +41,6 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
 
       if (widget.token1 != null && widget.token2 != null) {
         try {
-          ref.read(navigationIndexMainScreenProvider.notifier).state =
-              NavigationIndex.pool;
-
           if (context.mounted) {
             await ref
                 .read(PoolAddFormProvider.poolAddForm.notifier)
@@ -60,14 +55,7 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
           }
         } catch (e) {
           if (mounted) {
-            context.go(
-              Uri(
-                path: PoolListSheet.routerPage,
-                queryParameters: {
-                  'tab': widget.poolsListTab,
-                },
-              ).toString(),
-            );
+            context.pop();
           }
         }
       }

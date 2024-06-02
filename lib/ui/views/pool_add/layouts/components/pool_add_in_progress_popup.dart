@@ -3,7 +3,6 @@ import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -74,43 +73,29 @@ class PoolAddInProgressPopup {
     WidgetRef ref,
   ) {
     final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
-    final poolsListTabEncoded = Uri.encodeComponent(poolAdd.poolsListTab.name);
 
     return aedappfm.PopupCloseButton(
       warningCloseWarning: poolAdd.isProcessInProgress,
       warningCloseLabel: poolAdd.isProcessInProgress == true
           ? AppLocalizations.of(context)!.poolAddProcessInterruptionWarning
           : '',
-      warningCloseFunction: () {
+      warningCloseFunction: () async {
         ref.invalidate(
           PoolAddFormProvider.poolAddForm,
         );
+
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(
-          Uri(
-            path: PoolListSheet.routerPage,
-            queryParameters: {
-              'tab': poolsListTabEncoded,
-            },
-          ).toString(),
-        );
+        context.pop();
       },
       closeFunction: () async {
         ref.invalidate(
           PoolAddFormProvider.poolAddForm,
         );
+
         if (!context.mounted) return;
         Navigator.of(context).pop();
-
-        context.go(
-          Uri(
-            path: PoolListSheet.routerPage,
-            queryParameters: {
-              'tab': poolsListTabEncoded,
-            },
-          ).toString(),
-        );
+        context.pop();
         await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
               tabIndexSelected: poolAdd.poolsListTab,
               cancelToken: UniqueKey().toString(),

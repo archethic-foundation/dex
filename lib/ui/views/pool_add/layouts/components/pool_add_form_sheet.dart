@@ -2,7 +2,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
@@ -121,9 +120,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                             );
                           } else {
                             if (!context.mounted) return;
-                            context.go(
-                              '/',
-                            );
+                            context.pop();
                           }
                         },
                       ),
@@ -132,18 +129,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                       ),
                       aedappfm.ButtonClose(
                         onPressed: () {
-                          final poolsListTabEncoded = Uri.encodeComponent(
-                            poolAdd.poolsListTab.name,
-                          );
-
-                          context.go(
-                            Uri(
-                              path: PoolListSheet.routerPage,
-                              queryParameters: {
-                                'tab': poolsListTabEncoded,
-                              },
-                            ).toString(),
-                          );
+                          context.pop();
                         },
                       ),
                     ],

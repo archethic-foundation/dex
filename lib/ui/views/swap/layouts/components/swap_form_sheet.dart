@@ -60,25 +60,32 @@ class SwapFormSheet extends ConsumerWidget {
                     swap.tokenToSwap != null &&
                     swap.tokenSwapped != null &&
                     swap.tokenToSwap!.address != swap.tokenSwapped!.address)
-                  TextButton.icon(
-                    label: const Text('Create this pool'),
-                    onPressed: () {
-                      final token1Json = jsonEncode(swap.tokenToSwap!.toJson());
-                      final token2Json =
-                          jsonEncode(swap.tokenSwapped!.toJson());
-                      final token1Encoded = Uri.encodeComponent(token1Json);
-                      final token2Encoded = Uri.encodeComponent(token2Json);
-                      context.go(
-                        Uri(
-                          path: PoolAddSheet.routerPage,
-                          queryParameters: {
-                            'token1': token1Encoded,
-                            'token2': token2Encoded,
-                          },
-                        ).toString(),
-                      );
-                    },
-                    icon: const Icon(Icons.add),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextButton.icon(
+                      label: const Text('Create this pool'),
+                      onPressed: () async {
+                        final token1Json =
+                            jsonEncode(swap.tokenToSwap!.toJson());
+                        final token2Json =
+                            jsonEncode(swap.tokenSwapped!.toJson());
+                        final token1Encoded = Uri.encodeComponent(token1Json);
+                        final token2Encoded = Uri.encodeComponent(token2Json);
+                        await context.push(
+                          Uri(
+                            path: PoolAddSheet.routerPage,
+                            queryParameters: {
+                              'token1': token1Encoded,
+                              'token2': token2Encoded,
+                            },
+                          ).toString(),
+                        );
+                        final swapNotifier =
+                            ref.read(SwapFormProvider.swapForm.notifier);
+                        await swapNotifier.isPoolExists();
+                      },
+                      icon: const Icon(Icons.add),
+                    ),
                   ),
                 aedappfm.ButtonValidate(
                   controlOk: swap.isControlsOk,

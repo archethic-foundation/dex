@@ -412,6 +412,46 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     );
   }
 
+  Future<bool> isPoolExists() async {
+    state = state.copyWith(
+      failure: null,
+      calculationInProgress: true,
+    );
+
+    final dexConfig =
+        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+    final apiService = aedappfm.sl.get<ApiService>();
+    final routerFactory =
+        RouterFactory(dexConfig.routerGenesisAddress, apiService);
+    final poolInfosResult = await routerFactory.getPoolAddresses(
+      state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+      state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+    );
+    await poolInfosResult.map(
+      success: (success) async {
+        if (success != null && success['address'] != null) {
+          setPoolAddress(success['address']);
+          await getRatio();
+          await getPool();
+        } else {
+          setPoolAddress('');
+          setFailure(const aedappfm.PoolNotExists());
+          state = state.copyWith(ratio: 0, pool: null);
+        }
+      },
+      failure: (failure) {
+        setPoolAddress('');
+        setFailure(const aedappfm.PoolNotExists());
+        state = state.copyWith(ratio: 0, pool: null);
+      },
+    );
+    state = state.copyWith(
+      calculationInProgress: false,
+    );
+
+    return state.failure == null;
+  }
+
   Future<void> setTokenSwapped(
     DexToken tokenSwapped,
   ) async {
