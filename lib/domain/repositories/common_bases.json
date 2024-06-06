@@ -58,6 +58,12 @@
                 "symbol": "aeETH",
                 "address": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf",
                 "icon": "Ethereum.svg"
+            },
+            {
+                "name": "Archethic aeEURe",
+                "symbol": "aeEURe",
+                "address": "00005751A05BA007E7E2518DEA171DBBD67B0527C637232F923830C39BFF9E8F159A",
+                "icon": "EURe.svg"
             }
         ]
     }
