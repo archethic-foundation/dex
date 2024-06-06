@@ -95,14 +95,15 @@ Future<DexPool> _estimateStats(
     request:
         ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
     fromCriteria: fromCriteria,
-    orderAsc: false,
   );
   if (transactionChainResult[pool.poolAddress] != null &&
       transactionChainResult[pool.poolAddress]!.length > 1) {
     transaction = transactionChainResult[pool.poolAddress]!.first;
   }
 
+  bool? stateExists;
   if (transaction != null) {
+    stateExists = false;
     if (transaction.validationStamp != null &&
         transaction.validationStamp!.ledgerOperations != null &&
         transaction
@@ -110,6 +111,7 @@ Future<DexPool> _estimateStats(
       for (final unspentOutput
           in transaction.validationStamp!.ledgerOperations!.unspentOutputs) {
         if (unspentOutput.state != null) {
+          stateExists = true;
           final state = unspentOutput.state;
           token1TotalVolume24h = state!['stats'] == null ||
                   state['stats']['token1_total_volume'] == null
@@ -192,13 +194,20 @@ Future<DexPool> _estimateStats(
 
   feeAllTime = token1TotalFeeCurrentFiat + token2TotalFeeCurrentFiat;
 
-  if (token1TotalVolume24hFiat + token2TotalVolume24hFiat > 0) {
-    volume24h =
-        volumeAllTime - (token1TotalVolume24hFiat + token2TotalVolume24hFiat);
-  }
+  if (stateExists != null) {
+    if (stateExists == false) {
+      volume24h = volumeAllTime;
+      fee24h = feeAllTime;
+    } else {
+      if (token1TotalVolume24hFiat + token2TotalVolume24hFiat > 0) {
+        volume24h = volumeAllTime -
+            (token1TotalVolume24hFiat + token2TotalVolume24hFiat);
+      }
 
-  if (token1TotalFee24hFiat + token2TotalFee24hFiat > 0) {
-    fee24h = feeAllTime - (token1TotalFee24hFiat + token2TotalFee24hFiat);
+      if (token1TotalFee24hFiat + token2TotalFee24hFiat > 0) {
+        fee24h = feeAllTime - (token1TotalFee24hFiat + token2TotalFee24hFiat);
+      }
+    }
   }
 
   var poolInfos = pool.infos!;
