@@ -16,13 +16,13 @@ Future<List<DexFarm>> _getFarmList(
     apiService,
   ).getFarmList(poolList);
 
-  await resultFarmList.map(
+  await resultFarmList.asyncMap(
     success: (farmList) async {
       for (final farm in farmList) {
         dexFarms.add(farm);
       }
     },
-    failure: (failure) {},
+    failure: (failure) async {},
   );
 
   return dexFarms;

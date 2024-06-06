@@ -54,11 +54,11 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
           slippage,
         );
 
-        transactionAddLiquiditylMap.map(
-          success: (success) {
+        await transactionAddLiquiditylMap.asyncMap(
+          success: (success) async {
             transactionAddLiquidity = success;
           },
-          failure: (failure) {
+          failure: (failure) async {
             liquidityAddNotifier
               ..setFailure(failure)
               ..setProcessInProgress(false);

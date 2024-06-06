@@ -15,13 +15,13 @@ Future<double> _getRatio(
     token.isUCO ? 'UCO' : token.address!,
   );
   var ratio = 0.0;
-  poolRatioResult.map(
-    success: (success) {
+  await poolRatioResult.asyncMap(
+    success: (success) async {
       if (success != null) {
         ratio = success;
       }
     },
-    failure: (failure) {},
+    failure: (failure) async {},
   );
   return ratio;
 }

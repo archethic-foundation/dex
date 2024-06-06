@@ -21,13 +21,13 @@ Future<List<DexPool>> _getPoolList(
     apiService,
   ).getPoolList(tokenVerifiedList);
 
-  await resultPoolList.map(
+  await resultPoolList.asyncMap(
     success: (poolList) async {
       for (final pool in poolList) {
         dexPools.add(pool);
       }
     },
-    failure: (failure) {},
+    failure: (failure) async {},
   );
 
   return dexPools;

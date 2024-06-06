@@ -272,12 +272,12 @@ mixin ModelParser {
     var depositedAmount = 0.0;
     var rewardAmount = 0.0;
     final farmInfosResult = await farmFactory.getUserInfos(userGenesisAddress);
-    farmInfosResult.map(
-      success: (farmInfosResultSuccess) {
+    await farmInfosResult.asyncMap(
+      success: (farmInfosResultSuccess) async {
         depositedAmount = farmInfosResultSuccess.depositedAmount;
         rewardAmount = farmInfosResultSuccess.rewardAmount;
       },
-      failure: (failure) {},
+      failure: (failure) async {},
     );
 
     DexFarm? dexFarm = DexFarm(

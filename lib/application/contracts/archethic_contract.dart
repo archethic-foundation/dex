@@ -31,13 +31,13 @@ class ArchethicContract with aedappfm.TransactionMixin {
         token1.isUCO ? 'UCO' : token1.address!,
         token2.isUCO ? 'UCO' : token2.address!,
       );
-      poolInfosResult.map(
-        success: (success) {
+      await poolInfosResult.asyncMap(
+        success: (success) async {
           if (success != null && success['address'] != null) {
             throw const aedappfm.PoolAlreadyExists();
           }
         },
-        failure: (failure) {
+        failure: (failure) async {
           return;
         },
       );
@@ -50,8 +50,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
         poolGenesisAddress,
         lpTokenAddress,
       );
-      resultPoolCode.map(
-        success: (success) {
+      await resultPoolCode.asyncMap(
+        success: (success) async {
           if (success.isEmpty) {
             throw const aedappfm.Failure.other(
               cause: 'Pool code from smart contract is empty',
@@ -59,7 +59,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
           }
           poolCode = success;
         },
-        failure: (failure) {
+        failure: (failure) async {
           throw failure;
         },
       );
@@ -69,11 +69,11 @@ class ArchethicContract with aedappfm.TransactionMixin {
         token1.isUCO ? 'UCO' : token1.address!,
         token2.isUCO ? 'UCO' : token2.address!,
       );
-      resultLPTokenDefinition.map(
-        success: (success) {
+      await resultLPTokenDefinition.asyncMap(
+        success: (success) async {
           tokenDefinition = success;
         },
-        failure: (failure) {
+        failure: (failure) async {
           return;
         },
       );
@@ -253,13 +253,13 @@ class ArchethicContract with aedappfm.TransactionMixin {
         poolGenesisAddress,
         apiService,
       ).getLPTokenToMint(token1Amount, token2Amount);
-      expectedTokenLPResult.map(
-        success: (success) {
+      await expectedTokenLPResult.asyncMap(
+        success: (success) async {
           if (success != null) {
             expectedTokenLP = success;
           }
         },
-        failure: (failure) {},
+        failure: (failure) async {},
       );
 
       if (expectedTokenLP == 0) {
@@ -391,13 +391,13 @@ class ArchethicContract with aedappfm.TransactionMixin {
         poolGenesisAddress,
         apiService,
       ).getSwapInfos(tokenToSwap.address!, tokenToSwapAmount);
-      getSwapInfosResult.map(
-        success: (success) {
+      await getSwapInfosResult.asyncMap(
+        success: (success) async {
           if (success != null) {
             outputAmount = success['output_amount'];
           }
         },
-        failure: (failure) {
+        failure: (failure) async {
           aedappfm.sl.get<aedappfm.LogManager>().log(
                 '$failure',
                 level: aedappfm.LogLevel.error,

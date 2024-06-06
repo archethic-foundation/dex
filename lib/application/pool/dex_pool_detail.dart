@@ -47,11 +47,11 @@ Future<DexPool> _loadPoolCard(
       PoolFactoryRepositoryImpl(poolInput.poolAddress, apiService);
   final populatePoolInfosResult =
       await poolFactory.populatePoolInfos(poolInput);
-  populatePoolInfosResult.map(
-    success: (success) {
+  await populatePoolInfosResult.asyncMap(
+    success: (success) async {
       poolOutput = success;
     },
-    failure: (failure) {},
+    failure: (failure) async {},
   );
 
   final userBalance = ref.read(SessionProviders.session).userBalance;
