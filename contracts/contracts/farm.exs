@@ -122,9 +122,11 @@ actions triggered_by: transaction, on: withdraw(amount) do
 
     reward_distributed = State.get("reward_distributed", 0)
     State.set("reward_distributed", reward_distributed + user_deposit.reward_amount)
-
-    State.set("rewards_reserved", rewards_reserved - user_deposit.reward_amount)
+  
+    rewards_reserved = rewards_reserved - user_deposit.reward_amount
   end
+
+  State.set("rewards_reserved", rewards_reserved)
 
   Contract.add_token_transfer(
     to: transaction.address,
