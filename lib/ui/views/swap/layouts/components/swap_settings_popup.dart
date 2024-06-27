@@ -10,7 +10,6 @@ class SwapSettingsPopup {
   ) async {
     return showDialog(
       context: context,
-      barrierDismissible: true,
       builder: (context) {
         return aedappfm.PopupTemplate(
           popupContent: Container(

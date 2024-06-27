@@ -62,11 +62,11 @@ class TokenSelectionSearchBarState
                           colors: [
                             Theme.of(context)
                                 .colorScheme
-                                .background
+                                .surface
                                 .withOpacity(1),
                             Theme.of(context)
                                 .colorScheme
-                                .background
+                                .surface
                                 .withOpacity(0.3),
                           ],
                           stops: const [0, 1],

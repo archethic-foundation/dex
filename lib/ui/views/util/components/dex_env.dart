@@ -28,8 +28,8 @@ class _DexEnvState extends ConsumerState<DexEnv> {
       width: 150,
       child: MenuAnchor(
         style: MenuStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.black),
-          elevation: MaterialStateProperty.all(0),
+          backgroundColor: WidgetStateProperty.all(Colors.black),
+          elevation: WidgetStateProperty.all(0),
         ),
         builder: (context, controller, child) {
           return InkWell(
@@ -74,7 +74,7 @@ class _DexEnvState extends ConsumerState<DexEnv> {
             MenuItemButton(
               requestFocusOnHover: false,
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(
+                shape: WidgetStateProperty.all(
                   const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -123,7 +123,7 @@ class _DexEnvState extends ConsumerState<DexEnv> {
           if (session.isConnected == false)
             MenuItemButton(
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(
+                shape: WidgetStateProperty.all(
                   const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),

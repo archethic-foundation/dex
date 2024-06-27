@@ -30,4 +30,33 @@ class AppTextStyles {
           ),
         );
   }
+
+  static TextStyle bodyMediumSecondaryColor(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+          color: aedappfm.AppThemeBase.secondaryColor,
+          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+            context,
+            Theme.of(context).textTheme.bodyMedium!,
+          ),
+        );
+  }
+
+  static TextStyle bodySmall(BuildContext context) {
+    return Theme.of(context).textTheme.bodySmall!.copyWith(
+          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+            context,
+            Theme.of(context).textTheme.bodySmall!,
+          ),
+        );
+  }
+
+  static TextStyle bodySmallSecondaryColor(BuildContext context) {
+    return Theme.of(context).textTheme.bodySmall!.copyWith(
+          color: aedappfm.AppThemeBase.secondaryColor,
+          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+            context,
+            Theme.of(context).textTheme.bodySmall!,
+          ),
+        );
+  }
 }
