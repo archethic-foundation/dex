@@ -13,6 +13,7 @@ _$GetFarmListResponseImpl _$$GetFarmListResponseImplFromJson(
       startDate: (json['start_date'] as num).toInt(),
       endDate: (json['end_date'] as num).toInt(),
       rewardTokenAddress: json['reward_token'] as String,
+      type: (json['type'] as num).toInt(),
       address: json['address'] as String,
     );
 
@@ -23,5 +24,6 @@ Map<String, dynamic> _$$GetFarmListResponseImplToJson(
       'start_date': instance.startDate,
       'end_date': instance.endDate,
       'reward_token': instance.rewardTokenAddress,
+      'type': instance.type,
       'address': instance.address,
     };

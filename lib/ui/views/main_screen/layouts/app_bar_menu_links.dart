@@ -14,12 +14,12 @@ class AppBarMenuLinks extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MenuAnchor(
       style: MenuStyle(
-        padding: MaterialStateProperty.all(
+        padding: WidgetStateProperty.all(
           const EdgeInsets.only(top: 20, right: 20),
         ),
-        elevation: MaterialStateProperty.all(0),
-        backgroundColor: MaterialStateProperty.all(Colors.transparent),
-        shape: MaterialStateProperty.all(
+        elevation: WidgetStateProperty.all(0),
+        backgroundColor: WidgetStateProperty.all(Colors.transparent),
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -77,8 +77,8 @@ class AppBarMenuLinks extends ConsumerWidget {
               ),
             ),
           ),
-          onPressed: () {
-            launchUrl(
+          onPressed: () async {
+            await launchUrl(
               Uri.parse(
                 (Uri.base.toString().toLowerCase().contains('dex.archethic'))
                     ? 'https://bridge.archethic.net'
@@ -128,8 +128,8 @@ class AppBarMenuLinks extends ConsumerWidget {
               ),
             ),
           ),
-          onPressed: () {
-            launchUrl(
+          onPressed: () async {
+            await launchUrl(
               Uri.parse(
                 'https://www.archethic.net/wallet',
               ),
@@ -179,8 +179,8 @@ class AppBarMenuLinks extends ConsumerWidget {
                 ),
               ),
             ),
-            onPressed: () {
-              launchUrl(
+            onPressed: () async {
+              await launchUrl(
                 Uri.parse(
                   'https://testnet.archethic.net/faucet',
                 ),

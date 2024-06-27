@@ -39,8 +39,8 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
               },
               child: OutlinedButton(
                 style: ButtonStyle(
-                  side: MaterialStateProperty.all(BorderSide.none),
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  side: WidgetStateProperty.all(BorderSide.none),
+                  overlayColor: WidgetStateProperty.all(Colors.transparent),
                 ),
                 onPressed: () {
                   if (!context.mounted) return;
@@ -76,8 +76,8 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
             height: 10,
           ),
           InkWell(
-            onTap: () {
-              launchUrl(
+            onTap: () async {
+              await launchUrl(
                 Uri.parse(
                   'https://www.archethic.net/wallet',
                 ),
