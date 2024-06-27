@@ -12,6 +12,7 @@ class GetFarmListResponse with _$GetFarmListResponse {
     @JsonKey(name: 'start_date') required int startDate,
     @JsonKey(name: 'end_date') required int endDate,
     @JsonKey(name: 'reward_token') required String rewardTokenAddress,
+    @JsonKey(name: 'type') required int type,
     required String address,
   }) = _GetFarmListResponse;
 
