@@ -10,6 +10,7 @@ const CONFIRMATION_THRESHOLD = 50
 
 const poolContractPath = path.resolve(__dirname, "../contracts/pool.exs")
 const farmContractPath = path.resolve(__dirname, "../contracts/farm.exs")
+const farmLockContractPath = path.resolve(__dirname, "../contracts/farm_lock.exs")
 const factoryContractPath = path.resolve(__dirname, "../contracts/factory.exs")
 const routerContractPath = path.resolve(__dirname, "../contracts/router.exs")
 
@@ -124,6 +125,26 @@ export function getFactoryCode(keychain) {
   // Replace master address
   farmCode = farmCode.replaceAll("@MASTER_ADDRESS", "0x#{master_address}")
 
+  let farmLockCode = fs.readFileSync(farmLockContractPath, "utf8")
+  // Replace farm address
+  farmLockCode = farmLockCode.replaceAll("@FARM_ADDRESS", "0x#{farm_genesis_address}")
+  // Replace lp token address
+  farmLockCode = farmLockCode.replaceAll("@LP_TOKEN_ADDRESS", "0x#{lp_token}")
+  // Replace start date
+  farmLockCode = farmLockCode.replaceAll("@START_DATE", "#{start_date}")
+  // Replace end date
+  farmLockCode = farmLockCode.replaceAll("@END_DATE", "#{end_date}")
+  // Replace reward token address
+  farmLockCode = farmLockCode.replaceAll("@REWARD_TOKEN", '"#{reward_token}"')
+  // Replace router address
+  farmLockCode = farmLockCode.replaceAll("@ROUTER_ADDRESS", "0x#{router_address}")
+  // Replace factory address
+  farmLockCode = farmLockCode.replaceAll("@FACTORY_ADDRESS", "0x#{factory_address}")
+  // Replace master address
+  farmLockCode = farmLockCode.replaceAll("@MASTER_ADDRESS", "0x#{master_address}")
+  // Replace intial balance
+  farmLockCode = farmLockCode.replaceAll("@INITIAL_BALANCE", "#{reward_token_amount}")
+
   let factoryCode = fs.readFileSync(factoryContractPath, "utf8")
   // Replace router address
   factoryCode = factoryCode.replaceAll("@ROUTER_ADDRESS", "0x" + routerAddress)
@@ -136,7 +157,9 @@ export function getFactoryCode(keychain) {
   // Replace pool code
   factoryCode = factoryCode.replaceAll("@POOL_CODE", poolCode)
   // Replace farm code
-  return factoryCode.replaceAll("@FARM_CODE", farmCode)
+  factoryCode = factoryCode.replaceAll("@FARM_CODE", farmCode)
+  // Replace farm lock code
+  return factoryCode.replaceAll("@FARM_LOCK_CODE", farmLockCode)
 }
 
 export function getRouterCode(keychain) {
