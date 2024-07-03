@@ -8,13 +8,13 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  archethic_dapp_framework_flutter: ^1.1.0
+  #archethic_dapp_framework_flutter: ^1.2.4
   #archethic_dapp_framework_flutter:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
   #    ref: web_extension_support
-  #archethic_dapp_framework_flutter:
-  #  path: ../archethic-dapp-framework-flutter
+  archethic_dapp_framework_flutter:
+    path: ../archethic-dapp-framework-flutter
 
   # Collections and utilities functions and classes related to collections.
   collection: ^1.18.0
@@ -66,7 +66,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
   # Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues.
-  intl: ^0.18.0
+  intl: ^0.19.0
 
   # Classes and helper functions that support JSON code generation via the `json_serializable` package.
   json_annotation: ^4.8.1
@@ -129,17 +129,25 @@ flutter:
       fonts:
         - asset: assets/fonts/PPTelegraf-Ultralight.otf
           weight: 200
+          style: normal
         - asset: assets/fonts/PPTelegraf-Light.otf
           weight: 300
+          style: normal
         - asset: assets/fonts/PPTelegraf-Regular.otf
           weight: 400
+          style: normal
         - asset: assets/fonts/PPTelegraf-Medium.otf
           weight: 500
+          style: normal
         - asset: assets/fonts/PPTelegraf-Semibold.otf
           weight: 600
+          style: normal
         - asset: assets/fonts/PPTelegraf-Bold.otf
           weight: 700
+          style: normal
         - asset: assets/fonts/PPTelegraf-Ultrabold.otf
           weight: 800
+          style: normal
         - asset: assets/fonts/PPTelegraf-Black.otf
           weight: 900
+          style: normal

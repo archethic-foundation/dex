@@ -31,7 +31,7 @@ class FarmDetailsInfoAPR extends ConsumerWidget {
               style: AppTextStyles.bodyLarge(context),
             ),
             SelectableText(
-              '${(farm.apr * 100).formatNumber(precision: 4)}%',
+              '${(farm.apr * 100).formatNumber(precision: 2)}%',
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                     fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                       context,

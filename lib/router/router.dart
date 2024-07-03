@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -7,6 +8,10 @@ import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
+import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
+import 'package:aedex/ui/views/farm_lock_claim/layouts/farm_lock_claim_sheet.dart';
+import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet.dart';
+import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
@@ -105,6 +110,14 @@ final routerProvider = Provider<GoRouter>(
               },
             ),
             GoRoute(
+              path: FarmLockSheet.routerPage,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: FarmLockSheet(),
+                );
+              },
+            ),
+            GoRoute(
               path: PoolAddSheet.routerPage,
               pageBuilder: (context, state) {
                 DexToken? token1;
@@ -139,18 +152,12 @@ final routerProvider = Provider<GoRouter>(
               path: LiquidityAddSheet.routerPage,
               pageBuilder: (context, state) {
                 DexPool? pool;
-                DexPair? pair;
                 PoolsListTab? poolsListTab;
                 final poolEncoded = state.uri.queryParameters['pool'];
-                final pairEncoded = state.uri.queryParameters['pair'];
                 final poolsListTabEncoded = state.uri.queryParameters['tab'];
                 if (poolEncoded != null) {
                   final poolJson = Uri.decodeComponent(poolEncoded);
                   pool = DexPool.fromJson(jsonDecode(poolJson));
-                }
-                if (pairEncoded != null) {
-                  final pairJson = Uri.decodeComponent(pairEncoded);
-                  pair = DexPair.fromJson(jsonDecode(pairJson));
                 }
                 if (poolsListTabEncoded != null) {
                   poolsListTab = poolsListTabFromJson(
@@ -158,7 +165,7 @@ final routerProvider = Provider<GoRouter>(
                   );
                 }
 
-                if (pool == null || pair == null) {
+                if (pool == null) {
                   return const NoTransitionPage(
                     child: PoolListSheet(),
                   );
@@ -167,7 +174,6 @@ final routerProvider = Provider<GoRouter>(
                 return NoTransitionPage(
                   child: LiquidityAddSheet(
                     pool: pool,
-                    pair: pair,
                     poolsListTab: poolsListTab ?? PoolsListTab.verified,
                   ),
                 );
@@ -214,6 +220,37 @@ final routerProvider = Provider<GoRouter>(
                     pair: pair,
                     lpToken: lpToken,
                     poolsListTab: poolsListTab ?? PoolsListTab.verified,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: FarmLockDepositSheet.routerPage,
+              pageBuilder: (context, state) {
+                DexPool? pool;
+                final poolEncoded = state.uri.queryParameters['pool'];
+
+                DexFarmLock? farmLock;
+                final farmLockEncoded = state.uri.queryParameters['farmLock'];
+
+                if (poolEncoded != null) {
+                  final poolJson = Uri.decodeComponent(poolEncoded);
+                  pool = DexPool.fromJson(jsonDecode(poolJson));
+                }
+                if (farmLockEncoded != null) {
+                  final farmLockJson = Uri.decodeComponent(farmLockEncoded);
+                  farmLock = DexFarmLock.fromJson(jsonDecode(farmLockJson));
+                }
+                if (pool == null || farmLock == null) {
+                  return const NoTransitionPage(
+                    child: PoolListSheet(),
+                  );
+                }
+
+                return NoTransitionPage(
+                  child: FarmLockDepositSheet(
+                    pool: pool,
+                    farmLock: farmLock,
                   ),
                 );
               },
@@ -365,6 +402,167 @@ final routerProvider = Provider<GoRouter>(
                     rewardToken: rewardToken,
                     lpTokenAddress: lpTokenAddress,
                     poolAddress: poolAddress,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: FarmLockClaimSheet.routerPage,
+              pageBuilder: (context, state) {
+                String? farmAddress;
+                DexToken? rewardToken;
+                String? lpTokenAddress;
+                double? rewardAmount;
+                var depositIndex = 0;
+
+                final farmAddressEncoded =
+                    state.uri.queryParameters['farmAddress'];
+                if (farmAddressEncoded != null) {
+                  final farmAddressJson =
+                      Uri.decodeComponent(farmAddressEncoded);
+                  farmAddress = jsonDecode(farmAddressJson);
+                }
+
+                final rewardTokenEncoded =
+                    state.uri.queryParameters['rewardToken'];
+                if (rewardTokenEncoded != null) {
+                  final rewardTokenJson =
+                      Uri.decodeComponent(rewardTokenEncoded);
+                  rewardToken = DexToken.fromJson(jsonDecode(rewardTokenJson));
+                }
+
+                final lpTokenAddressEncoded =
+                    state.uri.queryParameters['lpTokenAddress'];
+                if (lpTokenAddressEncoded != null) {
+                  final lpTokenAddressJson =
+                      Uri.decodeComponent(lpTokenAddressEncoded);
+                  lpTokenAddress = jsonDecode(lpTokenAddressJson);
+                }
+
+                final rewardAmountEncoded =
+                    state.uri.queryParameters['rewardAmount'];
+                if (rewardAmountEncoded != null) {
+                  final rewardAmountJson =
+                      Uri.decodeComponent(rewardAmountEncoded);
+                  rewardAmount = jsonDecode(rewardAmountJson);
+                }
+
+                final depositIndexEncoded =
+                    state.uri.queryParameters['depositIndex'];
+                if (depositIndexEncoded != null) {
+                  final depositIndexJson =
+                      Uri.decodeComponent(depositIndexEncoded);
+                  depositIndex =
+                      int.tryParse(jsonDecode(depositIndexJson)) ?? 0;
+                }
+
+                if (farmAddress == null ||
+                    rewardToken == null ||
+                    lpTokenAddress == null ||
+                    rewardAmount == null) {
+                  return const NoTransitionPage(
+                    child: FarmLockSheet(),
+                  );
+                }
+
+                return NoTransitionPage(
+                  child: FarmLockClaimSheet(
+                    farmAddress: farmAddress,
+                    rewardToken: rewardToken,
+                    lpTokenAddress: lpTokenAddress,
+                    rewardAmount: rewardAmount,
+                    depositIndex: depositIndex,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: FarmLockWithdrawSheet.routerPage,
+              pageBuilder: (context, state) {
+                String? farmAddress;
+                String? poolAddress;
+                DexToken? rewardToken;
+                String? lpTokenAddress;
+                double? rewardAmount;
+                double? depositedAmount;
+                var depositIndex = 0;
+
+                final farmAddressEncoded =
+                    state.uri.queryParameters['farmAddress'];
+                if (farmAddressEncoded != null) {
+                  final farmAddressJson =
+                      Uri.decodeComponent(farmAddressEncoded);
+                  farmAddress = jsonDecode(farmAddressJson);
+                }
+
+                final poolAddressEncoded =
+                    state.uri.queryParameters['poolAddress'];
+                if (poolAddressEncoded != null) {
+                  final poolAddressJson =
+                      Uri.decodeComponent(poolAddressEncoded);
+                  poolAddress = jsonDecode(poolAddressJson);
+                }
+
+                final rewardTokenEncoded =
+                    state.uri.queryParameters['rewardToken'];
+                if (rewardTokenEncoded != null) {
+                  final rewardTokenJson =
+                      Uri.decodeComponent(rewardTokenEncoded);
+                  rewardToken = DexToken.fromJson(jsonDecode(rewardTokenJson));
+                }
+
+                final lpTokenAddressEncoded =
+                    state.uri.queryParameters['lpTokenAddress'];
+                if (lpTokenAddressEncoded != null) {
+                  final lpTokenAddressJson =
+                      Uri.decodeComponent(lpTokenAddressEncoded);
+                  lpTokenAddress = jsonDecode(lpTokenAddressJson);
+                }
+
+                final rewardAmountEncoded =
+                    state.uri.queryParameters['rewardAmount'];
+                if (rewardAmountEncoded != null) {
+                  final rewardAmountJson =
+                      Uri.decodeComponent(rewardAmountEncoded);
+                  rewardAmount = jsonDecode(rewardAmountJson);
+                }
+
+                final depositedAmountEncoded =
+                    state.uri.queryParameters['depositedAmount'];
+                if (depositedAmountEncoded != null) {
+                  final depositedAmountJson =
+                      Uri.decodeComponent(depositedAmountEncoded);
+                  depositedAmount = jsonDecode(depositedAmountJson);
+                }
+
+                final depositIndexEncoded =
+                    state.uri.queryParameters['depositIndex'];
+                if (depositIndexEncoded != null) {
+                  final depositIndexJson =
+                      Uri.decodeComponent(depositIndexEncoded);
+                  depositIndex = jsonDecode(depositIndexJson) ?? 0;
+                }
+
+                if (farmAddress == null ||
+                    poolAddress == null ||
+                    rewardToken == null ||
+                    lpTokenAddress == null ||
+                    rewardAmount == null ||
+                    depositedAmount == null) {
+                  return const NoTransitionPage(
+                    child: FarmLockSheet(),
+                  );
+                }
+
+                return NoTransitionPage(
+                  child: FarmLockWithdrawSheet(
+                    farmAddress: farmAddress,
+                    poolAddress: poolAddress,
+                    rewardToken: rewardToken,
+                    lpTokenAddress: lpTokenAddress,
+                    rewardAmount: rewardAmount,
+                    depositIndex: depositIndex,
+                    depositedAmount: depositedAmount,
                   ),
                 );
               },

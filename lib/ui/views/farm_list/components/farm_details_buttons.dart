@@ -76,7 +76,6 @@ class FarmDetailsButtons extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
     return farm.endDate != null && farm.endDate!.isBefore(DateTime.now())
         ? aedappfm.ButtonValidate(
-            background: aedappfm.ArchethicThemeBase.purple500,
             labelBtn: AppLocalizations.of(context)!
                 .farmDetailsButtonDepositFarmClosed,
             onPressed: () {},
@@ -111,7 +110,6 @@ class FarmDetailsButtons extends ConsumerWidget {
             },
           )
         : aedappfm.ButtonValidate(
-            background: aedappfm.ArchethicThemeBase.purple500,
             controlOk: userBalance != null && userBalance > 0,
             labelBtn: AppLocalizations.of(context)!.farmDetailsButtonDeposit,
             onPressed: () {
@@ -170,7 +168,6 @@ class FarmDetailsButtons extends ConsumerWidget {
   Widget _widthdrawButton(BuildContext context, WidgetRef ref) {
     final session = ref.watch(SessionProviders.session);
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: depositedAmount != null && depositedAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
       onPressed: () {
@@ -186,7 +183,7 @@ class FarmDetailsButtons extends ConsumerWidget {
         final poolAddressJson = jsonEncode(farm.poolAddress);
         final poolAddressEncoded = Uri.encodeComponent(poolAddressJson);
 
-        context.go(
+        context.push(
           Uri(
             path: FarmWithdrawSheet.routerPage,
             queryParameters: {
@@ -230,7 +227,6 @@ class FarmDetailsButtons extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
 
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: rewardAmount != null && rewardAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
       onPressed: () async {
@@ -247,7 +243,7 @@ class FarmDetailsButtons extends ConsumerWidget {
           final rewardAmountJson = jsonEncode(farm.rewardAmount);
           final rewardAmountEncoded = Uri.encodeComponent(rewardAmountJson);
 
-          context.go(
+          await context.push(
             Uri(
               path: FarmClaimSheet.routerPage,
               queryParameters: {

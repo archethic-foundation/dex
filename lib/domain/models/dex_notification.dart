@@ -57,4 +57,21 @@ class DexNotification with _$DexNotification {
     bool? isFarmClose,
     DexToken? rewardToken,
   }) = _DexNotificationWithdrawFarm;
+
+  const factory DexNotification.depositFarmLock({
+    @Default(DexActionType.depositFarmLock) DexActionType actionType,
+    String? txAddress,
+    double? amount,
+    String? farmAddress,
+    bool? isUCO,
+  }) = _DexNotificationDepositFarmLock;
+
+  const factory DexNotification.withdrawFarmLock({
+    @Default(DexActionType.withdrawFarmLock) DexActionType actionType,
+    String? txAddress,
+    double? amountReward,
+    double? amountWithdraw,
+    bool? isFarmClose,
+    DexToken? rewardToken,
+  }) = _DexNotificationWithdrawFarmLock;
 }

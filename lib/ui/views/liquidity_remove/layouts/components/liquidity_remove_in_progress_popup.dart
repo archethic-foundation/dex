@@ -2,14 +2,12 @@ import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_final_amount.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_tx_addresses.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class LiquidityRemoveInProgressPopup {
   static List<Widget> body(
@@ -89,9 +87,6 @@ class LiquidityRemoveInProgressPopup {
     final liquidityRemove =
         ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
 
-    final poolsListTabEncoded =
-        Uri.encodeComponent(liquidityRemove.poolsListTab.name);
-
     return aedappfm.PopupCloseButton(
       warningCloseWarning: liquidityRemove.isProcessInProgress,
       warningCloseLabel: liquidityRemove.isProcessInProgress == true
@@ -104,14 +99,7 @@ class LiquidityRemoveInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(
-          Uri(
-            path: PoolListSheet.routerPage,
-            queryParameters: {
-              'tab': poolsListTabEncoded,
-            },
-          ).toString(),
-        );
+        Navigator.of(context).pop();
       },
       closeFunction: () {
         ref.invalidate(
@@ -119,14 +107,7 @@ class LiquidityRemoveInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(
-          Uri(
-            path: PoolListSheet.routerPage,
-            queryParameters: {
-              'tab': poolsListTabEncoded,
-            },
-          ).toString(),
-        );
+        Navigator.of(context).pop();
       },
     );
   }

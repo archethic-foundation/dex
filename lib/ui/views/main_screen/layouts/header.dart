@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
+import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Header extends ConsumerWidget {
   const Header({
@@ -170,6 +172,79 @@ class Header extends ConsumerWidget {
                           height: 0.5,
                           width: 70,
                           color: indexMenu == NavigationIndex.farm
+                              ? aedappfm.ArchethicThemeBase.raspberry200
+                              : Colors.transparent,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 20, right: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            context.go(FarmLockSheet.routerPage);
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.menu_earn,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                              color: indexMenu == NavigationIndex.earn
+                                  ? aedappfm.ArchethicThemeBase.raspberry200
+                                  : aedappfm.ArchethicThemeBase.neutral0,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 5),
+                          height: 0.5,
+                          width: 70,
+                          color: indexMenu == NavigationIndex.earn
+                              ? aedappfm.ArchethicThemeBase.raspberry200
+                              : Colors.transparent,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 20, right: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            await launchUrl(
+                              Uri.parse(
+                                (Uri.base
+                                        .toString()
+                                        .toLowerCase()
+                                        .contains('dex.archethic'))
+                                    ? 'https://bridge.archethic.net'
+                                    : 'https://bridge.testnet.archethic.net',
+                              ),
+                            );
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.menu_bridge,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                              color: indexMenu == NavigationIndex.bridge
+                                  ? aedappfm.ArchethicThemeBase.raspberry200
+                                  : aedappfm.ArchethicThemeBase.neutral0,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 5),
+                          height: 0.5,
+                          width: 70,
+                          color: indexMenu == NavigationIndex.bridge
                               ? aedappfm.ArchethicThemeBase.raspberry200
                               : Colors.transparent,
                         ),

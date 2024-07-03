@@ -4,7 +4,6 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_form_sheet.dart';
-import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -54,12 +53,12 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
         final session = ref.read(SessionProviders.session);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
-            context.go(FarmListSheet.routerPage);
+            context.pop();
           }
         }
       } catch (e) {
         if (mounted) {
-          context.go(FarmListSheet.routerPage);
+          context.pop();
         }
       }
     });

@@ -43,6 +43,8 @@ const _$DexActionTypeEnumMap = {
   DexActionType.removeLiquidity: 'removeLiquidity',
   DexActionType.claimFarm: 'claimFarm',
   DexActionType.depositFarm: 'depositFarm',
+  DexActionType.depositFarmLock: 'depositFarmLock',
   DexActionType.withdrawFarm: 'withdrawFarm',
+  DexActionType.withdrawFarmLock: 'withdrawFarmLock',
   DexActionType.addPool: 'addPool',
 };

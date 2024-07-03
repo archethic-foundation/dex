@@ -2,7 +2,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
@@ -149,19 +148,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                             Expanded(
                               child: aedappfm.ButtonClose(
                                 onPressed: () {
-                                  final poolsListTabEncoded =
-                                      Uri.encodeComponent(
-                                    liquidityRemove.poolsListTab.name,
-                                  );
-
-                                  context.go(
-                                    Uri(
-                                      path: PoolListSheet.routerPage,
-                                      queryParameters: {
-                                        'tab': poolsListTabEncoded,
-                                      },
-                                    ).toString(),
-                                  );
+                                  context.pop();
                                 },
                               ),
                             ),

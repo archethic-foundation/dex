@@ -77,12 +77,12 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
         final session = ref.read(SessionProviders.session);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
-            context.go(FarmListSheet.routerPage);
+            context.pop();
           }
         }
       } catch (e) {
         if (mounted) {
-          context.go(FarmListSheet.routerPage);
+          context.pop();
         }
       }
     });

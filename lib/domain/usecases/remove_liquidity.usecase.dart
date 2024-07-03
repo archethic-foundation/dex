@@ -31,6 +31,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
     DexToken lpToken, {
     int recoveryStep = 0,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();

@@ -67,15 +67,20 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
 
   Widget _swapButton(BuildContext context, DexPool pool) {
     return aedappfm.AppButton(
-      background: aedappfm.ArchethicThemeBase.purple500,
+      backgroundGradient: LinearGradient(
+        colors: [
+          aedappfm.ArchethicThemeBase.blue400,
+          aedappfm.ArchethicThemeBase.blue600,
+        ],
+      ),
       labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonSwap,
-      onPressed: () {
+      onPressed: () async {
         final tokenToSwapJson = jsonEncode(pool.pair.token1.toJson());
         final tokenSwappedJson = jsonEncode(pool.pair.token2.toJson());
         final tokenToSwapEncoded = Uri.encodeComponent(tokenToSwapJson);
         final tokenSwappedEncoded = Uri.encodeComponent(tokenSwappedJson);
 
-        context.go(
+        await context.push(
           Uri(
             path: SwapSheet.routerPage,
             queryParameters: {
@@ -94,21 +99,17 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
     DexPool pool,
   ) {
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: true,
       labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonAddLiquidity,
-      onPressed: () {
+      onPressed: () async {
         final poolJson = jsonEncode(pool.toJson());
-        final pairJson = jsonEncode(pool.pair.toJson());
         final poolEncoded = Uri.encodeComponent(poolJson);
-        final pairEncoded = Uri.encodeComponent(pairJson);
         final poolsListTabEncoded = Uri.encodeComponent(tab.name);
-        context.go(
+        await context.push(
           Uri(
             path: LiquidityAddSheet.routerPage,
             queryParameters: {
               'pool': poolEncoded,
-              'pair': pairEncoded,
               'tab': poolsListTabEncoded,
             },
           ).toString(),
@@ -148,11 +149,10 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
     DexPool pool,
   ) {
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: pool.lpTokenInUserBalance,
       labelBtn:
           AppLocalizations.of(context)!.poolDetailsInfoButtonRemoveLiquidity,
-      onPressed: () {
+      onPressed: () async {
         final poolJson = jsonEncode(pool.toJson());
         final pairJson = jsonEncode(pool.pair.toJson());
         final lpTokenJson = jsonEncode(pool.lpToken.toJson());
@@ -160,7 +160,7 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
         final pairEncoded = Uri.encodeComponent(pairJson);
         final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
         final poolsListTabEncoded = Uri.encodeComponent(tab.name);
-        context.go(
+        await context.push(
           Uri(
             path: LiquidityRemoveSheet.routerPage,
             queryParameters: {

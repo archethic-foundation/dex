@@ -2,7 +2,6 @@
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_final_amount.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_in_progress_tx_addresses.dart';
@@ -106,16 +105,18 @@ class FarmWithdrawInProgressPopup {
             FarmWithdrawFormProvider.farmWithdrawForm,
           );
         if (!context.mounted) return;
-        Navigator.of(context).pop();
-        context.go(FarmListSheet.routerPage);
+        context
+          ..pop()
+          ..pop();
       },
       closeFunction: () {
         ref.invalidate(
           FarmWithdrawFormProvider.farmWithdrawForm,
         );
         if (!context.mounted) return;
-        Navigator.of(context).pop();
-        context.go(FarmListSheet.routerPage);
+        context
+          ..pop()
+          ..pop();
       },
     );
   }

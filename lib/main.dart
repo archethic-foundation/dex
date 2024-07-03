@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
-import 'package:aedex/ui/views/util/router/router.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;

@@ -1,0 +1,120 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class FarmLockLevelUpDurationButton extends ConsumerWidget {
+  const FarmLockLevelUpDurationButton({
+    super.key,
+    required this.farmLockLevelUpDuration,
+    required this.level,
+    required this.aprEstimation,
+  });
+
+  final FarmLockDepositDurationType farmLockLevelUpDuration;
+  final String level;
+  final double aprEstimation;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final farmLockLevelUp =
+        ref.watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10, left: 5, right: 5),
+      child: Container(
+        width: 120,
+        height: 60,
+        decoration: BoxDecoration(
+          color: farmLockLevelUp.farmLockLevelUpDuration ==
+                  farmLockLevelUpDuration
+              ? aedappfm.AppThemeBase.sheetBackgroundTertiary.withOpacity(0.9)
+              : aedappfm.AppThemeBase.sheetBackgroundTertiary.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            width: 0.5,
+          ),
+        ),
+        child: InkWell(
+          onTap: () {
+            ref.read(
+              FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier,
+            )
+              ..setFarmLockLevelUpDuration(farmLockLevelUpDuration)
+              ..setAPREstimation(
+                aprEstimation,
+              );
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 3),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      getFarmLockDepositDurationTypeLabel(
+                        context,
+                        farmLockLevelUpDuration,
+                      ),
+                      style: AppTextStyles.bodyMedium(context)
+                          .copyWith(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '${AppLocalizations.of(context)!.farmLockLevelUpAPRLbl} ',
+                      style: AppTextStyles.bodySmall(context)
+                          .copyWith(color: Colors.white60),
+                    ),
+                    Text(
+                      '${aprEstimation.formatNumber(precision: 2)}%',
+                      style: AppTextStyles.bodySmall(context).copyWith(
+                        color: _getColor(farmLockLevelUpDuration),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Color _getColor(FarmLockDepositDurationType farmLockLevelUpDuration) {
+    switch (farmLockLevelUpDuration) {
+      case FarmLockDepositDurationType.flexible:
+        return aedappfm.ArchethicThemeBase.neutral0;
+      case FarmLockDepositDurationType.oneWeek:
+        return Colors.green[50]!;
+      case FarmLockDepositDurationType.oneMonth:
+        return Colors.green[50]!;
+      case FarmLockDepositDurationType.threeMonths:
+        return Colors.green[100]!;
+      case FarmLockDepositDurationType.sixMonths:
+        return Colors.green[200]!;
+      case FarmLockDepositDurationType.oneYear:
+        return Colors.green[200]!;
+      case FarmLockDepositDurationType.twoYears:
+        return Colors.green[300]!;
+      case FarmLockDepositDurationType.threeYears:
+        return Colors.green[300]!;
+    }
+  }
+}

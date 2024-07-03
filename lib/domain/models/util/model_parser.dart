@@ -1,11 +1,17 @@
 import 'package:aedex/application/farm/farm_factory.dart';
+import 'package:aedex/application/farm/farm_lock_factory.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm_lock.dart';
+import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
+import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/util/get_farm_infos_response.dart';
 import 'package:aedex/domain/models/util/get_farm_list_response.dart';
+import 'package:aedex/domain/models/util/get_farm_lock_farm_infos_response.dart';
+import 'package:aedex/domain/models/util/get_farm_lock_user_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_infos_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
@@ -338,5 +344,110 @@ mixin ModelParser {
     }
 
     return dexFarm;
+  }
+
+  Future<DexFarmLock> farmLockInfosToModel(
+    String farmGenesisAddress,
+    GetFarmLockFarmInfosResponse getFarmLockInfosResponse,
+    DexPool pool,
+    String userGenesisAddress, {
+    DexFarmLock? dexFarmLockInput,
+  }) async {
+    final farmFactory = FarmLockFactory(
+      farmGenesisAddress,
+      aedappfm.sl.get<archethic.ApiService>(),
+    );
+
+    final farmUserInfosResult =
+        await farmFactory.getUserInfos(userGenesisAddress);
+
+    final userInfosMap = <int, DexFarmLockUserInfos>{};
+    for (final userInfos in farmUserInfosResult) {
+      final userInfosResponse = UserInfos.fromJson(userInfos!);
+
+      userInfosMap[userInfosResponse.index] = DexFarmLockUserInfos(
+        amount: userInfosResponse.amount,
+        end: userInfosResponse.end,
+        start: userInfosResponse.start,
+        level: userInfosResponse.level,
+        rewardAmount: userInfosResponse.rewardAmount,
+      );
+    }
+
+    final availableLevelsMap = <String, int>{};
+    getFarmLockInfosResponse.availableLevels.forEach((level, duration) {
+      availableLevelsMap[level] = duration;
+    });
+
+    final dexFarmLockStatsMap = <String, DexFarmLockStats>{};
+    getFarmLockInfosResponse.stats.forEach((level, stat) {
+      dexFarmLockStatsMap[level] = DexFarmLockStats(
+        depositsCount: stat.depositsCount,
+        lpTokensDeposited: stat.lpTokensDeposited,
+        rewardsAllocated: stat.rewardsAllocated,
+        tvlRatio: stat.tvlRatio,
+      );
+    });
+
+    DexFarmLock? dexFarmLock = DexFarmLock(
+      stats: dexFarmLockStatsMap,
+      availableLevels: availableLevelsMap,
+      remainingReward: getFarmLockInfosResponse.remainingRewards,
+      userInfos: userInfosMap,
+      startDate: DateTime.fromMillisecondsSinceEpoch(
+        getFarmLockInfosResponse.startDate * 1000,
+      ),
+      endDate: DateTime.fromMillisecondsSinceEpoch(
+        getFarmLockInfosResponse.endDate * 1000,
+      ),
+      farmAddress: farmGenesisAddress,
+      poolAddress: pool.poolAddress,
+      lpTokenPair: pool.pair,
+      rewardDistributed: getFarmLockInfosResponse.rewardsDistributed,
+    );
+    if (dexFarmLockInput == null || dexFarmLockInput.lpToken == null) {
+      final adressesToSearch = <String>[
+        getFarmLockInfosResponse.lpTokenAddress,
+      ];
+      final tokenResultMap = await aedappfm.sl
+          .get<archethic.ApiService>()
+          .getToken(adressesToSearch);
+      DexToken? lpToken;
+      if (tokenResultMap[getFarmLockInfosResponse.lpTokenAddress] != null) {
+        lpToken = DexToken(
+          address: getFarmLockInfosResponse.lpTokenAddress.toUpperCase(),
+          name: tokenResultMap[getFarmLockInfosResponse.lpTokenAddress]!.name!,
+          symbol:
+              tokenResultMap[getFarmLockInfosResponse.lpTokenAddress]!.symbol!,
+          isLpToken: true,
+        );
+        dexFarmLock = dexFarmLock.copyWith(lpToken: lpToken);
+      }
+    } else {
+      dexFarmLock = dexFarmLock.copyWith(lpToken: dexFarmLockInput.lpToken);
+    }
+
+    DexToken? rewardToken;
+
+    if (getFarmLockInfosResponse.rewardToken == 'UCO') {
+      rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
+      dexFarmLock = dexFarmLock.copyWith(rewardToken: rewardToken);
+    } else {
+      final adressesToSearch = <String>[getFarmLockInfosResponse.rewardToken];
+      final tokenResultMap = await aedappfm.sl
+          .get<archethic.ApiService>()
+          .getToken(adressesToSearch);
+
+      if (tokenResultMap[getFarmLockInfosResponse.rewardToken] != null) {
+        rewardToken = DexToken(
+          address: getFarmLockInfosResponse.rewardToken.toUpperCase(),
+          name: tokenResultMap[getFarmLockInfosResponse.rewardToken]!.name!,
+          symbol: tokenResultMap[getFarmLockInfosResponse.rewardToken]!.symbol!,
+        );
+        dexFarmLock = dexFarmLock.copyWith(rewardToken: rewardToken);
+      }
+    }
+
+    return dexFarmLock;
   }
 }

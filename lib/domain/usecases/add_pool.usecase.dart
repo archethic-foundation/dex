@@ -30,6 +30,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
     archethic.Transaction? recoveryTransactionAddPoolLiquidity,
     String? recoveryPoolGenesisAddress,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final archethicContract = ArchethicContract();
     final poolAddNotifier = ref.read(PoolAddFormProvider.poolAddForm.notifier);
 

@@ -14,9 +14,14 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainScreenList extends ConsumerStatefulWidget {
-  const MainScreenList({required this.body, super.key});
+  const MainScreenList({
+    required this.body,
+    this.bodyVerticalAlignment = Alignment.center,
+    super.key,
+  });
 
   final Widget body;
+  final Alignment bodyVerticalAlignment;
   @override
   ConsumerState<MainScreenList> createState() => MainScreenListState();
 }
@@ -55,6 +60,8 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
         aedappfm.Iconsax.wallet_money
       ),
       (AppLocalizations.of(context)!.menu_farm, aedappfm.Iconsax.coin5),
+      (AppLocalizations.of(context)!.menu_earn, aedappfm.Iconsax.coin5),
+      (AppLocalizations.of(context)!.menu_bridge, aedappfm.Iconsax.coin5),
     ];
   }
 
@@ -74,7 +81,7 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
         ),
       ),
       body: Stack(
-        alignment: Alignment.center,
+        alignment: widget.bodyVerticalAlignment,
         children: [
           const aedappfm.AppBackground(
             backgroundImage: 'assets/images/background-welcome.png',

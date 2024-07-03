@@ -27,6 +27,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionClaim,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -43,7 +44,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 1) {
       farmClaimNotifier.setCurrentStep(1);
       try {
-        final transactionClaimMap = await archethicContract.getClaimTx(
+        final transactionClaimMap = await archethicContract.getFarmClaimTx(
           farmGenesisAddress,
         );
 

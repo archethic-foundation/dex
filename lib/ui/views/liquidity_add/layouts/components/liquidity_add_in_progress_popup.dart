@@ -3,14 +3,12 @@ import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_final_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_tx_addresses.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class LiquidityAddInProgressPopup {
   static List<Widget> body(
@@ -88,9 +86,6 @@ class LiquidityAddInProgressPopup {
   ) {
     final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
 
-    final poolsListTabEncoded =
-        Uri.encodeComponent(liquidityAdd.poolsListTab.name);
-
     return aedappfm.PopupCloseButton(
       warningCloseWarning: liquidityAdd.isProcessInProgress,
       warningCloseLabel: liquidityAdd.isProcessInProgress == true
@@ -102,14 +97,7 @@ class LiquidityAddInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(
-          Uri(
-            path: PoolListSheet.routerPage,
-            queryParameters: {
-              'tab': poolsListTabEncoded,
-            },
-          ).toString(),
-        );
+        Navigator.of(context).pop();
       },
       closeFunction: () {
         ref.invalidate(
@@ -117,14 +105,7 @@ class LiquidityAddInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(
-          Uri(
-            path: PoolListSheet.routerPage,
-            queryParameters: {
-              'tab': poolsListTabEncoded,
-            },
-          ).toString(),
-        );
+        Navigator.of(context).pop();
       },
     );
   }

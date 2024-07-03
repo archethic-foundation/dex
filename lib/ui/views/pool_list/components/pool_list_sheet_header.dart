@@ -62,7 +62,6 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
 
   Widget _addPool(BuildContext context) {
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: true,
       labelBtn: aedappfm.Responsive.isDesktop(context) ||
               aedappfm.Responsive.isTablet(context)

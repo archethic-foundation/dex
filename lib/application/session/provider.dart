@@ -222,7 +222,7 @@ class _SessionNotifier extends Notifier<Session> {
             failure: (failure) {
               state = state.copyWith(
                 isConnected: false,
-                error: failure.message ?? 'Connection failed',
+                error: failure.message,
               );
             },
           );
