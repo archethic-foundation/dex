@@ -12,6 +12,7 @@ import update_farms from './commands/contract_management/update_farms.js'
 import update_protocol_fee from './commands/contract_management/update_protocol_fee.js'
 import update_farm_dates from './commands/contract_management/update_farm_dates.js'
 
+import create_user_wallet from './commands/test/create_user_wallet.js'
 import create_tokens from './commands/test/create_tokens.js'
 import deploy_pool from './commands/test/deploy_pool.js'
 import add_liquidity from './commands/test/add_liquidity.js'
@@ -33,6 +34,8 @@ y.command(update_pools).help()
 y.command(update_farms).help()
 y.command(update_protocol_fee).help()
 y.command(update_farm_dates).help()
+
+y.command(create_user_wallet).help()
 
 y.command(create_tokens).help()
 y.command(deploy_pool).help()

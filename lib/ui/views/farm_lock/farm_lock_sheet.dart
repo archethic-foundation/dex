@@ -52,13 +52,13 @@ class _FarmLockSheetState extends ConsumerState<FarmLockSheet> {
 
     pool = await ref.read(
       DexPoolProviders.getPool(
-        '00007764D4E727EBB9F2687935D049F1BCA20B6CBA22F887BFB7B79D1BC7A81922EE',
+        '0000c94189acdf76cd8d24eab10ef6494800e2f1a16022046b8ecb6ed39bb3c2fa42',
       ).future,
     );
 
     // TODO(reddwarf03): Remove hardcode
     const farmAddress =
-        '00002A8BEB13FD8CFA8324829779162A490ECB880D690BE3419E4661B131AEBFEE4D';
+        '000051EDE227815793D9FCB6863BBB645664E174189853057862B9F094698C4C4D7A';
     farm = await ref.read(
       DexFarmProviders.getFarmInfos(
         farmAddress,
@@ -70,15 +70,15 @@ class _FarmLockSheetState extends ConsumerState<FarmLockSheet> {
       ).future,
     );
 
-    const farmLockDepositress =
-        '000020ec39445a6f821d9cfe0368204225a01ff1da26e3bc3f66c12d3a562964f209';
+    const farmLockAddress =
+        '0000a75f253fed4aa1b0b2d9c9e829ba13bbf5a1619610bccf93e97d395b0684fff2';
     farmLock = await ref.read(
       DexFarmLockProviders.getFarmLockInfos(
-        farmLockDepositress,
+        farmLockAddress,
         pool!.poolAddress,
         dexFarmLockInput: DexFarmLock(
           poolAddress: pool!.poolAddress,
-          farmAddress: farmLockDepositress,
+          farmAddress: farmLockAddress,
         ),
       ).future,
     );
