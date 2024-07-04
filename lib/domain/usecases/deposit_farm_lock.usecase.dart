@@ -130,19 +130,24 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
         ),
       );
 
-      final amount = await aedappfm.PeriodicFuture.periodic<double>(
+      final cancelCompleter = Completer<void>();
+      final periodicFuture = aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTx(
           transactionDeposit!.address!.address!,
           isUCO,
           farmAddress,
         ),
         sleepDuration: const Duration(seconds: 3),
-        until: (amount) {
-          return amount > 0;
-        },
-      ).timeout(
+        until: (amount) => amount > 0,
+        cancelCompleter: cancelCompleter,
+      );
+
+      final amount = await periodicFuture.timeout(
         const Duration(minutes: 1),
-        onTimeout: () => throw const aedappfm.Timeout(),
+        onTimeout: () {
+          cancelCompleter.complete();
+          throw const aedappfm.Timeout();
+        },
       );
 
       notificationService.succeed(
@@ -167,9 +172,11 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
 
       farmDepositNotifier
         ..setFailure(
-          aedappfm.Failure.other(
-            cause: e.toString(),
-          ),
+          e is aedappfm.Timeout
+              ? e
+              : aedappfm.Failure.other(
+                  cause: e.toString(),
+                ),
         )
         ..setCurrentStep(3);
 

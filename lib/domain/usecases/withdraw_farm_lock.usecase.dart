@@ -128,7 +128,8 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         ),
       );
 
-      final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
+      final cancelCompleter = Completer<void>();
+      final periodicFuture = aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(
             transactionWithdraw!.address!.address!,
@@ -144,9 +145,15 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
           final amountWithdraw = amounts[1];
           return amountWithdraw > 0;
         },
-      ).timeout(
+        cancelCompleter: cancelCompleter,
+      );
+
+      final amounts = await periodicFuture.timeout(
         const Duration(minutes: 1),
-        onTimeout: () => throw const aedappfm.Timeout(),
+        onTimeout: () {
+          cancelCompleter.complete();
+          throw const aedappfm.Timeout();
+        },
       );
 
       final amountReward = amounts[0];
@@ -178,9 +185,11 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
 
       farmLockWithdrawNotifier
         ..setFailure(
-          aedappfm.Failure.other(
-            cause: e.toString(),
-          ),
+          e is aedappfm.Timeout
+              ? e
+              : aedappfm.Failure.other(
+                  cause: e.toString(),
+                ),
         )
         ..setCurrentStep(3);
 

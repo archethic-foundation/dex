@@ -117,7 +117,8 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         ),
       );
 
-      final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
+      final cancelCompleter = Completer<void>();
+      final periodicFuture = aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(
             transactionRemoveLiquidity!.address!.address!,
@@ -140,9 +141,15 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
           final amountLPToken = amounts[2];
           return amountToken1 > 0 && amountToken2 > 0 && amountLPToken > 0;
         },
-      ).timeout(
+        cancelCompleter: cancelCompleter,
+      );
+
+      final amounts = await periodicFuture.timeout(
         const Duration(minutes: 1),
-        onTimeout: () => throw const aedappfm.Timeout(),
+        onTimeout: () {
+          cancelCompleter.complete();
+          throw const aedappfm.Timeout();
+        },
       );
 
       final amountToken1 = amounts[0];
@@ -178,9 +185,11 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
 
       liquidityRemoveNotifier
         ..setFailure(
-          aedappfm.Failure.other(
-            cause: e.toString(),
-          ),
+          e is aedappfm.Timeout
+              ? e
+              : aedappfm.Failure.other(
+                  cause: e.toString(),
+                ),
         )
         ..setCurrentStep(3);
 
