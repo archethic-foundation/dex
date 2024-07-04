@@ -6,7 +6,6 @@ import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,11 +15,21 @@ class FarmLockLevelUpSheet extends ConsumerStatefulWidget {
   const FarmLockLevelUpSheet({
     required this.pool,
     required this.farmLock,
+    required this.depositIndex,
+    required this.currentLevel,
+    required this.lpAmount,
+    required this.timestampStart,
+    required this.rewardAmount,
     super.key,
   });
 
   final DexPool pool;
   final DexFarmLock farmLock;
+  final int depositIndex;
+  final String currentLevel;
+  final double lpAmount;
+  final int timestampStart;
+  final double rewardAmount;
 
   static const routerPage = '/farmLockLevelUp';
 
@@ -42,6 +51,8 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
         ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
           ..setDexPool(widget.pool)
           ..setDexFarmLock(widget.farmLock)
+          ..setDepositIndex(widget.depositIndex)
+          ..setAmount(widget.lpAmount)
           ..setAPREstimation(widget.farmLock.apr3years);
 
         await ref
@@ -49,7 +60,7 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
             .initBalances();
       } catch (e) {
         if (mounted) {
-          context.go(PoolListSheet.routerPage);
+          context.pop();
         }
       }
     });
@@ -61,7 +72,11 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
       currentStep: ref
           .watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm)
           .processStep,
-      formSheet: const FarmLockLevelUpFormSheet(),
+      formSheet: FarmLockLevelUpFormSheet(
+        currentLevel: widget.currentLevel,
+        timestampStart: widget.timestampStart,
+        rewardAmount: widget.rewardAmount,
+      ),
       confirmSheet: const FarmLockLevelUpConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),
     );

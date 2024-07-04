@@ -283,7 +283,7 @@
     "farmLockDepositConfirmInfosText": "Please confirm the lock of ",
     "farmLockDepositConfirmYourBalance": "Your balance",
     "farmLockDepositConfirmInfosText2": " for ",
-    "farmLockDepositFormLockDurationLbl": "Lock duration",
+    "farmLockDepositFormLockDurationLbl": "Choose the lock duration",
     "farmLockDepositConfirmInfosText3": "You can recover your LP Tokens and associated rewards at any time.",
     "farmLockClaimConfirmInfosText": "Please confirm the claim of ",
     "farmLockClaimFinalAmount": "Amount claimed: ",
@@ -360,15 +360,17 @@
     "farmLockLevelUpAPREstimationLbl": "Est. APR:",
     "farmLockLevelUpAPRLbl": "APR:",
     "farmLockLevelUpUnlockDateLbl": "Release date:",
+    "farmLockLevelUpInitialDateLbl": "Initial date:",
     "farmLockLevelUpUnlockNoConstraintsLbl": "No constraints",
     "farmLockLevelUpConfirmTitle": "Confirmation",
     "farmLockLevelUpConfirmInfosText": "Please confirm the lock of ",
     "farmLockLevelUpConfirmYourBalance": "Your balance",
     "farmLockLevelUpConfirmInfosText2": " for ",
-    "farmLockLevelUpFormLockDurationLbl": "Lock duration",
+    "farmLockLevelUpFormLockDurationLbl": "Choose the lock duration",
     "farmLockLevelUpConfirmInfosText3": "You can recover your LP Tokens and associated rewards at any time.",
     "farmLockLevelUpFinalAmount": "Amount deposited: ",
     "farmLockLevelUpTxAddress": "Deposit transaction address: ",
     "farmLockLevelUpInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet",
-    "farmLockLevelUpSuccessInfo": "Deposit have been done successfully"
+    "farmLockLevelUpSuccessInfo": "Deposit have been done successfully",
+    "farmLockLevelUpDesc": "You can extend the duration of your lock to earn more rewards.\nTo do this, you must choose a longer period than before, which will provide you with a higher level. The higher your level, the higher the APR.\nNote that your lock period will consider the start date of your initial lock.\nAt the same time, this will claim your actual rewards."
 }

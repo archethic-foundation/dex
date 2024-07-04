@@ -47,6 +47,10 @@ class FarmLockLevelUpFormNotifier
     state = state.copyWith(poolsListTab: poolsListTab);
   }
 
+  void setDepositIndex(int depositIndex) {
+    state = state.copyWith(depositIndex: depositIndex);
+  }
+
   void setTransactionFarmLockLevelUp(Transaction transactionFarmLockLevelUp) {
     state =
         state.copyWith(transactionFarmLockLevelUp: transactionFarmLockLevelUp);

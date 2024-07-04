@@ -222,6 +222,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         lpTokenAmount: farmLockUserInfos.amount,
                                         rewardToken: farmLock.rewardToken!,
                                         depositIndex: farmLockUserInfos.index,
+                                        currentLevel: farmLockUserInfos.level,
                                         enabled: int.tryParse(
                                               farmLockUserInfos.level,
                                             )! <
@@ -229,6 +230,10 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                               farmLock.availableLevels.entries
                                                   .last.key,
                                             )!,
+                                        timestampStart:
+                                            farmLockUserInfos.start ?? 0,
+                                        rewardAmount:
+                                            farmLockUserInfos.rewardAmount,
                                       ),
                                     ),
                                     SizedBox(
@@ -451,6 +456,9 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       depositIndex:
                                                           farmLockUserInfos
                                                               .index,
+                                                      currentLevel:
+                                                          farmLockUserInfos
+                                                              .level,
                                                       enabled: int.tryParse(
                                                             farmLockUserInfos
                                                                 .level,
@@ -462,6 +470,13 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                                 .last
                                                                 .key,
                                                           )!,
+                                                      timestampStart:
+                                                          farmLockUserInfos
+                                                                  .start ??
+                                                              0,
+                                                      rewardAmount:
+                                                          farmLockUserInfos
+                                                              .rewardAmount,
                                                     ),
                                                     FarmLockBtnWithdraw(
                                                       farmAddress:

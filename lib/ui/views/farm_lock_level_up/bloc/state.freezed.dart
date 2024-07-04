@@ -34,6 +34,7 @@ mixin _$FarmLockLevelUpFormState {
   Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
+  int? get depositIndex => throw _privateConstructorUsedError;
   PoolsListTab get poolsListTab => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -64,6 +65,7 @@ abstract class $FarmLockLevelUpFormStateCopyWith<$Res> {
       Failure? failure,
       double? finalAmount,
       DateTime? consentDateTime,
+      int? depositIndex,
       PoolsListTab poolsListTab});
 
   $DexPoolCopyWith<$Res>? get pool;
@@ -102,6 +104,7 @@ class _$FarmLockLevelUpFormStateCopyWithImpl<$Res,
     Object? failure = freezed,
     Object? finalAmount = freezed,
     Object? consentDateTime = freezed,
+    Object? depositIndex = freezed,
     Object? poolsListTab = null,
   }) {
     return _then(_value.copyWith(
@@ -169,6 +172,10 @@ class _$FarmLockLevelUpFormStateCopyWithImpl<$Res,
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      depositIndex: freezed == depositIndex
+          ? _value.depositIndex
+          : depositIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
       poolsListTab: null == poolsListTab
           ? _value.poolsListTab
           : poolsListTab // ignore: cast_nullable_to_non_nullable
@@ -252,6 +259,7 @@ abstract class _$$FarmLockLevelUpFormStateImplCopyWith<$Res>
       Failure? failure,
       double? finalAmount,
       DateTime? consentDateTime,
+      int? depositIndex,
       PoolsListTab poolsListTab});
 
   @override
@@ -293,6 +301,7 @@ class __$$FarmLockLevelUpFormStateImplCopyWithImpl<$Res>
     Object? failure = freezed,
     Object? finalAmount = freezed,
     Object? consentDateTime = freezed,
+    Object? depositIndex = freezed,
     Object? poolsListTab = null,
   }) {
     return _then(_$FarmLockLevelUpFormStateImpl(
@@ -360,6 +369,10 @@ class __$$FarmLockLevelUpFormStateImplCopyWithImpl<$Res>
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      depositIndex: freezed == depositIndex
+          ? _value.depositIndex
+          : depositIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
       poolsListTab: null == poolsListTab
           ? _value.poolsListTab
           : poolsListTab // ignore: cast_nullable_to_non_nullable
@@ -388,6 +401,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
       this.failure,
       this.finalAmount,
       this.consentDateTime,
+      this.depositIndex,
       this.poolsListTab = PoolsListTab.verified})
       : super._();
 
@@ -433,12 +447,14 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
   @override
   final DateTime? consentDateTime;
   @override
+  final int? depositIndex;
+  @override
   @JsonKey()
   final PoolsListTab poolsListTab;
 
   @override
   String toString() {
-    return 'FarmLockLevelUpFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockLevelUpOk: $farmLockLevelUpOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockLevelUpDuration: $farmLockLevelUpDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockLevelUp: $transactionFarmLockLevelUp, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, poolsListTab: $poolsListTab)';
+    return 'FarmLockLevelUpFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockLevelUpOk: $farmLockLevelUpOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockLevelUpDuration: $farmLockLevelUpDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockLevelUp: $transactionFarmLockLevelUp, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, depositIndex: $depositIndex, poolsListTab: $poolsListTab)';
   }
 
   @override
@@ -478,6 +494,8 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
                 other.finalAmount == finalAmount) &&
             (identical(other.consentDateTime, consentDateTime) ||
                 other.consentDateTime == consentDateTime) &&
+            (identical(other.depositIndex, depositIndex) ||
+                other.depositIndex == depositIndex) &&
             (identical(other.poolsListTab, poolsListTab) ||
                 other.poolsListTab == poolsListTab));
   }
@@ -501,6 +519,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
       failure,
       finalAmount,
       consentDateTime,
+      depositIndex,
       poolsListTab);
 
   @JsonKey(ignore: true)
@@ -529,6 +548,7 @@ abstract class _FarmLockLevelUpFormState extends FarmLockLevelUpFormState {
       final Failure? failure,
       final double? finalAmount,
       final DateTime? consentDateTime,
+      final int? depositIndex,
       final PoolsListTab poolsListTab}) = _$FarmLockLevelUpFormStateImpl;
   const _FarmLockLevelUpFormState._() : super._();
 
@@ -564,6 +584,8 @@ abstract class _FarmLockLevelUpFormState extends FarmLockLevelUpFormState {
   double? get finalAmount;
   @override
   DateTime? get consentDateTime;
+  @override
+  int? get depositIndex;
   @override
   PoolsListTab get poolsListTab;
   @override

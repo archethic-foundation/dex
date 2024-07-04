@@ -28,6 +28,12 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final farmLock = ref.watch(FarmLockFormProvider.farmLockForm);
+
+    if ((farm.depositedAmount == null || farm.depositedAmount == 0) &&
+        (farm.rewardAmount == null || farm.rewardAmount == 0)) {
+      return const SizedBox.shrink();
+    }
+
     final style = Theme.of(context).textTheme.bodyMedium;
     final styleHeader = Theme.of(context).textTheme.bodyMedium!.copyWith(
           color: aedappfm.AppThemeBase.secondaryColor,

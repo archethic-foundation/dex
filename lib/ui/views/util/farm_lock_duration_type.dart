@@ -62,8 +62,9 @@ FarmLockDepositDurationType getFarmLockDepositDurationTypeFromLevel(
 }
 
 DateTime? getFarmLockDepositDuration(
-  FarmLockDepositDurationType farmLockDepositDuration,
-) {
+  FarmLockDepositDurationType farmLockDepositDuration, {
+  int numberOfDaysAlreadyUsed = 0,
+}) {
   final dateTimeNow = DateTime.now();
   switch (farmLockDepositDuration) {
     case FarmLockDepositDurationType.flexible:
@@ -72,43 +73,43 @@ DateTime? getFarmLockDepositDuration(
       return DateTime(
         dateTimeNow.year,
         dateTimeNow.month,
-        dateTimeNow.day + 30,
+        dateTimeNow.day + 30 - numberOfDaysAlreadyUsed,
       );
     case FarmLockDepositDurationType.oneWeek:
       return DateTime(
         dateTimeNow.year,
         dateTimeNow.month,
-        dateTimeNow.day + 7,
+        dateTimeNow.day + 7 - numberOfDaysAlreadyUsed,
       );
     case FarmLockDepositDurationType.oneYear:
       return DateTime(
         dateTimeNow.year,
         dateTimeNow.month,
-        dateTimeNow.day + 365,
+        dateTimeNow.day + 365 - numberOfDaysAlreadyUsed,
       );
     case FarmLockDepositDurationType.sixMonths:
       return DateTime(
         dateTimeNow.year,
         dateTimeNow.month,
-        dateTimeNow.day + 180,
+        dateTimeNow.day + 180 - numberOfDaysAlreadyUsed,
       );
     case FarmLockDepositDurationType.threeMonths:
       return DateTime(
         dateTimeNow.year,
         dateTimeNow.month,
-        dateTimeNow.day + 90,
+        dateTimeNow.day + 90 - numberOfDaysAlreadyUsed,
       );
     case FarmLockDepositDurationType.threeYears:
       return DateTime(
         dateTimeNow.year,
         dateTimeNow.month,
-        dateTimeNow.day + 1095,
+        dateTimeNow.day + 1095 - numberOfDaysAlreadyUsed,
       );
     case FarmLockDepositDurationType.twoYears:
       return DateTime(
         dateTimeNow.year,
         dateTimeNow.month,
-        dateTimeNow.day + 730,
+        dateTimeNow.day + 730 - numberOfDaysAlreadyUsed,
       );
   }
 }

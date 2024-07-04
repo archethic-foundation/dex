@@ -5,6 +5,7 @@ import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _farmLockFormProvider =
@@ -28,15 +29,20 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
     state = state.copyWith(farm: farm);
   }
 
-  Future<void> setFarmLock(DexFarmLock farmLock) async {
-    state = state.copyWith(farmLock: farmLock);
-
+  Future<void> calculateSummary() async {
     var capitalInvested = 0.0;
     var rewardsEarned = 0.0;
-    farmLock.userInfos.forEach((depositIndex, userInfos) {
-      capitalInvested = capitalInvested + userInfos.amount;
-      rewardsEarned = rewardsEarned + userInfos.rewardAmount;
-    });
+    if (state.farmLock != null) {
+      state.farmLock!.userInfos.forEach((depositIndex, userInfos) {
+        capitalInvested = capitalInvested + userInfos.amount;
+        rewardsEarned = rewardsEarned + userInfos.rewardAmount;
+      });
+    }
+
+    if (state.farm != null) {
+      capitalInvested = capitalInvested + (state.farm!.depositedAmount ?? 0);
+      rewardsEarned = rewardsEarned + (state.farm!.rewardAmount ?? 0);
+    }
 
     final farmedTokensCapitalInFiat = await ref.read(
       DexTokensProviders.estimateLPTokenInFiat(
@@ -55,8 +61,14 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
       farmedTokensCapital: capitalInvested,
       farmedTokensRewards: rewardsEarned,
       farmedTokensCapitalInFiat: farmedTokensCapitalInFiat,
-      farmedTokensRewardsInFiat: price * rewardsEarned,
+      farmedTokensRewardsInFiat:
+          (Decimal.parse('$price') * Decimal.parse('$rewardsEarned'))
+              .toDouble(),
     );
+  }
+
+  Future<void> setFarmLock(DexFarmLock farmLock) async {
+    state = state.copyWith(farmLock: farmLock);
   }
 
   Future<void> initBalances() async {

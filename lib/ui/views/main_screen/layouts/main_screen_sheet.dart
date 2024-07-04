@@ -63,9 +63,12 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
         AppLocalizations.of(context)!.menu_liquidity,
         aedappfm.Iconsax.wallet_money
       ),
-      (AppLocalizations.of(context)!.menu_farm, aedappfm.Iconsax.coin5),
-      (AppLocalizations.of(context)!.menu_earn, aedappfm.Iconsax.coin5),
-      (AppLocalizations.of(context)!.menu_bridge, aedappfm.Iconsax.coin5),
+      (AppLocalizations.of(context)!.menu_farm, aedappfm.Iconsax.money_add),
+      (AppLocalizations.of(context)!.menu_earn, aedappfm.Iconsax.wallet_add),
+      (
+        AppLocalizations.of(context)!.menu_bridge,
+        aedappfm.Iconsax.recovery_convert
+      ),
     ];
   }
 

@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/views/farm_lock_claim/layouts/farm_lock_claim_sheet.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock_level_up/layouts/farm_lock_level_up_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -17,6 +18,9 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     required this.lpTokenAddress,
     required this.lpTokenAmount,
     required this.depositIndex,
+    required this.currentLevel,
+    required this.timestampStart,
+    required this.rewardAmount,
     this.enabled = true,
     super.key,
   });
@@ -26,7 +30,10 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
   final String lpTokenAddress;
   final double lpTokenAmount;
   final int depositIndex;
+  final String currentLevel;
   final bool enabled;
+  final int timestampStart;
+  final double rewardAmount;
 
   @override
   Widget build(
@@ -34,51 +41,50 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(SessionProviders.session);
-
+    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
             onTap: enabled == false
                 ? null
                 : () async {
                     if (context.mounted) {
-                      final farmAddressJson = jsonEncode(
-                        farmAddress,
-                      );
-                      final farmAddressEncoded = Uri.encodeComponent(
-                        farmAddressJson,
-                      );
-
-                      final rewardTokenJson = jsonEncode(
-                        rewardToken,
-                      );
-                      final rewardTokenEncoded = Uri.encodeComponent(
-                        rewardTokenJson,
-                      );
-
-                      final lpTokenAddressJson = jsonEncode(
-                        lpTokenAddress,
-                      );
-                      final lpTokenAddressEncoded = Uri.encodeComponent(
-                        lpTokenAddressJson,
-                      );
-                      final rewardAmountJson = jsonEncode(lpTokenAmount);
-                      final rewardAmountEncoded = Uri.encodeComponent(
-                        rewardAmountJson,
-                      );
+                      final poolJson = jsonEncode(farmLockForm.pool!.toJson());
+                      final poolEncoded = Uri.encodeComponent(poolJson);
+                      final farmLockJson =
+                          jsonEncode(farmLockForm.farmLock!.toJson());
+                      final farmLockEncoded = Uri.encodeComponent(farmLockJson);
                       final depositIndexJson = jsonEncode(depositIndex);
                       final depositIndexEncoded = Uri.encodeComponent(
                         depositIndexJson,
                       );
+                      final currentLevelJson = jsonEncode(currentLevel);
+                      final currentLevelEncoded = Uri.encodeComponent(
+                        currentLevelJson,
+                      );
+                      final lpAmountJson = jsonEncode(lpTokenAmount);
+                      final lpAmountEncoded = Uri.encodeComponent(
+                        lpAmountJson,
+                      );
+                      final timestampStartJson = jsonEncode(timestampStart);
+                      final timestampStartEncoded = Uri.encodeComponent(
+                        timestampStartJson,
+                      );
+                      final rewardAmountJson = jsonEncode(rewardAmount);
+                      final rewardAmountEncoded = Uri.encodeComponent(
+                        rewardAmountJson,
+                      );
 
                       await context.push(
                         Uri(
-                          path: FarmLockClaimSheet.routerPage,
+                          path: FarmLockLevelUpSheet.routerPage,
                           queryParameters: {
-                            'farmAddress': farmAddressEncoded,
-                            'rewardToken': rewardTokenEncoded,
-                            'lpTokenAddress': lpTokenAddressEncoded,
-                            'rewardAmount': rewardAmountEncoded,
+                            'pool': poolEncoded,
+                            'farmLock': farmLockEncoded,
                             'depositIndex': depositIndexEncoded,
+                            'currentLevel': currentLevelEncoded,
+                            'lpAmount': lpAmountEncoded,
+                            'timestampStart': timestampStartEncoded,
+                            'rewardAmount': rewardAmountEncoded,
                           },
                         ).toString(),
                       );
@@ -120,7 +126,29 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
         : aedappfm.ButtonValidate(
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmLockBtnLevelUp,
-            onPressed: () {},
+            onPressed: () async {
+              if (context.mounted) {
+                final poolJson = jsonEncode(farmLockForm.pool!.toJson());
+                final poolEncoded = Uri.encodeComponent(poolJson);
+                final farmLockJson =
+                    jsonEncode(farmLockForm.farmLock!.toJson());
+                final farmLockEncoded = Uri.encodeComponent(farmLockJson);
+                final depositIndexJson = jsonEncode(depositIndex);
+                final depositIndexEncoded = Uri.encodeComponent(
+                  depositIndexJson,
+                );
+                await context.push(
+                  Uri(
+                    path: FarmLockLevelUpSheet.routerPage,
+                    queryParameters: {
+                      'pool': poolEncoded,
+                      'farmLock': farmLockEncoded,
+                      'depositIndex': depositIndexEncoded,
+                    },
+                  ).toString(),
+                );
+              }
+            },
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {

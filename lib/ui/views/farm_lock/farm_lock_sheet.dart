@@ -45,20 +45,57 @@ class _FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     super.initState();
   }
 
+  ({
+    String aeETHUCOPoolAddress,
+    String aeETHUCOFarmLegacyAddress,
+    String aeETHUCOFarmLockAddress
+  }) _getContextAddresses(WidgetRef ref) {
+    final env = ref.read(SessionProviders.session).envSelected;
+
+    switch (env) {
+      case 'testnet':
+        return (
+          aeETHUCOPoolAddress:
+              '0000818EF23676779DAE1C97072BB99A3E0DD1C31BAD3787422798DBE3F777F74A43',
+          aeETHUCOFarmLegacyAddress:
+              '0000208A670B5590939174D65F88140C05DDDBA63C0C920582E12162B22F3985E510',
+          aeETHUCOFarmLockAddress: ''
+        );
+      case 'devnet':
+        return (
+          aeETHUCOPoolAddress:
+              '0000c94189acdf76cd8d24eab10ef6494800e2f1a16022046b8ecb6ed39bb3c2fa42',
+          aeETHUCOFarmLegacyAddress:
+              '00003385E6A8443C3B1F64A5C4D383FE31F36AB4C0A348AC6960038A5A2965B380F4',
+          aeETHUCOFarmLockAddress:
+              '00003fa1487d9b78bdcb2c1fe7012ea9304cfff470dc8d305da7e64895557f69873a'
+        );
+      case 'mainnet':
+      default:
+        return (
+          aeETHUCOPoolAddress:
+              '000090C5AFCC97C2357E964E3DDF5BE9948477F7C1DE2C633CDFC95B202970AEA036',
+          aeETHUCOFarmLegacyAddress:
+              '0000474A5B5D261A86D1EB2B054C8E7D9347767C3977F5FC20BB8A05D6F6AFB53DCC',
+          aeETHUCOFarmLockAddress: ''
+        );
+    }
+  }
+
   Future<void> loadInfo({bool forceLoadFromBC = false}) async {
     if (mounted) {
       await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
     }
 
+    final contextAddresses = _getContextAddresses(ref);
+
     pool = await ref.read(
       DexPoolProviders.getPool(
-        '0000c94189acdf76cd8d24eab10ef6494800e2f1a16022046b8ecb6ed39bb3c2fa42',
+        contextAddresses.aeETHUCOPoolAddress,
       ).future,
     );
 
-    // TODO(reddwarf03): Remove hardcode
-    const farmAddress =
-        '000051EDE227815793D9FCB6863BBB645664E174189853057862B9F094698C4C4D7A';
+    final farmAddress = contextAddresses.aeETHUCOFarmLegacyAddress;
     farm = await ref.read(
       DexFarmProviders.getFarmInfos(
         farmAddress,
@@ -70,8 +107,7 @@ class _FarmLockSheetState extends ConsumerState<FarmLockSheet> {
       ).future,
     );
 
-    const farmLockAddress =
-        '0000a75f253fed4aa1b0b2d9c9e829ba13bbf5a1619610bccf93e97d395b0684fff2';
+    final farmLockAddress = contextAddresses.aeETHUCOFarmLockAddress;
     farmLock = await ref.read(
       DexFarmLockProviders.getFarmLockInfos(
         farmLockAddress,

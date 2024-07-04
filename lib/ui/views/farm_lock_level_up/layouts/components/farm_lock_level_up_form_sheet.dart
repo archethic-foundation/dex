@@ -1,10 +1,10 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_lock_duration_btn.dart';
-import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_textfield_amount.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_header.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
+import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -17,8 +17,14 @@ import 'package:intl/intl.dart';
 
 class FarmLockLevelUpFormSheet extends ConsumerWidget {
   const FarmLockLevelUpFormSheet({
+    required this.currentLevel,
+    required this.timestampStart,
+    required this.rewardAmount,
     super.key,
   });
+  final String currentLevel;
+  final int timestampStart;
+  final double rewardAmount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -80,13 +86,32 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  SelectableText(
+                    AppLocalizations.of(context)!.farmLockLevelUpDesc,
+                    style: AppTextStyles.bodyLarge(context),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SelectableText(
-                        AppLocalizations.of(context)!
-                            .farmLockLevelUpFormAmountLbl,
-                        style: AppTextStyles.bodyLarge(context),
+                      Row(
+                        children: [
+                          SelectableText(
+                            '${AppLocalizations.of(context)!.farmLockLevelUpFormAmountLbl}: ',
+                            style: AppTextStyles.bodyLarge(context),
+                          ),
+                          SelectableText(
+                            farmLockLevelUp.amount.formatNumber(precision: 8),
+                            style:
+                                AppTextStyles.bodyLargeSecondaryColor(context),
+                          ),
+                          SelectableText(
+                            ' ${farmLockLevelUp.amount < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                            style: AppTextStyles.bodyLarge(context),
+                          ),
+                        ],
                       ),
                       if (farmLockLevelUp.aprEstimation != null)
                         SelectableText(
@@ -97,10 +122,94 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                         const SizedBox.shrink(),
                     ],
                   ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      FarmLockLevelUpAmount(),
+                      if (rewardAmount == 0)
+                        SelectableText(
+                          AppLocalizations.of(context)!
+                              .farmLockWithdrawFormTextNoRewardText1,
+                          style: AppTextStyles.bodyLarge(context),
+                        )
+                      else
+                        FutureBuilder<String>(
+                          future: FiatValue().display(
+                            ref,
+                            farmLockLevelUp.farmLock!.rewardToken!,
+                            rewardAmount,
+                          ),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Row(
+                                children: [
+                                  SelectableText(
+                                    rewardAmount.formatNumber(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: aedappfm
+                                              .AppThemeBase.secondaryColor,
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                  SelectableText(
+                                    ' ${farmLockLevelUp.farmLock!.rewardToken!.symbol} ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                  SelectableText(
+                                    '${snapshot.data}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                  SelectableText(
+                                    AppLocalizations.of(context)!
+                                        .farmLockWithdrawFormTextNoRewardText2,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!,
+                                          ),
+                                        ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
                     ],
                   ),
                   const SizedBox(
@@ -119,47 +228,70 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                     children: [
                       ...farmLockLevelUp.farmLock!.availableLevels.entries
                           .map((entry) {
-                        return FarmLockLevelUpDurationButton(
-                          farmLockLevelUpDuration:
-                              getFarmLockDepositDurationTypeFromLevel(
-                            entry.key,
-                          ),
-                          level: entry.key,
-                          aprEstimation: farmLockLevelUp
-                                  .farmLock!.stats[entry.key]?.aprEstimation ??
-                              0,
+                        final farmLockDepositDurationType =
+                            getFarmLockDepositDurationTypeFromLevel(
+                          entry.key,
                         );
+
+                        final currentLevelNum = int.tryParse(currentLevel) ?? 0;
+                        final availableLevelNum = int.tryParse(entry.key) ?? 0;
+
+                        if (currentLevelNum < availableLevelNum) {
+                          return FarmLockLevelUpDurationButton(
+                            farmLockLevelUpDuration:
+                                farmLockDepositDurationType,
+                            level: entry.key,
+                            aprEstimation: farmLockLevelUp.farmLock!
+                                    .stats[entry.key]?.aprEstimation ??
+                                0,
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
                       }).toList(),
                     ],
                   ),
-                  if (farmLockLevelUp.farmLockLevelUpDuration !=
-                      FarmLockDepositDurationType.flexible)
-                    Row(
-                      children: [
-                        SelectableText(
-                          AppLocalizations.of(context)!
-                              .farmLockLevelUpUnlockDateLbl,
-                          style: AppTextStyles.bodyLarge(context),
-                        ),
-                        SelectableText(
-                          DateFormat('yyyy-MM-dd').format(
-                            getFarmLockDepositDuration(
-                              farmLockLevelUp.farmLockLevelUpDuration,
-                            )!,
+                  Row(
+                    children: [
+                      SelectableText(
+                        AppLocalizations.of(context)!
+                            .farmLockLevelUpInitialDateLbl,
+                        style: AppTextStyles.bodyLarge(context),
+                      ),
+                      SelectableText(
+                        DateFormat('yyyy-MM-dd').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                            1688487207 * 1000,
                           ),
-                          style: AppTextStyles.bodyLargeSecondaryColor(context),
                         ),
-                      ],
-                    )
-                  else
-                    Row(
-                      children: [
-                        SelectableText(
-                          ' ',
-                          style: AppTextStyles.bodyLarge(context),
+                        style: AppTextStyles.bodyLargeSecondaryColor(context),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SelectableText(
+                        AppLocalizations.of(context)!
+                            .farmLockLevelUpUnlockDateLbl,
+                        style: AppTextStyles.bodyLarge(context),
+                      ),
+                      SelectableText(
+                        DateFormat('yyyy-MM-dd').format(
+                          getFarmLockDepositDuration(
+                            farmLockLevelUp.farmLockLevelUpDuration,
+                            numberOfDaysAlreadyUsed: DateTime.now()
+                                .difference(
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                    1688487207 * 1000,
+                                  ),
+                                )
+                                .inDays,
+                          )!,
                         ),
-                      ],
-                    ),
+                        style: AppTextStyles.bodyLargeSecondaryColor(context),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 10,
                   ),

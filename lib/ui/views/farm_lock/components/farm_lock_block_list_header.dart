@@ -137,17 +137,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                       : Row(
                           children: [
                             SizedBox(
-                              width: constraints.maxWidth * 0.70,
-                            ),
-                            SizedBox(
-                              width: constraints.maxWidth * 0.30,
-                              child: Center(
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                      .farmLockBlockListHeaderActions,
-                                  style: style,
-                                ),
-                              ),
+                              width: constraints.maxWidth,
                             ),
                           ],
                         );

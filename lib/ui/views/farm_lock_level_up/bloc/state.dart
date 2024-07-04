@@ -30,6 +30,7 @@ class FarmLockLevelUpFormState with _$FarmLockLevelUpFormState {
     Failure? failure,
     double? finalAmount,
     DateTime? consentDateTime,
+    int? depositIndex,
     @Default(PoolsListTab.verified) PoolsListTab poolsListTab,
   }) = _FarmLockLevelUpFormState;
   const FarmLockLevelUpFormState._();

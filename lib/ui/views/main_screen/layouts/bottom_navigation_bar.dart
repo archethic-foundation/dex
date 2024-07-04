@@ -9,9 +9,9 @@ import 'package:aedex/ui/views/util/icon_size.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BottomNavigationBarMainScreen extends ConsumerStatefulWidget {
   const BottomNavigationBarMainScreen({
@@ -32,6 +32,8 @@ class _BottomNavigationBarMainScreenState
     extends ConsumerState<BottomNavigationBarMainScreen> {
   @override
   Widget build(BuildContext context) {
+    widget.listNavigationLabelIcon.removeWhere(
+        (element) => element.$1 == AppLocalizations.of(context)!.menu_bridge);
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -94,6 +96,7 @@ class _BottomNavigationBarMainScreenState
                     children: [
                       Icon(
                         item.$2,
+                        color: Colors.white,
                         weight: IconSize.weightM,
                         opticalSize: IconSize.opticalSizeM,
                         grade: IconSize.gradeM,
@@ -163,25 +166,7 @@ class _BottomNavigationBarMainScreenState
                 });
                 context.go(FarmLockSheet.routerPage);
                 break;
-              case 4:
-                setState(() {
-                  ref
-                      .read(
-                        navigationIndexMainScreenProvider.notifier,
-                      )
-                      .state = NavigationIndex.bridge;
-                });
-                await launchUrl(
-                  Uri.parse(
-                    (Uri.base
-                            .toString()
-                            .toLowerCase()
-                            .contains('dex.archethic'))
-                        ? 'https://bridge.archethic.net'
-                        : 'https://bridge.testnet.archethic.net',
-                  ),
-                );
-                break;
+
               default:
                 break;
             }

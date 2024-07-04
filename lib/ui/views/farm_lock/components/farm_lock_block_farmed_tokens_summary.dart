@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
+class FarmLockBlockFarmedTokensSummary extends ConsumerStatefulWidget {
   const FarmLockBlockFarmedTokensSummary({
     required this.width,
     required this.height,
@@ -17,11 +17,23 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
   final double height;
 
   @override
+  FarmLockBlockFarmedTokensSummaryState createState() =>
+      FarmLockBlockFarmedTokensSummaryState();
+}
+
+class FarmLockBlockFarmedTokensSummaryState
+    extends ConsumerState<FarmLockBlockFarmedTokensSummary> {
+  @override
+  void initState() {
+    ref.read(FarmLockFormProvider.farmLockForm.notifier).calculateSummary();
+    super.initState();
+  }
+
+  @override
   Widget build(
     BuildContext context,
-    WidgetRef ref,
   ) {
-    final farmLock = ref.watch(FarmLockFormProvider.farmLockForm);
+    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
 
     return BlockInfo(
       info: Column(
@@ -48,7 +60,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
                 height: 20,
               ),
               SelectableText(
-                '\$${farmLock.farmedTokensInFiat.formatNumber(precision: 2)}',
+                '\$${farmLockForm.farmedTokensInFiat.formatNumber(precision: 2)}',
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               const SizedBox(
@@ -69,7 +81,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   SelectableText(
-                    '\$${farmLock.farmedTokensCapitalInFiat.formatNumber(precision: 2)}',
+                    '\$${farmLockForm.farmedTokensCapitalInFiat.formatNumber(precision: 2)}',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: aedappfm.AppThemeBase.secondaryColor,
                         ),
@@ -94,7 +106,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   SelectableText(
-                    '\$${farmLock.farmedTokensRewardsInFiat.formatNumber(precision: 2)}',
+                    '\$${farmLockForm.farmedTokensRewardsInFiat.formatNumber(precision: 2)}',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: aedappfm.AppThemeBase.secondaryColor,
                         ),
@@ -108,11 +120,11 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
           ),
         ],
       ),
-      width: width,
-      height: height,
+      width: widget.width,
+      height: widget.height,
       backgroundWidget: Container(
-        width: width,
-        height: height,
+        width: widget.width,
+        height: widget.height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           image: const DecorationImage(

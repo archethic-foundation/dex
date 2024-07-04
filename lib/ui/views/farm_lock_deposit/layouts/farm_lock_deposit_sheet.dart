@@ -6,7 +6,6 @@ import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,7 +48,7 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
             .initBalances();
       } catch (e) {
         if (mounted) {
-          context.go(PoolListSheet.routerPage);
+          context.pop();
         }
       }
     });
