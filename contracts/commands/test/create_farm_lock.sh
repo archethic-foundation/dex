@@ -73,7 +73,7 @@ fi
 # Execute node dex deploy_farm
 echo -e "\nExecuting: node dex deploy_farm (lock)"
 echo "-------------------------------"
-node dex deploy_farm --lp_token 00003DEAF4054179128208CA953B3B8171B739ACF0C549789AAE79041287C79D7DC6  --reward_token UCO --reward_token_amount 2000 --end_date 1782972129 --farm_type 2
+node dex deploy_farm --lp_token 00003DEAF4054179128208CA953B3B8171B739ACF0C549789AAE79041287C79D7DC6  --reward_token UCO --reward_token_amount 2000 --end_date 1782972129 --farm_type 2 --farm_seed farm_lock_seed
 
 # Check if last command is ok
 if [ $? -ne 0 ]; then
@@ -83,7 +83,7 @@ fi
 
 # Execute node dex deploy_farm
 echo -e "\nExecuting: node dex deploy_farm (legacy)"
-node dex deploy_farm --lp_token 00003DEAF4054179128208CA953B3B8171B739ACF0C549789AAE79041287C79D7DC6  --reward_token UCO --reward_token_amount 2000 --end_date 1782972129 --farm_type 1
+node dex deploy_farm --lp_token 00003DEAF4054179128208CA953B3B8171B739ACF0C549789AAE79041287C79D7DC6  --reward_token UCO --reward_token_amount 2000 --end_date 1782972129 --farm_type 1 --farm_seed farm_legacy_seed
 
 # Check if last command is ok
 if [ $? -ne 0 ]; then
