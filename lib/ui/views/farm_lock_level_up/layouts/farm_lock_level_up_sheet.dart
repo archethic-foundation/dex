@@ -5,6 +5,7 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_form_sheet.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,9 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
+        ref.read(navigationIndexMainScreenProvider.notifier).state =
+            NavigationIndex.earn;
+
         await ref
             .read(SessionProviders.session.notifier)
             .updateCtxInfo(context);

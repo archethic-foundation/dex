@@ -33,84 +33,89 @@ Future<DexFarmLock?> _getFarmLockInfos(
   if (pool == null) return null;
 
   final userGenesisAddress = ref.read(SessionProviders.session).genesisAddress;
-  var farmLockInfos =
-      await ref.watch(_dexFarmLockRepositoryProvider).populateFarmLockInfos(
-            farmGenesisAddress,
-            pool,
-            dexFarmLockInput!,
-            userGenesisAddress,
-          );
+  try {
+    var farmLockInfos =
+        await ref.read(_dexFarmLockRepositoryProvider).populateFarmLockInfos(
+              farmGenesisAddress,
+              pool,
+              dexFarmLockInput!,
+              userGenesisAddress,
+            );
 
-  final rewardTokenPriceInFiat = ref.read(
-    DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!),
-  );
+    final rewardTokenPriceInFiat = ref.read(
+      DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!),
+    );
 
-  final now = DateTime.now().toUtc();
+    final now = DateTime.now().toUtc();
 
-  final newUserInfos = <int, DexFarmLockUserInfos>{};
-  for (final entry in farmLockInfos.userInfos.entries) {
-    final level = entry.key;
-    var userInfos = entry.value;
-    var apr = 0.0;
-    final estimateLPTokenInFiat = await ref.read(
+    final newUserInfos = <int, DexFarmLockUserInfos>{};
+    for (final entry in farmLockInfos.userInfos.entries) {
+      final level = entry.key;
+      var userInfos = entry.value;
+      var apr = 0.0;
+      final estimateLPTokenInFiat = await ref.read(
+        DexTokensProviders.estimateLPTokenInFiat(
+          farmLockInfos.lpTokenPair!.token1,
+          farmLockInfos.lpTokenPair!.token2,
+          userInfos.amount,
+          dexFarmLockInput.poolAddress,
+        ).future,
+      );
+
+      final remainingRewardInFiat = (Decimal.parse('$rewardTokenPriceInFiat') *
+              Decimal.parse('${farmLockInfos.remainingReward}'))
+          .toDouble();
+
+      if (remainingRewardInFiat > 0 &&
+          estimateLPTokenInFiat > 0 &&
+          farmLockInfos.endDate != null &&
+          now.isBefore(farmLockInfos.endDate!)) {
+        final secondsUntilEnd =
+            farmLockInfos.endDate!.difference(now).inSeconds;
+
+        if (secondsUntilEnd > 0) {
+          // 31 536 000 second in a year
+          final rewardScalledToYear =
+              remainingRewardInFiat * (31536000 / secondsUntilEnd);
+
+          apr = (Decimal.parse('$rewardScalledToYear') /
+                  Decimal.parse('$estimateLPTokenInFiat'))
+              .toDouble();
+          userInfos = userInfos.copyWith(apr: apr);
+        }
+      }
+      newUserInfos[level] = userInfos;
+
+      farmLockInfos = farmLockInfos.copyWith(userInfos: newUserInfos);
+    }
+
+    const kLPDepositedPerLevel = 1.0;
+    final lpDepositedPerLevelInFiat = await ref.read(
       DexTokensProviders.estimateLPTokenInFiat(
         farmLockInfos.lpTokenPair!.token1,
         farmLockInfos.lpTokenPair!.token2,
-        userInfos.amount,
+        kLPDepositedPerLevel,
         dexFarmLockInput.poolAddress,
       ).future,
     );
 
-    final remainingRewardInFiat = (Decimal.parse('$rewardTokenPriceInFiat') *
-            Decimal.parse('${farmLockInfos.remainingReward}'))
-        .toDouble();
+    final newStats = <String, DexFarmLockStats>{};
 
-    if (remainingRewardInFiat > 0 &&
-        estimateLPTokenInFiat > 0 &&
-        farmLockInfos.endDate != null &&
-        now.isBefore(farmLockInfos.endDate!)) {
-      final secondsUntilEnd = farmLockInfos.endDate!.difference(now).inSeconds;
+    farmLockInfos.stats.forEach((level, stats) {
+      final rewardsAllocatedInFiat =
+          stats.rewardsAllocated * rewardTokenPriceInFiat;
 
-      if (secondsUntilEnd > 0) {
-        // 31 536 000 second in a year
-        final rewardScalledToYear =
-            remainingRewardInFiat * (31536000 / secondsUntilEnd);
-
-        apr = (Decimal.parse('$rewardScalledToYear') /
-                Decimal.parse('$estimateLPTokenInFiat'))
-            .toDouble();
-        userInfos = userInfos.copyWith(apr: apr);
+      if (lpDepositedPerLevelInFiat > 0) {
+        stats = stats.copyWith(
+          aprEstimation: rewardsAllocatedInFiat / lpDepositedPerLevelInFiat,
+        );
       }
-    }
-    newUserInfos[level] = userInfos;
-
-    farmLockInfos = farmLockInfos.copyWith(userInfos: newUserInfos);
+      newStats[level] = stats;
+    });
+    return farmLockInfos.copyWith(stats: newStats);
+  } catch (e) {
+    return null;
   }
-
-  const kLPDepositedPerLevel = 1.0;
-  final lpDepositedPerLevelInFiat = await ref.read(
-    DexTokensProviders.estimateLPTokenInFiat(
-      farmLockInfos.lpTokenPair!.token1,
-      farmLockInfos.lpTokenPair!.token2,
-      kLPDepositedPerLevel,
-      dexFarmLockInput.poolAddress,
-    ).future,
-  );
-
-  final newStats = <String, DexFarmLockStats>{};
-
-  farmLockInfos.stats.forEach((level, stats) {
-    final rewardsAllocatedInFiat =
-        stats.rewardsAllocated * rewardTokenPriceInFiat;
-
-    if (lpDepositedPerLevelInFiat > 0) {
-      stats = stats.copyWith(
-        aprEstimation: rewardsAllocatedInFiat / lpDepositedPerLevelInFiat,
-      );
-    }
-    newStats[level] = stats;
-  });
-  return farmLockInfos.copyWith(stats: newStats);
 }
 
 abstract class DexFarmLockProviders {

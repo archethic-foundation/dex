@@ -727,6 +727,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  moment_dart:
+    dependency: "direct main"
+    description:
+      name: moment_dart
+      sha256: e8683f46ea80dbe47bb0f9f684253630f6a09faa5f626869e1f31bdcf14f6b91
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   ninja_asn1:
     dependency: transitive
     description:

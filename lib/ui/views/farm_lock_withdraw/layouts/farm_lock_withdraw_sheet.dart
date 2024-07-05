@@ -46,7 +46,7 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
     Future.delayed(Duration.zero, () async {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
-            NavigationIndex.farm;
+            NavigationIndex.earn;
 
         await ref
             .read(SessionProviders.session.notifier)

@@ -16,9 +16,6 @@ class GetFarmLockFarmInfosResponse with _$GetFarmLockFarmInfosResponse {
     @JsonKey(name: 'remaining_rewards') required double remainingRewards,
     @JsonKey(name: 'reward_token') required String rewardToken,
     @JsonKey(name: 'rewards_distributed') required double rewardsDistributed,
-
-    // TODO
-    //@JsonKey(name: 'rewards_reserved') required double rewardsReserved,
     required Map<String, Stats> stats,
   }) = _GetFarmLockFarmInfosResponse;
 

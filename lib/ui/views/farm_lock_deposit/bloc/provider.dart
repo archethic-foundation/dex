@@ -33,6 +33,10 @@ class FarmLockDepositFormNotifier
 
   Future<void> initBalances() async {
     final session = ref.read(SessionProviders.session);
+    if (session.isConnected == false) {
+      state = state.copyWith(lpTokenBalance: 0);
+      return;
+    }
 
     final lpTokenBalance = await ref.read(
       BalanceProviders.getBalance(
@@ -134,6 +138,31 @@ class FarmLockDepositFormNotifier
     state = state.copyWith(
       processStep: processStep,
     );
+  }
+
+  Map<String, int> filterAvailableLevels() {
+    final availableLevelsFiltered = <String, int>{};
+    var needMax = false;
+    final farmEndDate = state.farmLock!.endDate!;
+    for (final entry in state.farmLock!.availableLevels.entries) {
+      final level = entry.key;
+      final endDate = entry.value;
+      if (DateTime.fromMillisecondsSinceEpoch(
+        entry.value * 1000,
+      ).isBefore(farmEndDate)) {
+        availableLevelsFiltered[level] = endDate;
+      } else {
+        if (needMax == false) {
+          availableLevelsFiltered['max'] =
+              farmEndDate.millisecondsSinceEpoch ~/ 1000;
+          state = state.copyWith(
+            farmLockDepositDuration: FarmLockDepositDurationType.max,
+          );
+          needMax = true;
+        }
+      }
+    }
+    return availableLevelsFiltered;
   }
 
   Future<void> validateForm(BuildContext context) async {

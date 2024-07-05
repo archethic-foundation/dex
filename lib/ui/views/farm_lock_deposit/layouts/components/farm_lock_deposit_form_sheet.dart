@@ -15,13 +15,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class FarmLockDepositFormSheet extends ConsumerWidget {
+class FarmLockDepositFormSheet extends ConsumerStatefulWidget {
   const FarmLockDepositFormSheet({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FarmLockDepositFormSheet> createState() =>
+      FarmLockDepositFormSheetState();
+}
+
+class FarmLockDepositFormSheetState
+    extends ConsumerState<FarmLockDepositFormSheet> {
+  Map<String, int> filterAvailableLevels = <String, int>{};
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      filterAvailableLevels = ref
+          .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
+          .filterAvailableLevels();
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final farmLockDeposit =
         ref.watch(FarmLockDepositFormProvider.farmLockDepositForm);
 
@@ -117,8 +136,7 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                   ),
                   Wrap(
                     children: [
-                      ...farmLockDeposit.farmLock!.availableLevels.entries
-                          .map((entry) {
+                      ...filterAvailableLevels.entries.map((entry) {
                         return FarmLockDepositDurationButton(
                           farmLockDepositDuration:
                               getFarmLockDepositDurationTypeFromLevel(
@@ -145,6 +163,8 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                           DateFormat('yyyy-MM-dd').format(
                             getFarmLockDepositDuration(
                               farmLockDeposit.farmLockDepositDuration,
+                              farmLockEndDate:
+                                  farmLockDeposit.farmLock!.endDate,
                             )!,
                           ),
                           style: AppTextStyles.bodyLargeSecondaryColor(context),

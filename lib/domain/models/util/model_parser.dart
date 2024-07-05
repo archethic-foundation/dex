@@ -371,6 +371,7 @@ mixin ModelParser {
         start: userInfosResponse.start,
         level: userInfosResponse.level,
         rewardAmount: userInfosResponse.rewardAmount,
+        index: userInfosResponse.index,
       );
     }
 

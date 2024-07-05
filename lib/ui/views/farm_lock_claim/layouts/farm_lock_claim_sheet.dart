@@ -41,7 +41,7 @@ class _FarmLockClaimSheetState extends ConsumerState<FarmLockClaimSheet> {
     Future.delayed(Duration.zero, () async {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
-            NavigationIndex.farm;
+            NavigationIndex.earn;
 
         await ref
             .read(SessionProviders.session.notifier)

@@ -9,7 +9,8 @@ enum FarmLockDepositDurationType {
   sixMonths,
   oneYear,
   twoYears,
-  threeYears;
+  threeYears,
+  max;
 }
 
 String getFarmLockDepositDurationTypeLabel(
@@ -33,6 +34,8 @@ String getFarmLockDepositDurationTypeLabel(
       return AppLocalizations.of(context)!.farmLockDepositDurationThreeYears;
     case FarmLockDepositDurationType.twoYears:
       return AppLocalizations.of(context)!.farmLockDepositDurationTwoYears;
+    case FarmLockDepositDurationType.max:
+      return AppLocalizations.of(context)!.farmLockDepositDurationMax;
   }
 }
 
@@ -56,6 +59,8 @@ FarmLockDepositDurationType getFarmLockDepositDurationTypeFromLevel(
       return FarmLockDepositDurationType.twoYears;
     case '7':
       return FarmLockDepositDurationType.threeYears;
+    case 'max':
+      return FarmLockDepositDurationType.max;
     default:
       return FarmLockDepositDurationType.flexible;
   }
@@ -64,6 +69,7 @@ FarmLockDepositDurationType getFarmLockDepositDurationTypeFromLevel(
 DateTime? getFarmLockDepositDuration(
   FarmLockDepositDurationType farmLockDepositDuration, {
   int numberOfDaysAlreadyUsed = 0,
+  DateTime? farmLockEndDate,
 }) {
   final dateTimeNow = DateTime.now();
   switch (farmLockDepositDuration) {
@@ -111,5 +117,7 @@ DateTime? getFarmLockDepositDuration(
         dateTimeNow.month,
         dateTimeNow.day + 730 - numberOfDaysAlreadyUsed,
       );
+    case FarmLockDepositDurationType.max:
+      return farmLockEndDate ?? DateTime.now();
   }
 }

@@ -135,6 +135,7 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                         DateFormat('yyyy-MM-dd').format(
                           getFarmLockDepositDuration(
                             farmLockDeposit.farmLockDepositDuration,
+                            farmLockEndDate: farmLockDeposit.farmLock!.endDate,
                           )!,
                         ),
                         style: AppTextStyles.bodyLargeSecondaryColor(context),

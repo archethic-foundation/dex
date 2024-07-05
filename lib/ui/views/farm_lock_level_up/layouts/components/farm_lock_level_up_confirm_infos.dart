@@ -135,6 +135,7 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
                         DateFormat('yyyy-MM-dd').format(
                           getFarmLockDepositDuration(
                             farmLockLevelUp.farmLockLevelUpDuration,
+                            farmLockEndDate: farmLockLevelUp.farmLock!.endDate,
                           )!,
                         ),
                         style: AppTextStyles.bodyLargeSecondaryColor(context),

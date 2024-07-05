@@ -115,6 +115,8 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
         return Colors.green[300]!;
       case FarmLockDepositDurationType.threeYears:
         return Colors.green[300]!;
+      case FarmLockDepositDurationType.max:
+        return Colors.green[300]!;
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FarmLockBlockFarmedTokensSummary extends ConsumerStatefulWidget {
+class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
   const FarmLockBlockFarmedTokensSummary({
     required this.width,
     required this.height,
@@ -17,24 +18,16 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerStatefulWidget {
   final double height;
 
   @override
-  FarmLockBlockFarmedTokensSummaryState createState() =>
-      FarmLockBlockFarmedTokensSummaryState();
-}
-
-class FarmLockBlockFarmedTokensSummaryState
-    extends ConsumerState<FarmLockBlockFarmedTokensSummary> {
-  @override
-  void initState() {
-    ref.read(FarmLockFormProvider.farmLockForm.notifier).calculateSummary();
-    super.initState();
-  }
-
-  @override
   Widget build(
     BuildContext context,
+    WidgetRef ref,
   ) {
+    final session = ref.watch(SessionProviders.session);
+    var opacity = 1.0;
+    if (session.isConnected == false) {
+      opacity = 0.5;
+    }
     final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
-
     return BlockInfo(
       info: Column(
         children: [
@@ -51,7 +44,7 @@ class FarmLockBlockFarmedTokensSummaryState
             ],
           ),
           const SizedBox(
-            height: 60,
+            height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -59,9 +52,12 @@ class FarmLockBlockFarmedTokensSummaryState
               const SizedBox(
                 height: 20,
               ),
-              SelectableText(
-                '\$${farmLockForm.farmedTokensInFiat.formatNumber(precision: 2)}',
-                style: Theme.of(context).textTheme.headlineLarge,
+              Opacity(
+                opacity: opacity,
+                child: SelectableText(
+                  '\$${farmLockForm.farmedTokensInFiat.formatNumber(precision: 2)}',
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -80,11 +76,16 @@ class FarmLockBlockFarmedTokensSummaryState
                     '${AppLocalizations.of(context)!.farmLockBlockFarmedTokensSummaryCapitalInvestedLbl}: ',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SelectableText(
-                    '\$${farmLockForm.farmedTokensCapitalInFiat.formatNumber(precision: 2)}',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: aedappfm.AppThemeBase.secondaryColor,
-                        ),
+                  Opacity(
+                    opacity: opacity,
+                    child: SelectableText(
+                      '\$${farmLockForm.farmedTokensCapitalInFiat.formatNumber(precision: 2)}',
+                      style: session.isConnected
+                          ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: aedappfm.AppThemeBase.secondaryColor,
+                              )
+                          : Theme.of(context).textTheme.bodyMedium!,
+                    ),
                   ),
                 ],
               ),
@@ -105,11 +106,18 @@ class FarmLockBlockFarmedTokensSummaryState
                     '${AppLocalizations.of(context)!.farmLockBlockFarmedTokensSummaryCapitalRewardsEarnedLbl}: ',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SelectableText(
-                    '\$${farmLockForm.farmedTokensRewardsInFiat.formatNumber(precision: 2)}',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: aedappfm.AppThemeBase.secondaryColor,
-                        ),
+                  Opacity(
+                    opacity: opacity,
+                    child: SelectableText(
+                      '\$${farmLockForm.farmedTokensRewardsInFiat.formatNumber(precision: 2)}',
+                      style: session.isConnected
+                          ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: session.isConnected
+                                    ? aedappfm.AppThemeBase.secondaryColor
+                                    : aedappfm.AppThemeBase.primaryColor,
+                              )
+                          : Theme.of(context).textTheme.bodyMedium!,
+                    ),
                   ),
                 ],
               ),
@@ -120,11 +128,11 @@ class FarmLockBlockFarmedTokensSummaryState
           ),
         ],
       ),
-      width: widget.width,
-      height: widget.height,
+      width: width,
+      height: height,
       backgroundWidget: Container(
-        width: widget.width,
-        height: widget.height,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           image: const DecorationImage(

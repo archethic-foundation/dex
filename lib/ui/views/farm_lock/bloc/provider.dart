@@ -32,30 +32,43 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
   Future<void> calculateSummary() async {
     var capitalInvested = 0.0;
     var rewardsEarned = 0.0;
+    var farmedTokensCapitalInFiat = 0.0;
+    var price = 0.0;
+
+    final session = ref.read(SessionProviders.session);
+    if (session.isConnected == false) {
+      state = state.copyWith(
+        farmedTokensCapital: 0,
+        farmedTokensRewards: 0,
+        farmedTokensCapitalInFiat: 0,
+        farmedTokensRewardsInFiat: 0,
+      );
+    }
+
     if (state.farmLock != null) {
       state.farmLock!.userInfos.forEach((depositIndex, userInfos) {
         capitalInvested = capitalInvested + userInfos.amount;
         rewardsEarned = rewardsEarned + userInfos.rewardAmount;
       });
+
+      if (state.farm != null) {
+        capitalInvested = capitalInvested + (state.farm!.depositedAmount ?? 0);
+        rewardsEarned = rewardsEarned + (state.farm!.rewardAmount ?? 0);
+      }
+
+      farmedTokensCapitalInFiat = await ref.read(
+        DexTokensProviders.estimateLPTokenInFiat(
+          state.farmLock!.lpTokenPair!.token1,
+          state.farmLock!.lpTokenPair!.token2,
+          capitalInvested,
+          state.farmLock!.poolAddress,
+        ).future,
+      );
+
+      price = ref.read(
+        DexTokensProviders.estimateTokenInFiat(state.farmLock!.rewardToken!),
+      );
     }
-
-    if (state.farm != null) {
-      capitalInvested = capitalInvested + (state.farm!.depositedAmount ?? 0);
-      rewardsEarned = rewardsEarned + (state.farm!.rewardAmount ?? 0);
-    }
-
-    final farmedTokensCapitalInFiat = await ref.read(
-      DexTokensProviders.estimateLPTokenInFiat(
-        state.farmLock!.lpTokenPair!.token1,
-        state.farmLock!.lpTokenPair!.token2,
-        capitalInvested,
-        state.farmLock!.poolAddress,
-      ).future,
-    );
-
-    final price = ref.read(
-      DexTokensProviders.estimateTokenInFiat(state.farmLock!.rewardToken!),
-    );
 
     state = state.copyWith(
       farmedTokensCapital: capitalInvested,

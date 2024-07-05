@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
-import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -129,7 +128,6 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
       ),
       width: width,
       height: height,
-      bottomWidget: _balanceUser(context, ref),
     );
   }
 
@@ -155,9 +153,9 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
             const SizedBox(
               height: 5,
             ),
-            const Text(
-              'Info',
-              style: TextStyle(fontSize: 10),
+            Text(
+              AppLocalizations.of(context)!.farmLockBlockAddLiquidityBtnInfos,
+              style: const TextStyle(fontSize: 10),
             ),
           ],
         ),
@@ -188,14 +186,21 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                     },
                   ).toString(),
                 );
+                if (context.mounted) {
+                  {
+                    await context
+                        .findAncestorStateOfType<FarmLockSheetState>()
+                        ?.loadInfo();
+                  }
+                }
               },
             ),
             const SizedBox(
               height: 5,
             ),
-            const Text(
-              'Add',
-              style: TextStyle(fontSize: 10),
+            Text(
+              AppLocalizations.of(context)!.farmLockBlockAddLiquidityBtnAdd,
+              style: const TextStyle(fontSize: 10),
             ),
           ],
         ),
@@ -232,14 +237,22 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                     },
                   ).toString(),
                 );
+                if (context.mounted) {
+                  {
+                    await context
+                        .findAncestorStateOfType<FarmLockSheetState>()
+                        ?.loadInfo();
+                  }
+                }
               },
             ),
             const SizedBox(
               height: 5,
             ),
-            const Text(
-              'Withdraw',
-              style: TextStyle(fontSize: 10),
+            Text(
+              AppLocalizations.of(context)!
+                  .farmLockBlockAddLiquidityBtnWithdraw,
+              style: const TextStyle(fontSize: 10),
             ),
           ],
         ),
@@ -300,31 +313,6 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
           ],
         ),
       ],
-    );
-  }
-
-  Widget _balanceUser(BuildContext context, WidgetRef ref) {
-    final farmLock = ref.watch(FarmLockFormProvider.farmLockForm);
-
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 5,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          DexTokenBalance(
-            tokenBalance: farmLock.token1Balance,
-            token: pool.pair.token1,
-            digits: farmLock.token1Balance < 1 ? 8 : 2,
-          ),
-          DexTokenBalance(
-            tokenBalance: farmLock.token2Balance,
-            token: pool.pair.token2,
-            digits: farmLock.token2Balance < 1 ? 8 : 2,
-          ),
-        ],
-      ),
     );
   }
 }

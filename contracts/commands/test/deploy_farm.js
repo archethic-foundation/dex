@@ -54,7 +54,7 @@ const builder = {
   farm_seed: {
     describe: "Farm's seed",
     demandOption: false,
-    type: "number"
+    type: "string"
   },
 }
 
@@ -91,7 +91,7 @@ const handler = async function (argv) {
 
   const rewardTokenAddress = getTokenAddress(rewardToken)
 
-  const farmSeed = argv["farm_seed"] ? argv["farm_seed"] : Crypto.randomSecretKey()
+  const farmSeed = argv["farm_seed"] ? argv["farm_seed"] : Crypto.randomSecretKey();
 
   const farmGenesisAddress = getGenesisAddress(farmSeed)
   console.log("Farm genesis address:", farmGenesisAddress)

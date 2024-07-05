@@ -34,8 +34,7 @@ mixin _$GetFarmLockFarmInfosResponse {
   @JsonKey(name: 'reward_token')
   String get rewardToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'rewards_distributed')
-  double get rewardsDistributed => throw _privateConstructorUsedError; // TODO
-//@JsonKey(name: 'rewards_reserved') required double rewardsReserved,
+  double get rewardsDistributed => throw _privateConstructorUsedError;
   Map<String, Stats> get stats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -250,11 +249,7 @@ class _$GetFarmLockFarmInfosResponseImpl
   @override
   @JsonKey(name: 'rewards_distributed')
   final double rewardsDistributed;
-// TODO
-//@JsonKey(name: 'rewards_reserved') required double rewardsReserved,
   final Map<String, Stats> _stats;
-// TODO
-//@JsonKey(name: 'rewards_reserved') required double rewardsReserved,
   @override
   Map<String, Stats> get stats {
     if (_stats is EqualUnmodifiableMapView) return _stats;
@@ -357,8 +352,7 @@ abstract class _GetFarmLockFarmInfosResponse
   @override
   @JsonKey(name: 'rewards_distributed')
   double get rewardsDistributed;
-  @override // TODO
-//@JsonKey(name: 'rewards_reserved') required double rewardsReserved,
+  @override
   Map<String, Stats> get stats;
   @override
   @JsonKey(ignore: true)

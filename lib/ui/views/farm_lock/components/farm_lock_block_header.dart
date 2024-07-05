@@ -1,12 +1,12 @@
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_add_liquidity.dart';
+import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_balances_summary.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_earn_rewards.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_farmed_tokens_summary.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmLockBlockHeader extends ConsumerWidget {
@@ -24,7 +24,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    if (pool == null || farmLock == null) {
+    if (pool == null) {
       return const SizedBox.shrink();
     }
     return Padding(
@@ -50,7 +50,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     ),
                     FarmLockBlockEarnRewards(
                       pool: pool!,
-                      farmLock: farmLock!,
+                      farmLock: farmLock,
                       width: constraints.maxWidth * 0.32,
                       height: 300,
                     ),
@@ -60,11 +60,17 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        FarmLockBlockFarmedTokensSummary(
-                          width: constraints.maxWidth * 0.32,
-                          height: aedappfm.Responsive.isDesktop(context)
-                              ? 300
-                              : 100,
+                        Column(
+                          children: [
+                            FarmLockBlockBalanceSummary(
+                              width: constraints.maxWidth * 0.32,
+                              height: 135,
+                            ),
+                            FarmLockBlockFarmedTokensSummary(
+                              width: constraints.maxWidth * 0.32,
+                              height: 150,
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -84,7 +90,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     ),
                     FarmLockBlockEarnRewards(
                       pool: pool!,
-                      farmLock: farmLock!,
+                      farmLock: farmLock,
                       width: constraints.maxWidth,
                       height: 290,
                     ),
@@ -94,9 +100,21 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        FarmLockBlockBalanceSummary(
+                          width: constraints.maxWidth,
+                          height: 135,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         FarmLockBlockFarmedTokensSummary(
                           width: constraints.maxWidth,
-                          height: 290,
+                          height: 140,
                         ),
                       ],
                     ),
@@ -104,15 +122,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                 ),
               const SizedBox(
                 height: 30,
-              ),
-              Wrap(
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!
-                        .farmLockBlockHeaderTableHeader,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
               ),
             ],
           );

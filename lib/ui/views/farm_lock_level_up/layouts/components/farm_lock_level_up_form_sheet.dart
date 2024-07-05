@@ -286,6 +286,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                                   ),
                                 )
                                 .inDays,
+                            farmLockEndDate: farmLockLevelUp.farmLock!.endDate,
                           )!,
                         ),
                         style: AppTextStyles.bodyLargeSecondaryColor(context),

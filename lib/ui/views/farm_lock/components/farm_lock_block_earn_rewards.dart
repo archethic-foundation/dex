@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_apr_banner.dart';
+import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
-import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -26,7 +25,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
   });
 
   final DexPool pool;
-  final DexFarmLock farmLock;
+  final DexFarmLock? farmLock;
   final double width;
   final double height;
 
@@ -109,7 +108,6 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
       ),
       width: width,
       height: height,
-      bottomWidget: _balanceUser(context, ref),
     );
   }
 
@@ -121,7 +119,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
           onTap: () async {
             final poolJson = jsonEncode(pool.toJson());
             final poolEncoded = Uri.encodeComponent(poolJson);
-            final farmLockJson = jsonEncode(farmLock.toJson());
+            final farmLockJson = jsonEncode(farmLock!.toJson());
             final farmLockEncoded = Uri.encodeComponent(farmLockJson);
             await context.push(
               Uri(
@@ -132,6 +130,13 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                 },
               ).toString(),
             );
+            if (context.mounted) {
+              {
+                await context
+                    .findAncestorStateOfType<FarmLockSheetState>()
+                    ?.loadInfo();
+              }
+            }
           },
           child: Column(
             children: [
@@ -151,9 +156,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
               const SizedBox(
                 height: 5,
               ),
-              const Text(
-                'Add',
-                style: TextStyle(fontSize: 10),
+              Text(
+                AppLocalizations.of(context)!.farmLockBlockEarnRewardsBtnAdd,
+                style: const TextStyle(fontSize: 10),
               ),
             ],
           ),
@@ -164,6 +169,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
 
   Widget _btnNotConnected(BuildContext context, WidgetRef ref) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Column(
           children: [
@@ -214,21 +220,6 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
           ],
         ),
       ],
-    );
-  }
-
-  Widget _balanceUser(BuildContext context, WidgetRef ref) {
-    final farmLock = ref.watch(FarmLockFormProvider.farmLockForm);
-
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 5,
-      ),
-      child: DexTokenBalance(
-        tokenBalance: farmLock.lpTokenBalance,
-        token: pool.lpToken,
-        digits: farmLock.lpTokenBalance < 1 ? 8 : 2,
-      ),
     );
   }
 }

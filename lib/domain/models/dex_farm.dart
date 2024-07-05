@@ -10,7 +10,6 @@ const int kFarmTypeLegacy = 1;
 
 @freezed
 class DexFarm with _$DexFarm {
-  // TODO(reddwarf03): Add Legacy object ?
   const factory DexFarm({
     @Default('') String farmAddress,
     @Default('') String poolAddress,

@@ -543,12 +543,13 @@ class ArchethicContract with aedappfm.TransactionMixin {
         farmGenesisAddress,
         action: 'deposit',
         args: [
-          if (durationType != FarmLockDepositDurationType.flexible)
-            getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
-                1000
+          if (durationType == FarmLockDepositDurationType.flexible)
+            'flex'
+          else if (durationType == FarmLockDepositDurationType.max)
+            'max'
           else
-            'flex',
-          // TODO : max
+            getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
+                1000,
         ],
       );
 
@@ -578,8 +579,13 @@ class ArchethicContract with aedappfm.TransactionMixin {
         farmGenesisAddress,
         action: 'relock',
         args: [
-          getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
-              1000, // TODO : max
+          if (durationType == FarmLockDepositDurationType.flexible)
+            'flex'
+          else if (durationType == FarmLockDepositDurationType.max)
+            'max'
+          else
+            getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
+                1000,
           depositIndex,
         ],
       );

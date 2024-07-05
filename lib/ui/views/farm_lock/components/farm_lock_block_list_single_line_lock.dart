@@ -14,6 +14,7 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:intl/intl.dart';
+import 'package:moment_dart/moment_dart.dart';
 
 class FarmLockBlockListSingleLineLock extends ConsumerWidget {
   const FarmLockBlockListSingleLineLock({
@@ -169,9 +170,17 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         width: constraints.maxWidth * 0.15,
                                         child: Column(
                                           children: [
-                                            // TODO
                                             SelectableText(
-                                              'in ${DateTime.fromMillisecondsSinceEpoch(farmLockUserInfos.end! * 1000).difference(DateTime.now()).inDays} days',
+                                              DateTime
+                                                      .fromMillisecondsSinceEpoch(
+                                                farmLockUserInfos.end! * 1000,
+                                              )
+                                                  .difference(DateTime.now())
+                                                  .toDurationString(
+                                                    includeWeeks: true,
+                                                    round: false,
+                                                    delimiter: ' & ',
+                                                  ),
                                               style: style,
                                             ),
                                             SelectableText(
@@ -363,16 +372,27 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  // TODO
                                                   Row(
                                                     children: [
                                                       SelectableText(
-                                                        'in ${DateTime.fromMillisecondsSinceEpoch(farmLockUserInfos.end! * 1000).difference(DateTime.now()).inDays} days',
+                                                        DateTime.fromMillisecondsSinceEpoch(
+                                                          farmLockUserInfos
+                                                                  .end! *
+                                                              1000,
+                                                        )
+                                                            .difference(
+                                                              DateTime.now(),
+                                                            )
+                                                            .toDurationString(
+                                                              includeWeeks:
+                                                                  true,
+                                                              round: false,
+                                                              delimiter: ' & ',
+                                                            ),
                                                         style: style,
                                                       ),
                                                     ],
                                                   ),
-
                                                   SelectableText(
                                                     DateFormat.yMMMEd(
                                                       Localizations.localeOf(

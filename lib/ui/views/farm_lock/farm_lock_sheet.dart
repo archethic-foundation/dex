@@ -12,6 +12,7 @@ import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_list_single_
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_list_single_line_lock.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
+import 'package:aedex/ui/views/util/components/dex_archethic_uco_aeeth.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -25,13 +26,14 @@ class FarmLockSheet extends ConsumerStatefulWidget {
   static const routerPage = '/farmLock';
 
   @override
-  ConsumerState<FarmLockSheet> createState() => _FarmLockSheetState();
+  ConsumerState<FarmLockSheet> createState() => FarmLockSheetState();
 }
 
-class _FarmLockSheetState extends ConsumerState<FarmLockSheet> {
+class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
   DexPool? pool;
   DexFarm? farm;
   DexFarmLock? farmLock;
+
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
@@ -53,22 +55,22 @@ class _FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     final env = ref.read(SessionProviders.session).envSelected;
 
     switch (env) {
-      case 'testnet':
-        return (
-          aeETHUCOPoolAddress:
-              '0000818EF23676779DAE1C97072BB99A3E0DD1C31BAD3787422798DBE3F777F74A43',
-          aeETHUCOFarmLegacyAddress:
-              '0000208A670B5590939174D65F88140C05DDDBA63C0C920582E12162B22F3985E510',
-          aeETHUCOFarmLockAddress: ''
-        );
       case 'devnet':
         return (
           aeETHUCOPoolAddress:
               '0000c94189acdf76cd8d24eab10ef6494800e2f1a16022046b8ecb6ed39bb3c2fa42',
           aeETHUCOFarmLegacyAddress:
-              '00003385E6A8443C3B1F64A5C4D383FE31F36AB4C0A348AC6960038A5A2965B380F4',
+              '00008e063dffde69214737c4e9e65b6d9d5776c5369729410ba25dab0950fbcf921e',
           aeETHUCOFarmLockAddress:
-              '00003fa1487d9b78bdcb2c1fe7012ea9304cfff470dc8d305da7e64895557f69873a'
+              '00007338a899446b8d211bb82b653dfd134cc351dd4060bb926d7d9c7028cf0273bf'
+        );
+      case 'testnet':
+        return (
+          aeETHUCOPoolAddress:
+              '0000818EF23676779DAE1C97072BB99A3E0DD1C31BAD3787422798DBE3F777F74A43',
+          aeETHUCOFarmLegacyAddress:
+              '000041e393250ddc2178453b673ffdaf69642f35c2cb6339fd0bfa861a281407bed6',
+          aeETHUCOFarmLockAddress: ''
         );
       case 'mainnet':
       default:
@@ -123,10 +125,16 @@ class _FarmLockSheetState extends ConsumerState<FarmLockSheet> {
       ..setPool(pool!)
       ..setFarm(farm!);
 
+    if (farmLock != null) {
+      await ref
+          .read(FarmLockFormProvider.farmLockForm.notifier)
+          .setFarmLock(farmLock!);
+    }
+
+    await ref.read(FarmLockFormProvider.farmLockForm.notifier).initBalances();
     await ref
         .read(FarmLockFormProvider.farmLockForm.notifier)
-        .setFarmLock(farmLock!);
-    await ref.read(FarmLockFormProvider.farmLockForm.notifier).initBalances();
+        .calculateSummary();
 
     if (mounted) {
       setState(() {});
@@ -144,7 +152,7 @@ class _FarmLockSheetState extends ConsumerState<FarmLockSheet> {
 
 Widget _body(BuildContext context, WidgetRef ref, DexPool? pool) {
   final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
-
+  final session = ref.watch(SessionProviders.session);
   return Padding(
     padding: EdgeInsets.only(
       top: aedappfm.Responsive.isDesktop(context) ||
@@ -166,58 +174,55 @@ Widget _body(BuildContext context, WidgetRef ref, DexPool? pool) {
           const SizedBox(
             height: 5,
           ),
-          const FarmLockBlockListHeader(),
-          const SizedBox(
-            height: 6,
-          ),
-          aedappfm.ArchethicScrollbar(
-            thumbVisibility: false,
-            child: Column(
-              children: [
-                if (farmLockForm.farm != null)
-                  FarmLockBlockListSingleLineLegacy(
-                    farm: farmLockForm.farm!,
+          if (session.isConnected) const FarmLockBlockListHeader(),
+          if (session.isConnected)
+            const SizedBox(
+              height: 6,
+            ),
+          if (session.isConnected)
+            aedappfm.ArchethicScrollbar(
+              thumbVisibility: false,
+              child: Column(
+                children: [
+                  if (farmLockForm.farm != null)
+                    FarmLockBlockListSingleLineLegacy(
+                      farm: farmLockForm.farm!,
+                    ),
+                  const SizedBox(
+                    height: 6,
                   ),
-                const SizedBox(
-                  height: 6,
-                ),
-                if (farmLockForm.farmLock != null &&
-                    farmLockForm.farmLock!.userInfos.isNotEmpty)
-                  ...farmLockForm.farmLock!.userInfos.entries.map((entry) {
-                    return FarmLockBlockListSingleLineLock(
-                      farmLock: farmLockForm.farmLock!,
-                      farmLockUserInfos: entry.value,
-                    );
-                  }).toList(),
-                const SizedBox(
-                  height: 6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                  if (farmLockForm.farmLock != null &&
+                      farmLockForm.farmLock!.userInfos.isNotEmpty)
+                    ...farmLockForm.farmLock!.userInfos.entries.map((entry) {
+                      return FarmLockBlockListSingleLineLock(
+                        farmLock: farmLockForm.farmLock!,
+                        farmLockUserInfos: entry.value,
+                      );
+                    }).toList(),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  if (farmLockForm.pool != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          // TODO
-                          SelectableText(
-                            r'1 aeETH = $3600.34 / 1 UCO = $0.02 (6/11/2024 13:59)',
-                            style: TextStyle(
-                              fontSize: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall!
-                                  .fontSize,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              ArchethicOraclePair(
+                                token1: farmLockForm.pool!.pair.token1,
+                                token2: farmLockForm.pool!.pair.token2,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
+                    ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     ),

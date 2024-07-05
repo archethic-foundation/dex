@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/farm_lock_level_up_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -88,6 +89,13 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                           },
                         ).toString(),
                       );
+                      if (context.mounted) {
+                        {
+                          await context
+                              .findAncestorStateOfType<FarmLockSheetState>()
+                              ?.loadInfo();
+                        }
+                      }
                     }
                   },
             child: Column(
