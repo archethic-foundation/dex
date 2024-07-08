@@ -122,8 +122,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         ),
       );
 
-      final cancelCompleter = Completer<void>();
-      final periodicFuture = aedappfm.PeriodicFuture.periodic<double>(
+      final amount = await aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTx(
           transactionDeposit!.address!.address!,
           isUCO,
@@ -131,15 +130,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,
-        cancelCompleter: cancelCompleter,
-      );
-
-      final amount = await periodicFuture.timeout(
-        const Duration(minutes: 1),
-        onTimeout: () {
-          cancelCompleter.complete();
-          throw const aedappfm.Timeout();
-        },
+        timeout: const Duration(minutes: 1),
       );
 
       notificationService.succeed(
