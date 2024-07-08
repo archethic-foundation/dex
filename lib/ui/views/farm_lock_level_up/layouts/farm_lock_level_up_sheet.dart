@@ -19,7 +19,6 @@ class FarmLockLevelUpSheet extends ConsumerStatefulWidget {
     required this.depositIndex,
     required this.currentLevel,
     required this.lpAmount,
-    required this.timestampStart,
     required this.rewardAmount,
     super.key,
   });
@@ -29,7 +28,6 @@ class FarmLockLevelUpSheet extends ConsumerStatefulWidget {
   final int depositIndex;
   final String currentLevel;
   final double lpAmount;
-  final int timestampStart;
   final double rewardAmount;
 
   static const routerPage = '/farmLockLevelUp';
@@ -78,7 +76,6 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
           .processStep,
       formSheet: FarmLockLevelUpFormSheet(
         currentLevel: widget.currentLevel,
-        timestampStart: widget.timestampStart,
         rewardAmount: widget.rewardAmount,
       ),
       confirmSheet: const FarmLockLevelUpConfirmSheet(),

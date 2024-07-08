@@ -20,6 +20,7 @@ const logName = 'ClaimFarmLockCase';
 class ClaimFarmLockCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -80,6 +81,14 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionClaim!],
+        description: {
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.claimFarmLockSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.claimFarmLockSignTxDesc_fr
+              : '',
+        },
       ))
           .first;
 

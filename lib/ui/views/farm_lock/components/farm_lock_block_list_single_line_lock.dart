@@ -239,8 +239,6 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                               farmLock.availableLevels.entries
                                                   .last.key,
                                             )!,
-                                        timestampStart:
-                                            farmLockUserInfos.start ?? 0,
                                         rewardAmount:
                                             farmLockUserInfos.rewardAmount,
                                       ),
@@ -490,10 +488,6 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                                 .last
                                                                 .key,
                                                           )!,
-                                                      timestampStart:
-                                                          farmLockUserInfos
-                                                                  .start ??
-                                                              0,
                                                       rewardAmount:
                                                           farmLockUserInfos
                                                               .rewardAmount,

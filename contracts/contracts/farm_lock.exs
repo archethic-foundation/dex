@@ -271,61 +271,6 @@ end
 
 condition(
   triggered_by: transaction,
-  on: update_dates(new_start_date, new_end_date),
-  as: [
-    previous_public_key:
-      (
-        # Can only be updated by master chain of the dex
-        previous_address = Chain.get_previous_address()
-        Chain.get_genesis_address(previous_address) == @MASTER_ADDRESS
-      ),
-    content:
-      (
-        # Can update date only if farm is already ended
-        now = Time.now()
-
-        valid_update_date? = now >= @END_DATE
-        valid_start_date? = now + 7200 <= new_start_date && now + 604_800 >= new_start_date
-
-        valid_end_date? =
-          new_start_date + 2_592_000 <= new_end_date &&
-            new_start_date + 31_536_000 >= new_end_date
-
-        valid_update_date? && valid_start_date? && valid_end_date?
-      )
-  ]
-)
-
-actions triggered_by: transaction, on: update_dates(new_start_date, new_end_date) do
-  params = [
-    @LP_TOKEN_ADDRESS,
-    new_start_date,
-    new_end_date,
-    @REWARD_TOKEN,
-    @FARM_ADDRESS
-  ]
-
-  new_code = Contract.call_function(@FACTORY_ADDRESS, "get_farm_code", params)
-
-  if Code.is_valid?(new_code) && !Code.is_same?(new_code, contract.code) do
-    Contract.set_type("contract")
-    Contract.set_code(new_code)
-
-    Contract.add_recipient(
-      address: @ROUTER_ADDRESS,
-      action: "update_farm_dates",
-      args: [new_start_date, new_end_date]
-    )
-
-    res = calculate_new_rewards()
-    State.set("deposits", res.deposits)
-    State.set("rewards_reserved", res.rewards_reserved)
-    State.delete("last_calculation_timestamp")
-  end
-end
-
-condition(
-  triggered_by: transaction,
   on: update_code(),
   as: [
     previous_public_key:
@@ -357,15 +302,6 @@ actions triggered_by: transaction, on: update_code() do
   end
 end
 
-fun get_reward_token_balance() do
-  if @REWARD_TOKEN == "UCO" do
-    contract.balance.uco
-  else
-    key = [token_address: @REWARD_TOKEN, token_id: 0]
-    Map.get(contract.balance.tokens, key, 0)
-  end
-end
-
 fun get_user_transfer_amount() do
   transfers = Map.get(transaction.token_transfers, @FARM_ADDRESS, [])
   transfer = List.at(transfers, 0)
@@ -383,8 +319,8 @@ end
 
 fun calculate_new_rewards() do
   now = Time.now()
-  day = 86400
-  year = 31_536_000
+  day = @SECONDS_IN_DAY
+  year = 365 * day
 
   deposits = State.get("deposits", Map.new())
   lp_tokens_deposited = State.get("lp_tokens_deposited", 0)
@@ -421,16 +357,24 @@ fun calculate_new_rewards() do
     rewards_allocated_at_each_year_end = Map.new()
 
     rewards_allocated_at_each_year_end =
-      Map.set(rewards_allocated_at_each_year_end, "1", @INITIAL_BALANCE * 0.5)
+      Map.set(rewards_allocated_at_each_year_end, "1", @REWARDS_YEAR_1)
 
     rewards_allocated_at_each_year_end =
-      Map.set(rewards_allocated_at_each_year_end, "2", @INITIAL_BALANCE * 0.75)
+      Map.set(rewards_allocated_at_each_year_end, "2", @REWARDS_YEAR_1 + @REWARDS_YEAR_2)
 
     rewards_allocated_at_each_year_end =
-      Map.set(rewards_allocated_at_each_year_end, "3", @INITIAL_BALANCE * 0.875)
+      Map.set(
+        rewards_allocated_at_each_year_end,
+        "3",
+        @REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3
+      )
 
     rewards_allocated_at_each_year_end =
-      Map.set(rewards_allocated_at_each_year_end, "4", @INITIAL_BALANCE)
+      Map.set(
+        rewards_allocated_at_each_year_end,
+        "4",
+        @REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3 + @REWARDS_YEAR_4
+      )
 
     end_of_years = [
       [year: 1, timestamp: @START_DATE + year],
@@ -499,7 +443,10 @@ fun calculate_new_rewards() do
     # ================================================
     time_elapsed_since_last_calc = now - last_calculation_timestamp
     time_remaining_until_farm_end = @END_DATE - last_calculation_timestamp
-    giveaways = rewards_balance + rewards_distributed - @INITIAL_BALANCE
+
+    giveaways =
+      rewards_balance + rewards_distributed -
+        (@REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3 + @REWARDS_YEAR_4)
 
     giveaways_to_allocate =
       giveaways * (time_elapsed_since_last_calc / time_remaining_until_farm_end)
@@ -637,7 +584,7 @@ fun calculate_new_rewards() do
       max_end = now
 
       if now > @END_DATE do
-        max_end = @END_DATE - day
+        max_end = @END_DATE
       end
 
       start_end_years =
@@ -804,7 +751,7 @@ end
 export fun(get_farm_infos()) do
   now = Time.now()
   reward_token_balance = 0
-  day = 86400
+  day = @SECONDS_IN_DAY
 
   if @REWARD_TOKEN == "UCO" do
     reward_token_balance = contract.balance.uco
@@ -968,7 +915,7 @@ end
 
 export fun(get_user_infos(user_genesis_address)) do
   now = Time.now()
-  day = 86400
+  day = @SECONDS_IN_DAY
   reply = []
 
   user_genesis_address = String.to_hex(user_genesis_address)

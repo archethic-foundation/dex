@@ -22,6 +22,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
       run(
     String poolGenesisAddress,
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String lpTokenAddress,
@@ -80,6 +81,14 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionRemoveLiquidity!],
+          description: {
+            'en': context.mounted
+                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_en
+                : '',
+            'fr': context.mounted
+                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_fr
+                : '',
+          },
         ))
             .first;
         liquidityRemoveNotifier

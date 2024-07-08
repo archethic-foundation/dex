@@ -29,7 +29,7 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
       padding: const EdgeInsets.only(bottom: 10, left: 5, right: 5),
       child: Container(
         width: 120,
-        height: 60,
+        height: 80,
         decoration: BoxDecoration(
           color: farmLockDeposit.farmLockDepositDuration ==
                   farmLockDepositDuration
@@ -60,6 +60,15 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
+                      '${AppLocalizations.of(context)!.level} $level',
+                      style: AppTextStyles.bodyMedium(context),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
                       getFarmLockDepositDurationTypeLabel(
                         context,
                         farmLockDepositDuration,
@@ -74,19 +83,28 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       '${AppLocalizations.of(context)!.farmLockDepositAPRLbl} ',
                       style: AppTextStyles.bodySmall(context)
                           .copyWith(color: Colors.white60),
                     ),
-                    Text(
-                      '${aprEstimation.formatNumber(precision: 2)}%',
-                      style: AppTextStyles.bodySmall(context).copyWith(
-                        color: _getColor(farmLockDepositDuration),
+                    if (aprEstimation > 0)
+                      Text(
+                        '${aprEstimation.formatNumber(precision: 2)}%',
+                        style: AppTextStyles.bodySmall(context).copyWith(
+                          color: _getColor(farmLockDepositDuration),
+                        ),
+                      )
+                    else
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 2),
+                        child: Icon(
+                          Icons.all_inclusive,
+                          size: 16,
+                          color: Colors.white60,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ],

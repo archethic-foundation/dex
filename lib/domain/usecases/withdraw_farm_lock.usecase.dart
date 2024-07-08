@@ -21,6 +21,7 @@ const logName = 'WithdrawFarmLockCase';
 class WithdrawFarmLockCase with aedappfm.TransactionMixin {
   Future<({double finalAmountReward, double finalAmountWithdraw})> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -87,6 +88,14 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionWithdraw!],
+        description: {
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.withdrawFarmLockSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.withdrawFarmLockSignTxDesc_fr
+              : '',
+        },
       ))
           .first;
 

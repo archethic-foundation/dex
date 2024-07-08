@@ -4,6 +4,7 @@ import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
+import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_header.dart';
@@ -33,6 +34,16 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
   DexPool? pool;
   DexFarm? farm;
   DexFarmLock? farmLock;
+  List<DexFarmLockUserInfos> sortedUserInfos = [];
+  Map<String, bool> sortAscending = {
+    'amount': true,
+    'rewards': true,
+    'unlocks_in': true,
+    'level': false,
+    'apr': true,
+  };
+
+  String currentSortedColumn = '';
 
   @override
   void initState() {
@@ -82,6 +93,45 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
           aeETHUCOFarmLockAddress: ''
         );
     }
+  }
+
+  void sortData(String sortBy) {
+    setState(() {
+      currentSortedColumn = sortBy;
+      sortAscending[sortBy] = !sortAscending[sortBy]!;
+      final ascending = sortAscending[sortBy]!;
+      sortedUserInfos.sort((a, b) {
+        int compare;
+        switch (sortBy) {
+          case 'amount':
+            compare = a.amount.compareTo(b.amount);
+            break;
+          case 'rewards':
+            compare = a.rewardAmount.compareTo(b.rewardAmount);
+            break;
+          case 'unlocks_in':
+            if (a.end == null && b.end == null) {
+              compare = 0;
+            } else if (a.end == null) {
+              compare = 1;
+            } else if (b.end == null) {
+              compare = -1;
+            } else {
+              compare = a.end!.compareTo(b.end!);
+            }
+            break;
+          case 'level':
+            compare = a.level.compareTo(b.level);
+            break;
+          case 'apr':
+            compare = a.apr.compareTo(b.apr);
+            break;
+          default:
+            compare = 0;
+        }
+        return ascending ? compare : -compare;
+      });
+    });
   }
 
   Future<void> loadInfo({bool forceLoadFromBC = false}) async {
@@ -136,6 +186,12 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
         .read(FarmLockFormProvider.farmLockForm.notifier)
         .calculateSummary();
 
+    if (farmLock != null) {
+      sortedUserInfos =
+          farmLock!.userInfos.entries.map((entry) => entry.value).toList();
+      sortData('level');
+    }
+
     if (mounted) {
       setState(() {});
     }
@@ -148,83 +204,89 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
       bodyVerticalAlignment: Alignment.topCenter,
     );
   }
-}
 
-Widget _body(BuildContext context, WidgetRef ref, DexPool? pool) {
-  final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
-  final session = ref.watch(SessionProviders.session);
-  return Padding(
-    padding: EdgeInsets.only(
-      top: aedappfm.Responsive.isDesktop(context) ||
-              aedappfm.Responsive.isTablet(context)
-          ? 75
-          : 0,
-      bottom: aedappfm.Responsive.isDesktop(context) ||
-              aedappfm.Responsive.isTablet(context)
-          ? 40
-          : 100,
-    ),
-    child: SingleChildScrollView(
-      child: Column(
-        children: [
-          FarmLockBlockHeader(
-            pool: pool,
-            farmLock: farmLockForm.farmLock,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          if (session.isConnected) const FarmLockBlockListHeader(),
-          if (session.isConnected)
-            const SizedBox(
-              height: 6,
-            ),
-          if (session.isConnected)
-            aedappfm.ArchethicScrollbar(
-              thumbVisibility: false,
-              child: Column(
-                children: [
-                  if (farmLockForm.farm != null)
-                    FarmLockBlockListSingleLineLegacy(
-                      farm: farmLockForm.farm!,
-                    ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  if (farmLockForm.farmLock != null &&
-                      farmLockForm.farmLock!.userInfos.isNotEmpty)
-                    ...farmLockForm.farmLock!.userInfos.entries.map((entry) {
-                      return FarmLockBlockListSingleLineLock(
-                        farmLock: farmLockForm.farmLock!,
-                        farmLockUserInfos: entry.value,
-                      );
-                    }).toList(),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  if (farmLockForm.pool != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              ArchethicOraclePair(
-                                token1: farmLockForm.pool!.pair.token1,
-                                token2: farmLockForm.pool!.pair.token2,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-            ),
-        ],
+  Widget _body(BuildContext context, WidgetRef ref, DexPool? pool) {
+    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
+    final session = ref.watch(SessionProviders.session);
+    return Padding(
+      padding: EdgeInsets.only(
+        top: aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? 75
+            : 0,
+        bottom: aedappfm.Responsive.isDesktop(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? 40
+            : 100,
       ),
-    ),
-  );
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            FarmLockBlockHeader(
+              pool: pool,
+              farmLock: farmLockForm.farmLock,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            if (session.isConnected)
+              FarmLockBlockListHeader(
+                onSort: sortData,
+                sortAscending: sortAscending,
+                currentSortedColumn: currentSortedColumn,
+              ),
+            if (session.isConnected)
+              const SizedBox(
+                height: 6,
+              ),
+            if (session.isConnected)
+              aedappfm.ArchethicScrollbar(
+                thumbVisibility: false,
+                child: Column(
+                  children: [
+                    if (farmLockForm.farm != null)
+                      FarmLockBlockListSingleLineLegacy(
+                        farm: farmLockForm.farm!,
+                      ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    if (session.isConnected &&
+                        farmLockForm.farmLock != null &&
+                        sortedUserInfos.isNotEmpty)
+                      ...sortedUserInfos.map((userInfo) {
+                        return FarmLockBlockListSingleLineLock(
+                          farmLock: farmLock!,
+                          farmLockUserInfos: userInfo,
+                        );
+                      }).toList(),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    if (farmLockForm.pool != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                ArchethicOraclePair(
+                                  token1: farmLockForm.pool!.pair.token1,
+                                  token2: farmLockForm.pool!.pair.token2,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
 }

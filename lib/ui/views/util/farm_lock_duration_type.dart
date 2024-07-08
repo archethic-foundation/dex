@@ -69,54 +69,37 @@ FarmLockDepositDurationType getFarmLockDepositDurationTypeFromLevel(
 DateTime? getFarmLockDepositDuration(
   FarmLockDepositDurationType farmLockDepositDuration, {
   int numberOfDaysAlreadyUsed = 0,
+  // TODO: Init with secondsInDay = 86400
+  int secondsInDay = 60,
   DateTime? farmLockEndDate,
 }) {
   final dateTimeNow = DateTime.now();
+  final simulatedDayDuration = Duration(seconds: secondsInDay);
+
   switch (farmLockDepositDuration) {
     case FarmLockDepositDurationType.flexible:
       return null;
     case FarmLockDepositDurationType.oneMonth:
-      return DateTime(
-        dateTimeNow.year,
-        dateTimeNow.month,
-        dateTimeNow.day + 30 - numberOfDaysAlreadyUsed,
-      );
+      return dateTimeNow
+          .add(simulatedDayDuration * (30 - numberOfDaysAlreadyUsed));
     case FarmLockDepositDurationType.oneWeek:
-      return DateTime(
-        dateTimeNow.year,
-        dateTimeNow.month,
-        dateTimeNow.day + 7 - numberOfDaysAlreadyUsed,
-      );
+      return dateTimeNow
+          .add(simulatedDayDuration * (7 - numberOfDaysAlreadyUsed));
     case FarmLockDepositDurationType.oneYear:
-      return DateTime(
-        dateTimeNow.year,
-        dateTimeNow.month,
-        dateTimeNow.day + 365 - numberOfDaysAlreadyUsed,
-      );
+      return dateTimeNow
+          .add(simulatedDayDuration * (365 - numberOfDaysAlreadyUsed));
     case FarmLockDepositDurationType.sixMonths:
-      return DateTime(
-        dateTimeNow.year,
-        dateTimeNow.month,
-        dateTimeNow.day + 180 - numberOfDaysAlreadyUsed,
-      );
+      return dateTimeNow
+          .add(simulatedDayDuration * (180 - numberOfDaysAlreadyUsed));
     case FarmLockDepositDurationType.threeMonths:
-      return DateTime(
-        dateTimeNow.year,
-        dateTimeNow.month,
-        dateTimeNow.day + 90 - numberOfDaysAlreadyUsed,
-      );
+      return dateTimeNow
+          .add(simulatedDayDuration * (90 - numberOfDaysAlreadyUsed));
     case FarmLockDepositDurationType.threeYears:
-      return DateTime(
-        dateTimeNow.year,
-        dateTimeNow.month,
-        dateTimeNow.day + 1095 - numberOfDaysAlreadyUsed,
-      );
+      return dateTimeNow
+          .add(simulatedDayDuration * (1095 - numberOfDaysAlreadyUsed));
     case FarmLockDepositDurationType.twoYears:
-      return DateTime(
-        dateTimeNow.year,
-        dateTimeNow.month,
-        dateTimeNow.day + 730 - numberOfDaysAlreadyUsed,
-      );
+      return dateTimeNow
+          .add(simulatedDayDuration * (730 - numberOfDaysAlreadyUsed));
     case FarmLockDepositDurationType.max:
       return farmLockEndDate ?? DateTime.now();
   }

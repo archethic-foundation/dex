@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
+import 'package:aedex/domain/usecases/withdraw_farm_lock.usecase.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_final_amount.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_in_progress_tx_addresses.dart';
@@ -26,7 +26,7 @@ class FarmLockWithdrawInProgressPopup {
         failure: farmLockWithdraw.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: WithdrawFarmCase().getAEStepLabel(
+        steplabel: WithdrawFarmLockCase().getAEStepLabel(
           context,
           farmLockWithdraw.currentStep,
         ),

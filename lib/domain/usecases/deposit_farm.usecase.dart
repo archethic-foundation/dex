@@ -19,6 +19,7 @@ const logName = 'DepositFarmCase';
 class DepositFarmCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -82,6 +83,14 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionDeposit!],
+        description: {
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.depositFarmSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.depositFarmSignTxDesc_fr
+              : '',
+        },
       ))
           .first;
 

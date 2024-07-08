@@ -205,24 +205,27 @@ class FarmWithdrawFormNotifier
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    final finalAmounts = await WithdrawFarmCase().run(
-      ref,
-      ref.watch(NotificationProviders.notificationService),
-      state.farmAddress!,
-      state.lpTokenAddress!,
-      state.amount,
-      state.rewardToken!,
-    );
-
-    state = state.copyWith(
-      finalAmountReward: finalAmounts.finalAmountReward,
-      finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
-    );
-
     if (context.mounted) {
-      final farmListItemState =
-          context.findAncestorStateOfType<FarmListItemState>();
-      await farmListItemState?.reload();
+      final finalAmounts = await WithdrawFarmCase().run(
+        ref,
+        context,
+        ref.watch(NotificationProviders.notificationService),
+        state.farmAddress!,
+        state.lpTokenAddress!,
+        state.amount,
+        state.rewardToken!,
+      );
+
+      state = state.copyWith(
+        finalAmountReward: finalAmounts.finalAmountReward,
+        finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
+      );
+
+      if (context.mounted) {
+        final farmListItemState =
+            context.findAncestorStateOfType<FarmListItemState>();
+        await farmListItemState?.reload();
+      }
     }
   }
 }

@@ -159,8 +159,9 @@ class FarmLockDepositFormSheetState
                               .farmLockDepositUnlockDateLbl,
                           style: AppTextStyles.bodyLarge(context),
                         ),
+                        // TODO: Remove Hours when secondsInDay = 86400
                         SelectableText(
-                          DateFormat('yyyy-MM-dd').format(
+                          DateFormat('yyyy-MM-dd HH:mm:ss').format(
                             getFarmLockDepositDuration(
                               farmLockDeposit.farmLockDepositDuration,
                               farmLockEndDate:

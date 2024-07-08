@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
-import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
@@ -20,6 +20,7 @@ const logName = 'LevelUpFarmLockCase';
 class LevelUpFarmLockCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -30,24 +31,24 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
     bool isUCO,
     FarmLockDepositDurationType durationType, {
     int recoveryStep = 0,
-    archethic.Transaction? recoveryTransactionDeposit,
+    archethic.Transaction? recoveryTransactionLevelUp,
   }) async {
     //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
-    final farmDepositNotifier =
-        ref.read(FarmLockDepositFormProvider.farmLockDepositForm.notifier);
+    final farmLevelUpNotifier =
+        ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier);
 
-    archethic.Transaction? transactionDeposit;
-    if (recoveryTransactionDeposit != null) {
-      transactionDeposit = recoveryTransactionDeposit;
+    archethic.Transaction? transactionLevelUp;
+    if (recoveryTransactionLevelUp != null) {
+      transactionLevelUp = recoveryTransactionLevelUp;
     }
 
-    farmDepositNotifier.setFinalAmount(null);
+    farmLevelUpNotifier.setFinalAmount(null);
 
     if (recoveryStep <= 1) {
-      farmDepositNotifier.setCurrentStep(1);
+      farmLevelUpNotifier.setCurrentStep(1);
       try {
         final transactionDepositMap =
             await archethicContract.getFarmLockRelockTx(
@@ -60,13 +61,13 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
 
         transactionDepositMap.map(
           success: (success) {
-            transactionDeposit = success;
-            farmDepositNotifier.setTransactionFarmLockDeposit(
-              transactionDeposit!,
+            transactionLevelUp = success;
+            farmLevelUpNotifier.setTransactionFarmLockLevelUp(
+              transactionLevelUp!,
             );
           },
           failure: (failure) {
-            farmDepositNotifier
+            farmLevelUpNotifier
               ..setFailure(failure)
               ..setProcessInProgress(false);
             throw failure;
@@ -78,34 +79,38 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
     }
 
     if (recoveryStep <= 2) {
-      farmDepositNotifier.setCurrentStep(2);
+      farmLevelUpNotifier.setCurrentStep(2);
     }
     try {
       final currentNameAccount = await getCurrentAccount();
-      farmDepositNotifier.setWalletConfirmation(true);
+      farmLevelUpNotifier.setWalletConfirmation(true);
 
-      transactionDeposit = (await signTx(
+      transactionLevelUp = (await signTx(
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
-        [transactionDeposit!],
+        [transactionLevelUp!],
         description: {
-          'en':
-              "The transaction sends the LP tokens to be locked into the farm and calls the smart contract's deposit function with the tokens' release date.",
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.levelUpFarmLockSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.levelUpFarmLockSignTxDesc_fr
+              : '',
         },
       ))
           .first;
 
-      farmDepositNotifier
+      farmLevelUpNotifier
         ..setWalletConfirmation(false)
-        ..setTransactionFarmLockDeposit(
-          transactionDeposit!,
+        ..setTransactionFarmLockLevelUp(
+          transactionLevelUp!,
         );
     } catch (e) {
       if (e is aedappfm.Failure) {
-        farmDepositNotifier.setFailure(e);
+        farmLevelUpNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmDepositNotifier
+      farmLevelUpNotifier
           .setFailure(aedappfm.Failure.other(cause: e.toString()));
       throw aedappfm.Failure.fromError(e);
     }
@@ -113,20 +118,20 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
     try {
       await sendTransactions(
         <archethic.Transaction>[
-          transactionDeposit!,
+          transactionLevelUp!,
         ],
       );
 
-      farmDepositNotifier
+      farmLevelUpNotifier
         ..setCurrentStep(3)
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
-        ..setFarmLockDepositOk(true);
+        ..setFarmLockLevelUpOk(true);
 
       notificationService.start(
         operationId,
         DexNotification.depositFarm(
-          txAddress: transactionDeposit!.address!.address,
+          txAddress: transactionLevelUp!.address!.address,
           farmAddress: farmAddress,
           isUCO: isUCO,
         ),
@@ -134,7 +139,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
 
       final amount = await aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTx(
-          transactionDeposit!.address!.address!,
+          transactionLevelUp!.address!.address!,
           isUCO,
           farmAddress,
         ),
@@ -145,8 +150,8 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
 
       notificationService.succeed(
         operationId,
-        DexNotification.depositFarmLock(
-          txAddress: transactionDeposit!.address!.address,
+        DexNotification.levelUpFarmLock(
+          txAddress: transactionLevelUp!.address!.address,
           amount: amount,
           farmAddress: farmAddress,
           isUCO: isUCO,
@@ -158,12 +163,12 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
       return amount;
     } catch (e) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
-            'TransactionFarmDeposit sendTx failed $e',
+            'TransactionFarmLevelUp sendTx failed $e',
             level: aedappfm.LogLevel.error,
             name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
-      farmDepositNotifier
+      farmLevelUpNotifier
         ..setFailure(
           e is aedappfm.Timeout
               ? e

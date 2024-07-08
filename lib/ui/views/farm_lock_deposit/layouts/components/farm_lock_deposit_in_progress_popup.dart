@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
+import 'package:aedex/domain/usecases/deposit_farm_lock.usecase.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_final_amount.dart';
@@ -27,7 +27,7 @@ class FarmLockDepositInProgressPopup {
         failure: farmLockDeposit.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: DepositFarmCase().getAEStepLabel(
+        steplabel: DepositFarmLockCase().getAEStepLabel(
           context,
           farmLockDeposit.currentStep,
         ),

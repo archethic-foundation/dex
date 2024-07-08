@@ -17,6 +17,7 @@ const logName = 'AddPoolCase';
 class AddPoolCase with aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref,
+    BuildContext context,
     DexToken token1,
     double token1Amount,
     DexToken token2,
@@ -126,6 +127,14 @@ class AddPoolCase with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddPoolTransfer!],
+          description: {
+            'en': context.mounted
+                ? AppLocalizations.of(context)!.addPoolSignTxDesc1_en
+                : '',
+            'fr': context.mounted
+                ? AppLocalizations.of(context)!.addPoolSignTxDesc1_fr
+                : '',
+          },
         ))
             .first;
 
@@ -198,6 +207,14 @@ class AddPoolCase with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddPoolLiquidity!],
+          description: {
+            'en': context.mounted
+                ? AppLocalizations.of(context)!.addPoolSignTxDesc2_en
+                : '',
+            'fr': context.mounted
+                ? AppLocalizations.of(context)!.addPoolSignTxDesc2_fr
+                : '',
+          },
         ))
             .first;
 

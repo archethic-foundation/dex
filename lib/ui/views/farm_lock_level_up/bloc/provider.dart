@@ -3,7 +3,7 @@ import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/domain/usecases/deposit_farm_lock.usecase.dart';
+import 'package:aedex/domain/usecases/level_up_farm_lock.usecase.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/state.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
@@ -200,19 +200,22 @@ class FarmLockLevelUpFormNotifier
 
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
+    if (context.mounted) {
+      final finalAmount = await LevelUpFarmLockCase().run(
+        ref,
+        context,
+        ref.watch(NotificationProviders.notificationService),
+        state.farmLock!.farmAddress,
+        state.farmLock!.lpToken!.address!,
+        state.amount,
+        state.depositIndex!,
+        state.farmLock!.farmAddress,
+        false,
+        state.farmLockLevelUpDuration,
+      );
 
-    final finalAmount = await DepositFarmLockCase().run(
-      ref,
-      ref.watch(NotificationProviders.notificationService),
-      state.farmLock!.farmAddress,
-      state.farmLock!.lpToken!.address!,
-      state.amount,
-      state.farmLock!.farmAddress,
-      false,
-      state.farmLockLevelUpDuration,
-    );
-
-    state = state.copyWith(finalAmount: finalAmount);
+      state = state.copyWith(finalAmount: finalAmount);
+    }
   }
 }
 

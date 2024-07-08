@@ -66,6 +66,14 @@ class DexNotification with _$DexNotification {
     bool? isUCO,
   }) = _DexNotificationDepositFarmLock;
 
+  const factory DexNotification.levelUpFarmLock({
+    @Default(DexActionType.levelUpFarmLock) DexActionType actionType,
+    String? txAddress,
+    double? amount,
+    String? farmAddress,
+    bool? isUCO,
+  }) = _DexNotificationLevelUpFarmLock;
+
   const factory DexNotification.withdrawFarmLock({
     @Default(DexActionType.withdrawFarmLock) DexActionType actionType,
     String? txAddress,

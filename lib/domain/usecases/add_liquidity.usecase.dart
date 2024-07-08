@@ -20,6 +20,7 @@ const logName = 'AddLiquidityCase';
 class AddLiquidityCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String poolGenesisAddress,
@@ -80,6 +81,14 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddLiquidity!],
+          description: {
+            'en': context.mounted
+                ? AppLocalizations.of(context)!.addLiquiditySignTxDesc_en
+                : '',
+            'fr': context.mounted
+                ? AppLocalizations.of(context)!.addLiquiditySignTxDesc_fr
+                : '',
+          },
         ))
             .first;
         liquidityAddNotifier

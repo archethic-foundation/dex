@@ -20,6 +20,7 @@ const logName = 'SwapCase';
 class SwapCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String poolGenesisAddress,
@@ -122,6 +123,14 @@ class SwapCase with aedappfm.TransactionMixin {
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionSwap!],
+        description: {
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.swapSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.swapSignTxDesc_fr
+              : '',
+        },
       ))
           .first;
 

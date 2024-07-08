@@ -20,6 +20,7 @@ const logName = 'DepositFarmLockCase';
 class DepositFarmLockCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -87,8 +88,12 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
         '',
         [transactionDeposit!],
         description: {
-          'en':
-              "The transaction sends the LP tokens to be locked into the farm and calls the smart contract's deposit function with the tokens' release date.",
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.depositFarmLockSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.depositFarmLockSignTxDesc_fr
+              : '',
         },
       ))
           .first;

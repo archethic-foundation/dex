@@ -9,14 +9,18 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class FarmLockBlockListHeader extends ConsumerWidget {
   const FarmLockBlockListHeader({
+    required this.onSort,
+    required this.sortAscending,
+    required this.currentSortedColumn,
     super.key,
   });
 
+  final void Function(String) onSort;
+  final Map<String, bool> sortAscending;
+  final String currentSortedColumn;
+
   @override
-  Widget build(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final style = Theme.of(context).textTheme.bodyMedium!.copyWith(
           color: aedappfm.AppThemeBase.secondaryColor,
         );
@@ -69,71 +73,45 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                       return aedappfm.Responsive.isDesktop(context)
                           ? Row(
                               children: [
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.15,
-                                  child: Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .farmLockBlockListHeaderAmount,
-                                      style: style,
-                                    ),
-                                  ),
+                                _buildHeaderCell(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .farmLockBlockListHeaderAmount,
+                                  style,
+                                  'amount',
+                                  constraints.maxWidth * 0.15,
                                 ),
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.20,
-                                  child: Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .farmLockBlockListHeaderRewards,
-                                      style: style,
-                                    ),
-                                  ),
+                                _buildHeaderCell(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .farmLockBlockListHeaderRewards,
+                                  style,
+                                  'rewards',
+                                  constraints.maxWidth * 0.20,
                                 ),
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.15,
-                                  child: Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .farmLockBlockListHeaderUnlocksIn,
-                                      style: style,
-                                    ),
-                                  ),
+                                _buildHeaderCell(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .farmLockBlockListHeaderUnlocksIn,
+                                  style,
+                                  'unlocks_in',
+                                  constraints.maxWidth * 0.15,
                                 ),
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.15,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)!
-                                            .farmLockBlockListHeaderLevel,
-                                        style: style,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 3),
-                                        child: Icon(
-                                          Icons.info_outline,
-                                          color: aedappfm
-                                              .AppThemeBase.secondaryColor,
-                                          size: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                _buildHeaderCell(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .farmLockBlockListHeaderLevel,
+                                  style,
+                                  'level',
+                                  constraints.maxWidth * 0.15,
                                 ),
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.10,
-                                  child: Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .farmLockBlockListHeaderAPR,
-                                      style: style,
-                                    ),
-                                  ),
+                                _buildHeaderCell(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .farmLockBlockListHeaderAPR,
+                                  style,
+                                  'apr',
+                                  constraints.maxWidth * 0.10,
                                 ),
                                 SizedBox(
                                   width: constraints.maxWidth * 0.25,
@@ -161,6 +139,52 @@ class FarmLockBlockListHeader extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderCell(
+    BuildContext context,
+    String label,
+    TextStyle style,
+    String sortBy,
+    double width,
+  ) {
+    return InkWell(
+      onTap: () => onSort(sortBy),
+      child: Container(
+        padding: const EdgeInsets.only(left: 16),
+        width: width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              label,
+              style: style,
+            ),
+            const SizedBox(width: 4),
+            if (currentSortedColumn == sortBy)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Icon(
+                  sortAscending[sortBy]!
+                      ? Icons.arrow_upward
+                      : Icons.arrow_downward,
+                  size: 16,
+                  color: aedappfm.AppThemeBase.secondaryColor,
+                ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Icon(
+                  Icons.sort,
+                  size: 16,
+                  color: aedappfm.ArchethicThemeBase.neutral700,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

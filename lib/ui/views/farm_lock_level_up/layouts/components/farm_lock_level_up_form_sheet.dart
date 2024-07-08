@@ -1,7 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_lock_duration_btn.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_details_info_header.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
@@ -18,12 +17,10 @@ import 'package:intl/intl.dart';
 class FarmLockLevelUpFormSheet extends ConsumerWidget {
   const FarmLockLevelUpFormSheet({
     required this.currentLevel,
-    required this.timestampStart,
     required this.rewardAmount,
     super.key,
   });
   final String currentLevel;
-  final int timestampStart;
   final double rewardAmount;
 
   @override
@@ -77,9 +74,6 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
               ],
             ),
           ),
-          PoolDetailsInfoHeader(
-            pool: farmLockLevelUp.pool,
-          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -88,7 +82,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.farmLockLevelUpDesc,
-                    style: AppTextStyles.bodyLarge(context),
+                    style: AppTextStyles.bodySmall(context),
                   ),
                   const SizedBox(
                     height: 10,
@@ -255,14 +249,16 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                     children: [
                       SelectableText(
                         AppLocalizations.of(context)!
-                            .farmLockLevelUpInitialDateLbl,
+                            .farmLockLevelUpUnlockDateLbl,
                         style: AppTextStyles.bodyLarge(context),
                       ),
+                      // TODO: Remove Hours when secondsInDay = 86400
                       SelectableText(
-                        DateFormat('yyyy-MM-dd').format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                            1688487207 * 1000,
-                          ),
+                        DateFormat('yyyy-MM-dd HH:mm:ss').format(
+                          getFarmLockDepositDuration(
+                            farmLockLevelUp.farmLockLevelUpDuration,
+                            farmLockEndDate: farmLockLevelUp.farmLock!.endDate,
+                          )!,
                         ),
                         style: AppTextStyles.bodyLargeSecondaryColor(context),
                       ),
@@ -272,24 +268,25 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                     children: [
                       SelectableText(
                         AppLocalizations.of(context)!
-                            .farmLockLevelUpUnlockDateLbl,
+                            .farmLockLevelUpCurrentLvlLbl,
                         style: AppTextStyles.bodyLarge(context),
                       ),
-                      SelectableText(
-                        DateFormat('yyyy-MM-dd').format(
-                          getFarmLockDepositDuration(
-                            farmLockLevelUp.farmLockLevelUpDuration,
-                            numberOfDaysAlreadyUsed: DateTime.now()
-                                .difference(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                    1688487207 * 1000,
-                                  ),
-                                )
-                                .inDays,
-                            farmLockEndDate: farmLockLevelUp.farmLock!.endDate,
-                          )!,
-                        ),
-                        style: AppTextStyles.bodyLargeSecondaryColor(context),
+                      Row(
+                        children: [
+                          SelectableText(
+                            currentLevel,
+                            style:
+                                AppTextStyles.bodyLargeSecondaryColor(context),
+                          ),
+                          SelectableText(
+                            '/',
+                            style: AppTextStyles.bodyLarge(context),
+                          ),
+                          SelectableText(
+                            '7',
+                            style: AppTextStyles.bodyLarge(context),
+                          ),
+                        ],
                       ),
                     ],
                   ),

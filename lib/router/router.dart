@@ -9,7 +9,6 @@ import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
-import 'package:aedex/ui/views/farm_lock_claim/layouts/farm_lock_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/farm_lock_level_up_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_sheet.dart';
@@ -276,10 +275,6 @@ final routerProvider = Provider<GoRouter>(
                 double? lpAmount;
                 final lpAmountEncoded = state.uri.queryParameters['lpAmount'];
 
-                int? timestampStart;
-                final timestampStartEncoded =
-                    state.uri.queryParameters['timestampStart'];
-
                 double? rewardAmount;
                 final rewardAmountEncoded =
                     state.uri.queryParameters['rewardAmount'];
@@ -306,11 +301,6 @@ final routerProvider = Provider<GoRouter>(
                   final lpAmountJson = Uri.decodeComponent(lpAmountEncoded);
                   lpAmount = jsonDecode(lpAmountJson) ?? 0;
                 }
-                if (timestampStartEncoded != null) {
-                  final timestampStartJson =
-                      Uri.decodeComponent(timestampStartEncoded);
-                  timestampStart = jsonDecode(timestampStartJson) ?? 0;
-                }
                 if (rewardAmountEncoded != null) {
                   final rewardAmountJson =
                       Uri.decodeComponent(rewardAmountEncoded);
@@ -322,7 +312,6 @@ final routerProvider = Provider<GoRouter>(
                     depositIndex == null ||
                     currentLevel == null ||
                     lpAmount == null ||
-                    timestampStart == null ||
                     rewardAmount == null) {
                   return const NoTransitionPage(
                     child: PoolListSheet(),
@@ -336,7 +325,6 @@ final routerProvider = Provider<GoRouter>(
                     depositIndex: depositIndex,
                     currentLevel: currentLevel,
                     lpAmount: lpAmount,
-                    timestampStart: timestampStart,
                     rewardAmount: rewardAmount,
                   ),
                 );
@@ -489,76 +477,6 @@ final routerProvider = Provider<GoRouter>(
                     rewardToken: rewardToken,
                     lpTokenAddress: lpTokenAddress,
                     poolAddress: poolAddress,
-                  ),
-                );
-              },
-            ),
-            GoRoute(
-              path: FarmLockClaimSheet.routerPage,
-              pageBuilder: (context, state) {
-                String? farmAddress;
-                DexToken? rewardToken;
-                String? lpTokenAddress;
-                double? rewardAmount;
-                var depositIndex = 0;
-
-                final farmAddressEncoded =
-                    state.uri.queryParameters['farmAddress'];
-                if (farmAddressEncoded != null) {
-                  final farmAddressJson =
-                      Uri.decodeComponent(farmAddressEncoded);
-                  farmAddress = jsonDecode(farmAddressJson);
-                }
-
-                final rewardTokenEncoded =
-                    state.uri.queryParameters['rewardToken'];
-                if (rewardTokenEncoded != null) {
-                  final rewardTokenJson =
-                      Uri.decodeComponent(rewardTokenEncoded);
-                  rewardToken = DexToken.fromJson(jsonDecode(rewardTokenJson));
-                }
-
-                final lpTokenAddressEncoded =
-                    state.uri.queryParameters['lpTokenAddress'];
-                if (lpTokenAddressEncoded != null) {
-                  final lpTokenAddressJson =
-                      Uri.decodeComponent(lpTokenAddressEncoded);
-                  lpTokenAddress = jsonDecode(lpTokenAddressJson);
-                }
-
-                final rewardAmountEncoded =
-                    state.uri.queryParameters['rewardAmount'];
-                if (rewardAmountEncoded != null) {
-                  final rewardAmountJson =
-                      Uri.decodeComponent(rewardAmountEncoded);
-                  rewardAmount = jsonDecode(rewardAmountJson);
-                }
-
-                final depositIndexEncoded =
-                    state.uri.queryParameters['depositIndex'];
-                if (depositIndexEncoded != null) {
-                  final depositIndexJson =
-                      Uri.decodeComponent(depositIndexEncoded);
-                  depositIndex =
-                      int.tryParse(jsonDecode(depositIndexJson)) ?? 0;
-                }
-
-                if (farmAddress == null ||
-                    rewardToken == null ||
-                    lpTokenAddress == null ||
-                    rewardAmount == null) {
-                  return const NoTransitionPage(
-                    child: FarmLockSheet(),
-                  );
-                }
-
-                return NoTransitionPage(
-                  child: FarmLockClaimSheet(
-                    farmAddress: farmAddress,
-                    rewardToken: rewardToken,
-                    lpTokenAddress: lpTokenAddress,
-                    rewardAmount: rewardAmount,
-                    depositIndex: depositIndex,
                   ),
                 );
               },

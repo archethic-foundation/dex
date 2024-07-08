@@ -20,7 +20,6 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     required this.lpTokenAmount,
     required this.depositIndex,
     required this.currentLevel,
-    required this.timestampStart,
     required this.rewardAmount,
     this.enabled = true,
     super.key,
@@ -33,7 +32,6 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
   final int depositIndex;
   final String currentLevel;
   final bool enabled;
-  final int timestampStart;
   final double rewardAmount;
 
   @override
@@ -66,10 +64,6 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                       final lpAmountEncoded = Uri.encodeComponent(
                         lpAmountJson,
                       );
-                      final timestampStartJson = jsonEncode(timestampStart);
-                      final timestampStartEncoded = Uri.encodeComponent(
-                        timestampStartJson,
-                      );
                       final rewardAmountJson = jsonEncode(rewardAmount);
                       final rewardAmountEncoded = Uri.encodeComponent(
                         rewardAmountJson,
@@ -84,7 +78,6 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                             'depositIndex': depositIndexEncoded,
                             'currentLevel': currentLevelEncoded,
                             'lpAmount': lpAmountEncoded,
-                            'timestampStart': timestampStartEncoded,
                             'rewardAmount': rewardAmountEncoded,
                           },
                         ).toString(),
@@ -145,6 +138,19 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                 final depositIndexEncoded = Uri.encodeComponent(
                   depositIndexJson,
                 );
+                final currentLevelJson = jsonEncode(currentLevel);
+                final currentLevelEncoded = Uri.encodeComponent(
+                  currentLevelJson,
+                );
+                final lpAmountJson = jsonEncode(lpTokenAmount);
+                final lpAmountEncoded = Uri.encodeComponent(
+                  lpAmountJson,
+                );
+                final rewardAmountJson = jsonEncode(rewardAmount);
+                final rewardAmountEncoded = Uri.encodeComponent(
+                  rewardAmountJson,
+                );
+
                 await context.push(
                   Uri(
                     path: FarmLockLevelUpSheet.routerPage,
@@ -152,9 +158,19 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                       'pool': poolEncoded,
                       'farmLock': farmLockEncoded,
                       'depositIndex': depositIndexEncoded,
+                      'currentLevel': currentLevelEncoded,
+                      'lpAmount': lpAmountEncoded,
+                      'rewardAmount': rewardAmountEncoded,
                     },
                   ).toString(),
                 );
+                if (context.mounted) {
+                  {
+                    await context
+                        .findAncestorStateOfType<FarmLockSheetState>()
+                        ?.loadInfo();
+                  }
+                }
               }
             },
             displayWalletConnect: true,

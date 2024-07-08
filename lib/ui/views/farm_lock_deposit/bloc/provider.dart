@@ -226,18 +226,21 @@ class FarmLockDepositFormNotifier
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    final finalAmount = await DepositFarmLockCase().run(
-      ref,
-      ref.watch(NotificationProviders.notificationService),
-      state.farmLock!.farmAddress,
-      state.farmLock!.lpToken!.address!,
-      state.amount,
-      state.farmLock!.farmAddress,
-      false,
-      state.farmLockDepositDuration,
-    );
+    if (context.mounted) {
+      final finalAmount = await DepositFarmLockCase().run(
+        ref,
+        context,
+        ref.watch(NotificationProviders.notificationService),
+        state.farmLock!.farmAddress,
+        state.farmLock!.lpToken!.address!,
+        state.amount,
+        state.farmLock!.farmAddress,
+        false,
+        state.farmLockDepositDuration,
+      );
 
-    state = state.copyWith(finalAmount: finalAmount);
+      state = state.copyWith(finalAmount: finalAmount);
+    }
   }
 }
 

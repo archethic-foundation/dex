@@ -254,7 +254,47 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             reduceAddress: true,
           ),
           SelectableText(
-            'Amount deposited & locked: ${amount.formatNumber(precision: 8)} ${amount > 1 ? 'LP Tokens' : 'LP Token'}',
+            'Amount deposited: ${amount.formatNumber(precision: 8)} ${amount > 1 ? 'LP Tokens' : 'LP Token'}',
+          ),
+        ],
+      ),
+    );
+  }
+
+  factory TaskNotificationPopup._fromLevelUpFarmLock(
+    Task task,
+    BuildContext context,
+  ) {
+    if (task.failure != null) {
+      return _getErrorNotification(
+        'Level up transaction address: ',
+        task,
+        context,
+      );
+    }
+    final amount = task.data.amount as double;
+    return TaskNotificationPopup.success(
+      key: Key(task.id),
+      actionType: task.data.actionType,
+      description: Wrap(
+        direction: Axis.vertical,
+        children: [
+          if (task.dateTask != null)
+            SelectableText(
+              DateFormat.yMd(
+                Localizations.localeOf(context).languageCode,
+              ).add_Hms().format(
+                    task.dateTask!.toLocal(),
+                  ),
+            ),
+          addresslinkcopy.FormatAddressLinkCopy(
+            address: task.data.txAddress.toUpperCase(),
+            header: 'Level up transaction address: ',
+            typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
+            reduceAddress: true,
+          ),
+          SelectableText(
+            'Amount relocked: ${amount.formatNumber(precision: 8)} ${amount > 1 ? 'LP Tokens' : 'LP Token'}',
           ),
         ],
       ),
@@ -415,6 +455,8 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
           TaskNotificationPopup._fromDepositFarm(task, context),
         DexActionType.depositFarmLock =>
           TaskNotificationPopup._fromDepositFarmLock(task, context),
+        DexActionType.levelUpFarmLock =>
+          TaskNotificationPopup._fromLevelUpFarmLock(task, context),
         DexActionType.withdrawFarm =>
           TaskNotificationPopup._fromWithdrawFarm(task, context),
         DexActionType.withdrawFarmLock =>
@@ -453,6 +495,9 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
         height = 80;
         break;
       case DexActionType.depositFarmLock:
+        height = 80;
+        break;
+      case DexActionType.levelUpFarmLock:
         height = 80;
         break;
       case DexActionType.withdrawFarm:

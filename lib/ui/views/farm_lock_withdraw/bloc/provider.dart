@@ -210,21 +210,23 @@ class FarmLockWithdrawFormNotifier
 
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
+    if (context.mounted) {
+      final finalAmounts = await WithdrawFarmLockCase().run(
+        ref,
+        context,
+        ref.watch(NotificationProviders.notificationService),
+        state.farmAddress!,
+        state.lpTokenAddress!,
+        state.amount,
+        state.depositIndex,
+        state.rewardToken!,
+      );
 
-    final finalAmounts = await WithdrawFarmLockCase().run(
-      ref,
-      ref.watch(NotificationProviders.notificationService),
-      state.farmAddress!,
-      state.lpTokenAddress!,
-      state.amount,
-      state.depositIndex,
-      state.rewardToken!,
-    );
-
-    state = state.copyWith(
-      finalAmountReward: finalAmounts.finalAmountReward,
-      finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
-    );
+      state = state.copyWith(
+        finalAmountReward: finalAmounts.finalAmountReward,
+        finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
+      );
+    }
   }
 }
 
