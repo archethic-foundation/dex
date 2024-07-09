@@ -44,8 +44,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
       final endDate =
           DateTime.fromMillisecondsSinceEpoch(farmLockUserInfos.end! * 1000);
       final currentDate = DateTime.now();
-      final totalDuration = endDate.difference(startDate).inDays;
-      final elapsedDuration = currentDate.difference(startDate).inDays;
+      final totalDuration = endDate.difference(startDate).inMinutes;
+      final elapsedDuration = currentDate.difference(startDate).inMinutes;
       progressPercentage = elapsedDuration / totalDuration;
       progressPercentage = progressPercentage.clamp(0, 1);
     }
