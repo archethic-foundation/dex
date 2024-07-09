@@ -131,16 +131,18 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     );
 
     final farmLockAddress = contextAddresses.aeETHUCOFarmLockAddress;
-    farmLock = await ref.read(
-      DexFarmLockProviders.getFarmLockInfos(
-        farmLockAddress,
-        pool!.poolAddress,
-        dexFarmLockInput: DexFarmLock(
-          poolAddress: pool!.poolAddress,
-          farmAddress: farmLockAddress,
-        ),
-      ).future,
-    );
+    if (farmLockAddress.isNotEmpty) {
+      farmLock = await ref.read(
+        DexFarmLockProviders.getFarmLockInfos(
+          farmLockAddress,
+          pool!.poolAddress,
+          dexFarmLockInput: DexFarmLock(
+            poolAddress: pool!.poolAddress,
+            farmAddress: farmLockAddress,
+          ),
+        ).future,
+      );
+    }
 
     ref.read(FarmLockFormProvider.farmLockForm.notifier)
       ..setPool(pool!)

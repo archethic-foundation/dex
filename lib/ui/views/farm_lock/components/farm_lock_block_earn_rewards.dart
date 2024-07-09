@@ -118,28 +118,30 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
-          onTap: () async {
-            final poolJson = jsonEncode(pool.toJson());
-            final poolEncoded = Uri.encodeComponent(poolJson);
-            final farmLockJson = jsonEncode(farmLock!.toJson());
-            final farmLockEncoded = Uri.encodeComponent(farmLockJson);
-            await context.push(
-              Uri(
-                path: FarmLockDepositSheet.routerPage,
-                queryParameters: {
-                  'pool': poolEncoded,
-                  'farmLock': farmLockEncoded,
+          onTap: farmLock == null
+              ? null
+              : () async {
+                  final poolJson = jsonEncode(pool.toJson());
+                  final poolEncoded = Uri.encodeComponent(poolJson);
+                  final farmLockJson = jsonEncode(farmLock!.toJson());
+                  final farmLockEncoded = Uri.encodeComponent(farmLockJson);
+                  await context.push(
+                    Uri(
+                      path: FarmLockDepositSheet.routerPage,
+                      queryParameters: {
+                        'pool': poolEncoded,
+                        'farmLock': farmLockEncoded,
+                      },
+                    ).toString(),
+                  );
+                  if (context.mounted) {
+                    {
+                      await context
+                          .findAncestorStateOfType<FarmLockSheetState>()
+                          ?.loadInfo(sortCriteria: sortCriteria);
+                    }
+                  }
                 },
-              ).toString(),
-            );
-            if (context.mounted) {
-              {
-                await context
-                    .findAncestorStateOfType<FarmLockSheetState>()
-                    ?.loadInfo(sortCriteria: sortCriteria);
-              }
-            }
-          },
           child: Column(
             children: [
               Container(
@@ -147,7 +149,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                 width: 50,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  gradient: aedappfm.AppThemeBase.gradientBtn,
+                  gradient: farmLock == null
+                      ? aedappfm.AppThemeBase.gradient
+                      : aedappfm.AppThemeBase.gradientBtn,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -159,7 +163,11 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                 height: 5,
               ),
               Text(
-                AppLocalizations.of(context)!.farmLockBlockEarnRewardsBtnAdd,
+                farmLock == null
+                    ? AppLocalizations.of(context)!
+                        .farmLockBlockEarnRewardsBtnNotAvailable
+                    : AppLocalizations.of(context)!
+                        .farmLockBlockEarnRewardsBtnAdd,
                 style: const TextStyle(fontSize: 10),
               ),
             ],

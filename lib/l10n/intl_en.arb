@@ -326,6 +326,7 @@
     "farmLockBlockEarnRewardsHeader": "2) Earn more",
     "farmLockBlockEarnRewardsDesc": "Farm your LP Tokens to earn rewards. By locking them for a specified period, you increase your rewards.\nThe longer you lock, the greater your rewards.",
     "farmLockBlockEarnRewardsBtnAdd": "Add",
+    "farmLockBlockEarnRewardsBtnNotAvailable": "Farm not available",
     "farmLockBlockEarnRewardsViewGuideArticle": "View the guide article",
     "farmLockBlockAprLbl": "APR 3 years",
     "farmLockBlockFarmedTokensSummaryHeader": "Farmed Tokens Summary",

@@ -13,7 +13,7 @@ _$GetFarmListResponseImpl _$$GetFarmListResponseImplFromJson(
       startDate: (json['start_date'] as num).toInt(),
       endDate: (json['end_date'] as num).toInt(),
       rewardTokenAddress: json['reward_token'] as String,
-      type: (json['type'] as num).toInt(),
+      type: (json['type'] as num?)?.toInt(),
       address: json['address'] as String,
     );
 

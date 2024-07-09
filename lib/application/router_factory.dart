@@ -158,7 +158,10 @@ class RouterFactory with ModelParser {
 
         for (final result in results) {
           final getFarmListResponse = GetFarmListResponse.fromJson(result);
-          if (getFarmListResponse.type != farmType) continue;
+          if (getFarmListResponse.type != null ||
+              getFarmListResponse.type == 2) {
+            continue;
+          }
           final dexpool = poolList.singleWhere(
             (pool) =>
                 pool.lpToken.address!.toUpperCase() ==
