@@ -298,6 +298,7 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
   State.set("rewards_reserved", res.rewards_reserved - user_deposit.reward_amount)
 
   user_deposit = Map.set(user_deposit, "reward_amount", 0)
+  user_deposit = Map.set(user_deposit, "start", now)
   user_deposit = Map.set(user_deposit, "end", end_timestamp)
   user_deposits = List.set_at(user_deposits, deposit_index, user_deposit)
 
