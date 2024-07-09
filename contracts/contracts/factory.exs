@@ -41,7 +41,7 @@ export fun(get_farm_code(lp_token, start_date, end_date, reward_token, farm_gene
   """
 end
 
-export fun(get_farm_lock_code(lp_token, start_date, end_date, reward_token, farm_genesis_address, reward_token_amount)) do
+export fun(get_farm_lock_code(lp_token, start_date, end_date, reward_token, farm_genesis_address)) do
   lp_token = String.to_hex(lp_token)
   reward_token = String.to_uppercase(reward_token)
 

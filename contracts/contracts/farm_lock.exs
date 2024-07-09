@@ -17,8 +17,8 @@ condition triggered_by: transaction, on: deposit(end_timestamp) do
     throw(message: "deposit's end cannot be greater than farm's end", code: 1005)
   end
 
-  if get_user_transfer_amount() <= 0 do
-    throw(message: "deposit's amount must greater than 0", code: 1002)
+  if get_user_transfer_amount() < 0.00000143 do
+    throw(message: "deposit's minimum amount is 0.00000143", code: 1002)
   end
 
   true
@@ -204,6 +204,9 @@ actions triggered_by: transaction, on: withdraw(amount, deposit_index) do
 end
 
 condition triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
+  now = Time.now()
+  day = @SECONDS_IN_DAY
+
   if end_timestamp == "max" do
     end_timestamp = @END_DATE
   end
@@ -223,8 +226,41 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
     throw(message: "relock's end cannot be past farm's end", code: 4003)
   end
 
-  if user_deposit["end"] >= end_timestamp do
-    throw(message: "relock's end cannot be inferior or equal to deposit's end", code: 4004)
+  available_levels = Map.new()
+  available_levels = Map.set(available_levels, "0", now + 0)
+  available_levels = Map.set(available_levels, "1", now + 7 * day)
+  available_levels = Map.set(available_levels, "2", now + 30 * day)
+  available_levels = Map.set(available_levels, "3", now + 90 * day)
+  available_levels = Map.set(available_levels, "4", now + 180 * day)
+  available_levels = Map.set(available_levels, "5", now + 365 * day)
+  available_levels = Map.set(available_levels, "6", now + 730 * day)
+  available_levels = Map.set(available_levels, "7", now + 1095 * day)
+
+  relock_level = nil
+  deposit_level = nil
+
+  for l in Map.keys(available_levels) do
+    until = Map.get(available_levels, l)
+
+    if deposit_level == nil && user_deposit.end <= until do
+      deposit_level = l
+    end
+
+    if relock_level == nil && end_timestamp <= until do
+      relock_level = l
+    end
+  end
+
+  if relock_level == nil do
+    relock_level = "7"
+  end
+
+  if deposit_level == nil do
+    deposit_level = "7"
+  end
+
+  if relock_level <= deposit_level do
+    throw(message: "Relock's level must be greater than current level", code: 4004)
   end
 
   true
@@ -294,7 +330,7 @@ actions triggered_by: transaction, on: update_code() do
     @FARM_ADDRESS
   ]
 
-  new_code = Contract.call_function(@FACTORY_ADDRESS, "get_farm_code", params)
+  new_code = Contract.call_function(@FACTORY_ADDRESS, "get_farm_lock_code", params)
 
   if Code.is_valid?(new_code) && !Code.is_same?(new_code, contract.code) do
     Contract.set_type("contract")
@@ -752,6 +788,7 @@ export fun(get_farm_infos()) do
   now = Time.now()
   reward_token_balance = 0
   day = @SECONDS_IN_DAY
+  year = 365 * day
 
   if @REWARD_TOKEN == "UCO" do
     reward_token_balance = contract.balance.uco
@@ -789,12 +826,26 @@ export fun(get_farm_infos()) do
   available_levels = Map.set(available_levels, "6", now + 730 * day)
   available_levels = Map.set(available_levels, "7", now + 1095 * day)
 
+  current_year_rewards_allocated = @REWARDS_YEAR_4
+
+  if now <= @START_DATE + 3 * year do
+    current_year_rewards_allocated = @REWARDS_YEAR_3
+  end
+
+  if now <= @START_DATE + 2 * year do
+    current_year_rewards_allocated = @REWARDS_YEAR_2
+  end
+
+  if now <= @START_DATE + 1 * year do
+    current_year_rewards_allocated = @REWARDS_YEAR_1
+  end
+
   stats = Map.new()
 
   stats =
     Map.set(stats, "0",
       weight: Map.get(weight_per_level, "0"),
-      rewards_allocated: Map.get(weight_per_level, "0") * reward_token_balance,
+      rewards_allocated: Map.get(weight_per_level, "0") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
       deposits_count: 0,
       tvl_ratio: 0
@@ -803,7 +854,7 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "1",
       weight: Map.get(weight_per_level, "1"),
-      rewards_allocated: Map.get(weight_per_level, "1") * reward_token_balance,
+      rewards_allocated: Map.get(weight_per_level, "1") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
       deposits_count: 0,
       tvl_ratio: 0
@@ -812,7 +863,7 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "2",
       weight: Map.get(weight_per_level, "2"),
-      rewards_allocated: Map.get(weight_per_level, "2") * reward_token_balance,
+      rewards_allocated: Map.get(weight_per_level, "2") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
       deposits_count: 0,
       tvl_ratio: 0
@@ -821,7 +872,7 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "3",
       weight: Map.get(weight_per_level, "3"),
-      rewards_allocated: Map.get(weight_per_level, "3") * reward_token_balance,
+      rewards_allocated: Map.get(weight_per_level, "3") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
       deposits_count: 0,
       tvl_ratio: 0
@@ -830,7 +881,7 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "4",
       weight: Map.get(weight_per_level, "4"),
-      rewards_allocated: Map.get(weight_per_level, "4") * reward_token_balance,
+      rewards_allocated: Map.get(weight_per_level, "4") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
       deposits_count: 0,
       tvl_ratio: 0
@@ -839,7 +890,7 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "5",
       weight: Map.get(weight_per_level, "5"),
-      rewards_allocated: Map.get(weight_per_level, "5") * reward_token_balance,
+      rewards_allocated: Map.get(weight_per_level, "5") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
       deposits_count: 0,
       tvl_ratio: 0
@@ -848,7 +899,7 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "6",
       weight: Map.get(weight_per_level, "6"),
-      rewards_allocated: Map.get(weight_per_level, "6") * reward_token_balance,
+      rewards_allocated: Map.get(weight_per_level, "6") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
       deposits_count: 0,
       tvl_ratio: 0
@@ -857,7 +908,7 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "7",
       weight: Map.get(weight_per_level, "7"),
-      rewards_allocated: Map.get(weight_per_level, "7") * reward_token_balance,
+      rewards_allocated: Map.get(weight_per_level, "7") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
       deposits_count: 0,
       tvl_ratio: 0
