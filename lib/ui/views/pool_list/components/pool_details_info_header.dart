@@ -14,9 +14,11 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
   const PoolDetailsInfoHeader({
     super.key,
     required this.pool,
+    this.displayPoolFarmAvailable = false,
   });
 
   final DexPool? pool;
+  final bool displayPoolFarmAvailable;
 
   @override
   Widget build(
@@ -85,8 +87,9 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                 LiquidityFavoriteIcon(
                   isFavorite: pool!.isFavorite,
                 ),
-                if (contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
-                    pool!.poolAddress.toUpperCase())
+                if (displayPoolFarmAvailable &&
+                    contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
+                        pool!.poolAddress.toUpperCase())
                   const PoolFarmAvailable(),
               ],
             ),

@@ -35,7 +35,10 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PoolDetailsInfoHeader(pool: widget.pool),
+        PoolDetailsInfoHeader(
+          pool: widget.pool,
+          displayPoolFarmAvailable: true,
+        ),
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
