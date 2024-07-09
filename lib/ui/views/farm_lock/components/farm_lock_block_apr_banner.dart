@@ -26,7 +26,9 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final styleBannerText = Theme.of(context).textTheme.bodyMedium!;
+    final styleBannerText = Theme.of(context).textTheme.bodyMedium!.copyWith(
+          color: aedappfm.ArchethicThemeBase.systemPositive100,
+        );
 
     return BlockInfo(
       blockInfoColor: BlockInfoColor.green,
@@ -36,15 +38,11 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
           children: [
             Text(
               '${AppLocalizations.of(context)!.farmLockBlockAprLbl}: ',
-              style: styleBannerText.copyWith(
-                color: aedappfm.ArchethicThemeBase.systemPositive100,
-              ),
+              style: styleBannerText,
             ),
             Text(
               '${farmLockForm.farmLock!.apr3years.formatNumber(precision: 2)}%',
-              style: styleBannerText.copyWith(
-                color: aedappfm.ArchethicThemeBase.systemPositive100,
-              ),
+              style: styleBannerText,
             ),
           ],
         ),

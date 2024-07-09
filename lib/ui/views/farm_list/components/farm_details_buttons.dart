@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
@@ -231,26 +232,14 @@ class FarmDetailsButtons extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
       onPressed: () async {
         if (context.mounted) {
-          final farmAddressJson = jsonEncode(farm.farmAddress);
-          final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
-
-          final rewardTokenJson = jsonEncode(farm.rewardToken);
-          final rewardTokenEncoded = Uri.encodeComponent(rewardTokenJson);
-
-          final lpTokenAddressJson = jsonEncode(farm.lpToken!.address);
-          final lpTokenAddressEncoded = Uri.encodeComponent(lpTokenAddressJson);
-
-          final rewardAmountJson = jsonEncode(farm.rewardAmount);
-          final rewardAmountEncoded = Uri.encodeComponent(rewardAmountJson);
-
           await context.push(
             Uri(
               path: FarmClaimSheet.routerPage,
               queryParameters: {
-                'farmAddress': farmAddressEncoded,
-                'rewardToken': rewardTokenEncoded,
-                'lpTokenAddress': lpTokenAddressEncoded,
-                'rewardAmount': rewardAmountEncoded,
+                'farmAddress': farm.farmAddress.encodeParam(),
+                'rewardToken': farm.rewardToken.encodeParam(),
+                'lpTokenAddress': farm.lpToken!.address.encodeParam(),
+                'rewardAmount': farm.rewardAmount.encodeParam(),
               },
             ).toString(),
           );

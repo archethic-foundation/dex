@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -18,6 +17,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
     required this.rewardToken,
     required this.lpTokenAddress,
     required this.rewardAmount,
+    required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
@@ -28,6 +28,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
   final String lpTokenAddress;
   final double rewardAmount;
   final bool enabled;
+  final String currentSortedColumn;
 
   @override
   Widget build(
@@ -41,42 +42,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
             onTap: enabled == false
                 ? null
                 : () async {
-                    if (context.mounted) {
-                      final farmAddressJson = jsonEncode(farmAddress);
-                      final farmAddressEncoded =
-                          Uri.encodeComponent(farmAddressJson);
-
-                      final rewardTokenJson = jsonEncode(rewardToken);
-                      final rewardTokenEncoded =
-                          Uri.encodeComponent(rewardTokenJson);
-
-                      final lpTokenAddressJson = jsonEncode(lpTokenAddress);
-                      final lpTokenAddressEncoded =
-                          Uri.encodeComponent(lpTokenAddressJson);
-
-                      final rewardAmountJson = jsonEncode(rewardAmount);
-                      final rewardAmountEncoded =
-                          Uri.encodeComponent(rewardAmountJson);
-
-                      await context.push(
-                        Uri(
-                          path: FarmClaimSheet.routerPage,
-                          queryParameters: {
-                            'farmAddress': farmAddressEncoded,
-                            'rewardToken': rewardTokenEncoded,
-                            'lpTokenAddress': lpTokenAddressEncoded,
-                            'rewardAmount': rewardAmountEncoded,
-                          },
-                        ).toString(),
-                      );
-                      if (context.mounted) {
-                        {
-                          await context
-                              .findAncestorStateOfType<FarmLockSheetState>()
-                              ?.loadInfo();
-                        }
-                      }
-                    }
+                    await _validate(context);
                   },
             child: Column(
               children: [
@@ -115,40 +81,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
             onPressed: () async {
-              if (context.mounted) {
-                final farmAddressJson = jsonEncode(farmAddress);
-                final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
-
-                final rewardTokenJson = jsonEncode(rewardToken);
-                final rewardTokenEncoded = Uri.encodeComponent(rewardTokenJson);
-
-                final lpTokenAddressJson = jsonEncode(lpTokenAddress);
-                final lpTokenAddressEncoded =
-                    Uri.encodeComponent(lpTokenAddressJson);
-
-                final rewardAmountJson = jsonEncode(rewardAmount);
-                final rewardAmountEncoded =
-                    Uri.encodeComponent(rewardAmountJson);
-
-                await context.push(
-                  Uri(
-                    path: FarmClaimSheet.routerPage,
-                    queryParameters: {
-                      'farmAddress': farmAddressEncoded,
-                      'rewardToken': rewardTokenEncoded,
-                      'lpTokenAddress': lpTokenAddressEncoded,
-                      'rewardAmount': rewardAmountEncoded,
-                    },
-                  ).toString(),
-                );
-                if (context.mounted) {
-                  {
-                    await context
-                        .findAncestorStateOfType<FarmLockSheetState>()
-                        ?.loadInfo();
-                  }
-                }
-              }
+              await _validate(context);
             },
             displayWalletConnect: true,
             isConnected: session.isConnected,
@@ -179,5 +112,28 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
               }
             },
           );
+  }
+
+  Future<void> _validate(BuildContext context) async {
+    if (context.mounted) {
+      await context.push(
+        Uri(
+          path: FarmClaimSheet.routerPage,
+          queryParameters: {
+            'farmAddress': farmAddress.encodeParam(),
+            'rewardToken': rewardToken.encodeParam(),
+            'lpTokenAddress': lpTokenAddress.encodeParam(),
+            'rewardAmount': rewardAmount.encodeParam(),
+          },
+        ).toString(),
+      );
+      if (context.mounted) {
+        {
+          await context
+              .findAncestorStateOfType<FarmLockSheetState>()
+              ?.loadInfo(sortCriteria: currentSortedColumn);
+        }
+      }
+    }
   }
 }

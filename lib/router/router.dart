@@ -598,3 +598,11 @@ final routerProvider = Provider<GoRouter>(
     );
   },
 );
+
+extension RouterParamExtension on Object? {
+  String? encodeParam() {
+    if (this == null) return null;
+    final paramJson = jsonEncode(this);
+    return Uri.encodeComponent(paramJson);
+  }
+}

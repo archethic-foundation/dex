@@ -18,9 +18,11 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
   const FarmLockBlockListSingleLineLegacy({
     super.key,
     required this.farm,
+    required this.currentSortedColumn,
   });
 
   final DexFarm farm;
+  final String currentSortedColumn;
 
   @override
   Widget build(
@@ -200,6 +202,8 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                             farmLock.farm!.rewardToken!,
                                         enabled: farm.depositedAmount != null &&
                                             farm.depositedAmount! > 0,
+                                        currentSortedColumn:
+                                            currentSortedColumn,
                                       ),
                                     ),
                                     SizedBox(
@@ -216,6 +220,8 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                         enabled: farmLock.farm!.rewardAmount !=
                                                 null &&
                                             farmLock.farm!.rewardAmount! > 0,
+                                        currentSortedColumn:
+                                            currentSortedColumn,
                                       ),
                                     ),
                                   ],
@@ -379,6 +385,8 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                               .depositedAmount !=
                                                           null &&
                                                       farm.depositedAmount! > 0,
+                                                  currentSortedColumn:
+                                                      currentSortedColumn,
                                                 ),
                                                 FarmLegacyBtnClaim(
                                                   farmAddress: farmLock
@@ -397,6 +405,8 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                       farmLock.farm!
                                                               .rewardAmount! >
                                                           0,
+                                                  currentSortedColumn:
+                                                      currentSortedColumn,
                                                 ),
                                               ],
                                             ),

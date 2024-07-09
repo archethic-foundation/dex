@@ -28,7 +28,7 @@ jobs:
           ls -R
 
       - name: Build web app
-        run: flutter build web --web-renderer canvaskit --release
+        run: flutter build web --web-renderer canvaskit --release --dart-define=ENV=prod
 
       - name: Check files
         run: |

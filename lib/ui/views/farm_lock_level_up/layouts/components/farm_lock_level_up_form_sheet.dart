@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
+import 'package:aedex/util/config/config.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -252,9 +253,12 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                             .farmLockLevelUpUnlockDateLbl,
                         style: AppTextStyles.bodyLarge(context),
                       ),
-                      // TODO: Remove Hours when secondsInDay = 86400
                       SelectableText(
-                        DateFormat('yyyy-MM-dd HH:mm:ss').format(
+                        DateFormat(
+                          Config.kSecondsInDay == 86400
+                              ? 'yyyy-MM-dd'
+                              : 'yyyy-MM-dd HH:mm:ss',
+                        ).format(
                           getFarmLockDepositDuration(
                             farmLockLevelUp.farmLockLevelUpDuration,
                             farmLockEndDate: farmLockLevelUp.farmLock!.endDate,

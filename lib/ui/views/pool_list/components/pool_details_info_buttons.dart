@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
@@ -75,17 +74,12 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
       ),
       labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonSwap,
       onPressed: () async {
-        final tokenToSwapJson = jsonEncode(pool.pair.token1.toJson());
-        final tokenSwappedJson = jsonEncode(pool.pair.token2.toJson());
-        final tokenToSwapEncoded = Uri.encodeComponent(tokenToSwapJson);
-        final tokenSwappedEncoded = Uri.encodeComponent(tokenSwappedJson);
-
         await context.push(
           Uri(
             path: SwapSheet.routerPage,
             queryParameters: {
-              'tokenToSwap': tokenToSwapEncoded,
-              'tokenSwapped': tokenSwappedEncoded,
+              'tokenToSwap': pool.pair.token1.toJson().encodeParam(),
+              'tokenSwapped': pool.pair.token2.toJson().encodeParam(),
             },
           ).toString(),
         );
@@ -102,14 +96,12 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
       controlOk: true,
       labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonAddLiquidity,
       onPressed: () async {
-        final poolJson = jsonEncode(pool.toJson());
-        final poolEncoded = Uri.encodeComponent(poolJson);
         final poolsListTabEncoded = Uri.encodeComponent(tab.name);
         await context.push(
           Uri(
             path: LiquidityAddSheet.routerPage,
             queryParameters: {
-              'pool': poolEncoded,
+              'pool': pool.toJson().encodeParam(),
               'tab': poolsListTabEncoded,
             },
           ).toString(),
@@ -153,20 +145,14 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
       labelBtn:
           AppLocalizations.of(context)!.poolDetailsInfoButtonRemoveLiquidity,
       onPressed: () async {
-        final poolJson = jsonEncode(pool.toJson());
-        final pairJson = jsonEncode(pool.pair.toJson());
-        final lpTokenJson = jsonEncode(pool.lpToken.toJson());
-        final poolEncoded = Uri.encodeComponent(poolJson);
-        final pairEncoded = Uri.encodeComponent(pairJson);
-        final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
         final poolsListTabEncoded = Uri.encodeComponent(tab.name);
         await context.push(
           Uri(
             path: LiquidityRemoveSheet.routerPage,
             queryParameters: {
-              'pool': poolEncoded,
-              'pair': pairEncoded,
-              'lpToken': lpTokenEncoded,
+              'pool': pool.toJson().encodeParam(),
+              'pair': pool.pair.toJson().encodeParam(),
+              'lpToken': pool.lpToken.toJson().encodeParam(),
               'tab': poolsListTabEncoded,
             },
           ).toString(),

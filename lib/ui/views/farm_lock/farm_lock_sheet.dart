@@ -14,6 +14,7 @@ import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_list_single_
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco_aeeth.dart';
+import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -58,47 +59,12 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     super.initState();
   }
 
-  ({
-    String aeETHUCOPoolAddress,
-    String aeETHUCOFarmLegacyAddress,
-    String aeETHUCOFarmLockAddress
-  }) _getContextAddresses(WidgetRef ref) {
-    final env = ref.read(SessionProviders.session).envSelected;
-
-    switch (env) {
-      case 'devnet':
-        return (
-          aeETHUCOPoolAddress:
-              '0000c94189acdf76cd8d24eab10ef6494800e2f1a16022046b8ecb6ed39bb3c2fa42',
-          aeETHUCOFarmLegacyAddress:
-              '00008e063dffde69214737c4e9e65b6d9d5776c5369729410ba25dab0950fbcf921e',
-          aeETHUCOFarmLockAddress:
-              '00007338a899446b8d211bb82b653dfd134cc351dd4060bb926d7d9c7028cf0273bf'
-        );
-      case 'testnet':
-        return (
-          aeETHUCOPoolAddress:
-              '0000818EF23676779DAE1C97072BB99A3E0DD1C31BAD3787422798DBE3F777F74A43',
-          aeETHUCOFarmLegacyAddress:
-              '000041e393250ddc2178453b673ffdaf69642f35c2cb6339fd0bfa861a281407bed6',
-          aeETHUCOFarmLockAddress: ''
-        );
-      case 'mainnet':
-      default:
-        return (
-          aeETHUCOPoolAddress:
-              '000090C5AFCC97C2357E964E3DDF5BE9948477F7C1DE2C633CDFC95B202970AEA036',
-          aeETHUCOFarmLegacyAddress:
-              '0000474A5B5D261A86D1EB2B054C8E7D9347767C3977F5FC20BB8A05D6F6AFB53DCC',
-          aeETHUCOFarmLockAddress: ''
-        );
-    }
-  }
-
-  void sortData(String sortBy) {
+  void sortData(String sortBy, bool invertSort) {
     setState(() {
       currentSortedColumn = sortBy;
-      sortAscending[sortBy] = !sortAscending[sortBy]!;
+      if (invertSort) {
+        sortAscending[sortBy] = !sortAscending[sortBy]!;
+      }
       final ascending = sortAscending[sortBy]!;
       sortedUserInfos.sort((a, b) {
         int compare;
@@ -134,12 +100,17 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     });
   }
 
-  Future<void> loadInfo({bool forceLoadFromBC = false}) async {
+  Future<void> loadInfo({
+    bool forceLoadFromBC = false,
+    String sortCriteria = 'level',
+    bool invertSort = false,
+  }) async {
+    currentSortedColumn = sortCriteria;
     if (mounted) {
       await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
     }
 
-    final contextAddresses = _getContextAddresses(ref);
+    final contextAddresses = PoolFarmAvailableState().getContextAddresses(ref);
 
     pool = await ref.read(
       DexPoolProviders.getPool(
@@ -189,7 +160,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     if (farmLock != null) {
       sortedUserInfos =
           farmLock!.userInfos.entries.map((entry) => entry.value).toList();
-      sortData('level');
+      sortData(currentSortedColumn, invertSort);
     }
 
     if (mounted) {
@@ -225,6 +196,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
             FarmLockBlockHeader(
               pool: pool,
               farmLock: farmLockForm.farmLock,
+              sortCriteria: currentSortedColumn,
             ),
             const SizedBox(
               height: 5,
@@ -247,6 +219,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                     if (farmLockForm.farm != null)
                       FarmLockBlockListSingleLineLegacy(
                         farm: farmLockForm.farm!,
+                        currentSortedColumn: currentSortedColumn,
                       ),
                     const SizedBox(
                       height: 6,
@@ -258,6 +231,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                         return FarmLockBlockListSingleLineLock(
                           farmLock: farmLock!,
                           farmLockUserInfos: userInfo,
+                          currentSortedColumn: currentSortedColumn,
                         );
                       }).toList(),
                     const SizedBox(

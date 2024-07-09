@@ -334,14 +334,14 @@
     "farmLockBlockHeaderTableHeader": "This table presents your ongoing farming activities, including lock periods, to help you track your deposits and rewards.",
     "farmLockBlockAddLiquidityHeader": "1) Add liquidity in",
     "farmLockBlockAddLiquidityDesc": "Add liquidity to the pool and receive LP tokens representing your share.\nBy adding liquidity, you gain access to farming opportunities and can earn additional rewards.",
-    "farmLockBlockAddLiquidityWatchVideoGuide": "Watch video guide",
+    "farmLockBlockAddLiquidityViewGuideArticle": "View the guide article",
     "farmLockBlockAddLiquidityBtnAdd": "Add",
     "farmLockBlockAddLiquidityBtnInfos": "Infos",
     "farmLockBlockAddLiquidityBtnWithdraw": "Withdraw",
     "farmLockBlockEarnRewardsHeader": "2) Earn more",
     "farmLockBlockEarnRewardsDesc": "Farm your LP Tokens to earn rewards. By locking them for a specified period, you increase your rewards.\nThe longer you lock, the greater your rewards.",
     "farmLockBlockEarnRewardsBtnAdd": "Add",
-    "farmLockBlockEarnRewardsWatchVideoGuide": "Watch video guide",
+    "farmLockBlockEarnRewardsViewGuideArticle": "View the guide article",
     "farmLockBlockAprLbl": "APR 3 years",
     "farmLockBlockFarmedTokensSummaryHeader": "Farmed Tokens Summary",
     "farmLockBlockBalanceSummaryHeader": "Balances Summary",
@@ -403,5 +403,6 @@
     "removeLiquiditySignTxDesc_fr": "La transaction brûle le montant de jetons LP que vous souhaitez retirer de la pool et appelle la fonction de retrait de liquidité du contrat intelligent pour obtenir les jetons équivalents.",
     "swapSignTxDesc_fr": "La transaction envoie le montant du jeton que vous souhaitez échanger à l'adresse de la pool, appelle la fonction d'échange du contrat intelligent et obtient les jetons équivalents, en tenant compte du slippage.",
     "withdrawFarmLockSignTxDesc_fr": "La transaction appelle la fonction de retrait du contrat intelligent avec le montant de jetons LP et l'index associé du dépôt pour exécuter le retrait et réclamer les récompenses associées.",
-    "withdrawFarmSignTxDesc_fr": "La transaction appelle la fonction de retrait du contrat intelligent avec le montant de jetons LP pour exécuter le retrait et réclamer les récompenses associées."
+    "withdrawFarmSignTxDesc_fr": "La transaction appelle la fonction de retrait du contrat intelligent avec le montant de jetons LP pour exécuter le retrait et réclamer les récompenses associées.",
+    "poolFarmingAvailable": "Farming available"
 }

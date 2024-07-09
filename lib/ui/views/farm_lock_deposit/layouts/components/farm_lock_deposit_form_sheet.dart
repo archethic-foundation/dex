@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_details_info_header.dar
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
+import 'package:aedex/util/config/config.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -159,9 +160,12 @@ class FarmLockDepositFormSheetState
                               .farmLockDepositUnlockDateLbl,
                           style: AppTextStyles.bodyLarge(context),
                         ),
-                        // TODO: Remove Hours when secondsInDay = 86400
                         SelectableText(
-                          DateFormat('yyyy-MM-dd HH:mm:ss').format(
+                          DateFormat(
+                            Config.kSecondsInDay == 86400
+                                ? 'yyyy-MM-dd'
+                                : 'yyyy-MM-dd HH:mm:ss',
+                          ).format(
                             getFarmLockDepositDuration(
                               farmLockDeposit.farmLockDepositDuration,
                               farmLockEndDate:

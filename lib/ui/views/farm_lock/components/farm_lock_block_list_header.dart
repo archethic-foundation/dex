@@ -15,7 +15,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
     super.key,
   });
 
-  final void Function(String) onSort;
+  final void Function(String, bool) onSort;
   final Map<String, bool> sortAscending;
   final String currentSortedColumn;
 
@@ -151,7 +151,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
     double width,
   ) {
     return InkWell(
-      onTap: () => onSort(sortBy),
+      onTap: () => onSort(sortBy, true),
       child: Container(
         padding: const EdgeInsets.only(left: 16),
         width: width,

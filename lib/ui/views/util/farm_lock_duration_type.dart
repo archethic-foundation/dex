@@ -1,3 +1,4 @@
+import 'package:aedex/util/config/config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -69,12 +70,10 @@ FarmLockDepositDurationType getFarmLockDepositDurationTypeFromLevel(
 DateTime? getFarmLockDepositDuration(
   FarmLockDepositDurationType farmLockDepositDuration, {
   int numberOfDaysAlreadyUsed = 0,
-  // TODO: Init with secondsInDay = 86400
-  int secondsInDay = 60,
   DateTime? farmLockEndDate,
 }) {
   final dateTimeNow = DateTime.now();
-  final simulatedDayDuration = Duration(seconds: secondsInDay);
+  final simulatedDayDuration = Duration(seconds: Config.kSecondsInDay);
 
   switch (farmLockDepositDuration) {
     case FarmLockDepositDurationType.flexible:

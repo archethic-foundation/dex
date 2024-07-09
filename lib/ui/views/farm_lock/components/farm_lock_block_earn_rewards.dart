@@ -21,6 +21,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
     required this.farmLock,
     required this.width,
     required this.height,
+    required this.sortCriteria,
     super.key,
   });
 
@@ -28,6 +29,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
   final DexFarmLock? farmLock;
   final double width;
   final double height;
+  final String sortCriteria;
 
   @override
   Widget build(
@@ -82,7 +84,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                 ),
                 Text(
                   AppLocalizations.of(context)!
-                      .farmLockBlockEarnRewardsWatchVideoGuide,
+                      .farmLockBlockEarnRewardsViewGuideArticle,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.w500,
@@ -134,7 +136,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
               {
                 await context
                     .findAncestorStateOfType<FarmLockSheetState>()
-                    ?.loadInfo();
+                    ?.loadInfo(sortCriteria: sortCriteria);
               }
             }
           },

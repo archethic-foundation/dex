@@ -1,6 +1,7 @@
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
+import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 
@@ -22,6 +23,8 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final contextAddresses = PoolFarmAvailableState().getContextAddresses(ref);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,6 +85,9 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                 LiquidityFavoriteIcon(
                   isFavorite: pool!.isFavorite,
                 ),
+                if (contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
+                    pool!.poolAddress.toUpperCase())
+                  const PoolFarmAvailable(),
               ],
             ),
           ],

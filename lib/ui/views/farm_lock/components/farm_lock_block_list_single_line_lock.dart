@@ -21,10 +21,12 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
     super.key,
     required this.farmLock,
     required this.farmLockUserInfos,
+    required this.currentSortedColumn,
   });
 
   final DexFarmLockUserInfos farmLockUserInfos;
   final DexFarmLock farmLock;
+  final String currentSortedColumn;
 
   @override
   Widget build(
@@ -241,6 +243,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                             )!,
                                         rewardAmount:
                                             farmLockUserInfos.rewardAmount,
+                                        currentSortedColumn:
+                                            currentSortedColumn,
                                       ),
                                     ),
                                     SizedBox(
@@ -262,6 +266,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     .fromMillisecondsSinceEpoch(
                                                   farmLockUserInfos.end! * 1000,
                                                 ).isBefore(DateTime.now())),
+                                        currentSortedColumn:
+                                            currentSortedColumn,
                                       ),
                                     ),
                                   ],
@@ -491,6 +497,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       rewardAmount:
                                                           farmLockUserInfos
                                                               .rewardAmount,
+                                                      currentSortedColumn:
+                                                          currentSortedColumn,
                                                     ),
                                                     FarmLockBtnWithdraw(
                                                       farmAddress:
@@ -520,6 +528,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                               ).isBefore(
                                                                 DateTime.now(),
                                                               )),
+                                                      currentSortedColumn:
+                                                          currentSortedColumn,
                                                     ),
                                                   ],
                                                 ),

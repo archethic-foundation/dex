@@ -13,11 +13,13 @@ class FarmLockBlockHeader extends ConsumerWidget {
   const FarmLockBlockHeader({
     required this.pool,
     required this.farmLock,
+    required this.sortCriteria,
     super.key,
   });
 
   final DexPool? pool;
   final DexFarmLock? farmLock;
+  final String sortCriteria;
 
   @override
   Widget build(
@@ -44,6 +46,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       pool: pool!,
                       width: constraints.maxWidth * 0.32,
                       height: 300,
+                      sortCriteria: sortCriteria,
                     ),
                     SizedBox(
                       width: constraints.maxWidth * 0.02,
@@ -53,6 +56,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       farmLock: farmLock,
                       width: constraints.maxWidth * 0.32,
                       height: 300,
+                      sortCriteria: sortCriteria,
                     ),
                     SizedBox(
                       width: constraints.maxWidth * 0.02,
@@ -84,6 +88,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       pool: pool!,
                       width: constraints.maxWidth,
                       height: 290,
+                      sortCriteria: sortCriteria,
                     ),
                     const SizedBox(
                       height: 10,
@@ -93,6 +98,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       farmLock: farmLock,
                       width: constraints.maxWidth,
                       height: 290,
+                      sortCriteria: sortCriteria,
                     ),
                     const SizedBox(
                       height: 10,

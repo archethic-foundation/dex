@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -20,6 +19,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
     required this.rewardAmount,
     required this.depositedAmount,
     required this.depositIndex,
+    required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
@@ -32,6 +32,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
   final double depositedAmount;
   final int depositIndex;
   final bool enabled;
+  final String currentSortedColumn;
 
   @override
   Widget build(
@@ -45,66 +46,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
             onTap: enabled == false
                 ? null
                 : () async {
-                    if (context.mounted) {
-                      final farmAddressJson = jsonEncode(
-                        farmAddress,
-                      );
-                      final farmAddressEncoded = Uri.encodeComponent(
-                        farmAddressJson,
-                      );
-                      final poolAddressJson = jsonEncode(
-                        poolAddress,
-                      );
-                      final poolAddressEncoded = Uri.encodeComponent(
-                        poolAddressJson,
-                      );
-                      final rewardTokenJson = jsonEncode(
-                        rewardToken,
-                      );
-                      final rewardTokenEncoded = Uri.encodeComponent(
-                        rewardTokenJson,
-                      );
-                      final lpTokenAddressJson = jsonEncode(
-                        lpTokenAddress,
-                      );
-                      final lpTokenAddressEncoded = Uri.encodeComponent(
-                        lpTokenAddressJson,
-                      );
-                      final rewardAmountJson = jsonEncode(rewardAmount);
-                      final rewardAmountEncoded = Uri.encodeComponent(
-                        rewardAmountJson,
-                      );
-                      final depositedAmountJson = jsonEncode(depositedAmount);
-                      final depositedAmountEncoded = Uri.encodeComponent(
-                        depositedAmountJson,
-                      );
-                      final depositIndexJson = jsonEncode(depositIndex);
-                      final depositIndexEncoded = Uri.encodeComponent(
-                        depositIndexJson,
-                      );
-
-                      await context.push(
-                        Uri(
-                          path: FarmLockWithdrawSheet.routerPage,
-                          queryParameters: {
-                            'farmAddress': farmAddressEncoded,
-                            'poolAddress': poolAddressEncoded,
-                            'rewardToken': rewardTokenEncoded,
-                            'lpTokenAddress': lpTokenAddressEncoded,
-                            'rewardAmount': rewardAmountEncoded,
-                            'depositedAmount': depositedAmountEncoded,
-                            'depositIndex': depositIndexEncoded,
-                          },
-                        ).toString(),
-                      );
-                      if (context.mounted) {
-                        {
-                          await context
-                              .findAncestorStateOfType<FarmLockSheetState>()
-                              ?.loadInfo();
-                        }
-                      }
-                    }
+                    await _validate(context);
                   },
             child: Column(
               children: [
@@ -143,66 +85,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmLockBtnWithdraw,
             onPressed: () async {
-              if (context.mounted) {
-                final farmAddressJson = jsonEncode(
-                  farmAddress,
-                );
-                final farmAddressEncoded = Uri.encodeComponent(
-                  farmAddressJson,
-                );
-                final poolAddressJson = jsonEncode(
-                  poolAddress,
-                );
-                final poolAddressEncoded = Uri.encodeComponent(
-                  poolAddressJson,
-                );
-                final rewardTokenJson = jsonEncode(
-                  rewardToken,
-                );
-                final rewardTokenEncoded = Uri.encodeComponent(
-                  rewardTokenJson,
-                );
-                final lpTokenAddressJson = jsonEncode(
-                  lpTokenAddress,
-                );
-                final lpTokenAddressEncoded = Uri.encodeComponent(
-                  lpTokenAddressJson,
-                );
-                final rewardAmountJson = jsonEncode(rewardAmount);
-                final rewardAmountEncoded = Uri.encodeComponent(
-                  rewardAmountJson,
-                );
-                final depositedAmountJson = jsonEncode(depositedAmount);
-                final depositedAmountEncoded = Uri.encodeComponent(
-                  depositedAmountJson,
-                );
-                final depositIndexJson = jsonEncode(depositIndex);
-                final depositIndexEncoded = Uri.encodeComponent(
-                  depositIndexJson,
-                );
-
-                await context.push(
-                  Uri(
-                    path: FarmLockWithdrawSheet.routerPage,
-                    queryParameters: {
-                      'farmAddress': farmAddressEncoded,
-                      'poolAddress': poolAddressEncoded,
-                      'rewardToken': rewardTokenEncoded,
-                      'lpTokenAddress': lpTokenAddressEncoded,
-                      'rewardAmount': rewardAmountEncoded,
-                      'depositedAmount': depositedAmountEncoded,
-                      'depositIndex': depositIndexEncoded,
-                    },
-                  ).toString(),
-                );
-                if (context.mounted) {
-                  {
-                    await context
-                        .findAncestorStateOfType<FarmLockSheetState>()
-                        ?.loadInfo();
-                  }
-                }
-              }
+              await _validate(context);
             },
             displayWalletConnect: true,
             isConnected: session.isConnected,
@@ -233,5 +116,31 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
               }
             },
           );
+  }
+
+  Future<void> _validate(BuildContext context) async {
+    if (context.mounted) {
+      await context.push(
+        Uri(
+          path: FarmLockWithdrawSheet.routerPage,
+          queryParameters: {
+            'farmAddress': farmAddress.encodeParam(),
+            'poolAddress': poolAddress.encodeParam(),
+            'rewardToken': rewardToken.encodeParam(),
+            'lpTokenAddress': lpTokenAddress.encodeParam(),
+            'rewardAmount': rewardAmount.encodeParam(),
+            'depositedAmount': depositedAmount.encodeParam(),
+            'depositIndex': depositIndex.encodeParam(),
+          },
+        ).toString(),
+      );
+      if (context.mounted) {
+        {
+          await context
+              .findAncestorStateOfType<FarmLockSheetState>()
+              ?.loadInfo(sortCriteria: currentSortedColumn);
+        }
+      }
+    }
   }
 }

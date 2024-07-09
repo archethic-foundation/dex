@@ -20,12 +20,14 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
     required this.pool,
     required this.width,
     required this.height,
+    required this.sortCriteria,
     super.key,
   });
 
   final DexPool pool;
   final double width;
   final double height;
+  final String sortCriteria;
 
   @override
   Widget build(
@@ -90,7 +92,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
           ),
           InkWell(
             onTap: () async {
-              // TODO(reddwarf03): Add link to video
+              // TODO(reddwarf03): Add link to article
               if (!await canLaunchUrl(Uri.parse(''))) return;
               await launchUrl(Uri.parse(''));
             },
@@ -106,7 +108,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 ),
                 Text(
                   AppLocalizations.of(context)!
-                      .farmLockBlockAddLiquidityWatchVideoGuide,
+                      .farmLockBlockAddLiquidityViewGuideArticle,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.w500,
@@ -190,7 +192,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                   {
                     await context
                         .findAncestorStateOfType<FarmLockSheetState>()
-                        ?.loadInfo();
+                        ?.loadInfo(sortCriteria: sortCriteria);
                   }
                 }
               },
@@ -241,7 +243,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                   {
                     await context
                         .findAncestorStateOfType<FarmLockSheetState>()
-                        ?.loadInfo();
+                        ?.loadInfo(sortCriteria: sortCriteria);
                   }
                 }
               },

@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/farm_lock_level_up_sheet.dart';
@@ -21,6 +20,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     required this.depositIndex,
     required this.currentLevel,
     required this.rewardAmount,
+    required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
@@ -33,6 +33,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
   final String currentLevel;
   final bool enabled;
   final double rewardAmount;
+  final String currentSortedColumn;
 
   @override
   Widget build(
@@ -40,56 +41,12 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(SessionProviders.session);
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
             onTap: enabled == false
                 ? null
                 : () async {
-                    if (context.mounted) {
-                      final poolJson = jsonEncode(farmLockForm.pool!.toJson());
-                      final poolEncoded = Uri.encodeComponent(poolJson);
-                      final farmLockJson =
-                          jsonEncode(farmLockForm.farmLock!.toJson());
-                      final farmLockEncoded = Uri.encodeComponent(farmLockJson);
-                      final depositIndexJson = jsonEncode(depositIndex);
-                      final depositIndexEncoded = Uri.encodeComponent(
-                        depositIndexJson,
-                      );
-                      final currentLevelJson = jsonEncode(currentLevel);
-                      final currentLevelEncoded = Uri.encodeComponent(
-                        currentLevelJson,
-                      );
-                      final lpAmountJson = jsonEncode(lpTokenAmount);
-                      final lpAmountEncoded = Uri.encodeComponent(
-                        lpAmountJson,
-                      );
-                      final rewardAmountJson = jsonEncode(rewardAmount);
-                      final rewardAmountEncoded = Uri.encodeComponent(
-                        rewardAmountJson,
-                      );
-
-                      await context.push(
-                        Uri(
-                          path: FarmLockLevelUpSheet.routerPage,
-                          queryParameters: {
-                            'pool': poolEncoded,
-                            'farmLock': farmLockEncoded,
-                            'depositIndex': depositIndexEncoded,
-                            'currentLevel': currentLevelEncoded,
-                            'lpAmount': lpAmountEncoded,
-                            'rewardAmount': rewardAmountEncoded,
-                          },
-                        ).toString(),
-                      );
-                      if (context.mounted) {
-                        {
-                          await context
-                              .findAncestorStateOfType<FarmLockSheetState>()
-                              ?.loadInfo();
-                        }
-                      }
-                    }
+                    await _validate(context, ref);
                   },
             child: Column(
               children: [
@@ -128,50 +85,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmLockBtnLevelUp,
             onPressed: () async {
-              if (context.mounted) {
-                final poolJson = jsonEncode(farmLockForm.pool!.toJson());
-                final poolEncoded = Uri.encodeComponent(poolJson);
-                final farmLockJson =
-                    jsonEncode(farmLockForm.farmLock!.toJson());
-                final farmLockEncoded = Uri.encodeComponent(farmLockJson);
-                final depositIndexJson = jsonEncode(depositIndex);
-                final depositIndexEncoded = Uri.encodeComponent(
-                  depositIndexJson,
-                );
-                final currentLevelJson = jsonEncode(currentLevel);
-                final currentLevelEncoded = Uri.encodeComponent(
-                  currentLevelJson,
-                );
-                final lpAmountJson = jsonEncode(lpTokenAmount);
-                final lpAmountEncoded = Uri.encodeComponent(
-                  lpAmountJson,
-                );
-                final rewardAmountJson = jsonEncode(rewardAmount);
-                final rewardAmountEncoded = Uri.encodeComponent(
-                  rewardAmountJson,
-                );
-
-                await context.push(
-                  Uri(
-                    path: FarmLockLevelUpSheet.routerPage,
-                    queryParameters: {
-                      'pool': poolEncoded,
-                      'farmLock': farmLockEncoded,
-                      'depositIndex': depositIndexEncoded,
-                      'currentLevel': currentLevelEncoded,
-                      'lpAmount': lpAmountEncoded,
-                      'rewardAmount': rewardAmountEncoded,
-                    },
-                  ).toString(),
-                );
-                if (context.mounted) {
-                  {
-                    await context
-                        .findAncestorStateOfType<FarmLockSheetState>()
-                        ?.loadInfo();
-                  }
-                }
-              }
+              await _validate(context, ref);
             },
             displayWalletConnect: true,
             isConnected: session.isConnected,
@@ -202,5 +116,31 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
               }
             },
           );
+  }
+
+  Future<void> _validate(BuildContext context, WidgetRef ref) async {
+    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
+    if (context.mounted) {
+      await context.push(
+        Uri(
+          path: FarmLockLevelUpSheet.routerPage,
+          queryParameters: {
+            'pool': farmLockForm.pool!.toJson().encodeParam(),
+            'farmLock': farmLockForm.farmLock!.toJson().encodeParam(),
+            'depositIndex': depositIndex.encodeParam(),
+            'currentLevel': currentLevel.encodeParam(),
+            'lpAmount': lpTokenAmount.encodeParam(),
+            'rewardAmount': rewardAmount.encodeParam(),
+          },
+        ).toString(),
+      );
+      if (context.mounted) {
+        {
+          await context
+              .findAncestorStateOfType<FarmLockSheetState>()
+              ?.loadInfo(sortCriteria: currentSortedColumn);
+        }
+      }
+    }
   }
 }
