@@ -857,26 +857,17 @@ export fun(get_farm_infos()) do
     available_levels = Map.set(available_levels, "7", now + 1095 * day)
   end
 
-  current_year_rewards_allocated = @REWARDS_YEAR_4
-
-  if now <= @START_DATE + 3 * year do
-    current_year_rewards_allocated = @REWARDS_YEAR_3
-  end
-
-  if now <= @START_DATE + 2 * year do
-    current_year_rewards_allocated = @REWARDS_YEAR_2
-  end
-
-  if now <= @START_DATE + 1 * year do
-    current_year_rewards_allocated = @REWARDS_YEAR_1
-  end
-
   stats = Map.new()
 
   stats =
     Map.set(stats, "0",
       weight: Map.get(weight_per_level, "0"),
-      rewards_allocated: Map.get(weight_per_level, "0") * current_year_rewards_allocated,
+      rewards_allocated: [
+        "1": Map.get(weight_per_level, "0") * @REWARDS_YEAR_1,
+        "2": Map.get(weight_per_level, "0") * @REWARDS_YEAR_2,
+        "3": Map.get(weight_per_level, "0") * @REWARDS_YEAR_3,
+        "4": Map.get(weight_per_level, "0") * @REWARDS_YEAR_4
+      ],
       lp_tokens_deposited: 0,
       deposits_count: 0
     )
@@ -884,7 +875,12 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "1",
       weight: Map.get(weight_per_level, "1"),
-      rewards_allocated: Map.get(weight_per_level, "1") * current_year_rewards_allocated,
+      rewards_allocated: [
+        "1": Map.get(weight_per_level, "1") * @REWARDS_YEAR_1,
+        "2": Map.get(weight_per_level, "1") * @REWARDS_YEAR_2,
+        "3": Map.get(weight_per_level, "1") * @REWARDS_YEAR_3,
+        "4": Map.get(weight_per_level, "1") * @REWARDS_YEAR_4
+      ],
       lp_tokens_deposited: 0,
       deposits_count: 0
     )
@@ -892,7 +888,12 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "2",
       weight: Map.get(weight_per_level, "2"),
-      rewards_allocated: Map.get(weight_per_level, "2") * current_year_rewards_allocated,
+      rewards_allocated: [
+        "1": Map.get(weight_per_level, "2") * @REWARDS_YEAR_1,
+        "2": Map.get(weight_per_level, "2") * @REWARDS_YEAR_2,
+        "3": Map.get(weight_per_level, "2") * @REWARDS_YEAR_3,
+        "4": Map.get(weight_per_level, "2") * @REWARDS_YEAR_4
+      ],
       lp_tokens_deposited: 0,
       deposits_count: 0
     )
@@ -900,7 +901,12 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "3",
       weight: Map.get(weight_per_level, "3"),
-      rewards_allocated: Map.get(weight_per_level, "3") * current_year_rewards_allocated,
+      rewards_allocated: [
+        "1": Map.get(weight_per_level, "3") * @REWARDS_YEAR_1,
+        "2": Map.get(weight_per_level, "3") * @REWARDS_YEAR_2,
+        "3": Map.get(weight_per_level, "3") * @REWARDS_YEAR_3,
+        "4": Map.get(weight_per_level, "3") * @REWARDS_YEAR_4
+      ],
       lp_tokens_deposited: 0,
       deposits_count: 0
     )
@@ -908,7 +914,12 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "4",
       weight: Map.get(weight_per_level, "4"),
-      rewards_allocated: Map.get(weight_per_level, "4") * current_year_rewards_allocated,
+      rewards_allocated: [
+        "1": Map.get(weight_per_level, "4") * @REWARDS_YEAR_1,
+        "2": Map.get(weight_per_level, "4") * @REWARDS_YEAR_2,
+        "3": Map.get(weight_per_level, "4") * @REWARDS_YEAR_3,
+        "4": Map.get(weight_per_level, "4") * @REWARDS_YEAR_4
+      ],
       lp_tokens_deposited: 0,
       deposits_count: 0
     )
@@ -916,7 +927,12 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "5",
       weight: Map.get(weight_per_level, "5"),
-      rewards_allocated: Map.get(weight_per_level, "5") * current_year_rewards_allocated,
+      rewards_allocated: [
+        "1": Map.get(weight_per_level, "5") * @REWARDS_YEAR_1,
+        "2": Map.get(weight_per_level, "5") * @REWARDS_YEAR_2,
+        "3": Map.get(weight_per_level, "5") * @REWARDS_YEAR_3,
+        "4": Map.get(weight_per_level, "5") * @REWARDS_YEAR_4
+      ],
       lp_tokens_deposited: 0,
       deposits_count: 0
     )
@@ -924,7 +940,12 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "6",
       weight: Map.get(weight_per_level, "6"),
-      rewards_allocated: Map.get(weight_per_level, "6") * current_year_rewards_allocated,
+      rewards_allocated: [
+        "1": Map.get(weight_per_level, "6") * @REWARDS_YEAR_1,
+        "2": Map.get(weight_per_level, "6") * @REWARDS_YEAR_2,
+        "3": Map.get(weight_per_level, "6") * @REWARDS_YEAR_3,
+        "4": Map.get(weight_per_level, "6") * @REWARDS_YEAR_4
+      ],
       lp_tokens_deposited: 0,
       deposits_count: 0
     )
@@ -932,7 +953,12 @@ export fun(get_farm_infos()) do
   stats =
     Map.set(stats, "7",
       weight: Map.get(weight_per_level, "7"),
-      rewards_allocated: Map.get(weight_per_level, "7") * current_year_rewards_allocated,
+      rewards_allocated: [
+        "1": Map.get(weight_per_level, "7") * @REWARDS_YEAR_1,
+        "2": Map.get(weight_per_level, "7") * @REWARDS_YEAR_2,
+        "3": Map.get(weight_per_level, "7") * @REWARDS_YEAR_3,
+        "4": Map.get(weight_per_level, "7") * @REWARDS_YEAR_4
+      ],
       lp_tokens_deposited: 0,
       deposits_count: 0
     )
