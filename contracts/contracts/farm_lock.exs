@@ -878,8 +878,7 @@ export fun(get_farm_infos()) do
       weight: Map.get(weight_per_level, "0"),
       rewards_allocated: Map.get(weight_per_level, "0") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
-      deposits_count: 0,
-      tvl_ratio: 0
+      deposits_count: 0
     )
 
   stats =
@@ -887,8 +886,7 @@ export fun(get_farm_infos()) do
       weight: Map.get(weight_per_level, "1"),
       rewards_allocated: Map.get(weight_per_level, "1") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
-      deposits_count: 0,
-      tvl_ratio: 0
+      deposits_count: 0
     )
 
   stats =
@@ -896,8 +894,7 @@ export fun(get_farm_infos()) do
       weight: Map.get(weight_per_level, "2"),
       rewards_allocated: Map.get(weight_per_level, "2") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
-      deposits_count: 0,
-      tvl_ratio: 0
+      deposits_count: 0
     )
 
   stats =
@@ -905,8 +902,7 @@ export fun(get_farm_infos()) do
       weight: Map.get(weight_per_level, "3"),
       rewards_allocated: Map.get(weight_per_level, "3") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
-      deposits_count: 0,
-      tvl_ratio: 0
+      deposits_count: 0
     )
 
   stats =
@@ -914,8 +910,7 @@ export fun(get_farm_infos()) do
       weight: Map.get(weight_per_level, "4"),
       rewards_allocated: Map.get(weight_per_level, "4") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
-      deposits_count: 0,
-      tvl_ratio: 0
+      deposits_count: 0
     )
 
   stats =
@@ -923,8 +918,7 @@ export fun(get_farm_infos()) do
       weight: Map.get(weight_per_level, "5"),
       rewards_allocated: Map.get(weight_per_level, "5") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
-      deposits_count: 0,
-      tvl_ratio: 0
+      deposits_count: 0
     )
 
   stats =
@@ -932,8 +926,7 @@ export fun(get_farm_infos()) do
       weight: Map.get(weight_per_level, "6"),
       rewards_allocated: Map.get(weight_per_level, "6") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
-      deposits_count: 0,
-      tvl_ratio: 0
+      deposits_count: 0
     )
 
   stats =
@@ -941,8 +934,7 @@ export fun(get_farm_infos()) do
       weight: Map.get(weight_per_level, "7"),
       rewards_allocated: Map.get(weight_per_level, "7") * current_year_rewards_allocated,
       lp_tokens_deposited: 0,
-      deposits_count: 0,
-      tvl_ratio: 0
+      deposits_count: 0
     )
 
   for user_genesis in Map.keys(deposits) do
@@ -971,12 +963,9 @@ export fun(get_farm_infos()) do
         Map.get(stats_for_level, "lp_tokens_deposited") + user_deposit.amount
 
       deposits_count_for_level = Map.get(stats_for_level, "deposits_count") + 1
-      tvl_ratio = lp_tokens_deposited_for_level / lp_tokens_deposited
 
       stats_for_level =
         Map.set(stats_for_level, "lp_tokens_deposited", lp_tokens_deposited_for_level)
-
-      stats_for_level = Map.set(stats_for_level, "tvl_ratio", tvl_ratio)
 
       stats_for_level = Map.set(stats_for_level, "deposits_count", deposits_count_for_level)
       stats = Map.set(stats, level, stats_for_level)
@@ -988,6 +977,7 @@ export fun(get_farm_infos()) do
     reward_token: @REWARD_TOKEN,
     start_date: @START_DATE,
     end_date: @END_DATE,
+    lp_tokens_deposited: lp_tokens_deposited,
     remaining_rewards: remaining_rewards,
     rewards_distributed: State.get("rewards_distributed", 0),
     available_levels: available_levels,
