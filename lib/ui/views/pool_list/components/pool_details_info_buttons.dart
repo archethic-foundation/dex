@@ -16,11 +16,11 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
   const PoolDetailsInfoButtons({
     super.key,
     required this.pool,
-    required this.tab,
+    this.tab,
   });
 
   final DexPool pool;
-  final PoolsListTab tab;
+  final PoolsListTab? tab;
 
   @override
   Widget build(
@@ -29,6 +29,14 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
   ) {
     if (aedappfm.Responsive.isDesktop(context) ||
         aedappfm.Responsive.isTablet(context)) {
+      if (tab == null) {
+        return Column(
+          children: [
+            _closeButton(context),
+          ],
+        );
+      }
+
       return Column(
         children: [
           _swapButton(context, pool),
@@ -48,6 +56,13 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
         ],
       );
     } else {
+      if (tab == null) {
+        return Column(
+          children: [
+            _closeButton(context),
+          ],
+        );
+      }
       return Column(
         children: [
           _swapButton(context, pool),
@@ -87,6 +102,21 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
     );
   }
 
+  Widget _closeButton(BuildContext context) {
+    return aedappfm.AppButton(
+      backgroundGradient: LinearGradient(
+        colors: [
+          aedappfm.ArchethicThemeBase.blue400,
+          aedappfm.ArchethicThemeBase.blue600,
+        ],
+      ),
+      labelBtn: AppLocalizations.of(context)!.btn_close,
+      onPressed: () async {
+        context.pop();
+      },
+    );
+  }
+
   Widget _addLiquidityButton(
     BuildContext context,
     WidgetRef ref,
@@ -96,7 +126,7 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
       controlOk: true,
       labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonAddLiquidity,
       onPressed: () async {
-        final poolsListTabEncoded = Uri.encodeComponent(tab.name);
+        final poolsListTabEncoded = Uri.encodeComponent(tab!.name);
         await context.push(
           Uri(
             path: LiquidityAddSheet.routerPage,
@@ -145,7 +175,7 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
       labelBtn:
           AppLocalizations.of(context)!.poolDetailsInfoButtonRemoveLiquidity,
       onPressed: () async {
-        final poolsListTabEncoded = Uri.encodeComponent(tab.name);
+        final poolsListTabEncoded = Uri.encodeComponent(tab!.name);
         await context.push(
           Uri(
             path: LiquidityRemoveSheet.routerPage,

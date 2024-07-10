@@ -38,7 +38,7 @@ _$StatsImpl _$$StatsImplFromJson(Map<String, dynamic> json) => _$StatsImpl(
       depositsCount: (json['deposits_count'] as num).toInt(),
       lpTokensDeposited: (json['lp_tokens_deposited'] as num).toDouble(),
       rewardsAllocated: (json['rewards_allocated'] as num).toDouble(),
-      tvlRatio: (json['tvl_ratio'] as num).toDouble(),
+      weight: (json['weight'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$StatsImplToJson(_$StatsImpl instance) =>
@@ -46,5 +46,5 @@ Map<String, dynamic> _$$StatsImplToJson(_$StatsImpl instance) =>
       'deposits_count': instance.depositsCount,
       'lp_tokens_deposited': instance.lpTokensDeposited,
       'rewards_allocated': instance.rewardsAllocated,
-      'tvl_ratio': instance.tvlRatio,
+      'weight': instance.weight,
     };

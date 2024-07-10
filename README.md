@@ -244,13 +244,11 @@ Returns the informations of the farm
       "deposits_count": 1344.454, // Deposits count currently on this level by all users
       "lp_tokens_deposited": 34553,  // Amount deposited currently on this level by all users
       "rewards_allocated": 3564332.333, // Amount of rewards remaining for this level for all users
-      "tvl_ratio": 1.2 // : ratio of tokens deposited on this level by all users
     },
     "2": {
       "deposits_count": 12341.454, // Deposits count currently on this level by all users
       "lp_tokens_deposited": 43513,  // Amount deposited currently on this level by all users
       "rewards_allocated": 3561342.13, // Amount of rewards remaining for this level for all users
-      "tvl_ratio": 0.7 // : ratio of tokens deposited on this level by all users
     }
   }
 }

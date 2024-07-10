@@ -2,10 +2,8 @@ import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
-import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
 import 'package:aedex/infrastructure/dex_farm_lock.repository.dart';
 import 'package:collection/collection.dart';
-import 'package:decimal/decimal.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_farm_lock.g.dart';
@@ -73,7 +71,7 @@ Future<DexFarmLock?> _getFarmLockInfos(
       newUserInfos[index] = userInfos;
     }*/
 
-    final newStats = <String, DexFarmLockStats>{};
+    /*  final newStats = <String, DexFarmLockStats>{};
     for (final entry in farmLockInfos.stats.entries) {
       final level = entry.key;
       var stats = entry.value;
@@ -100,7 +98,8 @@ Future<DexFarmLock?> _getFarmLockInfos(
       newStats[level] = stats;
     }
 
-    return farmLockInfos.copyWith(stats: newStats);
+    return farmLockInfos.copyWith(stats: newStats);*/
+    return farmLockInfos;
   } catch (e) {
     return null;
   }

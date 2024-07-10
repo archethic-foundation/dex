@@ -18,6 +18,7 @@ class DexFarmLock with _$DexFarmLock {
     @Default(0.0) double remainingReward,
     @Default(0.0) double remainingRewardInFiat,
     @Default(0.0) double rewardDistributed,
+    @Default(0.0) double lpTokensDeposited,
     DexToken? lpToken,
     DexPair? lpTokenPair,
     DateTime? startDate,
@@ -37,6 +38,13 @@ class DexFarmLock with _$DexFarmLock {
   double get apr3years {
     return stats['7']?.aprEstimation ?? 0.0;
   }
+
+  bool get isOpen =>
+      startDate != null &&
+      endDate != null &&
+      startDate!.isBefore(endDate!) &&
+      startDate!.isBefore(DateTime.now()) &&
+      startDate!.isAfter(DateTime.now());
 }
 
 extension TimestampExt on int {

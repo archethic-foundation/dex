@@ -22,7 +22,8 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
-    if (farmLockForm.farmLock == null) {
+    if (farmLockForm.farmLock == null ||
+        farmLockForm.farmLock!.isOpen == false) {
       return const SizedBox.shrink();
     }
 

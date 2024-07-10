@@ -25,6 +25,7 @@ mixin _$DexFarmLock {
   double get remainingReward => throw _privateConstructorUsedError;
   double get remainingRewardInFiat => throw _privateConstructorUsedError;
   double get rewardDistributed => throw _privateConstructorUsedError;
+  double get lpTokensDeposited => throw _privateConstructorUsedError;
   DexToken? get lpToken => throw _privateConstructorUsedError;
   DexPair? get lpTokenPair => throw _privateConstructorUsedError;
   DateTime? get startDate => throw _privateConstructorUsedError;
@@ -55,6 +56,7 @@ abstract class $DexFarmLockCopyWith<$Res> {
       double remainingReward,
       double remainingRewardInFiat,
       double rewardDistributed,
+      double lpTokensDeposited,
       DexToken? lpToken,
       DexPair? lpTokenPair,
       DateTime? startDate,
@@ -89,6 +91,7 @@ class _$DexFarmLockCopyWithImpl<$Res, $Val extends DexFarmLock>
     Object? remainingReward = null,
     Object? remainingRewardInFiat = null,
     Object? rewardDistributed = null,
+    Object? lpTokensDeposited = null,
     Object? lpToken = freezed,
     Object? lpTokenPair = freezed,
     Object? startDate = freezed,
@@ -120,6 +123,10 @@ class _$DexFarmLockCopyWithImpl<$Res, $Val extends DexFarmLock>
       rewardDistributed: null == rewardDistributed
           ? _value.rewardDistributed
           : rewardDistributed // ignore: cast_nullable_to_non_nullable
+              as double,
+      lpTokensDeposited: null == lpTokensDeposited
+          ? _value.lpTokensDeposited
+          : lpTokensDeposited // ignore: cast_nullable_to_non_nullable
               as double,
       lpToken: freezed == lpToken
           ? _value.lpToken
@@ -215,6 +222,7 @@ abstract class _$$DexFarmLockImplCopyWith<$Res>
       double remainingReward,
       double remainingRewardInFiat,
       double rewardDistributed,
+      double lpTokensDeposited,
       DexToken? lpToken,
       DexPair? lpTokenPair,
       DateTime? startDate,
@@ -250,6 +258,7 @@ class __$$DexFarmLockImplCopyWithImpl<$Res>
     Object? remainingReward = null,
     Object? remainingRewardInFiat = null,
     Object? rewardDistributed = null,
+    Object? lpTokensDeposited = null,
     Object? lpToken = freezed,
     Object? lpTokenPair = freezed,
     Object? startDate = freezed,
@@ -281,6 +290,10 @@ class __$$DexFarmLockImplCopyWithImpl<$Res>
       rewardDistributed: null == rewardDistributed
           ? _value.rewardDistributed
           : rewardDistributed // ignore: cast_nullable_to_non_nullable
+              as double,
+      lpTokensDeposited: null == lpTokensDeposited
+          ? _value.lpTokensDeposited
+          : lpTokensDeposited // ignore: cast_nullable_to_non_nullable
               as double,
       lpToken: freezed == lpToken
           ? _value.lpToken
@@ -335,6 +348,7 @@ class _$DexFarmLockImpl extends _DexFarmLock {
       this.remainingReward = 0.0,
       this.remainingRewardInFiat = 0.0,
       this.rewardDistributed = 0.0,
+      this.lpTokensDeposited = 0.0,
       this.lpToken,
       this.lpTokenPair,
       this.startDate,
@@ -368,6 +382,9 @@ class _$DexFarmLockImpl extends _DexFarmLock {
   @override
   @JsonKey()
   final double rewardDistributed;
+  @override
+  @JsonKey()
+  final double lpTokensDeposited;
   @override
   final DexToken? lpToken;
   @override
@@ -413,7 +430,7 @@ class _$DexFarmLockImpl extends _DexFarmLock {
 
   @override
   String toString() {
-    return 'DexFarmLock(farmAddress: $farmAddress, poolAddress: $poolAddress, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, rewardDistributed: $rewardDistributed, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, apr: $apr, estimateLPTokenInFiat: $estimateLPTokenInFiat, availableLevels: $availableLevels, stats: $stats, userInfos: $userInfos)';
+    return 'DexFarmLock(farmAddress: $farmAddress, poolAddress: $poolAddress, remainingReward: $remainingReward, remainingRewardInFiat: $remainingRewardInFiat, rewardDistributed: $rewardDistributed, lpTokensDeposited: $lpTokensDeposited, lpToken: $lpToken, lpTokenPair: $lpTokenPair, startDate: $startDate, endDate: $endDate, rewardToken: $rewardToken, apr: $apr, estimateLPTokenInFiat: $estimateLPTokenInFiat, availableLevels: $availableLevels, stats: $stats, userInfos: $userInfos)';
   }
 
   @override
@@ -431,6 +448,8 @@ class _$DexFarmLockImpl extends _DexFarmLock {
                 other.remainingRewardInFiat == remainingRewardInFiat) &&
             (identical(other.rewardDistributed, rewardDistributed) ||
                 other.rewardDistributed == rewardDistributed) &&
+            (identical(other.lpTokensDeposited, lpTokensDeposited) ||
+                other.lpTokensDeposited == lpTokensDeposited) &&
             (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
             (identical(other.lpTokenPair, lpTokenPair) ||
                 other.lpTokenPair == lpTokenPair) &&
@@ -458,6 +477,7 @@ class _$DexFarmLockImpl extends _DexFarmLock {
       remainingReward,
       remainingRewardInFiat,
       rewardDistributed,
+      lpTokensDeposited,
       lpToken,
       lpTokenPair,
       startDate,
@@ -490,6 +510,7 @@ abstract class _DexFarmLock extends DexFarmLock {
       final double remainingReward,
       final double remainingRewardInFiat,
       final double rewardDistributed,
+      final double lpTokensDeposited,
       final DexToken? lpToken,
       final DexPair? lpTokenPair,
       final DateTime? startDate,
@@ -515,6 +536,8 @@ abstract class _DexFarmLock extends DexFarmLock {
   double get remainingRewardInFiat;
   @override
   double get rewardDistributed;
+  @override
+  double get lpTokensDeposited;
   @override
   DexToken? get lpToken;
   @override

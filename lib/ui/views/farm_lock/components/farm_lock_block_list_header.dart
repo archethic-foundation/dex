@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -21,9 +22,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final style = Theme.of(context).textTheme.bodyMedium!.copyWith(
-          color: aedappfm.AppThemeBase.secondaryColor,
-        );
+    final style = AppTextStyles.bodyMediumSecondaryColor(context);
     return Padding(
       padding: aedappfm.Responsive.isDesktop(context)
           ? const EdgeInsets.symmetric(horizontal: 50)

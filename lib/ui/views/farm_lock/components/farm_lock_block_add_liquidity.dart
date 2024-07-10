@@ -5,11 +5,14 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
+
+import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -139,18 +142,58 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
       children: [
         Column(
           children: [
-            Container(
-              height: 36,
-              width: 36,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                gradient: aedappfm.AppThemeBase.gradientBtn,
-                shape: BoxShape.circle,
+            InkWell(
+              child: Container(
+                height: 36,
+                width: 36,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: aedappfm.AppThemeBase.gradientBtn,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  aedappfm.Iconsax.search_status,
+                  size: 18,
+                ),
               ),
-              child: const Icon(
-                aedappfm.Iconsax.search_status,
-                size: 18,
-              ),
+              onTap: () async {
+                return showDialog<void>(
+                  context: context,
+                  builder: (context) {
+                    return GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: Scaffold(
+                        extendBodyBehindAppBar: true,
+                        extendBody: true,
+                        backgroundColor: Colors.transparent.withAlpha(120),
+                        body: Align(
+                          child: SizedBox(
+                            width: 550,
+                            height: 450,
+                            child: PoolListItem(
+                              key: ValueKey(pool.poolAddress),
+                              pool: pool,
+                            )
+                                .animate()
+                                .fade(
+                                  duration: const Duration(
+                                    milliseconds: 300,
+                                  ),
+                                )
+                                .scale(
+                                  duration: const Duration(
+                                    milliseconds: 300,
+                                  ),
+                                ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
             const SizedBox(
               height: 5,
@@ -166,7 +209,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
             InkWell(
               child: Container(
                 height: 50,
-                width: 50,
+                width: 150,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   gradient: aedappfm.AppThemeBase.gradientBtn,

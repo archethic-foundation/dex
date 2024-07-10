@@ -1,3 +1,4 @@
+import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_add_liquidity.dart';
@@ -13,12 +14,14 @@ class FarmLockBlockHeader extends ConsumerWidget {
   const FarmLockBlockHeader({
     required this.pool,
     required this.farmLock,
+    required this.farm,
     required this.sortCriteria,
     super.key,
   });
 
   final DexPool? pool;
   final DexFarmLock? farmLock;
+  final DexFarm? farm;
   final String sortCriteria;
 
   @override
@@ -54,6 +57,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     FarmLockBlockEarnRewards(
                       pool: pool!,
                       farmLock: farmLock,
+                      farm: farm,
                       width: constraints.maxWidth * 0.32,
                       height: 300,
                       sortCriteria: sortCriteria,
@@ -96,6 +100,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     FarmLockBlockEarnRewards(
                       pool: pool!,
                       farmLock: farmLock,
+                      farm: farm,
                       width: constraints.maxWidth,
                       height: 290,
                       sortCriteria: sortCriteria,

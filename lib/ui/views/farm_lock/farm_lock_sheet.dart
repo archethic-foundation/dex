@@ -105,74 +105,80 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     String sortCriteria = 'level',
     bool invertSort = false,
   }) async {
-    currentSortedColumn = sortCriteria;
-    if (mounted) {
-      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
-      ref
-          .read(FarmLockFormProvider.farmLockForm.notifier)
-          .setMainInfoloadingInProgress(true);
-    }
+    try {
+      currentSortedColumn = sortCriteria;
+      if (mounted) {
+        await ref
+            .read(SessionProviders.session.notifier)
+            .updateCtxInfo(context);
+        ref
+            .read(FarmLockFormProvider.farmLockForm.notifier)
+            .setMainInfoloadingInProgress(true);
+      }
 
-    final contextAddresses = PoolFarmAvailableState().getContextAddresses(ref);
+      final contextAddresses =
+          PoolFarmAvailableState().getContextAddresses(ref);
 
-    pool = await ref.read(
-      DexPoolProviders.getPool(
-        contextAddresses.aeETHUCOPoolAddress,
-      ).future,
-    );
+      pool = await ref.read(
+        DexPoolProviders.getPool(
+          contextAddresses.aeETHUCOPoolAddress,
+        ).future,
+      );
 
-    final farmAddress = contextAddresses.aeETHUCOFarmLegacyAddress;
-    farm = await ref.read(
-      DexFarmProviders.getFarmInfos(
-        farmAddress,
-        pool!.poolAddress,
-        dexFarmInput: DexFarm(
-          poolAddress: pool!.poolAddress,
-          farmAddress: farmAddress,
-        ),
-      ).future,
-    );
-
-    final farmLockAddress = contextAddresses.aeETHUCOFarmLockAddress;
-    if (farmLockAddress.isNotEmpty) {
-      farmLock = await ref.read(
-        DexFarmLockProviders.getFarmLockInfos(
-          farmLockAddress,
+      final farmAddress = contextAddresses.aeETHUCOFarmLegacyAddress;
+      farm = await ref.read(
+        DexFarmProviders.getFarmInfos(
+          farmAddress,
           pool!.poolAddress,
-          dexFarmLockInput: DexFarmLock(
+          dexFarmInput: DexFarm(
             poolAddress: pool!.poolAddress,
-            farmAddress: farmLockAddress,
+            farmAddress: farmAddress,
           ),
         ).future,
       );
-    }
 
-    ref.read(FarmLockFormProvider.farmLockForm.notifier)
-      ..setPool(pool!)
-      ..setFarm(farm!);
+      final farmLockAddress = contextAddresses.aeETHUCOFarmLockAddress;
+      if (farmLockAddress.isNotEmpty) {
+        farmLock = await ref.read(
+          DexFarmLockProviders.getFarmLockInfos(
+            farmLockAddress,
+            pool!.poolAddress,
+            dexFarmLockInput: DexFarmLock(
+              poolAddress: pool!.poolAddress,
+              farmAddress: farmLockAddress,
+            ),
+          ).future,
+        );
+      }
 
-    if (farmLock != null) {
+      ref.read(FarmLockFormProvider.farmLockForm.notifier)
+        ..setPool(pool!)
+        ..setFarm(farm!);
+
+      if (farmLock != null) {
+        await ref
+            .read(FarmLockFormProvider.farmLockForm.notifier)
+            .setFarmLock(farmLock!);
+      }
+
+      await ref.read(FarmLockFormProvider.farmLockForm.notifier).initBalances();
       await ref
           .read(FarmLockFormProvider.farmLockForm.notifier)
-          .setFarmLock(farmLock!);
-    }
+          .calculateSummary();
 
-    await ref.read(FarmLockFormProvider.farmLockForm.notifier).initBalances();
-    await ref
-        .read(FarmLockFormProvider.farmLockForm.notifier)
-        .calculateSummary();
+      if (farmLock != null) {
+        sortedUserInfos =
+            farmLock!.userInfos.entries.map((entry) => entry.value).toList();
+        sortData(currentSortedColumn, invertSort);
+      }
+    } finally {
+      ref
+          .read(FarmLockFormProvider.farmLockForm.notifier)
+          .setMainInfoloadingInProgress(false);
 
-    if (farmLock != null) {
-      sortedUserInfos =
-          farmLock!.userInfos.entries.map((entry) => entry.value).toList();
-      sortData(currentSortedColumn, invertSort);
-    }
-
-    ref
-        .read(FarmLockFormProvider.farmLockForm.notifier)
-        .setMainInfoloadingInProgress(false);
-    if (mounted) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -204,6 +210,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
             FarmLockBlockHeader(
               pool: pool,
               farmLock: farmLockForm.farmLock,
+              farm: farmLockForm.farm,
               sortCriteria: currentSortedColumn,
             ),
             const SizedBox(

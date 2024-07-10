@@ -34,7 +34,8 @@ mixin _$GetFarmLockFarmInfosResponse {
   @JsonKey(name: 'reward_token')
   String get rewardToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'rewards_distributed')
-  double get rewardsDistributed => throw _privateConstructorUsedError;
+  double get rewardsDistributed => throw _privateConstructorUsedError; // TODO
+//@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
   Map<String, Stats> get stats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -249,7 +250,11 @@ class _$GetFarmLockFarmInfosResponseImpl
   @override
   @JsonKey(name: 'rewards_distributed')
   final double rewardsDistributed;
+// TODO
+//@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
   final Map<String, Stats> _stats;
+// TODO
+//@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
   @override
   Map<String, Stats> get stats {
     if (_stats is EqualUnmodifiableMapView) return _stats;
@@ -352,7 +357,8 @@ abstract class _GetFarmLockFarmInfosResponse
   @override
   @JsonKey(name: 'rewards_distributed')
   double get rewardsDistributed;
-  @override
+  @override // TODO
+//@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
   Map<String, Stats> get stats;
   @override
   @JsonKey(ignore: true)
@@ -370,11 +376,12 @@ mixin _$Stats {
   @JsonKey(name: 'deposits_count')
   int get depositsCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'lp_tokens_deposited')
-  double get lpTokensDeposited => throw _privateConstructorUsedError;
+  double get lpTokensDeposited => throw _privateConstructorUsedError; // TODO
+//@JsonKey(name: 'rewards_allocated')
+//required Map<String, double> rewardsAllocated,
   @JsonKey(name: 'rewards_allocated')
   double get rewardsAllocated => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tvl_ratio')
-  double get tvlRatio => throw _privateConstructorUsedError;
+  double get weight => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -390,7 +397,7 @@ abstract class $StatsCopyWith<$Res> {
       {@JsonKey(name: 'deposits_count') int depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') double lpTokensDeposited,
       @JsonKey(name: 'rewards_allocated') double rewardsAllocated,
-      @JsonKey(name: 'tvl_ratio') double tvlRatio});
+      double weight});
 }
 
 /// @nodoc
@@ -409,7 +416,7 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
     Object? depositsCount = null,
     Object? lpTokensDeposited = null,
     Object? rewardsAllocated = null,
-    Object? tvlRatio = null,
+    Object? weight = null,
   }) {
     return _then(_value.copyWith(
       depositsCount: null == depositsCount
@@ -424,9 +431,9 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
           ? _value.rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
               as double,
-      tvlRatio: null == tvlRatio
-          ? _value.tvlRatio
-          : tvlRatio // ignore: cast_nullable_to_non_nullable
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
               as double,
     ) as $Val);
   }
@@ -443,7 +450,7 @@ abstract class _$$StatsImplCopyWith<$Res> implements $StatsCopyWith<$Res> {
       {@JsonKey(name: 'deposits_count') int depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') double lpTokensDeposited,
       @JsonKey(name: 'rewards_allocated') double rewardsAllocated,
-      @JsonKey(name: 'tvl_ratio') double tvlRatio});
+      double weight});
 }
 
 /// @nodoc
@@ -460,7 +467,7 @@ class __$$StatsImplCopyWithImpl<$Res>
     Object? depositsCount = null,
     Object? lpTokensDeposited = null,
     Object? rewardsAllocated = null,
-    Object? tvlRatio = null,
+    Object? weight = null,
   }) {
     return _then(_$StatsImpl(
       depositsCount: null == depositsCount
@@ -475,9 +482,9 @@ class __$$StatsImplCopyWithImpl<$Res>
           ? _value.rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
               as double,
-      tvlRatio: null == tvlRatio
-          ? _value.tvlRatio
-          : tvlRatio // ignore: cast_nullable_to_non_nullable
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
               as double,
     ));
   }
@@ -490,7 +497,7 @@ class _$StatsImpl implements _Stats {
       {@JsonKey(name: 'deposits_count') required this.depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') required this.lpTokensDeposited,
       @JsonKey(name: 'rewards_allocated') required this.rewardsAllocated,
-      @JsonKey(name: 'tvl_ratio') required this.tvlRatio});
+      required this.weight});
 
   factory _$StatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$StatsImplFromJson(json);
@@ -501,16 +508,18 @@ class _$StatsImpl implements _Stats {
   @override
   @JsonKey(name: 'lp_tokens_deposited')
   final double lpTokensDeposited;
+// TODO
+//@JsonKey(name: 'rewards_allocated')
+//required Map<String, double> rewardsAllocated,
   @override
   @JsonKey(name: 'rewards_allocated')
   final double rewardsAllocated;
   @override
-  @JsonKey(name: 'tvl_ratio')
-  final double tvlRatio;
+  final double weight;
 
   @override
   String toString() {
-    return 'Stats(depositsCount: $depositsCount, lpTokensDeposited: $lpTokensDeposited, rewardsAllocated: $rewardsAllocated, tvlRatio: $tvlRatio)';
+    return 'Stats(depositsCount: $depositsCount, lpTokensDeposited: $lpTokensDeposited, rewardsAllocated: $rewardsAllocated, weight: $weight)';
   }
 
   @override
@@ -524,14 +533,13 @@ class _$StatsImpl implements _Stats {
                 other.lpTokensDeposited == lpTokensDeposited) &&
             (identical(other.rewardsAllocated, rewardsAllocated) ||
                 other.rewardsAllocated == rewardsAllocated) &&
-            (identical(other.tvlRatio, tvlRatio) ||
-                other.tvlRatio == tvlRatio));
+            (identical(other.weight, weight) || other.weight == weight));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, depositsCount, lpTokensDeposited,
-      rewardsAllocated, tvlRatio);
+  int get hashCode => Object.hash(
+      runtimeType, depositsCount, lpTokensDeposited, rewardsAllocated, weight);
 
   @JsonKey(ignore: true)
   @override
@@ -549,13 +557,12 @@ class _$StatsImpl implements _Stats {
 
 abstract class _Stats implements Stats {
   const factory _Stats(
-          {@JsonKey(name: 'deposits_count') required final int depositsCount,
-          @JsonKey(name: 'lp_tokens_deposited')
-          required final double lpTokensDeposited,
-          @JsonKey(name: 'rewards_allocated')
-          required final double rewardsAllocated,
-          @JsonKey(name: 'tvl_ratio') required final double tvlRatio}) =
-      _$StatsImpl;
+      {@JsonKey(name: 'deposits_count') required final int depositsCount,
+      @JsonKey(name: 'lp_tokens_deposited')
+      required final double lpTokensDeposited,
+      @JsonKey(name: 'rewards_allocated')
+      required final double rewardsAllocated,
+      required final double weight}) = _$StatsImpl;
 
   factory _Stats.fromJson(Map<String, dynamic> json) = _$StatsImpl.fromJson;
 
@@ -565,12 +572,13 @@ abstract class _Stats implements Stats {
   @override
   @JsonKey(name: 'lp_tokens_deposited')
   double get lpTokensDeposited;
-  @override
+  @override // TODO
+//@JsonKey(name: 'rewards_allocated')
+//required Map<String, double> rewardsAllocated,
   @JsonKey(name: 'rewards_allocated')
   double get rewardsAllocated;
   @override
-  @JsonKey(name: 'tvl_ratio')
-  double get tvlRatio;
+  double get weight;
   @override
   @JsonKey(ignore: true)
   _$$StatsImplCopyWith<_$StatsImpl> get copyWith =>

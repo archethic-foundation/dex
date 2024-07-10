@@ -235,13 +235,14 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         rewardToken: farmLock.rewardToken!,
                                         depositIndex: farmLockUserInfos.index,
                                         currentLevel: farmLockUserInfos.level,
-                                        enabled: int.tryParse(
-                                              farmLockUserInfos.level,
-                                            )! <
+                                        enabled: farmLock.isOpen &&
                                             int.tryParse(
-                                              farmLock.availableLevels.entries
-                                                  .last.key,
-                                            )!,
+                                                  farmLockUserInfos.level,
+                                                )! <
+                                                int.tryParse(
+                                                  farmLock.availableLevels
+                                                      .entries.last.key,
+                                                )!,
                                         rewardAmount:
                                             farmLockUserInfos.rewardAmount,
                                         currentSortedColumn:
@@ -558,8 +559,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                                         .end! *
                                                                     1000,
                                                               ).isBefore(
-                                                                  DateTime
-                                                                      .now())),
+                                                                DateTime.now(),
+                                                              )),
                                                       currentSortedColumn:
                                                           currentSortedColumn,
                                                     ),

@@ -13,10 +13,10 @@ class PoolDetailsFront extends ConsumerStatefulWidget {
   const PoolDetailsFront({
     super.key,
     required this.pool,
-    required this.tab,
+    this.tab,
   });
   final DexPool pool;
-  final PoolsListTab tab;
+  final PoolsListTab? tab;
 
   @override
   PoolDetailsFrontState createState() => PoolDetailsFrontState();
@@ -37,7 +37,7 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
       children: [
         PoolDetailsInfoHeader(
           pool: widget.pool,
-          displayPoolFarmAvailable: true,
+          displayPoolFarmAvailable: widget.tab != null,
         ),
         const SizedBox(height: 20),
         Row(

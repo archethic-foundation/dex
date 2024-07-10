@@ -24,11 +24,11 @@ class PoolListItem extends ConsumerStatefulWidget {
   const PoolListItem({
     super.key,
     required this.pool,
-    required this.tab,
+    this.tab,
   });
 
   final DexPool pool;
-  final PoolsListTab tab;
+  final PoolsListTab? tab;
 
   @override
   ConsumerState<PoolListItem> createState() => PoolListItemState();

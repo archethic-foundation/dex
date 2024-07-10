@@ -16,6 +16,8 @@ class GetFarmLockFarmInfosResponse with _$GetFarmLockFarmInfosResponse {
     @JsonKey(name: 'remaining_rewards') required double remainingRewards,
     @JsonKey(name: 'reward_token') required String rewardToken,
     @JsonKey(name: 'rewards_distributed') required double rewardsDistributed,
+    // TODO
+    //@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
     required Map<String, Stats> stats,
   }) = _GetFarmLockFarmInfosResponse;
 
@@ -28,8 +30,11 @@ class Stats with _$Stats {
   const factory Stats({
     @JsonKey(name: 'deposits_count') required int depositsCount,
     @JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
+    // TODO
+    //@JsonKey(name: 'rewards_allocated')
+    //required Map<String, double> rewardsAllocated,
     @JsonKey(name: 'rewards_allocated') required double rewardsAllocated,
-    @JsonKey(name: 'tvl_ratio') required double tvlRatio,
+    required double weight,
   }) = _Stats;
 
   factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);

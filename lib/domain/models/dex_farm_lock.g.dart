@@ -14,6 +14,7 @@ _$DexFarmLockImpl _$$DexFarmLockImplFromJson(Map<String, dynamic> json) =>
       remainingRewardInFiat:
           (json['remainingRewardInFiat'] as num?)?.toDouble() ?? 0.0,
       rewardDistributed: (json['rewardDistributed'] as num?)?.toDouble() ?? 0.0,
+      lpTokensDeposited: (json['lpTokensDeposited'] as num?)?.toDouble() ?? 0.0,
       lpToken: json['lpToken'] == null
           ? null
           : DexToken.fromJson(json['lpToken'] as Map<String, dynamic>),
@@ -55,6 +56,7 @@ Map<String, dynamic> _$$DexFarmLockImplToJson(_$DexFarmLockImpl instance) =>
       'remainingReward': instance.remainingReward,
       'remainingRewardInFiat': instance.remainingRewardInFiat,
       'rewardDistributed': instance.rewardDistributed,
+      'lpTokensDeposited': instance.lpTokensDeposited,
       'lpToken': instance.lpToken,
       'lpTokenPair': instance.lpTokenPair,
       'startDate': instance.startDate?.toIso8601String(),
