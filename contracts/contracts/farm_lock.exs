@@ -1,6 +1,8 @@
 @version 1
 
 condition triggered_by: transaction, on: deposit(end_timestamp) do
+  now = Time.now()
+
   if end_timestamp == "max" do
     end_timestamp = @END_DATE
   end
@@ -15,6 +17,10 @@ condition triggered_by: transaction, on: deposit(end_timestamp) do
 
   if end_timestamp > @END_DATE do
     throw(message: "deposit's end cannot be greater than farm's end", code: 1005)
+  end
+
+  if end_timestamp != 0 && end_timestamp < now do
+    throw(message: "deposit's end cannot be in the past", code: 1006)
   end
 
   if get_user_transfer_amount() < 0.00000143 do
