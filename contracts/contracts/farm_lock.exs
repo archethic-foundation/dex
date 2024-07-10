@@ -824,14 +824,38 @@ export fun(get_farm_infos()) do
   weight_per_level = Map.set(weight_per_level, "7", 0.449)
 
   available_levels = Map.new()
-  available_levels = Map.set(available_levels, "0", now + 0)
-  available_levels = Map.set(available_levels, "1", now + 7 * day)
-  available_levels = Map.set(available_levels, "2", now + 30 * day)
-  available_levels = Map.set(available_levels, "3", now + 90 * day)
-  available_levels = Map.set(available_levels, "4", now + 180 * day)
-  available_levels = Map.set(available_levels, "5", now + 365 * day)
-  available_levels = Map.set(available_levels, "6", now + 730 * day)
-  available_levels = Map.set(available_levels, "7", now + 1095 * day)
+
+  if now < @END_DATE do
+    available_levels = Map.set(available_levels, "0", now)
+  end
+
+  if now + 7 * day < @END_DATE do
+    available_levels = Map.set(available_levels, "1", now + 7 * day)
+  end
+
+  if now + 30 * day < @END_DATE do
+    available_levels = Map.set(available_levels, "2", now + 30 * day)
+  end
+
+  if now + 90 * day < @END_DATE do
+    available_levels = Map.set(available_levels, "3", now + 90 * day)
+  end
+
+  if now + 180 * day < @END_DATE do
+    available_levels = Map.set(available_levels, "4", now + 180 * day)
+  end
+
+  if now + 365 * day < @END_DATE do
+    available_levels = Map.set(available_levels, "5", now + 365 * day)
+  end
+
+  if now + 730 * day < @END_DATE do
+    available_levels = Map.set(available_levels, "6", now + 730 * day)
+  end
+
+  if now + 1095 * day < @END_DATE do
+    available_levels = Map.set(available_levels, "7", now + 1095 * day)
+  end
 
   current_year_rewards_allocated = @REWARDS_YEAR_4
 
