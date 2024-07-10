@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/domain/models/dex_farm_lock.dart';
+import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -13,7 +13,6 @@ class FarmLockWithdrawFormState with _$FarmLockWithdrawFormState {
     @Default(ProcessStep.form) ProcessStep processStep,
     @Default(false) bool resumeProcess,
     @Default(0) int currentStep,
-    DexFarmLock? dexFarmLockInfo,
     @Default(false) bool isProcessInProgress,
     @Default(false) bool farmLockWithdrawOk,
     @Default(false) bool walletConfirmation,
@@ -23,19 +22,19 @@ class FarmLockWithdrawFormState with _$FarmLockWithdrawFormState {
     Failure? failure,
     String? farmAddress,
     DexToken? rewardToken,
-    String? lpTokenAddress,
+    DexToken? lpToken,
+    DexPair? lpTokenPair,
     double? finalAmountReward,
     double? finalAmountWithdraw,
     DateTime? consentDateTime,
     double? depositedAmount,
     double? rewardAmount,
+    String? poolAddress,
+    DateTime? endDate,
   }) = _FarmLockWithdrawFormState;
   const FarmLockWithdrawFormState._();
 
   bool get isControlsOk => failure == null && amount > 0;
 
-  bool get isFarmClose =>
-      dexFarmLockInfo != null &&
-      dexFarmLockInfo!.endDate != null &&
-      dexFarmLockInfo!.endDate!.isBefore(DateTime.now());
+  bool get isFarmClose => endDate != null && endDate!.isBefore(DateTime.now());
 }

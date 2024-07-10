@@ -29,6 +29,11 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
     state = state.copyWith(farm: farm);
   }
 
+  void setMainInfoloadingInProgress(bool mainInfoloadingInProgress) {
+    state =
+        state.copyWith(mainInfoloadingInProgress: mainInfoloadingInProgress);
+  }
+
   Future<void> calculateSummary() async {
     var capitalInvested = 0.0;
     var rewardsEarned = 0.0;

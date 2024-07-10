@@ -9,6 +9,7 @@ import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
+import 'package:aedex/ui/views/farm_lock_claim/layouts/farm_lock_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/farm_lock_level_up_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_sheet.dart';
@@ -42,23 +43,17 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: SwapSheet.routerPage,
               pageBuilder: (context, state) {
-                DexToken? tokenToSwap;
-                DexToken? tokenSwapped;
-                final tokenToSwapEncoded =
-                    state.uri.queryParameters['tokenToSwap'];
-                final tokenSwappedEncoded =
-                    state.uri.queryParameters['tokenSwapped'];
-                if (tokenToSwapEncoded != null) {
-                  final tokenToSwapJson =
-                      Uri.decodeComponent(tokenToSwapEncoded);
-                  tokenToSwap = DexToken.fromJson(jsonDecode(tokenToSwapJson));
-                }
-                if (tokenSwappedEncoded != null) {
-                  final tokenSwappedJson =
-                      Uri.decodeComponent(tokenSwappedEncoded);
-                  tokenSwapped =
-                      DexToken.fromJson(jsonDecode(tokenSwappedJson));
-                }
+                final tokenToSwap =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'tokenToSwap',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final tokenSwapped =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'tokenSwapped',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+
                 return NoTransitionPage(
                   child: SwapSheet(
                     tokenToSwap: tokenToSwap,
@@ -79,20 +74,18 @@ final routerProvider = Provider<GoRouter>(
               path: PoolListSheet.routerPage,
               pageBuilder: (context, state) {
                 var tab = PoolsListTab.verified;
-                if (state.uri.queryParameters['tab'] != null) {
-                  if (state.uri.queryParameters['tab'] ==
-                      PoolsListTab.favoritePools.name) {
-                    tab = PoolsListTab.favoritePools;
-                  } else {
-                    if (state.uri.queryParameters['tab'] ==
-                        PoolsListTab.myPools.name) {
+                final tabParam = state.uri.queryParameters['tab'];
+                if (tabParam != null) {
+                  switch (tabParam) {
+                    case 'favoritePools':
+                      tab = PoolsListTab.favoritePools;
+                      break;
+                    case 'myPools':
                       tab = PoolsListTab.myPools;
-                    } else {
-                      if (state.uri.queryParameters['tab'] ==
-                          PoolsListTab.searchPool.name) {
-                        tab = PoolsListTab.searchPool;
-                      }
-                    }
+                      break;
+                    case 'searchPool':
+                      tab = PoolsListTab.searchPool;
+                      break;
                   }
                 }
 
@@ -120,25 +113,20 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: PoolAddSheet.routerPage,
               pageBuilder: (context, state) {
-                DexToken? token1;
-                DexToken? token2;
-                PoolsListTab? poolsListTab;
-                final token1Encoded = state.uri.queryParameters['token1'];
-                final token2Encoded = state.uri.queryParameters['token2'];
-                final poolsListTabEncoded = state.uri.queryParameters['tab'];
-                if (token1Encoded != null) {
-                  final token1Json = Uri.decodeComponent(token1Encoded);
-                  token1 = DexToken.fromJson(jsonDecode(token1Json));
-                }
-                if (token2Encoded != null) {
-                  final token2Json = Uri.decodeComponent(token2Encoded);
-                  token2 = DexToken.fromJson(jsonDecode(token2Json));
-                }
-                if (poolsListTabEncoded != null) {
-                  poolsListTab = poolsListTabFromJson(
-                    Uri.decodeComponent(poolsListTabEncoded),
-                  );
-                }
+                final token1 = state.uri.queryParameters.getDecodedParameter(
+                  'token1',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final token2 = state.uri.queryParameters.getDecodedParameter(
+                  'token2',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final poolsListTab =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'tab',
+                  (json) => poolsListTabFromJson(Uri.decodeComponent(json)),
+                );
+
                 return NoTransitionPage(
                   child: PoolAddSheet(
                     token1: token1,
@@ -151,19 +139,15 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: LiquidityAddSheet.routerPage,
               pageBuilder: (context, state) {
-                DexPool? pool;
-                PoolsListTab? poolsListTab;
-                final poolEncoded = state.uri.queryParameters['pool'];
-                final poolsListTabEncoded = state.uri.queryParameters['tab'];
-                if (poolEncoded != null) {
-                  final poolJson = Uri.decodeComponent(poolEncoded);
-                  pool = DexPool.fromJson(jsonDecode(poolJson));
-                }
-                if (poolsListTabEncoded != null) {
-                  poolsListTab = poolsListTabFromJson(
-                    Uri.decodeComponent(poolsListTabEncoded),
-                  );
-                }
+                final pool = state.uri.queryParameters.getDecodedParameter(
+                  'pool',
+                  (json) => DexPool.fromJson(jsonDecode(json)),
+                );
+                final poolsListTab =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'tab',
+                  (json) => poolsListTabFromJson(Uri.decodeComponent(json)),
+                );
 
                 if (pool == null) {
                   return const NoTransitionPage(
@@ -182,31 +166,23 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: LiquidityRemoveSheet.routerPage,
               pageBuilder: (context, state) {
-                DexPool? pool;
-                DexPair? pair;
-                DexToken? lpToken;
-                PoolsListTab? poolsListTab;
-                final poolEncoded = state.uri.queryParameters['pool'];
-                final pairEncoded = state.uri.queryParameters['pair'];
-                final lpTokenEncoded = state.uri.queryParameters['lpToken'];
-                final poolsListTabEncoded = state.uri.queryParameters['tab'];
-                if (poolEncoded != null) {
-                  final poolJson = Uri.decodeComponent(poolEncoded);
-                  pool = DexPool.fromJson(jsonDecode(poolJson));
-                }
-                if (pairEncoded != null) {
-                  final pairJson = Uri.decodeComponent(pairEncoded);
-                  pair = DexPair.fromJson(jsonDecode(pairJson));
-                }
-                if (lpTokenEncoded != null) {
-                  final lpTokenJson = Uri.decodeComponent(lpTokenEncoded);
-                  lpToken = DexToken.fromJson(jsonDecode(lpTokenJson));
-                }
-                if (poolsListTabEncoded != null) {
-                  poolsListTab = poolsListTabFromJson(
-                    Uri.decodeComponent(poolsListTabEncoded),
-                  );
-                }
+                final pool = state.uri.queryParameters.getDecodedParameter(
+                  'pool',
+                  (json) => DexPool.fromJson(jsonDecode(json)),
+                );
+                final pair = state.uri.queryParameters.getDecodedParameter(
+                  'pair',
+                  (json) => DexPair.fromJson(jsonDecode(json)),
+                );
+                final lpToken = state.uri.queryParameters.getDecodedParameter(
+                  'lpToken',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final poolsListTab =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'tab',
+                  (json) => poolsListTabFromJson(Uri.decodeComponent(json)),
+                );
 
                 if (pool == null || pair == null || lpToken == null) {
                   return const NoTransitionPage(
@@ -227,20 +203,15 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: FarmLockDepositSheet.routerPage,
               pageBuilder: (context, state) {
-                DexPool? pool;
-                final poolEncoded = state.uri.queryParameters['pool'];
+                final pool = state.uri.queryParameters.getDecodedParameter(
+                  'pool',
+                  (json) => DexPool.fromJson(jsonDecode(json)),
+                );
+                final farmLock = state.uri.queryParameters.getDecodedParameter(
+                  'farmLock',
+                  (json) => DexFarmLock.fromJson(jsonDecode(json)),
+                );
 
-                DexFarmLock? farmLock;
-                final farmLockEncoded = state.uri.queryParameters['farmLock'];
-
-                if (poolEncoded != null) {
-                  final poolJson = Uri.decodeComponent(poolEncoded);
-                  pool = DexPool.fromJson(jsonDecode(poolJson));
-                }
-                if (farmLockEncoded != null) {
-                  final farmLockJson = Uri.decodeComponent(farmLockEncoded);
-                  farmLock = DexFarmLock.fromJson(jsonDecode(farmLockJson));
-                }
                 if (pool == null || farmLock == null) {
                   return const NoTransitionPage(
                     child: PoolListSheet(),
@@ -258,54 +229,33 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: FarmLockLevelUpSheet.routerPage,
               pageBuilder: (context, state) {
-                DexPool? pool;
-                final poolEncoded = state.uri.queryParameters['pool'];
-
-                DexFarmLock? farmLock;
-                final farmLockEncoded = state.uri.queryParameters['farmLock'];
-
-                int? depositIndex;
-                final depositIndexEncoded =
-                    state.uri.queryParameters['depositIndex'];
-
-                String? currentLevel;
-                final currentLevelEncoded =
-                    state.uri.queryParameters['currentLevel'];
-
-                double? lpAmount;
-                final lpAmountEncoded = state.uri.queryParameters['lpAmount'];
-
-                double? rewardAmount;
-                final rewardAmountEncoded =
-                    state.uri.queryParameters['rewardAmount'];
-
-                if (poolEncoded != null) {
-                  final poolJson = Uri.decodeComponent(poolEncoded);
-                  pool = DexPool.fromJson(jsonDecode(poolJson));
-                }
-                if (farmLockEncoded != null) {
-                  final farmLockJson = Uri.decodeComponent(farmLockEncoded);
-                  farmLock = DexFarmLock.fromJson(jsonDecode(farmLockJson));
-                }
-                if (depositIndexEncoded != null) {
-                  final depositIndexJson =
-                      Uri.decodeComponent(depositIndexEncoded);
-                  depositIndex = jsonDecode(depositIndexJson) ?? 0;
-                }
-                if (currentLevelEncoded != null) {
-                  final currentLevelJson =
-                      Uri.decodeComponent(currentLevelEncoded);
-                  currentLevel = jsonDecode(currentLevelJson) ?? 0;
-                }
-                if (lpAmountEncoded != null) {
-                  final lpAmountJson = Uri.decodeComponent(lpAmountEncoded);
-                  lpAmount = jsonDecode(lpAmountJson) ?? 0;
-                }
-                if (rewardAmountEncoded != null) {
-                  final rewardAmountJson =
-                      Uri.decodeComponent(rewardAmountEncoded);
-                  rewardAmount = jsonDecode(rewardAmountJson) ?? 0;
-                }
+                final pool = state.uri.queryParameters.getDecodedParameter(
+                  'pool',
+                  (json) => DexPool.fromJson(jsonDecode(json)),
+                );
+                final farmLock = state.uri.queryParameters.getDecodedParameter(
+                  'farmLock',
+                  (json) => DexFarmLock.fromJson(jsonDecode(json)),
+                );
+                final depositIndex =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'depositIndex',
+                  jsonDecode,
+                );
+                final currentLevel =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'currentLevel',
+                  jsonDecode,
+                );
+                final lpAmount = state.uri.queryParameters.getDecodedParameter(
+                  'lpAmount',
+                  jsonDecode,
+                );
+                final rewardAmount =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'rewardAmount',
+                  jsonDecode,
+                );
 
                 if (pool == null ||
                     farmLock == null ||
@@ -333,29 +283,23 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: FarmDepositSheet.routerPage,
               pageBuilder: (context, state) {
-                String? farmAddress;
-                String? poolAddress;
-                final farmAddressEncoded =
-                    state.uri.queryParameters['farmAddress'];
-                if (farmAddressEncoded != null) {
-                  final farmAddressJson =
-                      Uri.decodeComponent(farmAddressEncoded);
-                  farmAddress = jsonDecode(farmAddressJson);
-                }
-
-                final poolAddressEncoded =
-                    state.uri.queryParameters['poolAddress'];
-                if (poolAddressEncoded != null) {
-                  final poolAddressJson =
-                      Uri.decodeComponent(poolAddressEncoded);
-                  poolAddress = jsonDecode(poolAddressJson);
-                }
+                final farmAddress =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'farmAddress',
+                  jsonDecode,
+                );
+                final poolAddress =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'poolAddress',
+                  jsonDecode,
+                );
 
                 if (farmAddress == null || poolAddress == null) {
                   return const NoTransitionPage(
                     child: FarmListSheet(),
                   );
                 }
+
                 return NoTransitionPage(
                   child: FarmDepositSheet(
                     farmAddress: farmAddress,
@@ -367,42 +311,26 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: FarmClaimSheet.routerPage,
               pageBuilder: (context, state) {
-                String? farmAddress;
-                DexToken? rewardToken;
-                String? lpTokenAddress;
-                double? rewardAmount;
-
-                final farmAddressEncoded =
-                    state.uri.queryParameters['farmAddress'];
-                if (farmAddressEncoded != null) {
-                  final farmAddressJson =
-                      Uri.decodeComponent(farmAddressEncoded);
-                  farmAddress = jsonDecode(farmAddressJson);
-                }
-
-                final rewardTokenEncoded =
-                    state.uri.queryParameters['rewardToken'];
-                if (rewardTokenEncoded != null) {
-                  final rewardTokenJson =
-                      Uri.decodeComponent(rewardTokenEncoded);
-                  rewardToken = DexToken.fromJson(jsonDecode(rewardTokenJson));
-                }
-
-                final lpTokenAddressEncoded =
-                    state.uri.queryParameters['lpTokenAddress'];
-                if (lpTokenAddressEncoded != null) {
-                  final lpTokenAddressJson =
-                      Uri.decodeComponent(lpTokenAddressEncoded);
-                  lpTokenAddress = jsonDecode(lpTokenAddressJson);
-                }
-
-                final rewardAmountEncoded =
-                    state.uri.queryParameters['rewardAmount'];
-                if (rewardAmountEncoded != null) {
-                  final rewardAmountJson =
-                      Uri.decodeComponent(rewardAmountEncoded);
-                  rewardAmount = jsonDecode(rewardAmountJson);
-                }
+                final farmAddress =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'farmAddress',
+                  jsonDecode,
+                );
+                final rewardToken =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'rewardToken',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final lpTokenAddress =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'lpTokenAddress',
+                  jsonDecode,
+                );
+                final rewardAmount =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'rewardAmount',
+                  jsonDecode,
+                );
 
                 if (farmAddress == null ||
                     rewardToken == null ||
@@ -426,41 +354,26 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(
               path: FarmWithdrawSheet.routerPage,
               pageBuilder: (context, state) {
-                String? farmAddress;
-                DexToken? rewardToken;
-                String? lpTokenAddress;
-                String? poolAddress;
-                final farmAddressEncoded =
-                    state.uri.queryParameters['farmAddress'];
-                if (farmAddressEncoded != null) {
-                  final farmAddressJson =
-                      Uri.decodeComponent(farmAddressEncoded);
-                  farmAddress = jsonDecode(farmAddressJson);
-                }
-
-                final rewardTokenEncoded =
-                    state.uri.queryParameters['rewardToken'];
-                if (rewardTokenEncoded != null) {
-                  final rewardTokenJson =
-                      Uri.decodeComponent(rewardTokenEncoded);
-                  rewardToken = DexToken.fromJson(jsonDecode(rewardTokenJson));
-                }
-
-                final lpTokenAddressEncoded =
-                    state.uri.queryParameters['lpTokenAddress'];
-                if (lpTokenAddressEncoded != null) {
-                  final lpTokenAddressJson =
-                      Uri.decodeComponent(lpTokenAddressEncoded);
-                  lpTokenAddress = jsonDecode(lpTokenAddressJson);
-                }
-
-                final poolAddressEncoded =
-                    state.uri.queryParameters['poolAddress'];
-                if (poolAddressEncoded != null) {
-                  final poolAddressJson =
-                      Uri.decodeComponent(poolAddressEncoded);
-                  poolAddress = jsonDecode(poolAddressJson);
-                }
+                final farmAddress =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'farmAddress',
+                  jsonDecode,
+                );
+                final rewardToken =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'rewardToken',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final lpTokenAddress =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'lpTokenAddress',
+                  jsonDecode,
+                );
+                final poolAddress =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'poolAddress',
+                  jsonDecode,
+                );
 
                 if (farmAddress == null ||
                     rewardToken == null ||
@@ -482,79 +395,81 @@ final routerProvider = Provider<GoRouter>(
               },
             ),
             GoRoute(
-              path: FarmLockWithdrawSheet.routerPage,
+              path: FarmLockClaimSheet.routerPage,
               pageBuilder: (context, state) {
-                String? farmAddress;
-                String? poolAddress;
-                DexToken? rewardToken;
-                String? lpTokenAddress;
-                double? rewardAmount;
-                double? depositedAmount;
-                int? depositIndex;
-
-                final farmAddressEncoded =
-                    state.uri.queryParameters['farmAddress'];
-                if (farmAddressEncoded != null) {
-                  final farmAddressJson =
-                      Uri.decodeComponent(farmAddressEncoded);
-                  farmAddress = jsonDecode(farmAddressJson);
-                }
-
-                final poolAddressEncoded =
-                    state.uri.queryParameters['poolAddress'];
-                if (poolAddressEncoded != null) {
-                  final poolAddressJson =
-                      Uri.decodeComponent(poolAddressEncoded);
-                  poolAddress = jsonDecode(poolAddressJson);
-                }
-
-                final rewardTokenEncoded =
-                    state.uri.queryParameters['rewardToken'];
-                if (rewardTokenEncoded != null) {
-                  final rewardTokenJson =
-                      Uri.decodeComponent(rewardTokenEncoded);
-                  rewardToken = DexToken.fromJson(jsonDecode(rewardTokenJson));
-                }
-
-                final lpTokenAddressEncoded =
-                    state.uri.queryParameters['lpTokenAddress'];
-                if (lpTokenAddressEncoded != null) {
-                  final lpTokenAddressJson =
-                      Uri.decodeComponent(lpTokenAddressEncoded);
-                  lpTokenAddress = jsonDecode(lpTokenAddressJson);
-                }
-
-                final rewardAmountEncoded =
-                    state.uri.queryParameters['rewardAmount'];
-                if (rewardAmountEncoded != null) {
-                  final rewardAmountJson =
-                      Uri.decodeComponent(rewardAmountEncoded);
-                  rewardAmount = jsonDecode(rewardAmountJson);
-                }
-
-                final depositedAmountEncoded =
-                    state.uri.queryParameters['depositedAmount'];
-                if (depositedAmountEncoded != null) {
-                  final depositedAmountJson =
-                      Uri.decodeComponent(depositedAmountEncoded);
-                  depositedAmount = jsonDecode(depositedAmountJson);
-                }
-
-                final depositIndexEncoded =
-                    state.uri.queryParameters['depositIndex'];
-                if (depositIndexEncoded != null) {
-                  final depositIndexJson =
-                      Uri.decodeComponent(depositIndexEncoded);
-                  depositIndex = jsonDecode(depositIndexJson) ?? 0;
-                }
+                final farmAddress = state.uri.queryParameters
+                    .getDecodedParameter('farmAddress', jsonDecode);
+                final rewardToken =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'rewardToken',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final lpTokenAddress = state.uri.queryParameters
+                    .getDecodedParameter('lpTokenAddress', jsonDecode);
+                final rewardAmount = state.uri.queryParameters
+                    .getDecodedParameter('rewardAmount', jsonDecode);
+                final depositIndex = state.uri.queryParameters
+                    .getDecodedParameter('depositIndex', jsonDecode);
 
                 if (farmAddress == null ||
-                    poolAddress == null ||
                     rewardToken == null ||
                     lpTokenAddress == null ||
                     rewardAmount == null ||
+                    depositIndex == null) {
+                  return const NoTransitionPage(
+                    child: FarmLockSheet(),
+                  );
+                }
+
+                return NoTransitionPage(
+                  child: FarmLockClaimSheet(
+                    farmAddress: farmAddress,
+                    rewardToken: rewardToken,
+                    lpTokenAddress: lpTokenAddress,
+                    rewardAmount: rewardAmount,
+                    depositIndex: depositIndex,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: FarmLockWithdrawSheet.routerPage,
+              pageBuilder: (context, state) {
+                final farmAddress = state.uri.queryParameters
+                    .getDecodedParameter('farmAddress', jsonDecode);
+                final poolAddress = state.uri.queryParameters
+                    .getDecodedParameter('poolAddress', jsonDecode);
+                final rewardToken =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'rewardToken',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final lpToken = state.uri.queryParameters.getDecodedParameter(
+                  'lpToken',
+                  (json) => DexToken.fromJson(jsonDecode(json)),
+                );
+                final lpTokenPair =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'lpTokenPair',
+                  (json) => DexPair.fromJson(jsonDecode(json)),
+                );
+                final rewardAmount = state.uri.queryParameters
+                    .getDecodedParameter('rewardAmount', jsonDecode);
+                final depositedAmount = state.uri.queryParameters
+                    .getDecodedParameter('depositedAmount', jsonDecode);
+                final depositIndex = state.uri.queryParameters
+                    .getDecodedParameter('depositIndex', jsonDecode);
+                final endDate = state.uri.queryParameters
+                    .getDecodedParameter('endDate', jsonDecode);
+                if (farmAddress == null ||
+                    poolAddress == null ||
+                    rewardToken == null ||
+                    lpToken == null ||
+                    lpTokenPair == null ||
+                    rewardAmount == null ||
+                    depositedAmount == null ||
                     depositIndex == null ||
-                    depositedAmount == null) {
+                    endDate == null) {
                   return const NoTransitionPage(
                     child: FarmLockSheet(),
                   );
@@ -565,7 +480,11 @@ final routerProvider = Provider<GoRouter>(
                     farmAddress: farmAddress,
                     poolAddress: poolAddress,
                     rewardToken: rewardToken,
-                    lpTokenAddress: lpTokenAddress,
+                    lpToken: lpToken,
+                    lpTokenPair: lpTokenPair,
+                    endDate: DateTime.fromMillisecondsSinceEpoch(
+                      endDate * 1000,
+                    ),
                     rewardAmount: rewardAmount,
                     depositIndex: depositIndex,
                     depositedAmount: depositedAmount,
@@ -604,5 +523,16 @@ extension RouterParamExtension on Object? {
     if (this == null) return null;
     final paramJson = jsonEncode(this);
     return Uri.encodeComponent(paramJson);
+  }
+}
+
+extension UriExtensions on Map<String, String> {
+  T? getDecodedParameter<T>(String key, T Function(String) fromJson) {
+    final encoded = this[key];
+    if (encoded != null) {
+      final json = Uri.decodeComponent(encoded);
+      return fromJson(json);
+    }
+    return null;
   }
 }

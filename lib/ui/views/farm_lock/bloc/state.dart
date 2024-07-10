@@ -19,6 +19,7 @@ class FarmLockFormState with _$FarmLockFormState {
     @Default(0.0) double farmedTokensCapitalInFiat,
     @Default(0.0) double farmedTokensRewards,
     @Default(0.0) double farmedTokensRewardsInFiat,
+    @Default(false) bool mainInfoloadingInProgress,
   }) = _FarmLockFormState;
   const FarmLockFormState._();
 

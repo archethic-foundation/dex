@@ -35,7 +35,7 @@ mixin _$FarmLockLevelUpFormState {
   double? get finalAmount => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   int? get depositIndex => throw _privateConstructorUsedError;
-  PoolsListTab get poolsListTab => throw _privateConstructorUsedError;
+  String? get currentLevel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FarmLockLevelUpFormStateCopyWith<FarmLockLevelUpFormState> get copyWith =>
@@ -66,7 +66,7 @@ abstract class $FarmLockLevelUpFormStateCopyWith<$Res> {
       double? finalAmount,
       DateTime? consentDateTime,
       int? depositIndex,
-      PoolsListTab poolsListTab});
+      String? currentLevel});
 
   $DexPoolCopyWith<$Res>? get pool;
   $DexFarmLockCopyWith<$Res>? get farmLock;
@@ -105,7 +105,7 @@ class _$FarmLockLevelUpFormStateCopyWithImpl<$Res,
     Object? finalAmount = freezed,
     Object? consentDateTime = freezed,
     Object? depositIndex = freezed,
-    Object? poolsListTab = null,
+    Object? currentLevel = freezed,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -176,10 +176,10 @@ class _$FarmLockLevelUpFormStateCopyWithImpl<$Res,
           ? _value.depositIndex
           : depositIndex // ignore: cast_nullable_to_non_nullable
               as int?,
-      poolsListTab: null == poolsListTab
-          ? _value.poolsListTab
-          : poolsListTab // ignore: cast_nullable_to_non_nullable
-              as PoolsListTab,
+      currentLevel: freezed == currentLevel
+          ? _value.currentLevel
+          : currentLevel // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -260,7 +260,7 @@ abstract class _$$FarmLockLevelUpFormStateImplCopyWith<$Res>
       double? finalAmount,
       DateTime? consentDateTime,
       int? depositIndex,
-      PoolsListTab poolsListTab});
+      String? currentLevel});
 
   @override
   $DexPoolCopyWith<$Res>? get pool;
@@ -302,7 +302,7 @@ class __$$FarmLockLevelUpFormStateImplCopyWithImpl<$Res>
     Object? finalAmount = freezed,
     Object? consentDateTime = freezed,
     Object? depositIndex = freezed,
-    Object? poolsListTab = null,
+    Object? currentLevel = freezed,
   }) {
     return _then(_$FarmLockLevelUpFormStateImpl(
       processStep: null == processStep
@@ -373,10 +373,10 @@ class __$$FarmLockLevelUpFormStateImplCopyWithImpl<$Res>
           ? _value.depositIndex
           : depositIndex // ignore: cast_nullable_to_non_nullable
               as int?,
-      poolsListTab: null == poolsListTab
-          ? _value.poolsListTab
-          : poolsListTab // ignore: cast_nullable_to_non_nullable
-              as PoolsListTab,
+      currentLevel: freezed == currentLevel
+          ? _value.currentLevel
+          : currentLevel // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -402,7 +402,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
       this.finalAmount,
       this.consentDateTime,
       this.depositIndex,
-      this.poolsListTab = PoolsListTab.verified})
+      this.currentLevel})
       : super._();
 
   @override
@@ -449,12 +449,11 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
   @override
   final int? depositIndex;
   @override
-  @JsonKey()
-  final PoolsListTab poolsListTab;
+  final String? currentLevel;
 
   @override
   String toString() {
-    return 'FarmLockLevelUpFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockLevelUpOk: $farmLockLevelUpOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockLevelUpDuration: $farmLockLevelUpDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockLevelUp: $transactionFarmLockLevelUp, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, depositIndex: $depositIndex, poolsListTab: $poolsListTab)';
+    return 'FarmLockLevelUpFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockLevelUpOk: $farmLockLevelUpOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockLevelUpDuration: $farmLockLevelUpDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockLevelUp: $transactionFarmLockLevelUp, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, depositIndex: $depositIndex, currentLevel: $currentLevel)';
   }
 
   @override
@@ -496,8 +495,8 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
                 other.consentDateTime == consentDateTime) &&
             (identical(other.depositIndex, depositIndex) ||
                 other.depositIndex == depositIndex) &&
-            (identical(other.poolsListTab, poolsListTab) ||
-                other.poolsListTab == poolsListTab));
+            (identical(other.currentLevel, currentLevel) ||
+                other.currentLevel == currentLevel));
   }
 
   @override
@@ -520,7 +519,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
       finalAmount,
       consentDateTime,
       depositIndex,
-      poolsListTab);
+      currentLevel);
 
   @JsonKey(ignore: true)
   @override
@@ -549,7 +548,7 @@ abstract class _FarmLockLevelUpFormState extends FarmLockLevelUpFormState {
       final double? finalAmount,
       final DateTime? consentDateTime,
       final int? depositIndex,
-      final PoolsListTab poolsListTab}) = _$FarmLockLevelUpFormStateImpl;
+      final String? currentLevel}) = _$FarmLockLevelUpFormStateImpl;
   const _FarmLockLevelUpFormState._() : super._();
 
   @override
@@ -587,7 +586,7 @@ abstract class _FarmLockLevelUpFormState extends FarmLockLevelUpFormState {
   @override
   int? get depositIndex;
   @override
-  PoolsListTab get poolsListTab;
+  String? get currentLevel;
   @override
   @JsonKey(ignore: true)
   _$$FarmLockLevelUpFormStateImplCopyWith<_$FarmLockLevelUpFormStateImpl>

@@ -5,7 +5,6 @@ import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/usecases/level_up_farm_lock.usecase.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/state.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
@@ -41,10 +40,6 @@ class FarmLockLevelUpFormNotifier
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
-  }
-
-  void setPoolsListTab(PoolsListTab poolsListTab) {
-    state = state.copyWith(poolsListTab: poolsListTab);
   }
 
   void setDepositIndex(int depositIndex) {
@@ -106,6 +101,10 @@ class FarmLockLevelUpFormNotifier
     );
   }
 
+  void setCurrentLevel(String currentLevel) {
+    state = state.copyWith(currentLevel: currentLevel);
+  }
+
   void setFinalAmount(double? finalAmount) {
     state = state.copyWith(finalAmount: finalAmount);
   }
@@ -138,6 +137,35 @@ class FarmLockLevelUpFormNotifier
     state = state.copyWith(
       processStep: processStep,
     );
+  }
+
+  Map<String, int> filterAvailableLevels() {
+    final availableLevelsFiltered = <String, int>{};
+    var needMax = false;
+    final farmEndDate = state.farmLock!.endDate!;
+
+    for (final entry in state.farmLock!.availableLevels.entries) {
+      final numLevel = int.tryParse(entry.key) ?? 0;
+      final numCurrentLevel = int.tryParse(state.currentLevel!) ?? 0;
+      final endDate = entry.value;
+      if (DateTime.fromMillisecondsSinceEpoch(
+        entry.value * 1000,
+      ).isBefore(farmEndDate)) {
+        if (numLevel != 0 && numLevel > numCurrentLevel) {
+          availableLevelsFiltered[numLevel.toString()] = endDate;
+        }
+      } else {
+        if (needMax == false) {
+          availableLevelsFiltered['max'] =
+              farmEndDate.millisecondsSinceEpoch ~/ 1000;
+          state = state.copyWith(
+            farmLockLevelUpDuration: FarmLockDepositDurationType.max,
+          );
+          needMax = true;
+        }
+      }
+    }
+    return availableLevelsFiltered;
   }
 
   Future<void> validateForm(BuildContext context) async {

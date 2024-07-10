@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -108,8 +109,11 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
         farmDepositNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmDepositNotifier
-          .setFailure(aedappfm.Failure.other(cause: e.toString()));
+      farmDepositNotifier.setFailure(
+        aedappfm.Failure.other(
+          cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+        ),
+      );
       throw aedappfm.Failure.fromError(e);
     }
 
@@ -128,7 +132,7 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
 
       notificationService.start(
         operationId,
-        DexNotification.depositFarm(
+        DexNotification.depositFarmLock(
           txAddress: transactionDeposit!.address!.address,
           farmAddress: farmAddress,
           isUCO: isUCO,
@@ -171,7 +175,8 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
           e is aedappfm.Timeout
               ? e
               : aedappfm.Failure.other(
-                  cause: e.toString(),
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
                 ),
         )
         ..setCurrentStep(3);

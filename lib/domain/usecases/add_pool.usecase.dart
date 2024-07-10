@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/util/string_util.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -151,7 +152,11 @@ class AddPoolCase with aedappfm.TransactionMixin {
             ..setProcessInProgress(false);
           return;
         }
-        poolAddNotifier.setFailure(aedappfm.Failure.other(cause: e.toString()));
+        poolAddNotifier.setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+          ),
+        );
 
         return;
       }
@@ -237,7 +242,11 @@ class AddPoolCase with aedappfm.TransactionMixin {
           return;
         }
         poolAddNotifier
-          ..setFailure(aedappfm.Failure.other(cause: e.toString()))
+          ..setFailure(
+            aedappfm.Failure.other(
+              cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+            ),
+          )
           ..setProcessInProgress(false);
         return;
       }
@@ -264,7 +273,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
         poolAddNotifier
           ..setFailure(
             aedappfm.Failure.other(
-              cause: e.toString(),
+              cause: e.toString().replaceAll('Exception: ', '').capitalize(),
             ),
           )
           ..setProcessInProgress(false);

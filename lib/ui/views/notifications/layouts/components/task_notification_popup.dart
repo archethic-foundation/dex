@@ -181,6 +181,46 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
     );
   }
 
+  factory TaskNotificationPopup._fromClaimFarmLock(
+    Task task,
+    BuildContext context,
+  ) {
+    if (task.failure != null) {
+      return _getErrorNotification(
+        'Claim transaction address: ',
+        task,
+        context,
+      );
+    }
+    final amount = task.data.amount as double;
+    return TaskNotificationPopup.success(
+      key: Key(task.id),
+      actionType: task.data.actionType,
+      description: Wrap(
+        direction: Axis.vertical,
+        children: [
+          if (task.dateTask != null)
+            SelectableText(
+              DateFormat.yMd(
+                Localizations.localeOf(context).languageCode,
+              ).add_Hms().format(
+                    task.dateTask!.toLocal(),
+                  ),
+            ),
+          addresslinkcopy.FormatAddressLinkCopy(
+            address: task.data.txAddress.toUpperCase(),
+            header: 'Claim transaction address: ',
+            typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
+            reduceAddress: true,
+          ),
+          SelectableText(
+            'Amount claimed: ${amount.formatNumber(precision: 8)} ${task.data.rewardToken.symbol}',
+          ),
+        ],
+      ),
+    );
+  }
+
   factory TaskNotificationPopup._fromDepositFarm(
     Task task,
     BuildContext context,
@@ -451,6 +491,8 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
           TaskNotificationPopup._fromRemoveLiquidity(task, context),
         DexActionType.claimFarm =>
           TaskNotificationPopup._fromClaimFarm(task, context),
+        DexActionType.claimFarmLock =>
+          TaskNotificationPopup._fromClaimFarmLock(task, context),
         DexActionType.depositFarm =>
           TaskNotificationPopup._fromDepositFarm(task, context),
         DexActionType.depositFarmLock =>
@@ -489,6 +531,9 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
         height = 160;
         break;
       case DexActionType.claimFarm:
+        height = 80;
+        break;
+      case DexActionType.claimFarmLock:
         height = 80;
         break;
       case DexActionType.depositFarm:

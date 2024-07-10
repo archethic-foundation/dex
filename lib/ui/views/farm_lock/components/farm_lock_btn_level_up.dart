@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/farm_lock_level_up/layouts/farm_lock_level_up_she
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -41,9 +42,10 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(SessionProviders.session);
+    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
-            onTap: enabled == false
+            onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
                 ? null
                 : () async {
                     await _validate(context, ref);
@@ -60,12 +62,21 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                         : aedappfm.AppThemeBase.gradient,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    Icons.keyboard_double_arrow_up,
-                    color:
-                        enabled ? Colors.white : Colors.white.withOpacity(0.5),
-                    size: 16,
-                  ),
+                  child: farmLockForm.mainInfoloadingInProgress
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1,
+                          ),
+                        )
+                      : Icon(
+                          Icons.keyboard_double_arrow_up,
+                          color: enabled
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.5),
+                          size: 16,
+                        ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -79,7 +90,10 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                   ),
                 ),
               ],
-            ),
+            )
+                .animate()
+                .fade(duration: const Duration(milliseconds: 300))
+                .scale(duration: const Duration(milliseconds: 300)),
           )
         : aedappfm.ButtonValidate(
             controlOk: enabled,
@@ -115,7 +129,10 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                 );
               }
             },
-          );
+          )
+            .animate()
+            .fade(duration: const Duration(milliseconds: 300))
+            .scale(duration: const Duration(milliseconds: 300));
   }
 
   Future<void> _validate(BuildContext context, WidgetRef ref) async {

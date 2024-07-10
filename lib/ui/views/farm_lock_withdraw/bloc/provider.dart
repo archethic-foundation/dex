@@ -1,6 +1,6 @@
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_farm_lock.dart';
+import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/withdraw_farm_lock.usecase.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/state.dart';
@@ -31,12 +31,6 @@ class FarmLockWithdrawFormNotifier
   void setTransactionWithdrawFarmLock(Transaction transactionWithdrawFarmLock) {
     state = state.copyWith(
       transactionWithdrawFarmLock: transactionWithdrawFarmLock,
-    );
-  }
-
-  void setDexFarmInfo(DexFarmLock dexFarmLockInfo) {
-    state = state.copyWith(
-      dexFarmLockInfo: dexFarmLockInfo,
     );
   }
 
@@ -75,6 +69,14 @@ class FarmLockWithdrawFormNotifier
     setAmount(context, state.depositedAmount!);
   }
 
+  void setPoolAddress(String poolAddress) {
+    state = state.copyWith(poolAddress: poolAddress);
+  }
+
+  void setEndDate(DateTime endDate) {
+    state = state.copyWith(endDate: endDate);
+  }
+
   void setAmountHalf(
     BuildContext context,
   ) {
@@ -97,9 +99,15 @@ class FarmLockWithdrawFormNotifier
     );
   }
 
-  void setLpTokenAddress(String lpTokenAddress) {
+  void setLpToken(DexToken lpToken) {
     state = state.copyWith(
-      lpTokenAddress: lpTokenAddress,
+      lpToken: lpToken,
+    );
+  }
+
+  void setLPTokenPair(DexPair lpTokenPair) {
+    state = state.copyWith(
+      lpTokenPair: lpTokenPair,
     );
   }
 
@@ -216,7 +224,7 @@ class FarmLockWithdrawFormNotifier
         context,
         ref.watch(NotificationProviders.notificationService),
         state.farmAddress!,
-        state.lpTokenAddress!,
+        state.lpToken!.address!,
         state.amount,
         state.depositIndex,
         state.rewardToken!,

@@ -2,7 +2,6 @@
 
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -31,7 +30,7 @@ class FarmLockLevelUpFormState with _$FarmLockLevelUpFormState {
     double? finalAmount,
     DateTime? consentDateTime,
     int? depositIndex,
-    @Default(PoolsListTab.verified) PoolsListTab poolsListTab,
+    String? currentLevel,
   }) = _FarmLockLevelUpFormState;
   const FarmLockLevelUpFormState._();
 

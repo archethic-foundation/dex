@@ -2,10 +2,12 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -36,10 +38,10 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(SessionProviders.session);
-
+    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
-            onTap: enabled == false
+            onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
                 ? null
                 : () async {
                     await _validate(context);
@@ -56,12 +58,21 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
                         : aedappfm.AppThemeBase.gradient,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    aedappfm.Iconsax.export_2,
-                    color:
-                        enabled ? Colors.white : Colors.white.withOpacity(0.5),
-                    size: 16,
-                  ),
+                  child: farmLockForm.mainInfoloadingInProgress
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1,
+                          ),
+                        )
+                      : Icon(
+                          aedappfm.Iconsax.export_2,
+                          color: enabled
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.5),
+                          size: 16,
+                        ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -75,7 +86,10 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
                   ),
                 ),
               ],
-            ),
+            )
+                .animate()
+                .fade(duration: const Duration(milliseconds: 400))
+                .scale(duration: const Duration(milliseconds: 400)),
           )
         : aedappfm.ButtonValidate(
             controlOk: enabled,
@@ -111,7 +125,10 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
                 );
               }
             },
-          );
+          )
+            .animate()
+            .fade(duration: const Duration(milliseconds: 400))
+            .scale(duration: const Duration(milliseconds: 400));
   }
 
   Future<void> _validate(BuildContext context) async {

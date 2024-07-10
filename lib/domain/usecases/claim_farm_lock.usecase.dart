@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock_claim/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
 import 'package:aedex/util/string_util.dart';
@@ -16,55 +16,51 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-const logName = 'WithdrawFarmCase';
+const logName = 'ClaimFarmLockCase';
 
-class WithdrawFarmCase with aedappfm.TransactionMixin {
-  Future<({double finalAmountReward, double finalAmountWithdraw})> run(
+class ClaimFarmLockCase with aedappfm.TransactionMixin {
+  Future<double> run(
     WidgetRef ref,
     BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
-    String lpTokenAddress,
-    double amount,
+    int depositIndex,
     DexToken rewardToken, {
     int recoveryStep = 0,
-    archethic.Transaction? recoveryTransactionWithdraw,
+    archethic.Transaction? recoveryTransactionClaim,
   }) async {
     //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
-    final farmWithdrawNotifier =
-        ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier);
-    final farmWithdraw = ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
+    final farmClaimLockNotifier =
+        ref.read(FarmLockClaimFormProvider.farmLockClaimForm.notifier);
 
-    archethic.Transaction? transactionWithdraw;
-    if (recoveryTransactionWithdraw != null) {
-      transactionWithdraw = recoveryTransactionWithdraw;
+    archethic.Transaction? transactionClaim;
+    if (recoveryTransactionClaim != null) {
+      transactionClaim = recoveryTransactionClaim;
     }
-    farmWithdrawNotifier
-      ..setFinalAmountReward(null)
-      ..setFinalAmountWithdraw(null);
+
+    farmClaimLockNotifier.setFinalAmount(null);
 
     if (recoveryStep <= 1) {
-      farmWithdrawNotifier.setCurrentStep(1);
+      farmClaimLockNotifier.setCurrentStep(1);
       try {
-        final transactionWithdrawMap =
-            await archethicContract.getFarmWithdrawTx(
+        final transactionClaimMap = await archethicContract.getFarmLockClaimTx(
           farmGenesisAddress,
-          amount,
+          depositIndex,
         );
 
-        transactionWithdrawMap.map(
+        transactionClaimMap.map(
           success: (success) {
-            transactionWithdraw = success;
-            farmWithdrawNotifier.setTransactionWithdrawFarm(
-              transactionWithdraw!,
+            transactionClaim = success;
+            farmClaimLockNotifier.setTransactionClaimFarmLock(
+              transactionClaim!,
             );
           },
           failure: (failure) {
-            farmWithdrawNotifier
+            farmClaimLockNotifier
               ..setFailure(failure)
               ..setProcessInProgress(false);
             throw failure;
@@ -76,38 +72,38 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
     }
 
     if (recoveryStep <= 2) {
-      farmWithdrawNotifier.setCurrentStep(2);
+      farmClaimLockNotifier.setCurrentStep(2);
     }
     try {
       final currentNameAccount = await getCurrentAccount();
-      farmWithdrawNotifier.setWalletConfirmation(true);
+      farmClaimLockNotifier.setWalletConfirmation(true);
 
-      transactionWithdraw = (await signTx(
+      transactionClaim = (await signTx(
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
-        [transactionWithdraw!],
+        [transactionClaim!],
         description: {
           'en': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmSignTxDesc_en
+              ? AppLocalizations.of(context)!.claimFarmLockSignTxDesc_en
               : '',
           'fr': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmSignTxDesc_fr
+              ? AppLocalizations.of(context)!.claimFarmLockSignTxDesc_fr
               : '',
         },
       ))
           .first;
 
-      farmWithdrawNotifier
+      farmClaimLockNotifier
         ..setWalletConfirmation(false)
-        ..setTransactionWithdrawFarm(
-          transactionWithdraw!,
+        ..setTransactionClaimFarmLock(
+          transactionClaim!,
         );
     } catch (e) {
       if (e is aedappfm.Failure) {
-        farmWithdrawNotifier.setFailure(e);
+        farmClaimLockNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmWithdrawNotifier.setFailure(
+      farmClaimLockNotifier.setFailure(
         aedappfm.Failure.other(
           cause: e.toString().replaceAll('Exception: ', '').capitalize(),
         ),
@@ -119,72 +115,54 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
     try {
       await sendTransactions(
         <archethic.Transaction>[
-          transactionWithdraw!,
+          transactionClaim!,
         ],
       );
 
-      farmWithdrawNotifier
+      farmClaimLockNotifier
         ..setCurrentStep(3)
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
-        ..setFarmWithdrawOk(true);
+        ..setFarmLockClaimOk(true);
 
       notificationService.start(
         operationId,
-        DexNotification.withdrawFarm(
-          txAddress: transactionWithdraw!.address!.address,
+        DexNotification.claimFarmLock(
+          txAddress: transactionClaim!.address!.address,
           rewardToken: rewardToken,
-          isFarmClose: farmWithdraw.isFarmClose,
         ),
       );
 
-      final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
-        () => Future.wait([
-          getAmountFromTxInput(
-            transactionWithdraw!.address!.address!,
-            rewardToken.address,
-          ),
-          getAmountFromTxInput(
-            transactionWithdraw!.address!.address!,
-            lpTokenAddress,
-          ),
-        ]),
+      final amount = await aedappfm.PeriodicFuture.periodic<double>(
+        () => getAmountFromTxInput(
+          transactionClaim!.address!.address!,
+          rewardToken.address,
+        ),
         sleepDuration: const Duration(seconds: 3),
-        until: (amounts) {
-          final amountWithdraw = amounts[1];
-          return amountWithdraw > 0;
-        },
+        until: (amount) => amount > 0,
         timeout: const Duration(minutes: 1),
       );
 
-      final amountReward = amounts[0];
-      final amountWithdraw = amounts[1];
-
       notificationService.succeed(
         operationId,
-        DexNotification.withdrawFarm(
-          txAddress: transactionWithdraw!.address!.address,
-          amountReward: amountReward,
-          amountWithdraw: amountWithdraw,
+        DexNotification.claimFarmLock(
+          txAddress: transactionClaim!.address!.address,
+          amount: amount,
           rewardToken: rewardToken,
-          isFarmClose: farmWithdraw.isFarmClose,
         ),
       );
 
       unawaited(refreshCurrentAccountInfoWallet());
 
-      return (
-        finalAmountReward: amountReward,
-        finalAmountWithdraw: amountWithdraw
-      );
+      return amount;
     } catch (e) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
-            'TransactionWithdrawFarm sendTx failed $e',
+            'TransactionFarmClaim sendTx failed $e',
             level: aedappfm.LogLevel.error,
             name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
-      farmWithdrawNotifier
+      farmClaimLockNotifier
         ..setFailure(
           e is aedappfm.Timeout
               ? e
@@ -209,13 +187,13 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.withdrawProcessStep1;
+        return AppLocalizations.of(context)!.claimLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.withdrawProcessStep2;
+        return AppLocalizations.of(context)!.claimLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.withdrawProcessStep3;
+        return AppLocalizations.of(context)!.claimLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.withdrawProcessStep0;
+        return AppLocalizations.of(context)!.claimLockProcessStep0;
     }
   }
 }

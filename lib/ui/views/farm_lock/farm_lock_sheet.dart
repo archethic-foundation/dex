@@ -108,6 +108,9 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     currentSortedColumn = sortCriteria;
     if (mounted) {
       await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
+      ref
+          .read(FarmLockFormProvider.farmLockForm.notifier)
+          .setMainInfoloadingInProgress(true);
     }
 
     final contextAddresses = PoolFarmAvailableState().getContextAddresses(ref);
@@ -165,6 +168,9 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
       sortData(currentSortedColumn, invertSort);
     }
 
+    ref
+        .read(FarmLockFormProvider.farmLockForm.notifier)
+        .setMainInfoloadingInProgress(false);
     if (mounted) {
       setState(() {});
     }

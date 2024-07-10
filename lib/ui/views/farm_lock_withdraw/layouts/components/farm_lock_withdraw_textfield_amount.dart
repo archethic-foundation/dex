@@ -167,7 +167,7 @@ class _FarmLockWithdrawToken1AmountState
               children: [
                 DexTokenBalance(
                   tokenBalance: farmLockWithdraw.depositedAmount!,
-                  token: farmLockWithdraw.dexFarmLockInfo!.lpToken,
+                  token: farmLockWithdraw.lpToken,
                   withFiat: false,
                 ),
                 const SizedBox(
@@ -176,10 +176,10 @@ class _FarmLockWithdrawToken1AmountState
                 SelectableText(
                   DEXLPTokenFiatValue().display(
                     ref,
-                    farmLockWithdraw.dexFarmLockInfo!.lpTokenPair!.token1,
-                    farmLockWithdraw.dexFarmLockInfo!.lpTokenPair!.token2,
+                    farmLockWithdraw.lpTokenPair!.token1,
+                    farmLockWithdraw.lpTokenPair!.token2,
                     farmLockWithdraw.depositedAmount!,
-                    farmLockWithdraw.dexFarmLockInfo!.poolAddress,
+                    farmLockWithdraw.poolAddress!,
                   ),
                   style: AppTextStyles.bodyLarge(context),
                 ),

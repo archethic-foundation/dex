@@ -55,6 +55,7 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
           ..setDexFarmLock(widget.farmLock)
           ..setDepositIndex(widget.depositIndex)
           ..setAmount(widget.lpAmount)
+          ..setCurrentLevel(widget.currentLevel)
           ..setAPREstimation(widget.farmLock.apr3years);
 
         await ref
@@ -75,7 +76,6 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
           .watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm)
           .processStep,
       formSheet: FarmLockLevelUpFormSheet(
-        currentLevel: widget.currentLevel,
         rewardAmount: widget.rewardAmount,
       ),
       confirmSheet: const FarmLockLevelUpConfirmSheet(),

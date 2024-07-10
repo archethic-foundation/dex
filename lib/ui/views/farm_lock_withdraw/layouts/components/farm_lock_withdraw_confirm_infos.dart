@@ -25,9 +25,6 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
   ) {
     final farmLockWithdraw =
         ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
-    if (farmLockWithdraw.dexFarmLockInfo == null) {
-      return const SizedBox.shrink();
-    }
 
     final session = ref.watch(SessionProviders.session);
     return SizedBox(
@@ -106,9 +103,9 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                 future: ref.watch(
                   BalanceProviders.getBalance(
                     session.genesisAddress,
-                    farmLockWithdraw.dexFarmLockInfo!.lpToken!.isUCO
+                    farmLockWithdraw.lpToken!.isUCO
                         ? 'UCO'
-                        : farmLockWithdraw.dexFarmLockInfo!.lpToken!.address!,
+                        : farmLockWithdraw.lpToken!.address!,
                   ).future,
                 ),
                 builder: (
@@ -121,7 +118,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                       children: [
                         DexTokenBalance(
                           tokenBalance: snapshot.data!,
-                          token: farmLockWithdraw.dexFarmLockInfo!.lpToken,
+                          token: farmLockWithdraw.lpToken,
                           withFiat: false,
                           digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                           height: 20,
@@ -134,7 +131,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                                     farmLockWithdraw.amount.toString(),
                                   ))
                               .toDouble(),
-                          token: farmLockWithdraw.dexFarmLockInfo!.lpToken,
+                          token: farmLockWithdraw.lpToken,
                           digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
                           withFiat: false,
                           height: 20,
@@ -186,7 +183,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                 children: [
                   DexTokenBalance(
                     tokenBalance: farmLockWithdraw.depositedAmount!,
-                    token: farmLockWithdraw.dexFarmLockInfo!.lpToken,
+                    token: farmLockWithdraw.lpToken,
                     withFiat: false,
                     height: 20,
                     digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
@@ -199,7 +196,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                               farmLockWithdraw.amount.toString(),
                             ))
                         .toDouble(),
-                    token: farmLockWithdraw.dexFarmLockInfo!.lpToken,
+                    token: farmLockWithdraw.lpToken,
                     withFiat: false,
                     height: 20,
                     digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
@@ -236,7 +233,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                     FutureBuilder<String>(
                       future: FiatValue().display(
                         ref,
-                        farmLockWithdraw.dexFarmLockInfo!.rewardToken!,
+                        farmLockWithdraw.rewardToken!,
                         farmLockWithdraw.rewardAmount!,
                       ),
                       builder: (context, snapshot) {
@@ -280,7 +277,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                                 ),
                                 TextSpan(
                                   text:
-                                      ' ${farmLockWithdraw.dexFarmLockInfo!.rewardToken!.symbol} ',
+                                      ' ${farmLockWithdraw.rewardToken!.symbol} ',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!

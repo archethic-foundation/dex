@@ -15,17 +15,34 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class FarmLockLevelUpFormSheet extends ConsumerWidget {
+class FarmLockLevelUpFormSheet extends ConsumerStatefulWidget {
   const FarmLockLevelUpFormSheet({
-    required this.currentLevel,
     required this.rewardAmount,
     super.key,
   });
-  final String currentLevel;
   final double rewardAmount;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FarmLockLevelUpFormSheet> createState() =>
+      FarmLockLevelUpFormSheetState();
+}
+
+class FarmLockLevelUpFormSheetState
+    extends ConsumerState<FarmLockLevelUpFormSheet> {
+  Map<String, int> filterAvailableLevels = <String, int>{};
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      filterAvailableLevels = ref
+          .read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
+          .filterAvailableLevels();
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final farmLockLevelUp =
         ref.watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
 
@@ -119,7 +136,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                   ),
                   Row(
                     children: [
-                      if (rewardAmount == 0)
+                      if (widget.rewardAmount == 0)
                         SelectableText(
                           AppLocalizations.of(context)!
                               .farmLockWithdrawFormTextNoRewardText1,
@@ -130,14 +147,14 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                           future: FiatValue().display(
                             ref,
                             farmLockLevelUp.farmLock!.rewardToken!,
-                            rewardAmount,
+                            widget.rewardAmount,
                           ),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Row(
                                 children: [
                                   SelectableText(
-                                    rewardAmount.formatNumber(),
+                                    widget.rewardAmount.formatNumber(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -221,28 +238,17 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                   ),
                   Wrap(
                     children: [
-                      ...farmLockLevelUp.farmLock!.availableLevels.entries
-                          .map((entry) {
-                        final farmLockDepositDurationType =
-                            getFarmLockDepositDurationTypeFromLevel(
-                          entry.key,
+                      ...filterAvailableLevels.entries.map((entry) {
+                        return FarmLockLevelUpDurationButton(
+                          farmLockLevelUpDuration:
+                              getFarmLockDepositDurationTypeFromLevel(
+                            entry.key,
+                          ),
+                          level: entry.key,
+                          aprEstimation: farmLockLevelUp
+                                  .farmLock!.stats[entry.key]?.aprEstimation ??
+                              0,
                         );
-
-                        final currentLevelNum = int.tryParse(currentLevel) ?? 0;
-                        final availableLevelNum = int.tryParse(entry.key) ?? 0;
-
-                        if (currentLevelNum < availableLevelNum) {
-                          return FarmLockLevelUpDurationButton(
-                            farmLockLevelUpDuration:
-                                farmLockDepositDurationType,
-                            level: entry.key,
-                            aprEstimation: farmLockLevelUp.farmLock!
-                                    .stats[entry.key]?.aprEstimation ??
-                                0,
-                          );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
                       }).toList(),
                     ],
                   ),
@@ -275,23 +281,25 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                             .farmLockLevelUpCurrentLvlLbl,
                         style: AppTextStyles.bodyLarge(context),
                       ),
-                      Row(
-                        children: [
-                          SelectableText(
-                            currentLevel,
-                            style:
-                                AppTextStyles.bodyLargeSecondaryColor(context),
-                          ),
-                          SelectableText(
-                            '/',
-                            style: AppTextStyles.bodyLarge(context),
-                          ),
-                          SelectableText(
-                            '7',
-                            style: AppTextStyles.bodyLarge(context),
-                          ),
-                        ],
-                      ),
+                      if (farmLockLevelUp.currentLevel != null)
+                        Row(
+                          children: [
+                            SelectableText(
+                              farmLockLevelUp.currentLevel!,
+                              style: AppTextStyles.bodyLargeSecondaryColor(
+                                context,
+                              ),
+                            ),
+                            SelectableText(
+                              '/',
+                              style: AppTextStyles.bodyLarge(context),
+                            ),
+                            SelectableText(
+                              '7',
+                              style: AppTextStyles.bodyLarge(context),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                   const SizedBox(

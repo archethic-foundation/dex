@@ -19,7 +19,6 @@ mixin _$FarmLockWithdrawFormState {
   ProcessStep get processStep => throw _privateConstructorUsedError;
   bool get resumeProcess => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
-  DexFarmLock? get dexFarmLockInfo => throw _privateConstructorUsedError;
   bool get isProcessInProgress => throw _privateConstructorUsedError;
   bool get farmLockWithdrawOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
@@ -30,12 +29,15 @@ mixin _$FarmLockWithdrawFormState {
   Failure? get failure => throw _privateConstructorUsedError;
   String? get farmAddress => throw _privateConstructorUsedError;
   DexToken? get rewardToken => throw _privateConstructorUsedError;
-  String? get lpTokenAddress => throw _privateConstructorUsedError;
+  DexToken? get lpToken => throw _privateConstructorUsedError;
+  DexPair? get lpTokenPair => throw _privateConstructorUsedError;
   double? get finalAmountReward => throw _privateConstructorUsedError;
   double? get finalAmountWithdraw => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   double? get depositedAmount => throw _privateConstructorUsedError;
   double? get rewardAmount => throw _privateConstructorUsedError;
+  String? get poolAddress => throw _privateConstructorUsedError;
+  DateTime? get endDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FarmLockWithdrawFormStateCopyWith<FarmLockWithdrawFormState> get copyWith =>
@@ -52,7 +54,6 @@ abstract class $FarmLockWithdrawFormStateCopyWith<$Res> {
       {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
-      DexFarmLock? dexFarmLockInfo,
       bool isProcessInProgress,
       bool farmLockWithdrawOk,
       bool walletConfirmation,
@@ -62,17 +63,21 @@ abstract class $FarmLockWithdrawFormStateCopyWith<$Res> {
       Failure? failure,
       String? farmAddress,
       DexToken? rewardToken,
-      String? lpTokenAddress,
+      DexToken? lpToken,
+      DexPair? lpTokenPair,
       double? finalAmountReward,
       double? finalAmountWithdraw,
       DateTime? consentDateTime,
       double? depositedAmount,
-      double? rewardAmount});
+      double? rewardAmount,
+      String? poolAddress,
+      DateTime? endDate});
 
-  $DexFarmLockCopyWith<$Res>? get dexFarmLockInfo;
   $TransactionCopyWith<$Res>? get transactionWithdrawFarmLock;
   $FailureCopyWith<$Res>? get failure;
   $DexTokenCopyWith<$Res>? get rewardToken;
+  $DexTokenCopyWith<$Res>? get lpToken;
+  $DexPairCopyWith<$Res>? get lpTokenPair;
 }
 
 /// @nodoc
@@ -92,7 +97,6 @@ class _$FarmLockWithdrawFormStateCopyWithImpl<$Res,
     Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? dexFarmLockInfo = freezed,
     Object? isProcessInProgress = null,
     Object? farmLockWithdrawOk = null,
     Object? walletConfirmation = null,
@@ -102,12 +106,15 @@ class _$FarmLockWithdrawFormStateCopyWithImpl<$Res,
     Object? failure = freezed,
     Object? farmAddress = freezed,
     Object? rewardToken = freezed,
-    Object? lpTokenAddress = freezed,
+    Object? lpToken = freezed,
+    Object? lpTokenPair = freezed,
     Object? finalAmountReward = freezed,
     Object? finalAmountWithdraw = freezed,
     Object? consentDateTime = freezed,
     Object? depositedAmount = freezed,
     Object? rewardAmount = freezed,
+    Object? poolAddress = freezed,
+    Object? endDate = freezed,
   }) {
     return _then(_value.copyWith(
       processStep: null == processStep
@@ -122,10 +129,6 @@ class _$FarmLockWithdrawFormStateCopyWithImpl<$Res,
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      dexFarmLockInfo: freezed == dexFarmLockInfo
-          ? _value.dexFarmLockInfo
-          : dexFarmLockInfo // ignore: cast_nullable_to_non_nullable
-              as DexFarmLock?,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -162,10 +165,14 @@ class _$FarmLockWithdrawFormStateCopyWithImpl<$Res,
           ? _value.rewardToken
           : rewardToken // ignore: cast_nullable_to_non_nullable
               as DexToken?,
-      lpTokenAddress: freezed == lpTokenAddress
-          ? _value.lpTokenAddress
-          : lpTokenAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
+      lpToken: freezed == lpToken
+          ? _value.lpToken
+          : lpToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      lpTokenPair: freezed == lpTokenPair
+          ? _value.lpTokenPair
+          : lpTokenPair // ignore: cast_nullable_to_non_nullable
+              as DexPair?,
       finalAmountReward: freezed == finalAmountReward
           ? _value.finalAmountReward
           : finalAmountReward // ignore: cast_nullable_to_non_nullable
@@ -186,19 +193,15 @@ class _$FarmLockWithdrawFormStateCopyWithImpl<$Res,
           ? _value.rewardAmount
           : rewardAmount // ignore: cast_nullable_to_non_nullable
               as double?,
+      poolAddress: freezed == poolAddress
+          ? _value.poolAddress
+          : poolAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DexFarmLockCopyWith<$Res>? get dexFarmLockInfo {
-    if (_value.dexFarmLockInfo == null) {
-      return null;
-    }
-
-    return $DexFarmLockCopyWith<$Res>(_value.dexFarmLockInfo!, (value) {
-      return _then(_value.copyWith(dexFarmLockInfo: value) as $Val);
-    });
   }
 
   @override
@@ -237,6 +240,30 @@ class _$FarmLockWithdrawFormStateCopyWithImpl<$Res,
       return _then(_value.copyWith(rewardToken: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get lpToken {
+    if (_value.lpToken == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.lpToken!, (value) {
+      return _then(_value.copyWith(lpToken: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexPairCopyWith<$Res>? get lpTokenPair {
+    if (_value.lpTokenPair == null) {
+      return null;
+    }
+
+    return $DexPairCopyWith<$Res>(_value.lpTokenPair!, (value) {
+      return _then(_value.copyWith(lpTokenPair: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -252,7 +279,6 @@ abstract class _$$FarmLockWithdrawFormStateImplCopyWith<$Res>
       {ProcessStep processStep,
       bool resumeProcess,
       int currentStep,
-      DexFarmLock? dexFarmLockInfo,
       bool isProcessInProgress,
       bool farmLockWithdrawOk,
       bool walletConfirmation,
@@ -262,21 +288,26 @@ abstract class _$$FarmLockWithdrawFormStateImplCopyWith<$Res>
       Failure? failure,
       String? farmAddress,
       DexToken? rewardToken,
-      String? lpTokenAddress,
+      DexToken? lpToken,
+      DexPair? lpTokenPair,
       double? finalAmountReward,
       double? finalAmountWithdraw,
       DateTime? consentDateTime,
       double? depositedAmount,
-      double? rewardAmount});
+      double? rewardAmount,
+      String? poolAddress,
+      DateTime? endDate});
 
-  @override
-  $DexFarmLockCopyWith<$Res>? get dexFarmLockInfo;
   @override
   $TransactionCopyWith<$Res>? get transactionWithdrawFarmLock;
   @override
   $FailureCopyWith<$Res>? get failure;
   @override
   $DexTokenCopyWith<$Res>? get rewardToken;
+  @override
+  $DexTokenCopyWith<$Res>? get lpToken;
+  @override
+  $DexPairCopyWith<$Res>? get lpTokenPair;
 }
 
 /// @nodoc
@@ -295,7 +326,6 @@ class __$$FarmLockWithdrawFormStateImplCopyWithImpl<$Res>
     Object? processStep = null,
     Object? resumeProcess = null,
     Object? currentStep = null,
-    Object? dexFarmLockInfo = freezed,
     Object? isProcessInProgress = null,
     Object? farmLockWithdrawOk = null,
     Object? walletConfirmation = null,
@@ -305,12 +335,15 @@ class __$$FarmLockWithdrawFormStateImplCopyWithImpl<$Res>
     Object? failure = freezed,
     Object? farmAddress = freezed,
     Object? rewardToken = freezed,
-    Object? lpTokenAddress = freezed,
+    Object? lpToken = freezed,
+    Object? lpTokenPair = freezed,
     Object? finalAmountReward = freezed,
     Object? finalAmountWithdraw = freezed,
     Object? consentDateTime = freezed,
     Object? depositedAmount = freezed,
     Object? rewardAmount = freezed,
+    Object? poolAddress = freezed,
+    Object? endDate = freezed,
   }) {
     return _then(_$FarmLockWithdrawFormStateImpl(
       processStep: null == processStep
@@ -325,10 +358,6 @@ class __$$FarmLockWithdrawFormStateImplCopyWithImpl<$Res>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      dexFarmLockInfo: freezed == dexFarmLockInfo
-          ? _value.dexFarmLockInfo
-          : dexFarmLockInfo // ignore: cast_nullable_to_non_nullable
-              as DexFarmLock?,
       isProcessInProgress: null == isProcessInProgress
           ? _value.isProcessInProgress
           : isProcessInProgress // ignore: cast_nullable_to_non_nullable
@@ -365,10 +394,14 @@ class __$$FarmLockWithdrawFormStateImplCopyWithImpl<$Res>
           ? _value.rewardToken
           : rewardToken // ignore: cast_nullable_to_non_nullable
               as DexToken?,
-      lpTokenAddress: freezed == lpTokenAddress
-          ? _value.lpTokenAddress
-          : lpTokenAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
+      lpToken: freezed == lpToken
+          ? _value.lpToken
+          : lpToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+      lpTokenPair: freezed == lpTokenPair
+          ? _value.lpTokenPair
+          : lpTokenPair // ignore: cast_nullable_to_non_nullable
+              as DexPair?,
       finalAmountReward: freezed == finalAmountReward
           ? _value.finalAmountReward
           : finalAmountReward // ignore: cast_nullable_to_non_nullable
@@ -389,6 +422,14 @@ class __$$FarmLockWithdrawFormStateImplCopyWithImpl<$Res>
           ? _value.rewardAmount
           : rewardAmount // ignore: cast_nullable_to_non_nullable
               as double?,
+      poolAddress: freezed == poolAddress
+          ? _value.poolAddress
+          : poolAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -400,7 +441,6 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
       {this.processStep = ProcessStep.form,
       this.resumeProcess = false,
       this.currentStep = 0,
-      this.dexFarmLockInfo,
       this.isProcessInProgress = false,
       this.farmLockWithdrawOk = false,
       this.walletConfirmation = false,
@@ -410,12 +450,15 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
       this.failure,
       this.farmAddress,
       this.rewardToken,
-      this.lpTokenAddress,
+      this.lpToken,
+      this.lpTokenPair,
       this.finalAmountReward,
       this.finalAmountWithdraw,
       this.consentDateTime,
       this.depositedAmount,
-      this.rewardAmount})
+      this.rewardAmount,
+      this.poolAddress,
+      this.endDate})
       : super._();
 
   @override
@@ -427,8 +470,6 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
   @override
   @JsonKey()
   final int currentStep;
-  @override
-  final DexFarmLock? dexFarmLockInfo;
   @override
   @JsonKey()
   final bool isProcessInProgress;
@@ -453,7 +494,9 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
   @override
   final DexToken? rewardToken;
   @override
-  final String? lpTokenAddress;
+  final DexToken? lpToken;
+  @override
+  final DexPair? lpTokenPair;
   @override
   final double? finalAmountReward;
   @override
@@ -464,10 +507,14 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
   final double? depositedAmount;
   @override
   final double? rewardAmount;
+  @override
+  final String? poolAddress;
+  @override
+  final DateTime? endDate;
 
   @override
   String toString() {
-    return 'FarmLockWithdrawFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, dexFarmLockInfo: $dexFarmLockInfo, isProcessInProgress: $isProcessInProgress, farmLockWithdrawOk: $farmLockWithdrawOk, walletConfirmation: $walletConfirmation, amount: $amount, depositIndex: $depositIndex, transactionWithdrawFarmLock: $transactionWithdrawFarmLock, failure: $failure, farmAddress: $farmAddress, rewardToken: $rewardToken, lpTokenAddress: $lpTokenAddress, finalAmountReward: $finalAmountReward, finalAmountWithdraw: $finalAmountWithdraw, consentDateTime: $consentDateTime, depositedAmount: $depositedAmount, rewardAmount: $rewardAmount)';
+    return 'FarmLockWithdrawFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, farmLockWithdrawOk: $farmLockWithdrawOk, walletConfirmation: $walletConfirmation, amount: $amount, depositIndex: $depositIndex, transactionWithdrawFarmLock: $transactionWithdrawFarmLock, failure: $failure, farmAddress: $farmAddress, rewardToken: $rewardToken, lpToken: $lpToken, lpTokenPair: $lpTokenPair, finalAmountReward: $finalAmountReward, finalAmountWithdraw: $finalAmountWithdraw, consentDateTime: $consentDateTime, depositedAmount: $depositedAmount, rewardAmount: $rewardAmount, poolAddress: $poolAddress, endDate: $endDate)';
   }
 
   @override
@@ -481,8 +528,6 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
                 other.resumeProcess == resumeProcess) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
-            (identical(other.dexFarmLockInfo, dexFarmLockInfo) ||
-                other.dexFarmLockInfo == dexFarmLockInfo) &&
             (identical(other.isProcessInProgress, isProcessInProgress) ||
                 other.isProcessInProgress == isProcessInProgress) &&
             (identical(other.farmLockWithdrawOk, farmLockWithdrawOk) ||
@@ -501,8 +546,9 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
                 other.farmAddress == farmAddress) &&
             (identical(other.rewardToken, rewardToken) ||
                 other.rewardToken == rewardToken) &&
-            (identical(other.lpTokenAddress, lpTokenAddress) ||
-                other.lpTokenAddress == lpTokenAddress) &&
+            (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
+            (identical(other.lpTokenPair, lpTokenPair) ||
+                other.lpTokenPair == lpTokenPair) &&
             (identical(other.finalAmountReward, finalAmountReward) ||
                 other.finalAmountReward == finalAmountReward) &&
             (identical(other.finalAmountWithdraw, finalAmountWithdraw) ||
@@ -512,7 +558,10 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
             (identical(other.depositedAmount, depositedAmount) ||
                 other.depositedAmount == depositedAmount) &&
             (identical(other.rewardAmount, rewardAmount) ||
-                other.rewardAmount == rewardAmount));
+                other.rewardAmount == rewardAmount) &&
+            (identical(other.poolAddress, poolAddress) ||
+                other.poolAddress == poolAddress) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @override
@@ -521,7 +570,6 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
         processStep,
         resumeProcess,
         currentStep,
-        dexFarmLockInfo,
         isProcessInProgress,
         farmLockWithdrawOk,
         walletConfirmation,
@@ -531,12 +579,15 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
         failure,
         farmAddress,
         rewardToken,
-        lpTokenAddress,
+        lpToken,
+        lpTokenPair,
         finalAmountReward,
         finalAmountWithdraw,
         consentDateTime,
         depositedAmount,
-        rewardAmount
+        rewardAmount,
+        poolAddress,
+        endDate
       ]);
 
   @JsonKey(ignore: true)
@@ -552,7 +603,6 @@ abstract class _FarmLockWithdrawFormState extends FarmLockWithdrawFormState {
       {final ProcessStep processStep,
       final bool resumeProcess,
       final int currentStep,
-      final DexFarmLock? dexFarmLockInfo,
       final bool isProcessInProgress,
       final bool farmLockWithdrawOk,
       final bool walletConfirmation,
@@ -562,12 +612,15 @@ abstract class _FarmLockWithdrawFormState extends FarmLockWithdrawFormState {
       final Failure? failure,
       final String? farmAddress,
       final DexToken? rewardToken,
-      final String? lpTokenAddress,
+      final DexToken? lpToken,
+      final DexPair? lpTokenPair,
       final double? finalAmountReward,
       final double? finalAmountWithdraw,
       final DateTime? consentDateTime,
       final double? depositedAmount,
-      final double? rewardAmount}) = _$FarmLockWithdrawFormStateImpl;
+      final double? rewardAmount,
+      final String? poolAddress,
+      final DateTime? endDate}) = _$FarmLockWithdrawFormStateImpl;
   const _FarmLockWithdrawFormState._() : super._();
 
   @override
@@ -576,8 +629,6 @@ abstract class _FarmLockWithdrawFormState extends FarmLockWithdrawFormState {
   bool get resumeProcess;
   @override
   int get currentStep;
-  @override
-  DexFarmLock? get dexFarmLockInfo;
   @override
   bool get isProcessInProgress;
   @override
@@ -597,7 +648,9 @@ abstract class _FarmLockWithdrawFormState extends FarmLockWithdrawFormState {
   @override
   DexToken? get rewardToken;
   @override
-  String? get lpTokenAddress;
+  DexToken? get lpToken;
+  @override
+  DexPair? get lpTokenPair;
   @override
   double? get finalAmountReward;
   @override
@@ -608,6 +661,10 @@ abstract class _FarmLockWithdrawFormState extends FarmLockWithdrawFormState {
   double? get depositedAmount;
   @override
   double? get rewardAmount;
+  @override
+  String? get poolAddress;
+  @override
+  DateTime? get endDate;
   @override
   @JsonKey(ignore: true)
   _$$FarmLockWithdrawFormStateImplCopyWith<_$FarmLockWithdrawFormStateImpl>

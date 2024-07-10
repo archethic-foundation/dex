@@ -70,7 +70,7 @@ class FarmLockWithdrawFinalAmount extends ConsumerWidget {
                   farmLockWithdraw.rewardAmount! > 0) ||
               farmLockWithdraw.isFarmClose == false)
             SelectableText(
-              '${AppLocalizations.of(context)!.farmLockWithdrawFinalAmountReward} ${finalAmountReward.formatNumber(precision: 8)} ${farmLockWithdraw.dexFarmLockInfo!.rewardToken!.symbol}',
+              '${AppLocalizations.of(context)!.farmLockWithdrawFinalAmountReward} ${finalAmountReward.formatNumber(precision: 8)} ${farmLockWithdraw.rewardToken!.symbol}',
               style: TextStyle(
                 fontSize: aedappfm.Responsive.fontSizeFromValue(
                   context,

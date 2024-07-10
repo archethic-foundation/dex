@@ -1,6 +1,5 @@
-import 'package:aedex/application/farm/dex_farm_lock.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_farm_lock.dart';
+import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_confirm_sheet.dart';
@@ -17,20 +16,24 @@ class FarmLockWithdrawSheet extends ConsumerStatefulWidget {
     required this.farmAddress,
     required this.poolAddress,
     required this.rewardToken,
-    required this.lpTokenAddress,
+    required this.lpToken,
+    required this.lpTokenPair,
     required this.rewardAmount,
     required this.depositIndex,
     required this.depositedAmount,
+    required this.endDate,
     super.key,
   });
 
   final String farmAddress;
   final String poolAddress;
   final DexToken rewardToken;
-  final String lpTokenAddress;
+  final DexToken lpToken;
+  final DexPair lpTokenPair;
   final int depositIndex;
   final double rewardAmount;
   final double depositedAmount;
+  final DateTime endDate;
 
   static const routerPage = '/farmLockWithdraw';
 
@@ -58,28 +61,10 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
           ..setDepositIndex(widget.depositIndex)
           ..setDepositedAmount(widget.depositedAmount)
           ..setRewardAmount(widget.rewardAmount)
-          ..setLpTokenAddress(widget.lpTokenAddress);
-
-        final farmLockInfo = await ref.read(
-          DexFarmLockProviders.getFarmLockInfos(
-            widget.farmAddress,
-            widget.poolAddress,
-            dexFarmLockInput: DexFarmLock(
-              poolAddress: widget.poolAddress,
-              farmAddress: widget.farmAddress,
-            ),
-          ).future,
-        );
-
-        if (farmLockInfo == null) {
-          if (mounted) {
-            context.pop();
-          }
-        } else {
-          ref
-              .read(FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier)
-              .setDexFarmInfo(farmLockInfo);
-        }
+          ..setEndDate(widget.endDate)
+          ..setPoolAddress(widget.poolAddress)
+          ..setLPTokenPair(widget.lpTokenPair)
+          ..setLpToken(widget.lpToken);
 
         final session = ref.read(SessionProviders.session);
         if (session.genesisAddress.isEmpty) {

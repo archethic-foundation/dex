@@ -8,6 +8,7 @@ import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -109,8 +110,11 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         farmLockWithdrawNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmLockWithdrawNotifier
-          .setFailure(aedappfm.Failure.other(cause: e.toString()));
+      farmLockWithdrawNotifier.setFailure(
+        aedappfm.Failure.other(
+          cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+        ),
+      );
 
       throw aedappfm.Failure.fromError(e);
     }
@@ -130,7 +134,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
 
       notificationService.start(
         operationId,
-        DexNotification.withdrawFarm(
+        DexNotification.withdrawFarmLock(
           txAddress: transactionWithdraw!.address!.address,
           rewardToken: rewardToken,
           isFarmClose: farmWithdraw.isFarmClose,
@@ -161,7 +165,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
 
       notificationService.succeed(
         operationId,
-        DexNotification.withdrawFarm(
+        DexNotification.withdrawFarmLock(
           txAddress: transactionWithdraw!.address!.address,
           amountReward: amountReward,
           amountWithdraw: amountWithdraw,
@@ -188,7 +192,8 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
           e is aedappfm.Timeout
               ? e
               : aedappfm.Failure.other(
-                  cause: e.toString(),
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
                 ),
         )
         ..setCurrentStep(3);

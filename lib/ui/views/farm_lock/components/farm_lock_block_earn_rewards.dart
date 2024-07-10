@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_apr_banner.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet.dart';
@@ -37,6 +38,8 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(SessionProviders.session);
+
+    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
 
     return BlockInfo(
       info: Column(
@@ -99,10 +102,25 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
             height: 35,
           ),
           const Spacer(),
-          if (session.isConnected)
-            _btnConnected(context, ref)
+          if (farmLockForm.mainInfoloadingInProgress == false)
+            if (session.isConnected)
+              _btnConnected(context, ref)
+            else
+              _btnNotConnected(context, ref)
           else
-            _btnNotConnected(context, ref),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 30),
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(strokeWidth: 0.5),
+                  ),
+                ),
+              ],
+            ),
           const SizedBox(
             height: 10,
           ),

@@ -45,6 +45,34 @@ Future<DexFarmLock?> _getFarmLockInfos(
       DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!),
     );
 
+    /*
+    // Récupérer les rewards alloués pour l'année en cours et ramener au temps restant
+    final newUserInfos = <int, DexFarmLockUserInfos>{};
+    for (final entry in farmLockInfos.userInfos.entries) {
+      final index = entry.key;
+      var userInfos = entry.value;
+
+      final rewardsdInFiat = userInfos.rewardAmount * rewardTokenPriceInFiat;
+
+      final lpAmountInFiat = await ref.read(
+        DexTokensProviders.estimateLPTokenInFiat(
+          farmLockInfos.lpTokenPair!.token1,
+          farmLockInfos.lpTokenPair!.token2,
+          userInfos.amount,
+          dexFarmLockInput.poolAddress,
+        ).future,
+      );
+
+      if (lpAmountInFiat > 0) {
+        userInfos = userInfos.copyWith(
+          apr: (Decimal.parse('$rewardsdInFiat') /
+                  Decimal.parse('$lpAmountInFiat'))
+              .toDouble(),
+        );
+      }
+      newUserInfos[index] = userInfos;
+    }*/
+
     final newStats = <String, DexFarmLockStats>{};
     for (final entry in farmLockInfos.stats.entries) {
       final level = entry.key;

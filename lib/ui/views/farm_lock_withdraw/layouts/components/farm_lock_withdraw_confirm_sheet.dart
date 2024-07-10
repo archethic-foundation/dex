@@ -26,9 +26,6 @@ class FarmLockWithdrawConfirmSheetState
   Widget build(BuildContext context) {
     final farmLockWithdraw =
         ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
-    if (farmLockWithdraw.dexFarmLockInfo == null) {
-      return const SizedBox.shrink();
-    }
 
     return Expanded(
       child: Column(
@@ -36,18 +33,15 @@ class FarmLockWithdrawConfirmSheetState
         children: [
           aedappfm.ButtonConfirmBack(
             title: AppLocalizations.of(context)!.farmLockWithdrawConfirmTitle,
-            onPressed: farmLockWithdraw.dexFarmLockInfo == null
-                ? null
-                : () {
-                    ref
-                        .read(
-                          FarmLockWithdrawFormProvider
-                              .farmLockWithdrawForm.notifier,
-                        )
-                        .setFarmLockWithdrawProcessStep(
-                          aedappfm.ProcessStep.form,
-                        );
-                  },
+            onPressed: () {
+              ref
+                  .read(
+                    FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier,
+                  )
+                  .setFarmLockWithdrawProcessStep(
+                    aedappfm.ProcessStep.form,
+                  );
+            },
           ),
           const SizedBox(height: 15),
           const FarmLockWithdrawConfirmInfos(),

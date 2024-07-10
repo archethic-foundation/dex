@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -110,8 +111,11 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         farmLevelUpNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmLevelUpNotifier
-          .setFailure(aedappfm.Failure.other(cause: e.toString()));
+      farmLevelUpNotifier.setFailure(
+        aedappfm.Failure.other(
+          cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+        ),
+      );
       throw aedappfm.Failure.fromError(e);
     }
 
@@ -128,35 +132,24 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         ..setProcessInProgress(false)
         ..setFarmLockLevelUpOk(true);
 
-      notificationService.start(
-        operationId,
-        DexNotification.depositFarm(
-          txAddress: transactionLevelUp!.address!.address,
-          farmAddress: farmAddress,
-          isUCO: isUCO,
-        ),
-      );
-
-      final amount = await aedappfm.PeriodicFuture.periodic<double>(
-        () => getAmountFromTx(
-          transactionLevelUp!.address!.address!,
-          isUCO,
-          farmAddress,
-        ),
-        sleepDuration: const Duration(seconds: 3),
-        until: (amount) => amount > 0,
-        timeout: const Duration(minutes: 1),
-      );
-
-      notificationService.succeed(
-        operationId,
-        DexNotification.levelUpFarmLock(
-          txAddress: transactionLevelUp!.address!.address,
-          amount: amount,
-          farmAddress: farmAddress,
-          isUCO: isUCO,
-        ),
-      );
+      notificationService
+        ..start(
+          operationId,
+          DexNotification.levelUpFarmLock(
+            txAddress: transactionLevelUp!.address!.address,
+            farmAddress: farmAddress,
+            isUCO: isUCO,
+          ),
+        )
+        ..succeed(
+          operationId,
+          DexNotification.levelUpFarmLock(
+            txAddress: transactionLevelUp!.address!.address,
+            amount: amount,
+            farmAddress: farmAddress,
+            isUCO: isUCO,
+          ),
+        );
 
       unawaited(refreshCurrentAccountInfoWallet());
 
@@ -173,7 +166,8 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
           e is aedappfm.Timeout
               ? e
               : aedappfm.Failure.other(
-                  cause: e.toString(),
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
                 ),
         )
         ..setCurrentStep(3);

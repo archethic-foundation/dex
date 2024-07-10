@@ -1,9 +1,9 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_textfield_amount.dart';
-import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/farm_lock_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
+
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
+
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -11,19 +11,18 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class FarmLockWithdrawFormSheet extends ConsumerWidget {
-  const FarmLockWithdrawFormSheet({
+class FarmLockClaimFormSheet extends ConsumerWidget {
+  const FarmLockClaimFormSheet({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmLockWithdraw =
-        ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
-    if (farmLockWithdraw.rewardToken == null ||
-        farmLockWithdraw.depositedAmount == null) {
+    final farmLockClaim =
+        ref.watch(FarmLockClaimFormProvider.farmLockClaimForm);
+    if (farmLockClaim.rewardAmount == null) {
       return const Padding(
-        padding: EdgeInsets.only(top: 120, bottom: 120),
+        padding: EdgeInsets.only(top: 60, bottom: 60),
         child: SizedBox(
           height: 20,
           width: 20,
@@ -31,6 +30,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
         ),
       );
     }
+
     return Expanded(
       child: Column(
         children: [
@@ -44,7 +44,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.farmLockWithdrawFormTitle,
+                      AppLocalizations.of(context)!.farmLockClaimFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -75,30 +75,20 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SelectableText(
-                        AppLocalizations.of(context)!.farmLockWithdrawFormText,
-                        style: AppTextStyles.bodyLarge(context),
-                      ),
-                      if (farmLockWithdraw.rewardAmount == 0)
-                        SelectableText(
-                          AppLocalizations.of(context)!
-                              .farmLockWithdrawFormTextNoRewardText1,
-                          style: AppTextStyles.bodyLarge(context),
-                        )
-                      else
-                        FutureBuilder<String>(
-                          future: FiatValue().display(
-                            ref,
-                            farmLockWithdraw.rewardToken!,
-                            farmLockWithdraw.rewardAmount!,
-                          ),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Row(
+                      FutureBuilder<String>(
+                        future: FiatValue().display(
+                          ref,
+                          farmLockClaim.rewardToken!,
+                          farmLockClaim.rewardAmount!,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text.rich(
+                              TextSpan(
                                 children: [
-                                  SelectableText(
-                                    farmLockWithdraw.rewardAmount!
-                                        .formatNumber(),
+                                  TextSpan(
+                                    text: farmLockClaim.rewardAmount!
+                                        .formatNumber(precision: 8),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -114,8 +104,9 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                           ),
                                         ),
                                   ),
-                                  SelectableText(
-                                    ' ${farmLockWithdraw.rewardToken!.symbol} ',
+                                  TextSpan(
+                                    text:
+                                        ' ${farmLockClaim.rewardToken!.symbol}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -129,8 +120,8 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                           ),
                                         ),
                                   ),
-                                  SelectableText(
-                                    '${snapshot.data}',
+                                  TextSpan(
+                                    text: ' ${snapshot.data} ',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -144,9 +135,9 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                           ),
                                         ),
                                   ),
-                                  SelectableText(
-                                    AppLocalizations.of(context)!
-                                        .farmLockWithdrawFormTextNoRewardText2,
+                                  TextSpan(
+                                    text: AppLocalizations.of(context)!
+                                        .farmLockClaimFormText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -161,22 +152,20 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                         ),
                                   ),
                                 ],
-                              );
-                            }
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                      const FarmLockWithdrawAmount(),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       aedappfm.ErrorMessage(
-                        failure: farmLockWithdraw.failure,
+                        failure: farmLockClaim.failure,
                         failureMessage: FailureMessage(
                           context: context,
-                          failure: farmLockWithdraw.failure,
+                          failure: farmLockClaim.failure,
                         ).getMessage(),
                       ),
                       Row(
@@ -184,13 +173,13 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: aedappfm.ButtonValidate(
-                              controlOk: farmLockWithdraw.isControlsOk,
+                              controlOk: farmLockClaim.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
-                                  .btn_farm_withdraw,
+                                  .btn_farm_lock_claim,
                               onPressed: () => ref
                                   .read(
-                                    FarmLockWithdrawFormProvider
-                                        .farmLockWithdrawForm.notifier,
+                                    FarmLockClaimFormProvider
+                                        .farmLockClaimForm.notifier,
                                   )
                                   .validateForm(context),
                               isConnected: ref

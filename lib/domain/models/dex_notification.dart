@@ -74,6 +74,13 @@ class DexNotification with _$DexNotification {
     bool? isUCO,
   }) = _DexNotificationLevelUpFarmLock;
 
+  const factory DexNotification.claimFarmLock({
+    @Default(DexActionType.claimFarmLock) DexActionType actionType,
+    String? txAddress,
+    double? amount,
+    DexToken? rewardToken,
+  }) = _DexNotificationClaimLockFarm;
+
   const factory DexNotification.withdrawFarmLock({
     @Default(DexActionType.withdrawFarmLock) DexActionType actionType,
     String? txAddress,

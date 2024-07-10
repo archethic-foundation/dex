@@ -3,7 +3,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
-import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
+import 'package:aedex/ui/views/farm_lock_claim/layouts/farm_lock_claim_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -12,23 +12,23 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class FarmLegacyBtnWithdraw extends ConsumerWidget {
-  const FarmLegacyBtnWithdraw({
+class FarmLockBtnClaim extends ConsumerWidget {
+  const FarmLockBtnClaim({
     required this.farmAddress,
-    required this.poolAddress,
     required this.rewardToken,
     required this.lpTokenAddress,
     required this.rewardAmount,
+    required this.depositIndex,
     required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
 
   final String farmAddress;
-  final String poolAddress;
   final DexToken rewardToken;
   final String lpTokenAddress;
   final double rewardAmount;
+  final int depositIndex;
   final bool enabled;
   final String currentSortedColumn;
 
@@ -39,7 +39,6 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
   ) {
     final session = ref.watch(SessionProviders.session);
     final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
-
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
             onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
@@ -68,7 +67,7 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
                           ),
                         )
                       : Icon(
-                          aedappfm.Iconsax.export4,
+                          aedappfm.Iconsax.export_2,
                           color: enabled
                               ? Colors.white
                               : Colors.white.withOpacity(0.5),
@@ -79,7 +78,7 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
                   height: 5,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
+                  AppLocalizations.of(context)!.farmLockBtnClaim,
                   style: TextStyle(
                     fontSize: 10,
                     color:
@@ -89,12 +88,12 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
               ],
             )
                 .animate()
-                .fade(duration: const Duration(milliseconds: 300))
-                .scale(duration: const Duration(milliseconds: 300)),
+                .fade(duration: const Duration(milliseconds: 400))
+                .scale(duration: const Duration(milliseconds: 400)),
           )
         : aedappfm.ButtonValidate(
             controlOk: enabled,
-            labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
+            labelBtn: AppLocalizations.of(context)!.farmLockBtnClaim,
             onPressed: () async {
               await _validate(context);
             },
@@ -128,20 +127,21 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
             },
           )
             .animate()
-            .fade(duration: const Duration(milliseconds: 300))
-            .scale(duration: const Duration(milliseconds: 300));
+            .fade(duration: const Duration(milliseconds: 400))
+            .scale(duration: const Duration(milliseconds: 400));
   }
 
   Future<void> _validate(BuildContext context) async {
     if (context.mounted) {
       await context.push(
         Uri(
-          path: FarmWithdrawSheet.routerPage,
+          path: FarmLockClaimSheet.routerPage,
           queryParameters: {
             'farmAddress': farmAddress.encodeParam(),
             'rewardToken': rewardToken.encodeParam(),
             'lpTokenAddress': lpTokenAddress.encodeParam(),
-            'poolAddress': poolAddress.encodeParam(),
+            'rewardAmount': rewardAmount.encodeParam(),
+            'depositIndex': depositIndex.encodeParam(),
           },
         ).toString(),
       );

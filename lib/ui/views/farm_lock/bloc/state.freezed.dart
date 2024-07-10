@@ -26,6 +26,7 @@ mixin _$FarmLockFormState {
   double get farmedTokensCapitalInFiat => throw _privateConstructorUsedError;
   double get farmedTokensRewards => throw _privateConstructorUsedError;
   double get farmedTokensRewardsInFiat => throw _privateConstructorUsedError;
+  bool get mainInfoloadingInProgress => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FarmLockFormStateCopyWith<FarmLockFormState> get copyWith =>
@@ -48,7 +49,8 @@ abstract class $FarmLockFormStateCopyWith<$Res> {
       double farmedTokensCapital,
       double farmedTokensCapitalInFiat,
       double farmedTokensRewards,
-      double farmedTokensRewardsInFiat});
+      double farmedTokensRewardsInFiat,
+      bool mainInfoloadingInProgress});
 
   $DexPoolCopyWith<$Res>? get pool;
   $DexFarmCopyWith<$Res>? get farm;
@@ -78,6 +80,7 @@ class _$FarmLockFormStateCopyWithImpl<$Res, $Val extends FarmLockFormState>
     Object? farmedTokensCapitalInFiat = null,
     Object? farmedTokensRewards = null,
     Object? farmedTokensRewardsInFiat = null,
+    Object? mainInfoloadingInProgress = null,
   }) {
     return _then(_value.copyWith(
       pool: freezed == pool
@@ -120,6 +123,10 @@ class _$FarmLockFormStateCopyWithImpl<$Res, $Val extends FarmLockFormState>
           ? _value.farmedTokensRewardsInFiat
           : farmedTokensRewardsInFiat // ignore: cast_nullable_to_non_nullable
               as double,
+      mainInfoloadingInProgress: null == mainInfoloadingInProgress
+          ? _value.mainInfoloadingInProgress
+          : mainInfoloadingInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -178,7 +185,8 @@ abstract class _$$FarmLockFormStateImplCopyWith<$Res>
       double farmedTokensCapital,
       double farmedTokensCapitalInFiat,
       double farmedTokensRewards,
-      double farmedTokensRewardsInFiat});
+      double farmedTokensRewardsInFiat,
+      bool mainInfoloadingInProgress});
 
   @override
   $DexPoolCopyWith<$Res>? get pool;
@@ -209,6 +217,7 @@ class __$$FarmLockFormStateImplCopyWithImpl<$Res>
     Object? farmedTokensCapitalInFiat = null,
     Object? farmedTokensRewards = null,
     Object? farmedTokensRewardsInFiat = null,
+    Object? mainInfoloadingInProgress = null,
   }) {
     return _then(_$FarmLockFormStateImpl(
       pool: freezed == pool
@@ -251,6 +260,10 @@ class __$$FarmLockFormStateImplCopyWithImpl<$Res>
           ? _value.farmedTokensRewardsInFiat
           : farmedTokensRewardsInFiat // ignore: cast_nullable_to_non_nullable
               as double,
+      mainInfoloadingInProgress: null == mainInfoloadingInProgress
+          ? _value.mainInfoloadingInProgress
+          : mainInfoloadingInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -268,7 +281,8 @@ class _$FarmLockFormStateImpl extends _FarmLockFormState {
       this.farmedTokensCapital = 0.0,
       this.farmedTokensCapitalInFiat = 0.0,
       this.farmedTokensRewards = 0.0,
-      this.farmedTokensRewardsInFiat = 0.0})
+      this.farmedTokensRewardsInFiat = 0.0,
+      this.mainInfoloadingInProgress = false})
       : super._();
 
   @override
@@ -298,10 +312,13 @@ class _$FarmLockFormStateImpl extends _FarmLockFormState {
   @override
   @JsonKey()
   final double farmedTokensRewardsInFiat;
+  @override
+  @JsonKey()
+  final bool mainInfoloadingInProgress;
 
   @override
   String toString() {
-    return 'FarmLockFormState(pool: $pool, farm: $farm, farmLock: $farmLock, token1Balance: $token1Balance, token2Balance: $token2Balance, lpTokenBalance: $lpTokenBalance, farmedTokensCapital: $farmedTokensCapital, farmedTokensCapitalInFiat: $farmedTokensCapitalInFiat, farmedTokensRewards: $farmedTokensRewards, farmedTokensRewardsInFiat: $farmedTokensRewardsInFiat)';
+    return 'FarmLockFormState(pool: $pool, farm: $farm, farmLock: $farmLock, token1Balance: $token1Balance, token2Balance: $token2Balance, lpTokenBalance: $lpTokenBalance, farmedTokensCapital: $farmedTokensCapital, farmedTokensCapitalInFiat: $farmedTokensCapitalInFiat, farmedTokensRewards: $farmedTokensRewards, farmedTokensRewardsInFiat: $farmedTokensRewardsInFiat, mainInfoloadingInProgress: $mainInfoloadingInProgress)';
   }
 
   @override
@@ -328,7 +345,10 @@ class _$FarmLockFormStateImpl extends _FarmLockFormState {
                 other.farmedTokensRewards == farmedTokensRewards) &&
             (identical(other.farmedTokensRewardsInFiat,
                     farmedTokensRewardsInFiat) ||
-                other.farmedTokensRewardsInFiat == farmedTokensRewardsInFiat));
+                other.farmedTokensRewardsInFiat == farmedTokensRewardsInFiat) &&
+            (identical(other.mainInfoloadingInProgress,
+                    mainInfoloadingInProgress) ||
+                other.mainInfoloadingInProgress == mainInfoloadingInProgress));
   }
 
   @override
@@ -343,7 +363,8 @@ class _$FarmLockFormStateImpl extends _FarmLockFormState {
       farmedTokensCapital,
       farmedTokensCapitalInFiat,
       farmedTokensRewards,
-      farmedTokensRewardsInFiat);
+      farmedTokensRewardsInFiat,
+      mainInfoloadingInProgress);
 
   @JsonKey(ignore: true)
   @override
@@ -364,7 +385,8 @@ abstract class _FarmLockFormState extends FarmLockFormState {
       final double farmedTokensCapital,
       final double farmedTokensCapitalInFiat,
       final double farmedTokensRewards,
-      final double farmedTokensRewardsInFiat}) = _$FarmLockFormStateImpl;
+      final double farmedTokensRewardsInFiat,
+      final bool mainInfoloadingInProgress}) = _$FarmLockFormStateImpl;
   const _FarmLockFormState._() : super._();
 
   @override
@@ -387,6 +409,8 @@ abstract class _FarmLockFormState extends FarmLockFormState {
   double get farmedTokensRewards;
   @override
   double get farmedTokensRewardsInFiat;
+  @override
+  bool get mainInfoloadingInProgress;
   @override
   @JsonKey(ignore: true)
   _$$FarmLockFormStateImplCopyWith<_$FarmLockFormStateImpl> get copyWith =>

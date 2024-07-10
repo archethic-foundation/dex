@@ -7,6 +7,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -147,7 +148,11 @@ class SwapCase with aedappfm.TransactionMixin {
         throw aedappfm.Failure.fromError(e);
       }
       swapNotifier
-        ..setFailure(aedappfm.Failure.other(cause: e.toString()))
+        ..setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+          ),
+        )
         ..setCurrentStep(4);
       throw aedappfm.Failure.fromError(e);
     }
@@ -207,7 +212,8 @@ class SwapCase with aedappfm.TransactionMixin {
           e is aedappfm.Timeout
               ? e
               : aedappfm.Failure.other(
-                  cause: e.toString(),
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
                 ),
         )
         ..setCurrentStep(4);
