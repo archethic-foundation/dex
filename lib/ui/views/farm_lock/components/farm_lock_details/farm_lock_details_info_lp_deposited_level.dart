@@ -31,6 +31,7 @@ class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
@@ -95,6 +96,11 @@ class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
                               style: AppTextStyles.bodySmall(context),
                             );
                           },
+                        )
+                      else
+                        SelectableText(
+                          ' ',
+                          style: AppTextStyles.bodySmall(context),
                         ),
                     ],
                   ),

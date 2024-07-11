@@ -39,9 +39,9 @@ Map<String, dynamic> _$$GetFarmLockFarmInfosResponseImplToJson(
 _$StatsImpl _$$StatsImplFromJson(Map<String, dynamic> json) => _$StatsImpl(
       depositsCount: (json['deposits_count'] as num).toInt(),
       lpTokensDeposited: (json['lp_tokens_deposited'] as num).toDouble(),
-      rewardsAllocated: (json['rewards_allocated'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, (e as num).toDouble()),
-      ),
+      rewardsAllocated: (json['rewards_allocated'] as List<dynamic>)
+          .map((e) => RewardsAllocated.fromJson(e as Map<String, dynamic>))
+          .toList(),
       weight: (json['weight'] as num).toDouble(),
     );
 
@@ -51,4 +51,20 @@ Map<String, dynamic> _$$StatsImplToJson(_$StatsImpl instance) =>
       'lp_tokens_deposited': instance.lpTokensDeposited,
       'rewards_allocated': instance.rewardsAllocated,
       'weight': instance.weight,
+    };
+
+_$RewardsAllocatedImpl _$$RewardsAllocatedImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RewardsAllocatedImpl(
+      rewards: (json['rewards'] as num).toDouble(),
+      start: (json['start'] as num).toInt(),
+      end: (json['end'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$RewardsAllocatedImplToJson(
+        _$RewardsAllocatedImpl instance) =>
+    <String, dynamic>{
+      'rewards': instance.rewards,
+      'start': instance.start,
+      'end': instance.end,
     };

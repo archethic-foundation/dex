@@ -11,11 +11,11 @@ _$DexFarmLockStatsImpl _$$DexFarmLockStatsImplFromJson(
     _$DexFarmLockStatsImpl(
       depositsCount: (json['depositsCount'] as num?)?.toInt() ?? 0,
       lpTokensDeposited: (json['lpTokensDeposited'] as num?)?.toDouble() ?? 0.0,
-      rewardsAllocated:
-          (json['rewardsAllocated'] as Map<String, dynamic>?)?.map(
-                (k, e) => MapEntry(k, (e as num).toDouble()),
-              ) ??
-              const {},
+      rewardsAllocated: (json['rewardsAllocated'] as List<dynamic>?)
+              ?.map((e) => DexFarmLockStatsRewardsAllocated.fromJson(
+                  e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       weight: (json['weight'] as num?)?.toDouble() ?? 0.0,
       aprEstimation: (json['aprEstimation'] as num?)?.toDouble() ?? 0.0,
     );

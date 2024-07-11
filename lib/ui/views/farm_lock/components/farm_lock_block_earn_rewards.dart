@@ -132,7 +132,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                                     body: Align(
                                       child: SizedBox(
                                         width: 550,
-                                        height: 450,
+                                        height: 650,
                                         child: FarmListItem(
                                           key: ValueKey(pool.poolAddress),
                                           farm: farm!,
@@ -236,7 +236,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                                     body: Align(
                                       child: SizedBox(
                                         width: 550,
-                                        height: 450,
+                                        height: 650,
                                         child: FarmLockListItem(
                                           key: ValueKey(pool.poolAddress),
                                           farmLock: farmLock!,

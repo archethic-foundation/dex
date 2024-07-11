@@ -158,7 +158,7 @@ class RouterFactory with ModelParser {
 
         for (final result in results) {
           final getFarmListResponse = GetFarmListResponse.fromJson(result);
-          if (getFarmListResponse.type != null ||
+          if (getFarmListResponse.type != null &&
               getFarmListResponse.type == 2) {
             continue;
           }

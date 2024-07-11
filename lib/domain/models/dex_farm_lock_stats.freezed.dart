@@ -22,7 +22,7 @@ DexFarmLockStats _$DexFarmLockStatsFromJson(Map<String, dynamic> json) {
 mixin _$DexFarmLockStats {
   int get depositsCount => throw _privateConstructorUsedError;
   double get lpTokensDeposited => throw _privateConstructorUsedError;
-  Map<String, double> get rewardsAllocated =>
+  List<DexFarmLockStatsRewardsAllocated> get rewardsAllocated =>
       throw _privateConstructorUsedError;
   double get weight => throw _privateConstructorUsedError;
   double get aprEstimation => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $DexFarmLockStatsCopyWith<$Res> {
   $Res call(
       {int depositsCount,
       double lpTokensDeposited,
-      Map<String, double> rewardsAllocated,
+      List<DexFarmLockStatsRewardsAllocated> rewardsAllocated,
       double weight,
       double aprEstimation});
 }
@@ -78,7 +78,7 @@ class _$DexFarmLockStatsCopyWithImpl<$Res, $Val extends DexFarmLockStats>
       rewardsAllocated: null == rewardsAllocated
           ? _value.rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
+              as List<DexFarmLockStatsRewardsAllocated>,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
@@ -102,7 +102,7 @@ abstract class _$$DexFarmLockStatsImplCopyWith<$Res>
   $Res call(
       {int depositsCount,
       double lpTokensDeposited,
-      Map<String, double> rewardsAllocated,
+      List<DexFarmLockStatsRewardsAllocated> rewardsAllocated,
       double weight,
       double aprEstimation});
 }
@@ -136,7 +136,7 @@ class __$$DexFarmLockStatsImplCopyWithImpl<$Res>
       rewardsAllocated: null == rewardsAllocated
           ? _value._rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
+              as List<DexFarmLockStatsRewardsAllocated>,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
@@ -155,7 +155,7 @@ class _$DexFarmLockStatsImpl extends _DexFarmLockStats {
   const _$DexFarmLockStatsImpl(
       {this.depositsCount = 0,
       this.lpTokensDeposited = 0.0,
-      final Map<String, double> rewardsAllocated = const {},
+      final List<DexFarmLockStatsRewardsAllocated> rewardsAllocated = const [],
       this.weight = 0.0,
       this.aprEstimation = 0.0})
       : _rewardsAllocated = rewardsAllocated,
@@ -170,13 +170,14 @@ class _$DexFarmLockStatsImpl extends _DexFarmLockStats {
   @override
   @JsonKey()
   final double lpTokensDeposited;
-  final Map<String, double> _rewardsAllocated;
+  final List<DexFarmLockStatsRewardsAllocated> _rewardsAllocated;
   @override
   @JsonKey()
-  Map<String, double> get rewardsAllocated {
-    if (_rewardsAllocated is EqualUnmodifiableMapView) return _rewardsAllocated;
+  List<DexFarmLockStatsRewardsAllocated> get rewardsAllocated {
+    if (_rewardsAllocated is EqualUnmodifiableListView)
+      return _rewardsAllocated;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_rewardsAllocated);
+    return EqualUnmodifiableListView(_rewardsAllocated);
   }
 
   @override
@@ -236,7 +237,7 @@ abstract class _DexFarmLockStats extends DexFarmLockStats {
   const factory _DexFarmLockStats(
       {final int depositsCount,
       final double lpTokensDeposited,
-      final Map<String, double> rewardsAllocated,
+      final List<DexFarmLockStatsRewardsAllocated> rewardsAllocated,
       final double weight,
       final double aprEstimation}) = _$DexFarmLockStatsImpl;
   const _DexFarmLockStats._() : super._();
@@ -249,7 +250,7 @@ abstract class _DexFarmLockStats extends DexFarmLockStats {
   @override
   double get lpTokensDeposited;
   @override
-  Map<String, double> get rewardsAllocated;
+  List<DexFarmLockStatsRewardsAllocated> get rewardsAllocated;
   @override
   double get weight;
   @override

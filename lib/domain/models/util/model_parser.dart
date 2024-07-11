@@ -3,6 +3,7 @@ import 'package:aedex/application/farm/farm_lock_factory.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
+import 'package:aedex/domain/models/dex_farm_lock_stats_rewards_allocated.dart';
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
@@ -381,11 +382,23 @@ mixin ModelParser {
     });
 
     final dexFarmLockStatsMap = <String, DexFarmLockStats>{};
-    getFarmLockInfosResponse.stats.forEach((level, stat) {
+    getFarmLockInfosResponse.stats.forEach((level, stats) {
+      final dexFarmLockStatsRewardsAllocatedList =
+          <DexFarmLockStatsRewardsAllocated>[];
+      for (final rewardsAllocated in stats.rewardsAllocated) {
+        dexFarmLockStatsRewardsAllocatedList.add(
+          DexFarmLockStatsRewardsAllocated(
+            startPeriod: rewardsAllocated.start,
+            endPeriod: rewardsAllocated.end,
+            rewardsAllocated: rewardsAllocated.rewards,
+          ),
+        );
+      }
+
       dexFarmLockStatsMap[level] = DexFarmLockStats(
-        depositsCount: stat.depositsCount,
-        lpTokensDeposited: stat.lpTokensDeposited,
-        rewardsAllocated: stat.rewardsAllocated,
+        depositsCount: stats.depositsCount,
+        lpTokensDeposited: stats.lpTokensDeposited,
+        rewardsAllocated: dexFarmLockStatsRewardsAllocatedList,
       );
     });
 
@@ -403,6 +416,7 @@ mixin ModelParser {
       farmAddress: farmGenesisAddress,
       poolAddress: pool.poolAddress,
       lpTokenPair: pool.pair,
+      lpTokensDeposited: getFarmLockInfosResponse.lpTokensDeposited,
       rewardDistributed: getFarmLockInfosResponse.rewardsDistributed,
     );
     if (dexFarmLockInput == null || dexFarmLockInput.lpToken == null) {

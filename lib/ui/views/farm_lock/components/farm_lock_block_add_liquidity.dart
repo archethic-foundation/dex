@@ -171,7 +171,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                         body: Align(
                           child: SizedBox(
                             width: 550,
-                            height: 450,
+                            height: 630,
                             child: PoolListItem(
                               key: ValueKey(pool.poolAddress),
                               pool: pool,

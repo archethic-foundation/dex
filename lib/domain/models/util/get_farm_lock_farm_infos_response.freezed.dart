@@ -398,7 +398,7 @@ mixin _$Stats {
   @JsonKey(name: 'lp_tokens_deposited')
   double get lpTokensDeposited => throw _privateConstructorUsedError;
   @JsonKey(name: 'rewards_allocated')
-  Map<String, double> get rewardsAllocated =>
+  List<RewardsAllocated> get rewardsAllocated =>
       throw _privateConstructorUsedError;
   double get weight => throw _privateConstructorUsedError;
 
@@ -415,7 +415,8 @@ abstract class $StatsCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'deposits_count') int depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') double lpTokensDeposited,
-      @JsonKey(name: 'rewards_allocated') Map<String, double> rewardsAllocated,
+      @JsonKey(name: 'rewards_allocated')
+      List<RewardsAllocated> rewardsAllocated,
       double weight});
 }
 
@@ -449,7 +450,7 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
       rewardsAllocated: null == rewardsAllocated
           ? _value.rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
+              as List<RewardsAllocated>,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
@@ -468,7 +469,8 @@ abstract class _$$StatsImplCopyWith<$Res> implements $StatsCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'deposits_count') int depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') double lpTokensDeposited,
-      @JsonKey(name: 'rewards_allocated') Map<String, double> rewardsAllocated,
+      @JsonKey(name: 'rewards_allocated')
+      List<RewardsAllocated> rewardsAllocated,
       double weight});
 }
 
@@ -500,7 +502,7 @@ class __$$StatsImplCopyWithImpl<$Res>
       rewardsAllocated: null == rewardsAllocated
           ? _value._rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
+              as List<RewardsAllocated>,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
@@ -516,7 +518,7 @@ class _$StatsImpl implements _Stats {
       {@JsonKey(name: 'deposits_count') required this.depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') required this.lpTokensDeposited,
       @JsonKey(name: 'rewards_allocated')
-      required final Map<String, double> rewardsAllocated,
+      required final List<RewardsAllocated> rewardsAllocated,
       required this.weight})
       : _rewardsAllocated = rewardsAllocated;
 
@@ -529,13 +531,14 @@ class _$StatsImpl implements _Stats {
   @override
   @JsonKey(name: 'lp_tokens_deposited')
   final double lpTokensDeposited;
-  final Map<String, double> _rewardsAllocated;
+  final List<RewardsAllocated> _rewardsAllocated;
   @override
   @JsonKey(name: 'rewards_allocated')
-  Map<String, double> get rewardsAllocated {
-    if (_rewardsAllocated is EqualUnmodifiableMapView) return _rewardsAllocated;
+  List<RewardsAllocated> get rewardsAllocated {
+    if (_rewardsAllocated is EqualUnmodifiableListView)
+      return _rewardsAllocated;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_rewardsAllocated);
+    return EqualUnmodifiableListView(_rewardsAllocated);
   }
 
   @override
@@ -585,7 +588,7 @@ abstract class _Stats implements Stats {
       @JsonKey(name: 'lp_tokens_deposited')
       required final double lpTokensDeposited,
       @JsonKey(name: 'rewards_allocated')
-      required final Map<String, double> rewardsAllocated,
+      required final List<RewardsAllocated> rewardsAllocated,
       required final double weight}) = _$StatsImpl;
 
   factory _Stats.fromJson(Map<String, dynamic> json) = _$StatsImpl.fromJson;
@@ -598,11 +601,184 @@ abstract class _Stats implements Stats {
   double get lpTokensDeposited;
   @override
   @JsonKey(name: 'rewards_allocated')
-  Map<String, double> get rewardsAllocated;
+  List<RewardsAllocated> get rewardsAllocated;
   @override
   double get weight;
   @override
   @JsonKey(ignore: true)
   _$$StatsImplCopyWith<_$StatsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RewardsAllocated _$RewardsAllocatedFromJson(Map<String, dynamic> json) {
+  return _RewardsAllocated.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RewardsAllocated {
+  double get rewards => throw _privateConstructorUsedError;
+  int get start => throw _privateConstructorUsedError;
+  int get end => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RewardsAllocatedCopyWith<RewardsAllocated> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RewardsAllocatedCopyWith<$Res> {
+  factory $RewardsAllocatedCopyWith(
+          RewardsAllocated value, $Res Function(RewardsAllocated) then) =
+      _$RewardsAllocatedCopyWithImpl<$Res, RewardsAllocated>;
+  @useResult
+  $Res call({double rewards, int start, int end});
+}
+
+/// @nodoc
+class _$RewardsAllocatedCopyWithImpl<$Res, $Val extends RewardsAllocated>
+    implements $RewardsAllocatedCopyWith<$Res> {
+  _$RewardsAllocatedCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rewards = null,
+    Object? start = null,
+    Object? end = null,
+  }) {
+    return _then(_value.copyWith(
+      rewards: null == rewards
+          ? _value.rewards
+          : rewards // ignore: cast_nullable_to_non_nullable
+              as double,
+      start: null == start
+          ? _value.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as int,
+      end: null == end
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RewardsAllocatedImplCopyWith<$Res>
+    implements $RewardsAllocatedCopyWith<$Res> {
+  factory _$$RewardsAllocatedImplCopyWith(_$RewardsAllocatedImpl value,
+          $Res Function(_$RewardsAllocatedImpl) then) =
+      __$$RewardsAllocatedImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({double rewards, int start, int end});
+}
+
+/// @nodoc
+class __$$RewardsAllocatedImplCopyWithImpl<$Res>
+    extends _$RewardsAllocatedCopyWithImpl<$Res, _$RewardsAllocatedImpl>
+    implements _$$RewardsAllocatedImplCopyWith<$Res> {
+  __$$RewardsAllocatedImplCopyWithImpl(_$RewardsAllocatedImpl _value,
+      $Res Function(_$RewardsAllocatedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rewards = null,
+    Object? start = null,
+    Object? end = null,
+  }) {
+    return _then(_$RewardsAllocatedImpl(
+      rewards: null == rewards
+          ? _value.rewards
+          : rewards // ignore: cast_nullable_to_non_nullable
+              as double,
+      start: null == start
+          ? _value.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as int,
+      end: null == end
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RewardsAllocatedImpl implements _RewardsAllocated {
+  const _$RewardsAllocatedImpl(
+      {required this.rewards, required this.start, required this.end});
+
+  factory _$RewardsAllocatedImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RewardsAllocatedImplFromJson(json);
+
+  @override
+  final double rewards;
+  @override
+  final int start;
+  @override
+  final int end;
+
+  @override
+  String toString() {
+    return 'RewardsAllocated(rewards: $rewards, start: $start, end: $end)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RewardsAllocatedImpl &&
+            (identical(other.rewards, rewards) || other.rewards == rewards) &&
+            (identical(other.start, start) || other.start == start) &&
+            (identical(other.end, end) || other.end == end));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, rewards, start, end);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RewardsAllocatedImplCopyWith<_$RewardsAllocatedImpl> get copyWith =>
+      __$$RewardsAllocatedImplCopyWithImpl<_$RewardsAllocatedImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RewardsAllocatedImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RewardsAllocated implements RewardsAllocated {
+  const factory _RewardsAllocated(
+      {required final double rewards,
+      required final int start,
+      required final int end}) = _$RewardsAllocatedImpl;
+
+  factory _RewardsAllocated.fromJson(Map<String, dynamic> json) =
+      _$RewardsAllocatedImpl.fromJson;
+
+  @override
+  double get rewards;
+  @override
+  int get start;
+  @override
+  int get end;
+  @override
+  @JsonKey(ignore: true)
+  _$$RewardsAllocatedImplCopyWith<_$RewardsAllocatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

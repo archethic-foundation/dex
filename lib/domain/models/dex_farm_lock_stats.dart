@@ -1,3 +1,4 @@
+import 'package:aedex/domain/models/dex_farm_lock_stats_rewards_allocated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dex_farm_lock_stats.freezed.dart';
@@ -8,7 +9,7 @@ class DexFarmLockStats with _$DexFarmLockStats {
   const factory DexFarmLockStats({
     @Default(0) int depositsCount,
     @Default(0.0) double lpTokensDeposited,
-    @Default({}) Map<String, double> rewardsAllocated,
+    @Default([]) List<DexFarmLockStatsRewardsAllocated> rewardsAllocated,
     @Default(0.0) double weight,
     @Default(0.0) double aprEstimation,
   }) = _DexFarmLockStats;
