@@ -44,7 +44,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
           DateTime.fromMillisecondsSinceEpoch(farmLockUserInfos.start! * 1000);
       final endDate =
           DateTime.fromMillisecondsSinceEpoch(farmLockUserInfos.end! * 1000);
-      final currentDate = DateTime.now();
+      final currentDate = DateTime.now().toUtc();
       final totalDuration = endDate.difference(startDate).inMinutes;
       final elapsedDuration = currentDate.difference(startDate).inMinutes;
       progressPercentage = elapsedDuration / totalDuration;
@@ -178,7 +178,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       .fromMillisecondsSinceEpoch(
                                                 farmLockUserInfos.end! * 1000,
                                               )
-                                                  .difference(DateTime.now())
+                                                  .difference(
+                                                      DateTime.now().toUtc())
                                                   .toDurationString(
                                                     includeWeeks: true,
                                                     round: false,
@@ -218,7 +219,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         child: Column(
                                           children: [
                                             Text(
-                                              '${(farmLockUserInfos.apr * 100).formatNumber(precision: 2)}%',
+                                              '${farmLockUserInfos.apr.formatNumber(precision: 2)}%',
                                               style: style,
                                             ),
                                           ],
@@ -268,7 +269,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                 DateTime
                                                     .fromMillisecondsSinceEpoch(
                                                   farmLockUserInfos.end! * 1000,
-                                                ).isBefore(DateTime.now())),
+                                                ).isBefore(
+                                                    DateTime.now().toUtc())),
                                         currentSortedColumn:
                                             currentSortedColumn,
                                       ),
@@ -293,7 +295,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       farmLockUserInfos.end! *
                                                           1000,
                                                     ).isBefore(
-                                                      DateTime.now(),
+                                                      DateTime.now().toUtc(),
                                                     ))),
                                         currentSortedColumn:
                                             currentSortedColumn,
@@ -414,7 +416,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                               1000,
                                                         )
                                                             .difference(
-                                                              DateTime.now(),
+                                                              DateTime.now()
+                                                                  .toUtc(),
                                                             )
                                                             .toDurationString(
                                                               includeWeeks:
@@ -559,7 +562,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                                         .end! *
                                                                     1000,
                                                               ).isBefore(
-                                                                DateTime.now(),
+                                                                DateTime.now()
+                                                                    .toUtc(),
                                                               )),
                                                       currentSortedColumn:
                                                           currentSortedColumn,
@@ -588,8 +592,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                                             .end! *
                                                                         1000,
                                                                   ).isBefore(
-                                                                    DateTime
-                                                                        .now(),
+                                                                    DateTime.now()
+                                                                        .toUtc(),
                                                                   ))),
                                                       currentSortedColumn:
                                                           currentSortedColumn,

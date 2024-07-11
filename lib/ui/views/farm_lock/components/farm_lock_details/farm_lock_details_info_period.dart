@@ -24,7 +24,7 @@ class FarmLockDetailsInfoPeriod extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (farmLock.startDate!.isAfter(DateTime.now()))
+              if (farmLock.startDate!.isAfter(DateTime.now().toUtc()))
                 SelectableText(
                   AppLocalizations.of(context)!.farmDetailsInfoPeriodWillStart,
                   style: AppTextStyles.bodyLarge(context),
@@ -46,7 +46,7 @@ class FarmLockDetailsInfoPeriod extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (farmLock.endDate!.isAfter(DateTime.now()))
+              if (farmLock.endDate!.isAfter(DateTime.now().toUtc()))
                 SelectableText(
                   AppLocalizations.of(context)!.farmDetailsInfoPeriodEndAt,
                   style: AppTextStyles.bodyLarge(context),

@@ -16,6 +16,7 @@ _$GetFarmLockFarmInfosResponseImpl _$$GetFarmLockFarmInfosResponseImplFromJson(
       remainingRewards: (json['remaining_rewards'] as num).toDouble(),
       rewardToken: json['reward_token'] as String,
       rewardsDistributed: (json['rewards_distributed'] as num).toDouble(),
+      lpTokensDeposited: (json['lp_tokens_deposited'] as num).toDouble(),
       stats: (json['stats'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, Stats.fromJson(e as Map<String, dynamic>)),
       ),
@@ -31,13 +32,16 @@ Map<String, dynamic> _$$GetFarmLockFarmInfosResponseImplToJson(
       'remaining_rewards': instance.remainingRewards,
       'reward_token': instance.rewardToken,
       'rewards_distributed': instance.rewardsDistributed,
+      'lp_tokens_deposited': instance.lpTokensDeposited,
       'stats': instance.stats,
     };
 
 _$StatsImpl _$$StatsImplFromJson(Map<String, dynamic> json) => _$StatsImpl(
       depositsCount: (json['deposits_count'] as num).toInt(),
       lpTokensDeposited: (json['lp_tokens_deposited'] as num).toDouble(),
-      rewardsAllocated: (json['rewards_allocated'] as num).toDouble(),
+      rewardsAllocated: (json['rewards_allocated'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(k, (e as num).toDouble()),
+      ),
       weight: (json['weight'] as num).toDouble(),
     );
 

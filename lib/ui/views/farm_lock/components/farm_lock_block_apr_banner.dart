@@ -41,10 +41,20 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
               '${AppLocalizations.of(context)!.farmLockBlockAprLbl}: ',
               style: styleBannerText,
             ),
-            Text(
-              '${farmLockForm.farmLock!.apr3years.formatNumber(precision: 2)}%',
-              style: styleBannerText,
-            ),
+            if (farmLockForm.farmLock!.apr3years > 0)
+              Text(
+                '${farmLockForm.farmLock!.apr3years.formatNumber(precision: 2)}%',
+                style: styleBannerText,
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(top: 1),
+                child: Icon(
+                  Icons.all_inclusive,
+                  size: 16,
+                  color: aedappfm.ArchethicThemeBase.systemPositive100,
+                ),
+              ),
           ],
         ),
       ),

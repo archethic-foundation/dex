@@ -43,8 +43,8 @@ class DexFarmLock with _$DexFarmLock {
       startDate != null &&
       endDate != null &&
       startDate!.isBefore(endDate!) &&
-      startDate!.isBefore(DateTime.now()) &&
-      startDate!.isAfter(DateTime.now());
+      startDate!.isBefore(DateTime.now().toUtc()) &&
+      endDate!.isAfter(DateTime.now().toUtc());
 }
 
 extension TimestampExt on int {

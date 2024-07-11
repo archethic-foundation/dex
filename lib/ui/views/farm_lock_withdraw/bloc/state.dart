@@ -36,5 +36,6 @@ class FarmLockWithdrawFormState with _$FarmLockWithdrawFormState {
 
   bool get isControlsOk => failure == null && amount > 0;
 
-  bool get isFarmClose => endDate != null && endDate!.isBefore(DateTime.now());
+  bool get isFarmClose =>
+      endDate != null && endDate!.isBefore(DateTime.now().toUtc());
 }

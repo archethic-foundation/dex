@@ -34,8 +34,9 @@ mixin _$GetFarmLockFarmInfosResponse {
   @JsonKey(name: 'reward_token')
   String get rewardToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'rewards_distributed')
-  double get rewardsDistributed => throw _privateConstructorUsedError; // TODO
-//@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
+  double get rewardsDistributed => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lp_tokens_deposited')
+  double get lpTokensDeposited => throw _privateConstructorUsedError;
   Map<String, Stats> get stats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,6 +61,7 @@ abstract class $GetFarmLockFarmInfosResponseCopyWith<$Res> {
       @JsonKey(name: 'remaining_rewards') double remainingRewards,
       @JsonKey(name: 'reward_token') String rewardToken,
       @JsonKey(name: 'rewards_distributed') double rewardsDistributed,
+      @JsonKey(name: 'lp_tokens_deposited') double lpTokensDeposited,
       Map<String, Stats> stats});
 }
 
@@ -84,6 +86,7 @@ class _$GetFarmLockFarmInfosResponseCopyWithImpl<$Res,
     Object? remainingRewards = null,
     Object? rewardToken = null,
     Object? rewardsDistributed = null,
+    Object? lpTokensDeposited = null,
     Object? stats = null,
   }) {
     return _then(_value.copyWith(
@@ -115,6 +118,10 @@ class _$GetFarmLockFarmInfosResponseCopyWithImpl<$Res,
           ? _value.rewardsDistributed
           : rewardsDistributed // ignore: cast_nullable_to_non_nullable
               as double,
+      lpTokensDeposited: null == lpTokensDeposited
+          ? _value.lpTokensDeposited
+          : lpTokensDeposited // ignore: cast_nullable_to_non_nullable
+              as double,
       stats: null == stats
           ? _value.stats
           : stats // ignore: cast_nullable_to_non_nullable
@@ -140,6 +147,7 @@ abstract class _$$GetFarmLockFarmInfosResponseImplCopyWith<$Res>
       @JsonKey(name: 'remaining_rewards') double remainingRewards,
       @JsonKey(name: 'reward_token') String rewardToken,
       @JsonKey(name: 'rewards_distributed') double rewardsDistributed,
+      @JsonKey(name: 'lp_tokens_deposited') double lpTokensDeposited,
       Map<String, Stats> stats});
 }
 
@@ -163,6 +171,7 @@ class __$$GetFarmLockFarmInfosResponseImplCopyWithImpl<$Res>
     Object? remainingRewards = null,
     Object? rewardToken = null,
     Object? rewardsDistributed = null,
+    Object? lpTokensDeposited = null,
     Object? stats = null,
   }) {
     return _then(_$GetFarmLockFarmInfosResponseImpl(
@@ -194,6 +203,10 @@ class __$$GetFarmLockFarmInfosResponseImplCopyWithImpl<$Res>
           ? _value.rewardsDistributed
           : rewardsDistributed // ignore: cast_nullable_to_non_nullable
               as double,
+      lpTokensDeposited: null == lpTokensDeposited
+          ? _value.lpTokensDeposited
+          : lpTokensDeposited // ignore: cast_nullable_to_non_nullable
+              as double,
       stats: null == stats
           ? _value._stats
           : stats // ignore: cast_nullable_to_non_nullable
@@ -215,6 +228,7 @@ class _$GetFarmLockFarmInfosResponseImpl
       @JsonKey(name: 'remaining_rewards') required this.remainingRewards,
       @JsonKey(name: 'reward_token') required this.rewardToken,
       @JsonKey(name: 'rewards_distributed') required this.rewardsDistributed,
+      @JsonKey(name: 'lp_tokens_deposited') required this.lpTokensDeposited,
       required final Map<String, Stats> stats})
       : _availableLevels = availableLevels,
         _stats = stats;
@@ -250,11 +264,10 @@ class _$GetFarmLockFarmInfosResponseImpl
   @override
   @JsonKey(name: 'rewards_distributed')
   final double rewardsDistributed;
-// TODO
-//@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
+  @override
+  @JsonKey(name: 'lp_tokens_deposited')
+  final double lpTokensDeposited;
   final Map<String, Stats> _stats;
-// TODO
-//@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
   @override
   Map<String, Stats> get stats {
     if (_stats is EqualUnmodifiableMapView) return _stats;
@@ -264,7 +277,7 @@ class _$GetFarmLockFarmInfosResponseImpl
 
   @override
   String toString() {
-    return 'GetFarmLockFarmInfosResponse(availableLevels: $availableLevels, startDate: $startDate, endDate: $endDate, lpTokenAddress: $lpTokenAddress, remainingRewards: $remainingRewards, rewardToken: $rewardToken, rewardsDistributed: $rewardsDistributed, stats: $stats)';
+    return 'GetFarmLockFarmInfosResponse(availableLevels: $availableLevels, startDate: $startDate, endDate: $endDate, lpTokenAddress: $lpTokenAddress, remainingRewards: $remainingRewards, rewardToken: $rewardToken, rewardsDistributed: $rewardsDistributed, lpTokensDeposited: $lpTokensDeposited, stats: $stats)';
   }
 
   @override
@@ -285,6 +298,8 @@ class _$GetFarmLockFarmInfosResponseImpl
                 other.rewardToken == rewardToken) &&
             (identical(other.rewardsDistributed, rewardsDistributed) ||
                 other.rewardsDistributed == rewardsDistributed) &&
+            (identical(other.lpTokensDeposited, lpTokensDeposited) ||
+                other.lpTokensDeposited == lpTokensDeposited) &&
             const DeepCollectionEquality().equals(other._stats, _stats));
   }
 
@@ -299,6 +314,7 @@ class _$GetFarmLockFarmInfosResponseImpl
       remainingRewards,
       rewardToken,
       rewardsDistributed,
+      lpTokensDeposited,
       const DeepCollectionEquality().hash(_stats));
 
   @JsonKey(ignore: true)
@@ -330,6 +346,8 @@ abstract class _GetFarmLockFarmInfosResponse
       @JsonKey(name: 'reward_token') required final String rewardToken,
       @JsonKey(name: 'rewards_distributed')
       required final double rewardsDistributed,
+      @JsonKey(name: 'lp_tokens_deposited')
+      required final double lpTokensDeposited,
       required final Map<String, Stats>
           stats}) = _$GetFarmLockFarmInfosResponseImpl;
 
@@ -357,8 +375,10 @@ abstract class _GetFarmLockFarmInfosResponse
   @override
   @JsonKey(name: 'rewards_distributed')
   double get rewardsDistributed;
-  @override // TODO
-//@JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
+  @override
+  @JsonKey(name: 'lp_tokens_deposited')
+  double get lpTokensDeposited;
+  @override
   Map<String, Stats> get stats;
   @override
   @JsonKey(ignore: true)
@@ -376,11 +396,10 @@ mixin _$Stats {
   @JsonKey(name: 'deposits_count')
   int get depositsCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'lp_tokens_deposited')
-  double get lpTokensDeposited => throw _privateConstructorUsedError; // TODO
-//@JsonKey(name: 'rewards_allocated')
-//required Map<String, double> rewardsAllocated,
+  double get lpTokensDeposited => throw _privateConstructorUsedError;
   @JsonKey(name: 'rewards_allocated')
-  double get rewardsAllocated => throw _privateConstructorUsedError;
+  Map<String, double> get rewardsAllocated =>
+      throw _privateConstructorUsedError;
   double get weight => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -396,7 +415,7 @@ abstract class $StatsCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'deposits_count') int depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') double lpTokensDeposited,
-      @JsonKey(name: 'rewards_allocated') double rewardsAllocated,
+      @JsonKey(name: 'rewards_allocated') Map<String, double> rewardsAllocated,
       double weight});
 }
 
@@ -430,7 +449,7 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
       rewardsAllocated: null == rewardsAllocated
           ? _value.rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
-              as double,
+              as Map<String, double>,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
@@ -449,7 +468,7 @@ abstract class _$$StatsImplCopyWith<$Res> implements $StatsCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'deposits_count') int depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') double lpTokensDeposited,
-      @JsonKey(name: 'rewards_allocated') double rewardsAllocated,
+      @JsonKey(name: 'rewards_allocated') Map<String, double> rewardsAllocated,
       double weight});
 }
 
@@ -479,9 +498,9 @@ class __$$StatsImplCopyWithImpl<$Res>
           : lpTokensDeposited // ignore: cast_nullable_to_non_nullable
               as double,
       rewardsAllocated: null == rewardsAllocated
-          ? _value.rewardsAllocated
+          ? _value._rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
-              as double,
+              as Map<String, double>,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
@@ -496,8 +515,10 @@ class _$StatsImpl implements _Stats {
   const _$StatsImpl(
       {@JsonKey(name: 'deposits_count') required this.depositsCount,
       @JsonKey(name: 'lp_tokens_deposited') required this.lpTokensDeposited,
-      @JsonKey(name: 'rewards_allocated') required this.rewardsAllocated,
-      required this.weight});
+      @JsonKey(name: 'rewards_allocated')
+      required final Map<String, double> rewardsAllocated,
+      required this.weight})
+      : _rewardsAllocated = rewardsAllocated;
 
   factory _$StatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$StatsImplFromJson(json);
@@ -508,12 +529,15 @@ class _$StatsImpl implements _Stats {
   @override
   @JsonKey(name: 'lp_tokens_deposited')
   final double lpTokensDeposited;
-// TODO
-//@JsonKey(name: 'rewards_allocated')
-//required Map<String, double> rewardsAllocated,
+  final Map<String, double> _rewardsAllocated;
   @override
   @JsonKey(name: 'rewards_allocated')
-  final double rewardsAllocated;
+  Map<String, double> get rewardsAllocated {
+    if (_rewardsAllocated is EqualUnmodifiableMapView) return _rewardsAllocated;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_rewardsAllocated);
+  }
+
   @override
   final double weight;
 
@@ -531,15 +555,15 @@ class _$StatsImpl implements _Stats {
                 other.depositsCount == depositsCount) &&
             (identical(other.lpTokensDeposited, lpTokensDeposited) ||
                 other.lpTokensDeposited == lpTokensDeposited) &&
-            (identical(other.rewardsAllocated, rewardsAllocated) ||
-                other.rewardsAllocated == rewardsAllocated) &&
+            const DeepCollectionEquality()
+                .equals(other._rewardsAllocated, _rewardsAllocated) &&
             (identical(other.weight, weight) || other.weight == weight));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, depositsCount, lpTokensDeposited, rewardsAllocated, weight);
+  int get hashCode => Object.hash(runtimeType, depositsCount, lpTokensDeposited,
+      const DeepCollectionEquality().hash(_rewardsAllocated), weight);
 
   @JsonKey(ignore: true)
   @override
@@ -561,7 +585,7 @@ abstract class _Stats implements Stats {
       @JsonKey(name: 'lp_tokens_deposited')
       required final double lpTokensDeposited,
       @JsonKey(name: 'rewards_allocated')
-      required final double rewardsAllocated,
+      required final Map<String, double> rewardsAllocated,
       required final double weight}) = _$StatsImpl;
 
   factory _Stats.fromJson(Map<String, dynamic> json) = _$StatsImpl.fromJson;
@@ -572,11 +596,9 @@ abstract class _Stats implements Stats {
   @override
   @JsonKey(name: 'lp_tokens_deposited')
   double get lpTokensDeposited;
-  @override // TODO
-//@JsonKey(name: 'rewards_allocated')
-//required Map<String, double> rewardsAllocated,
+  @override
   @JsonKey(name: 'rewards_allocated')
-  double get rewardsAllocated;
+  Map<String, double> get rewardsAllocated;
   @override
   double get weight;
   @override

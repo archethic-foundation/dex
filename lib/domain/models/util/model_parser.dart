@@ -385,8 +385,7 @@ mixin ModelParser {
       dexFarmLockStatsMap[level] = DexFarmLockStats(
         depositsCount: stat.depositsCount,
         lpTokensDeposited: stat.lpTokensDeposited,
-        // TODO
-        // rewardsAllocated: stat.rewardsAllocated,
+        rewardsAllocated: stat.rewardsAllocated,
       );
     });
 

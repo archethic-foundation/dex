@@ -90,12 +90,22 @@ class FarmLockLevelUpDurationButton extends ConsumerWidget {
                       style: AppTextStyles.bodySmall(context)
                           .copyWith(color: Colors.white60),
                     ),
-                    Text(
-                      '${aprEstimation.formatNumber(precision: 2)}%',
-                      style: AppTextStyles.bodySmall(context).copyWith(
-                        color: _getColor(farmLockLevelUpDuration),
+                    if (aprEstimation > 0)
+                      Text(
+                        '${aprEstimation.formatNumber(precision: 2)}%',
+                        style: AppTextStyles.bodySmall(context).copyWith(
+                          color: _getColor(farmLockLevelUpDuration),
+                        ),
+                      )
+                    else
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 2),
+                        child: Icon(
+                          Icons.all_inclusive,
+                          size: 16,
+                          color: Colors.white60,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ],
