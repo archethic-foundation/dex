@@ -174,12 +174,12 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         child: Column(
                                           children: [
                                             SelectableText(
-                                              DateTime
-                                                      .fromMillisecondsSinceEpoch(
+                                              DateTime.fromMillisecondsSinceEpoch(
                                                 farmLockUserInfos.end! * 1000,
                                               )
                                                   .difference(
-                                                      DateTime.now().toUtc())
+                                                    DateTime.now().toUtc(),
+                                                  )
                                                   .toDurationString(
                                                     includeWeeks: true,
                                                     round: false,
@@ -270,7 +270,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     .fromMillisecondsSinceEpoch(
                                                   farmLockUserInfos.end! * 1000,
                                                 ).isBefore(
-                                                    DateTime.now().toUtc())),
+                                                  DateTime.now().toUtc(),
+                                                )),
                                         currentSortedColumn:
                                             currentSortedColumn,
                                       ),
