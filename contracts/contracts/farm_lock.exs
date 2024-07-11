@@ -857,111 +857,9 @@ export fun(get_farm_infos()) do
     available_levels = Map.set(available_levels, "7", now + 1095 * day)
   end
 
-  stats = Map.new()
-
-  stats =
-    Map.set(stats, "0",
-      weight: Map.get(weight_per_level, "0"),
-      rewards_allocated: [
-        "1": Map.get(weight_per_level, "0") * @REWARDS_YEAR_1,
-        "2": Map.get(weight_per_level, "0") * @REWARDS_YEAR_2,
-        "3": Map.get(weight_per_level, "0") * @REWARDS_YEAR_3,
-        "4": Map.get(weight_per_level, "0") * @REWARDS_YEAR_4
-      ],
-      lp_tokens_deposited: 0,
-      deposits_count: 0
-    )
-
-  stats =
-    Map.set(stats, "1",
-      weight: Map.get(weight_per_level, "1"),
-      rewards_allocated: [
-        "1": Map.get(weight_per_level, "1") * @REWARDS_YEAR_1,
-        "2": Map.get(weight_per_level, "1") * @REWARDS_YEAR_2,
-        "3": Map.get(weight_per_level, "1") * @REWARDS_YEAR_3,
-        "4": Map.get(weight_per_level, "1") * @REWARDS_YEAR_4
-      ],
-      lp_tokens_deposited: 0,
-      deposits_count: 0
-    )
-
-  stats =
-    Map.set(stats, "2",
-      weight: Map.get(weight_per_level, "2"),
-      rewards_allocated: [
-        "1": Map.get(weight_per_level, "2") * @REWARDS_YEAR_1,
-        "2": Map.get(weight_per_level, "2") * @REWARDS_YEAR_2,
-        "3": Map.get(weight_per_level, "2") * @REWARDS_YEAR_3,
-        "4": Map.get(weight_per_level, "2") * @REWARDS_YEAR_4
-      ],
-      lp_tokens_deposited: 0,
-      deposits_count: 0
-    )
-
-  stats =
-    Map.set(stats, "3",
-      weight: Map.get(weight_per_level, "3"),
-      rewards_allocated: [
-        "1": Map.get(weight_per_level, "3") * @REWARDS_YEAR_1,
-        "2": Map.get(weight_per_level, "3") * @REWARDS_YEAR_2,
-        "3": Map.get(weight_per_level, "3") * @REWARDS_YEAR_3,
-        "4": Map.get(weight_per_level, "3") * @REWARDS_YEAR_4
-      ],
-      lp_tokens_deposited: 0,
-      deposits_count: 0
-    )
-
-  stats =
-    Map.set(stats, "4",
-      weight: Map.get(weight_per_level, "4"),
-      rewards_allocated: [
-        "1": Map.get(weight_per_level, "4") * @REWARDS_YEAR_1,
-        "2": Map.get(weight_per_level, "4") * @REWARDS_YEAR_2,
-        "3": Map.get(weight_per_level, "4") * @REWARDS_YEAR_3,
-        "4": Map.get(weight_per_level, "4") * @REWARDS_YEAR_4
-      ],
-      lp_tokens_deposited: 0,
-      deposits_count: 0
-    )
-
-  stats =
-    Map.set(stats, "5",
-      weight: Map.get(weight_per_level, "5"),
-      rewards_allocated: [
-        "1": Map.get(weight_per_level, "5") * @REWARDS_YEAR_1,
-        "2": Map.get(weight_per_level, "5") * @REWARDS_YEAR_2,
-        "3": Map.get(weight_per_level, "5") * @REWARDS_YEAR_3,
-        "4": Map.get(weight_per_level, "5") * @REWARDS_YEAR_4
-      ],
-      lp_tokens_deposited: 0,
-      deposits_count: 0
-    )
-
-  stats =
-    Map.set(stats, "6",
-      weight: Map.get(weight_per_level, "6"),
-      rewards_allocated: [
-        "1": Map.get(weight_per_level, "6") * @REWARDS_YEAR_1,
-        "2": Map.get(weight_per_level, "6") * @REWARDS_YEAR_2,
-        "3": Map.get(weight_per_level, "6") * @REWARDS_YEAR_3,
-        "4": Map.get(weight_per_level, "6") * @REWARDS_YEAR_4
-      ],
-      lp_tokens_deposited: 0,
-      deposits_count: 0
-    )
-
-  stats =
-    Map.set(stats, "7",
-      weight: Map.get(weight_per_level, "7"),
-      rewards_allocated: [
-        "1": Map.get(weight_per_level, "7") * @REWARDS_YEAR_1,
-        "2": Map.get(weight_per_level, "7") * @REWARDS_YEAR_2,
-        "3": Map.get(weight_per_level, "7") * @REWARDS_YEAR_3,
-        "4": Map.get(weight_per_level, "7") * @REWARDS_YEAR_4
-      ],
-      lp_tokens_deposited: 0,
-      deposits_count: 0
-    )
+  weighted_lp_tokens_deposited = 0
+  lp_tokens_deposited_per_level = Map.new()
+  deposits_count_per_level = Map.new()
 
   for user_genesis in Map.keys(deposits) do
     user_deposits = Map.get(deposits, user_genesis)
@@ -983,20 +881,482 @@ export fun(get_farm_infos()) do
         level = "7"
       end
 
-      stats_for_level = Map.get(stats, level)
+      weighted_lp_tokens_deposited =
+        weighted_lp_tokens_deposited + user_deposit.amount * Map.get(weight_per_level, level)
 
-      lp_tokens_deposited_for_level =
-        Map.get(stats_for_level, "lp_tokens_deposited") + user_deposit.amount
+      lp_tokens_deposited_per_level =
+        Map.set(
+          lp_tokens_deposited_per_level,
+          level,
+          Map.get(lp_tokens_deposited_per_level, level, 0) + user_deposit.amount
+        )
 
-      deposits_count_for_level = Map.get(stats_for_level, "deposits_count") + 1
-
-      stats_for_level =
-        Map.set(stats_for_level, "lp_tokens_deposited", lp_tokens_deposited_for_level)
-
-      stats_for_level = Map.set(stats_for_level, "deposits_count", deposits_count_for_level)
-      stats = Map.set(stats, level, stats_for_level)
+      deposits_count_per_level =
+        Map.set(
+          deposits_count_per_level,
+          level,
+          Map.get(deposits_count_per_level, level, 0) + 1
+        )
     end
   end
+
+  stats = Map.new()
+
+  stats =
+    Map.set(stats, "0",
+      weight: Map.get(weight_per_level, "0"),
+      rewards_allocated: [
+        "1":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "0", 0) * Map.get(weight_per_level, "0") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_1
+            end
+
+            value
+          ),
+        "2":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "0", 0) * Map.get(weight_per_level, "0") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_2
+            end
+
+            value
+          ),
+        "3":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "0", 0) * Map.get(weight_per_level, "0") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_3
+            end
+
+            value
+          ),
+        "4":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "0", 0) * Map.get(weight_per_level, "0") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_4
+            end
+
+            value
+          )
+      ],
+      lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, "0", 0),
+      deposits_count: Map.get(deposits_count_per_level, "0", 0)
+    )
+
+  stats =
+    Map.set(stats, "1",
+      weight: Map.get(weight_per_level, "1"),
+      rewards_allocated: [
+        "1":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "1", 0) * Map.get(weight_per_level, "1") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_1
+            end
+
+            value
+          ),
+        "2":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "1", 0) * Map.get(weight_per_level, "1") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_2
+            end
+
+            value
+          ),
+        "3":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "1", 0) * Map.get(weight_per_level, "1") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_3
+            end
+
+            value
+          ),
+        "4":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "1", 0) * Map.get(weight_per_level, "1") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_4
+            end
+
+            value
+          )
+      ],
+      lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, "1", 0),
+      deposits_count: Map.get(deposits_count_per_level, "1", 0)
+    )
+
+  stats =
+    Map.set(stats, "2",
+      weight: Map.get(weight_per_level, "2"),
+      rewards_allocated: [
+        "1":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "2", 0) * Map.get(weight_per_level, "2") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_1
+            end
+
+            value
+          ),
+        "2":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "2", 0) * Map.get(weight_per_level, "2") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_2
+            end
+
+            value
+          ),
+        "3":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "2", 0) * Map.get(weight_per_level, "2") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_3
+            end
+
+            value
+          ),
+        "4":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "2", 0) * Map.get(weight_per_level, "2") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_4
+            end
+
+            value
+          )
+      ],
+      lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, "2", 0),
+      deposits_count: Map.get(deposits_count_per_level, "2", 0)
+    )
+
+  stats =
+    Map.set(stats, "3",
+      weight: Map.get(weight_per_level, "3"),
+      rewards_allocated: [
+        "1":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "3", 0) * Map.get(weight_per_level, "3") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_1
+            end
+
+            value
+          ),
+        "2":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "3", 0) * Map.get(weight_per_level, "3") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_2
+            end
+
+            value
+          ),
+        "3":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "3", 0) * Map.get(weight_per_level, "3") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_3
+            end
+
+            value
+          ),
+        "4":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "3", 0) * Map.get(weight_per_level, "3") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_4
+            end
+
+            value
+          )
+      ],
+      lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, "3", 0),
+      deposits_count: Map.get(deposits_count_per_level, "3", 0)
+    )
+
+  stats =
+    Map.set(stats, "4",
+      weight: Map.get(weight_per_level, "4"),
+      rewards_allocated: [
+        "1":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "4", 0) * Map.get(weight_per_level, "4") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_1
+            end
+
+            value
+          ),
+        "2":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "4", 0) * Map.get(weight_per_level, "4") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_2
+            end
+
+            value
+          ),
+        "3":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "4", 0) * Map.get(weight_per_level, "4") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_3
+            end
+
+            value
+          ),
+        "4":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "4", 0) * Map.get(weight_per_level, "4") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_4
+            end
+
+            value
+          )
+      ],
+      lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, "4", 0),
+      deposits_count: Map.get(deposits_count_per_level, "4", 0)
+    )
+
+  stats =
+    Map.set(stats, "5",
+      weight: Map.get(weight_per_level, "5"),
+      rewards_allocated: [
+        "1":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "5", 0) * Map.get(weight_per_level, "5") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_1
+            end
+
+            value
+          ),
+        "2":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "5", 0) * Map.get(weight_per_level, "5") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_2
+            end
+
+            value
+          ),
+        "3":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "5", 0) * Map.get(weight_per_level, "5") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_3
+            end
+
+            value
+          ),
+        "4":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "5", 0) * Map.get(weight_per_level, "5") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_4
+            end
+
+            value
+          )
+      ],
+      lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, "5", 0),
+      deposits_count: Map.get(deposits_count_per_level, "5", 0)
+    )
+
+  stats =
+    Map.set(stats, "6",
+      weight: Map.get(weight_per_level, "6"),
+      rewards_allocated: [
+        "1":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "6", 0) * Map.get(weight_per_level, "6") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_1
+            end
+
+            value
+          ),
+        "2":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "6", 0) * Map.get(weight_per_level, "6") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_2
+            end
+
+            value
+          ),
+        "3":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "6", 0) * Map.get(weight_per_level, "6") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_3
+            end
+
+            value
+          ),
+        "4":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "6", 0) * Map.get(weight_per_level, "6") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_4
+            end
+
+            value
+          )
+      ],
+      lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, "6", 0),
+      deposits_count: Map.get(deposits_count_per_level, "6", 0)
+    )
+
+  stats =
+    Map.set(stats, "7",
+      weight: Map.get(weight_per_level, "7"),
+      rewards_allocated: [
+        "1":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "7", 0) * Map.get(weight_per_level, "7") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_1
+            end
+
+            value
+          ),
+        "2":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "7", 0) * Map.get(weight_per_level, "7") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_2
+            end
+
+            value
+          ),
+        "3":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "7", 0) * Map.get(weight_per_level, "7") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_3
+            end
+
+            value
+          ),
+        "4":
+          (
+            value = 0
+
+            if weighted_lp_tokens_deposited > 0 do
+              value =
+                Map.get(lp_tokens_deposited_per_level, "7", 0) * Map.get(weight_per_level, "7") /
+                  weighted_lp_tokens_deposited * @REWARDS_YEAR_4
+            end
+
+            value
+          )
+      ],
+      lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, "7", 0),
+      deposits_count: Map.get(deposits_count_per_level, "7", 0)
+    )
 
   [
     lp_token_address: @LP_TOKEN_ADDRESS,
