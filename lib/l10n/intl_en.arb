@@ -407,5 +407,7 @@
     "claimLockProcessStep1": "Build transaction",
     "claimLockProcessStep2": "Claim in progress",
     "claimLockProcessStep3": "Process finished",
-    "farmLockBtnClaim": "Claim"
+    "farmLockBtnClaim": "Claim",
+    "farmLockDetailsLevelSingleRewardsAllocated": "Rewards allocated per period",
+    "farmLockDetailsLevelSingleWeight": "Weight"
 }

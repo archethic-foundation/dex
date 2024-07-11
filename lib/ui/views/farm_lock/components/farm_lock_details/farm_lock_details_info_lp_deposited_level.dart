@@ -9,6 +9,7 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
   const FarmLockDetailsInfoLPDepositedLevel({
@@ -36,7 +37,7 @@ class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: constraints.maxWidth * 0.15,
+                width: constraints.maxWidth * 0.10,
                 child: Align(
                   child: SelectableText(
                     level,
@@ -54,12 +55,13 @@ class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
                 ),
               ),
               SizedBox(
-                width: constraints.maxWidth * 0.55,
+                width: constraints.maxWidth * 0.75,
                 child: Align(
                   child: Column(
                     children: [
                       SelectableText(
                         '${farmLockStats.lpTokensDeposited.formatNumber(precision: 8)} ${farmLockStats.lpTokensDeposited > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken} ${DEXLPTokenFiatValue().display(ref, farmLock.lpTokenPair!.token1, farmLock.lpTokenPair!.token2, farmLockStats.lpTokensDeposited, farmLock.poolAddress)}',
+                        style: AppTextStyles.bodyMedium(context),
                       ),
                       if (farmLockStats.lpTokensDeposited > 0)
                         FutureBuilder<Map<String, dynamic>?>(
@@ -87,21 +89,34 @@ class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
                                           as double;
 
                               return SelectableText(
-                                '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token2.symbol.reduceSymbol()}',
-                                style: AppTextStyles.bodySmall(context),
+                                '= ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                                style: AppTextStyles.bodyMedium(context),
                               );
                             }
                             return SelectableText(
                               ' ',
-                              style: AppTextStyles.bodySmall(context),
+                              style: AppTextStyles.bodyMedium(context),
                             );
                           },
                         )
                       else
                         SelectableText(
                           ' ',
-                          style: AppTextStyles.bodySmall(context),
+                          style: AppTextStyles.bodyMedium(context),
                         ),
+                      SelectableText(
+                        '${DateFormat('yyyy-MM-dd').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                            farmLockStats.rewardsAllocated[0].startPeriod *
+                                1000,
+                          ),
+                        )} - ${DateFormat('yyyy-MM-dd').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                            farmLockStats.rewardsAllocated[0].endPeriod * 1000,
+                          ),
+                        )}: ${farmLockStats.rewardsAllocated[0].rewardsAllocated.formatNumber(precision: farmLockStats.rewardsAllocated[0].rewardsAllocated > 1 ? 2 : 8)} ${farmLock.rewardToken!.symbol}',
+                        style: AppTextStyles.bodyMedium(context),
+                      ),
                     ],
                   ),
                 ),
@@ -111,66 +126,5 @@ class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
         },
       ),
     );
-/*
-    Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: SelectableText(
-            '${AppLocalizations.of(context)!.farmDetailsInfoLPDeposited} ${AppLocalizations.of(context)!.level} $level',
-            style: AppTextStyles.bodySmall(context),
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            SelectableText(
-              '${AppLocalizations.of(context)!.farmDetailsInfoNbDeposit} ${farmLockStats.depositsCount} ',
-              style: AppTextStyles.bodySmall(context),
-            ),
-            SelectableText(
-              '${farmLockStats.lpTokensDeposited.formatNumber(precision: 8)} ${farmLockStats.lpTokensDeposited > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
-              style: AppTextStyles.bodySmall(context),
-            ),
-            SelectableText(
-              '(\$${farmLock.estimateLPTokenInFiat.formatNumber(precision: 2)})',
-              style: AppTextStyles.bodySmall(context),
-            ),
-            if (farmLockStats.lpTokensDeposited > 0)
-              FutureBuilder<Map<String, dynamic>?>(
-                future: PoolFactoryRepositoryImpl(
-                  farmLock.poolAddress,
-                  aedappfm.sl.get<ApiService>(),
-                ).getRemoveAmounts(
-                  farmLockStats.lpTokensDeposited,
-                ),
-                builder: (
-                  context,
-                  snapshotAmounts,
-                ) {
-                  if (snapshotAmounts.hasData && snapshotAmounts.data != null) {
-                    final amountToken1 = snapshotAmounts.data!['token1'] == null
-                        ? 0.0
-                        : snapshotAmounts.data!['token1'] as double;
-                    final amountToken2 = snapshotAmounts.data!['token2'] == null
-                        ? 0.0
-                        : snapshotAmounts.data!['token2'] as double;
-
-                    return SelectableText(
-                      '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token2.symbol.reduceSymbol()}',
-                      style: AppTextStyles.bodySmall(context),
-                    );
-                  }
-                  return SelectableText(
-                    ' ',
-                    style: AppTextStyles.bodySmall(context),
-                  );
-                },
-              ),
-          ],
-        ),
-      ],
-    );*/
   }
 }

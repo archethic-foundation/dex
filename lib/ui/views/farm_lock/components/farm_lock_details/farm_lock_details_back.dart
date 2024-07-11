@@ -1,6 +1,7 @@
 import 'package:aedex/domain/models/dex_farm_lock.dart';
-import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_info_lp_deposited_level.dart';
-import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_info_lp_deposited_level_header.dart';
+import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_level_single.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,20 +28,21 @@ class FarmDetailsBackState extends ConsumerState<FarmLockDetailsBack>
   ) {
     super.build(context);
 
-    return Column(
-      children: [
-        const FarmLockDetailsInfoLPDepositedLeveHeader(),
-        const SizedBox(
-          height: 5,
-        ),
-        ...widget.farmLock.stats.entries.map((entry) {
-          return FarmLockDetailsInfoLPDepositedLevel(
-            farmLock: widget.farmLock,
-            level: entry.key,
-            farmLockStats: entry.value,
-          );
-        }).toList(),
-      ],
+    return aedappfm.ArchethicScrollbar(
+      child: Column(
+        children: [
+          ...widget.farmLock.stats.entries.map((entry) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: FarmLockDetailsLevelSingle(
+                farmLock: widget.farmLock,
+                level: entry.key,
+                farmLockStats: entry.value,
+              ),
+            );
+          }).toList(),
+        ],
+      ),
     );
   }
 }

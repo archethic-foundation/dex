@@ -238,11 +238,11 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                                     body: Align(
                                       child: SizedBox(
                                         width: 550,
-                                        height: 600,
+                                        height: 500,
                                         child: FarmLockListItem(
                                           key: ValueKey(pool.poolAddress),
                                           farmLock: farmLock!,
-                                          heightCard: 540,
+                                          heightCard: 440,
                                           isInPopup: true,
                                         )
                                             .animate()
