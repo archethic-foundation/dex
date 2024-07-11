@@ -107,7 +107,7 @@ const handler = async function (argv) {
 
   // We could batch those requests but archehic sdk do not allow batch request for now
   const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
-  const farmCode = await getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardTokenAddress, farmSeed, factoryAddress, farmType, rewardTokenAmount)
+  const farmCode = await getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardTokenAddress, farmSeed, factoryAddress, farmType)
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
   const { encryptedSecret, authorizedKeys } = encryptSecret(farmSeed, storageNonce)
@@ -139,7 +139,7 @@ const handler = async function (argv) {
   }
 
   tx.setType("transfer")
-    .addRecipient(routerAddress, "add_farm", [lpTokenAddress, startDate, endDate, rewardTokenAddress, Utils.uint8ArrayToHex(farmTx.address), farmType, rewardTokenAmount])
+    .addRecipient(routerAddress, "add_farm", [lpTokenAddress, startDate, endDate, rewardTokenAddress, Utils.uint8ArrayToHex(farmTx.address), farmType])
 
   tx = keychain.buildTransaction(tx, "Master", index).originSign(Utils.originPrivateKey)
 
@@ -157,16 +157,15 @@ const handler = async function (argv) {
   }).send(50)
 }
 
-async function getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardToken, farmSeed, factoryAddress, farmType, rewardTokenAmount) {
+async function getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardToken, farmSeed, factoryAddress, farmType) {
   const farmGenesisAddress = getGenesisAddress(farmSeed)
-
+  const params = [lpTokenAddress, startDate, endDate, rewardToken, farmGenesisAddress]
   if (farmType == 1) {
-    const params = [lpTokenAddress, startDate, endDate, rewardToken, farmGenesisAddress]
     return archethic.network.callFunction(factoryAddress, "get_farm_code", params)
   } else {
-    const params = [lpTokenAddress, startDate, endDate, rewardToken, farmGenesisAddress, rewardTokenAmount]
     return archethic.network.callFunction(factoryAddress, "get_farm_lock_code", params)
   }
+
 }
 
 export default {

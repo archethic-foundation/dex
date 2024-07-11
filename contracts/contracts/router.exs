@@ -73,7 +73,7 @@ actions triggered_by: transaction, on: add_pool(token1_address, token2_address, 
   State.set("pools", pools)
 end
 
-condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address, type, reward_token_amount), as: [
+condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address, type), as: [
   address: (
     # Farm can only be created by the master chain of the dex
 
@@ -121,10 +121,9 @@ condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date
     	  args = [lp_token, start_date, end_date, reward_token, farm_genesis_address]
 	else
 	  function = "get_farm_lock_code"
-          args = [lp_token, start_date, end_date, reward_token, farm_genesis_address, reward_token_amount]
+          args = [lp_token, start_date, end_date, reward_token, farm_genesis_address]
 	end
         expected_code = Contract.call_function(@FACTORY_ADDRESS, function, args)
-        
         valid_code? = Code.is_same?(farm_transaction.code, expected_code)
       end
     end
@@ -148,7 +147,7 @@ condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date
   )
 ]
 
-actions triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address, type, reward_token_amount) do
+actions triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address, type) do
   farms = State.get("farms", [])
 
   farm_genesis_address = Chain.get_genesis_address(farm_creation_address)
