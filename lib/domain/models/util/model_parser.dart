@@ -399,6 +399,7 @@ mixin ModelParser {
         depositsCount: stats.depositsCount,
         lpTokensDeposited: stats.lpTokensDeposited,
         rewardsAllocated: dexFarmLockStatsRewardsAllocatedList,
+        weight: stats.weight,
       );
     });
 

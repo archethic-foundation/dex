@@ -16,10 +16,12 @@ class FarmDetailsFront extends ConsumerStatefulWidget {
     super.key,
     required this.farm,
     required this.userBalance,
+    this.isInPopup = false,
   });
 
   final DexFarm farm;
   final double? userBalance;
+  final bool? isInPopup;
 
   @override
   FarmDetailsFrontState createState() => FarmDetailsFrontState();
@@ -75,6 +77,7 @@ class FarmDetailsFrontState extends ConsumerState<FarmDetailsFront>
                 rewardAmount: widget.farm.rewardAmount,
                 depositedAmount: widget.farm.depositedAmount,
                 userBalance: widget.userBalance,
+                isInPopup: widget.isInPopup,
               ),
             ],
           )
@@ -86,6 +89,7 @@ class FarmDetailsFrontState extends ConsumerState<FarmDetailsFront>
               rewardAmount: 0,
               depositedAmount: 0,
               userBalance: 0,
+              isInPopup: widget.isInPopup,
             ),
           ),
       ],

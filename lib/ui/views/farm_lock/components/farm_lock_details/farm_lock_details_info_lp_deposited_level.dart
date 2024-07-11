@@ -2,6 +2,7 @@ import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -39,7 +40,7 @@ class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
                 child: Align(
                   child: SelectableText(
                     level,
-                    style: AppTextStyles.bodySmall(context),
+                    style: AppTextStyles.bodyMedium(context),
                   ),
                 ),
               ),
@@ -48,18 +49,17 @@ class FarmLockDetailsInfoLPDepositedLevel extends ConsumerWidget {
                 child: Align(
                   child: SelectableText(
                     farmLockStats.depositsCount.toString(),
-                    style: AppTextStyles.bodySmall(context),
+                    style: AppTextStyles.bodyMedium(context),
                   ),
                 ),
               ),
               SizedBox(
-                width: constraints.maxWidth * 0.70,
+                width: constraints.maxWidth * 0.55,
                 child: Align(
                   child: Column(
                     children: [
                       SelectableText(
-                        '${farmLockStats.lpTokensDeposited.formatNumber(precision: 8)} ${farmLockStats.lpTokensDeposited > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken} (\$${farmLock.estimateLPTokenInFiat.formatNumber(precision: 2)})',
-                        style: AppTextStyles.bodySmall(context),
+                        '${farmLockStats.lpTokensDeposited.formatNumber(precision: 8)} ${farmLockStats.lpTokensDeposited > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken} ${DEXLPTokenFiatValue().display(ref, farmLock.lpTokenPair!.token1, farmLock.lpTokenPair!.token2, farmLockStats.lpTokensDeposited, farmLock.poolAddress)}',
                       ),
                       if (farmLockStats.lpTokensDeposited > 0)
                         FutureBuilder<Map<String, dynamic>?>(

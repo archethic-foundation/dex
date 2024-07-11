@@ -20,15 +20,25 @@ class FarmDetailsButtons extends ConsumerWidget {
     required this.rewardAmount,
     required this.depositedAmount,
     required this.userBalance,
+    this.isInPopup = false,
   });
 
   final DexFarm farm;
   final double? rewardAmount;
   final double? depositedAmount;
   final double? userBalance;
+  final bool? isInPopup;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (isInPopup == true) {
+      return Column(
+        children: [
+          _closeButton(context),
+        ],
+      );
+    }
+
     return Column(
       children: [
         if (aedappfm.Responsive.isDesktop(context) ||
@@ -269,6 +279,21 @@ class FarmDetailsButtons extends ConsumerWidget {
             '/',
           );
         }
+      },
+    );
+  }
+
+  Widget _closeButton(BuildContext context) {
+    return aedappfm.AppButton(
+      backgroundGradient: LinearGradient(
+        colors: [
+          aedappfm.ArchethicThemeBase.blue400,
+          aedappfm.ArchethicThemeBase.blue600,
+        ],
+      ),
+      labelBtn: AppLocalizations.of(context)!.btn_close,
+      onPressed: () async {
+        context.pop();
       },
     );
   }

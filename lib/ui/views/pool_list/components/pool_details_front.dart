@@ -64,9 +64,6 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
             ),
           ],
         ),
-        const SizedBox(
-          height: 40,
-        ),
         PoolDetailsInfoButtons(pool: widget.pool, tab: widget.tab),
       ],
     );

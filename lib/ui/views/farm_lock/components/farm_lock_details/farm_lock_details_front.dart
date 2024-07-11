@@ -6,18 +6,24 @@ import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_info_period.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_info_remaining_reward.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_info_token_reward.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FarmLockDetailsFront extends ConsumerStatefulWidget {
   const FarmLockDetailsFront({
     super.key,
     required this.farmLock,
     required this.userBalance,
+    this.isInPopup = false,
   });
 
   final DexFarmLock farmLock;
   final double? userBalance;
+  final bool? isInPopup;
 
   @override
   FarmDetailsFrontState createState() => FarmDetailsFrontState();
@@ -53,7 +59,27 @@ class FarmDetailsFrontState extends ConsumerState<FarmLockDetailsFront>
         FarmLockDetailsInfoDistributedRewards(farmLock: widget.farmLock),
         const SizedBox(height: 10),
         FarmLockDetailsInfoLPDeposited(farmLock: widget.farmLock),
+        const Spacer(),
+        if (widget.isInPopup == true)
+          _closeButton(
+            context,
+          ),
       ],
+    );
+  }
+
+  Widget _closeButton(BuildContext context) {
+    return aedappfm.AppButton(
+      backgroundGradient: LinearGradient(
+        colors: [
+          aedappfm.ArchethicThemeBase.blue400,
+          aedappfm.ArchethicThemeBase.blue600,
+        ],
+      ),
+      labelBtn: AppLocalizations.of(context)!.btn_close,
+      onPressed: () async {
+        context.pop();
+      },
     );
   }
 }

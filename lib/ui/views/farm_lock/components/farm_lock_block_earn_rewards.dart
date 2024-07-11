@@ -132,10 +132,12 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                                     body: Align(
                                       child: SizedBox(
                                         width: 550,
-                                        height: 650,
+                                        height: 550,
                                         child: FarmListItem(
                                           key: ValueKey(pool.poolAddress),
                                           farm: farm!,
+                                          heightCard: 490,
+                                          isInPopup: true,
                                         )
                                             .animate()
                                             .fade(
@@ -236,10 +238,12 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                                     body: Align(
                                       child: SizedBox(
                                         width: 550,
-                                        height: 650,
+                                        height: 600,
                                         child: FarmLockListItem(
                                           key: ValueKey(pool.poolAddress),
                                           farmLock: farmLock!,
+                                          heightCard: 540,
+                                          isInPopup: true,
                                         )
                                             .animate()
                                             .fade(

@@ -25,10 +25,14 @@ class PoolListItem extends ConsumerStatefulWidget {
     super.key,
     required this.pool,
     this.tab,
+    this.widthCard,
+    this.heightCard,
   });
 
   final DexPool pool;
   final PoolsListTab? tab;
+  final double? widthCard;
+  final double? heightCard;
 
   @override
   ConsumerState<PoolListItem> createState() => PoolListItemState();
@@ -92,18 +96,23 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
             cardContent: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                  child: FlipCard(
-                    controller: flipCardController,
-                    flipOnTouch: false,
-                    fill: Fill.fillBack,
-                    front: PoolDetailsFront(
-                      pool: poolInfos ?? widget.pool,
-                      tab: widget.tab,
-                    ),
-                    back: PoolDetailsBack(
-                      pool: poolInfos ?? widget.pool,
+                SizedBox(
+                  width: widget.widthCard,
+                  height: widget.heightCard,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    child: FlipCard(
+                      controller: flipCardController,
+                      flipOnTouch: false,
+                      fill: Fill.fillBack,
+                      front: PoolDetailsFront(
+                        pool: poolInfos ?? widget.pool,
+                        tab: widget.tab,
+                      ),
+                      back: PoolDetailsBack(
+                        pool: poolInfos ?? widget.pool,
+                      ),
                     ),
                   ),
                 ),
