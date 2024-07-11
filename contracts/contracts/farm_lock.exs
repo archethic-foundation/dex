@@ -908,7 +908,7 @@ export fun(get_farm_infos()) do
       rewards_allocated: [
         "1":
           (
-            value = 0
+            value = Map.get(weight_per_level, "0") * @REWARDS_YEAR_1
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -920,7 +920,7 @@ export fun(get_farm_infos()) do
           ),
         "2":
           (
-            value = 0
+            value = Map.get(weight_per_level, "0") * @REWARDS_YEAR_2
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -932,7 +932,7 @@ export fun(get_farm_infos()) do
           ),
         "3":
           (
-            value = 0
+            value = Map.get(weight_per_level, "0") * @REWARDS_YEAR_3
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -944,7 +944,7 @@ export fun(get_farm_infos()) do
           ),
         "4":
           (
-            value = 0
+            value = Map.get(weight_per_level, "0") * @REWARDS_YEAR_4
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -965,7 +965,7 @@ export fun(get_farm_infos()) do
       rewards_allocated: [
         "1":
           (
-            value = 0
+            value = Map.get(weight_per_level, "1") * @REWARDS_YEAR_1
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -977,7 +977,7 @@ export fun(get_farm_infos()) do
           ),
         "2":
           (
-            value = 0
+            value = Map.get(weight_per_level, "1") * @REWARDS_YEAR_2
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -989,7 +989,7 @@ export fun(get_farm_infos()) do
           ),
         "3":
           (
-            value = 0
+            value = Map.get(weight_per_level, "1") * @REWARDS_YEAR_3
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1001,7 +1001,7 @@ export fun(get_farm_infos()) do
           ),
         "4":
           (
-            value = 0
+            value = Map.get(weight_per_level, "1") * @REWARDS_YEAR_4
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1022,7 +1022,7 @@ export fun(get_farm_infos()) do
       rewards_allocated: [
         "1":
           (
-            value = 0
+            value = Map.get(weight_per_level, "2") * @REWARDS_YEAR_1
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1034,7 +1034,7 @@ export fun(get_farm_infos()) do
           ),
         "2":
           (
-            value = 0
+            value = Map.get(weight_per_level, "2") * @REWARDS_YEAR_2
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1046,7 +1046,7 @@ export fun(get_farm_infos()) do
           ),
         "3":
           (
-            value = 0
+            value = Map.get(weight_per_level, "2") * @REWARDS_YEAR_3
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1058,7 +1058,7 @@ export fun(get_farm_infos()) do
           ),
         "4":
           (
-            value = 0
+            value = Map.get(weight_per_level, "2") * @REWARDS_YEAR_4
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1079,7 +1079,7 @@ export fun(get_farm_infos()) do
       rewards_allocated: [
         "1":
           (
-            value = 0
+            value = Map.get(weight_per_level, "3") * @REWARDS_YEAR_1
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1091,7 +1091,7 @@ export fun(get_farm_infos()) do
           ),
         "2":
           (
-            value = 0
+            value = Map.get(weight_per_level, "3") * @REWARDS_YEAR_2
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1103,7 +1103,7 @@ export fun(get_farm_infos()) do
           ),
         "3":
           (
-            value = 0
+            value = Map.get(weight_per_level, "3") * @REWARDS_YEAR_3
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1115,7 +1115,7 @@ export fun(get_farm_infos()) do
           ),
         "4":
           (
-            value = 0
+            value = Map.get(weight_per_level, "3") * @REWARDS_YEAR_4
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1136,7 +1136,7 @@ export fun(get_farm_infos()) do
       rewards_allocated: [
         "1":
           (
-            value = 0
+            value = Map.get(weight_per_level, "4") * @REWARDS_YEAR_1
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1148,7 +1148,7 @@ export fun(get_farm_infos()) do
           ),
         "2":
           (
-            value = 0
+            value = Map.get(weight_per_level, "4") * @REWARDS_YEAR_2
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1160,7 +1160,7 @@ export fun(get_farm_infos()) do
           ),
         "3":
           (
-            value = 0
+            value = Map.get(weight_per_level, "4") * @REWARDS_YEAR_3
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1172,7 +1172,7 @@ export fun(get_farm_infos()) do
           ),
         "4":
           (
-            value = 0
+            value = Map.get(weight_per_level, "4") * @REWARDS_YEAR_4
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1193,7 +1193,7 @@ export fun(get_farm_infos()) do
       rewards_allocated: [
         "1":
           (
-            value = 0
+            value = Map.get(weight_per_level, "5") * @REWARDS_YEAR_1
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1205,7 +1205,7 @@ export fun(get_farm_infos()) do
           ),
         "2":
           (
-            value = 0
+            value = Map.get(weight_per_level, "5") * @REWARDS_YEAR_2
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1217,7 +1217,7 @@ export fun(get_farm_infos()) do
           ),
         "3":
           (
-            value = 0
+            value = Map.get(weight_per_level, "5") * @REWARDS_YEAR_3
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1229,7 +1229,7 @@ export fun(get_farm_infos()) do
           ),
         "4":
           (
-            value = 0
+            value = Map.get(weight_per_level, "5") * @REWARDS_YEAR_4
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1250,7 +1250,7 @@ export fun(get_farm_infos()) do
       rewards_allocated: [
         "1":
           (
-            value = 0
+            value = Map.get(weight_per_level, "6") * @REWARDS_YEAR_1
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1262,7 +1262,7 @@ export fun(get_farm_infos()) do
           ),
         "2":
           (
-            value = 0
+            value = Map.get(weight_per_level, "6") * @REWARDS_YEAR_2
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1274,7 +1274,7 @@ export fun(get_farm_infos()) do
           ),
         "3":
           (
-            value = 0
+            value = Map.get(weight_per_level, "6") * @REWARDS_YEAR_3
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1286,7 +1286,7 @@ export fun(get_farm_infos()) do
           ),
         "4":
           (
-            value = 0
+            value = Map.get(weight_per_level, "6") * @REWARDS_YEAR_4
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1307,7 +1307,7 @@ export fun(get_farm_infos()) do
       rewards_allocated: [
         "1":
           (
-            value = 0
+            value = Map.get(weight_per_level, "7") * @REWARDS_YEAR_1
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1319,7 +1319,7 @@ export fun(get_farm_infos()) do
           ),
         "2":
           (
-            value = 0
+            value = Map.get(weight_per_level, "7") * @REWARDS_YEAR_2
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1331,7 +1331,7 @@ export fun(get_farm_infos()) do
           ),
         "3":
           (
-            value = 0
+            value = Map.get(weight_per_level, "7") * @REWARDS_YEAR_3
 
             if weighted_lp_tokens_deposited > 0 do
               value =
@@ -1343,7 +1343,7 @@ export fun(get_farm_infos()) do
           ),
         "4":
           (
-            value = 0
+            value = Map.get(weight_per_level, "7") * @REWARDS_YEAR_4
 
             if weighted_lp_tokens_deposited > 0 do
               value =
