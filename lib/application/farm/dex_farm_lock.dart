@@ -2,8 +2,11 @@ import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
+import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
+import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/infrastructure/dex_farm_lock.repository.dart';
 import 'package:collection/collection.dart';
+import 'package:decimal/decimal.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_farm_lock.g.dart';
@@ -43,41 +46,48 @@ Future<DexFarmLock?> _getFarmLockInfos(
       DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!),
     );
 
-    /*
-    // Récupérer les rewards alloués pour l'année en cours et ramener au temps restant
-    final newUserInfos = <int, DexFarmLockUserInfos>{};
-    for (final entry in farmLockInfos.userInfos.entries) {
-      final index = entry.key;
-      var userInfos = entry.value;
+    final now = DateTime.now().toUtc();
 
-      final rewardsdInFiat = userInfos.rewardAmount * rewardTokenPriceInFiat;
+    int _getCurrentYearInPeriod(DateTime startDate) {
+      final yearsDifference = now.year - startDate.year;
+      var currentYearInPeriod = yearsDifference % 4 + 1;
 
-      final lpAmountInFiat = await ref.read(
-        DexTokensProviders.estimateLPTokenInFiat(
-          farmLockInfos.lpTokenPair!.token1,
-          farmLockInfos.lpTokenPair!.token2,
-          userInfos.amount,
-          dexFarmLockInput.poolAddress,
-        ).future,
-      );
-
-      if (lpAmountInFiat > 0) {
-        userInfos = userInfos.copyWith(
-          apr: (Decimal.parse('$rewardsdInFiat') /
-                  Decimal.parse('$lpAmountInFiat'))
-              .toDouble(),
-        );
+      if (now.month < startDate.month ||
+          (now.month == startDate.month && now.day < startDate.day)) {
+        currentYearInPeriod--;
+        if (currentYearInPeriod == 0) {
+          currentYearInPeriod = 4;
+        }
       }
-      newUserInfos[index] = userInfos;
-    }*/
 
-    /*  final newStats = <String, DexFarmLockStats>{};
+      return currentYearInPeriod;
+    }
+
+    DateTime _addYears(DateTime date, int years) {
+      return DateTime(date.year + years, date.month, date.day);
+    }
+
+    final currentYearInPeriod =
+        _getCurrentYearInPeriod(farmLockInfos.startDate!);
+
+    final secondsUntilEnd =
+        _addYears(farmLockInfos.startDate!, currentYearInPeriod)
+            .difference(now)
+            .inSeconds;
+    if (rewardTokenPriceInFiat == 0 ||
+        farmLockInfos.isOpen == false ||
+        secondsUntilEnd <= 0) {
+      return farmLockInfos;
+    }
+
+    // Estimation APR for each period
+    final newStats = <String, DexFarmLockStats>{};
     for (final entry in farmLockInfos.stats.entries) {
       final level = entry.key;
       var stats = entry.value;
 
       final rewardsAllocatedInFiat =
-          stats.rewardsAllocated * rewardTokenPriceInFiat;
+          stats.rewardsAllocated.entries.first.value * rewardTokenPriceInFiat;
 
       final lpDepositedPerLevelInFiat = await ref.read(
         DexTokensProviders.estimateLPTokenInFiat(
@@ -98,8 +108,41 @@ Future<DexFarmLock?> _getFarmLockInfos(
       newStats[level] = stats;
     }
 
-    return farmLockInfos.copyWith(stats: newStats);*/
-    return farmLockInfos;
+    // APR for each lock
+    final newUserInfos = <int, DexFarmLockUserInfos>{};
+    for (final entry in farmLockInfos.userInfos.entries) {
+      final index = entry.key;
+      var userInfos = entry.value;
+
+      final rewardsdInFiat = (newStats[userInfos.level]!
+                  .rewardsAllocated[currentYearInPeriod.toString()] ??
+              0.0) *
+          rewardTokenPriceInFiat;
+
+      final lpTokenDepositedInFiat = await ref.read(
+        DexTokensProviders.estimateLPTokenInFiat(
+          farmLockInfos.lpTokenPair!.token1,
+          farmLockInfos.lpTokenPair!.token2,
+          newStats[userInfos.level]!.lpTokensDeposited,
+          dexFarmLockInput.poolAddress,
+        ).future,
+      );
+
+      if (lpTokenDepositedInFiat > 0) {
+        // 31 536 000 second in a year
+        final rewardScalledToYear =
+            rewardsdInFiat * (31536000 / secondsUntilEnd);
+
+        userInfos = userInfos.copyWith(
+          apr: (Decimal.parse('$rewardScalledToYear') /
+                  Decimal.parse('$lpTokenDepositedInFiat'))
+              .toDouble(),
+        );
+      }
+      newUserInfos[index] = userInfos;
+    }
+
+    return farmLockInfos.copyWith(stats: newStats, userInfos: newUserInfos);
   } catch (e) {
     return null;
   }
