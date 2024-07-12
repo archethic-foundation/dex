@@ -44,7 +44,7 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
             ),
             if (farmLockForm.farmLock!.apr3years > 0)
               Text(
-                '${farmLockForm.farmLock!.apr3years.formatNumber(precision: 2)}%',
+                '${(farmLockForm.farmLock!.apr3years * 100).formatNumber(precision: 2)}%',
                 style: styleBannerText,
               )
             else

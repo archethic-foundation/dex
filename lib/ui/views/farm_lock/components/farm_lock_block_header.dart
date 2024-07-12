@@ -84,6 +84,49 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     ),
                   ],
                 )
+              else if (aedappfm.Responsive.isTablet(context))
+                Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FarmLockBlockAddLiquidity(
+                          pool: pool!,
+                          width: constraints.maxWidth * 0.49,
+                          height: 300,
+                          sortCriteria: sortCriteria,
+                        ),
+                        SizedBox(
+                          width: constraints.maxWidth * 0.02,
+                        ),
+                        FarmLockBlockEarnRewards(
+                          pool: pool!,
+                          farmLock: farmLock,
+                          farm: farm,
+                          width: constraints.maxWidth * 0.49,
+                          height: 300,
+                          sortCriteria: sortCriteria,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FarmLockBlockBalanceSummary(
+                          width: constraints.maxWidth * 0.49,
+                          height: 145,
+                        ),
+                        SizedBox(
+                          width: constraints.maxWidth * 0.02,
+                        ),
+                        FarmLockBlockFarmedTokensSummary(
+                          width: constraints.maxWidth * 0.49,
+                          height: 145,
+                        ),
+                      ],
+                    ),
+                  ],
+                )
               else
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

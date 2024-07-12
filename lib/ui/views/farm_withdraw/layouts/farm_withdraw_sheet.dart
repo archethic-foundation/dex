@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_form_sheet.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +39,6 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        ref.read(navigationIndexMainScreenProvider.notifier).state =
-            NavigationIndex.farm;
-
         await ref
             .read(SessionProviders.session.notifier)
             .updateCtxInfo(context);

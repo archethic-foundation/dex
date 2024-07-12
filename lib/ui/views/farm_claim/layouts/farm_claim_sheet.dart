@@ -4,7 +4,6 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_confirm_sheet.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_form_sheet.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -38,9 +37,6 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        ref.read(navigationIndexMainScreenProvider.notifier).state =
-            NavigationIndex.farm;
-
         await ref
             .read(SessionProviders.session.notifier)
             .updateCtxInfo(context);

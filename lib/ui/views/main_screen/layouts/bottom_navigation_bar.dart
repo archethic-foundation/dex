@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
@@ -69,12 +68,6 @@ class _BottomNavigationBarMainScreenState
               case aedappfm.Iconsax.wallet_money:
                 if (tabSelected == NavigationIndex.pool) {
                   widthContainer = 45;
-                  selected = true;
-                }
-                break;
-              case aedappfm.Iconsax.coin5:
-                if (tabSelected == NavigationIndex.farm) {
-                  widthContainer = 30;
                   selected = true;
                 }
                 break;
@@ -148,16 +141,6 @@ class _BottomNavigationBarMainScreenState
                 context.go(PoolListSheet.routerPage);
                 break;
               case 2:
-                setState(() {
-                  ref
-                      .read(
-                        navigationIndexMainScreenProvider.notifier,
-                      )
-                      .state = NavigationIndex.farm;
-                });
-                context.go(FarmListSheet.routerPage);
-                break;
-              case 3:
                 setState(() {
                   ref
                       .read(

@@ -73,9 +73,12 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  SelectableText(
-                    '${AppLocalizations.of(context)!.farmLockBlockFarmedTokensSummaryCapitalInvestedLbl}: ',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  Opacity(
+                    opacity: AppTextStyles.kOpacityText,
+                    child: SelectableText(
+                      '${AppLocalizations.of(context)!.farmLockBlockFarmedTokensSummaryCapitalInvestedLbl}: ',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                   Opacity(
                     opacity: opacity,
@@ -103,9 +106,12 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  SelectableText(
-                    '${AppLocalizations.of(context)!.farmLockBlockFarmedTokensSummaryCapitalRewardsEarnedLbl}: ',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  Opacity(
+                    opacity: AppTextStyles.kOpacityText,
+                    child: SelectableText(
+                      '${AppLocalizations.of(context)!.farmLockBlockFarmedTokensSummaryCapitalRewardsEarnedLbl}: ',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                   Opacity(
                     opacity: opacity,

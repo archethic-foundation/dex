@@ -29,12 +29,11 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
     final env = ref.watch(SessionProviders.session).envSelected;
     final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -77,24 +76,24 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                     iconSize: 22,
                   ),
                 ),
-                if (displayPoolFarmAvailable &&
-                    contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
-                        pool!.poolAddress.toUpperCase())
-                  const PoolFarmAvailable(),
               ],
             ),
-            Row(
-              children: [
-                VerifiedPoolIcon(
-                  isVerified: pool!.isVerified,
-                ),
-                LiquidityPositionsIcon(
-                  lpTokenInUserBalance: pool!.lpTokenInUserBalance,
-                ),
-                LiquidityFavoriteIcon(
-                  isFavorite: pool!.isFavorite,
-                ),
-              ],
+            if (displayPoolFarmAvailable &&
+                contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
+                    pool!.poolAddress.toUpperCase())
+              const PoolFarmAvailable(),
+          ],
+        ),
+        Row(
+          children: [
+            VerifiedPoolIcon(
+              isVerified: pool!.isVerified,
+            ),
+            LiquidityPositionsIcon(
+              lpTokenInUserBalance: pool!.lpTokenInUserBalance,
+            ),
+            LiquidityFavoriteIcon(
+              isFavorite: pool!.isFavorite,
             ),
           ],
         ),

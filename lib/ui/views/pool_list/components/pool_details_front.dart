@@ -1,6 +1,7 @@
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_apr.dart';
+import 'package:aedex/ui/views/pool_list/components/pool_details_info_apr_farm.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_buttons.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_fees.dart';
 import 'package:aedex/ui/views/pool_list/components/pool_details_info_header.dart';
@@ -52,7 +53,9 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
                   PoolDetailsInfoAPR(
                     tvl: widget.pool.infos?.tvl ?? 0,
                     fee24h: widget.pool.infos?.fee24h ?? 0,
-                  ),
+                  )
+                else
+                  PoolDetailsInfoAPRFarm(poolAddress: widget.pool.poolAddress),
               ],
             ),
             const SizedBox(height: 30),

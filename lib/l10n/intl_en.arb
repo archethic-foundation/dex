@@ -204,6 +204,7 @@
     "poolDetailsInfoDepositedEquivalent": "Equivalent",
     "poolDetailsInfoTVL": "TVL",
     "poolDetailsInfoAPR": "APR",
+    "poolDetailsInfoAPRFarm3Years": "Farming - APR 3 Years",
     "time24h": "24h",
     "timeAll": "All",
     "poolDetailsInfoVolume": "Volume",
