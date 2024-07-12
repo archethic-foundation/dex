@@ -215,6 +215,104 @@ update_code()
 ```
 This action can be triggered only by the Router contract of the dex. It allow the Router to request the farm to update it's code. The farm will request the new code using the function `get_farm_code` of the Factory (see above).
 
+
+### Farm Lock
+
+Farm is a contract that allows users to deposit lp tokens from a pool for a given period and receive rewards at the end of the lock period.
+
+#### Public functions
+
+```elixir
+get_farm_infos()
+```
+Returns the informations of the farm
+
+```json
+{
+  "lp_token_address": "0000ABCD...", // LP Token Address
+  "reward_token": "00001234...", // Reward token address or "UCO"
+  "start_date": 1705500842, // Unix timestamp
+  "end_date": 1705912842, // Unix timestamp
+  "remaining_reward": 123456.789, // Amount of rewards remaining
+  "rewards_distributed": 4523.97235, // Amount of rewards already distributed
+  "available_levels": { // an enumeration (string (level) ⇒ end date)
+    "1": 1750829615,
+    "2": 1782365615
+  },
+  "stats": {
+    "1": {
+      "deposits_count": 1344.454, // Deposits count currently on this level by all users
+      "lp_tokens_deposited": 34553,  // Amount deposited currently on this level by all users
+      "rewards_allocated": 3564332.333, // Amount of rewards remaining for this level for all users
+    },
+    "2": {
+      "deposits_count": 12341.454, // Deposits count currently on this level by all users
+      "lp_tokens_deposited": 43513,  // Amount deposited currently on this level by all users
+      "rewards_allocated": 3561342.13, // Amount of rewards remaining for this level for all users
+    }
+  }
+}
+```
+
+```elixir
+get_user_infos(user_genesis_address)
+```
+Returns the informations of a user who has deposited and locked lp token in the farm
+
+```json
+[
+  {
+  "index": 1, // Deposit index
+  "amount": 1213.456339, // Amount locked
+  "reward_amount": 33.45, // Current amount rewards
+  "start": 1750829615, // Timestamp lock begin 
+  "end": 1782365634, // Timestamp lock end
+  "level": "3", // Current level
+  },
+    {
+  "index": 2, // Deposit index
+  "amount": 213.456339, // Amount locked
+  "reward_amount": 12.45, // Current amount rewards
+  "start": 1750829615, // Timestamp lock begin 
+  "end": 1782365634, // Timestamp lock end
+  "level": "6", // Current level
+  }
+]
+```
+
+#### Actions triggered by transaction:
+
+```elixir
+deposit(end_timestamp :: integer)
+```
+This action allow user to deposit lp token in the farm. User must send tokens to the farm's genesis address. It's fund will be hold by the contract and could be reclaimed using `claim` action when the end_timestamp is over.
+A user can deposit multiple time in the same farm with different duration of lock (level)
+- Lock `end_timestamp` Unix: seconds since epoch
+
+```elixir
+claim(index :: int)
+```
+This action allow user to claim all the reward he earned since he deposited in the farm if lock duration is exceeded.
+- Lock `index` (a user can have several locks)
+
+```elixir
+withdraw(amount :: float, index :: int)
+```
+This action allow user to retrieve, if the lock duration is exceeded, LP tokens and associated rewards.
+- `amount` to withdraw (partial withdrawal authorized)
+- Lock `index` (a user can have several locks)
+
+```elixir
+udpate_dates(new_start_date, new_end_date)
+```
+This action can be triggered only by the Master address of the dex. The farm will update the start and end date.
+
+```elixir
+update_code()
+```
+This action can be triggered only by the Router contract of the dex. It allow the Router to request the farm to update it's code. The farm will request the new code using the function `get_farm_code` of the Factory (see above).
+
+
 ### Router
 
 Router is a helper contract for user to easily retrieve existing pools and create new pools.
@@ -370,7 +468,7 @@ node dex remove_liquidity --token1 token3 --token2 token4 --lp_token_amount 72
 
 You can also deploy a farm (Master address should have the reward tokens):
 ```bash
-node dex deploy_farm --lp_token 0000e866...f160 --reward_token token4 --reward_token_amount 2000
+node dex deploy_farm --lp_token 0000e866...f160 --reward_token token4 --reward_token_amount 2000 --farm_type 1
 ```
 
 Then you can use script to deposit, claim or withdraw:

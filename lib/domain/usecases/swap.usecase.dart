@@ -7,6 +7,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -20,6 +21,7 @@ const logName = 'SwapCase';
 class SwapCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String poolGenesisAddress,
@@ -30,6 +32,7 @@ class SwapCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionSwap,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -121,6 +124,14 @@ class SwapCase with aedappfm.TransactionMixin {
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionSwap!],
+        description: {
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.swapSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.swapSignTxDesc_fr
+              : '',
+        },
       ))
           .first;
 
@@ -137,7 +148,11 @@ class SwapCase with aedappfm.TransactionMixin {
         throw aedappfm.Failure.fromError(e);
       }
       swapNotifier
-        ..setFailure(aedappfm.Failure.other(cause: e.toString()))
+        ..setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+          ),
+        )
         ..setCurrentStep(4);
       throw aedappfm.Failure.fromError(e);
     }
@@ -169,12 +184,8 @@ class SwapCase with aedappfm.TransactionMixin {
           tokenSwapped.address,
         ),
         sleepDuration: const Duration(seconds: 3),
-        until: (amount) {
-          return amount > 0;
-        },
-      ).timeout(
-        const Duration(minutes: 1),
-        onTimeout: () => throw const aedappfm.Timeout(),
+        until: (amount) => amount > 0,
+        timeout: const Duration(minutes: 1),
       );
 
       notificationService.succeed(
@@ -198,9 +209,12 @@ class SwapCase with aedappfm.TransactionMixin {
 
       swapNotifier
         ..setFailure(
-          aedappfm.Failure.other(
-            cause: e.toString(),
-          ),
+          e is aedappfm.Timeout
+              ? e
+              : aedappfm.Failure.other(
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
+                ),
         )
         ..setCurrentStep(4);
 
@@ -237,6 +251,7 @@ class SwapCase with aedappfm.TransactionMixin {
     double slippage,
   ) async {
     final archethicContract = ArchethicContract();
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     archethic.Transaction? transactionSwap;
     var outputAmount = 0.0;
 

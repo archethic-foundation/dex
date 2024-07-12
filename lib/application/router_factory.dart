@@ -137,8 +137,9 @@ class RouterFactory with ModelParser {
 
   /// Return the infos of all the farms.
   Future<aedappfm.Result<List<DexFarm>, aedappfm.Failure>> getFarmList(
-    List<DexPool> poolList,
-  ) async {
+    List<DexPool> poolList, {
+    int farmType = 1,
+  }) async {
     return aedappfm.Result.guard(
       () async {
         final results = await apiService.callSCFunction(
@@ -157,6 +158,10 @@ class RouterFactory with ModelParser {
 
         for (final result in results) {
           final getFarmListResponse = GetFarmListResponse.fromJson(result);
+          if (getFarmListResponse.type != null &&
+              getFarmListResponse.type == 2) {
+            continue;
+          }
           final dexpool = poolList.singleWhere(
             (pool) =>
                 pool.lpToken.address!.toUpperCase() ==

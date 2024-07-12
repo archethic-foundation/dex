@@ -6,6 +6,7 @@ import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -19,6 +20,7 @@ const logName = 'DepositFarmCase';
 class DepositFarmCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -29,6 +31,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionDeposit,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -45,7 +48,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 1) {
       farmDepositNotifier.setCurrentStep(1);
       try {
-        final transactionDepositMap = await archethicContract.getDepositTx(
+        final transactionDepositMap = await archethicContract.getFarmDepositTx(
           farmGenesisAddress,
           lpTokenAddress,
           amount,
@@ -81,6 +84,14 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionDeposit!],
+        description: {
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.depositFarmSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.depositFarmSignTxDesc_fr
+              : '',
+        },
       ))
           .first;
 
@@ -94,8 +105,11 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         farmDepositNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmDepositNotifier
-          .setFailure(aedappfm.Failure.other(cause: e.toString()));
+      farmDepositNotifier.setFailure(
+        aedappfm.Failure.other(
+          cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+        ),
+      );
       throw aedappfm.Failure.fromError(e);
     }
 
@@ -128,12 +142,8 @@ class DepositFarmCase with aedappfm.TransactionMixin {
           farmAddress,
         ),
         sleepDuration: const Duration(seconds: 3),
-        until: (amount) {
-          return amount > 0;
-        },
-      ).timeout(
-        const Duration(minutes: 1),
-        onTimeout: () => throw const aedappfm.Timeout(),
+        until: (amount) => amount > 0,
+        timeout: const Duration(minutes: 1),
       );
 
       notificationService.succeed(
@@ -158,9 +168,12 @@ class DepositFarmCase with aedappfm.TransactionMixin {
 
       farmDepositNotifier
         ..setFailure(
-          aedappfm.Failure.other(
-            cause: e.toString(),
-          ),
+          e is aedappfm.Timeout
+              ? e
+              : aedappfm.Failure.other(
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
+                ),
         )
         ..setCurrentStep(3);
 

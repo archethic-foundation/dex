@@ -134,19 +134,21 @@ class FarmClaimFormNotifier extends AutoDisposeNotifier<FarmClaimFormState> {
 
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-
-    final finalAmount = await ClaimFarmCase().run(
-      ref,
-      ref.watch(NotificationProviders.notificationService),
-      state.farmAddress!,
-      state.rewardToken!,
-    );
-    state = state.copyWith(finalAmount: finalAmount);
-
     if (context.mounted) {
-      final farmListItemState =
-          context.findAncestorStateOfType<FarmListItemState>();
-      await farmListItemState?.reload();
+      final finalAmount = await ClaimFarmCase().run(
+        ref,
+        context,
+        ref.watch(NotificationProviders.notificationService),
+        state.farmAddress!,
+        state.rewardToken!,
+      );
+      state = state.copyWith(finalAmount: finalAmount);
+
+      if (context.mounted) {
+        final farmListItemState =
+            context.findAncestorStateOfType<FarmListItemState>();
+        await farmListItemState?.reload();
+      }
     }
   }
 }

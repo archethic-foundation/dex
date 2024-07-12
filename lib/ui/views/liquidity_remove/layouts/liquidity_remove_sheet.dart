@@ -6,7 +6,6 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_confirm_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_form_sheet.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
@@ -42,9 +41,6 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        ref.read(navigationIndexMainScreenProvider.notifier).state =
-            NavigationIndex.pool;
-
         await ref
             .read(SessionProviders.session.notifier)
             .updateCtxInfo(context);

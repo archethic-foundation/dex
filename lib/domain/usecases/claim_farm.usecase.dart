@@ -7,6 +7,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -20,6 +21,7 @@ const logName = 'ClaimFarmCase';
 class ClaimFarmCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -27,6 +29,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionClaim,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -43,7 +46,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 1) {
       farmClaimNotifier.setCurrentStep(1);
       try {
-        final transactionClaimMap = await archethicContract.getClaimTx(
+        final transactionClaimMap = await archethicContract.getFarmClaimTx(
           farmGenesisAddress,
         );
 
@@ -77,6 +80,14 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionClaim!],
+        description: {
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.claimFarmSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.claimFarmSignTxDesc_fr
+              : '',
+        },
       ))
           .first;
 
@@ -90,7 +101,11 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         farmClaimNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmClaimNotifier.setFailure(aedappfm.Failure.other(cause: e.toString()));
+      farmClaimNotifier.setFailure(
+        aedappfm.Failure.other(
+          cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+        ),
+      );
 
       throw aedappfm.Failure.fromError(e);
     }
@@ -122,12 +137,8 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
           rewardToken.address,
         ),
         sleepDuration: const Duration(seconds: 3),
-        until: (amount) {
-          return amount > 0;
-        },
-      ).timeout(
-        const Duration(minutes: 1),
-        onTimeout: () => throw const aedappfm.Timeout(),
+        until: (amount) => amount > 0,
+        timeout: const Duration(minutes: 1),
       );
 
       notificationService.succeed(
@@ -151,9 +162,12 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
 
       farmClaimNotifier
         ..setFailure(
-          aedappfm.Failure.other(
-            cause: e.toString(),
-          ),
+          e is aedappfm.Timeout
+              ? e
+              : aedappfm.Failure.other(
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
+                ),
         )
         ..setCurrentStep(3);
 

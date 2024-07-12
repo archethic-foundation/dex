@@ -22,9 +22,9 @@ class AppBarMenuInfo extends ConsumerStatefulWidget {
 }
 
 class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
-  final thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
+  final thumbIcon = WidgetStateProperty.resolveWith<Icon?>(
+    (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
         return const Icon(Icons.check);
       }
       return const Icon(Icons.close);
@@ -37,14 +37,14 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
 
     return MenuAnchor(
       style: MenuStyle(
-        padding: MaterialStateProperty.all(
+        padding: WidgetStateProperty.all(
           const EdgeInsets.only(top: 20, right: 20),
         ),
-        elevation: MaterialStateProperty.all(0),
-        backgroundColor: MaterialStateProperty.all(
+        elevation: WidgetStateProperty.all(0),
+        backgroundColor: WidgetStateProperty.all(
           Colors.transparent,
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -92,8 +92,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                 ],
               ),
             ),
-            onPressed: () {
-              launchUrl(
+            onPressed: () async {
+              await launchUrl(
                 Uri.parse(
                   'https://wiki.archethic.net/participate/dex/',
                 ),
@@ -126,8 +126,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
               ],
             ),
           ),
-          onPressed: () {
-            launchUrl(
+          onPressed: () async {
+            await launchUrl(
               Uri.parse(
                 'https://github.com/archethic-foundation/dex',
               ),
@@ -157,8 +157,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
               ],
             ),
           ),
-          onPressed: () {
-            launchUrl(
+          onPressed: () async {
+            await launchUrl(
               Uri.parse(
                 'https://wiki.archethic.net/FAQ/dex',
               ),
@@ -188,8 +188,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
               ],
             ),
           ),
-          onPressed: () {
-            launchUrl(
+          onPressed: () async {
+            await launchUrl(
               Uri.parse(
                 'https://wiki.archethic.net/participate/dex/Guide_Usage/',
               ),
@@ -221,8 +221,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
               ],
             ),
           ),
-          onPressed: () {
-            launchUrl(
+          onPressed: () async {
+            await launchUrl(
               Uri.parse(
                 kURIPrivacyPolicy,
               ),
@@ -254,8 +254,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
               ],
             ),
           ),
-          onPressed: () {
-            launchUrl(
+          onPressed: () async {
+            await launchUrl(
               Uri.parse(
                 kURITermsOfUse,
               ),
@@ -285,8 +285,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
               ],
             ),
           ),
-          onPressed: () {
-            launchUrl(
+          onPressed: () async {
+            await launchUrl(
               Uri.parse(
                 'https://github.com/archethic-foundation/dex/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml',
               ),

@@ -68,6 +68,10 @@ Future<double> _estimateLPTokenInFiat(
   double lpTokenAmount,
   String poolAddress,
 ) async {
+  if (lpTokenAmount <= 0) {
+    return 0;
+  }
+
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
 

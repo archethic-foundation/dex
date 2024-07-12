@@ -758,18 +758,21 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    final finalAmount = await SwapCase().run(
-      ref,
-      ref.watch(NotificationProviders.notificationService),
-      state.poolGenesisAddress,
-      state.tokenToSwap!,
-      state.tokenSwapped!,
-      state.tokenToSwapAmount,
-      state.slippageTolerance,
-    );
-    state = state.copyWith(finalAmount: finalAmount);
+    if (context.mounted) {
+      final finalAmount = await SwapCase().run(
+        ref,
+        context,
+        ref.watch(NotificationProviders.notificationService),
+        state.poolGenesisAddress,
+        state.tokenToSwap!,
+        state.tokenSwapped!,
+        state.tokenToSwapAmount,
+        state.slippageTolerance,
+      );
+      state = state.copyWith(finalAmount: finalAmount);
 
-    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+      await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+    }
   }
 }
 

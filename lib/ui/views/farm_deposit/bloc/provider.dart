@@ -176,22 +176,25 @@ class FarmDepositFormNotifier
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    final finalAmount = await DepositFarmCase().run(
-      ref,
-      ref.watch(NotificationProviders.notificationService),
-      state.dexFarmInfo!.farmAddress,
-      state.dexFarmInfo!.lpToken!.address!,
-      state.amount,
-      state.dexFarmInfo!.farmAddress,
-      false,
-    );
-
-    state = state.copyWith(finalAmount: finalAmount);
-
     if (context.mounted) {
-      final farmListItemState =
-          context.findAncestorStateOfType<FarmListItemState>();
-      await farmListItemState?.reload();
+      final finalAmount = await DepositFarmCase().run(
+        ref,
+        context,
+        ref.watch(NotificationProviders.notificationService),
+        state.dexFarmInfo!.farmAddress,
+        state.dexFarmInfo!.lpToken!.address!,
+        state.amount,
+        state.dexFarmInfo!.farmAddress,
+        false,
+      );
+
+      state = state.copyWith(finalAmount: finalAmount);
+
+      if (context.mounted) {
+        final farmListItemState =
+            context.findAncestorStateOfType<FarmListItemState>();
+        await farmListItemState?.reload();
+      }
     }
   }
 }

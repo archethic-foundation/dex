@@ -7,6 +7,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -22,6 +23,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
       run(
     String poolGenesisAddress,
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String lpTokenAddress,
@@ -31,6 +33,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
     DexToken lpToken, {
     int recoveryStep = 0,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -79,6 +82,14 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionRemoveLiquidity!],
+          description: {
+            'en': context.mounted
+                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_en
+                : '',
+            'fr': context.mounted
+                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_fr
+                : '',
+          },
         ))
             .first;
         liquidityRemoveNotifier
@@ -89,8 +100,11 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
           liquidityRemoveNotifier.setFailure(e);
           throw aedappfm.Failure.fromError(e);
         }
-        liquidityRemoveNotifier
-            .setFailure(aedappfm.Failure.other(cause: e.toString()));
+        liquidityRemoveNotifier.setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+          ),
+        );
 
         throw aedappfm.Failure.fromError(e);
       }
@@ -139,9 +153,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
           final amountLPToken = amounts[2];
           return amountToken1 > 0 && amountToken2 > 0 && amountLPToken > 0;
         },
-      ).timeout(
-        const Duration(minutes: 1),
-        onTimeout: () => throw const aedappfm.Timeout(),
+        timeout: const Duration(minutes: 1),
       );
 
       final amountToken1 = amounts[0];
@@ -177,9 +189,12 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
 
       liquidityRemoveNotifier
         ..setFailure(
-          aedappfm.Failure.other(
-            cause: e.toString(),
-          ),
+          e is aedappfm.Timeout
+              ? e
+              : aedappfm.Failure.other(
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
+                ),
         )
         ..setCurrentStep(3);
 

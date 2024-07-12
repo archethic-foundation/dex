@@ -23,6 +23,7 @@ class DexTokenBalance extends ConsumerWidget {
     this.height = 30,
     this.pool,
     this.digits = 8,
+    this.styleResponsive = true,
     super.key,
   });
 
@@ -35,6 +36,7 @@ class DexTokenBalance extends ConsumerWidget {
   final bool fiatVertical;
   final bool fiatAlignLeft;
   final bool fiatTextStyleMedium;
+  final bool styleResponsive;
 
   @override
   Widget build(
@@ -46,7 +48,7 @@ class DexTokenBalance extends ConsumerWidget {
         height: height,
       );
     }
-    var opacity = 1.0;
+    var opacity = AppTextStyles.kOpacityText;
     if (tokenBalance <= 0) {
       opacity = 0.5;
     }
@@ -71,7 +73,9 @@ class DexTokenBalance extends ConsumerWidget {
                     opacity: opacity,
                     child: SelectableText(
                       '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(context, token!, tokenBalance)}',
-                      style: AppTextStyles.bodyLarge(context),
+                      style: styleResponsive
+                          ? AppTextStyles.bodyLarge(context)
+                          : Theme.of(context).textTheme.bodyLarge!,
                     ),
                   ),
                 ],
@@ -96,8 +100,12 @@ class DexTokenBalance extends ConsumerWidget {
                               pool!.poolAddress,
                             ),
                             style: fiatTextStyleMedium
-                                ? AppTextStyles.bodyMedium(context)
-                                : AppTextStyles.bodyLarge(context),
+                                ? styleResponsive
+                                    ? AppTextStyles.bodyMedium(context)
+                                    : Theme.of(context).textTheme.bodyMedium!
+                                : styleResponsive
+                                    ? AppTextStyles.bodyLarge(context)
+                                    : Theme.of(context).textTheme.bodyLarge!,
                           ),
                         ),
                       )
@@ -115,30 +123,16 @@ class DexTokenBalance extends ConsumerWidget {
                               child: SelectableText(
                                 snapshot.data!,
                                 style: fiatTextStyleMedium
-                                    ? Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          fontSize: aedappfm.Responsive
-                                              .fontSizeFromTextStyle(
-                                            context,
-                                            Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!,
-                                          ),
-                                        )
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontSize: aedappfm.Responsive
-                                              .fontSizeFromTextStyle(
-                                            context,
-                                            Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!,
-                                          ),
-                                        ),
+                                    ? styleResponsive
+                                        ? AppTextStyles.bodyMedium(context)
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                    : styleResponsive
+                                        ? AppTextStyles.bodyLarge(context)
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!,
                               ),
                             );
                           }
@@ -173,8 +167,12 @@ class DexTokenBalance extends ConsumerWidget {
                   child: SelectableText(
                     '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(context, token!, tokenBalance)}',
                     style: fiatTextStyleMedium
-                        ? AppTextStyles.bodyMedium(context)
-                        : AppTextStyles.bodyLarge(context),
+                        ? styleResponsive
+                            ? AppTextStyles.bodyMedium(context)
+                            : Theme.of(context).textTheme.bodyMedium!
+                        : styleResponsive
+                            ? AppTextStyles.bodyLarge(context)
+                            : Theme.of(context).textTheme.bodyLarge!,
                   ),
                 ),
                 if (withFiat)
@@ -194,8 +192,12 @@ class DexTokenBalance extends ConsumerWidget {
                             pool!.poolAddress,
                           ),
                           style: fiatTextStyleMedium
-                              ? AppTextStyles.bodyMedium(context)
-                              : AppTextStyles.bodyLarge(context),
+                              ? styleResponsive
+                                  ? AppTextStyles.bodyMedium(context)
+                                  : Theme.of(context).textTheme.bodyMedium!
+                              : styleResponsive
+                                  ? AppTextStyles.bodyLarge(context)
+                                  : Theme.of(context).textTheme.bodyLarge!,
                         ),
                       ),
                     )
@@ -217,30 +219,16 @@ class DexTokenBalance extends ConsumerWidget {
                               child: SelectableText(
                                 snapshot.data!,
                                 style: fiatTextStyleMedium
-                                    ? Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          fontSize: aedappfm.Responsive
-                                              .fontSizeFromTextStyle(
-                                            context,
-                                            Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!,
-                                          ),
-                                        )
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontSize: aedappfm.Responsive
-                                              .fontSizeFromTextStyle(
-                                            context,
-                                            Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!,
-                                          ),
-                                        ),
+                                    ? styleResponsive
+                                        ? AppTextStyles.bodyMedium(context)
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                    : styleResponsive
+                                        ? AppTextStyles.bodyLarge(context)
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!,
                               ),
                             ),
                           );

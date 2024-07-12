@@ -5,8 +5,12 @@ enum DexActionType {
   addLiquidity,
   removeLiquidity,
   claimFarm,
+  claimFarmLock,
   depositFarm,
+  depositFarmLock,
+  levelUpFarmLock,
   withdrawFarm,
+  withdrawFarmLock,
   addPool
 }
 
@@ -21,9 +25,17 @@ extension DexActionTypeExtension on DexActionType {
         return 'Remove liquidity';
       case DexActionType.claimFarm:
         return 'Claim';
+      case DexActionType.claimFarmLock:
+        return 'Claim';
       case DexActionType.depositFarm:
         return 'Deposit';
+      case DexActionType.depositFarmLock:
+        return 'Deposit';
+      case DexActionType.levelUpFarmLock:
+        return 'Level Up';
       case DexActionType.withdrawFarm:
+        return 'Withdraw';
+      case DexActionType.withdrawFarmLock:
         return 'Withdraw';
       case DexActionType.addPool:
         return 'Add Pool';

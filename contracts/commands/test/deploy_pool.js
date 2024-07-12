@@ -41,9 +41,15 @@ const builder = {
     demandOption: false,
     type: "string"
   }
+  ,
+  pool_seed: {
+    describe: "Seed of pool",
+    demandOption: false,
+    type: "string"
+  }
 }
 
-const handler = async function(argv) {
+const handler = async function (argv) {
   const envName = argv["env"] ? argv["env"] : "local"
   const env = config.environments[envName]
 
@@ -69,11 +75,10 @@ const handler = async function(argv) {
   const token2Name = argv["token2"]
   const token1Amount = argv["token1_amount"]
   const token2Amount = argv["token2_amount"]
+  const poolSeed = argv["pool_seed"] ? argv["pool_seed"] : Crypto.randomSecretKey()
 
   const token1Address = getTokenAddress(token1Name)
   const token2Address = getTokenAddress(token2Name)
-
-  const poolSeed = Crypto.randomSecretKey()
 
   const poolGenesisAddress = getGenesisAddress(poolSeed)
   console.log("Pool genesis address:", poolGenesisAddress)

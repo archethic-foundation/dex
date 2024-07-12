@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
+import 'package:aedex/util/string_util.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -17,6 +18,7 @@ const logName = 'AddPoolCase';
 class AddPoolCase with aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref,
+    BuildContext context,
     DexToken token1,
     double token1Amount,
     DexToken token2,
@@ -30,6 +32,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
     archethic.Transaction? recoveryTransactionAddPoolLiquidity,
     String? recoveryPoolGenesisAddress,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final archethicContract = ArchethicContract();
     final poolAddNotifier = ref.read(PoolAddFormProvider.poolAddForm.notifier);
 
@@ -125,6 +128,14 @@ class AddPoolCase with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddPoolTransfer!],
+          description: {
+            'en': context.mounted
+                ? AppLocalizations.of(context)!.addPoolSignTxDesc1_en
+                : '',
+            'fr': context.mounted
+                ? AppLocalizations.of(context)!.addPoolSignTxDesc1_fr
+                : '',
+          },
         ))
             .first;
 
@@ -141,7 +152,11 @@ class AddPoolCase with aedappfm.TransactionMixin {
             ..setProcessInProgress(false);
           return;
         }
-        poolAddNotifier.setFailure(aedappfm.Failure.other(cause: e.toString()));
+        poolAddNotifier.setFailure(
+          aedappfm.Failure.other(
+            cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+          ),
+        );
 
         return;
       }
@@ -197,6 +212,14 @@ class AddPoolCase with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddPoolLiquidity!],
+          description: {
+            'en': context.mounted
+                ? AppLocalizations.of(context)!.addPoolSignTxDesc2_en
+                : '',
+            'fr': context.mounted
+                ? AppLocalizations.of(context)!.addPoolSignTxDesc2_fr
+                : '',
+          },
         ))
             .first;
 
@@ -219,7 +242,11 @@ class AddPoolCase with aedappfm.TransactionMixin {
           return;
         }
         poolAddNotifier
-          ..setFailure(aedappfm.Failure.other(cause: e.toString()))
+          ..setFailure(
+            aedappfm.Failure.other(
+              cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+            ),
+          )
           ..setProcessInProgress(false);
         return;
       }
@@ -246,7 +273,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
         poolAddNotifier
           ..setFailure(
             aedappfm.Failure.other(
-              cause: e.toString(),
+              cause: e.toString().replaceAll('Exception: ', '').capitalize(),
             ),
           )
           ..setProcessInProgress(false);

@@ -5,14 +5,12 @@ import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_final_amount.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class FarmClaimInProgressPopup {
   static List<Widget> body(
@@ -107,7 +105,7 @@ class FarmClaimInProgressPopup {
           );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(FarmListSheet.routerPage);
+        Navigator.of(context).pop();
       },
       closeFunction: () {
         ref.invalidate(
@@ -115,7 +113,7 @@ class FarmClaimInProgressPopup {
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        context.go(FarmListSheet.routerPage);
+        Navigator.of(context).pop();
       },
     );
   }

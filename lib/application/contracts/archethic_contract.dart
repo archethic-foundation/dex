@@ -7,6 +7,7 @@ import 'package:aedex/application/factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
+import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -122,8 +123,10 @@ class ArchethicContract with aedappfm.TransactionMixin {
     String poolGenesisAddress,
   ) async {
     return aedappfm.Result.guard(() async {
-      final feesToken = await calculateFees(transactionPool);
       final apiService = aedappfm.sl.get<archethic.ApiService>();
+      final feesToken = await calculateFees(
+        transactionPool,
+      );
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,
       );
@@ -456,7 +459,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
     });
   }
 
-  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>> getDepositTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getFarmDepositTx(
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -488,7 +492,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
   }
 
   Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
-      getWithdrawTx(
+      getFarmWithdrawTx(
     String farmGenesisAddress,
     double amount,
   ) async {
@@ -512,7 +516,86 @@ class ArchethicContract with aedappfm.TransactionMixin {
     });
   }
 
-  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>> getClaimTx(
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getFarmLockDepositTx(
+    String farmGenesisAddress,
+    String lpTokenAddress,
+    double amount,
+    FarmLockDepositDurationType durationType,
+  ) async {
+    return aedappfm.Result.guard(() async {
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      )
+          .addTokenTransfer(
+        farmGenesisAddress,
+        archethic.toBigInt(amount),
+        lpTokenAddress,
+      )
+          .addRecipient(
+        farmGenesisAddress,
+        action: 'deposit',
+        args: [
+          if (durationType == FarmLockDepositDurationType.flexible)
+            'flex'
+          else if (durationType == FarmLockDepositDurationType.max)
+            'max'
+          else
+            getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
+                1000,
+        ],
+      );
+
+      return transaction;
+    });
+  }
+
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getFarmLockRelockTx(
+    String farmGenesisAddress,
+    String lpTokenAddress,
+    double amount,
+    int depositIndex,
+    FarmLockDepositDurationType durationType,
+  ) async {
+    return aedappfm.Result.guard(() async {
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        farmGenesisAddress,
+        action: 'relock',
+        args: [
+          if (durationType == FarmLockDepositDurationType.flexible)
+            'flex'
+          else if (durationType == FarmLockDepositDurationType.max)
+            'max'
+          else
+            getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
+                1000,
+          depositIndex,
+        ],
+      );
+
+      return transaction;
+    });
+  }
+
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getFarmClaimTx(
     String farmGenesisAddress,
   ) async {
     return aedappfm.Result.guard(() async {
@@ -529,6 +612,62 @@ class ArchethicContract with aedappfm.TransactionMixin {
         farmGenesisAddress,
         action: 'claim',
         args: [],
+      );
+
+      return transaction;
+    });
+  }
+
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getFarmLockWithdrawTx(
+    String farmGenesisAddress,
+    double amount,
+    int depositIndex,
+  ) async {
+    return aedappfm.Result.guard(() async {
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        farmGenesisAddress,
+        action: 'withdraw',
+        args: [
+          amount,
+          depositIndex,
+        ],
+      );
+
+      return transaction;
+    });
+  }
+
+  Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
+      getFarmLockClaimTx(
+    String farmGenesisAddress,
+    int depositIndex,
+  ) async {
+    return aedappfm.Result.guard(() async {
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
+      final blockchainTxVersion = int.parse(
+        (await apiService.getBlockchainVersion()).version.transaction,
+      );
+
+      final transaction = archethic.Transaction(
+        type: 'transfer',
+        version: blockchainTxVersion,
+        data: archethic.Transaction.initData(),
+      ).addRecipient(
+        farmGenesisAddress,
+        action: 'claim',
+        args: [
+          depositIndex,
+        ],
       );
 
       return transaction;

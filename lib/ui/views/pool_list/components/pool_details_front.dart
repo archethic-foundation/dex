@@ -13,10 +13,12 @@ class PoolDetailsFront extends ConsumerStatefulWidget {
   const PoolDetailsFront({
     super.key,
     required this.pool,
-    required this.tab,
+    this.tab,
+    this.poolWithFarm = false,
   });
   final DexPool pool;
-  final PoolsListTab tab;
+  final PoolsListTab? tab;
+  final bool poolWithFarm;
 
   @override
   PoolDetailsFrontState createState() => PoolDetailsFrontState();
@@ -33,36 +35,42 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
   ) {
     super.build(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        PoolDetailsInfoHeader(pool: widget.pool),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
           children: [
-            PoolDetailsInfoTVL(tvl: widget.pool.infos?.tvl ?? 0),
-            PoolDetailsInfoAPR(
-              tvl: widget.pool.infos?.tvl ?? 0,
-              fee24h: widget.pool.infos?.fee24h ?? 0,
+            PoolDetailsInfoHeader(
+              pool: widget.pool,
+              displayPoolFarmAvailable: widget.tab != null,
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                PoolDetailsInfoTVL(tvl: widget.pool.infos?.tvl ?? 0),
+                if (widget.poolWithFarm == false)
+                  PoolDetailsInfoAPR(
+                    tvl: widget.pool.infos?.tvl ?? 0,
+                    fee24h: widget.pool.infos?.fee24h ?? 0,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                PoolDetailsInfoVolume(
+                  volume24h: widget.pool.infos?.volume24h,
+                  volumeAllTime: widget.pool.infos?.volumeAllTime,
+                ),
+                if (widget.poolWithFarm == false)
+                  PoolDetailsInfoFees(
+                    fees24h: widget.pool.infos?.fee24h,
+                    feesAllTime: widget.pool.infos?.feeAllTime,
+                  ),
+              ],
             ),
           ],
-        ),
-        const SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            PoolDetailsInfoVolume(
-              volume24h: widget.pool.infos?.volume24h,
-              volumeAllTime: widget.pool.infos?.volumeAllTime,
-            ),
-            PoolDetailsInfoFees(
-              fees24h: widget.pool.infos?.fee24h,
-              feesAllTime: widget.pool.infos?.feeAllTime,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 40,
         ),
         PoolDetailsInfoButtons(pool: widget.pool, tab: widget.tab),
       ],

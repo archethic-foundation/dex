@@ -73,7 +73,7 @@ actions triggered_by: transaction, on: add_pool(token1_address, token2_address, 
   State.set("pools", pools)
 end
 
-condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address), as: [
+condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address, type), as: [
   address: (
     # Farm can only be created by the master chain of the dex
 
@@ -95,17 +95,16 @@ condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date
         lp_token_exists? = true
       end
     end
-
-    # Start date should be between 2 hours and 1 week from now
+# Start date should be between 2 hours and 1 week from now
     # End date should be between 1 month (30 days) and 1 year (365 days) from start date
-    valid_date? = false
-    if lp_token_exists? do
-      now = Time.now()
-      valid_start_date? = now + 7200 <= start_date && now + 604800 >= start_date
-      valid_end_date? = start_date + 2592000 <= end_date && start_date + 31536000 >= end_date 
+    valid_date? = true
+    #if lp_token_exists? do
+    #  now = Time.now()
+    #  valid_start_date? = now + 7200 <= start_date && now + 604800 >= start_date
+    #  valid_end_date? = start_date + 2592000 <= end_date && start_date + 31536000 >= end_date 
 
-      valid_date? = valid_start_date? && valid_end_date?
-    end
+    #  valid_date? = valid_start_date? && valid_end_date?
+    #end
 
     # Ensure farm code is valid
     valid_code? = false
@@ -115,12 +114,16 @@ condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date
       if farm_transaction != nil && farm_transaction.type == "contract" do
         farm_genesis_address = Chain.get_genesis_address(farm_creation_address)
 
-        expected_code = Contract.call_function(
-          @FACTORY_ADDRESS,
-          "get_farm_code",
-          [lp_token, start_date, end_date, reward_token, farm_genesis_address]
-        )
-        
+	function = ""
+	args = []
+	if type == 1 do
+	  function = "get_farm_code"
+    	  args = [lp_token, start_date, end_date, reward_token, farm_genesis_address]
+	else
+	  function = "get_farm_lock_code"
+          args = [lp_token, start_date, end_date, reward_token, farm_genesis_address]
+	end
+        expected_code = Contract.call_function(@FACTORY_ADDRESS, function, args)
         valid_code? = Code.is_same?(farm_transaction.code, expected_code)
       end
     end
@@ -144,7 +147,7 @@ condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date
   )
 ]
 
-actions triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address) do
+actions triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, reward_token, farm_creation_address, type) do
   farms = State.get("farms", [])
 
   farm_genesis_address = Chain.get_genesis_address(farm_creation_address)
@@ -154,7 +157,8 @@ actions triggered_by: transaction, on: add_farm(lp_token, start_date, end_date, 
     start_date: start_date,
     end_date: end_date,
     reward_token: reward_token,
-    address: farm_genesis_address
+    address: farm_genesis_address,
+    type: type
   ]
 
   farms = List.prepend(farms, new_farm)

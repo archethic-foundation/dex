@@ -50,6 +50,23 @@ mixin _$DexNotification {
             bool? isFarmClose,
             DexToken? rewardToken)
         withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -84,6 +101,23 @@ mixin _$DexNotification {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -118,6 +152,23 @@ mixin _$DexNotification {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -130,6 +181,14 @@ mixin _$DexNotification {
     required TResult Function(_DexNotificationClaimFarm value) claimFarm,
     required TResult Function(_DexNotificationDepositFarm value) depositFarm,
     required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -140,6 +199,10 @@ mixin _$DexNotification {
     TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -150,6 +213,10 @@ mixin _$DexNotification {
     TResult Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -347,6 +414,23 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
             bool? isFarmClose,
             DexToken? rewardToken)
         withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
   }) {
     return swap(actionType, txAddress, amountSwapped, tokenSwapped);
   }
@@ -384,6 +468,23 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
   }) {
     return swap?.call(actionType, txAddress, amountSwapped, tokenSwapped);
   }
@@ -421,6 +522,23 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (swap != null) {
@@ -439,6 +557,14 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
     required TResult Function(_DexNotificationClaimFarm value) claimFarm,
     required TResult Function(_DexNotificationDepositFarm value) depositFarm,
     required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
   }) {
     return swap(this);
   }
@@ -452,6 +578,10 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
     TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
   }) {
     return swap?.call(this);
   }
@@ -465,6 +595,10 @@ class _$DexNotificationSwapImpl extends _DexNotificationSwap {
     TResult Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (swap != null) {
@@ -645,6 +779,23 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
             bool? isFarmClose,
             DexToken? rewardToken)
         withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
   }) {
     return addLiquidity(actionType, txAddress, amount, lpToken);
   }
@@ -682,6 +833,23 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
   }) {
     return addLiquidity?.call(actionType, txAddress, amount, lpToken);
   }
@@ -719,6 +887,23 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (addLiquidity != null) {
@@ -737,6 +922,14 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
     required TResult Function(_DexNotificationClaimFarm value) claimFarm,
     required TResult Function(_DexNotificationDepositFarm value) depositFarm,
     required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
   }) {
     return addLiquidity(this);
   }
@@ -750,6 +943,10 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
     TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
   }) {
     return addLiquidity?.call(this);
   }
@@ -763,6 +960,10 @@ class _$DexNotificationAddLiquidityImpl extends _DexNotificationAddLiquidity {
     TResult Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (addLiquidity != null) {
@@ -1014,6 +1215,23 @@ class _$DexNotificationRemoveLiquidityImpl
             bool? isFarmClose,
             DexToken? rewardToken)
         withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
   }) {
     return removeLiquidity(actionType, txAddress, amountToken1, amountToken2,
         amountLPToken, token1, token2, lpToken);
@@ -1052,6 +1270,23 @@ class _$DexNotificationRemoveLiquidityImpl
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
   }) {
     return removeLiquidity?.call(actionType, txAddress, amountToken1,
         amountToken2, amountLPToken, token1, token2, lpToken);
@@ -1090,6 +1325,23 @@ class _$DexNotificationRemoveLiquidityImpl
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (removeLiquidity != null) {
@@ -1109,6 +1361,14 @@ class _$DexNotificationRemoveLiquidityImpl
     required TResult Function(_DexNotificationClaimFarm value) claimFarm,
     required TResult Function(_DexNotificationDepositFarm value) depositFarm,
     required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
   }) {
     return removeLiquidity(this);
   }
@@ -1122,6 +1382,10 @@ class _$DexNotificationRemoveLiquidityImpl
     TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
   }) {
     return removeLiquidity?.call(this);
   }
@@ -1135,6 +1399,10 @@ class _$DexNotificationRemoveLiquidityImpl
     TResult Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (removeLiquidity != null) {
@@ -1324,6 +1592,23 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
             bool? isFarmClose,
             DexToken? rewardToken)
         withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
   }) {
     return claimFarm(actionType, txAddress, amount, rewardToken);
   }
@@ -1361,6 +1646,23 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
   }) {
     return claimFarm?.call(actionType, txAddress, amount, rewardToken);
   }
@@ -1398,6 +1700,23 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (claimFarm != null) {
@@ -1416,6 +1735,14 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
     required TResult Function(_DexNotificationClaimFarm value) claimFarm,
     required TResult Function(_DexNotificationDepositFarm value) depositFarm,
     required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
   }) {
     return claimFarm(this);
   }
@@ -1429,6 +1756,10 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
     TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
   }) {
     return claimFarm?.call(this);
   }
@@ -1442,6 +1773,10 @@ class _$DexNotificationClaimFarmImpl extends _DexNotificationClaimFarm {
     TResult Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (claimFarm != null) {
@@ -1619,6 +1954,23 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
             bool? isFarmClose,
             DexToken? rewardToken)
         withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
   }) {
     return depositFarm(actionType, txAddress, amount, farmAddress, isUCO);
   }
@@ -1656,6 +2008,23 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
   }) {
     return depositFarm?.call(actionType, txAddress, amount, farmAddress, isUCO);
   }
@@ -1693,6 +2062,23 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (depositFarm != null) {
@@ -1711,6 +2097,14 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
     required TResult Function(_DexNotificationClaimFarm value) claimFarm,
     required TResult Function(_DexNotificationDepositFarm value) depositFarm,
     required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
   }) {
     return depositFarm(this);
   }
@@ -1724,6 +2118,10 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
     TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
   }) {
     return depositFarm?.call(this);
   }
@@ -1737,6 +2135,10 @@ class _$DexNotificationDepositFarmImpl extends _DexNotificationDepositFarm {
     TResult Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (depositFarm != null) {
@@ -1943,6 +2345,23 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
             bool? isFarmClose,
             DexToken? rewardToken)
         withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
   }) {
     return withdrawFarm(actionType, txAddress, amountReward, amountWithdraw,
         isFarmClose, rewardToken);
@@ -1981,6 +2400,23 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
   }) {
     return withdrawFarm?.call(actionType, txAddress, amountReward,
         amountWithdraw, isFarmClose, rewardToken);
@@ -2019,6 +2455,23 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
             bool? isFarmClose,
             DexToken? rewardToken)?
         withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (withdrawFarm != null) {
@@ -2038,6 +2491,14 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
     required TResult Function(_DexNotificationClaimFarm value) claimFarm,
     required TResult Function(_DexNotificationDepositFarm value) depositFarm,
     required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
   }) {
     return withdrawFarm(this);
   }
@@ -2051,6 +2512,10 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
     TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
   }) {
     return withdrawFarm?.call(this);
   }
@@ -2064,6 +2529,10 @@ class _$DexNotificationWithdrawFarmImpl extends _DexNotificationWithdrawFarm {
     TResult Function(_DexNotificationClaimFarm value)? claimFarm,
     TResult Function(_DexNotificationDepositFarm value)? depositFarm,
     TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
     required TResult orElse(),
   }) {
     if (withdrawFarm != null) {
@@ -2094,5 +2563,1508 @@ abstract class _DexNotificationWithdrawFarm extends DexNotification {
   @override
   @JsonKey(ignore: true)
   _$$DexNotificationWithdrawFarmImplCopyWith<_$DexNotificationWithdrawFarmImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DexNotificationDepositFarmLockImplCopyWith<$Res>
+    implements $DexNotificationCopyWith<$Res> {
+  factory _$$DexNotificationDepositFarmLockImplCopyWith(
+          _$DexNotificationDepositFarmLockImpl value,
+          $Res Function(_$DexNotificationDepositFarmLockImpl) then) =
+      __$$DexNotificationDepositFarmLockImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DexActionType actionType,
+      String? txAddress,
+      double? amount,
+      String? farmAddress,
+      bool? isUCO});
+}
+
+/// @nodoc
+class __$$DexNotificationDepositFarmLockImplCopyWithImpl<$Res>
+    extends _$DexNotificationCopyWithImpl<$Res,
+        _$DexNotificationDepositFarmLockImpl>
+    implements _$$DexNotificationDepositFarmLockImplCopyWith<$Res> {
+  __$$DexNotificationDepositFarmLockImplCopyWithImpl(
+      _$DexNotificationDepositFarmLockImpl _value,
+      $Res Function(_$DexNotificationDepositFarmLockImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? actionType = null,
+    Object? txAddress = freezed,
+    Object? amount = freezed,
+    Object? farmAddress = freezed,
+    Object? isUCO = freezed,
+  }) {
+    return _then(_$DexNotificationDepositFarmLockImpl(
+      actionType: null == actionType
+          ? _value.actionType
+          : actionType // ignore: cast_nullable_to_non_nullable
+              as DexActionType,
+      txAddress: freezed == txAddress
+          ? _value.txAddress
+          : txAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      farmAddress: freezed == farmAddress
+          ? _value.farmAddress
+          : farmAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isUCO: freezed == isUCO
+          ? _value.isUCO
+          : isUCO // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DexNotificationDepositFarmLockImpl
+    extends _DexNotificationDepositFarmLock {
+  const _$DexNotificationDepositFarmLockImpl(
+      {this.actionType = DexActionType.depositFarmLock,
+      this.txAddress,
+      this.amount,
+      this.farmAddress,
+      this.isUCO})
+      : super._();
+
+  @override
+  @JsonKey()
+  final DexActionType actionType;
+  @override
+  final String? txAddress;
+  @override
+  final double? amount;
+  @override
+  final String? farmAddress;
+  @override
+  final bool? isUCO;
+
+  @override
+  String toString() {
+    return 'DexNotification.depositFarmLock(actionType: $actionType, txAddress: $txAddress, amount: $amount, farmAddress: $farmAddress, isUCO: $isUCO)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DexNotificationDepositFarmLockImpl &&
+            (identical(other.actionType, actionType) ||
+                other.actionType == actionType) &&
+            (identical(other.txAddress, txAddress) ||
+                other.txAddress == txAddress) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.farmAddress, farmAddress) ||
+                other.farmAddress == farmAddress) &&
+            (identical(other.isUCO, isUCO) || other.isUCO == isUCO));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, actionType, txAddress, amount, farmAddress, isUCO);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DexNotificationDepositFarmLockImplCopyWith<
+          _$DexNotificationDepositFarmLockImpl>
+      get copyWith => __$$DexNotificationDepositFarmLockImplCopyWithImpl<
+          _$DexNotificationDepositFarmLockImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)
+        swap,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)
+        addLiquidity,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)
+        removeLiquidity,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarm,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
+  }) {
+    return depositFarmLock(actionType, txAddress, amount, farmAddress, isUCO);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarm,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
+  }) {
+    return depositFarmLock?.call(
+        actionType, txAddress, amount, farmAddress, isUCO);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarm,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
+    required TResult orElse(),
+  }) {
+    if (depositFarmLock != null) {
+      return depositFarmLock(actionType, txAddress, amount, farmAddress, isUCO);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_DexNotificationSwap value) swap,
+    required TResult Function(_DexNotificationAddLiquidity value) addLiquidity,
+    required TResult Function(_DexNotificationRemoveLiquidity value)
+        removeLiquidity,
+    required TResult Function(_DexNotificationClaimFarm value) claimFarm,
+    required TResult Function(_DexNotificationDepositFarm value) depositFarm,
+    required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
+  }) {
+    return depositFarmLock(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_DexNotificationSwap value)? swap,
+    TResult? Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult? Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
+    TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
+    TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
+  }) {
+    return depositFarmLock?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_DexNotificationSwap value)? swap,
+    TResult Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    TResult Function(_DexNotificationClaimFarm value)? claimFarm,
+    TResult Function(_DexNotificationDepositFarm value)? depositFarm,
+    TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
+    required TResult orElse(),
+  }) {
+    if (depositFarmLock != null) {
+      return depositFarmLock(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DexNotificationDepositFarmLock extends DexNotification {
+  const factory _DexNotificationDepositFarmLock(
+      {final DexActionType actionType,
+      final String? txAddress,
+      final double? amount,
+      final String? farmAddress,
+      final bool? isUCO}) = _$DexNotificationDepositFarmLockImpl;
+  const _DexNotificationDepositFarmLock._() : super._();
+
+  @override
+  DexActionType get actionType;
+  @override
+  String? get txAddress;
+  double? get amount;
+  String? get farmAddress;
+  bool? get isUCO;
+  @override
+  @JsonKey(ignore: true)
+  _$$DexNotificationDepositFarmLockImplCopyWith<
+          _$DexNotificationDepositFarmLockImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DexNotificationLevelUpFarmLockImplCopyWith<$Res>
+    implements $DexNotificationCopyWith<$Res> {
+  factory _$$DexNotificationLevelUpFarmLockImplCopyWith(
+          _$DexNotificationLevelUpFarmLockImpl value,
+          $Res Function(_$DexNotificationLevelUpFarmLockImpl) then) =
+      __$$DexNotificationLevelUpFarmLockImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DexActionType actionType,
+      String? txAddress,
+      double? amount,
+      String? farmAddress,
+      bool? isUCO});
+}
+
+/// @nodoc
+class __$$DexNotificationLevelUpFarmLockImplCopyWithImpl<$Res>
+    extends _$DexNotificationCopyWithImpl<$Res,
+        _$DexNotificationLevelUpFarmLockImpl>
+    implements _$$DexNotificationLevelUpFarmLockImplCopyWith<$Res> {
+  __$$DexNotificationLevelUpFarmLockImplCopyWithImpl(
+      _$DexNotificationLevelUpFarmLockImpl _value,
+      $Res Function(_$DexNotificationLevelUpFarmLockImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? actionType = null,
+    Object? txAddress = freezed,
+    Object? amount = freezed,
+    Object? farmAddress = freezed,
+    Object? isUCO = freezed,
+  }) {
+    return _then(_$DexNotificationLevelUpFarmLockImpl(
+      actionType: null == actionType
+          ? _value.actionType
+          : actionType // ignore: cast_nullable_to_non_nullable
+              as DexActionType,
+      txAddress: freezed == txAddress
+          ? _value.txAddress
+          : txAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      farmAddress: freezed == farmAddress
+          ? _value.farmAddress
+          : farmAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isUCO: freezed == isUCO
+          ? _value.isUCO
+          : isUCO // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DexNotificationLevelUpFarmLockImpl
+    extends _DexNotificationLevelUpFarmLock {
+  const _$DexNotificationLevelUpFarmLockImpl(
+      {this.actionType = DexActionType.levelUpFarmLock,
+      this.txAddress,
+      this.amount,
+      this.farmAddress,
+      this.isUCO})
+      : super._();
+
+  @override
+  @JsonKey()
+  final DexActionType actionType;
+  @override
+  final String? txAddress;
+  @override
+  final double? amount;
+  @override
+  final String? farmAddress;
+  @override
+  final bool? isUCO;
+
+  @override
+  String toString() {
+    return 'DexNotification.levelUpFarmLock(actionType: $actionType, txAddress: $txAddress, amount: $amount, farmAddress: $farmAddress, isUCO: $isUCO)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DexNotificationLevelUpFarmLockImpl &&
+            (identical(other.actionType, actionType) ||
+                other.actionType == actionType) &&
+            (identical(other.txAddress, txAddress) ||
+                other.txAddress == txAddress) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.farmAddress, farmAddress) ||
+                other.farmAddress == farmAddress) &&
+            (identical(other.isUCO, isUCO) || other.isUCO == isUCO));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, actionType, txAddress, amount, farmAddress, isUCO);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DexNotificationLevelUpFarmLockImplCopyWith<
+          _$DexNotificationLevelUpFarmLockImpl>
+      get copyWith => __$$DexNotificationLevelUpFarmLockImplCopyWithImpl<
+          _$DexNotificationLevelUpFarmLockImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)
+        swap,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)
+        addLiquidity,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)
+        removeLiquidity,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarm,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
+  }) {
+    return levelUpFarmLock(actionType, txAddress, amount, farmAddress, isUCO);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarm,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
+  }) {
+    return levelUpFarmLock?.call(
+        actionType, txAddress, amount, farmAddress, isUCO);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarm,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
+    required TResult orElse(),
+  }) {
+    if (levelUpFarmLock != null) {
+      return levelUpFarmLock(actionType, txAddress, amount, farmAddress, isUCO);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_DexNotificationSwap value) swap,
+    required TResult Function(_DexNotificationAddLiquidity value) addLiquidity,
+    required TResult Function(_DexNotificationRemoveLiquidity value)
+        removeLiquidity,
+    required TResult Function(_DexNotificationClaimFarm value) claimFarm,
+    required TResult Function(_DexNotificationDepositFarm value) depositFarm,
+    required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
+  }) {
+    return levelUpFarmLock(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_DexNotificationSwap value)? swap,
+    TResult? Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult? Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
+    TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
+    TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
+  }) {
+    return levelUpFarmLock?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_DexNotificationSwap value)? swap,
+    TResult Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    TResult Function(_DexNotificationClaimFarm value)? claimFarm,
+    TResult Function(_DexNotificationDepositFarm value)? depositFarm,
+    TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
+    required TResult orElse(),
+  }) {
+    if (levelUpFarmLock != null) {
+      return levelUpFarmLock(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DexNotificationLevelUpFarmLock extends DexNotification {
+  const factory _DexNotificationLevelUpFarmLock(
+      {final DexActionType actionType,
+      final String? txAddress,
+      final double? amount,
+      final String? farmAddress,
+      final bool? isUCO}) = _$DexNotificationLevelUpFarmLockImpl;
+  const _DexNotificationLevelUpFarmLock._() : super._();
+
+  @override
+  DexActionType get actionType;
+  @override
+  String? get txAddress;
+  double? get amount;
+  String? get farmAddress;
+  bool? get isUCO;
+  @override
+  @JsonKey(ignore: true)
+  _$$DexNotificationLevelUpFarmLockImplCopyWith<
+          _$DexNotificationLevelUpFarmLockImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DexNotificationClaimLockFarmImplCopyWith<$Res>
+    implements $DexNotificationCopyWith<$Res> {
+  factory _$$DexNotificationClaimLockFarmImplCopyWith(
+          _$DexNotificationClaimLockFarmImpl value,
+          $Res Function(_$DexNotificationClaimLockFarmImpl) then) =
+      __$$DexNotificationClaimLockFarmImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DexActionType actionType,
+      String? txAddress,
+      double? amount,
+      DexToken? rewardToken});
+
+  $DexTokenCopyWith<$Res>? get rewardToken;
+}
+
+/// @nodoc
+class __$$DexNotificationClaimLockFarmImplCopyWithImpl<$Res>
+    extends _$DexNotificationCopyWithImpl<$Res,
+        _$DexNotificationClaimLockFarmImpl>
+    implements _$$DexNotificationClaimLockFarmImplCopyWith<$Res> {
+  __$$DexNotificationClaimLockFarmImplCopyWithImpl(
+      _$DexNotificationClaimLockFarmImpl _value,
+      $Res Function(_$DexNotificationClaimLockFarmImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? actionType = null,
+    Object? txAddress = freezed,
+    Object? amount = freezed,
+    Object? rewardToken = freezed,
+  }) {
+    return _then(_$DexNotificationClaimLockFarmImpl(
+      actionType: null == actionType
+          ? _value.actionType
+          : actionType // ignore: cast_nullable_to_non_nullable
+              as DexActionType,
+      txAddress: freezed == txAddress
+          ? _value.txAddress
+          : txAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      rewardToken: freezed == rewardToken
+          ? _value.rewardToken
+          : rewardToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get rewardToken {
+    if (_value.rewardToken == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.rewardToken!, (value) {
+      return _then(_value.copyWith(rewardToken: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$DexNotificationClaimLockFarmImpl extends _DexNotificationClaimLockFarm {
+  const _$DexNotificationClaimLockFarmImpl(
+      {this.actionType = DexActionType.claimFarmLock,
+      this.txAddress,
+      this.amount,
+      this.rewardToken})
+      : super._();
+
+  @override
+  @JsonKey()
+  final DexActionType actionType;
+  @override
+  final String? txAddress;
+  @override
+  final double? amount;
+  @override
+  final DexToken? rewardToken;
+
+  @override
+  String toString() {
+    return 'DexNotification.claimFarmLock(actionType: $actionType, txAddress: $txAddress, amount: $amount, rewardToken: $rewardToken)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DexNotificationClaimLockFarmImpl &&
+            (identical(other.actionType, actionType) ||
+                other.actionType == actionType) &&
+            (identical(other.txAddress, txAddress) ||
+                other.txAddress == txAddress) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.rewardToken, rewardToken) ||
+                other.rewardToken == rewardToken));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, actionType, txAddress, amount, rewardToken);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DexNotificationClaimLockFarmImplCopyWith<
+          _$DexNotificationClaimLockFarmImpl>
+      get copyWith => __$$DexNotificationClaimLockFarmImplCopyWithImpl<
+          _$DexNotificationClaimLockFarmImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)
+        swap,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)
+        addLiquidity,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)
+        removeLiquidity,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarm,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
+  }) {
+    return claimFarmLock(actionType, txAddress, amount, rewardToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarm,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
+  }) {
+    return claimFarmLock?.call(actionType, txAddress, amount, rewardToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarm,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
+    required TResult orElse(),
+  }) {
+    if (claimFarmLock != null) {
+      return claimFarmLock(actionType, txAddress, amount, rewardToken);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_DexNotificationSwap value) swap,
+    required TResult Function(_DexNotificationAddLiquidity value) addLiquidity,
+    required TResult Function(_DexNotificationRemoveLiquidity value)
+        removeLiquidity,
+    required TResult Function(_DexNotificationClaimFarm value) claimFarm,
+    required TResult Function(_DexNotificationDepositFarm value) depositFarm,
+    required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
+  }) {
+    return claimFarmLock(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_DexNotificationSwap value)? swap,
+    TResult? Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult? Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
+    TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
+    TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
+  }) {
+    return claimFarmLock?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_DexNotificationSwap value)? swap,
+    TResult Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    TResult Function(_DexNotificationClaimFarm value)? claimFarm,
+    TResult Function(_DexNotificationDepositFarm value)? depositFarm,
+    TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
+    required TResult orElse(),
+  }) {
+    if (claimFarmLock != null) {
+      return claimFarmLock(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DexNotificationClaimLockFarm extends DexNotification {
+  const factory _DexNotificationClaimLockFarm(
+      {final DexActionType actionType,
+      final String? txAddress,
+      final double? amount,
+      final DexToken? rewardToken}) = _$DexNotificationClaimLockFarmImpl;
+  const _DexNotificationClaimLockFarm._() : super._();
+
+  @override
+  DexActionType get actionType;
+  @override
+  String? get txAddress;
+  double? get amount;
+  DexToken? get rewardToken;
+  @override
+  @JsonKey(ignore: true)
+  _$$DexNotificationClaimLockFarmImplCopyWith<
+          _$DexNotificationClaimLockFarmImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DexNotificationWithdrawFarmLockImplCopyWith<$Res>
+    implements $DexNotificationCopyWith<$Res> {
+  factory _$$DexNotificationWithdrawFarmLockImplCopyWith(
+          _$DexNotificationWithdrawFarmLockImpl value,
+          $Res Function(_$DexNotificationWithdrawFarmLockImpl) then) =
+      __$$DexNotificationWithdrawFarmLockImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DexActionType actionType,
+      String? txAddress,
+      double? amountReward,
+      double? amountWithdraw,
+      bool? isFarmClose,
+      DexToken? rewardToken});
+
+  $DexTokenCopyWith<$Res>? get rewardToken;
+}
+
+/// @nodoc
+class __$$DexNotificationWithdrawFarmLockImplCopyWithImpl<$Res>
+    extends _$DexNotificationCopyWithImpl<$Res,
+        _$DexNotificationWithdrawFarmLockImpl>
+    implements _$$DexNotificationWithdrawFarmLockImplCopyWith<$Res> {
+  __$$DexNotificationWithdrawFarmLockImplCopyWithImpl(
+      _$DexNotificationWithdrawFarmLockImpl _value,
+      $Res Function(_$DexNotificationWithdrawFarmLockImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? actionType = null,
+    Object? txAddress = freezed,
+    Object? amountReward = freezed,
+    Object? amountWithdraw = freezed,
+    Object? isFarmClose = freezed,
+    Object? rewardToken = freezed,
+  }) {
+    return _then(_$DexNotificationWithdrawFarmLockImpl(
+      actionType: null == actionType
+          ? _value.actionType
+          : actionType // ignore: cast_nullable_to_non_nullable
+              as DexActionType,
+      txAddress: freezed == txAddress
+          ? _value.txAddress
+          : txAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amountReward: freezed == amountReward
+          ? _value.amountReward
+          : amountReward // ignore: cast_nullable_to_non_nullable
+              as double?,
+      amountWithdraw: freezed == amountWithdraw
+          ? _value.amountWithdraw
+          : amountWithdraw // ignore: cast_nullable_to_non_nullable
+              as double?,
+      isFarmClose: freezed == isFarmClose
+          ? _value.isFarmClose
+          : isFarmClose // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      rewardToken: freezed == rewardToken
+          ? _value.rewardToken
+          : rewardToken // ignore: cast_nullable_to_non_nullable
+              as DexToken?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexTokenCopyWith<$Res>? get rewardToken {
+    if (_value.rewardToken == null) {
+      return null;
+    }
+
+    return $DexTokenCopyWith<$Res>(_value.rewardToken!, (value) {
+      return _then(_value.copyWith(rewardToken: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$DexNotificationWithdrawFarmLockImpl
+    extends _DexNotificationWithdrawFarmLock {
+  const _$DexNotificationWithdrawFarmLockImpl(
+      {this.actionType = DexActionType.withdrawFarmLock,
+      this.txAddress,
+      this.amountReward,
+      this.amountWithdraw,
+      this.isFarmClose,
+      this.rewardToken})
+      : super._();
+
+  @override
+  @JsonKey()
+  final DexActionType actionType;
+  @override
+  final String? txAddress;
+  @override
+  final double? amountReward;
+  @override
+  final double? amountWithdraw;
+  @override
+  final bool? isFarmClose;
+  @override
+  final DexToken? rewardToken;
+
+  @override
+  String toString() {
+    return 'DexNotification.withdrawFarmLock(actionType: $actionType, txAddress: $txAddress, amountReward: $amountReward, amountWithdraw: $amountWithdraw, isFarmClose: $isFarmClose, rewardToken: $rewardToken)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DexNotificationWithdrawFarmLockImpl &&
+            (identical(other.actionType, actionType) ||
+                other.actionType == actionType) &&
+            (identical(other.txAddress, txAddress) ||
+                other.txAddress == txAddress) &&
+            (identical(other.amountReward, amountReward) ||
+                other.amountReward == amountReward) &&
+            (identical(other.amountWithdraw, amountWithdraw) ||
+                other.amountWithdraw == amountWithdraw) &&
+            (identical(other.isFarmClose, isFarmClose) ||
+                other.isFarmClose == isFarmClose) &&
+            (identical(other.rewardToken, rewardToken) ||
+                other.rewardToken == rewardToken));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, actionType, txAddress,
+      amountReward, amountWithdraw, isFarmClose, rewardToken);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DexNotificationWithdrawFarmLockImplCopyWith<
+          _$DexNotificationWithdrawFarmLockImpl>
+      get copyWith => __$$DexNotificationWithdrawFarmLockImplCopyWithImpl<
+          _$DexNotificationWithdrawFarmLockImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)
+        swap,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)
+        addLiquidity,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)
+        removeLiquidity,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarm,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarm,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        depositFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)
+        levelUpFarmLock,
+    required TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)
+        claimFarmLock,
+    required TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)
+        withdrawFarmLock,
+  }) {
+    return withdrawFarmLock(actionType, txAddress, amountReward, amountWithdraw,
+        isFarmClose, rewardToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarm,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarm,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult? Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult? Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
+  }) {
+    return withdrawFarmLock?.call(actionType, txAddress, amountReward,
+        amountWithdraw, isFarmClose, rewardToken);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amountSwapped, DexToken? tokenSwapped)?
+        swap,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? lpToken)?
+        addLiquidity,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountToken1,
+            double? amountToken2,
+            double? amountLPToken,
+            DexToken? token1,
+            DexToken? token2,
+            DexToken? lpToken)?
+        removeLiquidity,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarm,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarm,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        depositFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, String? farmAddress, bool? isUCO)?
+        levelUpFarmLock,
+    TResult Function(DexActionType actionType, String? txAddress,
+            double? amount, DexToken? rewardToken)?
+        claimFarmLock,
+    TResult Function(
+            DexActionType actionType,
+            String? txAddress,
+            double? amountReward,
+            double? amountWithdraw,
+            bool? isFarmClose,
+            DexToken? rewardToken)?
+        withdrawFarmLock,
+    required TResult orElse(),
+  }) {
+    if (withdrawFarmLock != null) {
+      return withdrawFarmLock(actionType, txAddress, amountReward,
+          amountWithdraw, isFarmClose, rewardToken);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_DexNotificationSwap value) swap,
+    required TResult Function(_DexNotificationAddLiquidity value) addLiquidity,
+    required TResult Function(_DexNotificationRemoveLiquidity value)
+        removeLiquidity,
+    required TResult Function(_DexNotificationClaimFarm value) claimFarm,
+    required TResult Function(_DexNotificationDepositFarm value) depositFarm,
+    required TResult Function(_DexNotificationWithdrawFarm value) withdrawFarm,
+    required TResult Function(_DexNotificationDepositFarmLock value)
+        depositFarmLock,
+    required TResult Function(_DexNotificationLevelUpFarmLock value)
+        levelUpFarmLock,
+    required TResult Function(_DexNotificationClaimLockFarm value)
+        claimFarmLock,
+    required TResult Function(_DexNotificationWithdrawFarmLock value)
+        withdrawFarmLock,
+  }) {
+    return withdrawFarmLock(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_DexNotificationSwap value)? swap,
+    TResult? Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult? Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    TResult? Function(_DexNotificationClaimFarm value)? claimFarm,
+    TResult? Function(_DexNotificationDepositFarm value)? depositFarm,
+    TResult? Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult? Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult? Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult? Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult? Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
+  }) {
+    return withdrawFarmLock?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_DexNotificationSwap value)? swap,
+    TResult Function(_DexNotificationAddLiquidity value)? addLiquidity,
+    TResult Function(_DexNotificationRemoveLiquidity value)? removeLiquidity,
+    TResult Function(_DexNotificationClaimFarm value)? claimFarm,
+    TResult Function(_DexNotificationDepositFarm value)? depositFarm,
+    TResult Function(_DexNotificationWithdrawFarm value)? withdrawFarm,
+    TResult Function(_DexNotificationDepositFarmLock value)? depositFarmLock,
+    TResult Function(_DexNotificationLevelUpFarmLock value)? levelUpFarmLock,
+    TResult Function(_DexNotificationClaimLockFarm value)? claimFarmLock,
+    TResult Function(_DexNotificationWithdrawFarmLock value)? withdrawFarmLock,
+    required TResult orElse(),
+  }) {
+    if (withdrawFarmLock != null) {
+      return withdrawFarmLock(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DexNotificationWithdrawFarmLock extends DexNotification {
+  const factory _DexNotificationWithdrawFarmLock(
+      {final DexActionType actionType,
+      final String? txAddress,
+      final double? amountReward,
+      final double? amountWithdraw,
+      final bool? isFarmClose,
+      final DexToken? rewardToken}) = _$DexNotificationWithdrawFarmLockImpl;
+  const _DexNotificationWithdrawFarmLock._() : super._();
+
+  @override
+  DexActionType get actionType;
+  @override
+  String? get txAddress;
+  double? get amountReward;
+  double? get amountWithdraw;
+  bool? get isFarmClose;
+  DexToken? get rewardToken;
+  @override
+  @JsonKey(ignore: true)
+  _$$DexNotificationWithdrawFarmLockImplCopyWith<
+          _$DexNotificationWithdrawFarmLockImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

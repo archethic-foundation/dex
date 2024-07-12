@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
+import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
@@ -8,6 +9,7 @@ import 'package:aedex/ui/views/util/icon_size.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +32,9 @@ class _BottomNavigationBarMainScreenState
     extends ConsumerState<BottomNavigationBarMainScreen> {
   @override
   Widget build(BuildContext context) {
+    widget.listNavigationLabelIcon.removeWhere(
+      (element) => element.$1 == AppLocalizations.of(context)!.menu_bridge,
+    );
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -73,6 +78,12 @@ class _BottomNavigationBarMainScreenState
                   selected = true;
                 }
                 break;
+              case aedappfm.Iconsax.coin5:
+                if (tabSelected == NavigationIndex.earn) {
+                  widthContainer = 30;
+                  selected = true;
+                }
+                break;
               default:
             }
 
@@ -86,6 +97,7 @@ class _BottomNavigationBarMainScreenState
                     children: [
                       Icon(
                         item.$2,
+                        color: Colors.white,
                         weight: IconSize.weightM,
                         opticalSize: IconSize.opticalSizeM,
                         grade: IconSize.gradeM,
@@ -113,7 +125,7 @@ class _BottomNavigationBarMainScreenState
             );
           }).toList(),
           currentIndex: widget.navDrawerIndex.index,
-          onTap: (int selectedIndex) {
+          onTap: (int selectedIndex) async {
             switch (selectedIndex) {
               case 0:
                 setState(() {
@@ -145,6 +157,17 @@ class _BottomNavigationBarMainScreenState
                 });
                 context.go(FarmListSheet.routerPage);
                 break;
+              case 3:
+                setState(() {
+                  ref
+                      .read(
+                        navigationIndexMainScreenProvider.notifier,
+                      )
+                      .state = NavigationIndex.earn;
+                });
+                context.go(FarmLockSheet.routerPage);
+                break;
+
               default:
                 break;
             }

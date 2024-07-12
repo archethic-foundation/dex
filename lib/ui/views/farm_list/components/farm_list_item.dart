@@ -17,9 +17,15 @@ class FarmListItem extends ConsumerStatefulWidget {
   const FarmListItem({
     super.key,
     required this.farm,
+    this.widthCard,
+    this.heightCard,
+    this.isInPopup = false,
   });
 
   final DexFarm farm;
+  final double? widthCard;
+  final double? heightCard;
+  final bool isInPopup;
 
   @override
   ConsumerState<FarmListItem> createState() => FarmListItemState();
@@ -78,18 +84,23 @@ class FarmListItemState extends ConsumerState<FarmListItem> {
             globalPadding: 0,
             cardContent: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: FlipCard(
-                    controller: flipCardController,
-                    flipOnTouch: false,
-                    fill: Fill.fillBack,
-                    front: FarmDetailsFront(
-                      farm: farmInfos ?? widget.farm,
-                      userBalance: userBalance,
-                    ),
-                    back: FarmDetailsBack(
-                      farm: farmInfos ?? widget.farm,
+                SizedBox(
+                  width: widget.widthCard,
+                  height: widget.heightCard,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: FlipCard(
+                      controller: flipCardController,
+                      flipOnTouch: false,
+                      fill: Fill.fillBack,
+                      front: FarmDetailsFront(
+                        farm: farmInfos ?? widget.farm,
+                        userBalance: userBalance,
+                        isInPopup: widget.isInPopup,
+                      ),
+                      back: FarmDetailsBack(
+                        farm: farmInfos ?? widget.farm,
+                      ),
                     ),
                   ),
                 ),

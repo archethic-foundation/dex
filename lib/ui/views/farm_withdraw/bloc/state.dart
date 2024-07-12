@@ -36,5 +36,5 @@ class FarmWithdrawFormState with _$FarmWithdrawFormState {
   bool get isFarmClose =>
       dexFarmInfo != null &&
       dexFarmInfo!.endDate != null &&
-      dexFarmInfo!.endDate!.isBefore(DateTime.now());
+      dexFarmInfo!.endDate!.isBefore(DateTime.now().toUtc());
 }

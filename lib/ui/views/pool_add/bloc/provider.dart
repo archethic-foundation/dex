@@ -507,25 +507,27 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
+    if (context.mounted) {
+      await AddPoolCase().run(
+        ref,
+        context,
+        state.token1!,
+        state.token1Amount,
+        state.token2!,
+        state.token2Amount,
+        dexConfig.routerGenesisAddress,
+        dexConfig.factoryGenesisAddress,
+        state.slippage,
+        recoveryStep: state.currentStep,
+        recoveryTransactionAddPool: state.recoveryTransactionAddPool,
+        recoveryTransactionAddPoolTransfer:
+            state.recoveryTransactionAddPoolTransfer,
+        recoveryTransactionAddPoolLiquidity:
+            state.recoveryTransactionAddPoolLiquidity,
+      );
 
-    await AddPoolCase().run(
-      ref,
-      state.token1!,
-      state.token1Amount,
-      state.token2!,
-      state.token2Amount,
-      dexConfig.routerGenesisAddress,
-      dexConfig.factoryGenesisAddress,
-      state.slippage,
-      recoveryStep: state.currentStep,
-      recoveryTransactionAddPool: state.recoveryTransactionAddPool,
-      recoveryTransactionAddPoolTransfer:
-          state.recoveryTransactionAddPoolTransfer,
-      recoveryTransactionAddPoolLiquidity:
-          state.recoveryTransactionAddPoolLiquidity,
-    );
-
-    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+      await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+    }
   }
 }
 

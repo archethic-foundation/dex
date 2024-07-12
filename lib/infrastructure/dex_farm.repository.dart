@@ -1,6 +1,7 @@
 import 'package:aedex/application/farm/farm_factory.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/repositories/dex_farm.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -17,7 +18,12 @@ class DexFarmRepositoryImpl implements DexFarmRepository {
       RouterFactory(
         routerAddress,
         apiService,
-      ).getFarmList(poolList).valueOrThrow;
+      )
+          .getFarmList(
+            poolList,
+            farmType: kFarmTypeLock,
+          )
+          .valueOrThrow;
 
   @override
   Future<DexFarm> populateFarmInfos(

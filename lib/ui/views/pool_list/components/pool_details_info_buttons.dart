@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
@@ -17,11 +16,11 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
   const PoolDetailsInfoButtons({
     super.key,
     required this.pool,
-    required this.tab,
+    this.tab,
   });
 
   final DexPool pool;
-  final PoolsListTab tab;
+  final PoolsListTab? tab;
 
   @override
   Widget build(
@@ -30,6 +29,14 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
   ) {
     if (aedappfm.Responsive.isDesktop(context) ||
         aedappfm.Responsive.isTablet(context)) {
+      if (tab == null) {
+        return Column(
+          children: [
+            _closeButton(context),
+          ],
+        );
+      }
+
       return Column(
         children: [
           _swapButton(context, pool),
@@ -49,6 +56,13 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
         ],
       );
     } else {
+      if (tab == null) {
+        return Column(
+          children: [
+            _closeButton(context),
+          ],
+        );
+      }
       return Column(
         children: [
           _swapButton(context, pool),
@@ -67,23 +81,38 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
 
   Widget _swapButton(BuildContext context, DexPool pool) {
     return aedappfm.AppButton(
-      background: aedappfm.ArchethicThemeBase.purple500,
+      backgroundGradient: LinearGradient(
+        colors: [
+          aedappfm.ArchethicThemeBase.blue400,
+          aedappfm.ArchethicThemeBase.blue600,
+        ],
+      ),
       labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonSwap,
-      onPressed: () {
-        final tokenToSwapJson = jsonEncode(pool.pair.token1.toJson());
-        final tokenSwappedJson = jsonEncode(pool.pair.token2.toJson());
-        final tokenToSwapEncoded = Uri.encodeComponent(tokenToSwapJson);
-        final tokenSwappedEncoded = Uri.encodeComponent(tokenSwappedJson);
-
-        context.go(
+      onPressed: () async {
+        await context.push(
           Uri(
             path: SwapSheet.routerPage,
             queryParameters: {
-              'tokenToSwap': tokenToSwapEncoded,
-              'tokenSwapped': tokenSwappedEncoded,
+              'tokenToSwap': pool.pair.token1.toJson().encodeParam(),
+              'tokenSwapped': pool.pair.token2.toJson().encodeParam(),
             },
           ).toString(),
         );
+      },
+    );
+  }
+
+  Widget _closeButton(BuildContext context) {
+    return aedappfm.AppButton(
+      backgroundGradient: LinearGradient(
+        colors: [
+          aedappfm.ArchethicThemeBase.blue400,
+          aedappfm.ArchethicThemeBase.blue600,
+        ],
+      ),
+      labelBtn: AppLocalizations.of(context)!.btn_close,
+      onPressed: () async {
+        context.pop();
       },
     );
   }
@@ -94,21 +123,15 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
     DexPool pool,
   ) {
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: true,
       labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonAddLiquidity,
-      onPressed: () {
-        final poolJson = jsonEncode(pool.toJson());
-        final pairJson = jsonEncode(pool.pair.toJson());
-        final poolEncoded = Uri.encodeComponent(poolJson);
-        final pairEncoded = Uri.encodeComponent(pairJson);
-        final poolsListTabEncoded = Uri.encodeComponent(tab.name);
-        context.go(
+      onPressed: () async {
+        final poolsListTabEncoded = Uri.encodeComponent(tab!.name);
+        await context.push(
           Uri(
             path: LiquidityAddSheet.routerPage,
             queryParameters: {
-              'pool': poolEncoded,
-              'pair': pairEncoded,
+              'pool': pool.toJson().encodeParam(),
               'tab': poolsListTabEncoded,
             },
           ).toString(),
@@ -148,25 +171,18 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
     DexPool pool,
   ) {
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: pool.lpTokenInUserBalance,
       labelBtn:
           AppLocalizations.of(context)!.poolDetailsInfoButtonRemoveLiquidity,
-      onPressed: () {
-        final poolJson = jsonEncode(pool.toJson());
-        final pairJson = jsonEncode(pool.pair.toJson());
-        final lpTokenJson = jsonEncode(pool.lpToken.toJson());
-        final poolEncoded = Uri.encodeComponent(poolJson);
-        final pairEncoded = Uri.encodeComponent(pairJson);
-        final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
-        final poolsListTabEncoded = Uri.encodeComponent(tab.name);
-        context.go(
+      onPressed: () async {
+        final poolsListTabEncoded = Uri.encodeComponent(tab!.name);
+        await context.push(
           Uri(
             path: LiquidityRemoveSheet.routerPage,
             queryParameters: {
-              'pool': poolEncoded,
-              'pair': pairEncoded,
-              'lpToken': lpTokenEncoded,
+              'pool': pool.toJson().encodeParam(),
+              'pair': pool.pair.toJson().encodeParam(),
+              'lpToken': pool.lpToken.toJson().encodeParam(),
               'tab': poolsListTabEncoded,
             },
           ).toString(),

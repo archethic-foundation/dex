@@ -45,10 +45,20 @@ const builder = {
     describe: "The environment config to use (default to local)",
     demandOption: false,
     type: "string"
-  }
+  },
+  farm_type: {
+    describe: "Type of farm", // 1 legacy, 2 Farm lock
+    demandOption: false,
+    type: "number"
+  },
+  farm_seed: {
+    describe: "Farm's seed",
+    demandOption: false,
+    type: "string"
+  },
 }
 
-const handler = async function(argv) {
+const handler = async function (argv) {
   const envName = argv["env"] ? argv["env"] : "local"
   const env = config.environments[envName]
 
@@ -77,10 +87,11 @@ const handler = async function(argv) {
   const rewardTokenAmount = argv["reward_token_amount"]
   const startDate = argv["start_date"] ? argv["start_date"] : now + 120
   const endDate = argv["end_date"] ? argv["end_date"] : now + 120 + 2592000
+  const farmType = argv["farm_type"] ? argv["farm_type"] : 1
 
   const rewardTokenAddress = getTokenAddress(rewardToken)
 
-  const farmSeed = Crypto.randomSecretKey()
+  const farmSeed = argv["farm_seed"] ? argv["farm_seed"] : Crypto.randomSecretKey();
 
   const farmGenesisAddress = getGenesisAddress(farmSeed)
   console.log("Farm genesis address:", farmGenesisAddress)
@@ -96,7 +107,7 @@ const handler = async function(argv) {
 
   // We could batch those requests but archehic sdk do not allow batch request for now
   const factoryAddress = getServiceGenesisAddress(keychain, "Factory")
-  const farmCode = await getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardTokenAddress, farmSeed, factoryAddress)
+  const farmCode = await getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardTokenAddress, farmSeed, factoryAddress, farmType)
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
   const { encryptedSecret, authorizedKeys } = encryptSecret(farmSeed, storageNonce)
@@ -128,7 +139,7 @@ const handler = async function(argv) {
   }
 
   tx.setType("transfer")
-    .addRecipient(routerAddress, "add_farm", [lpTokenAddress, startDate, endDate, rewardTokenAddress, Utils.uint8ArrayToHex(farmTx.address)])
+    .addRecipient(routerAddress, "add_farm", [lpTokenAddress, startDate, endDate, rewardTokenAddress, Utils.uint8ArrayToHex(farmTx.address), farmType])
 
   tx = keychain.buildTransaction(tx, "Master", index).originSign(Utils.originPrivateKey)
 
@@ -146,12 +157,15 @@ const handler = async function(argv) {
   }).send(50)
 }
 
-async function getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardToken, farmSeed, factoryAddress) {
+async function getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardToken, farmSeed, factoryAddress, farmType) {
   const farmGenesisAddress = getGenesisAddress(farmSeed)
-
   const params = [lpTokenAddress, startDate, endDate, rewardToken, farmGenesisAddress]
+  if (farmType == 1) {
+    return archethic.network.callFunction(factoryAddress, "get_farm_code", params)
+  } else {
+    return archethic.network.callFunction(factoryAddress, "get_farm_lock_code", params)
+  }
 
-  return archethic.network.callFunction(factoryAddress, "get_farm_code", params)
 }
 
 export default {

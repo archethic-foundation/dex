@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
@@ -19,15 +20,25 @@ class FarmDetailsButtons extends ConsumerWidget {
     required this.rewardAmount,
     required this.depositedAmount,
     required this.userBalance,
+    this.isInPopup = false,
   });
 
   final DexFarm farm;
   final double? rewardAmount;
   final double? depositedAmount;
   final double? userBalance;
+  final bool? isInPopup;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (isInPopup == true) {
+      return Column(
+        children: [
+          _closeButton(context),
+        ],
+      );
+    }
+
     return Column(
       children: [
         if (aedappfm.Responsive.isDesktop(context) ||
@@ -76,7 +87,6 @@ class FarmDetailsButtons extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
     return farm.endDate != null && farm.endDate!.isBefore(DateTime.now())
         ? aedappfm.ButtonValidate(
-            background: aedappfm.ArchethicThemeBase.purple500,
             labelBtn: AppLocalizations.of(context)!
                 .farmDetailsButtonDepositFarmClosed,
             onPressed: () {},
@@ -111,7 +121,6 @@ class FarmDetailsButtons extends ConsumerWidget {
             },
           )
         : aedappfm.ButtonValidate(
-            background: aedappfm.ArchethicThemeBase.purple500,
             controlOk: userBalance != null && userBalance > 0,
             labelBtn: AppLocalizations.of(context)!.farmDetailsButtonDeposit,
             onPressed: () {
@@ -170,7 +179,6 @@ class FarmDetailsButtons extends ConsumerWidget {
   Widget _widthdrawButton(BuildContext context, WidgetRef ref) {
     final session = ref.watch(SessionProviders.session);
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: depositedAmount != null && depositedAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
       onPressed: () {
@@ -186,7 +194,7 @@ class FarmDetailsButtons extends ConsumerWidget {
         final poolAddressJson = jsonEncode(farm.poolAddress);
         final poolAddressEncoded = Uri.encodeComponent(poolAddressJson);
 
-        context.go(
+        context.push(
           Uri(
             path: FarmWithdrawSheet.routerPage,
             queryParameters: {
@@ -230,31 +238,18 @@ class FarmDetailsButtons extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
 
     return aedappfm.ButtonValidate(
-      background: aedappfm.ArchethicThemeBase.purple500,
       controlOk: rewardAmount != null && rewardAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
       onPressed: () async {
         if (context.mounted) {
-          final farmAddressJson = jsonEncode(farm.farmAddress);
-          final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
-
-          final rewardTokenJson = jsonEncode(farm.rewardToken);
-          final rewardTokenEncoded = Uri.encodeComponent(rewardTokenJson);
-
-          final lpTokenAddressJson = jsonEncode(farm.lpToken!.address);
-          final lpTokenAddressEncoded = Uri.encodeComponent(lpTokenAddressJson);
-
-          final rewardAmountJson = jsonEncode(farm.rewardAmount);
-          final rewardAmountEncoded = Uri.encodeComponent(rewardAmountJson);
-
-          context.go(
+          await context.push(
             Uri(
               path: FarmClaimSheet.routerPage,
               queryParameters: {
-                'farmAddress': farmAddressEncoded,
-                'rewardToken': rewardTokenEncoded,
-                'lpTokenAddress': lpTokenAddressEncoded,
-                'rewardAmount': rewardAmountEncoded,
+                'farmAddress': farm.farmAddress.encodeParam(),
+                'rewardToken': farm.rewardToken.encodeParam(),
+                'lpTokenAddress': farm.lpToken!.address.encodeParam(),
+                'rewardAmount': farm.rewardAmount.encodeParam(),
               },
             ).toString(),
           );
@@ -284,6 +279,21 @@ class FarmDetailsButtons extends ConsumerWidget {
             '/',
           );
         }
+      },
+    );
+  }
+
+  Widget _closeButton(BuildContext context) {
+    return aedappfm.AppButton(
+      backgroundGradient: LinearGradient(
+        colors: [
+          aedappfm.ArchethicThemeBase.blue400,
+          aedappfm.ArchethicThemeBase.blue600,
+        ],
+      ),
+      labelBtn: AppLocalizations.of(context)!.btn_close,
+      onPressed: () async {
+        context.pop();
       },
     );
   }

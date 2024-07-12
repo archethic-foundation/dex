@@ -6,6 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'dex_farm.freezed.dart';
 part 'dex_farm.g.dart';
 
+const int kFarmTypeLegacy = 1;
+
 @freezed
 class DexFarm with _$DexFarm {
   const factory DexFarm({

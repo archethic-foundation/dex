@@ -7,6 +7,7 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
+import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -20,6 +21,7 @@ const logName = 'WithdrawFarmCase';
 class WithdrawFarmCase with aedappfm.TransactionMixin {
   Future<({double finalAmountReward, double finalAmountWithdraw})> run(
     WidgetRef ref,
+    BuildContext context,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -29,6 +31,7 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionWithdraw,
   }) async {
+    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -47,7 +50,8 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 1) {
       farmWithdrawNotifier.setCurrentStep(1);
       try {
-        final transactionWithdrawMap = await archethicContract.getWithdrawTx(
+        final transactionWithdrawMap =
+            await archethicContract.getFarmWithdrawTx(
           farmGenesisAddress,
           amount,
         );
@@ -82,6 +86,14 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionWithdraw!],
+        description: {
+          'en': context.mounted
+              ? AppLocalizations.of(context)!.withdrawFarmSignTxDesc_en
+              : '',
+          'fr': context.mounted
+              ? AppLocalizations.of(context)!.withdrawFarmSignTxDesc_fr
+              : '',
+        },
       ))
           .first;
 
@@ -95,8 +107,11 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
         farmWithdrawNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmWithdrawNotifier
-          .setFailure(aedappfm.Failure.other(cause: e.toString()));
+      farmWithdrawNotifier.setFailure(
+        aedappfm.Failure.other(
+          cause: e.toString().replaceAll('Exception: ', '').capitalize(),
+        ),
+      );
 
       throw aedappfm.Failure.fromError(e);
     }
@@ -139,9 +154,7 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
           final amountWithdraw = amounts[1];
           return amountWithdraw > 0;
         },
-      ).timeout(
-        const Duration(minutes: 1),
-        onTimeout: () => throw const aedappfm.Timeout(),
+        timeout: const Duration(minutes: 1),
       );
 
       final amountReward = amounts[0];
@@ -173,9 +186,12 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
 
       farmWithdrawNotifier
         ..setFailure(
-          aedappfm.Failure.other(
-            cause: e.toString(),
-          ),
+          e is aedappfm.Timeout
+              ? e
+              : aedappfm.Failure.other(
+                  cause:
+                      e.toString().replaceAll('Exception: ', '').capitalize(),
+                ),
         )
         ..setCurrentStep(3);
 

@@ -343,29 +343,31 @@ class LiquidityRemoveFormNotifier
 
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-
-    final finalAmounts = await RemoveLiquidityCase().run(
-      state.pool!.poolAddress,
-      ref,
-      ref.watch(NotificationProviders.notificationService),
-      state.lpToken!.address!,
-      state.lpTokenAmount,
-      state.token1!,
-      state.token2!,
-      state.lpToken!,
-      recoveryStep: state.currentStep,
-    );
-    state = state.copyWith(
-      finalAmountToken1: finalAmounts.amountToken1,
-      finalAmountToken2: finalAmounts.amountToken2,
-      finalAmountLPToken: finalAmounts.amountLPToken,
-    );
-
-    await ref.read(SessionProviders.session.notifier).refreshUserBalance();
     if (context.mounted) {
-      final poolListItemState =
-          context.findAncestorStateOfType<PoolListItemState>();
-      await poolListItemState?.reload();
+      final finalAmounts = await RemoveLiquidityCase().run(
+        state.pool!.poolAddress,
+        ref,
+        context,
+        ref.watch(NotificationProviders.notificationService),
+        state.lpToken!.address!,
+        state.lpTokenAmount,
+        state.token1!,
+        state.token2!,
+        state.lpToken!,
+        recoveryStep: state.currentStep,
+      );
+      state = state.copyWith(
+        finalAmountToken1: finalAmounts.amountToken1,
+        finalAmountToken2: finalAmounts.amountToken2,
+        finalAmountLPToken: finalAmounts.amountLPToken,
+      );
+
+      await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+      if (context.mounted) {
+        final poolListItemState =
+            context.findAncestorStateOfType<PoolListItemState>();
+        await poolListItemState?.reload();
+      }
     }
   }
 }

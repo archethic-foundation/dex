@@ -1,6 +1,8 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
+import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 
@@ -13,15 +15,20 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
   const PoolDetailsInfoHeader({
     super.key,
     required this.pool,
+    this.displayPoolFarmAvailable = false,
   });
 
   final DexPool? pool;
+  final bool displayPoolFarmAvailable;
 
   @override
   Widget build(
     BuildContext context,
     WidgetRef ref,
   ) {
+    final env = ref.watch(SessionProviders.session).envSelected;
+    final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,6 +64,7 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                         ),
                   ),
                 ),
+                const SizedBox(width: 5),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: DexPairIcons(
@@ -69,6 +77,10 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                     iconSize: 22,
                   ),
                 ),
+                if (displayPoolFarmAvailable &&
+                    contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
+                        pool!.poolAddress.toUpperCase())
+                  const PoolFarmAvailable(),
               ],
             ),
             Row(

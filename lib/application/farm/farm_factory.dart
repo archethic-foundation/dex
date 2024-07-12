@@ -18,10 +18,7 @@ class FarmFactory with ModelParser {
   final ApiService apiService;
 
   /// Returns the informations of the farm
-  Future<Map<String, dynamic>> getFarmInfos(
-    DexPool pool, {
-    DexFarm? dexFarmInput,
-  }) async {
+  Future<Map<String, dynamic>> getFarmInfos() async {
     final result = await apiService.callSCFunction(
       jsonRPCRequest: SCCallFunctionRequest(
         method: 'contract_fun',
@@ -44,7 +41,7 @@ class FarmFactory with ModelParser {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final result = await getFarmInfos(pool, dexFarmInput: farmInput);
+        final result = await getFarmInfos();
 
         final getFarmInfosResponse = GetFarmInfosResponse.fromJson(result);
         return farmInfosToModel(
@@ -83,45 +80,6 @@ class FarmFactory with ModelParser {
           depositedAmount: getUserInfosResponse.depositedAmount,
           rewardAmount: getUserInfosResponse.rewardAmount,
         );
-      },
-    );
-  }
-
-  /// This action allow user to claim all the reward he earned since he deposited in the farm or since it's last claim.
-  Future<aedappfm.Result<void, aedappfm.Failure>> claim() async {
-    return aedappfm.Result.guard(
-      () async {
-        await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'claim',
-              args: [],
-            ),
-          ),
-        ) as List<dynamic>;
-      },
-    );
-  }
-
-  /// This action allow user to withdraw all or a part of it's deposited lp token. In the same time is also claim it's earned rewards.
-  /// [amount] is the amount the user wants to withdraw
-  Future<aedappfm.Result<void, aedappfm.Failure>> withdraw(
-    double amount,
-  ) async {
-    return aedappfm.Result.guard(
-      () async {
-        await apiService.callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: factoryAddress.toUpperCase(),
-              function: 'withdraw',
-              args: [amount],
-            ),
-          ),
-        ) as List<dynamic>;
       },
     );
   }

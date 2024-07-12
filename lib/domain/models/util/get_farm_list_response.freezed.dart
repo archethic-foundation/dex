@@ -28,6 +28,8 @@ mixin _$GetFarmListResponse {
   int get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'reward_token')
   String get rewardTokenAddress => throw _privateConstructorUsedError;
+  @JsonKey(name: 'type')
+  int? get type => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,6 +49,7 @@ abstract class $GetFarmListResponseCopyWith<$Res> {
       @JsonKey(name: 'start_date') int startDate,
       @JsonKey(name: 'end_date') int endDate,
       @JsonKey(name: 'reward_token') String rewardTokenAddress,
+      @JsonKey(name: 'type') int? type,
       String address});
 }
 
@@ -67,6 +70,7 @@ class _$GetFarmListResponseCopyWithImpl<$Res, $Val extends GetFarmListResponse>
     Object? startDate = null,
     Object? endDate = null,
     Object? rewardTokenAddress = null,
+    Object? type = freezed,
     Object? address = null,
   }) {
     return _then(_value.copyWith(
@@ -86,6 +90,10 @@ class _$GetFarmListResponseCopyWithImpl<$Res, $Val extends GetFarmListResponse>
           ? _value.rewardTokenAddress
           : rewardTokenAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as int?,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -107,6 +115,7 @@ abstract class _$$GetFarmListResponseImplCopyWith<$Res>
       @JsonKey(name: 'start_date') int startDate,
       @JsonKey(name: 'end_date') int endDate,
       @JsonKey(name: 'reward_token') String rewardTokenAddress,
+      @JsonKey(name: 'type') int? type,
       String address});
 }
 
@@ -125,6 +134,7 @@ class __$$GetFarmListResponseImplCopyWithImpl<$Res>
     Object? startDate = null,
     Object? endDate = null,
     Object? rewardTokenAddress = null,
+    Object? type = freezed,
     Object? address = null,
   }) {
     return _then(_$GetFarmListResponseImpl(
@@ -144,6 +154,10 @@ class __$$GetFarmListResponseImplCopyWithImpl<$Res>
           ? _value.rewardTokenAddress
           : rewardTokenAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as int?,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -160,6 +174,7 @@ class _$GetFarmListResponseImpl implements _GetFarmListResponse {
       @JsonKey(name: 'start_date') required this.startDate,
       @JsonKey(name: 'end_date') required this.endDate,
       @JsonKey(name: 'reward_token') required this.rewardTokenAddress,
+      @JsonKey(name: 'type') this.type,
       required this.address});
 
   factory _$GetFarmListResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -178,11 +193,14 @@ class _$GetFarmListResponseImpl implements _GetFarmListResponse {
   @JsonKey(name: 'reward_token')
   final String rewardTokenAddress;
   @override
+  @JsonKey(name: 'type')
+  final int? type;
+  @override
   final String address;
 
   @override
   String toString() {
-    return 'GetFarmListResponse(lpTokenAddress: $lpTokenAddress, startDate: $startDate, endDate: $endDate, rewardTokenAddress: $rewardTokenAddress, address: $address)';
+    return 'GetFarmListResponse(lpTokenAddress: $lpTokenAddress, startDate: $startDate, endDate: $endDate, rewardTokenAddress: $rewardTokenAddress, type: $type, address: $address)';
   }
 
   @override
@@ -197,13 +215,14 @@ class _$GetFarmListResponseImpl implements _GetFarmListResponse {
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.rewardTokenAddress, rewardTokenAddress) ||
                 other.rewardTokenAddress == rewardTokenAddress) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.address, address) || other.address == address));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, lpTokenAddress, startDate,
-      endDate, rewardTokenAddress, address);
+      endDate, rewardTokenAddress, type, address);
 
   @JsonKey(ignore: true)
   @override
@@ -226,6 +245,7 @@ abstract class _GetFarmListResponse implements GetFarmListResponse {
       @JsonKey(name: 'start_date') required final int startDate,
       @JsonKey(name: 'end_date') required final int endDate,
       @JsonKey(name: 'reward_token') required final String rewardTokenAddress,
+      @JsonKey(name: 'type') final int? type,
       required final String address}) = _$GetFarmListResponseImpl;
 
   factory _GetFarmListResponse.fromJson(Map<String, dynamic> json) =
@@ -243,6 +263,9 @@ abstract class _GetFarmListResponse implements GetFarmListResponse {
   @override
   @JsonKey(name: 'reward_token')
   String get rewardTokenAddress;
+  @override
+  @JsonKey(name: 'type')
+  int? get type;
   @override
   String get address;
   @override

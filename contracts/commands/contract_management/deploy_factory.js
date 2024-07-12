@@ -1,5 +1,6 @@
 import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
+import fs from "fs"
 import { getFactoryCode, getServiceGenesisAddress, sendTransactionWithFunding } from "../utils.js"
 
 const command = "deploy_factory"
@@ -17,7 +18,7 @@ const builder = {
   }
 }
 
-const handler = async function(argv) {
+const handler = async function (argv) {
   const envName = argv["env"] ? argv["env"] : "local"
   const env = config.environments[envName]
 
@@ -42,6 +43,8 @@ const handler = async function(argv) {
 
   const factoryGenesisAddress = getServiceGenesisAddress(keychain, "Factory")
   console.log("Factory genesis address:", factoryGenesisAddress)
+
+
 
   const factoryCode = getFactoryCode(keychain)
 
