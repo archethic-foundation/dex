@@ -50,8 +50,8 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                height: aedappfm.Responsive.isDesktop(context) ? 80 : 220,
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.topLeft,
+                height: aedappfm.Responsive.isDesktop(context) ? 80 : 300,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -82,110 +82,127 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                           return aedappfm.Responsive.isDesktop(context)
                               ? Row(
                                   children: [
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.15,
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            SelectableText(
-                                              '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
-                                              style: style,
-                                            ),
-                                            SelectableText(
-                                              DEXLPTokenFiatValue().display(
-                                                ref,
-                                                farm.lpTokenPair!.token1,
-                                                farm.lpTokenPair!.token2,
-                                                farm.depositedAmount!,
-                                                farm.poolAddress,
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.15,
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              SelectableText(
+                                                '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                style: style,
                                               ),
-                                              style: AppTextStyles.bodySmall(
-                                                context,
+                                              SelectableText(
+                                                DEXLPTokenFiatValue().display(
+                                                  ref,
+                                                  farm.lpTokenPair!.token1,
+                                                  farm.lpTokenPair!.token2,
+                                                  farm.depositedAmount!,
+                                                  farm.poolAddress,
+                                                ),
+                                                style: AppTextStyles.bodySmall(
+                                                  context,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.20,
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            SelectableText(
-                                              '${farm.rewardAmount!.formatNumber(precision: farm.rewardAmount! < 1 ? 8 : 3)} ${farm.rewardToken!.symbol}',
-                                              style: style,
-                                            ),
-                                            FutureBuilder<String>(
-                                              future: FiatValue().display(
-                                                ref,
-                                                farm.rewardToken!,
-                                                farm.rewardAmount!,
-                                              ),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return SelectableText(
-                                                    snapshot.data!,
-                                                    style:
-                                                        AppTextStyles.bodySmall(
-                                                      context,
-                                                    ),
-                                                  );
-                                                }
-                                                return const SizedBox.shrink();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.15,
-                                      child: Center(
-                                        child: Text(
-                                          AppLocalizations.of(context)!
-                                              .available,
-                                          style: style!.copyWith(
-                                            color: aedappfm.ArchethicThemeBase
-                                                .systemPositive600,
+                                            ],
                                           ),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.15,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.20,
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              SelectableText(
+                                                '${farm.rewardAmount!.formatNumber(precision: farm.rewardAmount! < 1 ? 8 : 3)} ${farm.rewardToken!.symbol}',
+                                                style: style,
+                                              ),
+                                              FutureBuilder<String>(
+                                                future: FiatValue().display(
+                                                  ref,
+                                                  farm.rewardToken!,
+                                                  farm.rewardAmount!,
+                                                ),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return SelectableText(
+                                                      snapshot.data!,
+                                                      style: AppTextStyles
+                                                          .bodySmall(
+                                                        context,
+                                                      ),
+                                                    );
+                                                  }
+                                                  return const SizedBox
+                                                      .shrink();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.15,
+                                        child: Center(
+                                          child: Text(
                                             AppLocalizations.of(context)!
-                                                .legacy,
-                                            style: style,
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.only(bottom: 3),
-                                            child: Icon(
-                                              Icons.info_outline,
-                                              size: 14,
+                                                .available,
+                                            style: style!.copyWith(
+                                              color: aedappfm.ArchethicThemeBase
+                                                  .systemPositive600,
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.10,
-                                      child: Center(
-                                        child: Column(
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.15,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              '${(farm.apr * 100).formatNumber(precision: 2)}%',
+                                              AppLocalizations.of(context)!
+                                                  .legacy,
                                               style: style,
                                             ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            const Padding(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 3),
+                                              child: Icon(
+                                                Icons.info_outline,
+                                                size: 14,
+                                              ),
+                                            ),
                                           ],
+                                        ),
+                                      ),
+                                    ),
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.10,
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                '${(farm.apr * 100).formatNumber(precision: 2)}%',
+                                                style: style,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -226,194 +243,220 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                     ),
                                   ],
                                 )
-                              : SizedBox(
-                                  width: constraints.maxWidth,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  '${AppLocalizations.of(
-                                                    context,
-                                                  )!.farmLockBlockListHeaderAmount}: ',
-                                                  style: styleHeader,
-                                                ),
-                                                SelectableText(
-                                                  '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
-                                                  style: style,
-                                                ),
-                                              ],
-                                            ),
-                                            SelectableText(
-                                              DEXLPTokenFiatValue().display(
-                                                ref,
-                                                farm.lpTokenPair!.token1,
-                                                farm.lpTokenPair!.token2,
-                                                farm.depositedAmount!,
-                                                farm.poolAddress,
+                              : Opacity(
+                                  opacity: AppTextStyles.kOpacityText,
+                                  child: SizedBox(
+                                    width: constraints.maxWidth,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${AppLocalizations.of(
+                                                      context,
+                                                    )!.farmLockBlockListHeaderAmount}: ',
+                                                    style: styleHeader,
+                                                  ),
+                                                  SelectableText(
+                                                    '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                    style: style,
+                                                  ),
+                                                ],
                                               ),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  '${AppLocalizations.of(
-                                                    context,
-                                                  )!.farmLockBlockListHeaderRewards}: ',
-                                                  style: styleHeader,
+                                              SelectableText(
+                                                DEXLPTokenFiatValue().display(
+                                                  ref,
+                                                  farm.lpTokenPair!.token1,
+                                                  farm.lpTokenPair!.token2,
+                                                  farm.depositedAmount!,
+                                                  farm.poolAddress,
                                                 ),
-                                                SelectableText(
-                                                  '${farm.rewardAmount!.formatNumber(precision: farm.rewardAmount! < 1 ? 8 : 3)} ${farm.rewardToken!.symbol}',
-                                                  style: style,
-                                                ),
-                                              ],
-                                            ),
-                                            FutureBuilder<String>(
-                                              future: FiatValue().display(
-                                                ref,
-                                                farm.rewardToken!,
-                                                farm.rewardAmount!,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
                                               ),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return SelectableText(
-                                                    snapshot.data!,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall,
-                                                  );
-                                                }
-                                                return const SizedBox.shrink();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: Text(
-                                          AppLocalizations.of(context)!
-                                              .available,
-                                          style: style!.copyWith(
-                                            color: aedappfm.ArchethicThemeBase
-                                                .systemPositive600,
+                                            ],
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              AppLocalizations.of(context)!
-                                                  .legacy,
-                                              style: style,
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            const Padding(
-                                              padding: EdgeInsets.only(
-                                                bottom: 3,
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${AppLocalizations.of(
+                                                      context,
+                                                    )!.farmLockBlockListHeaderRewards}: ',
+                                                    style: styleHeader,
+                                                  ),
+                                                  SelectableText(
+                                                    '${farm.rewardAmount!.formatNumber(precision: farm.rewardAmount! < 1 ? 8 : 3)} ${farm.rewardToken!.symbol}',
+                                                    style: style,
+                                                  ),
+                                                ],
                                               ),
-                                              child: Icon(
-                                                Icons.info_outline,
-                                                size: 14,
+                                              FutureBuilder<String>(
+                                                future: FiatValue().display(
+                                                  ref,
+                                                  farm.rewardToken!,
+                                                  farm.rewardAmount!,
+                                                ),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return SelectableText(
+                                                      snapshot.data!,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall,
+                                                    );
+                                                  }
+                                                  return const SizedBox
+                                                      .shrink();
+                                                },
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .available,
+                                            style: style!.copyWith(
+                                              color: aedappfm.ArchethicThemeBase
+                                                  .systemPositive600,
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  '${AppLocalizations.of(
-                                                    context,
-                                                  )!.farmLockBlockListHeaderAPR}: ',
-                                                  style: styleHeader,
-                                                ),
-                                                SelectableText(
-                                                  '${(farm.apr * 100).formatNumber(precision: 2)}%',
-                                                  style: style,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                        const SizedBox(
+                                          height: 10,
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                FarmLegacyBtnWithdraw(
-                                                  farmAddress: farmLock
-                                                      .farm!.farmAddress,
-                                                  lpTokenAddress: farmLock
-                                                      .farm!.lpToken!.address!,
-                                                  poolAddress: farmLock
-                                                      .pool!.poolAddress,
-                                                  rewardAmount: farmLock
-                                                      .farm!.rewardAmount!,
-                                                  rewardToken: farmLock
-                                                      .farm!.rewardToken!,
-                                                  enabled: farm
-                                                              .depositedAmount !=
-                                                          null &&
-                                                      farm.depositedAmount! > 0,
-                                                  currentSortedColumn:
-                                                      currentSortedColumn,
+                                        SizedBox(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                AppLocalizations.of(context)!
+                                                    .legacy,
+                                                style: style,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              const Padding(
+                                                padding: EdgeInsets.only(
+                                                  bottom: 3,
                                                 ),
-                                                FarmLegacyBtnClaim(
-                                                  farmAddress: farmLock
-                                                      .farm!.farmAddress,
-                                                  lpTokenAddress: farmLock
-                                                      .farm!.lpToken!.address!,
-                                                  poolAddress: farmLock
-                                                      .pool!.poolAddress,
-                                                  rewardAmount: farmLock
-                                                      .farm!.rewardAmount!,
-                                                  rewardToken: farmLock
-                                                      .farm!.rewardToken!,
-                                                  enabled: farmLock.farm!
-                                                              .rewardAmount !=
-                                                          null &&
-                                                      farmLock.farm!
-                                                              .rewardAmount! >
-                                                          0,
-                                                  currentSortedColumn:
-                                                      currentSortedColumn,
+                                                child: Icon(
+                                                  Icons.info_outline,
+                                                  size: 14,
                                                 ),
-                                              ],
-                                            ),
-                                          ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${AppLocalizations.of(
+                                                      context,
+                                                    )!.farmLockBlockListHeaderAPR}: ',
+                                                    style: styleHeader,
+                                                  ),
+                                                  SelectableText(
+                                                    '${(farm.apr * 100).formatNumber(precision: 2)}%',
+                                                    style: style,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 10,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child:
+                                                        FarmLegacyBtnWithdraw(
+                                                      farmAddress: farmLock
+                                                          .farm!.farmAddress,
+                                                      lpTokenAddress: farmLock
+                                                          .farm!
+                                                          .lpToken!
+                                                          .address!,
+                                                      poolAddress: farmLock
+                                                          .pool!.poolAddress,
+                                                      rewardAmount: farmLock
+                                                          .farm!.rewardAmount!,
+                                                      rewardToken: farmLock
+                                                          .farm!.rewardToken!,
+                                                      enabled:
+                                                          farm.depositedAmount !=
+                                                                  null &&
+                                                              farm.depositedAmount! >
+                                                                  0,
+                                                      currentSortedColumn:
+                                                          currentSortedColumn,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: FarmLegacyBtnClaim(
+                                                      farmAddress: farmLock
+                                                          .farm!.farmAddress,
+                                                      lpTokenAddress: farmLock
+                                                          .farm!
+                                                          .lpToken!
+                                                          .address!,
+                                                      poolAddress: farmLock
+                                                          .pool!.poolAddress,
+                                                      rewardAmount: farmLock
+                                                          .farm!.rewardAmount!,
+                                                      rewardToken: farmLock
+                                                          .farm!.rewardToken!,
+                                                      enabled: farmLock.farm!
+                                                                  .rewardAmount !=
+                                                              null &&
+                                                          farmLock.farm!
+                                                                  .rewardAmount! >
+                                                              0,
+                                                      currentSortedColumn:
+                                                          currentSortedColumn,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                         },

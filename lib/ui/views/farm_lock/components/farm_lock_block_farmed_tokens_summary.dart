@@ -1,5 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -23,7 +24,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(SessionProviders.session);
-    var opacity = 1.0;
+    var opacity = AppTextStyles.kOpacityText;
     if (session.isConnected == false) {
       opacity = 0.5;
     }
@@ -36,7 +37,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
               SelectableText(
                 AppLocalizations.of(context)!
                     .farmLockBlockFarmedTokensSummaryHeader,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: aedappfm.AppThemeBase.secondaryColor,
                       fontWeight: FontWeight.w500,
                     ),

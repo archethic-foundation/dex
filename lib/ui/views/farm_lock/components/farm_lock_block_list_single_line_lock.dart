@@ -65,8 +65,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
+                alignment: Alignment.topLeft,
                 height: aedappfm.Responsive.isDesktop(context) ? 80 : 300,
-                alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -97,132 +97,156 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                           return aedappfm.Responsive.isDesktop(context)
                               ? Row(
                                   children: [
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.15,
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            SelectableText(
-                                              '${farmLockUserInfos.amount.formatNumber(precision: farmLockUserInfos.amount < 1 ? 8 : 3)} ${farmLockUserInfos.amount < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
-                                              style: style,
-                                            ),
-                                            SelectableText(
-                                              DEXLPTokenFiatValue().display(
-                                                ref,
-                                                farmLock.lpTokenPair!.token1,
-                                                farmLock.lpTokenPair!.token2,
-                                                farmLockUserInfos.amount,
-                                                farmLock.poolAddress,
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.15,
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              SelectableText(
+                                                '${farmLockUserInfos.amount.formatNumber(precision: farmLockUserInfos.amount < 1 ? 8 : 3)} ${farmLockUserInfos.amount < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                style: style,
                                               ),
-                                              style: AppTextStyles.bodySmall(
-                                                context,
+                                              SelectableText(
+                                                DEXLPTokenFiatValue().display(
+                                                  ref,
+                                                  farmLock.lpTokenPair!.token1,
+                                                  farmLock.lpTokenPair!.token2,
+                                                  farmLockUserInfos.amount,
+                                                  farmLock.poolAddress,
+                                                ),
+                                                style: AppTextStyles.bodySmall(
+                                                  context,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.20,
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            SelectableText(
-                                              '${farmLockUserInfos.rewardAmount.formatNumber(precision: farmLockUserInfos.rewardAmount < 1 ? 8 : 3)} ${farmLock.rewardToken!.symbol}',
-                                              style: style,
-                                            ),
-                                            FutureBuilder<String>(
-                                              future: FiatValue().display(
-                                                ref,
-                                                farmLock.rewardToken!,
-                                                farmLockUserInfos.rewardAmount,
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.20,
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              SelectableText(
+                                                '${farmLockUserInfos.rewardAmount.formatNumber(precision: farmLockUserInfos.rewardAmount < 1 ? 8 : 3)} ${farmLock.rewardToken!.symbol}',
+                                                style: style,
                                               ),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return SelectableText(
-                                                    snapshot.data!,
+                                              FutureBuilder<String>(
+                                                future: FiatValue().display(
+                                                  ref,
+                                                  farmLock.rewardToken!,
+                                                  farmLockUserInfos
+                                                      .rewardAmount,
+                                                ),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return SelectableText(
+                                                      snapshot.data!,
+                                                      style: AppTextStyles
+                                                          .bodySmall(
+                                                        context,
+                                                      ),
+                                                    );
+                                                  }
+                                                  return const SizedBox
+                                                      .shrink();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: isFlexDuration
+                                          ? SizedBox(
+                                              width:
+                                                  constraints.maxWidth * 0.15,
+                                              child: Center(
+                                                child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .available,
+                                                  style: style!.copyWith(
+                                                    color: aedappfm
+                                                        .ArchethicThemeBase
+                                                        .systemPositive600,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : SizedBox(
+                                              width:
+                                                  constraints.maxWidth * 0.15,
+                                              child: Column(
+                                                children: [
+                                                  SelectableText(
+                                                    DateTime.fromMillisecondsSinceEpoch(
+                                                      farmLockUserInfos.end! *
+                                                          1000,
+                                                    )
+                                                        .difference(
+                                                          DateTime.now()
+                                                              .toUtc(),
+                                                        )
+                                                        .toDurationString(
+                                                          includeWeeks: true,
+                                                          round: false,
+                                                          delimiter: ', ',
+                                                        ),
+                                                    style: style,
+                                                  ),
+                                                  SelectableText(
+                                                    DateFormat.yMMMEd(
+                                                      Localizations.localeOf(
+                                                              context)
+                                                          .languageCode,
+                                                    ).format(
+                                                      DateTime
+                                                          .fromMillisecondsSinceEpoch(
+                                                        farmLockUserInfos.end! *
+                                                            1000,
+                                                      ),
+                                                    ),
                                                     style:
                                                         AppTextStyles.bodySmall(
                                                       context,
                                                     ),
-                                                  );
-                                                }
-                                                return const SizedBox.shrink();
-                                              },
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
                                     ),
-                                    if (isFlexDuration)
-                                      SizedBox(
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
                                         width: constraints.maxWidth * 0.15,
                                         child: Center(
                                           child: Text(
-                                            AppLocalizations.of(context)!
-                                                .available,
-                                            style: style!.copyWith(
-                                              color: aedappfm.ArchethicThemeBase
-                                                  .systemPositive600,
-                                            ),
+                                            '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}',
+                                            style: style,
                                           ),
-                                        ),
-                                      )
-                                    else
-                                      SizedBox(
-                                        width: constraints.maxWidth * 0.15,
-                                        child: Column(
-                                          children: [
-                                            SelectableText(
-                                              DateTime.fromMillisecondsSinceEpoch(
-                                                farmLockUserInfos.end! * 1000,
-                                              )
-                                                  .difference(
-                                                    DateTime.now().toUtc(),
-                                                  )
-                                                  .toDurationString(
-                                                    includeWeeks: true,
-                                                    round: false,
-                                                    delimiter: ', ',
-                                                  ),
-                                              style: style,
-                                            ),
-                                            SelectableText(
-                                              DateFormat.yMMMEd(
-                                                Localizations.localeOf(context)
-                                                    .languageCode,
-                                              ).format(
-                                                DateTime
-                                                    .fromMillisecondsSinceEpoch(
-                                                  farmLockUserInfos.end! * 1000,
-                                                ),
-                                              ),
-                                              style: AppTextStyles.bodySmall(
-                                                context,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.15,
-                                      child: Center(
-                                        child: Text(
-                                          '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}',
-                                          style: style,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: constraints.maxWidth * 0.10,
-                                      child: Center(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              '${farmLockUserInfos.apr.formatNumber(precision: 2)}%',
-                                              style: style,
-                                            ),
-                                          ],
+                                    Opacity(
+                                      opacity: AppTextStyles.kOpacityText,
+                                      child: SizedBox(
+                                        width: constraints.maxWidth * 0.10,
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                '${(farmLockUserInfos.apr * 100).formatNumber(precision: 2)}%',
+                                                style: style,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -304,14 +328,109 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                     ),
                                   ],
                                 )
-                              : SizedBox(
-                                  width: constraints.maxWidth,
-                                  child: Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
+                              : Opacity(
+                                  opacity: AppTextStyles.kOpacityText,
+                                  child: SizedBox(
+                                    width: constraints.maxWidth,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${AppLocalizations.of(
+                                                      context,
+                                                    )!.farmLockBlockListHeaderAmount}: ',
+                                                    style: styleHeader,
+                                                  ),
+                                                  SelectableText(
+                                                    '${farmLockUserInfos.amount.formatNumber(precision: farmLockUserInfos.amount < 1 ? 8 : 3)} ${farmLockUserInfos.amount < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                    style: style,
+                                                  ),
+                                                ],
+                                              ),
+                                              SelectableText(
+                                                DEXLPTokenFiatValue().display(
+                                                  ref,
+                                                  farmLock.lpTokenPair!.token1,
+                                                  farmLock.lpTokenPair!.token2,
+                                                  farmLockUserInfos.amount,
+                                                  farmLock.poolAddress,
+                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${AppLocalizations.of(
+                                                      context,
+                                                    )!.farmLockBlockListHeaderRewards}: ',
+                                                    style: styleHeader,
+                                                  ),
+                                                  SelectableText(
+                                                    '${farmLockUserInfos.rewardAmount.formatNumber(precision: farmLockUserInfos.rewardAmount < 1 ? 8 : 3)} ${farmLock.rewardToken!.symbol}',
+                                                    style: style,
+                                                  ),
+                                                ],
+                                              ),
+                                              FutureBuilder<String>(
+                                                future: FiatValue().display(
+                                                  ref,
+                                                  farmLock.rewardToken!,
+                                                  farmLockUserInfos
+                                                      .rewardAmount,
+                                                ),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return SelectableText(
+                                                      snapshot.data!,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodySmall,
+                                                    );
+                                                  }
+                                                  return const SizedBox
+                                                      .shrink();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        if (isFlexDuration)
+                                          SizedBox(
+                                            child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .available,
+                                              style: style!.copyWith(
+                                                color: aedappfm
+                                                    .ArchethicThemeBase
+                                                    .systemPositive600,
+                                              ),
+                                            ),
+                                          )
+                                        else
                                           SizedBox(
                                             child: Column(
                                               crossAxisAlignment:
@@ -322,24 +441,38 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     Text(
                                                       '${AppLocalizations.of(
                                                         context,
-                                                      )!.farmLockBlockListHeaderAmount}: ',
+                                                      )!.farmLockBlockListHeaderUnlocks}: ',
                                                       style: styleHeader,
                                                     ),
                                                     SelectableText(
-                                                      '${farmLockUserInfos.amount.formatNumber(precision: farmLockUserInfos.amount < 1 ? 8 : 3)} ${farmLockUserInfos.amount < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                      DateTime.fromMillisecondsSinceEpoch(
+                                                        farmLockUserInfos.end! *
+                                                            1000,
+                                                      )
+                                                          .difference(
+                                                            DateTime.now()
+                                                                .toUtc(),
+                                                          )
+                                                          .toDurationString(
+                                                            includeWeeks: true,
+                                                            round: false,
+                                                            delimiter: ', ',
+                                                          ),
                                                       style: style,
                                                     ),
                                                   ],
                                                 ),
                                                 SelectableText(
-                                                  DEXLPTokenFiatValue().display(
-                                                    ref,
-                                                    farmLock
-                                                        .lpTokenPair!.token1,
-                                                    farmLock
-                                                        .lpTokenPair!.token2,
-                                                    farmLockUserInfos.amount,
-                                                    farmLock.poolAddress,
+                                                  DateFormat.yMMMEd(
+                                                    Localizations.localeOf(
+                                                      context,
+                                                    ).languageCode,
+                                                  ).format(
+                                                    DateTime
+                                                        .fromMillisecondsSinceEpoch(
+                                                      farmLockUserInfos.end! *
+                                                          1000,
+                                                    ),
                                                   ),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -348,159 +481,65 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                               ],
                                             ),
                                           ),
-                                          SizedBox(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '${AppLocalizations.of(
-                                                        context,
-                                                      )!.farmLockBlockListHeaderRewards}: ',
-                                                      style: styleHeader,
-                                                    ),
-                                                    SelectableText(
-                                                      '${farmLockUserInfos.rewardAmount.formatNumber(precision: farmLockUserInfos.rewardAmount < 1 ? 8 : 3)} ${farmLock.rewardToken!.symbol}',
-                                                      style: style,
-                                                    ),
-                                                  ],
-                                                ),
-                                                FutureBuilder<String>(
-                                                  future: FiatValue().display(
-                                                    ref,
-                                                    farmLock.rewardToken!,
-                                                    farmLockUserInfos
-                                                        .rewardAmount,
-                                                  ),
-                                                  builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
-                                                      return SelectableText(
-                                                        snapshot.data!,
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodySmall,
-                                                      );
-                                                    }
-                                                    return const SizedBox
-                                                        .shrink();
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          if (isFlexDuration)
-                                            SizedBox(
-                                              child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .available,
-                                                style: style!.copyWith(
-                                                  color: aedappfm
-                                                      .ArchethicThemeBase
-                                                      .systemPositive600,
-                                                ),
-                                              ),
-                                            )
-                                          else
-                                            SizedBox(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          child: Column(
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      SelectableText(
-                                                        DateTime.fromMillisecondsSinceEpoch(
-                                                          farmLockUserInfos
-                                                                  .end! *
-                                                              1000,
-                                                        )
-                                                            .difference(
-                                                              DateTime.now()
-                                                                  .toUtc(),
-                                                            )
-                                                            .toDurationString(
-                                                              includeWeeks:
-                                                                  true,
-                                                              round: false,
-                                                              delimiter: ', ',
-                                                            ),
-                                                        style: style,
-                                                      ),
-                                                    ],
+                                                  Text(
+                                                    '${AppLocalizations.of(
+                                                      context,
+                                                    )!.level}: ',
+                                                    style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    DateFormat.yMMMEd(
-                                                      Localizations.localeOf(
-                                                        context,
-                                                      ).languageCode,
-                                                    ).format(
-                                                      DateTime
-                                                          .fromMillisecondsSinceEpoch(
-                                                        farmLockUserInfos.end! *
-                                                            1000,
-                                                      ),
-                                                    ),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall,
+                                                    '${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}',
+                                                    style: style,
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                          SizedBox(
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '${AppLocalizations.of(
-                                                        context,
-                                                      )!.level}: ',
-                                                      style: styleHeader,
-                                                    ),
-                                                    SelectableText(
-                                                      '${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}',
-                                                      style: style,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                            ],
                                           ),
-                                          SizedBox(
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '${AppLocalizations.of(
-                                                        context,
-                                                      )!.farmLockBlockListHeaderAPR}: ',
-                                                      style: styleHeader,
-                                                    ),
-                                                    SelectableText(
-                                                      '${(farmLockUserInfos.apr * 100).formatNumber(precision: 2)}%',
-                                                      style: style,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${AppLocalizations.of(
+                                                      context,
+                                                    )!.farmLockBlockListHeaderAPR}: ',
+                                                    style: styleHeader,
+                                                  ),
+                                                  SelectableText(
+                                                    '${(farmLockUserInfos.apr * 100).formatNumber(precision: 2)}%',
+                                                    style: style,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 10,
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    FarmLockBtnLevelUp(
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 10,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: FarmLockBtnLevelUp(
                                                       farmAddress:
                                                           farmLock.farmAddress,
                                                       lpTokenAddress: farmLock
@@ -533,7 +572,9 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       currentSortedColumn:
                                                           currentSortedColumn,
                                                     ),
-                                                    FarmLockBtnWithdraw(
+                                                  ),
+                                                  Expanded(
+                                                    child: FarmLockBtnWithdraw(
                                                       farmAddress:
                                                           farmLock.farmAddress,
                                                       poolAddress:
@@ -569,7 +610,9 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       currentSortedColumn:
                                                           currentSortedColumn,
                                                     ),
-                                                    FarmLockBtnClaim(
+                                                  ),
+                                                  Expanded(
+                                                    child: FarmLockBtnClaim(
                                                       farmAddress:
                                                           farmLock.farmAddress,
                                                       lpTokenAddress: farmLock
@@ -599,14 +642,14 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       currentSortedColumn:
                                                           currentSortedColumn,
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                         },

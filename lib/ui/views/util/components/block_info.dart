@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-enum BlockInfoColor { blue, purple, green }
+enum BlockInfoColor { blue, purple, green, black }
 
 class BlockInfo extends ConsumerWidget {
   const BlockInfo({
@@ -64,17 +64,29 @@ class BlockInfo extends ConsumerWidget {
                                   ],
                                   stops: const [0, 1],
                                 )
-                              : LinearGradient(
-                                  colors: [
-                                    aedappfm
-                                        .ArchethicThemeBase.systemPositive300
-                                        .withOpacity(0.3),
-                                    aedappfm
-                                        .ArchethicThemeBase.systemPositive600
-                                        .withOpacity(0.3),
-                                  ],
-                                  stops: const [0, 1],
-                                ),
+                              : blockInfoColor == BlockInfoColor.black
+                                  ? LinearGradient(
+                                      colors: [
+                                        aedappfm.ArchethicThemeBase
+                                            .paleTransparentBackground
+                                            .withOpacity(0.8),
+                                        aedappfm.ArchethicThemeBase
+                                            .paleTransparentBackground
+                                            .withOpacity(0.8),
+                                      ],
+                                      stops: const [0, 1],
+                                    )
+                                  : LinearGradient(
+                                      colors: [
+                                        aedappfm.ArchethicThemeBase
+                                            .systemPositive300
+                                            .withOpacity(0.3),
+                                        aedappfm.ArchethicThemeBase
+                                            .systemPositive600
+                                            .withOpacity(0.3),
+                                      ],
+                                      stops: const [0, 1],
+                                    ),
                       border: GradientBoxBorder(
                         gradient: blockInfoColor == BlockInfoColor.blue
                             ? LinearGradient(
@@ -96,17 +108,29 @@ class BlockInfo extends ConsumerWidget {
                                     ],
                                     stops: const [0, 1],
                                   )
-                                : LinearGradient(
-                                    colors: [
-                                      aedappfm
-                                          .ArchethicThemeBase.systemPositive100
-                                          .withOpacity(0.2),
-                                      aedappfm
-                                          .ArchethicThemeBase.systemPositive300
-                                          .withOpacity(0.2),
-                                    ],
-                                    stops: const [0, 1],
-                                  ),
+                                : blockInfoColor == BlockInfoColor.black
+                                    ? LinearGradient(
+                                        colors: [
+                                          aedappfm
+                                              .AppThemeBase.sheetBorderTertiary
+                                              .withOpacity(0.4),
+                                          aedappfm.AppThemeBase
+                                              .sheetBackgroundTertiary
+                                              .withOpacity(0.4),
+                                        ],
+                                        stops: const [0, 1],
+                                      )
+                                    : LinearGradient(
+                                        colors: [
+                                          aedappfm.ArchethicThemeBase
+                                              .systemPositive100
+                                              .withOpacity(0.2),
+                                          aedappfm.ArchethicThemeBase
+                                              .systemPositive300
+                                              .withOpacity(0.2),
+                                        ],
+                                        stops: const [0, 1],
+                                      ),
                       ),
                       borderRadius: BorderRadius.circular(10),
                     ),

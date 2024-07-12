@@ -57,35 +57,8 @@ Future<DexFarmLock?> _getFarmLockInfos(
 
     final now = DateTime.now().toUtc();
 
-    int _getCurrentYearInPeriod(DateTime startDate) {
-      final yearsDifference = now.year - startDate.year;
-      var currentYearInPeriod = yearsDifference % 4 + 1;
-
-      if (now.month < startDate.month ||
-          (now.month == startDate.month && now.day < startDate.day)) {
-        currentYearInPeriod--;
-        if (currentYearInPeriod == 0) {
-          currentYearInPeriod = 4;
-        }
-      }
-
-      return currentYearInPeriod;
-    }
-
-    DateTime _addYears(DateTime date, int years) {
-      return DateTime(date.year + years, date.month, date.day);
-    }
-
-    final currentYearInPeriod =
-        _getCurrentYearInPeriod(farmLockInfos.startDate!);
-
-    final secondsUntilEnd =
-        _addYears(farmLockInfos.startDate!, currentYearInPeriod)
-            .difference(now)
-            .inSeconds;
-    if (rewardTokenPriceInFiat == 0 ||
-        farmLockInfos.isOpen == false ||
-        secondsUntilEnd <= 0) {
+    var secondsUntilEnd = 0;
+    if (rewardTokenPriceInFiat == 0 || farmLockInfos.isOpen == false) {
       return farmLockInfos;
     }
 
@@ -100,6 +73,7 @@ Future<DexFarmLock?> _getFarmLockInfos(
         final startPeriodDateTime = DateTime.fromMillisecondsSinceEpoch(
           rewardsAllocated.startPeriod * 1000,
         );
+
         final endPeriodDateTime = DateTime.fromMillisecondsSinceEpoch(
           rewardsAllocated.endPeriod * 1000,
         );
@@ -107,6 +81,7 @@ Future<DexFarmLock?> _getFarmLockInfos(
         if (now.isAfter(startPeriodDateTime) &&
             now.isBefore(endPeriodDateTime)) {
           rewardsInPeriod = rewardsAllocated.rewardsAllocated;
+          secondsUntilEnd = endPeriodDateTime.difference(now).inSeconds;
           break;
         }
       }
@@ -122,8 +97,7 @@ Future<DexFarmLock?> _getFarmLockInfos(
         ).future,
       );
 
-      if (lpDepositedPerLevelInFiat > 0) {
-        // 31 536 000 second in a year
+      if (lpDepositedPerLevelInFiat > 0 && secondsUntilEnd > 0) {
         final rewardScalledToYear =
             rewardsAllocatedInFiat * (31536000 / secondsUntilEnd);
 

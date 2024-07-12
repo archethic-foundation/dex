@@ -72,11 +72,11 @@ class FarmLockBlockHeader extends ConsumerWidget {
                           children: [
                             FarmLockBlockBalanceSummary(
                               width: constraints.maxWidth * 0.32,
-                              height: 135,
+                              height: 140,
                             ),
                             FarmLockBlockFarmedTokensSummary(
                               width: constraints.maxWidth * 0.32,
-                              height: 150,
+                              height: 145,
                             ),
                           ],
                         ),
@@ -113,7 +113,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       children: [
                         FarmLockBlockBalanceSummary(
                           width: constraints.maxWidth,
-                          height: 135,
+                          height: 140,
                         ),
                       ],
                     ),

@@ -100,7 +100,7 @@ class FarmLockLevelUpFormSheetState
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!.farmLockLevelUpDesc,
-                    style: AppTextStyles.bodySmall(context),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -295,7 +295,8 @@ class FarmLockLevelUpFormSheetState
                               style: AppTextStyles.bodyLarge(context),
                             ),
                             SelectableText(
-                              '7',
+                              farmLockLevelUp
+                                  .farmLock!.availableLevels.entries.last.key,
                               style: AppTextStyles.bodyLarge(context),
                             ),
                           ],

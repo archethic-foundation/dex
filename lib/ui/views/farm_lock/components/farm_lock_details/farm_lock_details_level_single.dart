@@ -2,7 +2,6 @@ import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
-import 'package:aedex/util/config/config.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:intl/intl.dart';
 
 class FarmLockDetailsLevelSingle extends ConsumerWidget {
   const FarmLockDetailsLevelSingle({
@@ -38,7 +36,6 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
       ),
     );
     return Container(
-      height: 185,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         gradient: int.tryParse(level)!.isEven
@@ -70,7 +67,7 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 5, bottom: 6, left: 10, right: 10),
+        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,8 +85,14 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 10,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SelectableText(
+                  '${AppLocalizations.of(context)!.farmLockDetailsLevelSingleWeight}: ${(farmLockStats.weight * 100).formatNumber(precision: 2)}%',
+                  style: style,
+                ),
+              ],
             ),
             Row(
               children: [
@@ -132,67 +135,6 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
                       return const SizedBox.shrink();
                     },
                   ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SelectableText(
-                      AppLocalizations.of(context)!
-                          .farmLockDetailsLevelSingleRewardsAllocated,
-                      style: style,
-                    ),
-                    SelectableText(
-                      '${AppLocalizations.of(context)!.farmLockDetailsLevelSingleWeight}: ${(farmLockStats.weight * 100).toInt()}%',
-                      style: style,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: List.generate(farmLockStats.rewardsAllocated.length,
-                      (index) {
-                    final reward = farmLockStats.rewardsAllocated[index];
-                    final dateFormat = DateFormat(
-                      Config.kSecondsInDay == 86400
-                          ? 'yyyy-MM-dd'
-                          : 'yyyy-MM-dd HH:mm:ss',
-                    );
-                    final startDate = dateFormat.format(
-                      DateTime.fromMillisecondsSinceEpoch(
-                        reward.startPeriod * 1000,
-                      ),
-                    );
-                    final endDate = dateFormat.format(
-                      DateTime.fromMillisecondsSinceEpoch(
-                        reward.endPeriod * 1000,
-                      ),
-                    );
-                    final rewardsAllocatedFormatted =
-                        reward.rewardsAllocated.formatNumber(
-                      precision: reward.rewardsAllocated > 1 ? 2 : 8,
-                    );
-
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SelectableText(
-                          '$startDate - $endDate',
-                          style: style,
-                        ),
-                        SelectableText(
-                          '$rewardsAllocatedFormatted ${farmLock.rewardToken!.symbol}',
-                          style: style,
-                        ),
-                      ],
-                    );
-                  }),
-                ),
               ],
             ),
           ],

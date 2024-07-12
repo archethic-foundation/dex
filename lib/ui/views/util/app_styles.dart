@@ -3,6 +3,8 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 
 class AppTextStyles {
+  static const kOpacityText = 0.8;
+
   static TextStyle bodyLarge(BuildContext context) {
     return Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontSize: aedappfm.Responsive.fontSizeFromTextStyle(

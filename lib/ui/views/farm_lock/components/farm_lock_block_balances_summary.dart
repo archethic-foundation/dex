@@ -31,7 +31,7 @@ class FarmLockBlockBalanceSummary extends ConsumerWidget {
             children: [
               SelectableText(
                 AppLocalizations.of(context)!.farmLockBlockBalanceSummaryHeader,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: aedappfm.AppThemeBase.secondaryColor,
                       fontWeight: FontWeight.w500,
                     ),

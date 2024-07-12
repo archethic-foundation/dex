@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
-import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -61,7 +60,7 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
                   children: [
                     Text(
                       '${AppLocalizations.of(context)!.level} $level',
-                      style: AppTextStyles.bodyMedium(context),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
@@ -73,7 +72,9 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
                         context,
                         farmLockDepositDuration,
                       ),
-                      style: AppTextStyles.bodyMedium(context)
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
                           .copyWith(fontWeight: FontWeight.w700),
                     ),
                   ],
@@ -86,15 +87,17 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
                   children: [
                     Text(
                       '${AppLocalizations.of(context)!.farmLockDepositAPRLbl} ',
-                      style: AppTextStyles.bodySmall(context)
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
                           .copyWith(color: Colors.white60),
                     ),
                     if (aprEstimation > 0)
                       Text(
                         '${aprEstimation.formatNumber(precision: 2)}%',
-                        style: AppTextStyles.bodySmall(context).copyWith(
-                          color: _getColor(farmLockDepositDuration),
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: _getColor(farmLockDepositDuration),
+                            ),
                       )
                     else
                       const Padding(

@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 
 import 'package:aedex/ui/views/pool_list/components/pool_list_item.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -49,7 +50,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 padding: const EdgeInsets.only(top: 1),
                 child: Text(
                   '${AppLocalizations.of(context)!.farmLockBlockAddLiquidityHeader} ',
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: aedappfm.AppThemeBase.secondaryColor,
                         fontWeight: FontWeight.w500,
                       ),
@@ -59,14 +60,14 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 message: pool.pair.token1.symbol,
                 child: SelectableText(
                   pool.pair.token1.symbol.reduceSymbol(lengthMax: 6),
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
                 ),
               ),
               SelectableText(
                 '/',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
               ),
@@ -74,7 +75,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 message: pool.pair.token2.symbol,
                 child: SelectableText(
                   pool.pair.token2.symbol.reduceSymbol(lengthMax: 6),
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
                 ),
@@ -84,14 +85,16 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 child: DexPairIcons(
                   token1Address: pool.pair.token1.address!,
                   token2Address: pool.pair.token2.address!,
-                  iconSize: 14,
                 ),
               ),
             ],
           ),
-          Text(
-            AppLocalizations.of(context)!.farmLockBlockAddLiquidityDesc,
-            style: Theme.of(context).textTheme.bodyMedium,
+          Opacity(
+            opacity: AppTextStyles.kOpacityText,
+            child: Text(
+              AppLocalizations.of(context)!.farmLockBlockAddLiquidityDesc,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
           InkWell(
             onTap: () async {
@@ -137,172 +140,197 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
   }
 
   Widget _btnConnected(BuildContext context, WidgetRef ref) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Column(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            InkWell(
-              child: Container(
-                height: 36,
-                width: 36,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  gradient: aedappfm.AppThemeBase.gradientBtn,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  aedappfm.Iconsax.search_status,
-                  size: 18,
-                ),
-              ),
-              onTap: () async {
-                return showDialog<void>(
-                  context: context,
-                  builder: (context) {
-                    return GestureDetector(
-                      onTap: () {
-                        context.pop();
-                      },
-                      child: Scaffold(
-                        extendBodyBehindAppBar: true,
-                        extendBody: true,
-                        backgroundColor: Colors.transparent.withAlpha(120),
-                        body: Align(
-                          child: SizedBox(
-                            width: 550,
-                            height: 500,
-                            child: PoolListItem(
-                              key: ValueKey(pool.poolAddress),
-                              pool: pool,
-                              heightCard: 440,
-                            )
-                                .animate()
-                                .fade(
-                                  duration: const Duration(
-                                    milliseconds: 300,
-                                  ),
-                                )
-                                .scale(
-                                  duration: const Duration(
-                                    milliseconds: 300,
-                                  ),
-                                ),
-                          ),
-                        ),
+            SizedBox(
+              width: constraints.maxWidth * 0.30,
+              child: Column(
+                children: [
+                  InkWell(
+                    child: Container(
+                      height: 36,
+                      width: 36,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        gradient: aedappfm.AppThemeBase.gradientBtn,
+                        shape: BoxShape.circle,
                       ),
-                    );
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              AppLocalizations.of(context)!.farmLockBlockAddLiquidityBtnInfos,
-              style: const TextStyle(fontSize: 10),
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            InkWell(
-              child: Container(
-                height: 50,
-                width: 150,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  gradient: aedappfm.AppThemeBase.gradientBtn,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  aedappfm.Iconsax.import4,
-                  size: 25,
-                ),
-              ),
-              onTap: () async {
-                final poolJson = jsonEncode(pool.toJson());
-                final poolEncoded = Uri.encodeComponent(poolJson);
-                await context.push(
-                  Uri(
-                    path: LiquidityAddSheet.routerPage,
-                    queryParameters: {
-                      'pool': poolEncoded,
+                      child: const Icon(
+                        aedappfm.Iconsax.search_status,
+                        size: 18,
+                      ),
+                    ),
+                    onTap: () async {
+                      return showDialog<void>(
+                        context: context,
+                        builder: (context) {
+                          return GestureDetector(
+                            onTap: () {
+                              context.pop();
+                            },
+                            child: Scaffold(
+                              extendBodyBehindAppBar: true,
+                              extendBody: true,
+                              backgroundColor:
+                                  Colors.transparent.withAlpha(120),
+                              body: Align(
+                                child: SizedBox(
+                                  width: 550,
+                                  height: 500,
+                                  child: PoolListItem(
+                                    key: ValueKey(pool.poolAddress),
+                                    pool: pool,
+                                    heightCard: 440,
+                                  )
+                                      .animate()
+                                      .fade(
+                                        duration: const Duration(
+                                          milliseconds: 300,
+                                        ),
+                                      )
+                                      .scale(
+                                        duration: const Duration(
+                                          milliseconds: 300,
+                                        ),
+                                      ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     },
-                  ).toString(),
-                );
-                if (context.mounted) {
-                  {
-                    await context
-                        .findAncestorStateOfType<FarmLockSheetState>()
-                        ?.loadInfo(sortCriteria: sortCriteria);
-                  }
-                }
-              },
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              AppLocalizations.of(context)!.farmLockBlockAddLiquidityBtnAdd,
-              style: const TextStyle(fontSize: 10),
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            InkWell(
-              child: Container(
-                height: 36,
-                width: 36,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  gradient: aedappfm.AppThemeBase.gradientBtn,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  aedappfm.Iconsax.export4,
-                  size: 18,
-                ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Opacity(
+                    opacity: 0.8,
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .farmLockBlockAddLiquidityBtnInfos,
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ),
+                ],
               ),
-              onTap: () async {
-                final poolJson = jsonEncode(pool.toJson());
-                final pairJson = jsonEncode(pool.pair.toJson());
-                final lpTokenJson = jsonEncode(pool.lpToken.toJson());
-                final poolEncoded = Uri.encodeComponent(poolJson);
-                final pairEncoded = Uri.encodeComponent(pairJson);
-                final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
-                await context.push(
-                  Uri(
-                    path: LiquidityRemoveSheet.routerPage,
-                    queryParameters: {
-                      'pool': poolEncoded,
-                      'pair': pairEncoded,
-                      'lpToken': lpTokenEncoded,
+            ),
+            SizedBox(
+              width: constraints.maxWidth * 0.40,
+              child: Column(
+                children: [
+                  InkWell(
+                    child: Container(
+                      height: 50,
+                      width: 150,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        gradient: aedappfm.AppThemeBase.gradientBtn,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        aedappfm.Iconsax.import4,
+                        size: 25,
+                      ),
+                    ),
+                    onTap: () async {
+                      final poolJson = jsonEncode(pool.toJson());
+                      final poolEncoded = Uri.encodeComponent(poolJson);
+                      await context.push(
+                        Uri(
+                          path: LiquidityAddSheet.routerPage,
+                          queryParameters: {
+                            'pool': poolEncoded,
+                          },
+                        ).toString(),
+                      );
+                      if (context.mounted) {
+                        {
+                          await context
+                              .findAncestorStateOfType<FarmLockSheetState>()
+                              ?.loadInfo(sortCriteria: sortCriteria);
+                        }
+                      }
                     },
-                  ).toString(),
-                );
-                if (context.mounted) {
-                  {
-                    await context
-                        .findAncestorStateOfType<FarmLockSheetState>()
-                        ?.loadInfo(sortCriteria: sortCriteria);
-                  }
-                }
-              },
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Opacity(
+                    opacity: 0.8,
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .farmLockBlockAddLiquidityBtnAdd,
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              AppLocalizations.of(context)!
-                  .farmLockBlockAddLiquidityBtnWithdraw,
-              style: const TextStyle(fontSize: 10),
+            SizedBox(
+              width: constraints.maxWidth * 0.30,
+              child: Column(
+                children: [
+                  InkWell(
+                    child: Container(
+                      height: 36,
+                      width: 36,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        gradient: aedappfm.AppThemeBase.gradientBtn,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        aedappfm.Iconsax.export4,
+                        size: 18,
+                      ),
+                    ),
+                    onTap: () async {
+                      final poolJson = jsonEncode(pool.toJson());
+                      final pairJson = jsonEncode(pool.pair.toJson());
+                      final lpTokenJson = jsonEncode(pool.lpToken.toJson());
+                      final poolEncoded = Uri.encodeComponent(poolJson);
+                      final pairEncoded = Uri.encodeComponent(pairJson);
+                      final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
+                      await context.push(
+                        Uri(
+                          path: LiquidityRemoveSheet.routerPage,
+                          queryParameters: {
+                            'pool': poolEncoded,
+                            'pair': pairEncoded,
+                            'lpToken': lpTokenEncoded,
+                          },
+                        ).toString(),
+                      );
+                      if (context.mounted) {
+                        {
+                          await context
+                              .findAncestorStateOfType<FarmLockSheetState>()
+                              ?.loadInfo(sortCriteria: sortCriteria);
+                        }
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Opacity(
+                    opacity: 0.8,
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .farmLockBlockAddLiquidityBtnWithdraw,
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -352,9 +380,12 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              AppLocalizations.of(context)!.btn_connect_wallet,
-              style: const TextStyle(fontSize: 10),
+            Opacity(
+              opacity: 0.8,
+              child: Text(
+                AppLocalizations.of(context)!.btn_connect_wallet,
+                style: const TextStyle(fontSize: 10),
+              ),
             ),
           ],
         ),

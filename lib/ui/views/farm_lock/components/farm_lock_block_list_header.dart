@@ -30,14 +30,6 @@ class FarmLockBlockListHeader extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(
-            children: [
-              Text(
-                AppLocalizations.of(context)!.farmLockBlockHeaderTableHeader,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
-          ),
           ClipRRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),

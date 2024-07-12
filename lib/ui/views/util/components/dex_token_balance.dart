@@ -48,7 +48,7 @@ class DexTokenBalance extends ConsumerWidget {
         height: height,
       );
     }
-    var opacity = 1.0;
+    var opacity = AppTextStyles.kOpacityText;
     if (tokenBalance <= 0) {
       opacity = 0.5;
     }

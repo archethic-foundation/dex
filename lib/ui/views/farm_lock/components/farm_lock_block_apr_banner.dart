@@ -28,11 +28,12 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
     }
 
     final styleBannerText = Theme.of(context).textTheme.bodyMedium!.copyWith(
-          color: aedappfm.ArchethicThemeBase.systemPositive100,
+          color: aedappfm.AppThemeBase.secondaryColor,
+          fontWeight: FontWeight.w800,
         );
 
     return BlockInfo(
-      blockInfoColor: BlockInfoColor.green,
+      blockInfoColor: BlockInfoColor.black,
       info: Align(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +53,7 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
                 child: Icon(
                   Icons.all_inclusive,
                   size: 16,
-                  color: aedappfm.ArchethicThemeBase.systemPositive100,
+                  color: aedappfm.AppThemeBase.secondaryColor,
                 ),
               ),
           ],

@@ -5,6 +5,7 @@ import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_sheet.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -80,6 +81,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
                           aedappfm.Iconsax.export4,
                           color: enabled
                               ? Colors.white
+                                  .withOpacity(AppTextStyles.kOpacityText)
                               : Colors.white.withOpacity(0.5),
                           size: 16,
                         ),
@@ -91,8 +93,9 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
                   AppLocalizations.of(context)!.farmLockBtnWithdraw,
                   style: TextStyle(
                     fontSize: 10,
-                    color:
-                        enabled ? Colors.white : Colors.white.withOpacity(0.5),
+                    color: enabled
+                        ? Colors.white.withOpacity(AppTextStyles.kOpacityText)
+                        : Colors.white.withOpacity(0.5),
                   ),
                 ),
               ],

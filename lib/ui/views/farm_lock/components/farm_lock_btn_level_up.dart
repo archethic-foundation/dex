@@ -4,6 +4,7 @@ import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/farm_lock_level_up_sheet.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -74,6 +75,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                           Icons.keyboard_double_arrow_up,
                           color: enabled
                               ? Colors.white
+                                  .withOpacity(AppTextStyles.kOpacityText)
                               : Colors.white.withOpacity(0.5),
                           size: 16,
                         ),
@@ -85,8 +87,9 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                   AppLocalizations.of(context)!.farmLockBtnLevelUp,
                   style: TextStyle(
                     fontSize: 10,
-                    color:
-                        enabled ? Colors.white : Colors.white.withOpacity(0.5),
+                    color: enabled
+                        ? Colors.white.withOpacity(AppTextStyles.kOpacityText)
+                        : Colors.white.withOpacity(0.5),
                   ),
                 ),
               ],

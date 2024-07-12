@@ -10,6 +10,7 @@ import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_apr_banner.d
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_list_item.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -55,14 +56,14 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
             children: [
               SelectableText(
                 '${AppLocalizations.of(context)!.farmLockBlockEarnRewardsHeader} ',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: aedappfm.AppThemeBase.secondaryColor,
                       fontWeight: FontWeight.w500,
                     ),
               ),
               SelectableText(
                 'UCO',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
               ),
@@ -71,13 +72,15 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
               ),
               const DexTokenIcon(
                 tokenAddress: 'UCO',
-                iconSize: 14,
               ),
             ],
           ),
-          Text(
-            AppLocalizations.of(context)!.farmLockBlockEarnRewardsDesc,
-            style: Theme.of(context).textTheme.bodyMedium,
+          Opacity(
+            opacity: AppTextStyles.kOpacityText,
+            child: Text(
+              AppLocalizations.of(context)!.farmLockBlockEarnRewardsDesc,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
           InkWell(
             onTap: () {},
@@ -108,186 +111,205 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
             height: 35,
           ),
           const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    onTap: farm == null
-                        ? null
-                        : () async {
-                            return showDialog<void>(
-                              context: context,
-                              builder: (context) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    context.pop();
-                                  },
-                                  child: Scaffold(
-                                    extendBodyBehindAppBar: true,
-                                    extendBody: true,
-                                    backgroundColor:
-                                        Colors.transparent.withAlpha(120),
-                                    body: Align(
-                                      child: SizedBox(
-                                        width: 550,
-                                        height: 550,
-                                        child: FarmListItem(
-                                          key: ValueKey(pool.poolAddress),
-                                          farm: farm!,
-                                          heightCard: 490,
-                                          isInPopup: true,
-                                        )
-                                            .animate()
-                                            .fade(
-                                              duration: const Duration(
-                                                milliseconds: 300,
-                                              ),
-                                            )
-                                            .scale(
-                                              duration: const Duration(
-                                                milliseconds: 300,
-                                              ),
-                                            ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                    child: Container(
-                      height: 36,
-                      width: 36,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        gradient: aedappfm.AppThemeBase.gradientBtn,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        aedappfm.Iconsax.search_status,
-                        size: 18,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!
-                        .farmLockBlockEarnRewardsBtnInfosFarmLegacy,
-                    style: const TextStyle(fontSize: 10),
-                  ),
-                ],
-              ),
-              if (farmLockForm.mainInfoloadingInProgress == false)
-                if (session.isConnected)
-                  _btnConnected(context, ref)
-                else
-                  _btnNotConnected(context, ref)
-              else
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
+                  SizedBox(
+                    width: constraints.maxWidth * 0.30,
+                    child: Column(
                       children: [
-                        Container(
-                          height: 50,
-                          width: 150,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            gradient: aedappfm.AppThemeBase.gradient,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: CircularProgressIndicator(strokeWidth: 0.5),
+                        InkWell(
+                          onTap: farm == null
+                              ? null
+                              : () async {
+                                  return showDialog<void>(
+                                    context: context,
+                                    builder: (context) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          context.pop();
+                                        },
+                                        child: Scaffold(
+                                          extendBodyBehindAppBar: true,
+                                          extendBody: true,
+                                          backgroundColor:
+                                              Colors.transparent.withAlpha(120),
+                                          body: Align(
+                                            child: SizedBox(
+                                              width: 550,
+                                              height: 550,
+                                              child: FarmListItem(
+                                                key: ValueKey(pool.poolAddress),
+                                                farm: farm!,
+                                                heightCard: 490,
+                                                isInPopup: true,
+                                              )
+                                                  .animate()
+                                                  .fade(
+                                                    duration: const Duration(
+                                                      milliseconds: 300,
+                                                    ),
+                                                  )
+                                                  .scale(
+                                                    duration: const Duration(
+                                                      milliseconds: 300,
+                                                    ),
+                                                  ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                          child: Container(
+                            height: 36,
+                            width: 36,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              gradient: aedappfm.AppThemeBase.gradientBtn,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              aedappfm.Iconsax.search_status,
+                              size: 18,
+                            ),
                           ),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        const Text(
-                          ' ',
-                          style: TextStyle(fontSize: 10),
+                        Opacity(
+                          opacity: 0.8,
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .farmLockBlockEarnRewardsBtnInfosFarmLegacy,
+                            style: const TextStyle(fontSize: 10),
+                          ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-              Column(
-                children: [
-                  InkWell(
-                    onTap: farmLock == null
-                        ? null
-                        : () async {
-                            return showDialog<void>(
-                              context: context,
-                              builder: (context) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    context.pop();
-                                  },
-                                  child: Scaffold(
-                                    extendBodyBehindAppBar: true,
-                                    extendBody: true,
-                                    backgroundColor:
-                                        Colors.transparent.withAlpha(120),
-                                    body: Align(
-                                      child: SizedBox(
-                                        width: 550,
-                                        height: 500,
-                                        child: FarmLockListItem(
-                                          key: ValueKey(pool.poolAddress),
-                                          farmLock: farmLock!,
-                                          heightCard: 440,
-                                          isInPopup: true,
-                                        )
-                                            .animate()
-                                            .fade(
-                                              duration: const Duration(
-                                                milliseconds: 300,
-                                              ),
-                                            )
-                                            .scale(
-                                              duration: const Duration(
-                                                milliseconds: 300,
-                                              ),
-                                            ),
+                  ),
+                  SizedBox(
+                    width: constraints.maxWidth * 0.40,
+                    child: farmLockForm.mainInfoloadingInProgress == false
+                        ? session.isConnected
+                            ? _btnConnected(context, ref)
+                            : _btnNotConnected(context, ref)
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      gradient: aedappfm.AppThemeBase.gradient,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 0.5,
                                       ),
                                     ),
                                   ),
-                                );
-                              },
-                            );
-                          },
-                    child: Container(
-                      height: 36,
-                      width: 36,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        gradient: aedappfm.AppThemeBase.gradientBtn,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        aedappfm.Iconsax.search_status,
-                        size: 18,
-                      ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  const Text(
+                                    ' ',
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                  ),
+                  SizedBox(
+                    width: constraints.maxWidth * 0.30,
+                    child: Column(
+                      children: [
+                        InkWell(
+                          onTap: farmLock == null
+                              ? null
+                              : () async {
+                                  return showDialog<void>(
+                                    context: context,
+                                    builder: (context) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          context.pop();
+                                        },
+                                        child: Scaffold(
+                                          extendBodyBehindAppBar: true,
+                                          extendBody: true,
+                                          backgroundColor:
+                                              Colors.transparent.withAlpha(120),
+                                          body: Align(
+                                            child: SizedBox(
+                                              width: 550,
+                                              height: 500,
+                                              child: FarmLockListItem(
+                                                key: ValueKey(pool.poolAddress),
+                                                farmLock: farmLock!,
+                                                heightCard: 440,
+                                                isInPopup: true,
+                                              )
+                                                  .animate()
+                                                  .fade(
+                                                    duration: const Duration(
+                                                      milliseconds: 300,
+                                                    ),
+                                                  )
+                                                  .scale(
+                                                    duration: const Duration(
+                                                      milliseconds: 300,
+                                                    ),
+                                                  ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                          child: Container(
+                            height: 36,
+                            width: 36,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              gradient: aedappfm.AppThemeBase.gradientBtn,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              aedappfm.Iconsax.search_status,
+                              size: 18,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Opacity(
+                          opacity: 0.8,
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .farmLockBlockEarnRewardsBtnInfosFarmLock,
+                            style: const TextStyle(fontSize: 10),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!
-                        .farmLockBlockEarnRewardsBtnInfosFarmLock,
-                    style: const TextStyle(fontSize: 10),
-                  ),
                 ],
-              ),
-            ],
+              );
+            },
           ),
           const SizedBox(
             height: 10,
@@ -348,13 +370,16 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
               const SizedBox(
                 height: 5,
               ),
-              Text(
-                farmLock == null || farmLock!.isOpen == false
-                    ? AppLocalizations.of(context)!
-                        .farmLockBlockEarnRewardsBtnNotAvailable
-                    : AppLocalizations.of(context)!
-                        .farmLockBlockEarnRewardsBtnAdd,
-                style: const TextStyle(fontSize: 10),
+              Opacity(
+                opacity: 0.8,
+                child: Text(
+                  farmLock == null || farmLock!.isOpen == false
+                      ? AppLocalizations.of(context)!
+                          .farmLockBlockEarnRewardsBtnNotAvailable
+                      : AppLocalizations.of(context)!
+                          .farmLockBlockEarnRewardsBtnAdd,
+                  style: const TextStyle(fontSize: 10),
+                ),
               ),
             ],
           ),
@@ -409,9 +434,12 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              AppLocalizations.of(context)!.btn_connect_wallet,
-              style: const TextStyle(fontSize: 10),
+            Opacity(
+              opacity: 0.8,
+              child: Text(
+                AppLocalizations.of(context)!.btn_connect_wallet,
+                style: const TextStyle(fontSize: 10),
+              ),
             ),
           ],
         ),
