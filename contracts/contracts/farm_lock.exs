@@ -841,37 +841,30 @@ export fun(get_farm_infos()) do
   weight_per_level = Map.set(weight_per_level, "7", 0.449)
 
   available_levels = Map.new()
+  available_levels = Map.set(available_levels, "0", now + 0)
+  available_levels = Map.set(available_levels, "1", now + 7 * day)
+  available_levels = Map.set(available_levels, "2", now + 30 * day)
+  available_levels = Map.set(available_levels, "3", now + 90 * day)
+  available_levels = Map.set(available_levels, "4", now + 180 * day)
+  available_levels = Map.set(available_levels, "5", now + 365 * day)
+  available_levels = Map.set(available_levels, "6", now + 730 * day)
+  available_levels = Map.set(available_levels, "7", now + 1095 * day)
 
-  if now < @END_DATE do
-    available_levels = Map.set(available_levels, "0", now)
-  end
+  filtered_levels = Map.new()
 
-  if now + 7 * day < @END_DATE do
-    available_levels = Map.set(available_levels, "1", now + 7 * day)
-  end
+  end_reached = false
 
-  if now + 30 * day < @END_DATE do
-    available_levels = Map.set(available_levels, "2", now + 30 * day)
-  end
+  for level in Map.keys(available_levels) do
+    start_level = Map.get(available_levels, level)
 
-  if now + 90 * day < @END_DATE do
-    available_levels = Map.set(available_levels, "3", now + 90 * day)
-  end
-
-  if now + 180 * day < @END_DATE do
-    available_levels = Map.set(available_levels, "4", now + 180 * day)
-  end
-
-  if now + 365 * day < @END_DATE do
-    available_levels = Map.set(available_levels, "5", now + 365 * day)
-  end
-
-  if now + 730 * day < @END_DATE do
-    available_levels = Map.set(available_levels, "6", now + 730 * day)
-  end
-
-  if now + 1095 * day < @END_DATE do
-    available_levels = Map.set(available_levels, "7", now + 1095 * day)
+    if start_level < @END_DATE do
+      filtered_levels = Map.set(filtered_levels, level, start_level)
+    else
+      if !end_reached && Map.size(filtered_levels) > 0 do
+        filtered_levels = Map.set(filtered_levels, level, @END_DATE)
+        end_reached = true
+      end
+    end
   end
 
   weighted_lp_tokens_deposited = 0
@@ -919,7 +912,7 @@ export fun(get_farm_infos()) do
 
   stats = Map.new()
 
-  for level in ["0", "1", "2", "3", "4", "5", "6", "7"] do
+  for level in Map.keys(available_levels) do
     rewards_allocated = []
 
     for y in years do
@@ -952,7 +945,7 @@ export fun(get_farm_infos()) do
     lp_tokens_deposited: lp_tokens_deposited,
     remaining_rewards: remaining_rewards,
     rewards_distributed: State.get("rewards_distributed", 0),
-    available_levels: available_levels,
+    available_levels: filtered_levels,
     stats: stats
   ]
 end
@@ -961,7 +954,6 @@ export fun(get_user_infos(user_genesis_address)) do
   now = Time.now()
   day = @SECONDS_IN_DAY
   year = 365 * day
-
 
   # ==================================================================
   # BEGIN CALCULATE_NEW_REWARDS
