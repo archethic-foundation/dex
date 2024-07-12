@@ -116,8 +116,9 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
             .setMainInfoloadingInProgress(true);
       }
 
+      final env = ref.read(SessionProviders.session).envSelected;
       final contextAddresses =
-          PoolFarmAvailableState().getContextAddresses(ref);
+          PoolFarmAvailableState().getContextAddresses(env);
 
       pool = await ref.read(
         DexPoolProviders.getPool(

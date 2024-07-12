@@ -30,6 +30,20 @@ Future<List<DexPool>> _getPoolList(
     failure: (failure) {},
   );
 
+  final env = ref.read(SessionProviders.session).envSelected;
+  final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
+  final aeETHUCOPoolAddress = contextAddresses.aeETHUCOPoolAddress;
+  dexPools.sort((a, b) {
+    if (a.poolAddress.toUpperCase() == aeETHUCOPoolAddress.toUpperCase()) {
+      return -1;
+    } else if (b.poolAddress.toUpperCase() ==
+        aeETHUCOPoolAddress.toUpperCase()) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+
   return dexPools;
 }
 

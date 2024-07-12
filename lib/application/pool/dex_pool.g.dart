@@ -997,7 +997,7 @@ class _AddPoolFromFavoriteProviderElement
       (origin as _AddPoolFromFavoriteProvider).poolGenesisAddress;
 }
 
-String _$getPoolListHash() => r'0ac1c6d4bdb2c8a438e633d8e14f591dc1011816';
+String _$getPoolListHash() => r'7a1ba9aa6338640374d51cc08ddd1a5e518ae06a';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)

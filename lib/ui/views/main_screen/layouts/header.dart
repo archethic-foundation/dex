@@ -1,5 +1,4 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
@@ -141,38 +140,6 @@ class Header extends ConsumerWidget {
                           height: 0.5,
                           width: 90,
                           color: indexMenu == NavigationIndex.pool
-                              ? aedappfm.ArchethicThemeBase.raspberry200
-                              : Colors.transparent,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            context.go(FarmListSheet.routerPage);
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.menu_farm,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w300,
-                              color: indexMenu == NavigationIndex.farm
-                                  ? aedappfm.ArchethicThemeBase.raspberry200
-                                  : aedappfm.ArchethicThemeBase.neutral0,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 5),
-                          height: 0.5,
-                          width: 70,
-                          color: indexMenu == NavigationIndex.farm
                               ? aedappfm.ArchethicThemeBase.raspberry200
                               : Colors.transparent,
                         ),

@@ -1,3 +1,4 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
@@ -25,7 +26,8 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final contextAddresses = PoolFarmAvailableState().getContextAddresses(ref);
+    final env = ref.watch(SessionProviders.session).envSelected;
+    final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,6 +64,7 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                         ),
                   ),
                 ),
+                const SizedBox(width: 5),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: DexPairIcons(
@@ -74,6 +77,10 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                     iconSize: 22,
                   ),
                 ),
+                if (displayPoolFarmAvailable &&
+                    contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
+                        pool!.poolAddress.toUpperCase())
+                  const PoolFarmAvailable(),
               ],
             ),
             Row(
@@ -87,10 +94,6 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                 LiquidityFavoriteIcon(
                   isFavorite: pool!.isFavorite,
                 ),
-                if (displayPoolFarmAvailable &&
-                    contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
-                        pool!.poolAddress.toUpperCase())
-                  const PoolFarmAvailable(),
               ],
             ),
           ],

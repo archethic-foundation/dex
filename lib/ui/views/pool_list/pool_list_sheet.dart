@@ -201,6 +201,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                     key: ValueKey(pools[index].poolAddress),
                     pool: pools[index],
                     tab: tab,
+                    heightCard: 450,
                   );
                 },
               );

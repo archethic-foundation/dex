@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
-import 'package:aedex/ui/views/farm_lock/components/farm_lock_btn_claim.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_btn_level_up.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_btn_withdraw.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -204,8 +203,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                   SelectableText(
                                                     DateFormat.yMMMEd(
                                                       Localizations.localeOf(
-                                                              context)
-                                                          .languageCode,
+                                                        context,
+                                                      ).languageCode,
                                                     ).format(
                                                       DateTime
                                                           .fromMillisecondsSinceEpoch(
@@ -228,7 +227,9 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         width: constraints.maxWidth * 0.15,
                                         child: Center(
                                           child: Text(
-                                            '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}',
+                                            farmLock.availableLevels.isNotEmpty
+                                                ? '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}'
+                                                : 'N/A',
                                             style: style,
                                           ),
                                         ),
@@ -251,7 +252,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: constraints.maxWidth * 0.083,
+                                      width: constraints.maxWidth * 0.125,
                                       child: FarmLockBtnLevelUp(
                                         farmAddress: farmLock.farmAddress,
                                         lpTokenAddress:
@@ -275,7 +276,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: constraints.maxWidth * 0.083,
+                                      width: constraints.maxWidth * 0.125,
                                       child: FarmLockBtnWithdraw(
                                         farmAddress: farmLock.farmAddress,
                                         poolAddress: farmLock.poolAddress,
@@ -300,7 +301,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                             currentSortedColumn,
                                       ),
                                     ),
-                                    SizedBox(
+                                    /*SizedBox(
                                       width: constraints.maxWidth * 0.083,
                                       child: FarmLockBtnClaim(
                                         farmAddress: farmLock.farmAddress,
@@ -325,7 +326,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         currentSortedColumn:
                                             currentSortedColumn,
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 )
                               : Opacity(
@@ -496,7 +497,10 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    '${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}',
+                                                    farmLock.availableLevels
+                                                            .isNotEmpty
+                                                        ? '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}'
+                                                        : 'N/A',
                                                     style: style,
                                                   ),
                                                 ],
@@ -611,7 +615,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                           currentSortedColumn,
                                                     ),
                                                   ),
-                                                  Expanded(
+                                                  /*Expanded(
                                                     child: FarmLockBtnClaim(
                                                       farmAddress:
                                                           farmLock.farmAddress,
@@ -642,7 +646,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       currentSortedColumn:
                                                           currentSortedColumn,
                                                     ),
-                                                  ),
+                                                  ),*/
                                                 ],
                                               ),
                                             ],

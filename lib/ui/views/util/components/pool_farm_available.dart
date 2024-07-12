@@ -1,11 +1,9 @@
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
@@ -33,7 +31,7 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
           context.go(FarmLockSheet.routerPage);
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 15, bottom: 2),
           child: TweenAnimationBuilder(
             tween: Tween<double>(begin: 1, end: _isHovered ? 1.1 : 1.0),
             duration: const Duration(milliseconds: 200),
@@ -103,9 +101,7 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
     String aeETHUCOPoolAddress,
     String aeETHUCOFarmLegacyAddress,
     String aeETHUCOFarmLockAddress
-  }) getContextAddresses(WidgetRef ref) {
-    final env = ref.read(SessionProviders.session).envSelected;
-
+  }) getContextAddresses(String env) {
     switch (env) {
       case 'devnet':
         return (
@@ -123,7 +119,7 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
           aeETHUCOFarmLegacyAddress:
               '0000208A670B5590939174D65F88140C05DDDBA63C0C920582E12162B22F3985E510',
           aeETHUCOFarmLockAddress:
-              '0000278F6599E537F3D5717F6A624BA35151A555B7E3B2D0E676347D11B4411DF1FB'
+              '000040FB3AA838F1511D4F37CD082EC7BF83334E7D28A7A1FFA2EDDFEF50C9DB69FE'
         );
       case 'mainnet':
       default:

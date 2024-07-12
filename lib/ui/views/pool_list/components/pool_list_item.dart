@@ -11,6 +11,7 @@ import 'package:aedex/ui/views/pool_list/components/pool_remove_favorite_icon.da
 import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
 import 'package:aedex/ui/views/pool_tx_list/pool_tx_list_popup.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
+import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flip_card/flip_card.dart';
@@ -87,12 +88,24 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final env = ref.watch(SessionProviders.session).envSelected;
+    final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
+    final aeETHUCOPoolAddress = contextAddresses.aeETHUCOPoolAddress;
+
     return Stack(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
           child: aedappfm.SingleCard(
             globalPadding: 0,
+            decorationColor: aeETHUCOPoolAddress.toUpperCase() !=
+                    widget.pool.poolAddress.toUpperCase()
+                ? aedappfm.AppThemeBase.sheetBackgroundSecondary
+                : null,
+            decorationBorderColor: aeETHUCOPoolAddress.toUpperCase() !=
+                    widget.pool.poolAddress.toUpperCase()
+                ? aedappfm.AppThemeBase.sheetBorderSecondary
+                : null,
             cardContent: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -109,6 +122,8 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                       front: PoolDetailsFront(
                         pool: poolInfos ?? widget.pool,
                         tab: widget.tab,
+                        poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
+                            widget.pool.poolAddress.toUpperCase(),
                       ),
                       back: PoolDetailsBack(
                         pool: poolInfos ?? widget.pool,
