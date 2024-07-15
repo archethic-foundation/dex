@@ -389,6 +389,7 @@
     "withdrawFarmLockSignTxDesc_fr": "La transaction appelle la fonction de retrait du contrat intelligent avec le montant de jetons LP et l'index associé du dépôt pour exécuter le retrait et réclamer les récompenses associées.",
     "withdrawFarmSignTxDesc_fr": "La transaction appelle la fonction de retrait du contrat intelligent avec le montant de jetons LP pour exécuter le retrait et réclamer les récompenses associées.",
     "poolFarmingAvailable": "Farming available",
+    "poolFarming": "Farming",
     "claimFarmLockSignTxDesc_en": "The transaction calls the smart contract's claim function to execute the claim.",
     "claimFarmLockSignTxDesc_fr": "La transaction appelle la fonction de récupération des récompenses du contrat intelligent pour exécuter la récupération.",
     "farmLockClaimConfirmInfosText": "Please confirm the claim of ",

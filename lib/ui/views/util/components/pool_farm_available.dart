@@ -70,7 +70,9 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.poolFarmingAvailable,
+                    aedappfm.Responsive.isMobile(context)
+                        ? AppLocalizations.of(context)!.poolFarming
+                        : AppLocalizations.of(context)!.poolFarmingAvailable,
                     style: TextStyle(
                       color: aedappfm.ArchethicThemeBase.systemPositive100,
                       fontSize: 12,
@@ -119,7 +121,7 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
           aeETHUCOFarmLegacyAddress:
               '0000208A670B5590939174D65F88140C05DDDBA63C0C920582E12162B22F3985E510',
           aeETHUCOFarmLockAddress:
-              '000040FB3AA838F1511D4F37CD082EC7BF83334E7D28A7A1FFA2EDDFEF50C9DB69FE'
+              '00001E8CDCE005D66E136E5098990CA240F54EB23F97C620E1E2A8EBB0FB23092AD0'
         );
       case 'mainnet':
       default:
