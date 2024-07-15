@@ -62,8 +62,40 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
 
   user_deposits = Map.get(deposits, user_genesis_address, [])
   user_deposits = List.append(user_deposits, current_deposit)
-  deposits = Map.set(deposits, user_genesis_address, user_deposits)
 
+  # ================================================
+  # MERGE FLEXIBLE DEPOSITS
+  # ================================================
+  user_deposits_flexible = []
+  user_deposits_non_flexible = []
+
+  for user_deposit in user_deposits do
+    if user_deposit.end <= now do
+      user_deposits_flexible = List.prepend(user_deposits_flexible, user_deposit)
+    else
+      user_deposits_non_flexible = List.prepend(user_deposits_non_flexible, user_deposit)
+    end
+  end
+
+  if List.size(user_deposits_flexible) > 1 do
+    amount = 0
+    reward_amount = 0
+
+    for f in user_deposits_flexible do
+      amount = amount + f.amount
+      reward_amount = reward_amount + f.reward_amount
+    end
+
+    user_deposits =
+      List.prepend(user_deposits_non_flexible,
+        amount: amount,
+        reward_amount: reward_amount,
+        start: nil,
+        end: 0
+      )
+  end
+
+  deposits = Map.set(deposits, user_genesis_address, user_deposits)
   State.set("deposits", deposits)
 
   lp_tokens_deposited = State.get("lp_tokens_deposited", 0)
