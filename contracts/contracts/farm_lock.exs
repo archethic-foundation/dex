@@ -957,7 +957,7 @@ export fun(get_user_infos(user_genesis_address)) do
 
   deposits = State.get("deposits", Map.new())
 
-  if now < @START_DATE do
+  if now > @START_DATE do
     # ==================================================================
     # BEGIN CALCULATE_NEW_REWARDS
     # ==================================================================
