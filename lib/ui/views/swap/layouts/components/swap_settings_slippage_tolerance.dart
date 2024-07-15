@@ -128,8 +128,9 @@ class SwapSettingsSlippageToleranceState
                 double.tryParse(slippageToleranceController.text)! > 100))
           aedappfm.ErrorMessage(
             failure: aedappfm.Failure.other(
-                cause: AppLocalizations.of(context)!
-                    .swapSettingsSlippageErrorBetween0and100),
+              cause: AppLocalizations.of(context)!
+                  .swapSettingsSlippageErrorBetween0and100,
+            ),
             failureMessage: FailureMessage(
               context: context,
               failure: aedappfm.Failure.other(

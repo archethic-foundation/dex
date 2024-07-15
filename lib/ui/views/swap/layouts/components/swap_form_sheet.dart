@@ -47,9 +47,9 @@ class SwapFormSheet extends ConsumerWidget {
                         AppLocalizations.of(context)!
                             .swapMessageMaxHalfUCO
                             .replaceFirst(
-                                '%1',
-                                swap.feesEstimatedUCO
-                                    .formatNumber(precision: 8)),
+                              '%1',
+                              swap.feesEstimatedUCO.formatNumber(precision: 8),
+                            ),
                         aedappfm.InfoBannerType.request,
                       ),
                     ),
