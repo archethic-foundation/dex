@@ -71,7 +71,7 @@ class _BottomNavigationBarMainScreenState
                   selected = true;
                 }
                 break;
-              case aedappfm.Iconsax.coin5:
+              case aedappfm.Iconsax.wallet_add:
                 if (tabSelected == NavigationIndex.earn) {
                   widthContainer = 30;
                   selected = true;
