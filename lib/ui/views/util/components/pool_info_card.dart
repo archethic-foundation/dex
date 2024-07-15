@@ -94,9 +94,12 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                       const SizedBox(
                         height: 10,
                       ),
-                      VerifiedPoolIcon(
-                        isVerified: pool!.isVerified,
-                        withLabel: true,
+                      Opacity(
+                        opacity: AppTextStyles.kOpacityText,
+                        child: VerifiedPoolIcon(
+                          isVerified: pool!.isVerified,
+                          withLabel: true,
+                        ),
                       ),
                     ],
                   ),
@@ -105,9 +108,12 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _getPairValues(context, pool!),
-                      SelectableText(
-                        '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl!.formatNumber(precision: 2)}',
-                        style: AppTextStyles.bodyLarge(context),
+                      Opacity(
+                        opacity: AppTextStyles.kOpacityText,
+                        child: SelectableText(
+                          '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl!.formatNumber(precision: 2)}',
+                          style: AppTextStyles.bodyLarge(context),
+                        ),
                       ),
                       DexFees(
                         fees: pool!.infos!.fees,
@@ -257,103 +263,109 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
 
   Widget _getRatio(BuildContext context, DexPool pool) {
     return pool.infos != null
-        ? DexRatio(
-            ratio: widget.tokenAddressRatioPrimary.toUpperCase() ==
-                    pool.pair.token1.address!.toUpperCase()
-                ? pool.infos!.ratioToken1Token2
-                : pool.infos!.ratioToken2Token1,
-            token1Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
-                    pool.pair.token1.address!.toUpperCase()
-                ? pool.pair.token1.symbol.reduceSymbol()
-                : pool.pair.token2.symbol.reduceSymbol(),
-            token2Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
-                    pool.pair.token1.address!.toUpperCase()
-                ? pool.pair.token2.symbol.reduceSymbol()
-                : pool.pair.token1.symbol.reduceSymbol(),
+        ? Opacity(
+            opacity: AppTextStyles.kOpacityText,
+            child: DexRatio(
+              ratio: widget.tokenAddressRatioPrimary.toUpperCase() ==
+                      pool.pair.token1.address!.toUpperCase()
+                  ? pool.infos!.ratioToken1Token2
+                  : pool.infos!.ratioToken2Token1,
+              token1Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
+                      pool.pair.token1.address!.toUpperCase()
+                  ? pool.pair.token1.symbol.reduceSymbol()
+                  : pool.pair.token2.symbol.reduceSymbol(),
+              token2Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
+                      pool.pair.token1.address!.toUpperCase()
+                  ? pool.pair.token2.symbol.reduceSymbol()
+                  : pool.pair.token1.symbol.reduceSymbol(),
+            ),
           )
         : const SizedBox.shrink();
   }
 
   Widget _getPairValues(BuildContext context, DexPool pool) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                SelectableText(
-                  AppLocalizations.of(context)!.poolCardPooled,
-                  style: AppTextStyles.bodyLarge(context),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                FormatAddressLink(
-                  address: pool.poolAddress,
-                  typeAddress: TypeAddressLink.chain,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                VerifiedTokenIcon(
-                  address: pool.pair.token1.address!,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Tooltip(
-                  message: pool.pair.token1.symbol,
-                  child: SelectableText(
-                    '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol.reduceSymbol()}',
+    return Opacity(
+      opacity: AppTextStyles.kOpacityText,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  SelectableText(
+                    AppLocalizations.of(context)!.poolCardPooled,
+                    style: AppTextStyles.bodyLarge(context),
                   ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                if (pool.pair.token1.isUCO == false)
+                  const SizedBox(
+                    width: 5,
+                  ),
                   FormatAddressLink(
+                    address: pool.poolAddress,
+                    typeAddress: TypeAddressLink.chain,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  VerifiedTokenIcon(
                     address: pool.pair.token1.address!,
-                  )
-                else
+                  ),
                   const SizedBox(
-                    width: 12,
+                    width: 5,
                   ),
-              ],
-            ),
-            Row(
-              children: [
-                VerifiedTokenIcon(
-                  address: pool.pair.token2.address!,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Tooltip(
-                  message: pool.pair.token2.symbol,
-                  child: SelectableText(
-                    '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol.reduceSymbol()}',
+                  Tooltip(
+                    message: pool.pair.token1.symbol,
+                    child: SelectableText(
+                      '${pool.pair.token1.reserve.formatNumber()} ${pool.pair.token1.symbol.reduceSymbol()}',
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                if (pool.pair.token2.isUCO == false)
-                  FormatAddressLink(
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  if (pool.pair.token1.isUCO == false)
+                    FormatAddressLink(
+                      address: pool.pair.token1.address!,
+                    )
+                  else
+                    const SizedBox(
+                      width: 12,
+                    ),
+                ],
+              ),
+              Row(
+                children: [
+                  VerifiedTokenIcon(
                     address: pool.pair.token2.address!,
-                  )
-                else
-                  const SizedBox(
-                    width: 12,
                   ),
-              ],
-            ),
-          ],
-        ),
-      ],
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Tooltip(
+                    message: pool.pair.token2.symbol,
+                    child: SelectableText(
+                      '${pool.pair.token2.reserve.formatNumber()} ${pool.pair.token2.symbol.reduceSymbol()}',
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  if (pool.pair.token2.isUCO == false)
+                    FormatAddressLink(
+                      address: pool.pair.token2.address!,
+                    )
+                  else
+                    const SizedBox(
+                      width: 12,
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

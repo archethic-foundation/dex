@@ -45,19 +45,22 @@ class PoolAddConfirmInfos extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.poolAddConfirmNewPoolLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    AppLocalizations.of(context)!
-                        .poolAddConfirmWithLiquidityLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      AppLocalizations.of(context)!.poolAddConfirmNewPoolLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      AppLocalizations.of(context)!
+                          .poolAddConfirmWithLiquidityLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -300,25 +303,31 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                 height: 10,
               ),
               if (poolAdd.token1Amount > 0)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: DexRatio(
-                    ratio: (Decimal.parse(poolAdd.token2Amount.toString()) /
-                            Decimal.parse(poolAdd.token1Amount.toString()))
-                        .toDouble(),
-                    token1Symbol: poolAdd.token1!.symbol,
-                    token2Symbol: poolAdd.token2!.symbol,
+                Opacity(
+                  opacity: AppTextStyles.kOpacityText,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: DexRatio(
+                      ratio: (Decimal.parse(poolAdd.token2Amount.toString()) /
+                              Decimal.parse(poolAdd.token1Amount.toString()))
+                          .toDouble(),
+                      token1Symbol: poolAdd.token1!.symbol,
+                      token2Symbol: poolAdd.token2!.symbol,
+                    ),
                   ),
                 ),
               if (poolAdd.token2Amount > 0)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: DexRatio(
-                    ratio: (Decimal.parse(poolAdd.token1Amount.toString()) /
-                            Decimal.parse(poolAdd.token2Amount.toString()))
-                        .toDouble(),
-                    token1Symbol: poolAdd.token2!.symbol,
-                    token2Symbol: poolAdd.token1!.symbol,
+                Opacity(
+                  opacity: AppTextStyles.kOpacityText,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: DexRatio(
+                      ratio: (Decimal.parse(poolAdd.token1Amount.toString()) /
+                              Decimal.parse(poolAdd.token2Amount.toString()))
+                          .toDouble(),
+                      token1Symbol: poolAdd.token2!.symbol,
+                      token2Symbol: poolAdd.token1!.symbol,
+                    ),
                   ),
                 ),
               const SizedBox(
@@ -333,18 +342,21 @@ class PoolAddConfirmInfos extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

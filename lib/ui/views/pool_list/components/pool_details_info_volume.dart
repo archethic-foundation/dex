@@ -21,73 +21,76 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          alignment: Alignment.centerRight,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: SelectableText(
-                AppLocalizations.of(context)!.time24h,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodySmall!,
+    return Opacity(
+      opacity: AppTextStyles.kOpacityText,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            alignment: Alignment.centerRight,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: SelectableText(
+                  AppLocalizations.of(context)!.time24h,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodySmall!,
+                        ),
                       ),
-                    ),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: SelectableText(
-                AppLocalizations.of(context)!.poolDetailsInfoVolume,
-                style: AppTextStyles.bodyLarge(context),
+              Padding(
+                padding: const EdgeInsets.only(right: 25),
+                child: SelectableText(
+                  AppLocalizations.of(context)!.poolDetailsInfoVolume,
+                  style: AppTextStyles.bodyLarge(context),
+                ),
               ),
-            ),
-          ],
-        ),
-        SelectableText(
-          volume24h == null
-              ? ''
-              : '\$${volume24h!.formatNumber(precision: volume24h! > 1 ? 2 : 8)}',
-          style: AppTextStyles.bodyLarge(context),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Stack(
-          alignment: Alignment.centerRight,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: SelectableText(
-                AppLocalizations.of(context)!.timeAll,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodySmall!,
+            ],
+          ),
+          SelectableText(
+            volume24h == null
+                ? ''
+                : '\$${volume24h!.formatNumber(precision: volume24h! > 1 ? 2 : 8)}',
+            style: AppTextStyles.bodyLarge(context),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Stack(
+            alignment: Alignment.centerRight,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: SelectableText(
+                  AppLocalizations.of(context)!.timeAll,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodySmall!,
+                        ),
                       ),
-                    ),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 17),
-              child: SelectableText(
-                AppLocalizations.of(context)!.poolDetailsInfoVolume,
-                style: AppTextStyles.bodyLarge(context),
+              Padding(
+                padding: const EdgeInsets.only(right: 17),
+                child: SelectableText(
+                  AppLocalizations.of(context)!.poolDetailsInfoVolume,
+                  style: AppTextStyles.bodyLarge(context),
+                ),
               ),
-            ),
-          ],
-        ),
-        SelectableText(
-          volumeAllTime == null
-              ? ''
-              : '\$${volumeAllTime!.formatNumber(precision: volumeAllTime! > 1 ? 2 : 8)}',
-          style: AppTextStyles.bodyLarge(context),
-        ),
-      ],
+            ],
+          ),
+          SelectableText(
+            volumeAllTime == null
+                ? ''
+                : '\$${volumeAllTime!.formatNumber(precision: volumeAllTime! > 1 ? 2 : 8)}',
+            style: AppTextStyles.bodyLarge(context),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -24,7 +24,73 @@ class LiquidityAddInfos extends ConsumerWidget {
     }
 
     if (liquidityAdd.calculationInProgress) {
-      return Column(
+      return Opacity(
+        opacity: AppTextStyles.kOpacityText,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Tooltip(
+                  message: liquidityAdd.token1!.symbol,
+                  child: SelectableText(
+                    'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
+                    style: AppTextStyles.bodyMedium(context),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                  width: 5,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Tooltip(
+                  message: liquidityAdd.token2!.symbol,
+                  child: SelectableText(
+                    'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
+                    style: AppTextStyles.bodyMedium(context),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                  width: 5,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SelectableText(
+                  'Expected LP Token',
+                  style: AppTextStyles.bodyMedium(context),
+                ),
+                const SizedBox(
+                  height: 5,
+                  width: 5,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Opacity(
+      opacity: AppTextStyles.kOpacityText,
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -33,15 +99,15 @@ class LiquidityAddInfos extends ConsumerWidget {
               Tooltip(
                 message: liquidityAdd.token1!.symbol,
                 child: SelectableText(
-                  'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
+                  'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}',
                   style: AppTextStyles.bodyMedium(context),
                 ),
               ),
-              const SizedBox(
-                height: 5,
-                width: 5,
-                child: CircularProgressIndicator(
-                  strokeWidth: 1,
+              Tooltip(
+                message: liquidityAdd.token1!.symbol,
+                child: SelectableText(
+                  '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                  style: AppTextStyles.bodyMedium(context),
                 ),
               ),
             ],
@@ -52,15 +118,15 @@ class LiquidityAddInfos extends ConsumerWidget {
               Tooltip(
                 message: liquidityAdd.token2!.symbol,
                 child: SelectableText(
-                  'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
+                  'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}',
                   style: AppTextStyles.bodyMedium(context),
                 ),
               ),
-              const SizedBox(
-                height: 5,
-                width: 5,
-                child: CircularProgressIndicator(
-                  strokeWidth: 1,
+              Tooltip(
+                message: liquidityAdd.token2!.symbol,
+                child: SelectableText(
+                  '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
+                  style: AppTextStyles.bodyMedium(context),
                 ),
               ),
             ],
@@ -72,82 +138,22 @@ class LiquidityAddInfos extends ConsumerWidget {
                 'Expected LP Token',
                 style: AppTextStyles.bodyMedium(context),
               ),
-              const SizedBox(
-                height: 5,
-                width: 5,
-                child: CircularProgressIndicator(
-                  strokeWidth: 1,
-                ),
+              SelectableText(
+                '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
+                style: liquidityAdd.expectedTokenLP == 0
+                    ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: aedappfm.ArchethicThemeBase.systemWarning600,
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.bodyMedium!,
+                          ),
+                        )
+                    : AppTextStyles.bodyMedium(context),
               ),
             ],
           ),
         ],
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Tooltip(
-              message: liquidityAdd.token1!.symbol,
-              child: SelectableText(
-                'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-            ),
-            Tooltip(
-              message: liquidityAdd.token1!.symbol,
-              child: SelectableText(
-                '${liquidityAdd.token1minAmount.formatNumber()} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Tooltip(
-              message: liquidityAdd.token2!.symbol,
-              child: SelectableText(
-                'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-            ),
-            Tooltip(
-              message: liquidityAdd.token2!.symbol,
-              child: SelectableText(
-                '${liquidityAdd.token2minAmount.formatNumber()} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SelectableText(
-              'Expected LP Token',
-              style: AppTextStyles.bodyMedium(context),
-            ),
-            SelectableText(
-              '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
-              style: liquidityAdd.expectedTokenLP == 0
-                  ? Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: aedappfm.ArchethicThemeBase.systemWarning600,
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodyMedium!,
-                        ),
-                      )
-                  : AppTextStyles.bodyMedium(context),
-            ),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }

@@ -38,29 +38,32 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
                 ),
               ),
             ),
-            Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: SelectableText(
-                    AppLocalizations.of(context)!.time24h,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodySmall!,
+            Opacity(
+              opacity: AppTextStyles.kOpacityText,
+              child: Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SelectableText(
+                      AppLocalizations.of(context)!.time24h,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodySmall!,
+                            ),
                           ),
-                        ),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 25),
-                  child: SelectableText(
-                    AppLocalizations.of(context)!.poolDetailsInfoAPR,
-                    style: AppTextStyles.bodyLarge(context),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 25),
+                    child: SelectableText(
+                      AppLocalizations.of(context)!.poolDetailsInfoAPR,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

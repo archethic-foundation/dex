@@ -33,7 +33,124 @@ class SwapInfos extends ConsumerWidget {
     );
 
     if (swap.calculationInProgress) {
-      return Padding(
+      return Opacity(
+        opacity: AppTextStyles.kOpacityText,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      width: 50,
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: aedappfm.AppThemeBase.gradient,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SelectableText(
+                    'Fees',
+                    style: AppTextStyles.bodyMedium(context),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                    width: 5,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SelectableText(
+                    'Price impact',
+                    style: AppTextStyles.bodyMedium(context),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                    width: 5,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SelectableText(
+                    'Minimum received',
+                    style: AppTextStyles.bodyMedium(context),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                    width: 5,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SelectableText(
+                    'TVL',
+                    style: AppTextStyles.bodyMedium(context),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                    width: 5,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SelectableText(
+                    'Ratio',
+                    style: AppTextStyles.bodyMedium(context),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                    width: 5,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (swap.tokenSwapped == null ||
+        swap.tokenToSwap == null ||
+        swap.pool == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Opacity(
+      opacity: AppTextStyles.kOpacityText,
+      child: Padding(
         padding: const EdgeInsets.only(top: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,12 +178,52 @@ class SwapInfos extends ConsumerWidget {
                   'Fees',
                   style: AppTextStyles.bodyMedium(context),
                 ),
-                const SizedBox(
-                  height: 5,
-                  width: 5,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1,
-                  ),
+                Row(
+                  children: [
+                    Tooltip(
+                      message: swap.tokenToSwap!.symbol,
+                      child: SelectableText(
+                        '${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                        style: AppTextStyles.bodyMedium(context),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        swap.tokenToSwap!,
+                        swap.swapTotalFees,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SelectableText(
+                            snapshot.data!,
+                            style: AppTextStyles.bodyMedium(context),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    if (swap.pool != null &&
+                        swap.pool!.infos != null &&
+                        swap.tokenToSwap != null)
+                      Tooltip(
+                        message:
+                            'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 2),
+                          child: Icon(
+                            aedappfm.Iconsax.info_circle,
+                            size: 13,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ],
             ),
@@ -77,12 +234,10 @@ class SwapInfos extends ConsumerWidget {
                   'Price impact',
                   style: AppTextStyles.bodyMedium(context),
                 ),
-                const SizedBox(
-                  height: 5,
-                  width: 5,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1,
-                  ),
+                DexPriceImpact(
+                  priceImpact: swap.priceImpact,
+                  withLabel: false,
+                  textStyle: AppTextStyles.bodyMedium(context),
                 ),
               ],
             ),
@@ -93,12 +248,35 @@ class SwapInfos extends ConsumerWidget {
                   'Minimum received',
                   style: AppTextStyles.bodyMedium(context),
                 ),
-                const SizedBox(
-                  height: 5,
-                  width: 5,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1,
-                  ),
+                Row(
+                  children: [
+                    Tooltip(
+                      message: swap.tokenSwapped!.symbol,
+                      child: SelectableText(
+                        '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
+                        style: AppTextStyles.bodyMedium(context),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    FutureBuilder<String>(
+                      future: FiatValue().display(
+                        ref,
+                        swap.tokenSwapped!,
+                        swap.minToReceive,
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SelectableText(
+                            snapshot.data!,
+                            style: AppTextStyles.bodyMedium(context),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -109,12 +287,9 @@ class SwapInfos extends ConsumerWidget {
                   'TVL',
                   style: AppTextStyles.bodyMedium(context),
                 ),
-                const SizedBox(
-                  height: 5,
-                  width: 5,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1,
-                  ),
+                SelectableText(
+                  '\$${tvl.formatNumber(precision: 2)}',
+                  style: AppTextStyles.bodyMedium(context),
                 ),
               ],
             ),
@@ -125,195 +300,26 @@ class SwapInfos extends ConsumerWidget {
                   'Ratio',
                   style: AppTextStyles.bodyMedium(context),
                 ),
-                const SizedBox(
-                  height: 5,
-                  width: 5,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1,
+                if (swap.pool != null && swap.pool!.infos != null)
+                  DexRatio(
+                    ratio: tokenAddressRatioPrimary.toUpperCase() ==
+                            swap.pool?.pair.token1.address!.toUpperCase()
+                        ? swap.pool!.infos!.ratioToken1Token2
+                        : swap.pool!.infos!.ratioToken2Token1,
+                    token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                            swap.pool!.pair.token1.address!.toUpperCase()
+                        ? swap.pool!.pair.token1.symbol
+                        : swap.pool!.pair.token2.symbol,
+                    token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
+                            swap.pool!.pair.token1.address!.toUpperCase()
+                        ? swap.pool!.pair.token2.symbol
+                        : swap.pool!.pair.token1.symbol,
+                    textStyle: AppTextStyles.bodyMedium(context),
                   ),
-                ),
               ],
             ),
           ],
         ),
-      );
-    }
-
-    if (swap.tokenSwapped == null ||
-        swap.tokenToSwap == null ||
-        swap.pool == null) {
-      return const SizedBox.shrink();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  width: 50,
-                  height: 1,
-                  decoration: BoxDecoration(
-                    gradient: aedappfm.AppThemeBase.gradient,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SelectableText(
-                'Fees',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-              Row(
-                children: [
-                  Tooltip(
-                    message: swap.tokenToSwap!.symbol,
-                    child: SelectableText(
-                      '${swap.swapTotalFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                      style: AppTextStyles.bodyMedium(context),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  FutureBuilder<String>(
-                    future: FiatValue().display(
-                      ref,
-                      swap.tokenToSwap!,
-                      swap.swapTotalFees,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SelectableText(
-                          snapshot.data!,
-                          style: AppTextStyles.bodyMedium(context),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  if (swap.pool != null &&
-                      swap.pool!.infos != null &&
-                      swap.tokenToSwap != null)
-                    Tooltip(
-                      message:
-                          'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
-                      child: const Padding(
-                        padding: EdgeInsets.only(bottom: 2),
-                        child: Icon(
-                          aedappfm.Iconsax.info_circle,
-                          size: 13,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SelectableText(
-                'Price impact',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-              DexPriceImpact(
-                priceImpact: swap.priceImpact,
-                withLabel: false,
-                textStyle: AppTextStyles.bodyMedium(context),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SelectableText(
-                'Minimum received',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-              Row(
-                children: [
-                  Tooltip(
-                    message: swap.tokenSwapped!.symbol,
-                    child: SelectableText(
-                      '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
-                      style: AppTextStyles.bodyMedium(context),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  FutureBuilder<String>(
-                    future: FiatValue().display(
-                      ref,
-                      swap.tokenSwapped!,
-                      swap.minToReceive,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SelectableText(
-                          snapshot.data!,
-                          style: AppTextStyles.bodyMedium(context),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SelectableText(
-                'TVL',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-              SelectableText(
-                '\$${tvl.formatNumber(precision: 2)}',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SelectableText(
-                'Ratio',
-                style: AppTextStyles.bodyMedium(context),
-              ),
-              if (swap.pool != null && swap.pool!.infos != null)
-                DexRatio(
-                  ratio: tokenAddressRatioPrimary.toUpperCase() ==
-                          swap.pool?.pair.token1.address!.toUpperCase()
-                      ? swap.pool!.infos!.ratioToken1Token2
-                      : swap.pool!.infos!.ratioToken2Token1,
-                  token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                          swap.pool!.pair.token1.address!.toUpperCase()
-                      ? swap.pool!.pair.token1.symbol
-                      : swap.pool!.pair.token2.symbol,
-                  token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                          swap.pool!.pair.token1.address!.toUpperCase()
-                      ? swap.pool!.pair.token2.symbol
-                      : swap.pool!.pair.token1.symbol,
-                  textStyle: AppTextStyles.bodyMedium(context),
-                ),
-            ],
-          ),
-        ],
       ),
     );
   }

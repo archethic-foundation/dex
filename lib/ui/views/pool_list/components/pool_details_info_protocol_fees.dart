@@ -18,19 +18,22 @@ class PoolDetailsInfoProtocolFees extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SelectableText(
-          AppLocalizations.of(context)!.poolDetailsInfoProtocolFees,
-          style: AppTextStyles.bodyLarge(context),
-        ),
-        SelectableText(
-          '${poolInfos?.protocolFees ?? '-- '}%',
-          style: AppTextStyles.bodyLarge(context),
-        ),
-      ],
+    return Opacity(
+      opacity: AppTextStyles.kOpacityText,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SelectableText(
+            AppLocalizations.of(context)!.poolDetailsInfoProtocolFees,
+            style: AppTextStyles.bodyLarge(context),
+          ),
+          SelectableText(
+            '${poolInfos?.protocolFees ?? '-- '}%',
+            style: AppTextStyles.bodyLarge(context),
+          ),
+        ],
+      ),
     );
   }
 }

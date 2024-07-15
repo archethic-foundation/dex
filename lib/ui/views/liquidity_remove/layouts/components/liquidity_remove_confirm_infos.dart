@@ -75,18 +75,21 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,18 +159,21 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

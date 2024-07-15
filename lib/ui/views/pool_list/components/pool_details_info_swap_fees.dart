@@ -18,19 +18,22 @@ class PoolDetailsInfoSwapFees extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SelectableText(
-          AppLocalizations.of(context)!.poolDetailsInfoSwapFees,
-          style: AppTextStyles.bodyLarge(context),
-        ),
-        SelectableText(
-          '${poolInfos?.fees ?? '-- '}%',
-          style: AppTextStyles.bodyLarge(context),
-        ),
-      ],
+    return Opacity(
+      opacity: AppTextStyles.kOpacityText,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SelectableText(
+            AppLocalizations.of(context)!.poolDetailsInfoSwapFees,
+            style: AppTextStyles.bodyLarge(context),
+          ),
+          SelectableText(
+            '${poolInfos?.fees ?? '-- '}%',
+            style: AppTextStyles.bodyLarge(context),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -62,9 +62,12 @@ class PoolDetailsInfoAPRFarmState
       children: [
         Row(
           children: [
-            SelectableText(
-              AppLocalizations.of(context)!.poolDetailsInfoAPRFarm3Years,
-              style: AppTextStyles.bodyLarge(context),
+            Opacity(
+              opacity: AppTextStyles.kOpacityText,
+              child: SelectableText(
+                AppLocalizations.of(context)!.poolDetailsInfoAPRFarm3Years,
+                style: AppTextStyles.bodyLarge(context),
+              ),
             ),
           ],
         ),

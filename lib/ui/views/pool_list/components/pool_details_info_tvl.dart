@@ -22,9 +22,12 @@ class PoolDetailsInfoTVL extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SelectableText(
-          AppLocalizations.of(context)!.poolDetailsInfoTVL,
-          style: AppTextStyles.bodyLarge(context),
+        Opacity(
+          opacity: AppTextStyles.kOpacityText,
+          child: SelectableText(
+            AppLocalizations.of(context)!.poolDetailsInfoTVL,
+            style: AppTextStyles.bodyLarge(context),
+          ),
         ),
         SelectableText(
           '\$${tvl.formatNumber(precision: 2)}',

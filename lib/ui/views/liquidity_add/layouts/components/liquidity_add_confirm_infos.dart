@@ -41,18 +41,21 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    'Add liquidity in the pool',
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    'Mininum amount',
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      'Add liquidity in the pool',
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      'Mininum amount',
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,18 +123,21 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,18 +217,21 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

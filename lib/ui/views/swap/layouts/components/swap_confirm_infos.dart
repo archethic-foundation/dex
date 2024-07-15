@@ -43,18 +43,21 @@ class SwapConfirmInfos extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    'Swap',
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    'Mininum received',
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      'Swap',
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      'Mininum received',
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               Tooltip(
                 message: swap.tokenToSwap!.symbol,
@@ -103,9 +106,12 @@ class SwapConfirmInfos extends ConsumerWidget {
                     children: [
                       Tooltip(
                         message: swap.tokenSwapped!.symbol,
-                        child: SelectableText(
-                          '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
-                          style: AppTextStyles.bodyLarge(context),
+                        child: Opacity(
+                          opacity: AppTextStyles.kOpacityText,
+                          child: SelectableText(
+                            '${swap.minToReceive.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol.reduceSymbol()}',
+                            style: AppTextStyles.bodyLarge(context),
+                          ),
                         ),
                       ),
                       FutureBuilder<String>(
@@ -116,9 +122,12 @@ class SwapConfirmInfos extends ConsumerWidget {
                         ),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return SelectableText(
-                              snapshot.data!,
-                              style: AppTextStyles.bodyMedium(context),
+                            return Opacity(
+                              opacity: AppTextStyles.kOpacityText,
+                              child: SelectableText(
+                                snapshot.data!,
+                                style: AppTextStyles.bodyMedium(context),
+                              ),
                             );
                           }
                           return const SizedBox.shrink();
@@ -140,18 +149,21 @@ class SwapConfirmInfos extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
+              Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                    SelectableText(
+                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -244,57 +256,60 @@ class SwapConfirmInfos extends ConsumerWidget {
                 height: 10,
               ),
               if (swap.swapTotalFees > 0 && swap.tokenToSwap != null)
-                Row(
-                  children: [
-                    Tooltip(
-                      message: swap.tokenToSwap!.symbol,
-                      child: SelectableText(
-                        'Fees: ${swap.swapTotalFees.formatNumber(
-                          precision: aedappfm.Responsive.isMobile(context) &&
-                                  swap.swapTotalFees > 1
-                              ? 2
-                              : 8,
-                        )} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                        style: AppTextStyles.bodyLarge(context),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    FutureBuilder<String>(
-                      future: FiatValue().display(
-                        ref,
-                        swap.tokenToSwap!,
-                        swap.swapTotalFees,
-                      ),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return SelectableText(
-                            snapshot.data!,
-                            style: AppTextStyles.bodyMedium(context),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    if (swap.pool != null &&
-                        swap.pool!.infos != null &&
-                        swap.tokenToSwap != null)
+                Opacity(
+                  opacity: AppTextStyles.kOpacityText,
+                  child: Row(
+                    children: [
                       Tooltip(
-                        message:
-                            'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
-                        child: const Padding(
-                          padding: EdgeInsets.only(bottom: 2),
-                          child: Icon(
-                            aedappfm.Iconsax.info_circle,
-                            size: 13,
-                          ),
+                        message: swap.tokenToSwap!.symbol,
+                        child: SelectableText(
+                          'Fees: ${swap.swapTotalFees.formatNumber(
+                            precision: aedappfm.Responsive.isMobile(context) &&
+                                    swap.swapTotalFees > 1
+                                ? 2
+                                : 8,
+                          )} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                          style: AppTextStyles.bodyLarge(context),
                         ),
                       ),
-                  ],
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      FutureBuilder<String>(
+                        future: FiatValue().display(
+                          ref,
+                          swap.tokenToSwap!,
+                          swap.swapTotalFees,
+                        ),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return SelectableText(
+                              snapshot.data!,
+                              style: AppTextStyles.bodyMedium(context),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      if (swap.pool != null &&
+                          swap.pool!.infos != null &&
+                          swap.tokenToSwap != null)
+                        Tooltip(
+                          message:
+                              'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                          child: const Padding(
+                            padding: EdgeInsets.only(bottom: 2),
+                            child: Icon(
+                              aedappfm.Iconsax.info_circle,
+                              size: 13,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               if (swap.tokenSwapped != null &&
                   swap.tokenToSwap != null &&
