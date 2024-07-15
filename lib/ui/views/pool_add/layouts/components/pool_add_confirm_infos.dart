@@ -407,12 +407,13 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                 ],
               ),
               if (poolAdd.messageMaxHalfUCO)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: SizedBox(
                     height: 45,
                     child: aedappfm.InfoBanner(
-                      r'The UCO amount you entered has been reduced by $0.5 to include transaction fees.',
+                      AppLocalizations.of(context)!
+                          .poolAddConfirmMessageMaxHalfUCO,
                       aedappfm.InfoBannerType.request,
                     ),
                   ),

@@ -1,6 +1,7 @@
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityRemoveInProgressTxAddresses extends ConsumerWidget {
@@ -29,7 +30,8 @@ class LiquidityRemoveInProgressTxAddresses extends ConsumerWidget {
             address: liquidityRemove
                 .transactionRemoveLiquidity!.address!.address!
                 .toUpperCase(),
-            header: 'Liquidity suppression transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.liquidityRemoveInProgressTxAddresses} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

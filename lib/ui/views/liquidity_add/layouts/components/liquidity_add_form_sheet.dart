@@ -233,7 +233,13 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             child: SizedBox(
                               height: 40,
                               child: aedappfm.InfoBanner(
-                                'This process requires a maximum of ${liquidityAdd.feesEstimatedUCO.formatNumber(precision: 8)} UCO in transaction fees to be completed.',
+                                AppLocalizations.of(context)!
+                                    .liquidityAddMessageMaxHalfUCO
+                                    .replaceFirst(
+                                      '%1',
+                                      liquidityAdd.feesEstimatedUCO
+                                          .formatNumber(precision: 8),
+                                    ),
                                 aedappfm.InfoBannerType.request,
                               ),
                             ),

@@ -5,7 +5,7 @@ import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_final_amount.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
+import 'package:aedex/ui/views/farm_list/layouts/farm_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;

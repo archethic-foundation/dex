@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
-import 'package:aedex/ui/views/token_selection/token_selection_popup.dart';
+import 'package:aedex/ui/views/token_selection/layouts/token_selection_popup.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 

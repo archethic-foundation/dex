@@ -2,7 +2,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_lock_duration_btn.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_textfield_amount.dart';
-import 'package:aedex/ui/views/pool_list/components/pool_details_info_header.dart';
+import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_header.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';

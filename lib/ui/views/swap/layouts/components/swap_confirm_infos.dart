@@ -3,7 +3,6 @@ import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
@@ -49,11 +48,13 @@ class SwapConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      'Swap',
+                      AppLocalizations.of(context)!
+                          .swapConfirmInfosAmountTokens,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
-                      'Mininum received',
+                      AppLocalizations.of(context)!
+                          .swapConfirmInfosAmountMinReceived,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -263,7 +264,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                       Tooltip(
                         message: swap.tokenToSwap!.symbol,
                         child: SelectableText(
-                          'Fees: ${swap.swapTotalFees.formatNumber(
+                          '${AppLocalizations.of(context)!.swapConfirmInfosAmountMinFees} ${swap.swapTotalFees.formatNumber(
                             precision: aedappfm.Responsive.isMobile(context) &&
                                     swap.swapTotalFees > 1
                                 ? 2
@@ -299,7 +300,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                           swap.tokenToSwap != null)
                         Tooltip(
                           message:
-                              'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                              '${AppLocalizations.of(context)!.swapConfirmInfosFeesLP} (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \n${AppLocalizations.of(context)!.swapConfirmInfosFeesProtocol} (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
                           child: const Padding(
                             padding: EdgeInsets.only(bottom: 2),
                             child: Icon(
@@ -317,12 +318,13 @@ class SwapConfirmInfos extends ConsumerWidget {
                   swap.tokenToSwapAmount > 0)
                 DexPriceImpact(priceImpact: swap.priceImpact),
               if (swap.messageMaxHalfUCO)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: SizedBox(
                     height: 45,
                     child: aedappfm.InfoBanner(
-                      'The UCO amount you entered has been reduced to include transaction fees.',
+                      AppLocalizations.of(context)!
+                          .swapConfirmInfosMessageMaxHalfUCO,
                       aedappfm.InfoBannerType.request,
                     ),
                   ),

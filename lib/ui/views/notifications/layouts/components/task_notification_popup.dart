@@ -19,7 +19,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Swap transaction address: ',
+        AppLocalizations.of(context)!.swapInProgressTxAddresses,
         task,
         context,
       );
@@ -41,12 +41,13 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Swap transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.swapInProgressTxAddresses} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Final amount swapped: ${amount.formatNumber(precision: 8)} ${task.data.tokenSwapped.symbol}',
+            '${AppLocalizations.of(context)!.swapFinalAmountAmountSwapped} ${amount.formatNumber(precision: 8)} ${task.data.tokenSwapped.symbol}',
           ),
         ],
       ),
@@ -59,7 +60,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Liquidity add. transaction address: ',
+        '${AppLocalizations.of(context)!.liquidityAddInProgresstxAddressesShort} ',
         task,
         context,
       );
@@ -81,12 +82,13 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Liquidity add. transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.liquidityAddInProgresstxAddressesShort} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'LP Tokens obtained: ${amount.formatNumber(precision: 8)} ${task.data.amount! > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.liquidityAddFinalAmount} ${amount.formatNumber(precision: 8)} ${task.data.amount! > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
           ),
         ],
       ),
@@ -99,7 +101,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Liquidity supp. transaction address: ',
+        '${AppLocalizations.of(context)!.liquidityRemoveInProgressTxAddressesShort} ',
         task,
         context,
       );
@@ -123,18 +125,19 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Liquidity supp. transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.liquidityRemoveInProgressTxAddressesShort} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Token obtained: ${amountToken1.formatNumber(precision: 8)} ${task.data.token1!.symbol}',
+            '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenObtained} ${amountToken1.formatNumber(precision: 8)} ${task.data.token1!.symbol}',
           ),
           SelectableText(
-            'Token obtained: ${amountToken2.formatNumber(precision: 8)} ${task.data.token2!.symbol}',
+            '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenObtained} ${amountToken2.formatNumber(precision: 8)} ${task.data.token2!.symbol}',
           ),
           SelectableText(
-            'LP Token burned: ${amountLPToken.formatNumber(precision: 8)} ${amountLPToken > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenBurned} ${amountLPToken.formatNumber(precision: 8)} ${amountLPToken > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
           ),
         ],
       ),
@@ -147,7 +150,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Claim transaction address: ',
+        '${AppLocalizations.of(context)!.farmClaimTxAddress} ',
         task,
         context,
       );
@@ -169,12 +172,12 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Claim transaction address: ',
+            header: '${AppLocalizations.of(context)!.farmClaimTxAddress} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Amount claimed: ${amount.formatNumber(precision: 8)} ${task.data.rewardToken.symbol}',
+            '${AppLocalizations.of(context)!.farmClaimFinalAmount} ${amount.formatNumber(precision: 8)} ${task.data.rewardToken.symbol}',
           ),
         ],
       ),
@@ -187,7 +190,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Claim transaction address: ',
+        '${AppLocalizations.of(context)!.farmLockClaimTxAddress} ',
         task,
         context,
       );
@@ -209,12 +212,12 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Claim transaction address: ',
+            header: '${AppLocalizations.of(context)!.farmLockClaimTxAddress} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Amount claimed: ${amount.formatNumber(precision: 8)} ${task.data.rewardToken.symbol}',
+            '${AppLocalizations.of(context)!.farmLockClaimFinalAmount} ${amount.formatNumber(precision: 8)} ${task.data.rewardToken.symbol}',
           ),
         ],
       ),
@@ -227,7 +230,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Deposit transaction address: ',
+        '${AppLocalizations.of(context)!.farmDepositTxAddress} ',
         task,
         context,
       );
@@ -249,12 +252,12 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Deposit transaction address: ',
+            header: '${AppLocalizations.of(context)!.farmDepositTxAddress} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Amount deposited: ${amount.formatNumber(precision: 8)} ${amount > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmDepositFinalAmount} ${amount.formatNumber(precision: 8)} ${amount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
           ),
         ],
       ),
@@ -267,7 +270,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Deposit transaction address: ',
+        '${AppLocalizations.of(context)!.farmLockDepositTxAddress} ',
         task,
         context,
       );
@@ -289,12 +292,13 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Deposit transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.farmLockDepositTxAddress} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Amount deposited: ${amount.formatNumber(precision: 8)} ${amount > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmLockDepositFinalAmount} ${amount.formatNumber(precision: 8)} ${amount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
           ),
         ],
       ),
@@ -307,7 +311,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Level up transaction address: ',
+        '${AppLocalizations.of(context)!.farmLockLevelUpTxAddress} ',
         task,
         context,
       );
@@ -329,12 +333,13 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Level up transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.farmLockLevelUpTxAddress} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Amount relocked: ${amount.formatNumber(precision: 8)} ${amount > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmLockLevelUpFinalAmount} ${amount.formatNumber(precision: 8)} ${amount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
           ),
         ],
       ),
@@ -347,7 +352,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Withdraw transaction address: ',
+        '${AppLocalizations.of(context)!.farmWithdrawTxAddress} ',
         task,
         context,
       );
@@ -371,16 +376,16 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Withdraw transaction address: ',
+            header: '${AppLocalizations.of(context)!.farmWithdrawTxAddress} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Amount withdrawed: ${amountWithdraw.formatNumber(precision: 8)} ${amountWithdraw > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmWithdrawFinalAmount} ${amountWithdraw.formatNumber(precision: 8)} ${amountWithdraw > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
           ),
           if ((isFarmClose == true && amountReward > 0) || isFarmClose == false)
             SelectableText(
-              'Amount rewarded: ${amountReward.formatNumber(precision: 8)} ${task.data.rewardToken!.symbol}',
+              '${AppLocalizations.of(context)!.farmWithdrawFinalAmountReward} ${amountReward.formatNumber(precision: 8)} ${task.data.rewardToken!.symbol}',
             ),
         ],
       ),
@@ -393,7 +398,7 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
   ) {
     if (task.failure != null) {
       return _getErrorNotification(
-        'Withdraw transaction address: ',
+        '${AppLocalizations.of(context)!.farmLockWithdrawTxAddress} ',
         task,
         context,
       );
@@ -417,16 +422,17 @@ class TaskNotificationPopup with _$TaskNotificationPopup {
             ),
           addresslinkcopy.FormatAddressLinkCopy(
             address: task.data.txAddress.toUpperCase(),
-            header: 'Withdraw transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.farmLockWithdrawTxAddress} ',
             typeAddress: addresslinkcopy.TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
           SelectableText(
-            'Amount withdrawed: ${amountWithdraw.formatNumber(precision: 8)} ${amountWithdraw > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmLockWithdrawFinalAmount} ${amountWithdraw.formatNumber(precision: 8)} ${amountWithdraw > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
           ),
           if ((isFarmClose == true && amountReward > 0) || isFarmClose == false)
             SelectableText(
-              'Amount rewarded: ${amountReward.formatNumber(precision: 8)} ${task.data.rewardToken!.symbol}',
+              '${AppLocalizations.of(context)!.farmLockWithdrawFinalAmountReward} ${amountReward.formatNumber(precision: 8)} ${task.data.rewardToken!.symbol}',
             ),
         ],
       ),

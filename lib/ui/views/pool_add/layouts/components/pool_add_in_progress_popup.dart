@@ -3,7 +3,7 @@ import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;

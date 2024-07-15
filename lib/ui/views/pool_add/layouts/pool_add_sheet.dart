@@ -7,7 +7,7 @@ import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_confirm_sheet.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_form_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

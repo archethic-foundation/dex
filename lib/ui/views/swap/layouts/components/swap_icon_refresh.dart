@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SwapTokenIconRefresh extends ConsumerStatefulWidget {
@@ -78,7 +79,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
         }
       },
       child: Tooltip(
-        message: 'Refresh information',
+        message: AppLocalizations.of(context)!.swapIconRefreshTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

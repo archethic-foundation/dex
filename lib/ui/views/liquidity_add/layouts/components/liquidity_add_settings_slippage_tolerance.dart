@@ -126,15 +126,15 @@ class LiquiditySettingsSlippageToleranceState
             (double.tryParse(slippageToleranceController.text)! < 0 ||
                 double.tryParse(slippageToleranceController.text)! > 100))
           aedappfm.ErrorMessage(
-            failure: const aedappfm.Failure.other(
-              cause:
-                  'The slippage tolerance should be between 0 (no slippage) and 100%',
+            failure: aedappfm.Failure.other(
+              cause: AppLocalizations.of(context)!
+                  .liquidityAddSettingsSlippageErrorBetween0and100,
             ),
             failureMessage: FailureMessage(
               context: context,
-              failure: const aedappfm.Failure.other(
-                cause:
-                    'The slippage tolerance should be between 0 (no slippage) and 100%',
+              failure: aedappfm.Failure.other(
+                cause: AppLocalizations.of(context)!
+                    .liquidityAddSettingsSlippageErrorBetween0and100,
               ),
             ).getMessage(),
           ),
@@ -142,8 +142,9 @@ class LiquiditySettingsSlippageToleranceState
             slippageToleranceController.text.isValidNumber() &&
             double.tryParse(slippageToleranceController.text)! >= 3 &&
             double.tryParse(slippageToleranceController.text)! <= 100)
-          const aedappfm.InfoBanner(
-            'Warning. Your transaction may be significantly impacted due to high slippage.',
+          aedappfm.InfoBanner(
+            AppLocalizations.of(context)!
+                .liquidityAddSettingsSlippageErrorHighSlippage,
             aedappfm.InfoBannerType.error,
           ),
         aedappfm.ButtonValidate(

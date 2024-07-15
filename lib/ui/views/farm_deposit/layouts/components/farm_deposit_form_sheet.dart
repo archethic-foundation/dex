@@ -1,7 +1,7 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_textfield_amount.dart';
-import 'package:aedex/ui/views/farm_list/farm_list_sheet.dart';
+import 'package:aedex/ui/views/farm_list/layouts/farm_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'

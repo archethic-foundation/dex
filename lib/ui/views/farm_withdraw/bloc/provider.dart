@@ -3,7 +3,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
-import 'package:aedex/ui/views/farm_list/components/farm_list_item.dart';
+import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';

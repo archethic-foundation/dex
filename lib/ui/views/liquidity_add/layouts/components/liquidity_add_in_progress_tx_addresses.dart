@@ -1,6 +1,7 @@
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityAddInProgressTxAddresses extends ConsumerWidget {
@@ -26,7 +27,8 @@ class LiquidityAddInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: liquidityAdd.transactionAddLiquidity!.address!.address!
                 .toUpperCase(),
-            header: 'Liquidity addition transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.liquidityAddInProgresstxAddresses} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

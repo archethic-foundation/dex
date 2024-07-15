@@ -75,7 +75,8 @@ class FarmLockLevelUpConfirmSheetState
                     title: Wrap(
                       children: [
                         Text(
-                          "I understand I can't get my tokens back before the release date.",
+                          AppLocalizations.of(context)!
+                              .farmLockLevelUpConfirmCheckBoxUnderstand,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -107,7 +108,8 @@ class FarmLockLevelUpConfirmSheetState
                         await launchUrl(Uri.parse(''));
                       },
                       child: Text(
-                        'More info.',
+                        AppLocalizations.of(context)!
+                            .farmLockLevelUpConfirmMoreInfo,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               decoration: TextDecoration.underline,
                               fontSize:

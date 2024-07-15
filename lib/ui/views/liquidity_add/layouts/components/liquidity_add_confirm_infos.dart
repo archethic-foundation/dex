@@ -47,11 +47,13 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      'Add liquidity in the pool',
+                      AppLocalizations.of(context)!
+                          .liquidityAddConfirmInfosAmountTokens,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
-                      'Mininum amount',
+                      AppLocalizations.of(context)!
+                          .liquidityAddConfirmInfosMinAmount,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -211,8 +213,8 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   ),
                   SelectableText(
                     liquidityAdd.expectedTokenLP > 1
-                        ? 'LP Tokens expected'
-                        : 'LP Token expected',
+                        ? AppLocalizations.of(context)!.lpTokensExpected
+                        : AppLocalizations.of(context)!.lpTokenExpected,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
@@ -257,12 +259,13 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                 ],
               ),
               if (liquidityAdd.messageMaxHalfUCO)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: SizedBox(
                     height: 45,
                     child: aedappfm.InfoBanner(
-                      'The UCO amount you entered has been reduced to include transaction fees.',
+                      AppLocalizations.of(context)!
+                          .liquidityAddConfirmMessageMaxHalfUCO,
                       aedappfm.InfoBannerType.request,
                     ),
                   ),

@@ -2,7 +2,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
-import 'package:aedex/ui/views/pool_list/pool_list_sheet.dart';
+import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
@@ -67,12 +67,13 @@ class PoolAddFormSheet extends ConsumerWidget {
                       ),
                       const PoolAddToken2Amount(),
                       if (poolAdd.messageMaxHalfUCO)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: SizedBox(
                             height: 40,
                             child: aedappfm.InfoBanner(
-                              r'This process requires a maximum of $0.5 in transaction fees to be completed.',
+                              AppLocalizations.of(context)!
+                                  .poolAddAddMessageMaxHalfUCO,
                               aedappfm.InfoBannerType.request,
                             ),
                           ),

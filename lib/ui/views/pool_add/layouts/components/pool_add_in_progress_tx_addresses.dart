@@ -1,6 +1,7 @@
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddInProgressTxAddresses extends ConsumerWidget {
@@ -23,7 +24,8 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
         if (poolAdd.recoveryPoolGenesisAddress != null)
           FormatAddressLinkCopy(
             address: poolAdd.recoveryPoolGenesisAddress!.toUpperCase(),
-            header: 'Pool genesis address: ',
+            header:
+                '${AppLocalizations.of(context)!.poolAddInProgressTxAddressesPoolGenesisAddress} ',
             typeAddress: TypeAddressLinkCopy.chain,
             reduceAddress: true,
           ),
@@ -33,7 +35,8 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: poolAdd.recoveryTransactionAddPool!.address!.address!
                 .toUpperCase(),
-            header: 'Pool registration transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.poolAddInProgressTxAddressesPoolRegistrationAddress} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
@@ -45,7 +48,8 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
             address: poolAdd
                 .recoveryTransactionAddPoolTransfer!.address!.address!
                 .toUpperCase(),
-            header: 'Pool funds transfer transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.poolAddInProgressTxAddressesPoolFundsAddress} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
@@ -57,7 +61,8 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
             address: poolAdd
                 .recoveryTransactionAddPoolLiquidity!.address!.address!
                 .toUpperCase(),
-            header: 'Liquidity addition transaction address: ',
+            header:
+                '${AppLocalizations.of(context)!.poolAddInProgressTxAddressesPoolAdditionAddress} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
