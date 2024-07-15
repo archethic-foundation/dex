@@ -121,9 +121,6 @@ flutter:
     - lib/domain/repositories/blockchains_list.json
 
   fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/RobotoMono-Regular.ttf
     - family: Iconsax
       fonts:
         - asset: assets/fonts/Iconsax.ttf

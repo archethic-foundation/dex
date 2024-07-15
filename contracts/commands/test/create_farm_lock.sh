@@ -55,14 +55,14 @@ fi
 # Execute node dex deploy_farm
 echo -e "\nExecuting: node dex deploy_farm (lock)"
 echo "-------------------------------"
-if ! node dex deploy_farm --lp_token 00003DEAF4054179128208CA953B3B8171B739ACF0C549789AAE79041287C79D7DC6  --reward_token UCO --reward_token_amount 87500000 --end_date 1782972129 --farm_type 2 --farm_seed farm_lock_seed; then
+if ! node dex deploy_farm --lp_token 00003DEAF4054179128208CA953B3B8171B739ACF0C549789AAE79041287C79D7DC6  --reward_token UCO --reward_token_amount 87500000 --start_date 1721044547 --end_date 1782972129 --farm_type 2 --farm_seed farm_lock_seed; then
   echo "Error: Command 'node dex deploy_farm' failed."
   exit 1
 fi
 
 # Execute node dex deploy_farm
 echo -e "\nExecuting: node dex deploy_farm (legacy)"
-if ! node dex deploy_farm --lp_token 00003DEAF4054179128208CA953B3B8171B739ACF0C549789AAE79041287C79D7DC6  --reward_token UCO --reward_token_amount 2500000 --end_date 1782972129 --farm_type 1 --farm_seed farm_legacy_seed; then
+if ! node dex deploy_farm --lp_token 00003DEAF4054179128208CA953B3B8171B739ACF0C549789AAE79041287C79D7DC6  --reward_token UCO --reward_token_amount 2500000 --start_date 1721044547 --end_date 1782972129 --farm_type 1 --farm_seed farm_legacy_seed; then
   echo "Error: Command 'node dex deploy_farm' failed."
   exit 1
 fi

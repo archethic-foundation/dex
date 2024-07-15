@@ -70,8 +70,11 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
               const SizedBox(
                 width: 5,
               ),
-              const DexTokenIcon(
-                tokenAddress: 'UCO',
+              const Padding(
+                padding: EdgeInsets.only(bottom: 4),
+                child: DexTokenIcon(
+                  tokenAddress: 'UCO',
+                ),
               ),
             ],
           ),

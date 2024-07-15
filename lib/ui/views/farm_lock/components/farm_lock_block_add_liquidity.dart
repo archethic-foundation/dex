@@ -46,45 +46,57 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 1),
-                child: Text(
-                  '${AppLocalizations.of(context)!.farmLockBlockAddLiquidityHeader} ',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: aedappfm.AppThemeBase.secondaryColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-              ),
-              Tooltip(
-                message: pool.pair.token1.symbol,
-                child: SelectableText(
-                  pool.pair.token1.symbol.reduceSymbol(lengthMax: 6),
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-              ),
-              SelectableText(
-                '/',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w500,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1),
+                    child: Text(
+                      '${AppLocalizations.of(context)!.farmLockBlockAddLiquidityHeader} ',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: aedappfm.AppThemeBase.secondaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
-              ),
-              Tooltip(
-                message: pool.pair.token2.symbol,
-                child: SelectableText(
-                  pool.pair.token2.symbol.reduceSymbol(lengthMax: 6),
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
+                  ),
+                  Row(
+                    children: [
+                      Tooltip(
+                        message: pool.pair.token1.symbol,
+                        child: SelectableText(
+                          pool.pair.token1.symbol.reduceSymbol(lengthMax: 6),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                        ),
                       ),
-                ),
+                      SelectableText(
+                        '/',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                      ),
+                      Tooltip(
+                        message: pool.pair.token2.symbol,
+                        child: SelectableText(
+                          pool.pair.token2.symbol.reduceSymbol(lengthMax: 6),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 2),
                 child: DexPairIcons(
                   token1Address: pool.pair.token1.address!,
                   token2Address: pool.pair.token2.address!,
+                  iconSize: 26,
                 ),
               ),
             ],
@@ -225,7 +237,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                   InkWell(
                     child: Container(
                       height: 50,
-                      width: 150,
+                      width: 50,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         gradient: aedappfm.AppThemeBase.gradientBtn,

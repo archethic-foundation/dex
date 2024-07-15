@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_info_period.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_info_remaining_reward.dart';
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_details/farm_lock_details_info_token_reward.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -43,22 +44,38 @@ class FarmDetailsFrontState extends ConsumerState<FarmLockDetailsFront>
     return Column(
       children: [
         FarmLockDetailsInfoHeader(farmLock: widget.farmLock),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            FarmLockDetailsInfoAddresses(farmLock: widget.farmLock),
-            FarmLockDetailsInfoTokenReward(farmLock: widget.farmLock),
-          ],
+        Opacity(
+          opacity: AppTextStyles.kOpacityText,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              FarmLockDetailsInfoAddresses(farmLock: widget.farmLock),
+              FarmLockDetailsInfoTokenReward(farmLock: widget.farmLock),
+            ],
+          ),
         ),
         const SizedBox(height: 10),
-        FarmLockDetailsInfoPeriod(farmLock: widget.farmLock),
+        Opacity(
+          opacity: AppTextStyles.kOpacityText,
+          child: FarmLockDetailsInfoPeriod(farmLock: widget.farmLock),
+        ),
         const SizedBox(height: 40),
-        FarmLockDetailsInfoRemainingReward(farmLock: widget.farmLock),
+        Opacity(
+          opacity: AppTextStyles.kOpacityText,
+          child: FarmLockDetailsInfoRemainingReward(farmLock: widget.farmLock),
+        ),
         const SizedBox(height: 10),
-        FarmLockDetailsInfoDistributedRewards(farmLock: widget.farmLock),
+        Opacity(
+          opacity: AppTextStyles.kOpacityText,
+          child:
+              FarmLockDetailsInfoDistributedRewards(farmLock: widget.farmLock),
+        ),
         const SizedBox(height: 10),
-        FarmLockDetailsInfoLPDeposited(farmLock: widget.farmLock),
+        Opacity(
+          opacity: AppTextStyles.kOpacityText,
+          child: FarmLockDetailsInfoLPDeposited(farmLock: widget.farmLock),
+        ),
         const Spacer(),
         if (widget.isInPopup == true)
           _closeButton(

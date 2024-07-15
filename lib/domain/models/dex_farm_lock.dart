@@ -43,7 +43,6 @@ class DexFarmLock with _$DexFarmLock {
       startDate != null &&
       endDate != null &&
       startDate!.isBefore(endDate!) &&
-      startDate!.isBefore(DateTime.now().toUtc()) &&
       endDate!.isAfter(DateTime.now().toUtc());
 }
 

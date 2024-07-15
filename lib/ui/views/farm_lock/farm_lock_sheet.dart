@@ -13,6 +13,7 @@ import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_list_single_
 import 'package:aedex/ui/views/farm_lock/components/farm_lock_block_list_single_line_lock.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
+import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco_aeeth.dart';
 import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -254,21 +255,24 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                       height: 6,
                     ),
                     if (farmLockForm.pool != null)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 50),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                ArchethicOraclePair(
-                                  token1: farmLockForm.pool!.pair.token1,
-                                  token2: farmLockForm.pool!.pair.token2,
-                                ),
-                              ],
-                            ),
-                          ],
+                      Opacity(
+                        opacity: AppTextStyles.kOpacityText,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  ArchethicOraclePair(
+                                    token1: farmLockForm.pool!.pair.token1,
+                                    token2: farmLockForm.pool!.pair.token2,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                   ],
