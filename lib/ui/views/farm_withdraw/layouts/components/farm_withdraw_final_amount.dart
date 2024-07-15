@@ -25,7 +25,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
       children: [
         if (finalAmountWithdraw != null)
           SelectableText(
-            '${AppLocalizations.of(context)!.farmWithdrawFinalAmount} ${finalAmountWithdraw.formatNumber(precision: 8)} ${finalAmountWithdraw > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmWithdrawFinalAmount} ${finalAmountWithdraw.formatNumber(precision: 8)} ${finalAmountWithdraw > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,

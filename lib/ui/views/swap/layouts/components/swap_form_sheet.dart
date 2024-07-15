@@ -44,7 +44,12 @@ class SwapFormSheet extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: SizedBox(
                       child: aedappfm.InfoBanner(
-                        'The swap process requires a maximum of ${swap.feesEstimatedUCO.formatNumber(precision: 8)} in transaction fees to be completed.',
+                        AppLocalizations.of(context)!
+                            .swapMessageMaxHalfUCO
+                            .replaceFirst(
+                                '%1',
+                                swap.feesEstimatedUCO
+                                    .formatNumber(precision: 8)),
                         aedappfm.InfoBannerType.request,
                       ),
                     ),
@@ -61,7 +66,7 @@ class SwapFormSheet extends ConsumerWidget {
                     swap.tokenSwapped != null &&
                     swap.tokenToSwap!.address != swap.tokenSwapped!.address)
                   TextButton.icon(
-                    label: const Text('Create this pool'),
+                    label: Text(AppLocalizations.of(context)!.swapCreatePool),
                     onPressed: () {
                       final token1Json = jsonEncode(swap.tokenToSwap!.toJson());
                       final token2Json =

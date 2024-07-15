@@ -46,7 +46,8 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: 'Please, confirm the removal of ',
+                      text: AppLocalizations.of(context)!
+                          .liquidityRemovePleaseConfirm,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     TextSpan(
@@ -56,8 +57,10 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                     ),
                     TextSpan(
                       text: liquidityRemove.lpTokenAmount > 1
-                          ? 'LP Tokens from the liquidity pool.'
-                          : 'LP Token from the liquidity pool.',
+                          ? AppLocalizations.of(context)!
+                              .liquidityRemoveAmountLPTokens
+                          : AppLocalizations.of(context)!
+                              .liquidityRemoveAmountLPToken,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],

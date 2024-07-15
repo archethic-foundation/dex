@@ -2,6 +2,7 @@ import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityAddFinalAmount extends ConsumerWidget {
@@ -22,7 +23,7 @@ class LiquidityAddFinalAmount extends ConsumerWidget {
 
     return finalAmount != null
         ? SelectableText(
-            'LP Tokens obtained: ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.liquidityAddFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -34,7 +35,7 @@ class LiquidityAddFinalAmount extends ConsumerWidget {
             ? Row(
                 children: [
                   SelectableText(
-                    'LP Tokens obtained: ',
+                    '${AppLocalizations.of(context)!.liquidityAddFinalAmount} ',
                     style: TextStyle(
                       fontSize: aedappfm.Responsive.fontSizeFromValue(
                         context,
@@ -50,7 +51,7 @@ class LiquidityAddFinalAmount extends ConsumerWidget {
                 ],
               )
             : SelectableText(
-                'LP Tokens obtained: The amount could not be recovered',
+                '${AppLocalizations.of(context)!.liquidityAddFinalAmount} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,

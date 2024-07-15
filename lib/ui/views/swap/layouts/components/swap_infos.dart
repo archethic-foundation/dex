@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/util/components/dex_price_impact.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class SwapInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    'Fees',
+                    AppLocalizations.of(context)!.swapInfosFees,
                     style: AppTextStyles.bodyMedium(context),
                   ),
                   const SizedBox(
@@ -76,7 +77,7 @@ class SwapInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    'Price impact',
+                    AppLocalizations.of(context)!.swapInfosPriceImpact,
                     style: AppTextStyles.bodyMedium(context),
                   ),
                   const SizedBox(
@@ -92,7 +93,7 @@ class SwapInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    'Minimum received',
+                    AppLocalizations.of(context)!.swapInfosMinimumReceived,
                     style: AppTextStyles.bodyMedium(context),
                   ),
                   const SizedBox(
@@ -108,7 +109,7 @@ class SwapInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    'TVL',
+                    AppLocalizations.of(context)!.swapInfosTVL,
                     style: AppTextStyles.bodyMedium(context),
                   ),
                   const SizedBox(
@@ -124,7 +125,7 @@ class SwapInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    'Ratio',
+                    AppLocalizations.of(context)!.swapInfosRatio,
                     style: AppTextStyles.bodyMedium(context),
                   ),
                   const SizedBox(
@@ -175,7 +176,7 @@ class SwapInfos extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SelectableText(
-                  'Fees',
+                  AppLocalizations.of(context)!.swapInfosFees,
                   style: AppTextStyles.bodyMedium(context),
                 ),
                 Row(
@@ -214,7 +215,7 @@ class SwapInfos extends ConsumerWidget {
                         swap.tokenToSwap != null)
                       Tooltip(
                         message:
-                            'Liquidity Provider fees (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \nProtocol fees (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
+                            '${AppLocalizations.of(context)!.swapInfosLiquidityProviderFees} (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \n${AppLocalizations.of(context)!.swapInfosProtocolFees} (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
                         child: const Padding(
                           padding: EdgeInsets.only(bottom: 2),
                           child: Icon(
@@ -231,7 +232,7 @@ class SwapInfos extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SelectableText(
-                  'Price impact',
+                  AppLocalizations.of(context)!.swapInfosPriceImpact,
                   style: AppTextStyles.bodyMedium(context),
                 ),
                 DexPriceImpact(
@@ -245,7 +246,7 @@ class SwapInfos extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SelectableText(
-                  'Minimum received',
+                  AppLocalizations.of(context)!.swapInfosMinimumReceived,
                   style: AppTextStyles.bodyMedium(context),
                 ),
                 Row(
@@ -284,7 +285,7 @@ class SwapInfos extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SelectableText(
-                  'TVL',
+                  AppLocalizations.of(context)!.swapInfosTVL,
                   style: AppTextStyles.bodyMedium(context),
                 ),
                 SelectableText(
@@ -297,7 +298,7 @@ class SwapInfos extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SelectableText(
-                  'Ratio',
+                  AppLocalizations.of(context)!.swapInfosRatio,
                   style: AppTextStyles.bodyMedium(context),
                 ),
                 if (swap.pool != null && swap.pool!.infos != null)

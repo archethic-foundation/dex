@@ -1,4 +1,4 @@
-import 'package:aedex/ui/views/farm_lock/farm_lock_sheet.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';

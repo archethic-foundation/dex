@@ -26,7 +26,7 @@ class FarmLockDepositFinalAmount extends ConsumerWidget {
 
     return finalAmount != null
         ? SelectableText(
-            '${AppLocalizations.of(context)!.farmLockDepositFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.farmLockDepositFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,

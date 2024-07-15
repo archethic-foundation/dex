@@ -75,7 +75,8 @@ class FarmLockDepositConfirmSheetState
                     title: Wrap(
                       children: [
                         Text(
-                          "I understand I can't get my tokens back before the release date.",
+                          AppLocalizations.of(context)!
+                              .farmLockDepositConfirmCheckBoxUnderstand,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -107,7 +108,8 @@ class FarmLockDepositConfirmSheetState
                         await launchUrl(Uri.parse(''));
                       },
                       child: Text(
-                        'More info.',
+                        AppLocalizations.of(context)!
+                            .farmLockDepositConfirmMoreInfo,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               decoration: TextDecoration.underline,
                               fontSize:

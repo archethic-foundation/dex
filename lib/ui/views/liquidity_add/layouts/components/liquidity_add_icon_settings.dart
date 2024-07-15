@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_se
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityAddTokenIconSettings extends ConsumerWidget {
@@ -19,7 +20,7 @@ class LiquidityAddTokenIconSettings extends ConsumerWidget {
         );
       },
       child: Tooltip(
-        message: 'Set slippage tolerance information',
+        message: AppLocalizations.of(context)!.liquidityAddTooltipSlippage,
         child: SizedBox(
           height: 40,
           child: Card(

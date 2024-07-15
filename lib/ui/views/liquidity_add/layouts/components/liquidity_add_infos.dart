@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityAddInfos extends ConsumerWidget {
@@ -35,7 +36,7 @@ class LiquidityAddInfos extends ConsumerWidget {
                 Tooltip(
                   message: liquidityAdd.token1!.symbol,
                   child: SelectableText(
-                    'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
+                    '${AppLocalizations.of(context)!.liquidityAddInfosMinimumAmount} ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
                     style: AppTextStyles.bodyMedium(context),
                   ),
                 ),
@@ -54,7 +55,7 @@ class LiquidityAddInfos extends ConsumerWidget {
                 Tooltip(
                   message: liquidityAdd.token2!.symbol,
                   child: SelectableText(
-                    'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
+                    '${AppLocalizations.of(context)!.liquidityAddInfosMinimumAmount} ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
                     style: AppTextStyles.bodyMedium(context),
                   ),
                 ),
@@ -71,7 +72,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SelectableText(
-                  'Expected LP Token',
+                  AppLocalizations.of(context)!.liquidityAddInfosExpectedToken,
                   style: AppTextStyles.bodyMedium(context),
                 ),
                 const SizedBox(
@@ -99,7 +100,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               Tooltip(
                 message: liquidityAdd.token1!.symbol,
                 child: SelectableText(
-                  'Mininum amount for ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                  '${AppLocalizations.of(context)!.liquidityAddInfosMinimumAmount} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
                   style: AppTextStyles.bodyMedium(context),
                 ),
               ),
@@ -118,7 +119,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               Tooltip(
                 message: liquidityAdd.token2!.symbol,
                 child: SelectableText(
-                  'Mininum amount for ${liquidityAdd.token2!.symbol.reduceSymbol()}',
+                  '${AppLocalizations.of(context)!.liquidityAddInfosMinimumAmount} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
                   style: AppTextStyles.bodyMedium(context),
                 ),
               ),
@@ -135,11 +136,11 @@ class LiquidityAddInfos extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SelectableText(
-                'Expected LP Token',
+                AppLocalizations.of(context)!.liquidityAddInfosExpectedToken,
                 style: AppTextStyles.bodyMedium(context),
               ),
               SelectableText(
-                '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? 'LP Tokens' : 'LP Token'}',
+                '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
                 style: liquidityAdd.expectedTokenLP == 0
                     ? Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: aedappfm.ArchethicThemeBase.systemWarning600,
