@@ -144,9 +144,10 @@ class FarmLockDepositFormSheetState
                             entry.key,
                           ),
                           level: entry.key,
-                          aprEstimation: farmLockDeposit
-                                  .farmLock!.stats[entry.key]?.aprEstimation ??
-                              0,
+                          aprEstimation: (farmLockDeposit.farmLock!
+                                      .stats[entry.key]?.aprEstimation ??
+                                  0) *
+                              100,
                         );
                       }).toList(),
                     ],

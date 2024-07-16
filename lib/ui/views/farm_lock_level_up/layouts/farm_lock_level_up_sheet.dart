@@ -56,7 +56,7 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
           ..setDepositIndex(widget.depositIndex)
           ..setAmount(widget.lpAmount)
           ..setCurrentLevel(widget.currentLevel)
-          ..setAPREstimation(widget.farmLock.apr3years);
+          ..setAPREstimation(widget.farmLock.apr3years * 100);
 
         await ref
             .read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)

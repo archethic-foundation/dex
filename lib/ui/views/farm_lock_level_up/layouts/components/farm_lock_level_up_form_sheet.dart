@@ -245,9 +245,10 @@ class FarmLockLevelUpFormSheetState
                             entry.key,
                           ),
                           level: entry.key,
-                          aprEstimation: farmLockLevelUp
-                                  .farmLock!.stats[entry.key]?.aprEstimation ??
-                              0,
+                          aprEstimation: (farmLockLevelUp.farmLock!
+                                      .stats[entry.key]?.aprEstimation ??
+                                  0) *
+                              100,
                         );
                       }).toList(),
                     ],

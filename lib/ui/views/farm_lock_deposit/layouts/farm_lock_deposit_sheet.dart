@@ -45,7 +45,7 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
         ref.read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
           ..setDexPool(widget.pool)
           ..setDexFarmLock(widget.farmLock)
-          ..setAPREstimation(widget.farmLock.apr3years);
+          ..setAPREstimation(widget.farmLock.apr3years * 100);
 
         await ref
             .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
