@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn_claim.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn_level_up.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn_withdraw.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -252,7 +253,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: constraints.maxWidth * 0.125,
+                                      width: constraints.maxWidth * 0.083,
                                       child: FarmLockBtnLevelUp(
                                         farmAddress: farmLock.farmAddress,
                                         lpTokenAddress:
@@ -276,7 +277,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: constraints.maxWidth * 0.125,
+                                      width: constraints.maxWidth * 0.083,
                                       child: FarmLockBtnWithdraw(
                                         farmAddress: farmLock.farmAddress,
                                         poolAddress: farmLock.poolAddress,
@@ -301,32 +302,33 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                             currentSortedColumn,
                                       ),
                                     ),
-                                    /*SizedBox(
-                                      width: constraints.maxWidth * 0.083,
-                                      child: FarmLockBtnClaim(
-                                        farmAddress: farmLock.farmAddress,
-                                        lpTokenAddress:
-                                            farmLock.lpToken!.address!,
-                                        rewardToken: farmLock.rewardToken!,
-                                        depositIndex: farmLockUserInfos.index,
-                                        rewardAmount:
-                                            farmLockUserInfos.rewardAmount,
-                                        enabled: farmLockUserInfos
-                                                    .rewardAmount >
-                                                0 &&
-                                            (isFlexDuration ||
-                                                (!isFlexDuration &&
-                                                    DateTime
-                                                        .fromMillisecondsSinceEpoch(
-                                                      farmLockUserInfos.end! *
-                                                          1000,
-                                                    ).isBefore(
-                                                      DateTime.now().toUtc(),
-                                                    ))),
-                                        currentSortedColumn:
-                                            currentSortedColumn,
+                                    if (isFlexDuration)
+                                      SizedBox(
+                                        width: constraints.maxWidth * 0.083,
+                                        child: FarmLockBtnClaim(
+                                          farmAddress: farmLock.farmAddress,
+                                          lpTokenAddress:
+                                              farmLock.lpToken!.address!,
+                                          rewardToken: farmLock.rewardToken!,
+                                          depositIndex: farmLockUserInfos.index,
+                                          rewardAmount:
+                                              farmLockUserInfos.rewardAmount,
+                                          enabled: farmLockUserInfos
+                                                      .rewardAmount >
+                                                  0 &&
+                                              (isFlexDuration ||
+                                                  (!isFlexDuration &&
+                                                      DateTime
+                                                          .fromMillisecondsSinceEpoch(
+                                                        farmLockUserInfos.end! *
+                                                            1000,
+                                                      ).isBefore(
+                                                        DateTime.now().toUtc(),
+                                                      ))),
+                                          currentSortedColumn:
+                                              currentSortedColumn,
+                                        ),
                                       ),
-                                    ),*/
                                   ],
                                 )
                               : Opacity(
@@ -615,38 +617,39 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                           currentSortedColumn,
                                                     ),
                                                   ),
-                                                  /*Expanded(
-                                                    child: FarmLockBtnClaim(
-                                                      farmAddress:
-                                                          farmLock.farmAddress,
-                                                      lpTokenAddress: farmLock
-                                                          .lpToken!.address!,
-                                                      rewardToken:
-                                                          farmLock.rewardToken!,
-                                                      depositIndex:
-                                                          farmLockUserInfos
-                                                              .index,
-                                                      rewardAmount:
-                                                          farmLockUserInfos
-                                                              .rewardAmount,
-                                                      enabled: farmLockUserInfos
-                                                                  .rewardAmount >
-                                                              0 &&
-                                                          (isFlexDuration ||
-                                                              (!isFlexDuration &&
-                                                                  DateTime
-                                                                      .fromMillisecondsSinceEpoch(
-                                                                    farmLockUserInfos
-                                                                            .end! *
-                                                                        1000,
-                                                                  ).isBefore(
-                                                                    DateTime.now()
-                                                                        .toUtc(),
-                                                                  ))),
-                                                      currentSortedColumn:
-                                                          currentSortedColumn,
+                                                  if (isFlexDuration)
+                                                    Expanded(
+                                                      child: FarmLockBtnClaim(
+                                                        farmAddress: farmLock
+                                                            .farmAddress,
+                                                        lpTokenAddress: farmLock
+                                                            .lpToken!.address!,
+                                                        rewardToken: farmLock
+                                                            .rewardToken!,
+                                                        depositIndex:
+                                                            farmLockUserInfos
+                                                                .index,
+                                                        rewardAmount:
+                                                            farmLockUserInfos
+                                                                .rewardAmount,
+                                                        enabled: farmLockUserInfos
+                                                                    .rewardAmount >
+                                                                0 &&
+                                                            (isFlexDuration ||
+                                                                (!isFlexDuration &&
+                                                                    DateTime
+                                                                        .fromMillisecondsSinceEpoch(
+                                                                      farmLockUserInfos
+                                                                              .end! *
+                                                                          1000,
+                                                                    ).isBefore(
+                                                                      DateTime.now()
+                                                                          .toUtc(),
+                                                                    ))),
+                                                        currentSortedColumn:
+                                                            currentSortedColumn,
+                                                      ),
                                                     ),
-                                                  ),*/
                                                 ],
                                               ),
                                             ],
