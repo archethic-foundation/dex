@@ -79,7 +79,7 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
             onTap: () async {
               await launchUrl(
                 Uri.parse(
-                  'https://www.archethic.net/wallet',
+                  'https://www.archethic.net/wallet.html',
                 ),
               );
             },

@@ -131,7 +131,7 @@ class AppBarMenuLinks extends ConsumerWidget {
           onPressed: () async {
             await launchUrl(
               Uri.parse(
-                'https://www.archethic.net/wallet',
+                'https://www.archethic.net/wallet.html',
               ),
             );
           },
