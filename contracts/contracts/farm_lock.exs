@@ -251,7 +251,7 @@ end
 
 condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   now = Time.now()
-  now_rounded = now - Math.rem(now, @ROUND_NOW_TO)
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   day = @SECONDS_IN_DAY
 
@@ -281,14 +281,14 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   end
 
   available_levels = Map.new()
-  available_levels = Map.set(available_levels, "0", now_rounded + 0)
-  available_levels = Map.set(available_levels, "1", now_rounded + 7 * day)
-  available_levels = Map.set(available_levels, "2", now_rounded + 30 * day)
-  available_levels = Map.set(available_levels, "3", now_rounded + 90 * day)
-  available_levels = Map.set(available_levels, "4", now_rounded + 180 * day)
-  available_levels = Map.set(available_levels, "5", now_rounded + 365 * day)
-  available_levels = Map.set(available_levels, "6", now_rounded + 730 * day)
-  available_levels = Map.set(available_levels, "7", now_rounded + 1095 * day)
+  available_levels = Map.set(available_levels, "0", now + 0)
+  available_levels = Map.set(available_levels, "1", now + 7 * day)
+  available_levels = Map.set(available_levels, "2", now + 30 * day)
+  available_levels = Map.set(available_levels, "3", now + 90 * day)
+  available_levels = Map.set(available_levels, "4", now + 180 * day)
+  available_levels = Map.set(available_levels, "5", now + 365 * day)
+  available_levels = Map.set(available_levels, "6", now + 730 * day)
+  available_levels = Map.set(available_levels, "7", now + 1095 * day)
 
   relock_level = nil
   deposit_level = nil
@@ -360,17 +360,17 @@ end
 
 condition triggered_by: transaction, on: calculate_rewards() do
   now = Time.now()
-  now_rounded = now - Math.rem(now, @ROUND_NOW_TO)
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   if now < @START_DATE do
     throw(message: "cannot calculate rewards before the farm start", code: 5000)
   end
 
-  if now_rounded > @END_DATE do
+  if now > @END_DATE do
     throw(message: "cannot calculate rewards after the farm start", code: 5001)
   end
 
-  if now_rounded == State.get("last_calculation_timestamp", @START_DATE) do
+  if now == State.get("last_calculation_timestamp", @START_DATE) do
     throw(message: "rewards already calculated for period", code: 5002)
   end
 
@@ -434,6 +434,7 @@ end
 
 fun calculate_new_rewards() do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
   day = @SECONDS_IN_DAY
   year = 365 * day
 
