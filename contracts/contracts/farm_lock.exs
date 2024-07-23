@@ -3,6 +3,7 @@
 condition triggered_by: transaction, on: deposit(end_timestamp) do
   now = Time.now()
   now = now - Math.rem(now, @ROUND_NOW_TO)
+  day = @SECONDS_IN_DAY
 
   if end_timestamp == "max" do
     end_timestamp = @END_DATE
@@ -10,6 +11,10 @@ condition triggered_by: transaction, on: deposit(end_timestamp) do
 
   if end_timestamp == "flex" do
     end_timestamp = 0
+  end
+
+  if end_timestamp - now > 3 * 365 * day do
+    throw(message: "can't lock for more than 3 years", code: 1007)
   end
 
   if transaction.timestamp >= @END_DATE do
@@ -48,7 +53,7 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
 
   transfer_amount = get_user_transfer_amount()
 
-  user_genesis_address = get_user_genesis(transaction)
+  user_genesis_address = get_user_genesis()
 
   deposits = nil
 
@@ -61,7 +66,15 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
     deposits = State.get("deposits", Map.new())
   end
 
-  current_deposit = [amount: transfer_amount, reward_amount: 0, start: now, end: end_timestamp]
+  id = String.from_number(Time.now())
+
+  current_deposit = [
+    amount: transfer_amount,
+    reward_amount: 0,
+    start: now,
+    end: end_timestamp,
+    id: id
+  ]
 
   user_deposits = Map.get(deposits, user_genesis_address, [])
   user_deposits = List.append(user_deposits, current_deposit)
@@ -94,7 +107,8 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
         amount: amount,
         reward_amount: reward_amount,
         start: nil,
-        end: 0
+        end: 0,
+        id: "merge"
       )
   end
 
@@ -105,16 +119,16 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
   State.set("lp_tokens_deposited", lp_tokens_deposited + transfer_amount)
 end
 
-condition triggered_by: transaction, on: claim(deposit_index) do
+condition triggered_by: transaction, on: claim(deposit_id) do
   if transaction.timestamp <= @START_DATE do
     throw(message: "farm is not started yet", code: 2001)
   end
 
   now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
+  user_genesis_address = get_user_genesis()
 
-  user_genesis_address = get_user_genesis(transaction)
-  user_deposit = get_user_deposit(user_genesis_address, deposit_index)
+  res = calculate_new_rewards()
+  user_deposit = get_user_deposit(res.deposits, user_genesis_address, deposit_id)
 
   if user_deposit == nil do
     throw(message: "deposit not found", code: 2000)
@@ -124,22 +138,16 @@ condition triggered_by: transaction, on: claim(deposit_index) do
     throw(message: "claiming before end of lock", code: 2002)
   end
 
-  res = calculate_new_rewards()
-  user_deposits = Map.get(res.deposits, user_genesis_address)
-  user_deposit = List.at(user_deposits, deposit_index)
-
   user_deposit.reward_amount > 0
 end
 
-actions triggered_by: transaction, on: claim(deposit_index) do
-  user_genesis_address = get_user_genesis(transaction)
+actions triggered_by: transaction, on: claim(deposit_id) do
+  user_genesis_address = get_user_genesis()
 
   res = calculate_new_rewards()
-  deposits = res.deposits
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
 
-  user_deposits = Map.get(deposits, user_genesis_address)
-  user_deposit = List.at(user_deposits, deposit_index)
+  user_deposit = get_user_deposit(res.deposits, user_genesis_address, deposit_id)
 
   if @REWARD_TOKEN == "UCO" do
     Contract.add_uco_transfer(to: transaction.address, amount: user_deposit.reward_amount)
@@ -156,18 +164,16 @@ actions triggered_by: transaction, on: claim(deposit_index) do
   State.set("rewards_reserved", res.rewards_reserved - user_deposit.reward_amount)
 
   user_deposit = Map.set(user_deposit, "reward_amount", 0)
-  user_deposits = List.set_at(user_deposits, deposit_index, user_deposit)
-
-  deposits = Map.set(deposits, user_genesis_address, user_deposits)
-  State.set("deposits", deposits)
+  State.set("deposits", set_user_deposit(res.deposits, user_genesis_address, user_deposit))
 end
 
-condition triggered_by: transaction, on: withdraw(amount, deposit_index) do
+condition triggered_by: transaction, on: withdraw(amount, deposit_id) do
   now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
 
-  user_genesis_address = get_user_genesis(transaction)
-  user_deposit = get_user_deposit(user_genesis_address, deposit_index)
+  user_genesis_address = get_user_genesis()
+
+  user_deposit =
+    get_user_deposit(State.get("deposits", Map.new()), user_genesis_address, deposit_id)
 
   if user_deposit == nil do
     throw(message: "deposit not found", code: 3000)
@@ -184,11 +190,10 @@ condition triggered_by: transaction, on: withdraw(amount, deposit_index) do
   true
 end
 
-actions triggered_by: transaction, on: withdraw(amount, deposit_index) do
+actions triggered_by: transaction, on: withdraw(amount, deposit_id) do
   now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
 
-  user_genesis_address = get_user_genesis(transaction)
+  user_genesis_address = get_user_genesis()
 
   deposits = nil
   rewards_reserved = nil
@@ -203,8 +208,7 @@ actions triggered_by: transaction, on: withdraw(amount, deposit_index) do
     rewards_reserved = State.get("rewards_reserved", 0)
   end
 
-  user_deposits = Map.get(deposits, user_genesis_address)
-  user_deposit = List.at(user_deposits, deposit_index)
+  user_deposit = get_user_deposit(deposits, user_genesis_address, deposit_id)
 
   if user_deposit.reward_amount > 0 do
     if @REWARD_TOKEN == "UCO" do
@@ -231,30 +235,23 @@ actions triggered_by: transaction, on: withdraw(amount, deposit_index) do
     token_address: @LP_TOKEN_ADDRESS
   )
 
-  lp_tokens_deposited = State.get("lp_tokens_deposited")
+  lp_tokens_deposited = State.get("lp_tokens_deposited", 0)
   State.set("lp_tokens_deposited", lp_tokens_deposited - amount)
 
   if amount == user_deposit.amount do
-    user_deposits = List.delete_at(user_deposits, deposit_index)
-
-    if List.size(user_deposits) > 0 do
-      deposits = Map.set(deposits, user_genesis_address, user_deposits)
-    else
-      deposits = Map.delete(deposits, user_genesis_address)
-    end
+    deposits = remove_user_deposit(deposits, user_genesis_address, deposit_id)
   else
     user_deposit = Map.set(user_deposit, "reward_amount", 0)
     user_deposit = Map.set(user_deposit, "amount", user_deposit.amount - amount)
-    user_deposits = List.set_at(user_deposits, deposit_index, user_deposit)
-    deposits = Map.set(deposits, user_genesis_address, user_deposits)
+    deposits = set_user_deposit(deposits, user_genesis_address, user_deposit)
   end
 
   State.set("deposits", deposits)
 end
 
-condition triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
+condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
+  now_rounded = now - Math.rem(now, @ROUND_NOW_TO)
 
   day = @SECONDS_IN_DAY
 
@@ -262,8 +259,14 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
     end_timestamp = @END_DATE
   end
 
-  user_genesis_address = get_user_genesis(transaction)
-  user_deposit = get_user_deposit(user_genesis_address, deposit_index)
+  if end_timestamp - now > 3 * 365 * day do
+    throw(message: "can't lock for more than 3 years", code: 4007)
+  end
+
+  user_genesis_address = get_user_genesis()
+
+  user_deposit =
+    get_user_deposit(State.get("deposits", Map.new()), user_genesis_address, deposit_id)
 
   if user_deposit == nil do
     throw(message: "deposit not found", code: 4000)
@@ -278,14 +281,14 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
   end
 
   available_levels = Map.new()
-  available_levels = Map.set(available_levels, "0", now + 0)
-  available_levels = Map.set(available_levels, "1", now + 7 * day)
-  available_levels = Map.set(available_levels, "2", now + 30 * day)
-  available_levels = Map.set(available_levels, "3", now + 90 * day)
-  available_levels = Map.set(available_levels, "4", now + 180 * day)
-  available_levels = Map.set(available_levels, "5", now + 365 * day)
-  available_levels = Map.set(available_levels, "6", now + 730 * day)
-  available_levels = Map.set(available_levels, "7", now + 1095 * day)
+  available_levels = Map.set(available_levels, "0", now_rounded + 0)
+  available_levels = Map.set(available_levels, "1", now_rounded + 7 * day)
+  available_levels = Map.set(available_levels, "2", now_rounded + 30 * day)
+  available_levels = Map.set(available_levels, "3", now_rounded + 90 * day)
+  available_levels = Map.set(available_levels, "4", now_rounded + 180 * day)
+  available_levels = Map.set(available_levels, "5", now_rounded + 365 * day)
+  available_levels = Map.set(available_levels, "6", now_rounded + 730 * day)
+  available_levels = Map.set(available_levels, "7", now_rounded + 1095 * day)
 
   relock_level = nil
   deposit_level = nil
@@ -317,7 +320,7 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
   true
 end
 
-actions triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
+actions triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   if end_timestamp == "max" do
     end_timestamp = @END_DATE
   end
@@ -325,14 +328,12 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
   now = Time.now()
   now = now - Math.rem(now, @ROUND_NOW_TO)
 
-  user_genesis_address = get_user_genesis(transaction)
+  user_genesis_address = get_user_genesis()
 
   res = calculate_new_rewards()
-  deposits = res.deposits
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
 
-  user_deposits = Map.get(deposits, user_genesis_address)
-  user_deposit = List.at(user_deposits, deposit_index)
+  user_deposit = get_user_deposit(res.deposits, user_genesis_address, deposit_id)
 
   if user_deposit.reward_amount > 0 do
     if @REWARD_TOKEN == "UCO" do
@@ -353,10 +354,8 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
   user_deposit = Map.set(user_deposit, "reward_amount", 0)
   user_deposit = Map.set(user_deposit, "start", now)
   user_deposit = Map.set(user_deposit, "end", end_timestamp)
-  user_deposits = List.set_at(user_deposits, deposit_index, user_deposit)
 
-  deposits = Map.set(deposits, user_genesis_address, user_deposits)
-  State.set("deposits", deposits)
+  State.set("deposits", set_user_deposit(res.deposits, user_genesis_address, user_deposit))
 end
 
 condition(
@@ -409,8 +408,6 @@ end
 
 fun calculate_new_rewards() do
   now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
-
   day = @SECONDS_IN_DAY
   year = 365 * day
 
@@ -554,8 +551,6 @@ fun calculate_new_rewards() do
         user_deposits = Map.get(deposits, address)
         user_deposits_updated = []
 
-        i = 0
-
         for user_deposit in user_deposits do
           start_per_level = Map.new()
 
@@ -600,7 +595,7 @@ fun calculate_new_rewards() do
                     year: year_period.year,
                     amount: user_deposit.amount,
                     user_address: address,
-                    deposit_index: i
+                    id: user_deposit.id
                   )
 
                 current_end = start_of_level
@@ -622,14 +617,12 @@ fun calculate_new_rewards() do
                   year: year_period.year,
                   amount: user_deposit.amount,
                   user_address: address,
-                  deposit_index: i
+                  id: user_deposit.id
                 )
             end
 
             deposit_periods = deposit_periods ++ deposit_periods_for_year
           end
-
-          i = i + 1
         end
       end
 
@@ -703,7 +696,7 @@ fun calculate_new_rewards() do
               List.append(deposits_in_period,
                 amount: deposit_period.amount,
                 level: deposit_period.level,
-                deposit_index: deposit_period.deposit_index,
+                id: deposit_period.id,
                 user_address: deposit_period.user_address
               )
           end
@@ -788,7 +781,7 @@ fun calculate_new_rewards() do
         end
 
         for deposit in deposits_in_period do
-          deposit_key = [user_address: deposit.user_address, deposit_index: deposit.deposit_index]
+          deposit_key = [user_address: deposit.user_address, id: deposit.id]
           weight = Map.get(weight_per_level, deposit.level)
 
           weighted_lp_deposited_for_level =
@@ -814,11 +807,10 @@ fun calculate_new_rewards() do
     for address in Map.keys(deposits) do
       user_deposits = Map.get(deposits, address)
 
-      i = 0
       user_deposits_updated = []
 
       for user_deposit in user_deposits do
-        deposit_key = [deposit_index: i, user_address: address]
+        deposit_key = [id: user_deposit.id, user_address: address]
         new_reward_amount = Map.get(reward_per_deposit, deposit_key)
 
         user_deposit =
@@ -826,7 +818,6 @@ fun calculate_new_rewards() do
 
         rewards_reserved = rewards_reserved + new_reward_amount
         user_deposits_updated = List.append(user_deposits_updated, user_deposit)
-        i = i + 1
       end
 
       deposits = Map.set(deposits, address, user_deposits_updated)
@@ -1003,8 +994,6 @@ end
 
 export fun(get_user_infos(user_genesis_address)) do
   now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
-
   day = @SECONDS_IN_DAY
   year = 365 * day
 
@@ -1153,8 +1142,6 @@ export fun(get_user_infos(user_genesis_address)) do
           user_deposits = Map.get(deposits, address)
           user_deposits_updated = []
 
-          i = 0
-
           for user_deposit in user_deposits do
             start_per_level = Map.new()
 
@@ -1199,7 +1186,7 @@ export fun(get_user_infos(user_genesis_address)) do
                       year: year_period.year,
                       amount: user_deposit.amount,
                       user_address: address,
-                      deposit_index: i
+                      id: user_deposit.id
                     )
 
                   current_end = start_of_level
@@ -1221,14 +1208,12 @@ export fun(get_user_infos(user_genesis_address)) do
                     year: year_period.year,
                     amount: user_deposit.amount,
                     user_address: address,
-                    deposit_index: i
+                    id: user_deposit.id
                   )
               end
 
               deposit_periods = deposit_periods ++ deposit_periods_for_year
             end
-
-            i = i + 1
           end
         end
 
@@ -1302,7 +1287,7 @@ export fun(get_user_infos(user_genesis_address)) do
                 List.append(deposits_in_period,
                   amount: deposit_period.amount,
                   level: deposit_period.level,
-                  deposit_index: deposit_period.deposit_index,
+                  id: deposit_period.id,
                   user_address: deposit_period.user_address
                 )
             end
@@ -1388,11 +1373,7 @@ export fun(get_user_infos(user_genesis_address)) do
           end
 
           for deposit in deposits_in_period do
-            deposit_key = [
-              user_address: deposit.user_address,
-              deposit_index: deposit.deposit_index
-            ]
-
+            deposit_key = [user_address: deposit.user_address, id: deposit.id]
             weight = Map.get(weight_per_level, deposit.level)
 
             weighted_lp_deposited_for_level =
@@ -1420,11 +1401,10 @@ export fun(get_user_infos(user_genesis_address)) do
       for address in Map.keys(deposits) do
         user_deposits = Map.get(deposits, address)
 
-        i = 0
         user_deposits_updated = []
 
         for user_deposit in user_deposits do
-          deposit_key = [deposit_index: i, user_address: address]
+          deposit_key = [id: user_deposit.id, user_address: address]
           new_reward_amount = Map.get(reward_per_deposit, deposit_key)
 
           user_deposit =
@@ -1432,7 +1412,6 @@ export fun(get_user_infos(user_genesis_address)) do
 
           rewards_reserved = rewards_reserved + new_reward_amount
           user_deposits_updated = List.append(user_deposits_updated, user_deposit)
-          i = i + 1
         end
 
         deposits = Map.set(deposits, address, user_deposits_updated)
@@ -1460,8 +1439,6 @@ export fun(get_user_infos(user_genesis_address)) do
 
   user_deposits = Map.get(deposits, user_genesis_address, [])
 
-  i = 0
-
   for user_deposit in user_deposits do
     level = nil
 
@@ -1480,7 +1457,7 @@ export fun(get_user_infos(user_genesis_address)) do
     end
 
     info = [
-      index: i,
+      id: user_deposit.id,
       amount: user_deposit.amount,
       reward_amount: user_deposit.reward_amount,
       level: level
@@ -1492,19 +1469,53 @@ export fun(get_user_infos(user_genesis_address)) do
     end
 
     reply = List.append(reply, info)
-    i = i + 1
   end
 
   reply
 end
 
-fun get_user_genesis(transaction) do
-  previous_address = Chain.get_previous_address(transaction)
-  Chain.get_genesis_address(previous_address)
+fun get_user_genesis() do
+  Chain.get_genesis_address(Chain.get_previous_address(transaction))
 end
 
-fun get_user_deposit(user_genesis_address, deposit_index) do
-  deposits = State.get("deposits", Map.new())
-  user_deposits = Map.get(deposits, user_genesis_address, [])
-  List.at(user_deposits, deposit_index)
+fun get_user_deposit(deposits, user_genesis_address, deposit_id) do
+  reply = nil
+
+  for user_deposit in Map.get(deposits, user_genesis_address, []) do
+    if user_deposit.id == deposit_id do
+      reply = user_deposit
+    end
+  end
+
+  reply
+end
+
+fun set_user_deposit(deposits, user_genesis_address, deposit) do
+  updated_user_deposits = []
+
+  for user_deposit in Map.get(deposits, user_genesis_address, []) do
+    if user_deposit.id == deposit.id do
+      updated_user_deposits = List.prepend(updated_user_deposits, deposit)
+    else
+      updated_user_deposits = List.prepend(updated_user_deposits, user_deposit)
+    end
+  end
+
+  Map.set(deposits, user_genesis_address, updated_user_deposits)
+end
+
+fun remove_user_deposit(deposits, user_genesis_address, deposit_id) do
+  updated_user_deposits = []
+
+  for user_deposit in Map.get(deposits, user_genesis_address, []) do
+    if user_deposit.id != deposit_id do
+      updated_user_deposits = List.prepend(updated_user_deposits, user_deposit)
+    end
+  end
+
+  if List.size(updated_user_deposits) == 0 do
+    Map.delete(deposits, user_genesis_address)
+  else
+    Map.set(deposits, user_genesis_address, updated_user_deposits)
+  end
 end
