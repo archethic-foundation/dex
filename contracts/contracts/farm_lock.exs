@@ -2,6 +2,7 @@
 
 condition triggered_by: transaction, on: deposit(end_timestamp) do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   if end_timestamp == "max" do
     end_timestamp = @END_DATE
@@ -32,6 +33,7 @@ end
 
 actions triggered_by: transaction, on: deposit(end_timestamp) do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   start = now
 
@@ -109,6 +111,7 @@ condition triggered_by: transaction, on: claim(deposit_index) do
   end
 
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   user_genesis_address = get_user_genesis(transaction)
   user_deposit = get_user_deposit(user_genesis_address, deposit_index)
@@ -161,6 +164,7 @@ end
 
 condition triggered_by: transaction, on: withdraw(amount, deposit_index) do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   user_genesis_address = get_user_genesis(transaction)
   user_deposit = get_user_deposit(user_genesis_address, deposit_index)
@@ -182,6 +186,7 @@ end
 
 actions triggered_by: transaction, on: withdraw(amount, deposit_index) do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   user_genesis_address = get_user_genesis(transaction)
 
@@ -249,6 +254,7 @@ end
 
 condition triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   day = @SECONDS_IN_DAY
 
@@ -317,6 +323,7 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_index) do
   end
 
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   user_genesis_address = get_user_genesis(transaction)
 
@@ -402,6 +409,7 @@ end
 
 fun calculate_new_rewards() do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   day = @SECONDS_IN_DAY
   year = 365 * day
@@ -834,6 +842,7 @@ end
 
 export fun(get_farm_infos()) do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   reward_token_balance = 0
   day = @SECONDS_IN_DAY
@@ -994,6 +1003,7 @@ end
 
 export fun(get_user_infos(user_genesis_address)) do
   now = Time.now()
+  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   day = @SECONDS_IN_DAY
   year = 365 * day
