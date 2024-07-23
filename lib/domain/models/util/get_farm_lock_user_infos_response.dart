@@ -18,7 +18,7 @@ class GetFarmLockUserInfosResponse with _$GetFarmLockUserInfosResponse {
 @freezed
 class UserInfos with _$UserInfos {
   const factory UserInfos({
-    required int index,
+    required String id,
     required double amount,
     @JsonKey(name: 'reward_amount') required double rewardAmount,
     int? start,

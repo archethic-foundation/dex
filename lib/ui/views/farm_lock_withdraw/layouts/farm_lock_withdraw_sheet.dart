@@ -19,7 +19,7 @@ class FarmLockWithdrawSheet extends ConsumerStatefulWidget {
     required this.lpToken,
     required this.lpTokenPair,
     required this.rewardAmount,
-    required this.depositIndex,
+    required this.depositId,
     required this.depositedAmount,
     required this.endDate,
     super.key,
@@ -30,7 +30,7 @@ class FarmLockWithdrawSheet extends ConsumerStatefulWidget {
   final DexToken rewardToken;
   final DexToken lpToken;
   final DexPair lpTokenPair;
-  final int depositIndex;
+  final String depositId;
   final double rewardAmount;
   final double depositedAmount;
   final DateTime endDate;
@@ -58,7 +58,7 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
         ref.read(FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
-          ..setDepositIndex(widget.depositIndex)
+          ..setDepositId(widget.depositId)
           ..setDepositedAmount(widget.depositedAmount)
           ..setRewardAmount(widget.rewardAmount)
           ..setEndDate(widget.endDate)

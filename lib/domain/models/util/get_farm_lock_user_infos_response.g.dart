@@ -27,7 +27,7 @@ Map<String, dynamic> _$$GetFarmLockUserInfosResponseImplToJson(
 
 _$UserInfosImpl _$$UserInfosImplFromJson(Map<String, dynamic> json) =>
     _$UserInfosImpl(
-      index: (json['index'] as num).toInt(),
+      id: json['id'] as String,
       amount: (json['amount'] as num).toDouble(),
       rewardAmount: (json['reward_amount'] as num).toDouble(),
       start: (json['start'] as num?)?.toInt(),
@@ -37,7 +37,7 @@ _$UserInfosImpl _$$UserInfosImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$UserInfosImplToJson(_$UserInfosImpl instance) =>
     <String, dynamic>{
-      'index': instance.index,
+      'id': instance.id,
       'amount': instance.amount,
       'reward_amount': instance.rewardAmount,
       'start': instance.start,

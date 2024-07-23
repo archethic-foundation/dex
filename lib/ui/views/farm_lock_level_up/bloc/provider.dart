@@ -42,8 +42,8 @@ class FarmLockLevelUpFormNotifier
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
   }
 
-  void setDepositIndex(int depositIndex) {
-    state = state.copyWith(depositIndex: depositIndex);
+  void setDepositId(String depositId) {
+    state = state.copyWith(depositId: depositId);
   }
 
   void setTransactionFarmLockLevelUp(Transaction transactionFarmLockLevelUp) {
@@ -236,7 +236,7 @@ class FarmLockLevelUpFormNotifier
         state.farmLock!.farmAddress,
         state.farmLock!.lpToken!.address!,
         state.amount,
-        state.depositIndex!,
+        state.depositId!,
         state.farmLock!.farmAddress,
         false,
         state.farmLockLevelUpDuration,

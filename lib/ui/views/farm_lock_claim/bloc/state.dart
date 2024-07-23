@@ -20,7 +20,7 @@ class FarmLockClaimFormState with _$FarmLockClaimFormState {
     double? finalAmount,
     String? farmAddress,
     DexToken? rewardToken,
-    int? depositIndex,
+    String? depositId,
     String? lpTokenAddress,
     DateTime? consentDateTime,
     double? rewardAmount,

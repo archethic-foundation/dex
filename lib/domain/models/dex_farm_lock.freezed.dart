@@ -35,7 +35,7 @@ mixin _$DexFarmLock {
   double get estimateLPTokenInFiat => throw _privateConstructorUsedError;
   Map<String, int> get availableLevels => throw _privateConstructorUsedError;
   Map<String, DexFarmLockStats> get stats => throw _privateConstructorUsedError;
-  Map<int, DexFarmLockUserInfos> get userInfos =>
+  Map<String, DexFarmLockUserInfos> get userInfos =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -66,7 +66,7 @@ abstract class $DexFarmLockCopyWith<$Res> {
       double estimateLPTokenInFiat,
       Map<String, int> availableLevels,
       Map<String, DexFarmLockStats> stats,
-      Map<int, DexFarmLockUserInfos> userInfos});
+      Map<String, DexFarmLockUserInfos> userInfos});
 
   $DexTokenCopyWith<$Res>? get lpToken;
   $DexPairCopyWith<$Res>? get lpTokenPair;
@@ -167,7 +167,7 @@ class _$DexFarmLockCopyWithImpl<$Res, $Val extends DexFarmLock>
       userInfos: null == userInfos
           ? _value.userInfos
           : userInfos // ignore: cast_nullable_to_non_nullable
-              as Map<int, DexFarmLockUserInfos>,
+              as Map<String, DexFarmLockUserInfos>,
     ) as $Val);
   }
 
@@ -232,7 +232,7 @@ abstract class _$$DexFarmLockImplCopyWith<$Res>
       double estimateLPTokenInFiat,
       Map<String, int> availableLevels,
       Map<String, DexFarmLockStats> stats,
-      Map<int, DexFarmLockUserInfos> userInfos});
+      Map<String, DexFarmLockUserInfos> userInfos});
 
   @override
   $DexTokenCopyWith<$Res>? get lpToken;
@@ -334,7 +334,7 @@ class __$$DexFarmLockImplCopyWithImpl<$Res>
       userInfos: null == userInfos
           ? _value._userInfos
           : userInfos // ignore: cast_nullable_to_non_nullable
-              as Map<int, DexFarmLockUserInfos>,
+              as Map<String, DexFarmLockUserInfos>,
     ));
   }
 }
@@ -358,7 +358,7 @@ class _$DexFarmLockImpl extends _DexFarmLock {
       this.estimateLPTokenInFiat = 0,
       final Map<String, int> availableLevels = const {},
       final Map<String, DexFarmLockStats> stats = const {},
-      final Map<int, DexFarmLockUserInfos> userInfos = const {}})
+      final Map<String, DexFarmLockUserInfos> userInfos = const {}})
       : _availableLevels = availableLevels,
         _stats = stats,
         _userInfos = userInfos,
@@ -419,10 +419,10 @@ class _$DexFarmLockImpl extends _DexFarmLock {
     return EqualUnmodifiableMapView(_stats);
   }
 
-  final Map<int, DexFarmLockUserInfos> _userInfos;
+  final Map<String, DexFarmLockUserInfos> _userInfos;
   @override
   @JsonKey()
-  Map<int, DexFarmLockUserInfos> get userInfos {
+  Map<String, DexFarmLockUserInfos> get userInfos {
     if (_userInfos is EqualUnmodifiableMapView) return _userInfos;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_userInfos);
@@ -520,7 +520,7 @@ abstract class _DexFarmLock extends DexFarmLock {
       final double estimateLPTokenInFiat,
       final Map<String, int> availableLevels,
       final Map<String, DexFarmLockStats> stats,
-      final Map<int, DexFarmLockUserInfos> userInfos}) = _$DexFarmLockImpl;
+      final Map<String, DexFarmLockUserInfos> userInfos}) = _$DexFarmLockImpl;
   const _DexFarmLock._() : super._();
 
   factory _DexFarmLock.fromJson(Map<String, dynamic> json) =
@@ -557,7 +557,7 @@ abstract class _DexFarmLock extends DexFarmLock {
   @override
   Map<String, DexFarmLockStats> get stats;
   @override
-  Map<int, DexFarmLockUserInfos> get userInfos;
+  Map<String, DexFarmLockUserInfos> get userInfos;
   @override
   @JsonKey(ignore: true)
   _$$DexFarmLockImplCopyWith<_$DexFarmLockImpl> get copyWith =>

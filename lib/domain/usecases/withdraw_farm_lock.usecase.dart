@@ -28,7 +28,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
-    int depositIndex,
+    String depositId,
     DexToken rewardToken, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionWithdraw,
@@ -56,7 +56,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
             await archethicContract.getFarmLockWithdrawTx(
           farmGenesisAddress,
           amount,
-          depositIndex,
+          depositId,
         );
 
         transactionWithdrawMap.map(

@@ -23,7 +23,7 @@ mixin _$FarmLockWithdrawFormState {
   bool get farmLockWithdrawOk => throw _privateConstructorUsedError;
   bool get walletConfirmation => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
-  int get depositIndex => throw _privateConstructorUsedError;
+  String get depositId => throw _privateConstructorUsedError;
   Transaction? get transactionWithdrawFarmLock =>
       throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
@@ -58,7 +58,7 @@ abstract class $FarmLockWithdrawFormStateCopyWith<$Res> {
       bool farmLockWithdrawOk,
       bool walletConfirmation,
       double amount,
-      int depositIndex,
+      String depositId,
       Transaction? transactionWithdrawFarmLock,
       Failure? failure,
       String? farmAddress,
@@ -101,7 +101,7 @@ class _$FarmLockWithdrawFormStateCopyWithImpl<$Res,
     Object? farmLockWithdrawOk = null,
     Object? walletConfirmation = null,
     Object? amount = null,
-    Object? depositIndex = null,
+    Object? depositId = null,
     Object? transactionWithdrawFarmLock = freezed,
     Object? failure = freezed,
     Object? farmAddress = freezed,
@@ -145,10 +145,10 @@ class _$FarmLockWithdrawFormStateCopyWithImpl<$Res,
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      depositIndex: null == depositIndex
-          ? _value.depositIndex
-          : depositIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      depositId: null == depositId
+          ? _value.depositId
+          : depositId // ignore: cast_nullable_to_non_nullable
+              as String,
       transactionWithdrawFarmLock: freezed == transactionWithdrawFarmLock
           ? _value.transactionWithdrawFarmLock
           : transactionWithdrawFarmLock // ignore: cast_nullable_to_non_nullable
@@ -283,7 +283,7 @@ abstract class _$$FarmLockWithdrawFormStateImplCopyWith<$Res>
       bool farmLockWithdrawOk,
       bool walletConfirmation,
       double amount,
-      int depositIndex,
+      String depositId,
       Transaction? transactionWithdrawFarmLock,
       Failure? failure,
       String? farmAddress,
@@ -330,7 +330,7 @@ class __$$FarmLockWithdrawFormStateImplCopyWithImpl<$Res>
     Object? farmLockWithdrawOk = null,
     Object? walletConfirmation = null,
     Object? amount = null,
-    Object? depositIndex = null,
+    Object? depositId = null,
     Object? transactionWithdrawFarmLock = freezed,
     Object? failure = freezed,
     Object? farmAddress = freezed,
@@ -374,10 +374,10 @@ class __$$FarmLockWithdrawFormStateImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      depositIndex: null == depositIndex
-          ? _value.depositIndex
-          : depositIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      depositId: null == depositId
+          ? _value.depositId
+          : depositId // ignore: cast_nullable_to_non_nullable
+              as String,
       transactionWithdrawFarmLock: freezed == transactionWithdrawFarmLock
           ? _value.transactionWithdrawFarmLock
           : transactionWithdrawFarmLock // ignore: cast_nullable_to_non_nullable
@@ -445,7 +445,7 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
       this.farmLockWithdrawOk = false,
       this.walletConfirmation = false,
       this.amount = 0.0,
-      this.depositIndex = 0,
+      this.depositId = '',
       this.transactionWithdrawFarmLock,
       this.failure,
       this.farmAddress,
@@ -484,7 +484,7 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
   final double amount;
   @override
   @JsonKey()
-  final int depositIndex;
+  final String depositId;
   @override
   final Transaction? transactionWithdrawFarmLock;
   @override
@@ -514,7 +514,7 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
 
   @override
   String toString() {
-    return 'FarmLockWithdrawFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, farmLockWithdrawOk: $farmLockWithdrawOk, walletConfirmation: $walletConfirmation, amount: $amount, depositIndex: $depositIndex, transactionWithdrawFarmLock: $transactionWithdrawFarmLock, failure: $failure, farmAddress: $farmAddress, rewardToken: $rewardToken, lpToken: $lpToken, lpTokenPair: $lpTokenPair, finalAmountReward: $finalAmountReward, finalAmountWithdraw: $finalAmountWithdraw, consentDateTime: $consentDateTime, depositedAmount: $depositedAmount, rewardAmount: $rewardAmount, poolAddress: $poolAddress, endDate: $endDate)';
+    return 'FarmLockWithdrawFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, farmLockWithdrawOk: $farmLockWithdrawOk, walletConfirmation: $walletConfirmation, amount: $amount, depositId: $depositId, transactionWithdrawFarmLock: $transactionWithdrawFarmLock, failure: $failure, farmAddress: $farmAddress, rewardToken: $rewardToken, lpToken: $lpToken, lpTokenPair: $lpTokenPair, finalAmountReward: $finalAmountReward, finalAmountWithdraw: $finalAmountWithdraw, consentDateTime: $consentDateTime, depositedAmount: $depositedAmount, rewardAmount: $rewardAmount, poolAddress: $poolAddress, endDate: $endDate)';
   }
 
   @override
@@ -535,8 +535,8 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
             (identical(other.walletConfirmation, walletConfirmation) ||
                 other.walletConfirmation == walletConfirmation) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.depositIndex, depositIndex) ||
-                other.depositIndex == depositIndex) &&
+            (identical(other.depositId, depositId) ||
+                other.depositId == depositId) &&
             (identical(other.transactionWithdrawFarmLock,
                     transactionWithdrawFarmLock) ||
                 other.transactionWithdrawFarmLock ==
@@ -574,7 +574,7 @@ class _$FarmLockWithdrawFormStateImpl extends _FarmLockWithdrawFormState {
         farmLockWithdrawOk,
         walletConfirmation,
         amount,
-        depositIndex,
+        depositId,
         transactionWithdrawFarmLock,
         failure,
         farmAddress,
@@ -607,7 +607,7 @@ abstract class _FarmLockWithdrawFormState extends FarmLockWithdrawFormState {
       final bool farmLockWithdrawOk,
       final bool walletConfirmation,
       final double amount,
-      final int depositIndex,
+      final String depositId,
       final Transaction? transactionWithdrawFarmLock,
       final Failure? failure,
       final String? farmAddress,
@@ -638,7 +638,7 @@ abstract class _FarmLockWithdrawFormState extends FarmLockWithdrawFormState {
   @override
   double get amount;
   @override
-  int get depositIndex;
+  String get depositId;
   @override
   Transaction? get transactionWithdrawFarmLock;
   @override

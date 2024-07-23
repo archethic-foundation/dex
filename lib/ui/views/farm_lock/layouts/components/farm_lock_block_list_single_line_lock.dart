@@ -260,7 +260,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                             farmLock.lpToken!.address!,
                                         lpTokenAmount: farmLockUserInfos.amount,
                                         rewardToken: farmLock.rewardToken!,
-                                        depositIndex: farmLockUserInfos.index,
+                                        depositId: farmLockUserInfos.id,
                                         currentLevel: farmLockUserInfos.level,
                                         enabled: farmLock.isOpen &&
                                             int.tryParse(
@@ -288,7 +288,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         rewardAmount:
                                             farmLockUserInfos.rewardAmount,
                                         rewardToken: farmLock.rewardToken!,
-                                        depositIndex: farmLockUserInfos.index,
+                                        depositId: farmLockUserInfos.id,
                                         endDate: farmLock.endDate!,
                                         enabled: isFlexDuration ||
                                             (!isFlexDuration &&
@@ -310,7 +310,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                           lpTokenAddress:
                                               farmLock.lpToken!.address!,
                                           rewardToken: farmLock.rewardToken!,
-                                          depositIndex: farmLockUserInfos.index,
+                                          depositId: farmLockUserInfos.id,
                                           rewardAmount:
                                               farmLockUserInfos.rewardAmount,
                                           enabled: farmLockUserInfos
@@ -555,9 +555,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                               .amount,
                                                       rewardToken:
                                                           farmLock.rewardToken!,
-                                                      depositIndex:
-                                                          farmLockUserInfos
-                                                              .index,
+                                                      depositId:
+                                                          farmLockUserInfos.id,
                                                       currentLevel:
                                                           farmLockUserInfos
                                                               .level,
@@ -597,9 +596,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                               .rewardAmount,
                                                       rewardToken:
                                                           farmLock.rewardToken!,
-                                                      depositIndex:
-                                                          farmLockUserInfos
-                                                              .index,
+                                                      depositId:
+                                                          farmLockUserInfos.id,
                                                       endDate:
                                                           farmLock.endDate!,
                                                       enabled: isFlexDuration ||
@@ -626,9 +624,9 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                             .lpToken!.address!,
                                                         rewardToken: farmLock
                                                             .rewardToken!,
-                                                        depositIndex:
+                                                        depositId:
                                                             farmLockUserInfos
-                                                                .index,
+                                                                .id,
                                                         rewardAmount:
                                                             farmLockUserInfos
                                                                 .rewardAmount,

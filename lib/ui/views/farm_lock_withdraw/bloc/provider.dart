@@ -34,8 +34,8 @@ class FarmLockWithdrawFormNotifier
     );
   }
 
-  void setDepositIndex(int depositIndex) {
-    state = state.copyWith(depositIndex: depositIndex);
+  void setDepositId(String depositId) {
+    state = state.copyWith(depositId: depositId);
   }
 
   void setAmount(
@@ -226,7 +226,7 @@ class FarmLockWithdrawFormNotifier
         state.farmAddress!,
         state.lpToken!.address!,
         state.amount,
-        state.depositIndex,
+        state.depositId,
         state.rewardToken!,
       );
 

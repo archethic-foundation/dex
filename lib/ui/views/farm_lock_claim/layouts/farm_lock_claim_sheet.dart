@@ -18,7 +18,7 @@ class FarmLockClaimSheet extends ConsumerStatefulWidget {
     required this.rewardToken,
     required this.lpTokenAddress,
     required this.rewardAmount,
-    required this.depositIndex,
+    required this.depositId,
     super.key,
   });
 
@@ -26,7 +26,7 @@ class FarmLockClaimSheet extends ConsumerStatefulWidget {
   final DexToken rewardToken;
   final String lpTokenAddress;
   final double rewardAmount;
-  final int depositIndex;
+  final String depositId;
 
   static const routerPage = '/farmLockClaim';
 
@@ -52,7 +52,7 @@ class _FarmLockClaimSheetState extends ConsumerState<FarmLockClaimSheet> {
           ..setRewardToken(widget.rewardToken)
           ..setLpTokenAddress(widget.lpTokenAddress)
           ..setRewardAmount(widget.rewardAmount)
-          ..setLockIndex(widget.depositIndex);
+          ..setDepositId(widget.depositId);
         final session = ref.read(SessionProviders.session);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {

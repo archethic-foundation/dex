@@ -562,7 +562,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
-    int depositIndex,
+    String depositId,
     FarmLockDepositDurationType durationType,
   ) async {
     return aedappfm.Result.guard(() async {
@@ -586,7 +586,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
           else
             getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
                 1000,
-          depositIndex,
+          depositId,
         ],
       );
 
@@ -622,7 +622,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
       getFarmLockWithdrawTx(
     String farmGenesisAddress,
     double amount,
-    int depositIndex,
+    String depositId,
   ) async {
     return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
@@ -639,7 +639,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
         action: 'withdraw',
         args: [
           amount,
-          depositIndex,
+          depositId,
         ],
       );
 
@@ -650,7 +650,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
   Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>>
       getFarmLockClaimTx(
     String farmGenesisAddress,
-    int depositIndex,
+    String depositId,
   ) async {
     return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
@@ -666,7 +666,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
         farmGenesisAddress,
         action: 'claim',
         args: [
-          depositIndex,
+          depositId,
         ],
       );
 

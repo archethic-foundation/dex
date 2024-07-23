@@ -43,8 +43,8 @@ _$DexFarmLockImpl _$$DexFarmLockImplFromJson(Map<String, dynamic> json) =>
           ) ??
           const {},
       userInfos: (json['userInfos'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(int.parse(k),
-                DexFarmLockUserInfos.fromJson(e as Map<String, dynamic>)),
+            (k, e) => MapEntry(
+                k, DexFarmLockUserInfos.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
     );
@@ -66,5 +66,5 @@ Map<String, dynamic> _$$DexFarmLockImplToJson(_$DexFarmLockImpl instance) =>
       'estimateLPTokenInFiat': instance.estimateLPTokenInFiat,
       'availableLevels': instance.availableLevels,
       'stats': instance.stats,
-      'userInfos': instance.userInfos.map((k, e) => MapEntry(k.toString(), e)),
+      'userInfos': instance.userInfos,
     };

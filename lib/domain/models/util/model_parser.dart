@@ -354,25 +354,25 @@ mixin ModelParser {
     String userGenesisAddress, {
     DexFarmLock? dexFarmLockInput,
   }) async {
-    final farmFactory = FarmLockFactory(
+    final farmLockFactory = FarmLockFactory(
       farmGenesisAddress,
       aedappfm.sl.get<archethic.ApiService>(),
     );
 
     final farmUserInfosResult =
-        await farmFactory.getUserInfos(userGenesisAddress);
+        await farmLockFactory.getUserInfos(userGenesisAddress);
 
-    final userInfosMap = <int, DexFarmLockUserInfos>{};
+    final userInfosMap = <String, DexFarmLockUserInfos>{};
     for (final userInfos in farmUserInfosResult) {
       final userInfosResponse = UserInfos.fromJson(userInfos!);
 
-      userInfosMap[userInfosResponse.index] = DexFarmLockUserInfos(
+      userInfosMap[userInfosResponse.id] = DexFarmLockUserInfos(
         amount: userInfosResponse.amount,
         end: userInfosResponse.end,
         start: userInfosResponse.start,
         level: userInfosResponse.level,
         rewardAmount: userInfosResponse.rewardAmount,
-        index: userInfosResponse.index,
+        id: userInfosResponse.id,
       );
     }
 

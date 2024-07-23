@@ -180,7 +180,7 @@ UserInfos _$UserInfosFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserInfos {
-  int get index => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   @JsonKey(name: 'reward_amount')
   double get rewardAmount => throw _privateConstructorUsedError;
@@ -200,7 +200,7 @@ abstract class $UserInfosCopyWith<$Res> {
       _$UserInfosCopyWithImpl<$Res, UserInfos>;
   @useResult
   $Res call(
-      {int index,
+      {String id,
       double amount,
       @JsonKey(name: 'reward_amount') double rewardAmount,
       int? start,
@@ -221,7 +221,7 @@ class _$UserInfosCopyWithImpl<$Res, $Val extends UserInfos>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? index = null,
+    Object? id = null,
     Object? amount = null,
     Object? rewardAmount = null,
     Object? start = freezed,
@@ -229,10 +229,10 @@ class _$UserInfosCopyWithImpl<$Res, $Val extends UserInfos>
     Object? level = null,
   }) {
     return _then(_value.copyWith(
-      index: null == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -266,7 +266,7 @@ abstract class _$$UserInfosImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int index,
+      {String id,
       double amount,
       @JsonKey(name: 'reward_amount') double rewardAmount,
       int? start,
@@ -285,7 +285,7 @@ class __$$UserInfosImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? index = null,
+    Object? id = null,
     Object? amount = null,
     Object? rewardAmount = null,
     Object? start = freezed,
@@ -293,10 +293,10 @@ class __$$UserInfosImplCopyWithImpl<$Res>
     Object? level = null,
   }) {
     return _then(_$UserInfosImpl(
-      index: null == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -325,7 +325,7 @@ class __$$UserInfosImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserInfosImpl implements _UserInfos {
   const _$UserInfosImpl(
-      {required this.index,
+      {required this.id,
       required this.amount,
       @JsonKey(name: 'reward_amount') required this.rewardAmount,
       this.start,
@@ -336,7 +336,7 @@ class _$UserInfosImpl implements _UserInfos {
       _$$UserInfosImplFromJson(json);
 
   @override
-  final int index;
+  final String id;
   @override
   final double amount;
   @override
@@ -351,7 +351,7 @@ class _$UserInfosImpl implements _UserInfos {
 
   @override
   String toString() {
-    return 'UserInfos(index: $index, amount: $amount, rewardAmount: $rewardAmount, start: $start, end: $end, level: $level)';
+    return 'UserInfos(id: $id, amount: $amount, rewardAmount: $rewardAmount, start: $start, end: $end, level: $level)';
   }
 
   @override
@@ -359,7 +359,7 @@ class _$UserInfosImpl implements _UserInfos {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserInfosImpl &&
-            (identical(other.index, index) || other.index == index) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.rewardAmount, rewardAmount) ||
                 other.rewardAmount == rewardAmount) &&
@@ -371,7 +371,7 @@ class _$UserInfosImpl implements _UserInfos {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, index, amount, rewardAmount, start, end, level);
+      Object.hash(runtimeType, id, amount, rewardAmount, start, end, level);
 
   @JsonKey(ignore: true)
   @override
@@ -389,7 +389,7 @@ class _$UserInfosImpl implements _UserInfos {
 
 abstract class _UserInfos implements UserInfos {
   const factory _UserInfos(
-      {required final int index,
+      {required final String id,
       required final double amount,
       @JsonKey(name: 'reward_amount') required final double rewardAmount,
       final int? start,
@@ -400,7 +400,7 @@ abstract class _UserInfos implements UserInfos {
       _$UserInfosImpl.fromJson;
 
   @override
-  int get index;
+  String get id;
   @override
   double get amount;
   @override

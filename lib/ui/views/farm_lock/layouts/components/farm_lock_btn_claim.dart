@@ -19,7 +19,7 @@ class FarmLockBtnClaim extends ConsumerWidget {
     required this.rewardToken,
     required this.lpTokenAddress,
     required this.rewardAmount,
-    required this.depositIndex,
+    required this.depositId,
     required this.currentSortedColumn,
     this.enabled = true,
     super.key,
@@ -29,7 +29,7 @@ class FarmLockBtnClaim extends ConsumerWidget {
   final DexToken rewardToken;
   final String lpTokenAddress;
   final double rewardAmount;
-  final int depositIndex;
+  final String depositId;
   final bool enabled;
   final String currentSortedColumn;
 
@@ -144,7 +144,7 @@ class FarmLockBtnClaim extends ConsumerWidget {
             'rewardToken': rewardToken.encodeParam(),
             'lpTokenAddress': lpTokenAddress.encodeParam(),
             'rewardAmount': rewardAmount.encodeParam(),
-            'depositIndex': depositIndex.encodeParam(),
+            'depositId': depositId.encodeParam(),
           },
         ).toString(),
       );

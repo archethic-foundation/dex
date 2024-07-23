@@ -112,7 +112,7 @@ Future<DexFarmLock?> _getFarmLockInfos(
     }
 
     // APR for each lock
-    final newUserInfos = <int, DexFarmLockUserInfos>{};
+    final newUserInfos = <String, DexFarmLockUserInfos>{};
     for (final entry in farmLockInfos.userInfos.entries) {
       final index = entry.key;
       var userInfos = entry.value;

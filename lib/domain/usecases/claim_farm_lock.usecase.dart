@@ -25,7 +25,7 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
-    int depositIndex,
+    String depositId,
     DexToken rewardToken, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionClaim,
@@ -49,7 +49,7 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
       try {
         final transactionClaimMap = await archethicContract.getFarmLockClaimTx(
           farmGenesisAddress,
-          depositIndex,
+          depositId,
         );
 
         transactionClaimMap.map(

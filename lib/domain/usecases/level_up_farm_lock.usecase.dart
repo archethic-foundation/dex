@@ -27,7 +27,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
-    int depositIndex,
+    String depositId,
     String farmAddress,
     bool isUCO,
     FarmLockDepositDurationType durationType, {
@@ -56,7 +56,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
           farmGenesisAddress,
           lpTokenAddress,
           amount,
-          depositIndex,
+          depositId,
           durationType,
         );
 

@@ -28,7 +28,7 @@ class DexFarmLock with _$DexFarmLock {
     @Default(0) double estimateLPTokenInFiat,
     @Default({}) Map<String, int> availableLevels,
     @Default({}) Map<String, DexFarmLockStats> stats,
-    @Default({}) Map<int, DexFarmLockUserInfos> userInfos,
+    @Default({}) Map<String, DexFarmLockUserInfos> userInfos,
   }) = _DexFarmLock;
   const DexFarmLock._();
 

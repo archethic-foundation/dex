@@ -237,9 +237,8 @@ final routerProvider = Provider<GoRouter>(
                   'farmLock',
                   (json) => DexFarmLock.fromJson(jsonDecode(json)),
                 );
-                final depositIndex =
-                    state.uri.queryParameters.getDecodedParameter(
-                  'depositIndex',
+                final depositId = state.uri.queryParameters.getDecodedParameter(
+                  'depositId',
                   jsonDecode,
                 );
                 final currentLevel =
@@ -259,7 +258,7 @@ final routerProvider = Provider<GoRouter>(
 
                 if (pool == null ||
                     farmLock == null ||
-                    depositIndex == null ||
+                    depositId == null ||
                     currentLevel == null ||
                     lpAmount == null ||
                     rewardAmount == null) {
@@ -272,7 +271,7 @@ final routerProvider = Provider<GoRouter>(
                   child: FarmLockLevelUpSheet(
                     pool: pool,
                     farmLock: farmLock,
-                    depositIndex: depositIndex,
+                    depositId: depositId,
                     currentLevel: currentLevel,
                     lpAmount: lpAmount,
                     rewardAmount: rewardAmount,
@@ -408,14 +407,14 @@ final routerProvider = Provider<GoRouter>(
                     .getDecodedParameter('lpTokenAddress', jsonDecode);
                 final rewardAmount = state.uri.queryParameters
                     .getDecodedParameter('rewardAmount', jsonDecode);
-                final depositIndex = state.uri.queryParameters
-                    .getDecodedParameter('depositIndex', jsonDecode);
+                final depositId = state.uri.queryParameters
+                    .getDecodedParameter('depositId', jsonDecode);
 
                 if (farmAddress == null ||
                     rewardToken == null ||
                     lpTokenAddress == null ||
                     rewardAmount == null ||
-                    depositIndex == null) {
+                    depositId == null) {
                   return const NoTransitionPage(
                     child: FarmLockSheet(),
                   );
@@ -427,7 +426,7 @@ final routerProvider = Provider<GoRouter>(
                     rewardToken: rewardToken,
                     lpTokenAddress: lpTokenAddress,
                     rewardAmount: rewardAmount,
-                    depositIndex: depositIndex,
+                    depositId: depositId,
                   ),
                 );
               },
@@ -457,8 +456,8 @@ final routerProvider = Provider<GoRouter>(
                     .getDecodedParameter('rewardAmount', jsonDecode);
                 final depositedAmount = state.uri.queryParameters
                     .getDecodedParameter('depositedAmount', jsonDecode);
-                final depositIndex = state.uri.queryParameters
-                    .getDecodedParameter('depositIndex', jsonDecode);
+                final depositId = state.uri.queryParameters
+                    .getDecodedParameter('depositId', jsonDecode);
                 final endDate = state.uri.queryParameters
                     .getDecodedParameter('endDate', jsonDecode);
                 if (farmAddress == null ||
@@ -468,7 +467,7 @@ final routerProvider = Provider<GoRouter>(
                     lpTokenPair == null ||
                     rewardAmount == null ||
                     depositedAmount == null ||
-                    depositIndex == null ||
+                    depositId == null ||
                     endDate == null) {
                   return const NoTransitionPage(
                     child: FarmLockSheet(),
@@ -486,7 +485,7 @@ final routerProvider = Provider<GoRouter>(
                       endDate * 1000,
                     ),
                     rewardAmount: rewardAmount,
-                    depositIndex: depositIndex,
+                    depositId: depositId,
                     depositedAmount: depositedAmount,
                   ),
                 );

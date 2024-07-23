@@ -51,7 +51,7 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
     }
 
     if (state.farmLock != null) {
-      state.farmLock!.userInfos.forEach((depositIndex, userInfos) {
+      state.farmLock!.userInfos.forEach((depositId, userInfos) {
         capitalInvested = capitalInvested + userInfos.amount;
         rewardsEarned = rewardsEarned + userInfos.rewardAmount;
       });

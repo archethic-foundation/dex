@@ -19,7 +19,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     required this.rewardToken,
     required this.lpTokenAddress,
     required this.lpTokenAmount,
-    required this.depositIndex,
+    required this.depositId,
     required this.currentLevel,
     required this.rewardAmount,
     required this.currentSortedColumn,
@@ -31,7 +31,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
   final DexToken rewardToken;
   final String lpTokenAddress;
   final double lpTokenAmount;
-  final int depositIndex;
+  final String depositId;
   final String currentLevel;
   final bool enabled;
   final double rewardAmount;
@@ -147,7 +147,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
           queryParameters: {
             'pool': farmLockForm.pool!.toJson().encodeParam(),
             'farmLock': farmLockForm.farmLock!.toJson().encodeParam(),
-            'depositIndex': depositIndex.encodeParam(),
+            'depositId': depositId.encodeParam(),
             'currentLevel': currentLevel.encodeParam(),
             'lpAmount': lpTokenAmount.encodeParam(),
             'rewardAmount': rewardAmount.encodeParam(),

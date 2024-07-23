@@ -17,7 +17,7 @@ class FarmLockWithdrawFormState with _$FarmLockWithdrawFormState {
     @Default(false) bool farmLockWithdrawOk,
     @Default(false) bool walletConfirmation,
     @Default(0.0) double amount,
-    @Default(0) int depositIndex,
+    @Default('') String depositId,
     Transaction? transactionWithdrawFarmLock,
     Failure? failure,
     String? farmAddress,

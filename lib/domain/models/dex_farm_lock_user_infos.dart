@@ -6,7 +6,7 @@ part 'dex_farm_lock_user_infos.g.dart';
 @freezed
 class DexFarmLockUserInfos with _$DexFarmLockUserInfos {
   const factory DexFarmLockUserInfos({
-    @Default(0) int index,
+    @Default('') String id,
     @Default(0.0) double amount,
     @Default(0.0) double rewardAmount,
     int? start,

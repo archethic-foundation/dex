@@ -20,7 +20,7 @@ DexFarmLockUserInfos _$DexFarmLockUserInfosFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DexFarmLockUserInfos {
-  int get index => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   double get rewardAmount => throw _privateConstructorUsedError;
   int? get start => throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ abstract class $DexFarmLockUserInfosCopyWith<$Res> {
       _$DexFarmLockUserInfosCopyWithImpl<$Res, DexFarmLockUserInfos>;
   @useResult
   $Res call(
-      {int index,
+      {String id,
       double amount,
       double rewardAmount,
       int? start,
@@ -64,7 +64,7 @@ class _$DexFarmLockUserInfosCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? index = null,
+    Object? id = null,
     Object? amount = null,
     Object? rewardAmount = null,
     Object? start = freezed,
@@ -73,10 +73,10 @@ class _$DexFarmLockUserInfosCopyWithImpl<$Res,
     Object? apr = null,
   }) {
     return _then(_value.copyWith(
-      index: null == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -114,7 +114,7 @@ abstract class _$$DexFarmLockUserInfosImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int index,
+      {String id,
       double amount,
       double rewardAmount,
       int? start,
@@ -134,7 +134,7 @@ class __$$DexFarmLockUserInfosImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? index = null,
+    Object? id = null,
     Object? amount = null,
     Object? rewardAmount = null,
     Object? start = freezed,
@@ -143,10 +143,10 @@ class __$$DexFarmLockUserInfosImplCopyWithImpl<$Res>
     Object? apr = null,
   }) {
     return _then(_$DexFarmLockUserInfosImpl(
-      index: null == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -179,7 +179,7 @@ class __$$DexFarmLockUserInfosImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DexFarmLockUserInfosImpl extends _DexFarmLockUserInfos {
   const _$DexFarmLockUserInfosImpl(
-      {this.index = 0,
+      {this.id = '',
       this.amount = 0.0,
       this.rewardAmount = 0.0,
       this.start,
@@ -193,7 +193,7 @@ class _$DexFarmLockUserInfosImpl extends _DexFarmLockUserInfos {
 
   @override
   @JsonKey()
-  final int index;
+  final String id;
   @override
   @JsonKey()
   final double amount;
@@ -213,7 +213,7 @@ class _$DexFarmLockUserInfosImpl extends _DexFarmLockUserInfos {
 
   @override
   String toString() {
-    return 'DexFarmLockUserInfos(index: $index, amount: $amount, rewardAmount: $rewardAmount, start: $start, end: $end, level: $level, apr: $apr)';
+    return 'DexFarmLockUserInfos(id: $id, amount: $amount, rewardAmount: $rewardAmount, start: $start, end: $end, level: $level, apr: $apr)';
   }
 
   @override
@@ -221,7 +221,7 @@ class _$DexFarmLockUserInfosImpl extends _DexFarmLockUserInfos {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DexFarmLockUserInfosImpl &&
-            (identical(other.index, index) || other.index == index) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.rewardAmount, rewardAmount) ||
                 other.rewardAmount == rewardAmount) &&
@@ -234,7 +234,7 @@ class _$DexFarmLockUserInfosImpl extends _DexFarmLockUserInfos {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, index, amount, rewardAmount, start, end, level, apr);
+      runtimeType, id, amount, rewardAmount, start, end, level, apr);
 
   @JsonKey(ignore: true)
   @override
@@ -254,7 +254,7 @@ class _$DexFarmLockUserInfosImpl extends _DexFarmLockUserInfos {
 
 abstract class _DexFarmLockUserInfos extends DexFarmLockUserInfos {
   const factory _DexFarmLockUserInfos(
-      {final int index,
+      {final String id,
       final double amount,
       final double rewardAmount,
       final int? start,
@@ -267,7 +267,7 @@ abstract class _DexFarmLockUserInfos extends DexFarmLockUserInfos {
       _$DexFarmLockUserInfosImpl.fromJson;
 
   @override
-  int get index;
+  String get id;
   @override
   double get amount;
   @override

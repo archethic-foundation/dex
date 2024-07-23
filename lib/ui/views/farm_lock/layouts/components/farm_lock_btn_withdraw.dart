@@ -23,7 +23,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
     required this.lpTokenPair,
     required this.rewardAmount,
     required this.depositedAmount,
-    required this.depositIndex,
+    required this.depositId,
     required this.endDate,
     required this.currentSortedColumn,
     this.enabled = true,
@@ -37,7 +37,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
   final DexPair lpTokenPair;
   final double rewardAmount;
   final double depositedAmount;
-  final int depositIndex;
+  final String depositId;
   final bool enabled;
   final DateTime endDate;
   final String currentSortedColumn;
@@ -157,7 +157,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
             'lpTokenPair': lpTokenPair.encodeParam(),
             'rewardAmount': rewardAmount.encodeParam(),
             'depositedAmount': depositedAmount.encodeParam(),
-            'depositIndex': depositIndex.encodeParam(),
+            'depositId': depositId.encodeParam(),
             'endDate': (endDate.millisecondsSinceEpoch ~/ 1000).encodeParam(),
           },
         ).toString(),

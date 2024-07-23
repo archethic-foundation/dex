@@ -52,8 +52,8 @@ class FarmLockClaimFormNotifier
     );
   }
 
-  void setLockIndex(int depositIndex) {
-    state = state.copyWith(depositIndex: depositIndex);
+  void setDepositId(String depositId) {
+    state = state.copyWith(depositId: depositId);
   }
 
   void setFailure(aedappfm.Failure? failure) {
@@ -146,7 +146,7 @@ class FarmLockClaimFormNotifier
         context,
         ref.watch(NotificationProviders.notificationService),
         state.farmAddress!,
-        state.depositIndex!,
+        state.depositId!,
         state.rewardToken!,
       );
       state = state.copyWith(finalAmount: finalAmount);

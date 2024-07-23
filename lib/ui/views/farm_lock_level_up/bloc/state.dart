@@ -29,7 +29,7 @@ class FarmLockLevelUpFormState with _$FarmLockLevelUpFormState {
     Failure? failure,
     double? finalAmount,
     DateTime? consentDateTime,
-    int? depositIndex,
+    String? depositId,
     String? currentLevel,
   }) = _FarmLockLevelUpFormState;
   const FarmLockLevelUpFormState._();

@@ -16,7 +16,7 @@ class FarmLockLevelUpSheet extends ConsumerStatefulWidget {
   const FarmLockLevelUpSheet({
     required this.pool,
     required this.farmLock,
-    required this.depositIndex,
+    required this.depositId,
     required this.currentLevel,
     required this.lpAmount,
     required this.rewardAmount,
@@ -25,7 +25,7 @@ class FarmLockLevelUpSheet extends ConsumerStatefulWidget {
 
   final DexPool pool;
   final DexFarmLock farmLock;
-  final int depositIndex;
+  final String depositId;
   final String currentLevel;
   final double lpAmount;
   final double rewardAmount;
@@ -53,7 +53,7 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
         ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
           ..setDexPool(widget.pool)
           ..setDexFarmLock(widget.farmLock)
-          ..setDepositIndex(widget.depositIndex)
+          ..setDepositId(widget.depositId)
           ..setAmount(widget.lpAmount)
           ..setCurrentLevel(widget.currentLevel)
           ..setAPREstimation(widget.farmLock.apr3years * 100);
