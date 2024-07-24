@@ -10,6 +10,7 @@ import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_item.dart'
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
+import 'package:aedex/ui/views/util/consent_uri.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -110,9 +111,9 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
           ),
           InkWell(
             onTap: () async {
-              // TODO(reddwarf03): Add link to article
-              if (!await canLaunchUrl(Uri.parse(''))) return;
-              await launchUrl(Uri.parse(''));
+              final uri = Uri.parse(kURIFarmLockArticle);
+              if (!await canLaunchUrl(uri)) return;
+              await launchUrl(uri);
             },
             child: Row(
               children: [

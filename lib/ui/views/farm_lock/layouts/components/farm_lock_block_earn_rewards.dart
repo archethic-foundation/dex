@@ -13,6 +13,7 @@ import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
+import 'package:aedex/ui/views/util/consent_uri.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FarmLockBlockEarnRewards extends ConsumerWidget {
   const FarmLockBlockEarnRewards({
@@ -85,17 +88,38 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          Opacity(
-            opacity: AppTextStyles.kOpacityText,
-            child: Text(
-              AppLocalizations.of(context)!.farmLockBlockEarnRewardsWarning,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: aedappfm.ArchethicThemeBase.systemWarning500,
-                  ),
+          if (farmLock != null &&
+              farmLock!.startDate != null &&
+              farmLock!.startDate!.isBefore(DateTime.now().toUtc()))
+            Opacity(
+              opacity: AppTextStyles.kOpacityText,
+              child: Text(
+                AppLocalizations.of(context)!.farmLockBlockEarnRewardsWarning,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: aedappfm.ArchethicThemeBase.systemWarning500,
+                    ),
+              ),
+            )
+          else if (farmLock != null && farmLock!.startDate != null)
+            Opacity(
+              opacity: AppTextStyles.kOpacityText,
+              child: Text(
+                '${AppLocalizations.of(context)!.farmLockBlockEarnRewardsStartFarm} ${DateFormat.yMd(
+                  Localizations.localeOf(context).languageCode,
+                ).add_Hm().format(
+                      farmLock!.startDate!.toLocal(),
+                    )}',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: aedappfm.ArchethicThemeBase.systemWarning500,
+                    ),
+              ),
             ),
-          ),
           InkWell(
-            onTap: () {},
+            onTap: () async {
+              final uri = Uri.parse(kURIFarmLockArticle);
+              if (!await canLaunchUrl(uri)) return;
+              await launchUrl(uri);
+            },
             child: Row(
               children: [
                 Icon(
