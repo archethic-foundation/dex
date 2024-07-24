@@ -35,11 +35,10 @@ condition triggered_by: transaction, on: deposit(end_timestamp) do
 end
 
 actions triggered_by: transaction, on: deposit(end_timestamp) do
-  now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
+  now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
 
   available_levels = Map.new()
-  available_levels = Map.set(available_levels, "0", now + 0)
+  available_levels = Map.set(available_levels, "0", now)
   available_levels = Map.set(available_levels, "1", now + 7 * @SECONDS_IN_DAY)
   available_levels = Map.set(available_levels, "2", now + 30 * @SECONDS_IN_DAY)
   available_levels = Map.set(available_levels, "3", now + 90 * @SECONDS_IN_DAY)
@@ -70,71 +69,65 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
     deposits = res.deposits
     State.set("rewards_reserved", res.rewards_reserved)
     State.set("last_calculation_timestamp", res.last_calculation_timestamp)
+    State.set("lp_tokens_deposited0", Map.get(res.lp_tokens_deposited_by_level, "0", 0))
+    State.set("lp_tokens_deposited1", Map.get(res.lp_tokens_deposited_by_level, "1", 0))
+    State.set("lp_tokens_deposited2", Map.get(res.lp_tokens_deposited_by_level, "2", 0))
+    State.set("lp_tokens_deposited3", Map.get(res.lp_tokens_deposited_by_level, "3", 0))
+    State.set("lp_tokens_deposited4", Map.get(res.lp_tokens_deposited_by_level, "4", 0))
+    State.set("lp_tokens_deposited5", Map.get(res.lp_tokens_deposited_by_level, "5", 0))
+    State.set("lp_tokens_deposited6", Map.get(res.lp_tokens_deposited_by_level, "6", 0))
+    State.set("lp_tokens_deposited7", Map.get(res.lp_tokens_deposited_by_level, "7", 0))
   else
     deposits = State.get("deposits", Map.new())
   end
 
-  id = String.from_number(Time.now())
-
-  # detect current level
-  deposit_level = nil
-
-  for l in Map.keys(available_levels) do
-    until = Map.get(available_levels, l)
-
-    if deposit_level == nil && end_timestamp <= until do
-      deposit_level = l
-    end
-  end
-
-  if deposit_level == nil do
-    deposit_level = "7"
-  end
-
-  current_deposit = [
-    amount: transfer_amount,
-    reward_amount: 0,
-    level: deposit_level,
-    start: now,
-    end: end_timestamp,
-    id: id
-  ]
-
+  # ================================================
+  # MERGE DEPOSITS
+  # ================================================
   user_deposits = Map.get(deposits, user_genesis_address, [])
-  user_deposits = List.append(user_deposits, current_deposit)
+  same_deposit = nil
 
-  # ================================================
-  # MERGE FLEXIBLE DEPOSITS
-  # ================================================
-  user_deposits_flexible = []
-  user_deposits_non_flexible = []
+  new_user_deposits = []
 
   for user_deposit in user_deposits do
-    if user_deposit.end <= now do
-      user_deposits_flexible = List.prepend(user_deposits_flexible, user_deposit)
+    if user_deposit.end == end_timestamp do
+      same_deposit = user_deposit
     else
-      user_deposits_non_flexible = List.prepend(user_deposits_non_flexible, user_deposit)
+      new_user_deposits = List.prepend(new_user_deposits, user_deposit)
     end
   end
 
-  if List.size(user_deposits_flexible) > 1 do
-    amount = 0
-    reward_amount = 0
+  new_deposit = nil
 
-    for f in user_deposits_flexible do
-      amount = amount + f.amount
-      reward_amount = reward_amount + f.reward_amount
+  if same_deposit == nil do
+    # detect current level
+    deposit_level = nil
+
+    for l in Map.keys(available_levels) do
+      until = Map.get(available_levels, l)
+
+      if deposit_level == nil && end_timestamp <= until do
+        deposit_level = l
+      end
     end
 
-    user_deposits =
-      List.prepend(user_deposits_non_flexible,
-        amount: amount,
-        reward_amount: reward_amount,
-        start: nil,
-        end: 0,
-        level: "0",
-        id: "merge"
-      )
+    if deposit_level == nil do
+      deposit_level = "7"
+    end
+
+    new_deposit = [
+      amount: transfer_amount,
+      reward_amount: 0,
+      level: deposit_level,
+      start: start,
+      end: end_timestamp,
+      id: String.from_number(Time.now())
+    ]
+
+    new_user_deposits = List.prepend(new_user_deposits, new_deposit)
+  else
+    new_deposit = Map.set(same_deposit, "amount", same_deposit.amount + transfer_amount)
+    new_user_deposits = List.prepend(new_user_deposits, same_deposit)
   end
 
   deposits = Map.set(deposits, user_genesis_address, new_user_deposits)
@@ -142,6 +135,13 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
 
   lp_tokens_deposited = State.get("lp_tokens_deposited", 0)
   State.set("lp_tokens_deposited", lp_tokens_deposited + transfer_amount)
+
+  lp_tokens_deposited_level = State.get("lp_tokens_deposited#{new_deposit.level}", 0)
+
+  State.set(
+    "lp_tokens_deposited#{new_deposit.level}",
+    lp_tokens_deposited_level + transfer_amount
+  )
 end
 
 condition triggered_by: transaction, on: claim(deposit_id) do
@@ -149,7 +149,6 @@ condition triggered_by: transaction, on: claim(deposit_id) do
     throw(message: "farm is not started yet", code: 2001)
   end
 
-  now = Time.now()
   user_genesis_address = get_user_genesis()
 
   res = calculate_new_rewards()
@@ -159,11 +158,15 @@ condition triggered_by: transaction, on: claim(deposit_id) do
     throw(message: "deposit not found", code: 2000)
   end
 
-  if user_deposit.end > now do
+  if user_deposit.end > Time.now() do
     throw(message: "claiming before end of lock", code: 2002)
   end
 
-  user_deposit.reward_amount > 0
+  if user_deposit.reward_amount <= 0 do
+    throw(message: "no reward to claim", code: 2003)
+  end
+
+  true
 end
 
 actions triggered_by: transaction, on: claim(deposit_id) do
@@ -171,6 +174,14 @@ actions triggered_by: transaction, on: claim(deposit_id) do
 
   res = calculate_new_rewards()
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
+  State.set("lp_tokens_deposited0", Map.get(res.lp_tokens_deposited_by_level, "0", 0))
+  State.set("lp_tokens_deposited1", Map.get(res.lp_tokens_deposited_by_level, "1", 0))
+  State.set("lp_tokens_deposited2", Map.get(res.lp_tokens_deposited_by_level, "2", 0))
+  State.set("lp_tokens_deposited3", Map.get(res.lp_tokens_deposited_by_level, "3", 0))
+  State.set("lp_tokens_deposited4", Map.get(res.lp_tokens_deposited_by_level, "4", 0))
+  State.set("lp_tokens_deposited5", Map.get(res.lp_tokens_deposited_by_level, "5", 0))
+  State.set("lp_tokens_deposited6", Map.get(res.lp_tokens_deposited_by_level, "6", 0))
+  State.set("lp_tokens_deposited7", Map.get(res.lp_tokens_deposited_by_level, "7", 0))
 
   user_deposit = get_user_deposit(res.deposits, user_genesis_address, deposit_id)
 
@@ -193,8 +204,6 @@ actions triggered_by: transaction, on: claim(deposit_id) do
 end
 
 condition triggered_by: transaction, on: withdraw(amount, deposit_id) do
-  now = Time.now()
-
   user_genesis_address = get_user_genesis()
 
   user_deposit =
@@ -208,7 +217,7 @@ condition triggered_by: transaction, on: withdraw(amount, deposit_id) do
     throw(message: "amount requested is greater than amount deposited", code: 3003)
   end
 
-  if user_deposit.end > now do
+  if user_deposit.end > Time.now() do
     throw(message: "withdrawing before end of lock", code: 3004)
   end
 
@@ -216,18 +225,24 @@ condition triggered_by: transaction, on: withdraw(amount, deposit_id) do
 end
 
 actions triggered_by: transaction, on: withdraw(amount, deposit_id) do
-  now = Time.now()
-
   user_genesis_address = get_user_genesis()
 
   deposits = nil
   rewards_reserved = nil
 
-  if now > @START_DATE do
+  if Time.now() > @START_DATE do
     res = calculate_new_rewards()
     deposits = res.deposits
     rewards_reserved = res.rewards_reserved
     State.set("last_calculation_timestamp", res.last_calculation_timestamp)
+    State.set("lp_tokens_deposited0", Map.get(res.lp_tokens_deposited_by_level, "0", 0))
+    State.set("lp_tokens_deposited1", Map.get(res.lp_tokens_deposited_by_level, "1", 0))
+    State.set("lp_tokens_deposited2", Map.get(res.lp_tokens_deposited_by_level, "2", 0))
+    State.set("lp_tokens_deposited3", Map.get(res.lp_tokens_deposited_by_level, "3", 0))
+    State.set("lp_tokens_deposited4", Map.get(res.lp_tokens_deposited_by_level, "4", 0))
+    State.set("lp_tokens_deposited5", Map.get(res.lp_tokens_deposited_by_level, "5", 0))
+    State.set("lp_tokens_deposited6", Map.get(res.lp_tokens_deposited_by_level, "6", 0))
+    State.set("lp_tokens_deposited7", Map.get(res.lp_tokens_deposited_by_level, "7", 0))
   else
     deposits = State.get("deposits", Map.new())
     rewards_reserved = State.get("rewards_reserved", 0)
@@ -263,6 +278,9 @@ actions triggered_by: transaction, on: withdraw(amount, deposit_id) do
   lp_tokens_deposited = State.get("lp_tokens_deposited", 0)
   State.set("lp_tokens_deposited", lp_tokens_deposited - amount)
 
+  lp_tokens_deposited_level = State.get("lp_tokens_deposited#{new_deposit.level}", 0)
+  State.set("lp_tokens_deposited#{new_deposit.level}", lp_tokens_deposited_level - amount)
+
   if amount == user_deposit.amount do
     deposits = remove_user_deposit(deposits, user_genesis_address, deposit_id)
   else
@@ -275,13 +293,23 @@ actions triggered_by: transaction, on: withdraw(amount, deposit_id) do
 end
 
 condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
-  now = Time.now()
+  if end_timestamp == "flex" do
+    throw(message: "can't relock to flex", code: 4008)
+  end
+
+  if transaction.timestamp >= @END_DATE do
+    throw(message: "relock impossible once farm is closed", code: 4002)
+  end
+
+  if end_timestamp > @END_DATE do
+    throw(message: "relock's end cannot be past farm's end", code: 4003)
+  end
 
   if end_timestamp == "max" do
     end_timestamp = @END_DATE
   end
 
-  if end_timestamp - now > 3 * 365 * @SECONDS_IN_DAY do
+  if end_timestamp - Time.now() > 3 * 365 * @SECONDS_IN_DAY do
     throw(message: "can't lock for more than 3 years", code: 4007)
   end
 
@@ -294,13 +322,7 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
     throw(message: "deposit not found", code: 4000)
   end
 
-  if transaction.timestamp >= @END_DATE do
-    throw(message: "relock impossible once farm is closed", code: 4002)
-  end
-
-  if end_timestamp > @END_DATE do
-    throw(message: "relock's end cannot be past farm's end", code: 4003)
-  end
+  now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
 
   available_levels = Map.new()
   available_levels = Map.set(available_levels, "0", now + 0)
@@ -313,14 +335,9 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   available_levels = Map.set(available_levels, "7", now + 1095 * @SECONDS_IN_DAY)
 
   relock_level = nil
-  deposit_level = nil
 
   for l in Map.keys(available_levels) do
     until = Map.get(available_levels, l)
-
-    if deposit_level == nil && user_deposit.end <= until do
-      deposit_level = l
-    end
 
     if relock_level == nil && end_timestamp <= until do
       relock_level = l
@@ -331,11 +348,7 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
     relock_level = "7"
   end
 
-  if deposit_level == nil do
-    deposit_level = "7"
-  end
-
-  if relock_level <= deposit_level do
+  if relock_level <= user_deposit.level do
     throw(message: "Relock's level must be greater than current level", code: 4004)
   end
 
@@ -347,8 +360,7 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
     end_timestamp = @END_DATE
   end
 
-  now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
+  now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
 
   available_levels = Map.new()
   available_levels = Map.set(available_levels, "0", now + 0)
@@ -364,6 +376,14 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
 
   res = calculate_new_rewards()
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
+  State.set("lp_tokens_deposited0", Map.get(res.lp_tokens_deposited_by_level, "0", 0))
+  State.set("lp_tokens_deposited1", Map.get(res.lp_tokens_deposited_by_level, "1", 0))
+  State.set("lp_tokens_deposited2", Map.get(res.lp_tokens_deposited_by_level, "2", 0))
+  State.set("lp_tokens_deposited3", Map.get(res.lp_tokens_deposited_by_level, "3", 0))
+  State.set("lp_tokens_deposited4", Map.get(res.lp_tokens_deposited_by_level, "4", 0))
+  State.set("lp_tokens_deposited5", Map.get(res.lp_tokens_deposited_by_level, "5", 0))
+  State.set("lp_tokens_deposited6", Map.get(res.lp_tokens_deposited_by_level, "6", 0))
+  State.set("lp_tokens_deposited7", Map.get(res.lp_tokens_deposited_by_level, "7", 0))
 
   user_deposit = get_user_deposit(res.deposits, user_genesis_address, deposit_id)
 
@@ -407,8 +427,7 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
 end
 
 condition triggered_by: transaction, on: calculate_rewards() do
-  now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
+  now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
 
   if now < @START_DATE do
     throw(message: "cannot calculate rewards before the farm start", code: 5000)
@@ -430,6 +449,14 @@ actions triggered_by: transaction, on: calculate_rewards() do
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
   State.set("deposits", res.deposits)
   State.set("rewards_reserved", res.rewards_reserved)
+  State.set("lp_tokens_deposited0", Map.get(res.lp_tokens_deposited_by_level, "0", 0))
+  State.set("lp_tokens_deposited1", Map.get(res.lp_tokens_deposited_by_level, "1", 0))
+  State.set("lp_tokens_deposited2", Map.get(res.lp_tokens_deposited_by_level, "2", 0))
+  State.set("lp_tokens_deposited3", Map.get(res.lp_tokens_deposited_by_level, "3", 0))
+  State.set("lp_tokens_deposited4", Map.get(res.lp_tokens_deposited_by_level, "4", 0))
+  State.set("lp_tokens_deposited5", Map.get(res.lp_tokens_deposited_by_level, "5", 0))
+  State.set("lp_tokens_deposited6", Map.get(res.lp_tokens_deposited_by_level, "6", 0))
+  State.set("lp_tokens_deposited7", Map.get(res.lp_tokens_deposited_by_level, "7", 0))
 end
 
 condition(
@@ -802,10 +829,6 @@ fun calculate_new_rewards() do
       rewards_reserved = rewards_reserved + rewards_to_allocate
       last_calculation_timestamp = period_to
     end
-
-    State.set("deposits", deposits)
-    State.set("rewards_reserved", rewards_reserved)
-    State.set("last_calculation_timestamp", last_calculation_timestamp)
   end
 
   [
