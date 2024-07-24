@@ -178,6 +178,7 @@
     "depositProcessStep2": "Deposit in progress",
     "depositProcessStep3": "Process finished",
     "farmDepositControlAmountEmpty": "Please enter the amount",
+    "farmDepositControlAmountMin": "The amount should be >= 0.00000143 LP Token",
     "farmDepositControlLPTokenAmountExceedBalance": "The amount entered exceeds your balance.",
     "farmDepositConfirmTitle": "Confirmation",
     "farmDepositFormTitle": "Deposit",
