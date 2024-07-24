@@ -211,6 +211,15 @@ class FarmLockDepositFormNotifier
       return false;
     }
 
+    if (state.amount < 0.00000143) {
+      setFailure(
+        aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!.farmDepositControlAmountMin,
+        ),
+      );
+      return false;
+    }
+
     return true;
   }
 
