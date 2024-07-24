@@ -78,23 +78,23 @@ actions triggered_by: transaction, on: calculate_rewards() do
   period_from = State.get("last_calculation_timestamp", @START_DATE)
 
   for i in 1..periods_count do
-    period_to = State.get("last_calculation_timestamp", @START_DATE) + @ROUND_NOW_TO
+    period_to = period_from + @ROUND_NOW_TO
 
     # find year / seconds remaining
     year = nil
     seconds_until_end_of_year = nil
 
-    if timestamp < @START_DATE + 365 * @SECONDS_IN_DAY do
+    if period_from < @START_DATE + 365 * @SECONDS_IN_DAY do
       year = "1"
       seconds_until_end_of_year = @START_DATE + 365 * @SECONDS_IN_DAY - period_from
     end
 
-    if year == nil && timestamp < @START_DATE + 730 * @SECONDS_IN_DAY do
+    if year == nil && period_from < @START_DATE + 730 * @SECONDS_IN_DAY do
       year = "2"
       seconds_until_end_of_year = @START_DATE + 730 * @SECONDS_IN_DAY - period_from
     end
 
-    if year == nil && timestamp < @START_DATE + 1095 * @SECONDS_IN_DAY do
+    if year == nil && period_from < @START_DATE + 1095 * @SECONDS_IN_DAY do
       year = "3"
       seconds_until_end_of_year = @START_DATE + 1095 * @SECONDS_IN_DAY - period_from
     end
@@ -248,15 +248,22 @@ actions triggered_by: transaction, on: calculate_rewards() do
       updated_user_deposits = []
 
       for user_deposit in user_deposits do
+        # calc rewards
+        user_deposit =
+          Map.set(
+            user_deposit,
+            "reward_amount",
+            user_deposit.reward_amount +
+              user_deposit.amount * weight_by_level[user_deposit.level] /
+                tokens_weighted_by_level[user_deposit.level] *
+                rewards_to_allocated_by_level[user_deposit.level]
+          )
+
         # on level change, update cursors and deposit
         if user_deposit.level != "0" do
           previous_level = String.from_number(String.to_number(user_deposit.level) - 1)
 
-          if user_deposit.end -
-               duration_by_level[previous_level] <=
-               period_to do
-            user_deposit = Map.set(user_deposit, "level", previous_level)
-
+          if user_deposit.end - duration_by_level[previous_level] <= period_to do
             State.set(
               "lp_tokens_deposited#{user_deposit.level}",
               State.get("lp_tokens_deposited#{user_deposit.level}") - user_deposit.amount
@@ -266,22 +273,12 @@ actions triggered_by: transaction, on: calculate_rewards() do
               "lp_tokens_deposited#{previous_level}",
               State.get("lp_tokens_deposited#{previous_level}") + user_deposit.amount
             )
+
+            user_deposit = Map.set(user_deposit, "level", previous_level)
           end
         end
 
-        # calc rewards & update deposit
-        updated_user_deposits =
-          List.prepend(
-            updated_user_deposits,
-            Map.set(
-              user_deposit,
-              "reward_amount",
-              user_deposit.reward_amount +
-                user_deposit.amount * weight_by_level[user_deposit.level] /
-                  tokens_weighted_by_level[user_deposit.level] *
-                  rewards_to_allocated_by_level[user_deposit.level]
-            )
-          )
+        updated_user_deposits = List.prepend(updated_user_deposits, user_deposit)
       end
 
       updated_deposits = Map.set(updated_deposits, user_address, updated_user_deposits)
