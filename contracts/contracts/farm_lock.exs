@@ -574,14 +574,15 @@ fun calculate_new_rewards() do
 
     log("#{monotonic() - start} ms giveaways_to_allocate")
 
-    
-      deposit_periods = []
 
       # ================================================
       # CALCULATE THE PERIODS FOR EVERY DEPOSIT
       # ================================================
 
       start = monotonic()
+      
+      deposit_periods = []
+      start_periods = []
 
       for address in Map.keys(deposits) do
         user_deposits = Map.get(deposits, address)
@@ -633,6 +634,12 @@ fun calculate_new_rewards() do
                     user_address: address,
                     id: user_deposit.id
                   )
+                  
+                start_periods = List.append(start_periods,
+                  start: start_of_level,
+                  year: year_period.year,
+                  remaining_until_end_of_year: year_period.remaining_until_end_of_year
+                )
 
                 current_end = start_of_level
               end
@@ -655,6 +662,13 @@ fun calculate_new_rewards() do
                   user_address: address,
                   id: user_deposit.id
                 )
+                
+                
+              start_periods = List.append(start_periods,
+                start: year_period.start,
+                year: year_period.year,
+                remaining_until_end_of_year: year_period.remaining_until_end_of_year
+              )
             end
 
             deposit_periods = deposit_periods ++ deposit_periods_for_year
@@ -670,18 +684,8 @@ fun calculate_new_rewards() do
       # ================================================
 
       start = monotonic()
-      start_periods = []
 
-      for deposit_period in deposit_periods do
-        start_periods =
-          List.append(start_periods,
-            start: deposit_period.start,
-            year: deposit_period.year,
-            remaining_until_end_of_year: deposit_period.remaining_until_end_of_year
-          )
-      end
-
-      start_periods = List.uniq(start_periods)
+      start_periods = List.sort_by(List.uniq(start_periods), "start")
 
       log("#{monotonic() - start} ms start_periods")
 
