@@ -301,7 +301,7 @@ class _SwapTokenSwappedAmountState
                                   ) /
                                   Decimal.fromInt(2))
                               .toDouble()
-                              .toString(),
+                              .formatNumber(),
                         ),
                       );
                       swapNotifier.setTokenFormSelected(2);
