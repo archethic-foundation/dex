@@ -574,287 +574,285 @@ fun calculate_new_rewards() do
 
     log("#{monotonic() - start} ms giveaways_to_allocate")
 
+    # ================================================
+    # CALCULATE THE PERIODS FOR EVERY DEPOSIT
+    # ================================================
 
-      # ================================================
-      # CALCULATE THE PERIODS FOR EVERY DEPOSIT
-      # ================================================
+    start = monotonic()
 
-      start = monotonic()
-      
-      deposit_periods = []
-      start_periods = []
+    deposit_periods = []
+    start_periods = []
 
-      for address in Map.keys(deposits) do
-        user_deposits = Map.get(deposits, address)
-        user_deposits_updated = []
+    for address in Map.keys(deposits) do
+      user_deposits = Map.get(deposits, address)
+      user_deposits_updated = []
 
-        for user_deposit in user_deposits do
-          start_per_level = Map.new()
+      for user_deposit in user_deposits do
+        start_per_level = Map.new()
 
-          for l in Map.keys(duration_per_level) do
-            duration = Map.get(duration_per_level, l)
-            end_current_level = user_deposit.end - duration
+        for l in Map.keys(duration_per_level) do
+          duration = Map.get(duration_per_level, l)
+          end_current_level = user_deposit.end - duration
 
-            start_per_level =
-              Map.set(
-                start_per_level,
-                l,
-                end_current_level
-              )
-          end
+          start_per_level =
+            Map.set(
+              start_per_level,
+              l,
+              end_current_level
+            )
+        end
 
-          for year_period in year_periods do
-            deposit_periods_for_year = []
-            current_level = nil
-            current_end = year_period.end
+        for year_period in year_periods do
+          deposit_periods_for_year = []
+          current_level = nil
+          current_end = year_period.end
 
-            # level is ASC but start_of_level is DESC
-            # assumption that keys are ordered in a map
-            for l in Map.keys(start_per_level) do
-              start_of_level = Map.get(start_per_level, l)
+          # level is ASC but start_of_level is DESC
+          # assumption that keys are ordered in a map
+          for l in Map.keys(start_per_level) do
+            start_of_level = Map.get(start_per_level, l)
 
-              if year_period.start < start_of_level do
-                current_level = String.from_number(String.to_number(l) + 1)
+            if year_period.start < start_of_level do
+              current_level = String.from_number(String.to_number(l) + 1)
 
-                if current_level == "8" do
-                  current_level = "7"
-                end
-              end
-
-              if start_of_level >= year_period.start && start_of_level < year_period.end do
-                deposit_periods_for_year =
-                  List.prepend(deposit_periods_for_year,
-                    start: start_of_level,
-                    end: current_end,
-                    elapsed: current_end - start_of_level,
-                    remaining_until_end_of_year: year_period.remaining_until_end_of_year,
-                    level: l,
-                    year: year_period.year,
-                    amount: user_deposit.amount,
-                    user_address: address,
-                    id: user_deposit.id
-                  )
-                  
-                start_periods = List.append(start_periods,
-                  start: start_of_level,
-                  year: year_period.year,
-                  remaining_until_end_of_year: year_period.remaining_until_end_of_year
-                )
-
-                current_end = start_of_level
+              if current_level == "8" do
+                current_level = "7"
               end
             end
 
-            if current_end != year_period.start do
-              if current_level == nil do
-                current_level = "0"
-              end
-
+            if start_of_level >= year_period.start && start_of_level < year_period.end do
               deposit_periods_for_year =
                 List.prepend(deposit_periods_for_year,
-                  start: year_period.start,
+                  start: start_of_level,
                   end: current_end,
-                  elapsed: current_end - year_period.start,
+                  elapsed: current_end - start_of_level,
                   remaining_until_end_of_year: year_period.remaining_until_end_of_year,
-                  level: current_level,
+                  level: l,
                   year: year_period.year,
                   amount: user_deposit.amount,
                   user_address: address,
                   id: user_deposit.id
                 )
-                
-                
-              start_periods = List.append(start_periods,
+
+              start_periods =
+                List.append(start_periods,
+                  start: start_of_level,
+                  year: year_period.year,
+                  remaining_until_end_of_year: year_period.remaining_until_end_of_year
+                )
+
+              current_end = start_of_level
+            end
+          end
+
+          if current_end != year_period.start do
+            if current_level == nil do
+              current_level = "0"
+            end
+
+            deposit_periods_for_year =
+              List.prepend(deposit_periods_for_year,
+                start: year_period.start,
+                end: current_end,
+                elapsed: current_end - year_period.start,
+                remaining_until_end_of_year: year_period.remaining_until_end_of_year,
+                level: current_level,
+                year: year_period.year,
+                amount: user_deposit.amount,
+                user_address: address,
+                id: user_deposit.id
+              )
+
+            start_periods =
+              List.append(start_periods,
                 start: year_period.start,
                 year: year_period.year,
                 remaining_until_end_of_year: year_period.remaining_until_end_of_year
               )
-            end
-
-            deposit_periods = deposit_periods ++ deposit_periods_for_year
           end
+
+          deposit_periods = deposit_periods ++ deposit_periods_for_year
         end
       end
+    end
 
-      deposit_periods = List.sort_by(deposit_periods, "start")
-      log("#{monotonic() - start} ms deposit_periods")
+    deposit_periods = List.sort_by(deposit_periods, "start")
+    log("#{monotonic() - start} ms deposit_periods")
 
-      # ================================================
-      # DETERMINE ALL THE PERIODS STARTS
-      # ================================================
+    # ================================================
+    # DETERMINE ALL THE PERIODS STARTS
+    # ================================================
 
-      start = monotonic()
+    start = monotonic()
 
-      start_periods = List.sort_by(List.uniq(start_periods), "start")
+    start_periods = List.sort_by(List.uniq(start_periods), "start")
 
-      log("#{monotonic() - start} ms start_periods")
+    log("#{monotonic() - start} ms start_periods")
 
-      # ================================================
-      # CREATE PERIODS
-      # ================================================
+    # ================================================
+    # CREATE PERIODS
+    # ================================================
 
-      start = monotonic()
-      start_end_years = []
-      previous = nil
+    start = monotonic()
+    start_end_years = []
+    previous = nil
 
-      for start_period in start_periods do
-        if previous != nil do
-          start_end_years =
-            List.append(start_end_years,
-              start: previous.start,
-              end: start_period.start,
-              year: previous.year,
-              remaining_until_end_of_year: previous.remaining_until_end_of_year
+    for start_period in start_periods do
+      if previous != nil do
+        start_end_years =
+          List.append(start_end_years,
+            start: previous.start,
+            end: start_period.start,
+            year: previous.year,
+            remaining_until_end_of_year: previous.remaining_until_end_of_year
+          )
+      end
+
+      previous = start_period
+    end
+
+    max_end = now
+
+    if now > @END_DATE do
+      max_end = @END_DATE
+    end
+
+    start_end_years =
+      List.append(start_end_years,
+        start: previous.start,
+        end: max_end,
+        year: previous.year,
+        remaining_until_end_of_year: previous.remaining_until_end_of_year
+      )
+
+    log("#{monotonic() - start} ms start_end_years")
+    # ================================================
+    # FOR EACH PERIOD DETERMINE THE DEPOSITS STATES
+    # ================================================
+    start = monotonic()
+
+    deposits_per_period = Map.new()
+
+    for start_end_year in start_end_years do
+      deposits_in_period = []
+
+      for deposit_period in deposit_periods do
+        if deposit_period.start < start_end_year.end &&
+             deposit_period.end > start_end_year.start do
+          deposits_in_period =
+            List.append(deposits_in_period,
+              amount: deposit_period.amount,
+              level: deposit_period.level,
+              id: deposit_period.id,
+              user_address: deposit_period.user_address
             )
         end
-
-        previous = start_period
       end
 
-      max_end = now
+      deposits_per_period = Map.set(deposits_per_period, start_end_year, deposits_in_period)
+    end
 
-      if now > @END_DATE do
-        max_end = @END_DATE
+    log("#{monotonic() - start} ms deposits_per_period")
+
+    # ================================================
+    # FOR EACH PERIOD DETERMINE THE REWARD TO ALLOCATE FOR EACH LEVEL
+    # ================================================
+    start = monotonic()
+    current_year_reward_accumulated = 0
+    previous_year_reward_accumulated = 0
+    previous_year = nil
+
+    periods = Map.keys(deposits_per_period)
+    periods = List.sort_by(periods, "start")
+
+    for period in periods do
+      if previous_year == nil || previous_year != period.year do
+        previous_year = period.year
+
+        previous_year_reward_accumulated =
+          previous_year_reward_accumulated + current_year_reward_accumulated
+
+        current_year_reward_accumulated = 0
       end
 
-      start_end_years =
-        List.append(start_end_years,
-          start: previous.start,
-          end: max_end,
-          year: previous.year,
-          remaining_until_end_of_year: previous.remaining_until_end_of_year
-        )
+      deposits_in_period = Map.get(deposits_per_period, period)
 
-      log("#{monotonic() - start} ms start_end_years")
-      # ================================================
-      # FOR EACH PERIOD DETERMINE THE DEPOSITS STATES
-      # ================================================
-      start = monotonic()
+      rewards_allocated_at_year_end =
+        Map.get(rewards_allocated_at_each_year_end, String.from_number(period.year), 0)
 
-      deposits_per_period = Map.new()
+      giveaway_for_period =
+        giveaways_to_allocate * ((period.end - period.start) / time_elapsed_since_last_calc)
 
-      for start_end_year in start_end_years do
-        deposits_in_period = []
+      # rounding imprecision here due to max 8 decimals in the ratio
+      reward_to_allocate =
+        (rewards_allocated_at_year_end - rewards_distributed - rewards_reserved -
+           previous_year_reward_accumulated) *
+          ((period.end - period.start) / period.remaining_until_end_of_year) +
+          giveaway_for_period
 
-        for deposit_period in deposit_periods do
-          if deposit_period.start < start_end_year.end &&
-               deposit_period.end > start_end_year.start do
-            deposits_in_period =
-              List.append(deposits_in_period,
-                amount: deposit_period.amount,
-                level: deposit_period.level,
-                id: deposit_period.id,
-                user_address: deposit_period.user_address
-              )
-          end
-        end
+      total_weighted_lp_deposited = 0
+      weighted_lp_deposited_per_level = Map.new()
 
-        deposits_per_period = Map.set(deposits_per_period, start_end_year, deposits_in_period)
+      for deposit in deposits_in_period do
+        current_weighted_amount = Map.get(weighted_lp_deposited_per_level, deposit.level, 0)
+        weight = Map.get(weight_per_level, deposit.level)
+        deposit_weighted_amount = deposit.amount * weight
+
+        weighted_lp_deposited_per_level =
+          Map.set(
+            weighted_lp_deposited_per_level,
+            deposit.level,
+            current_weighted_amount + deposit_weighted_amount
+          )
+
+        total_weighted_lp_deposited = total_weighted_lp_deposited + deposit_weighted_amount
       end
 
-      log("#{monotonic() - start} ms deposits_per_period")
+      reward_to_allocate_per_level = Map.new()
 
-      # ================================================
-      # FOR EACH PERIOD DETERMINE THE REWARD TO ALLOCATE FOR EACH LEVEL
-      # ================================================
-      start = monotonic()
-      current_year_reward_accumulated = 0
-      previous_year_reward_accumulated = 0
-      previous_year = nil
+      for level in Map.keys(weight_per_level) do
+        weighted_lp_deposited_for_level = Map.get(weighted_lp_deposited_per_level, level, 0)
 
-      periods = Map.keys(deposits_per_period)
-      periods = List.sort_by(periods, "start")
-
-      for period in periods do
-        if previous_year == nil || previous_year != period.year do
-          previous_year = period.year
-
-          previous_year_reward_accumulated =
-            previous_year_reward_accumulated + current_year_reward_accumulated
-
-          current_year_reward_accumulated = 0
-        end
-
-        deposits_in_period = Map.get(deposits_per_period, period)
-
-        rewards_allocated_at_year_end =
-          Map.get(rewards_allocated_at_each_year_end, String.from_number(period.year), 0)
-
-        giveaway_for_period =
-          giveaways_to_allocate * ((period.end - period.start) / time_elapsed_since_last_calc)
-
-        # rounding imprecision here due to max 8 decimals in the ratio
-        reward_to_allocate =
-          (rewards_allocated_at_year_end - rewards_distributed - rewards_reserved -
-             previous_year_reward_accumulated) *
-            ((period.end - period.start) / period.remaining_until_end_of_year) +
-            giveaway_for_period
-
-        total_weighted_lp_deposited = 0
-        weighted_lp_deposited_per_level = Map.new()
-
-        for deposit in deposits_in_period do
-          current_weighted_amount = Map.get(weighted_lp_deposited_per_level, deposit.level, 0)
-          weight = Map.get(weight_per_level, deposit.level)
-          deposit_weighted_amount = deposit.amount * weight
-
-          weighted_lp_deposited_per_level =
+        if total_weighted_lp_deposited > 0 do
+          reward_to_allocate_per_level =
             Map.set(
-              weighted_lp_deposited_per_level,
-              deposit.level,
-              current_weighted_amount + deposit_weighted_amount
+              reward_to_allocate_per_level,
+              level,
+              weighted_lp_deposited_for_level / total_weighted_lp_deposited * reward_to_allocate
             )
-
-          total_weighted_lp_deposited = total_weighted_lp_deposited + deposit_weighted_amount
-        end
-
-        reward_to_allocate_per_level = Map.new()
-
-        for level in Map.keys(weight_per_level) do
-          weighted_lp_deposited_for_level = Map.get(weighted_lp_deposited_per_level, level, 0)
-
-          if total_weighted_lp_deposited > 0 do
-            reward_to_allocate_per_level =
-              Map.set(
-                reward_to_allocate_per_level,
-                level,
-                weighted_lp_deposited_for_level / total_weighted_lp_deposited * reward_to_allocate
-              )
-          else
-            reward_to_allocate_per_level =
-              Map.set(
-                reward_to_allocate_per_level,
-                level,
-                0
-              )
-          end
-        end
-
-        for deposit in deposits_in_period do
-          deposit_key = [user_address: deposit.user_address, id: deposit.id]
-          weight = Map.get(weight_per_level, deposit.level)
-
-          weighted_lp_deposited_for_level =
-            Map.get(weighted_lp_deposited_per_level, deposit.level)
-
-          reward_to_allocate_for_level = Map.get(reward_to_allocate_per_level, deposit.level)
-
-          reward = 0
-
-          if weighted_lp_deposited_for_level > 0 do
-            reward =
-              deposit.amount * weight / weighted_lp_deposited_for_level *
-                reward_to_allocate_for_level
-          end
-
-          current_year_reward_accumulated = current_year_reward_accumulated + reward
-          previous_reward = Map.get(reward_per_deposit, deposit_key, 0)
-          reward_per_deposit = Map.set(reward_per_deposit, deposit_key, previous_reward + reward)
+        else
+          reward_to_allocate_per_level =
+            Map.set(
+              reward_to_allocate_per_level,
+              level,
+              0
+            )
         end
       end
 
-      log("#{monotonic() - start} ms reward_per_deposit")
-    
+      for deposit in deposits_in_period do
+        deposit_key = [user_address: deposit.user_address, id: deposit.id]
+        weight = Map.get(weight_per_level, deposit.level)
+
+        weighted_lp_deposited_for_level = Map.get(weighted_lp_deposited_per_level, deposit.level)
+
+        reward_to_allocate_for_level = Map.get(reward_to_allocate_per_level, deposit.level)
+
+        reward = 0
+
+        if weighted_lp_deposited_for_level > 0 do
+          reward =
+            deposit.amount * weight / weighted_lp_deposited_for_level *
+              reward_to_allocate_for_level
+        end
+
+        current_year_reward_accumulated = current_year_reward_accumulated + reward
+        previous_reward = Map.get(reward_per_deposit, deposit_key, 0)
+        reward_per_deposit = Map.set(reward_per_deposit, deposit_key, previous_reward + reward)
+      end
+    end
+
+    log("#{monotonic() - start} ms reward_per_deposit")
 
     start = monotonic()
 
