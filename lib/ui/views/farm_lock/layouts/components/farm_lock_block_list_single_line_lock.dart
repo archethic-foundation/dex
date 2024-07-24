@@ -302,33 +302,32 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                             currentSortedColumn,
                                       ),
                                     ),
-                                    if (isFlexDuration)
-                                      SizedBox(
-                                        width: constraints.maxWidth * 0.083,
-                                        child: FarmLockBtnClaim(
-                                          farmAddress: farmLock.farmAddress,
-                                          lpTokenAddress:
-                                              farmLock.lpToken!.address!,
-                                          rewardToken: farmLock.rewardToken!,
-                                          depositId: farmLockUserInfos.id,
-                                          rewardAmount:
-                                              farmLockUserInfos.rewardAmount,
-                                          enabled: farmLockUserInfos
-                                                      .rewardAmount >
-                                                  0 &&
-                                              (isFlexDuration ||
-                                                  (!isFlexDuration &&
-                                                      DateTime
-                                                          .fromMillisecondsSinceEpoch(
-                                                        farmLockUserInfos.end! *
-                                                            1000,
-                                                      ).isBefore(
-                                                        DateTime.now().toUtc(),
-                                                      ))),
-                                          currentSortedColumn:
-                                              currentSortedColumn,
-                                        ),
+                                    SizedBox(
+                                      width: constraints.maxWidth * 0.083,
+                                      child: FarmLockBtnClaim(
+                                        farmAddress: farmLock.farmAddress,
+                                        lpTokenAddress:
+                                            farmLock.lpToken!.address!,
+                                        rewardToken: farmLock.rewardToken!,
+                                        depositId: farmLockUserInfos.id,
+                                        rewardAmount:
+                                            farmLockUserInfos.rewardAmount,
+                                        enabled: isFlexDuration == true &&
+                                            farmLockUserInfos.rewardAmount >
+                                                0 &&
+                                            (isFlexDuration ||
+                                                (!isFlexDuration &&
+                                                    DateTime
+                                                        .fromMillisecondsSinceEpoch(
+                                                      farmLockUserInfos.end! *
+                                                          1000,
+                                                    ).isBefore(
+                                                      DateTime.now().toUtc(),
+                                                    ))),
+                                        currentSortedColumn:
+                                            currentSortedColumn,
                                       ),
+                                    ),
                                   ],
                                 )
                               : Opacity(
