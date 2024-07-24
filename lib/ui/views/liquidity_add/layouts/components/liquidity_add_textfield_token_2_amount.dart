@@ -216,7 +216,7 @@ class _LiquidityAddToken2AmountState
                                 ) /
                                 Decimal.fromInt(2))
                             .toDouble()
-                            .toString(),
+                            .formatNumber(),
                       ),
                     );
                     liquidityAddNotifier.setTokenFormSelected(2);
