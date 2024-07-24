@@ -322,7 +322,10 @@ class FarmLockLevelUpFormSheetState
                         children: [
                           Expanded(
                             child: aedappfm.ButtonValidate(
-                              controlOk: farmLockLevelUp.isControlsOk,
+                              controlOk: farmLockLevelUp.isControlsOk &&
+                                  ref
+                                      .watch(SessionProviders.session)
+                                      .isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farmLockLevelUp,
                               onPressed: () => ref
@@ -331,9 +334,7 @@ class FarmLockLevelUpFormSheetState
                                         .farmLockLevelUpForm.notifier,
                                   )
                                   .validateForm(context),
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
+                              isConnected: true,
                               displayWalletConnectOnPressed: () async {
                                 final sessionNotifier =
                                     ref.read(SessionProviders.session.notifier);

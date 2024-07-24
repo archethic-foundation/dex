@@ -173,7 +173,10 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: aedappfm.ButtonValidate(
-                              controlOk: farmLockClaim.isControlsOk,
+                              controlOk: farmLockClaim.isControlsOk &&
+                                  ref
+                                      .watch(SessionProviders.session)
+                                      .isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_lock_claim,
                               onPressed: () => ref
@@ -182,9 +185,7 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                                         .farmLockClaimForm.notifier,
                                   )
                                   .validateForm(context),
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
+                              isConnected: true,
                               displayWalletConnectOnPressed: () async {
                                 final sessionNotifier =
                                     ref.read(SessionProviders.session.notifier);
