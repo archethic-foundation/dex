@@ -205,7 +205,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                             width: 36,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              gradient: aedappfm.AppThemeBase.gradientBtn,
+                              gradient: farm == null
+                                  ? aedappfm.AppThemeBase.gradient
+                                  : aedappfm.AppThemeBase.gradientBtn,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -320,7 +322,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                             width: 36,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              gradient: aedappfm.AppThemeBase.gradientBtn,
+                              gradient: farmLock == null
+                                  ? aedappfm.AppThemeBase.gradient
+                                  : aedappfm.AppThemeBase.gradientBtn,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
