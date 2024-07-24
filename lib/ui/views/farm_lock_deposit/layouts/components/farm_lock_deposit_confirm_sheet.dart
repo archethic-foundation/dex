@@ -101,11 +101,10 @@ class FarmLockDepositConfirmSheetState
                     },
                     controlAffinity: ListTileControlAffinity.leading,
                     subtitle: InkWell(
-                      // TODO(reddwarf03): Add link to article
                       onTap: () async {
-                        if (!await canLaunchUrl(Uri.parse(''))) return;
-
-                        await launchUrl(Uri.parse(''));
+                        final uri = Uri.parse(kURIFarmLockArticle);
+                        if (!await canLaunchUrl(uri)) return;
+                        await launchUrl(uri);
                       },
                       child: Text(
                         AppLocalizations.of(context)!
