@@ -347,7 +347,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
                                   ) /
                                   Decimal.fromInt(2))
                               .toDouble()
-                              .toString(),
+                              .formatNumber(),
                         ),
                       );
                       swapNotifier.setTokenFormSelected(1);
