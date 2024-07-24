@@ -2,7 +2,6 @@
 
 condition triggered_by: transaction, on: deposit(end_timestamp) do
   now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
   day = @SECONDS_IN_DAY
 
   if end_timestamp == "max" do
@@ -251,7 +250,6 @@ end
 
 condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
 
   day = @SECONDS_IN_DAY
 
@@ -510,8 +508,6 @@ fun calculate_new_rewards() do
     current_year = 1
     current_year_end = @START_DATE + year
 
-    start = monotonic()
-
     for end_of_year in end_of_years do
       if now > end_of_year.timestamp do
         current_year = current_year + 1
@@ -541,8 +537,6 @@ fun calculate_new_rewards() do
         )
     end
 
-    log("#{monotonic() - start} ms year_periods")
-
     # ================================================
     # CALCULATED AVAILABLE BALANCE
     # ================================================
@@ -561,7 +555,7 @@ fun calculate_new_rewards() do
     # Extra balance on the chain is considered give away
     # we distributed them linearly
     # ================================================
-    start = monotonic()
+
     time_elapsed_since_last_calc = now - last_calculation_timestamp
     time_remaining_until_farm_end = @END_DATE - last_calculation_timestamp
 
@@ -572,15 +566,11 @@ fun calculate_new_rewards() do
     giveaways_to_allocate =
       giveaways * (time_elapsed_since_last_calc / time_remaining_until_farm_end)
 
-    log("#{monotonic() - start} ms giveaways_to_allocate")
-
     deposit_periods = []
 
     # ================================================
     # CALCULATE THE PERIODS FOR EVERY DEPOSIT
     # ================================================
-
-    start = monotonic()
 
     for address in Map.keys(deposits) do
       user_deposits = Map.get(deposits, address)
@@ -662,13 +652,11 @@ fun calculate_new_rewards() do
     end
 
     deposit_periods = List.sort_by(deposit_periods, "start")
-    log("#{monotonic() - start} ms deposit_periods")
 
     # ================================================
     # DETERMINE ALL THE PERIODS STARTS
     # ================================================
 
-    start = monotonic()
     start_periods = []
 
     for deposit_period in deposit_periods do
@@ -682,13 +670,10 @@ fun calculate_new_rewards() do
 
     start_periods = List.uniq(start_periods)
 
-    log("#{monotonic() - start} ms start_periods")
-
     # ================================================
     # CREATE PERIODS
     # ================================================
 
-    start = monotonic()
     start_end_years = []
     previous = nil
 
@@ -720,11 +705,9 @@ fun calculate_new_rewards() do
         remaining_until_end_of_year: previous.remaining_until_end_of_year
       )
 
-    log("#{monotonic() - start} ms start_end_years")
     # ================================================
     # FOR EACH PERIOD DETERMINE THE DEPOSITS STATES
     # ================================================
-    start = monotonic()
 
     deposits_per_period = Map.new()
 
@@ -747,12 +730,10 @@ fun calculate_new_rewards() do
       deposits_per_period = Map.set(deposits_per_period, start_end_year, deposits_in_period)
     end
 
-    log("#{monotonic() - start} ms deposits_per_period")
-
     # ================================================
     # FOR EACH PERIOD DETERMINE THE REWARD TO ALLOCATE FOR EACH LEVEL
     # ================================================
-    start = monotonic()
+
     current_year_reward_accumulated = 0
     previous_year_reward_accumulated = 0
     previous_year = nil
@@ -829,8 +810,7 @@ fun calculate_new_rewards() do
         deposit_key = [user_address: deposit.user_address, id: deposit.id]
         weight = Map.get(weight_per_level, deposit.level)
 
-        weighted_lp_deposited_for_level =
-          Map.get(weighted_lp_deposited_per_level, deposit.level)
+        weighted_lp_deposited_for_level = Map.get(weighted_lp_deposited_per_level, deposit.level)
 
         reward_to_allocate_for_level = Map.get(reward_to_allocate_per_level, deposit.level)
 
@@ -847,10 +827,6 @@ fun calculate_new_rewards() do
         reward_per_deposit = Map.set(reward_per_deposit, deposit_key, previous_reward + reward)
       end
     end
-
-    log("#{monotonic() - start} ms reward_per_deposit")
-
-    start = monotonic()
 
     for address in Map.keys(deposits) do
       user_deposits = Map.get(deposits, address)
@@ -870,8 +846,6 @@ fun calculate_new_rewards() do
 
       deposits = Map.set(deposits, address, user_deposits_updated)
     end
-
-    log("#{monotonic() - start} ms update deposits")
   end
 
   [
@@ -963,8 +937,6 @@ export fun(get_farm_infos()) do
   lp_tokens_deposited_per_level = Map.new()
   deposits_count_per_level = Map.new()
 
-  start = monotonic()
-
   for user_genesis in Map.keys(deposits) do
     user_deposits = Map.get(deposits, user_genesis)
 
@@ -1004,11 +976,7 @@ export fun(get_farm_infos()) do
     end
   end
 
-  log("#{monotonic() - start} ms state calc")
-
   stats = Map.new()
-
-  start = monotonic()
 
   for level in Map.keys(available_levels) do
     rewards_allocated = []
@@ -1034,8 +1002,6 @@ export fun(get_farm_infos()) do
         rewards_allocated: rewards_allocated
       )
   end
-
-  log("#{monotonic() - start} ms stats")
 
   [
     lp_token_address: @LP_TOKEN_ADDRESS,
