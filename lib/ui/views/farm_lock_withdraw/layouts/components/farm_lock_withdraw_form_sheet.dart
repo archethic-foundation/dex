@@ -184,7 +184,10 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: aedappfm.ButtonValidate(
-                              controlOk: farmLockWithdraw.isControlsOk,
+                              controlOk: farmLockWithdraw.isControlsOk &&
+                                  ref
+                                      .watch(SessionProviders.session)
+                                      .isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_withdraw,
                               onPressed: () => ref
@@ -193,9 +196,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                         .farmLockWithdrawForm.notifier,
                                   )
                                   .validateForm(context),
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
+                              isConnected: true,
                               displayWalletConnectOnPressed: () async {
                                 final sessionNotifier =
                                     ref.read(SessionProviders.session.notifier);

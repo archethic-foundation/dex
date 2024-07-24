@@ -204,7 +204,10 @@ class FarmLockDepositFormSheetState
                         children: [
                           Expanded(
                             child: aedappfm.ButtonValidate(
-                              controlOk: farmLockDeposit.isControlsOk,
+                              controlOk: farmLockDeposit.isControlsOk &&
+                                  ref
+                                      .watch(SessionProviders.session)
+                                      .isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farmLockDeposit,
                               onPressed: () => ref
@@ -213,9 +216,7 @@ class FarmLockDepositFormSheetState
                                         .farmLockDepositForm.notifier,
                                   )
                                   .validateForm(context),
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
+                              isConnected: true,
                               displayWalletConnectOnPressed: () async {
                                 final sessionNotifier =
                                     ref.read(SessionProviders.session.notifier);
