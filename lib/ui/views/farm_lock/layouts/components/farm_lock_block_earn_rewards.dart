@@ -85,6 +85,15 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
+          Opacity(
+            opacity: AppTextStyles.kOpacityText,
+            child: Text(
+              AppLocalizations.of(context)!.farmLockBlockEarnRewardsWarning,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: aedappfm.ArchethicThemeBase.systemWarning500,
+                  ),
+            ),
+          ),
           InkWell(
             onTap: () {},
             child: Row(
