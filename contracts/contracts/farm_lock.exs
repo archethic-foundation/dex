@@ -2,7 +2,6 @@
 
 condition triggered_by: transaction, on: deposit(end_timestamp) do
   now = Time.now()
-  day = @SECONDS_IN_DAY
 
   if end_timestamp == "max" do
     end_timestamp = @END_DATE
@@ -12,7 +11,7 @@ condition triggered_by: transaction, on: deposit(end_timestamp) do
     end_timestamp = 0
   end
 
-  if end_timestamp - now > 3 * 365 * day do
+  if end_timestamp - now > 3 * 365 * @SECONDS_IN_DAY do
     throw(message: "can't lock for more than 3 years", code: 1007)
   end
 
@@ -38,6 +37,16 @@ end
 actions triggered_by: transaction, on: deposit(end_timestamp) do
   now = Time.now()
   now = now - Math.rem(now, @ROUND_NOW_TO)
+
+  available_levels = Map.new()
+  available_levels = Map.set(available_levels, "0", now + 0)
+  available_levels = Map.set(available_levels, "1", now + 7 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "2", now + 30 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "3", now + 90 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "4", now + 180 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "5", now + 365 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "6", now + 730 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "7", now + 1095 * @SECONDS_IN_DAY)
 
   start = now
 
@@ -67,9 +76,25 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
 
   id = String.from_number(Time.now())
 
+  # detect current level
+  deposit_level = nil
+
+  for l in Map.keys(available_levels) do
+    until = Map.get(available_levels, l)
+
+    if deposit_level == nil && end_timestamp <= until do
+      deposit_level = l
+    end
+  end
+
+  if deposit_level == nil do
+    deposit_level = "7"
+  end
+
   current_deposit = [
     amount: transfer_amount,
     reward_amount: 0,
+    level: deposit_level,
     start: now,
     end: end_timestamp,
     id: id
@@ -107,6 +132,7 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
         reward_amount: reward_amount,
         start: nil,
         end: 0,
+        level: "0",
         id: "merge"
       )
   end
@@ -251,13 +277,11 @@ end
 condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   now = Time.now()
 
-  day = @SECONDS_IN_DAY
-
   if end_timestamp == "max" do
     end_timestamp = @END_DATE
   end
 
-  if end_timestamp - now > 3 * 365 * day do
+  if end_timestamp - now > 3 * 365 * @SECONDS_IN_DAY do
     throw(message: "can't lock for more than 3 years", code: 4007)
   end
 
@@ -280,13 +304,13 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
 
   available_levels = Map.new()
   available_levels = Map.set(available_levels, "0", now + 0)
-  available_levels = Map.set(available_levels, "1", now + 7 * day)
-  available_levels = Map.set(available_levels, "2", now + 30 * day)
-  available_levels = Map.set(available_levels, "3", now + 90 * day)
-  available_levels = Map.set(available_levels, "4", now + 180 * day)
-  available_levels = Map.set(available_levels, "5", now + 365 * day)
-  available_levels = Map.set(available_levels, "6", now + 730 * day)
-  available_levels = Map.set(available_levels, "7", now + 1095 * day)
+  available_levels = Map.set(available_levels, "1", now + 7 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "2", now + 30 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "3", now + 90 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "4", now + 180 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "5", now + 365 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "6", now + 730 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "7", now + 1095 * @SECONDS_IN_DAY)
 
   relock_level = nil
   deposit_level = nil
@@ -326,6 +350,16 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   now = Time.now()
   now = now - Math.rem(now, @ROUND_NOW_TO)
 
+  available_levels = Map.new()
+  available_levels = Map.set(available_levels, "0", now + 0)
+  available_levels = Map.set(available_levels, "1", now + 7 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "2", now + 30 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "3", now + 90 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "4", now + 180 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "5", now + 365 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "6", now + 730 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "7", now + 1095 * @SECONDS_IN_DAY)
+
   user_genesis_address = get_user_genesis()
 
   res = calculate_new_rewards()
@@ -345,6 +379,21 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
     end
   end
 
+  # detect current_level
+  deposit_level = nil
+
+  for l in Map.keys(available_levels) do
+    until = Map.get(available_levels, l)
+
+    if deposit_level == nil && end_timestamp <= until do
+      deposit_level = l
+    end
+  end
+
+  if deposit_level == nil do
+    deposit_level = "7"
+  end
+
   rewards_distributed = State.get("rewards_distributed", 0)
   State.set("rewards_distributed", rewards_distributed + user_deposit.reward_amount)
   State.set("rewards_reserved", res.rewards_reserved - user_deposit.reward_amount)
@@ -352,6 +401,7 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
   user_deposit = Map.set(user_deposit, "reward_amount", 0)
   user_deposit = Map.set(user_deposit, "start", now)
   user_deposit = Map.set(user_deposit, "end", end_timestamp)
+  user_deposit = Map.set(user_deposit, "level", deposit_level)
 
   State.set("deposits", set_user_deposit(res.deposits, user_genesis_address, user_deposit))
 end
@@ -433,8 +483,6 @@ end
 fun calculate_new_rewards() do
   now = Time.now()
   now = now - Math.rem(now, @ROUND_NOW_TO)
-  day = @SECONDS_IN_DAY
-  year = 365 * day
 
   deposits = State.get("deposits", Map.new())
   lp_tokens_deposited = State.get("lp_tokens_deposited", 0)
@@ -449,13 +497,13 @@ fun calculate_new_rewards() do
     # ================================================
     duration_per_level = Map.new()
     duration_per_level = Map.set(duration_per_level, "0", 0)
-    duration_per_level = Map.set(duration_per_level, "1", 7 * day)
-    duration_per_level = Map.set(duration_per_level, "2", 30 * day)
-    duration_per_level = Map.set(duration_per_level, "3", 90 * day)
-    duration_per_level = Map.set(duration_per_level, "4", 180 * day)
-    duration_per_level = Map.set(duration_per_level, "5", 365 * day)
-    duration_per_level = Map.set(duration_per_level, "6", 730 * day)
-    duration_per_level = Map.set(duration_per_level, "7", 1095 * day)
+    duration_per_level = Map.set(duration_per_level, "1", 7 * @SECONDS_IN_DAY)
+    duration_per_level = Map.set(duration_per_level, "2", 30 * @SECONDS_IN_DAY)
+    duration_per_level = Map.set(duration_per_level, "3", 90 * @SECONDS_IN_DAY)
+    duration_per_level = Map.set(duration_per_level, "4", 180 * @SECONDS_IN_DAY)
+    duration_per_level = Map.set(duration_per_level, "5", 365 * @SECONDS_IN_DAY)
+    duration_per_level = Map.set(duration_per_level, "6", 730 * @SECONDS_IN_DAY)
+    duration_per_level = Map.set(duration_per_level, "7", 1095 * @SECONDS_IN_DAY)
 
     weight_per_level = Map.new()
     weight_per_level = Map.set(weight_per_level, "0", 0.007)
@@ -491,10 +539,10 @@ fun calculate_new_rewards() do
       )
 
     end_of_years = [
-      [year: 1, timestamp: @START_DATE + year],
-      [year: 2, timestamp: @START_DATE + 2 * year],
-      [year: 3, timestamp: @START_DATE + 3 * year],
-      [year: 4, timestamp: @START_DATE + 4 * year]
+      [year: 1, timestamp: @START_DATE + 365 * @SECONDS_IN_DAY],
+      [year: 2, timestamp: @START_DATE + 730 * @SECONDS_IN_DAY],
+      [year: 3, timestamp: @START_DATE + 1095 * @SECONDS_IN_DAY],
+      [year: 4, timestamp: @START_DATE + 1460 * @SECONDS_IN_DAY]
     ]
 
     reward_per_deposit = Map.new()
@@ -506,12 +554,12 @@ fun calculate_new_rewards() do
 
     current_start = last_calculation_timestamp
     current_year = 1
-    current_year_end = @START_DATE + year
+    current_year_end = @START_DATE + 365 * @SECONDS_IN_DAY
 
     for end_of_year in end_of_years do
       if now > end_of_year.timestamp do
         current_year = current_year + 1
-        current_year_end = end_of_year.timestamp + year
+        current_year_end = end_of_year.timestamp + 365 * @SECONDS_IN_DAY
       end
 
       if end_of_year.timestamp > current_start && end_of_year.timestamp < now do
@@ -860,24 +908,32 @@ export fun(get_farm_infos()) do
   now = now - Math.rem(now, @ROUND_NOW_TO)
 
   reward_token_balance = 0
-  day = @SECONDS_IN_DAY
-  year = 365 * day
 
   years = [
-    [year: 1, start: @START_DATE, end: @START_DATE + year - 1, rewards: @REWARDS_YEAR_1],
+    [
+      year: 1,
+      start: @START_DATE,
+      end: @START_DATE + 365 * @SECONDS_IN_DAY - 1,
+      rewards: @REWARDS_YEAR_1
+    ],
     [
       year: 2,
-      start: @START_DATE + year,
-      end: @START_DATE + 2 * year - 1,
+      start: @START_DATE + 365 * @SECONDS_IN_DAY,
+      end: @START_DATE + 730 * @SECONDS_IN_DAY - 1,
       rewards: @REWARDS_YEAR_2
     ],
     [
       year: 3,
-      start: @START_DATE + 2 * year,
-      end: @START_DATE + 3 * year - 1,
+      start: @START_DATE + 730 * @SECONDS_IN_DAY,
+      end: @START_DATE + 1095 * @SECONDS_IN_DAY - 1,
       rewards: @REWARDS_YEAR_3
     ],
-    [year: 4, start: @START_DATE + 3 * year, end: @END_DATE, rewards: @REWARDS_YEAR_4]
+    [
+      year: 4,
+      start: @START_DATE + 1095 * @SECONDS_IN_DAY,
+      end: @END_DATE,
+      rewards: @REWARDS_YEAR_4
+    ]
   ]
 
   if @REWARD_TOKEN == "UCO" do
@@ -908,13 +964,13 @@ export fun(get_farm_infos()) do
 
   available_levels = Map.new()
   available_levels = Map.set(available_levels, "0", now + 0)
-  available_levels = Map.set(available_levels, "1", now + 7 * day)
-  available_levels = Map.set(available_levels, "2", now + 30 * day)
-  available_levels = Map.set(available_levels, "3", now + 90 * day)
-  available_levels = Map.set(available_levels, "4", now + 180 * day)
-  available_levels = Map.set(available_levels, "5", now + 365 * day)
-  available_levels = Map.set(available_levels, "6", now + 730 * day)
-  available_levels = Map.set(available_levels, "7", now + 1095 * day)
+  available_levels = Map.set(available_levels, "1", now + 7 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "2", now + 30 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "3", now + 90 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "4", now + 180 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "5", now + 365 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "6", now + 730 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "7", now + 1095 * @SECONDS_IN_DAY)
 
   filtered_levels = Map.new()
 
@@ -1018,8 +1074,6 @@ end
 
 export fun(get_user_infos(user_genesis_address)) do
   now = Time.now()
-  day = @SECONDS_IN_DAY
-  year = 365 * day
 
   deposits = State.get("deposits", Map.new())
 
@@ -1029,13 +1083,13 @@ export fun(get_user_infos(user_genesis_address)) do
 
   available_levels = Map.new()
   available_levels = Map.set(available_levels, "0", now + 0)
-  available_levels = Map.set(available_levels, "1", now + 7 * day)
-  available_levels = Map.set(available_levels, "2", now + 30 * day)
-  available_levels = Map.set(available_levels, "3", now + 90 * day)
-  available_levels = Map.set(available_levels, "4", now + 180 * day)
-  available_levels = Map.set(available_levels, "5", now + 365 * day)
-  available_levels = Map.set(available_levels, "6", now + 730 * day)
-  available_levels = Map.set(available_levels, "7", now + 1095 * day)
+  available_levels = Map.set(available_levels, "1", now + 7 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "2", now + 30 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "3", now + 90 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "4", now + 180 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "5", now + 365 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "6", now + 730 * @SECONDS_IN_DAY)
+  available_levels = Map.set(available_levels, "7", now + 1095 * @SECONDS_IN_DAY)
 
   user_deposits = Map.get(deposits, user_genesis_address, [])
 
