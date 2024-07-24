@@ -27,6 +27,32 @@ actions triggered_by: transaction, on: calculate_rewards() do
   weight_by_level = Map.set(weight_by_level, "6", 0.249)
   weight_by_level = Map.set(weight_by_level, "7", 0.449)
 
+  lp_tokens_deposited_by_level = Map.new()
+
+  lp_tokens_deposited_by_level =
+    Map.set(lp_tokens_deposited_by_level, "0", State.get("lp_tokens_deposited0", 0))
+
+  lp_tokens_deposited_by_level =
+    Map.set(lp_tokens_deposited_by_level, "1", State.get("lp_tokens_deposited1", 0))
+
+  lp_tokens_deposited_by_level =
+    Map.set(lp_tokens_deposited_by_level, "2", State.get("lp_tokens_deposited2", 0))
+
+  lp_tokens_deposited_by_level =
+    Map.set(lp_tokens_deposited_by_level, "3", State.get("lp_tokens_deposited3", 0))
+
+  lp_tokens_deposited_by_level =
+    Map.set(lp_tokens_deposited_by_level, "4", State.get("lp_tokens_deposited4", 0))
+
+  lp_tokens_deposited_by_level =
+    Map.set(lp_tokens_deposited_by_level, "5", State.get("lp_tokens_deposited5", 0))
+
+  lp_tokens_deposited_by_level =
+    Map.set(lp_tokens_deposited_by_level, "6", State.get("lp_tokens_deposited6", 0))
+
+  lp_tokens_deposited_by_level =
+    Map.set(lp_tokens_deposited_by_level, "7", State.get("lp_tokens_deposited7", 0))
+
   rewards_allocated_at_each_year_end = Map.new()
 
   rewards_allocated_at_each_year_end =
@@ -75,6 +101,10 @@ actions triggered_by: transaction, on: calculate_rewards() do
   periods_count =
     (rounded_now - State.get("last_calculation_timestamp", @START_DATE)) / @ROUND_NOW_TO
 
+  new_rewards_reserved = State.get("rewards_reserved", 0)
+  new_deposits = State.get("deposits", Map.new())
+  new_last_calculation_timestamp = State.get("last_calculation_timestamp", @START_DATE)
+
   period_from = State.get("last_calculation_timestamp", @START_DATE)
 
   for i in 1..periods_count do
@@ -110,8 +140,7 @@ actions triggered_by: transaction, on: calculate_rewards() do
     # calculate reward for this period
     rewards_to_allocate =
       (rewards_allocated_at_each_year_end[year] - State.get("rewards_distributed", 0) -
-         State.get("rewards_reserved", 0)) *
-        ((period_to - period_from) / seconds_until_end_of_year) +
+         new_rewards_reserved) * ((period_to - period_from) / seconds_until_end_of_year) +
         giveaway_for_period
 
     # calculate tokens_weighted for each level
@@ -121,56 +150,56 @@ actions triggered_by: transaction, on: calculate_rewards() do
       Map.set(
         tokens_weighted_by_level,
         "0",
-        State.get("lp_tokens_deposited0", 0) * weight_by_level["0"]
+        Map.get(lp_tokens_deposited_by_level, "0", 0) * weight_by_level["0"]
       )
 
     tokens_weighted_by_level =
       Map.set(
         tokens_weighted_by_level,
         "1",
-        State.get("lp_tokens_deposited1", 0) * weight_by_level["1"]
+        Map.get(lp_tokens_deposited_by_level, "1", 0) * weight_by_level["1"]
       )
 
     tokens_weighted_by_level =
       Map.set(
         tokens_weighted_by_level,
         "2",
-        State.get("lp_tokens_deposited2", 0) * weight_by_level["2"]
+        Map.get(lp_tokens_deposited_by_level, "2", 0) * weight_by_level["2"]
       )
 
     tokens_weighted_by_level =
       Map.set(
         tokens_weighted_by_level,
         "3",
-        State.get("lp_tokens_deposited3", 0) * weight_by_level["3"]
+        Map.get(lp_tokens_deposited_by_level, "3", 0) * weight_by_level["3"]
       )
 
     tokens_weighted_by_level =
       Map.set(
         tokens_weighted_by_level,
         "4",
-        State.get("lp_tokens_deposited4", 0) * weight_by_level["4"]
+        Map.get(lp_tokens_deposited_by_level, "4", 0) * weight_by_level["4"]
       )
 
     tokens_weighted_by_level =
       Map.set(
         tokens_weighted_by_level,
         "5",
-        State.get("lp_tokens_deposited5", 0) * weight_by_level["5"]
+        Map.get(lp_tokens_deposited_by_level, "5", 0) * weight_by_level["5"]
       )
 
     tokens_weighted_by_level =
       Map.set(
         tokens_weighted_by_level,
         "6",
-        State.get("lp_tokens_deposited6", 0) * weight_by_level["6"]
+        Map.get(lp_tokens_deposited_by_level, "6", 0) * weight_by_level["6"]
       )
 
     tokens_weighted_by_level =
       Map.set(
         tokens_weighted_by_level,
         "7",
-        State.get("lp_tokens_deposited7", 0) * weight_by_level["7"]
+        Map.get(lp_tokens_deposited_by_level, "7", 0) * weight_by_level["7"]
       )
 
     # calculate tokens weighted total
@@ -240,11 +269,10 @@ actions triggered_by: transaction, on: calculate_rewards() do
       )
 
     # update each deposit with the rewards
-    deposits = State.get("deposits", Map.new())
     updated_deposits = Map.new()
 
-    for user_address in Map.keys(deposits) do
-      user_deposits = deposits[user_address]
+    for user_address in Map.keys(new_deposits) do
+      user_deposits = new_deposits[user_address]
       updated_user_deposits = []
 
       for user_deposit in user_deposits do
@@ -264,14 +292,16 @@ actions triggered_by: transaction, on: calculate_rewards() do
           previous_level = String.from_number(String.to_number(user_deposit.level) - 1)
 
           if user_deposit.end - duration_by_level[previous_level] <= period_to do
-            State.set(
-              "lp_tokens_deposited#{user_deposit.level}",
-              State.get("lp_tokens_deposited#{user_deposit.level}") - user_deposit.amount
+            Map.set(
+              lp_tokens_deposited_by_level,
+              user_deposit.level,
+              Map.get(lp_tokens_deposited_by_level, user_deposit.level) - user_deposit.amount
             )
 
-            State.set(
-              "lp_tokens_deposited#{previous_level}",
-              State.get("lp_tokens_deposited#{previous_level}") + user_deposit.amount
+            Map.set(
+              lp_tokens_deposited_by_level,
+              previous_level,
+              Map.get(lp_tokens_deposited_by_level, previous_level) + user_deposit.amount
             )
 
             user_deposit = Map.set(user_deposit, "level", previous_level)
@@ -284,8 +314,12 @@ actions triggered_by: transaction, on: calculate_rewards() do
       updated_deposits = Map.set(updated_deposits, user_address, updated_user_deposits)
     end
 
-    State.set("deposits", updated_deposits)
-    State.set("rewards_reserved", State.get("rewards_reserved", 0) + rewards_to_allocate)
-    State.set("last_calculation_timestamp", period_to)
+    new_deposits = updated_deposits
+    new_rewards_reserved = new_rewards_reserved + rewards_to_allocate
+    new_last_calculation_timestamp = period_to
   end
+
+  State.set("deposits", new_deposits)
+  State.set("rewards_reserved", new_rewards_reserved)
+  State.set("last_calculation_timestamp", new_last_calculation_timestamp)
 end
