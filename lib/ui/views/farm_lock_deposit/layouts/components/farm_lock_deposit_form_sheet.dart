@@ -16,32 +16,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class FarmLockDepositFormSheet extends ConsumerStatefulWidget {
+class FarmLockDepositFormSheet extends ConsumerWidget {
   const FarmLockDepositFormSheet({
     super.key,
   });
 
   @override
-  ConsumerState<FarmLockDepositFormSheet> createState() =>
-      FarmLockDepositFormSheetState();
-}
-
-class FarmLockDepositFormSheetState
-    extends ConsumerState<FarmLockDepositFormSheet> {
-  Map<String, int> filterAvailableLevels = <String, int>{};
-
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () {
-      filterAvailableLevels = ref
-          .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
-          .filterAvailableLevels();
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
     final farmLockDeposit =
         ref.watch(FarmLockDepositFormProvider.farmLockDepositForm);
 
@@ -137,7 +121,8 @@ class FarmLockDepositFormSheetState
                   ),
                   Wrap(
                     children: [
-                      ...filterAvailableLevels.entries.map((entry) {
+                      ...farmLockDeposit.filterAvailableLevels.entries
+                          .map((entry) {
                         return FarmLockDepositDurationButton(
                           farmLockDepositDuration:
                               getFarmLockDepositDurationTypeFromLevel(
@@ -154,7 +139,9 @@ class FarmLockDepositFormSheetState
                   ),
                   if (farmLockDeposit.farmLockDepositDuration !=
                           FarmLockDepositDurationType.flexible &&
-                      filterAvailableLevels[farmLockDeposit.level] != null)
+                      farmLockDeposit
+                              .filterAvailableLevels[farmLockDeposit.level] !=
+                          null)
                     Row(
                       children: [
                         SelectableText(
@@ -169,7 +156,8 @@ class FarmLockDepositFormSheetState
                                 : 'yyyy-MM-dd HH:mm:ss',
                           ).format(
                             DateTime.fromMillisecondsSinceEpoch(
-                              filterAvailableLevels[farmLockDeposit.level]! *
+                              farmLockDeposit.filterAvailableLevels[
+                                      farmLockDeposit.level]! *
                                   1000,
                             ),
                           ),

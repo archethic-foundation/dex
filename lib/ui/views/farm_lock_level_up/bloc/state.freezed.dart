@@ -31,6 +31,8 @@ mixin _$FarmLockLevelUpFormState {
   double get lpTokenBalance => throw _privateConstructorUsedError;
   Transaction? get transactionFarmLockLevelUp =>
       throw _privateConstructorUsedError;
+  Map<String, int> get filterAvailableLevels =>
+      throw _privateConstructorUsedError;
   String get level => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
@@ -63,6 +65,7 @@ abstract class $FarmLockLevelUpFormStateCopyWith<$Res> {
       FarmLockDepositDurationType farmLockLevelUpDuration,
       double lpTokenBalance,
       Transaction? transactionFarmLockLevelUp,
+      Map<String, int> filterAvailableLevels,
       String level,
       Failure? failure,
       double? finalAmount,
@@ -103,6 +106,7 @@ class _$FarmLockLevelUpFormStateCopyWithImpl<$Res,
     Object? farmLockLevelUpDuration = null,
     Object? lpTokenBalance = null,
     Object? transactionFarmLockLevelUp = freezed,
+    Object? filterAvailableLevels = null,
     Object? level = null,
     Object? failure = freezed,
     Object? finalAmount = freezed,
@@ -163,6 +167,10 @@ class _$FarmLockLevelUpFormStateCopyWithImpl<$Res,
           ? _value.transactionFarmLockLevelUp
           : transactionFarmLockLevelUp // ignore: cast_nullable_to_non_nullable
               as Transaction?,
+      filterAvailableLevels: null == filterAvailableLevels
+          ? _value.filterAvailableLevels
+          : filterAvailableLevels // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
       level: null == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
@@ -263,6 +271,7 @@ abstract class _$$FarmLockLevelUpFormStateImplCopyWith<$Res>
       FarmLockDepositDurationType farmLockLevelUpDuration,
       double lpTokenBalance,
       Transaction? transactionFarmLockLevelUp,
+      Map<String, int> filterAvailableLevels,
       String level,
       Failure? failure,
       double? finalAmount,
@@ -306,6 +315,7 @@ class __$$FarmLockLevelUpFormStateImplCopyWithImpl<$Res>
     Object? farmLockLevelUpDuration = null,
     Object? lpTokenBalance = null,
     Object? transactionFarmLockLevelUp = freezed,
+    Object? filterAvailableLevels = null,
     Object? level = null,
     Object? failure = freezed,
     Object? finalAmount = freezed,
@@ -366,6 +376,10 @@ class __$$FarmLockLevelUpFormStateImplCopyWithImpl<$Res>
           ? _value.transactionFarmLockLevelUp
           : transactionFarmLockLevelUp // ignore: cast_nullable_to_non_nullable
               as Transaction?,
+      filterAvailableLevels: null == filterAvailableLevels
+          ? _value._filterAvailableLevels
+          : filterAvailableLevels // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
       level: null == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
@@ -411,13 +425,15 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
       this.farmLockLevelUpDuration = FarmLockDepositDurationType.threeYears,
       this.lpTokenBalance = 0.0,
       this.transactionFarmLockLevelUp,
+      final Map<String, int> filterAvailableLevels = const {},
       this.level = '',
       this.failure,
       this.finalAmount,
       this.consentDateTime,
       this.depositId,
       this.currentLevel})
-      : super._();
+      : _filterAvailableLevels = filterAvailableLevels,
+        super._();
 
   @override
   @JsonKey()
@@ -454,6 +470,16 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
   final double lpTokenBalance;
   @override
   final Transaction? transactionFarmLockLevelUp;
+  final Map<String, int> _filterAvailableLevels;
+  @override
+  @JsonKey()
+  Map<String, int> get filterAvailableLevels {
+    if (_filterAvailableLevels is EqualUnmodifiableMapView)
+      return _filterAvailableLevels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_filterAvailableLevels);
+  }
+
   @override
   @JsonKey()
   final String level;
@@ -470,7 +496,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
 
   @override
   String toString() {
-    return 'FarmLockLevelUpFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockLevelUpOk: $farmLockLevelUpOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockLevelUpDuration: $farmLockLevelUpDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockLevelUp: $transactionFarmLockLevelUp, level: $level, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, depositId: $depositId, currentLevel: $currentLevel)';
+    return 'FarmLockLevelUpFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockLevelUpOk: $farmLockLevelUpOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockLevelUpDuration: $farmLockLevelUpDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockLevelUp: $transactionFarmLockLevelUp, filterAvailableLevels: $filterAvailableLevels, level: $level, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, depositId: $depositId, currentLevel: $currentLevel)';
   }
 
   @override
@@ -505,6 +531,8 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
                     transactionFarmLockLevelUp) ||
                 other.transactionFarmLockLevelUp ==
                     transactionFarmLockLevelUp) &&
+            const DeepCollectionEquality()
+                .equals(other._filterAvailableLevels, _filterAvailableLevels) &&
             (identical(other.level, level) || other.level == level) &&
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.finalAmount, finalAmount) ||
@@ -533,6 +561,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
         farmLockLevelUpDuration,
         lpTokenBalance,
         transactionFarmLockLevelUp,
+        const DeepCollectionEquality().hash(_filterAvailableLevels),
         level,
         failure,
         finalAmount,
@@ -564,6 +593,7 @@ abstract class _FarmLockLevelUpFormState extends FarmLockLevelUpFormState {
       final FarmLockDepositDurationType farmLockLevelUpDuration,
       final double lpTokenBalance,
       final Transaction? transactionFarmLockLevelUp,
+      final Map<String, int> filterAvailableLevels,
       final String level,
       final Failure? failure,
       final double? finalAmount,
@@ -598,6 +628,8 @@ abstract class _FarmLockLevelUpFormState extends FarmLockLevelUpFormState {
   double get lpTokenBalance;
   @override
   Transaction? get transactionFarmLockLevelUp;
+  @override
+  Map<String, int> get filterAvailableLevels;
   @override
   String get level;
   @override

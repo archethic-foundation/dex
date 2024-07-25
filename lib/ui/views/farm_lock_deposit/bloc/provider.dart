@@ -69,6 +69,10 @@ class FarmLockDepositFormNotifier
     setAmount(state.lpTokenBalance);
   }
 
+  void setFilterAvailableLevels(Map<String, int> filterAvailableLevels) {
+    state = state.copyWith(filterAvailableLevels: filterAvailableLevels);
+  }
+
   void setAmountHalf() {
     setAmount(
       (Decimal.parse(state.lpTokenBalance.toString()) / Decimal.fromInt(2))
@@ -144,7 +148,7 @@ class FarmLockDepositFormNotifier
     );
   }
 
-  Map<String, int> filterAvailableLevels() {
+  void filterAvailableLevels() {
     final availableLevelsFiltered = <String, int>{};
     var needMax = false;
     final farmEndDate = state.farmLock!.endDate!;
@@ -166,7 +170,7 @@ class FarmLockDepositFormNotifier
         }
       }
     }
-    return availableLevelsFiltered;
+    state = state.copyWith(filterAvailableLevels: availableLevelsFiltered);
   }
 
   Future<void> validateForm(BuildContext context) async {
