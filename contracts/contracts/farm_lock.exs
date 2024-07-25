@@ -75,7 +75,7 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
   end
 
   # ================================================
-  # MERGE DEPOSITS
+  # MERGE DEPOSITS (same end)
   # ================================================
   user_deposits = Map.get(deposits, user_genesis_address, [])
   same_deposit = nil
@@ -566,42 +566,50 @@ fun calculate_new_rewards() do
     periods_count =
       (rounded_now - State.get("last_calculation_timestamp", @START_DATE)) / @ROUND_NOW_TO
 
-    period_from = State.get("last_calculation_timestamp", @START_DATE)
+    last_calculation_timestamp = State.get("last_calculation_timestamp", @START_DATE)
 
     for i in 1..periods_count do
-      period_to = period_from + @ROUND_NOW_TO
+      period_to = last_calculation_timestamp + @ROUND_NOW_TO
 
       # find year / seconds remaining
       year = nil
       seconds_until_end_of_year = nil
 
-      if period_from < @START_DATE + 365 * @SECONDS_IN_DAY do
+      if last_calculation_timestamp < @START_DATE + 365 * @SECONDS_IN_DAY do
         year = "1"
-        seconds_until_end_of_year = @START_DATE + 365 * @SECONDS_IN_DAY - period_from
+
+        seconds_until_end_of_year =
+          @START_DATE + 365 * @SECONDS_IN_DAY - last_calculation_timestamp
       end
 
-      if year == nil && period_from < @START_DATE + 730 * @SECONDS_IN_DAY do
+      if year == nil && last_calculation_timestamp < @START_DATE + 730 * @SECONDS_IN_DAY do
         year = "2"
-        seconds_until_end_of_year = @START_DATE + 730 * @SECONDS_IN_DAY - period_from
+
+        seconds_until_end_of_year =
+          @START_DATE + 730 * @SECONDS_IN_DAY - last_calculation_timestamp
       end
 
-      if year == nil && period_from < @START_DATE + 1095 * @SECONDS_IN_DAY do
+      if year == nil && last_calculation_timestamp < @START_DATE + 1095 * @SECONDS_IN_DAY do
         year = "3"
-        seconds_until_end_of_year = @START_DATE + 1095 * @SECONDS_IN_DAY - period_from
+
+        seconds_until_end_of_year =
+          @START_DATE + 1095 * @SECONDS_IN_DAY - last_calculation_timestamp
       end
 
       if year == nil do
         year = "4"
-        seconds_until_end_of_year = @END_DATE - period_from
+        seconds_until_end_of_year = @END_DATE - last_calculation_timestamp
       end
 
       giveaway_for_period =
-        giveaways_to_allocate * ((period_to - period_from) / time_elapsed_since_last_calc)
+        giveaways_to_allocate *
+          ((period_to - last_calculation_timestamp) / time_elapsed_since_last_calc)
 
       # calculate reward for this period
       rewards_to_allocate =
         (rewards_allocated_at_each_year_end[year] - State.get("rewards_distributed", 0) -
-           rewards_reserved) * ((period_to - period_from) / seconds_until_end_of_year) +
+           rewards_reserved) *
+          ((period_to - last_calculation_timestamp) / seconds_until_end_of_year) +
           giveaway_for_period
 
       # calculate tokens_weighted for each level
@@ -766,6 +774,11 @@ fun calculate_new_rewards() do
               )
 
               user_deposit = Map.set(user_deposit, "level", previous_level)
+
+              if previous_level == "0" do
+                user_deposit = Map.set(user_deposit, "start", nil)
+                user_deposit = Map.set(user_deposit, "end", 0)
+              end
             end
           end
 
