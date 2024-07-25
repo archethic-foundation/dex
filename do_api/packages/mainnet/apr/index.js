@@ -1,7 +1,7 @@
 import Archethic from "@archethicjs/sdk"
 
-const FARM_ADDRESS = "000087BDF107B7C36D6B3A0C2CA6D114C852E7BAD7E3AF5785CC5333B93160DFE697"
-const archethic = new Archethic("https://testnet.archethic.net")
+const FARM_ADDRESS = "0000b2339aadf5685b1c8d400c9092c921e51588dc049e097ec9437017e7dded0feb"
+const archethic = new Archethic("https://mainnet.archethic.net")
 
 const levelToString = {
   0: "flex",
@@ -64,7 +64,3 @@ async function getRemoveAmounts(poolAddress, lpTokensDeposited) {
     resolve({ wethAmount, ucoAmount })
   })
 }
-
-new Promise(async (resolve) => {
-  resolve(await main())
-}).then(res => console.log(res))
