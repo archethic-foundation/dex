@@ -26,6 +26,7 @@ class FarmLockLevelUpFormState with _$FarmLockLevelUpFormState {
     FarmLockDepositDurationType farmLockLevelUpDuration,
     @Default(0.0) double lpTokenBalance,
     Transaction? transactionFarmLockLevelUp,
+    @Default('') String level,
     Failure? failure,
     double? finalAmount,
     DateTime? consentDateTime,

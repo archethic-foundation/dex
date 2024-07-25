@@ -130,13 +130,17 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     if (farmLockDeposit.farmLockDepositDuration !=
-                        FarmLockDepositDurationType.flexible)
+                            FarmLockDepositDurationType.flexible &&
+                        farmLockDeposit.farmLock!
+                                .availableLevels[farmLockDeposit.level] !=
+                            null)
                       SelectableText(
                         DateFormat('yyyy-MM-dd').format(
-                          getFarmLockDepositDuration(
-                            farmLockDeposit.farmLockDepositDuration,
-                            farmLockEndDate: farmLockDeposit.farmLock!.endDate,
-                          )!,
+                          DateTime.fromMillisecondsSinceEpoch(
+                            farmLockDeposit.farmLock!
+                                    .availableLevels[farmLockDeposit.level]! *
+                                1000,
+                          ),
                         ),
                         style: AppTextStyles.bodyLargeSecondaryColor(context),
                       ),

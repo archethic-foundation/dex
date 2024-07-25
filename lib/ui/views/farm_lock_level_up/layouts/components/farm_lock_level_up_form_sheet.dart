@@ -253,28 +253,29 @@ class FarmLockLevelUpFormSheetState
                       }).toList(),
                     ],
                   ),
-                  Row(
-                    children: [
-                      SelectableText(
-                        AppLocalizations.of(context)!
-                            .farmLockLevelUpUnlockDateLbl,
-                        style: AppTextStyles.bodyLarge(context),
-                      ),
-                      SelectableText(
-                        DateFormat(
-                          Config.kSecondsInDay == 86400
-                              ? 'yyyy-MM-dd'
-                              : 'yyyy-MM-dd HH:mm:ss',
-                        ).format(
-                          getFarmLockDepositDuration(
-                            farmLockLevelUp.farmLockLevelUpDuration,
-                            farmLockEndDate: farmLockLevelUp.farmLock!.endDate,
-                          )!,
+                  if (filterAvailableLevels[farmLockLevelUp.level] != null)
+                    Row(
+                      children: [
+                        SelectableText(
+                          AppLocalizations.of(context)!
+                              .farmLockLevelUpUnlockDateLbl,
+                          style: AppTextStyles.bodyLarge(context),
                         ),
-                        style: AppTextStyles.bodyLargeSecondaryColor(context),
-                      ),
-                    ],
-                  ),
+                        SelectableText(
+                          DateFormat(
+                            Config.kSecondsInDay == 86400
+                                ? 'yyyy-MM-dd'
+                                : 'yyyy-MM-dd HH:mm:ss',
+                          ).format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              filterAvailableLevels[farmLockLevelUp.level]! *
+                                  1000,
+                            ),
+                          ),
+                          style: AppTextStyles.bodyLargeSecondaryColor(context),
+                        ),
+                      ],
+                    ),
                   Row(
                     children: [
                       SelectableText(

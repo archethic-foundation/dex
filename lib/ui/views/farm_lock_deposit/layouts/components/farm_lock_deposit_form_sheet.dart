@@ -153,7 +153,8 @@ class FarmLockDepositFormSheetState
                     ],
                   ),
                   if (farmLockDeposit.farmLockDepositDuration !=
-                      FarmLockDepositDurationType.flexible)
+                          FarmLockDepositDurationType.flexible &&
+                      filterAvailableLevels[farmLockDeposit.level] != null)
                     Row(
                       children: [
                         SelectableText(
@@ -167,11 +168,10 @@ class FarmLockDepositFormSheetState
                                 ? 'yyyy-MM-dd'
                                 : 'yyyy-MM-dd HH:mm:ss',
                           ).format(
-                            getFarmLockDepositDuration(
-                              farmLockDeposit.farmLockDepositDuration,
-                              farmLockEndDate:
-                                  farmLockDeposit.farmLock!.endDate,
-                            )!,
+                            DateTime.fromMillisecondsSinceEpoch(
+                              filterAvailableLevels[farmLockDeposit.level]! *
+                                  1000,
+                            ),
                           ),
                           style: AppTextStyles.bodyLargeSecondaryColor(context),
                         ),

@@ -25,6 +25,7 @@ class FarmLockDepositFormState with _$FarmLockDepositFormState {
     double? aprEstimation,
     @Default(FarmLockDepositDurationType.threeYears)
     FarmLockDepositDurationType farmLockDepositDuration,
+    @Default('') String level,
     @Default(0.0) double lpTokenBalance,
     Transaction? transactionFarmLockDeposit,
     Failure? failure,

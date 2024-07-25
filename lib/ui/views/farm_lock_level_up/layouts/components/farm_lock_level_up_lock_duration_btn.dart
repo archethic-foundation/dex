@@ -46,6 +46,7 @@ class FarmLockLevelUpDurationButton extends ConsumerWidget {
               FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier,
             )
               ..setFarmLockLevelUpDuration(farmLockLevelUpDuration)
+              ..setLevel(level)
               ..setAPREstimation(
                 aprEstimation,
               );

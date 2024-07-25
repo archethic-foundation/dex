@@ -55,6 +55,7 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
           ..setDexFarmLock(widget.farmLock)
           ..setDepositId(widget.depositId)
           ..setAmount(widget.lpAmount)
+          ..setLevel(widget.farmLock.availableLevels.entries.last.key)
           ..setCurrentLevel(widget.currentLevel)
           ..setAPREstimation(widget.farmLock.apr3years * 100);
 

@@ -31,6 +31,7 @@ mixin _$FarmLockLevelUpFormState {
   double get lpTokenBalance => throw _privateConstructorUsedError;
   Transaction? get transactionFarmLockLevelUp =>
       throw _privateConstructorUsedError;
+  String get level => throw _privateConstructorUsedError;
   Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
@@ -62,6 +63,7 @@ abstract class $FarmLockLevelUpFormStateCopyWith<$Res> {
       FarmLockDepositDurationType farmLockLevelUpDuration,
       double lpTokenBalance,
       Transaction? transactionFarmLockLevelUp,
+      String level,
       Failure? failure,
       double? finalAmount,
       DateTime? consentDateTime,
@@ -101,6 +103,7 @@ class _$FarmLockLevelUpFormStateCopyWithImpl<$Res,
     Object? farmLockLevelUpDuration = null,
     Object? lpTokenBalance = null,
     Object? transactionFarmLockLevelUp = freezed,
+    Object? level = null,
     Object? failure = freezed,
     Object? finalAmount = freezed,
     Object? consentDateTime = freezed,
@@ -160,6 +163,10 @@ class _$FarmLockLevelUpFormStateCopyWithImpl<$Res,
           ? _value.transactionFarmLockLevelUp
           : transactionFarmLockLevelUp // ignore: cast_nullable_to_non_nullable
               as Transaction?,
+      level: null == level
+          ? _value.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as String,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -256,6 +263,7 @@ abstract class _$$FarmLockLevelUpFormStateImplCopyWith<$Res>
       FarmLockDepositDurationType farmLockLevelUpDuration,
       double lpTokenBalance,
       Transaction? transactionFarmLockLevelUp,
+      String level,
       Failure? failure,
       double? finalAmount,
       DateTime? consentDateTime,
@@ -298,6 +306,7 @@ class __$$FarmLockLevelUpFormStateImplCopyWithImpl<$Res>
     Object? farmLockLevelUpDuration = null,
     Object? lpTokenBalance = null,
     Object? transactionFarmLockLevelUp = freezed,
+    Object? level = null,
     Object? failure = freezed,
     Object? finalAmount = freezed,
     Object? consentDateTime = freezed,
@@ -357,6 +366,10 @@ class __$$FarmLockLevelUpFormStateImplCopyWithImpl<$Res>
           ? _value.transactionFarmLockLevelUp
           : transactionFarmLockLevelUp // ignore: cast_nullable_to_non_nullable
               as Transaction?,
+      level: null == level
+          ? _value.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as String,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -398,6 +411,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
       this.farmLockLevelUpDuration = FarmLockDepositDurationType.threeYears,
       this.lpTokenBalance = 0.0,
       this.transactionFarmLockLevelUp,
+      this.level = '',
       this.failure,
       this.finalAmount,
       this.consentDateTime,
@@ -441,6 +455,9 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
   @override
   final Transaction? transactionFarmLockLevelUp;
   @override
+  @JsonKey()
+  final String level;
+  @override
   final Failure? failure;
   @override
   final double? finalAmount;
@@ -453,7 +470,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
 
   @override
   String toString() {
-    return 'FarmLockLevelUpFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockLevelUpOk: $farmLockLevelUpOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockLevelUpDuration: $farmLockLevelUpDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockLevelUp: $transactionFarmLockLevelUp, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, depositId: $depositId, currentLevel: $currentLevel)';
+    return 'FarmLockLevelUpFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockLevelUpOk: $farmLockLevelUpOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockLevelUpDuration: $farmLockLevelUpDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockLevelUp: $transactionFarmLockLevelUp, level: $level, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, depositId: $depositId, currentLevel: $currentLevel)';
   }
 
   @override
@@ -488,6 +505,7 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
                     transactionFarmLockLevelUp) ||
                 other.transactionFarmLockLevelUp ==
                     transactionFarmLockLevelUp) &&
+            (identical(other.level, level) || other.level == level) &&
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.finalAmount, finalAmount) ||
                 other.finalAmount == finalAmount) &&
@@ -500,26 +518,28 @@ class _$FarmLockLevelUpFormStateImpl extends _FarmLockLevelUpFormState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      processStep,
-      resumeProcess,
-      currentStep,
-      pool,
-      farmLock,
-      isProcessInProgress,
-      farmLockLevelUpOk,
-      walletConfirmation,
-      amount,
-      aprEstimation,
-      farmLockLevelUpDuration,
-      lpTokenBalance,
-      transactionFarmLockLevelUp,
-      failure,
-      finalAmount,
-      consentDateTime,
-      depositId,
-      currentLevel);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        processStep,
+        resumeProcess,
+        currentStep,
+        pool,
+        farmLock,
+        isProcessInProgress,
+        farmLockLevelUpOk,
+        walletConfirmation,
+        amount,
+        aprEstimation,
+        farmLockLevelUpDuration,
+        lpTokenBalance,
+        transactionFarmLockLevelUp,
+        level,
+        failure,
+        finalAmount,
+        consentDateTime,
+        depositId,
+        currentLevel
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -544,6 +564,7 @@ abstract class _FarmLockLevelUpFormState extends FarmLockLevelUpFormState {
       final FarmLockDepositDurationType farmLockLevelUpDuration,
       final double lpTokenBalance,
       final Transaction? transactionFarmLockLevelUp,
+      final String level,
       final Failure? failure,
       final double? finalAmount,
       final DateTime? consentDateTime,
@@ -577,6 +598,8 @@ abstract class _FarmLockLevelUpFormState extends FarmLockLevelUpFormState {
   double get lpTokenBalance;
   @override
   Transaction? get transactionFarmLockLevelUp;
+  @override
+  String get level;
   @override
   Failure? get failure;
   @override
