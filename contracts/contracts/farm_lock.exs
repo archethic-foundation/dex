@@ -293,17 +293,17 @@ actions triggered_by: transaction, on: relock(level, deposit_id) do
 end
 
 condition triggered_by: transaction, on: calculate_rewards() do
-  now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
+  rounded_now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
 
-  if now < @START_DATE do
+  if rounded_now < @START_DATE do
     throw(message: "cannot calculate rewards before the farm start", code: 5001)
   end
 
-  if now > @END_DATE do
-    throw(message: "cannot calculate rewards after the farm start", code: 5002)
+  if State.get("last_calculation_timestamp", @START_DATE) >= @END_DATE do
+    throw(message: "cannot calculate rewards after the farm end", code: 5002)
   end
 
-  if now == State.get("last_calculation_timestamp", @START_DATE) do
+  if rounded_now == State.get("last_calculation_timestamp", @START_DATE) do
     throw(message: "rewards already calculated for period", code: 5003)
   end
 
@@ -431,7 +431,7 @@ fun calculate_new_rewards() do
 
     # giveaways are distributed linearly over time
     time_elapsed_since_last_calc =
-      Time.now() - State.get("last_calculation_timestamp", @START_DATE)
+      rounded_now - State.get("last_calculation_timestamp", @START_DATE)
 
     time_remaining_until_farm_end =
       @END_DATE - State.get("last_calculation_timestamp", @START_DATE)
@@ -441,8 +441,7 @@ fun calculate_new_rewards() do
         (@REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3 + @REWARDS_YEAR_4)
 
     giveaways_to_allocate =
-      giveaways *
-        (time_elapsed_since_last_calc / time_remaining_until_farm_end)
+      giveaways * (time_elapsed_since_last_calc / time_remaining_until_farm_end)
 
     # loop through all the hours since last calculation
     # period count is always minimum 1 because we ensure previously
