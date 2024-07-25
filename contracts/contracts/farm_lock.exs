@@ -719,7 +719,7 @@ export fun(get_farm_infos()) do
 
   if now < @START_DATE + 365 * @SECONDS_IN_DAY - 1 do
     reward_year1 =
-      @REWARDS_YEAR_1 - State.get("rewards_reserved") - State.get("rewards_distributed")
+      @REWARDS_YEAR_1 - State.get("rewards_reserved") - State.get("rewards_distributed", 0)
 
     reward_year2 = @REWARDS_YEAR_2
     reward_year3 = @REWARDS_YEAR_3
@@ -728,8 +728,8 @@ export fun(get_farm_infos()) do
 
   if reward_year1 == 0 && now < @START_DATE + 730 * @SECONDS_IN_DAY - 1 do
     reward_year2 =
-      @REWARDS_YEAR_1 + @REWARDS_YEAR_2 - State.get("rewards_reserved") -
-        State.get("rewards_distributed")
+      @REWARDS_YEAR_1 + @REWARDS_YEAR_2 - State.get("rewards_reserved", 0) -
+        State.get("rewards_distributed", 0)
 
     reward_year3 = @REWARDS_YEAR_3
     reward_year4 = @REWARDS_YEAR_4
@@ -737,8 +737,8 @@ export fun(get_farm_infos()) do
 
   if reward_year2 == 0 && now < @START_DATE + 1095 * @SECONDS_IN_DAY - 1 do
     reward_year3 =
-      @REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3 - State.get("rewards_reserved") -
-        State.get("rewards_distributed")
+      @REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3 - State.get("rewards_reserved", 0) -
+        State.get("rewards_distributed", 0)
 
     reward_year4 = @REWARDS_YEAR_4
   end
@@ -746,7 +746,7 @@ export fun(get_farm_infos()) do
   if reward_year3 == 0 && now < @END_DATE do
     reward_year4 =
       @REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3 + @REWARDS_YEAR_4 -
-        State.get("rewards_reserved") - State.get("rewards_distributed")
+        State.get("rewards_reserved") - State.get("rewards_distributed", 0)
   end
 
   years = [
