@@ -95,34 +95,25 @@ condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date
         lp_token_exists? = true
       end
     end
-# Start date should be between 2 hours and 1 week from now
-    # End date should be between 1 month (30 days) and 1 year (365 days) from start date
-    valid_date? = true
-    #if lp_token_exists? do
-    #  now = Time.now()
-    #  valid_start_date? = now + 7200 <= start_date && now + 604800 >= start_date
-    #  valid_end_date? = start_date + 2592000 <= end_date && start_date + 31536000 >= end_date 
-
-    #  valid_date? = valid_start_date? && valid_end_date?
-    #end
 
     # Ensure farm code is valid
     valid_code? = false
     farm_genesis_address = nil
-    if valid_date? do
+    if lp_token_exists? do
       farm_transaction = Chain.get_transaction(farm_creation_address)
       if farm_transaction != nil && farm_transaction.type == "contract" do
         farm_genesis_address = Chain.get_genesis_address(farm_creation_address)
 
-	function = ""
-	args = []
-	if type == 1 do
-	  function = "get_farm_code"
-    	  args = [lp_token, start_date, end_date, reward_token, farm_genesis_address]
-	else
-	  function = "get_farm_lock_code"
+	      function = ""
+	      args = []
+	      if type == 1 do
+	        function = "get_farm_code"
+    	    args = [lp_token, start_date, end_date, reward_token, farm_genesis_address]
+	      else
+	        function = "get_farm_lock_code"
           args = [lp_token, start_date, end_date, reward_token, farm_genesis_address]
-	end
+	      end
+
         expected_code = Contract.call_function(@FACTORY_ADDRESS, function, args)
         valid_code? = Code.is_same?(farm_transaction.code, expected_code)
       end
