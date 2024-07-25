@@ -11,8 +11,8 @@ _$DexFarmLockStatsImpl _$$DexFarmLockStatsImplFromJson(
     _$DexFarmLockStatsImpl(
       depositsCount: (json['depositsCount'] as num?)?.toInt() ?? 0,
       lpTokensDeposited: (json['lpTokensDeposited'] as num?)?.toDouble() ?? 0.0,
-      rewardsAllocated: (json['rewardsAllocated'] as List<dynamic>?)
-              ?.map((e) => DexFarmLockStatsRewardsAllocated.fromJson(
+      remainingRewards: (json['remainingRewards'] as List<dynamic>?)
+              ?.map((e) => DexFarmLockStatsRemainingRewards.fromJson(
                   e as Map<String, dynamic>))
               .toList() ??
           const [],
@@ -25,7 +25,7 @@ Map<String, dynamic> _$$DexFarmLockStatsImplToJson(
     <String, dynamic>{
       'depositsCount': instance.depositsCount,
       'lpTokensDeposited': instance.lpTokensDeposited,
-      'rewardsAllocated': instance.rewardsAllocated,
+      'remainingRewards': instance.remainingRewards,
       'weight': instance.weight,
       'aprEstimation': instance.aprEstimation,
     };

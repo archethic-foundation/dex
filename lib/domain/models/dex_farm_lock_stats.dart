@@ -9,7 +9,7 @@ class DexFarmLockStats with _$DexFarmLockStats {
   const factory DexFarmLockStats({
     @Default(0) int depositsCount,
     @Default(0.0) double lpTokensDeposited,
-    @Default([]) List<DexFarmLockStatsRewardsAllocated> rewardsAllocated,
+    @Default([]) List<DexFarmLockStatsRemainingRewards> remainingRewards,
     @Default(0.0) double weight,
     @Default(0.0) double aprEstimation,
   }) = _DexFarmLockStats;

@@ -14,39 +14,39 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-DexFarmLockStatsRewardsAllocated _$DexFarmLockStatsRewardsAllocatedFromJson(
+DexFarmLockStatsRemainingRewards _$DexFarmLockStatsRemainingRewardsFromJson(
     Map<String, dynamic> json) {
-  return _DexFarmLockStatsRewardsAllocated.fromJson(json);
+  return _DexFarmLockStatsRemainingRewards.fromJson(json);
 }
 
 /// @nodoc
-mixin _$DexFarmLockStatsRewardsAllocated {
+mixin _$DexFarmLockStatsRemainingRewards {
   double get rewardsAllocated => throw _privateConstructorUsedError;
   int get startPeriod => throw _privateConstructorUsedError;
   int get endPeriod => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DexFarmLockStatsRewardsAllocatedCopyWith<DexFarmLockStatsRewardsAllocated>
+  $DexFarmLockStatsRemainingRewardsCopyWith<DexFarmLockStatsRemainingRewards>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DexFarmLockStatsRewardsAllocatedCopyWith<$Res> {
-  factory $DexFarmLockStatsRewardsAllocatedCopyWith(
-          DexFarmLockStatsRewardsAllocated value,
-          $Res Function(DexFarmLockStatsRewardsAllocated) then) =
-      _$DexFarmLockStatsRewardsAllocatedCopyWithImpl<$Res,
-          DexFarmLockStatsRewardsAllocated>;
+abstract class $DexFarmLockStatsRemainingRewardsCopyWith<$Res> {
+  factory $DexFarmLockStatsRemainingRewardsCopyWith(
+          DexFarmLockStatsRemainingRewards value,
+          $Res Function(DexFarmLockStatsRemainingRewards) then) =
+      _$DexFarmLockStatsRemainingRewardsCopyWithImpl<$Res,
+          DexFarmLockStatsRemainingRewards>;
   @useResult
   $Res call({double rewardsAllocated, int startPeriod, int endPeriod});
 }
 
 /// @nodoc
-class _$DexFarmLockStatsRewardsAllocatedCopyWithImpl<$Res,
-        $Val extends DexFarmLockStatsRewardsAllocated>
-    implements $DexFarmLockStatsRewardsAllocatedCopyWith<$Res> {
-  _$DexFarmLockStatsRewardsAllocatedCopyWithImpl(this._value, this._then);
+class _$DexFarmLockStatsRemainingRewardsCopyWithImpl<$Res,
+        $Val extends DexFarmLockStatsRemainingRewards>
+    implements $DexFarmLockStatsRemainingRewardsCopyWith<$Res> {
+  _$DexFarmLockStatsRemainingRewardsCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -78,25 +78,25 @@ class _$DexFarmLockStatsRewardsAllocatedCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$DexFarmLockStatsRewardsAllocatedImplCopyWith<$Res>
-    implements $DexFarmLockStatsRewardsAllocatedCopyWith<$Res> {
-  factory _$$DexFarmLockStatsRewardsAllocatedImplCopyWith(
-          _$DexFarmLockStatsRewardsAllocatedImpl value,
-          $Res Function(_$DexFarmLockStatsRewardsAllocatedImpl) then) =
-      __$$DexFarmLockStatsRewardsAllocatedImplCopyWithImpl<$Res>;
+abstract class _$$DexFarmLockStatsRemainingRewardsImplCopyWith<$Res>
+    implements $DexFarmLockStatsRemainingRewardsCopyWith<$Res> {
+  factory _$$DexFarmLockStatsRemainingRewardsImplCopyWith(
+          _$DexFarmLockStatsRemainingRewardsImpl value,
+          $Res Function(_$DexFarmLockStatsRemainingRewardsImpl) then) =
+      __$$DexFarmLockStatsRemainingRewardsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double rewardsAllocated, int startPeriod, int endPeriod});
 }
 
 /// @nodoc
-class __$$DexFarmLockStatsRewardsAllocatedImplCopyWithImpl<$Res>
-    extends _$DexFarmLockStatsRewardsAllocatedCopyWithImpl<$Res,
-        _$DexFarmLockStatsRewardsAllocatedImpl>
-    implements _$$DexFarmLockStatsRewardsAllocatedImplCopyWith<$Res> {
-  __$$DexFarmLockStatsRewardsAllocatedImplCopyWithImpl(
-      _$DexFarmLockStatsRewardsAllocatedImpl _value,
-      $Res Function(_$DexFarmLockStatsRewardsAllocatedImpl) _then)
+class __$$DexFarmLockStatsRemainingRewardsImplCopyWithImpl<$Res>
+    extends _$DexFarmLockStatsRemainingRewardsCopyWithImpl<$Res,
+        _$DexFarmLockStatsRemainingRewardsImpl>
+    implements _$$DexFarmLockStatsRemainingRewardsImplCopyWith<$Res> {
+  __$$DexFarmLockStatsRemainingRewardsImplCopyWithImpl(
+      _$DexFarmLockStatsRemainingRewardsImpl _value,
+      $Res Function(_$DexFarmLockStatsRemainingRewardsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$DexFarmLockStatsRewardsAllocatedImplCopyWithImpl<$Res>
     Object? startPeriod = null,
     Object? endPeriod = null,
   }) {
-    return _then(_$DexFarmLockStatsRewardsAllocatedImpl(
+    return _then(_$DexFarmLockStatsRemainingRewardsImpl(
       rewardsAllocated: null == rewardsAllocated
           ? _value.rewardsAllocated
           : rewardsAllocated // ignore: cast_nullable_to_non_nullable
@@ -125,15 +125,15 @@ class __$$DexFarmLockStatsRewardsAllocatedImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DexFarmLockStatsRewardsAllocatedImpl
-    extends _DexFarmLockStatsRewardsAllocated {
-  const _$DexFarmLockStatsRewardsAllocatedImpl(
+class _$DexFarmLockStatsRemainingRewardsImpl
+    extends _DexFarmLockStatsRemainingRewards {
+  const _$DexFarmLockStatsRemainingRewardsImpl(
       {this.rewardsAllocated = 0.0, this.startPeriod = 0, this.endPeriod = 0})
       : super._();
 
-  factory _$DexFarmLockStatsRewardsAllocatedImpl.fromJson(
+  factory _$DexFarmLockStatsRemainingRewardsImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$DexFarmLockStatsRewardsAllocatedImplFromJson(json);
+      _$$DexFarmLockStatsRemainingRewardsImplFromJson(json);
 
   @override
   @JsonKey()
@@ -147,14 +147,14 @@ class _$DexFarmLockStatsRewardsAllocatedImpl
 
   @override
   String toString() {
-    return 'DexFarmLockStatsRewardsAllocated(rewardsAllocated: $rewardsAllocated, startPeriod: $startPeriod, endPeriod: $endPeriod)';
+    return 'DexFarmLockStatsRemainingRewards(rewardsAllocated: $rewardsAllocated, startPeriod: $startPeriod, endPeriod: $endPeriod)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DexFarmLockStatsRewardsAllocatedImpl &&
+            other is _$DexFarmLockStatsRemainingRewardsImpl &&
             (identical(other.rewardsAllocated, rewardsAllocated) ||
                 other.rewardsAllocated == rewardsAllocated) &&
             (identical(other.startPeriod, startPeriod) ||
@@ -171,30 +171,30 @@ class _$DexFarmLockStatsRewardsAllocatedImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DexFarmLockStatsRewardsAllocatedImplCopyWith<
-          _$DexFarmLockStatsRewardsAllocatedImpl>
-      get copyWith => __$$DexFarmLockStatsRewardsAllocatedImplCopyWithImpl<
-          _$DexFarmLockStatsRewardsAllocatedImpl>(this, _$identity);
+  _$$DexFarmLockStatsRemainingRewardsImplCopyWith<
+          _$DexFarmLockStatsRemainingRewardsImpl>
+      get copyWith => __$$DexFarmLockStatsRemainingRewardsImplCopyWithImpl<
+          _$DexFarmLockStatsRemainingRewardsImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DexFarmLockStatsRewardsAllocatedImplToJson(
+    return _$$DexFarmLockStatsRemainingRewardsImplToJson(
       this,
     );
   }
 }
 
-abstract class _DexFarmLockStatsRewardsAllocated
-    extends DexFarmLockStatsRewardsAllocated {
-  const factory _DexFarmLockStatsRewardsAllocated(
+abstract class _DexFarmLockStatsRemainingRewards
+    extends DexFarmLockStatsRemainingRewards {
+  const factory _DexFarmLockStatsRemainingRewards(
       {final double rewardsAllocated,
       final int startPeriod,
-      final int endPeriod}) = _$DexFarmLockStatsRewardsAllocatedImpl;
-  const _DexFarmLockStatsRewardsAllocated._() : super._();
+      final int endPeriod}) = _$DexFarmLockStatsRemainingRewardsImpl;
+  const _DexFarmLockStatsRemainingRewards._() : super._();
 
-  factory _DexFarmLockStatsRewardsAllocated.fromJson(
+  factory _DexFarmLockStatsRemainingRewards.fromJson(
           Map<String, dynamic> json) =
-      _$DexFarmLockStatsRewardsAllocatedImpl.fromJson;
+      _$DexFarmLockStatsRemainingRewardsImpl.fromJson;
 
   @override
   double get rewardsAllocated;
@@ -204,7 +204,7 @@ abstract class _DexFarmLockStatsRewardsAllocated
   int get endPeriod;
   @override
   @JsonKey(ignore: true)
-  _$$DexFarmLockStatsRewardsAllocatedImplCopyWith<
-          _$DexFarmLockStatsRewardsAllocatedImpl>
+  _$$DexFarmLockStatsRemainingRewardsImplCopyWith<
+          _$DexFarmLockStatsRemainingRewardsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

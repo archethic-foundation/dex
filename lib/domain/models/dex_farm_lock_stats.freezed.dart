@@ -22,7 +22,7 @@ DexFarmLockStats _$DexFarmLockStatsFromJson(Map<String, dynamic> json) {
 mixin _$DexFarmLockStats {
   int get depositsCount => throw _privateConstructorUsedError;
   double get lpTokensDeposited => throw _privateConstructorUsedError;
-  List<DexFarmLockStatsRewardsAllocated> get rewardsAllocated =>
+  List<DexFarmLockStatsRemainingRewards> get remainingRewards =>
       throw _privateConstructorUsedError;
   double get weight => throw _privateConstructorUsedError;
   double get aprEstimation => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $DexFarmLockStatsCopyWith<$Res> {
   $Res call(
       {int depositsCount,
       double lpTokensDeposited,
-      List<DexFarmLockStatsRewardsAllocated> rewardsAllocated,
+      List<DexFarmLockStatsRemainingRewards> remainingRewards,
       double weight,
       double aprEstimation});
 }
@@ -62,7 +62,7 @@ class _$DexFarmLockStatsCopyWithImpl<$Res, $Val extends DexFarmLockStats>
   $Res call({
     Object? depositsCount = null,
     Object? lpTokensDeposited = null,
-    Object? rewardsAllocated = null,
+    Object? remainingRewards = null,
     Object? weight = null,
     Object? aprEstimation = null,
   }) {
@@ -75,10 +75,10 @@ class _$DexFarmLockStatsCopyWithImpl<$Res, $Val extends DexFarmLockStats>
           ? _value.lpTokensDeposited
           : lpTokensDeposited // ignore: cast_nullable_to_non_nullable
               as double,
-      rewardsAllocated: null == rewardsAllocated
-          ? _value.rewardsAllocated
-          : rewardsAllocated // ignore: cast_nullable_to_non_nullable
-              as List<DexFarmLockStatsRewardsAllocated>,
+      remainingRewards: null == remainingRewards
+          ? _value.remainingRewards
+          : remainingRewards // ignore: cast_nullable_to_non_nullable
+              as List<DexFarmLockStatsRemainingRewards>,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
@@ -102,7 +102,7 @@ abstract class _$$DexFarmLockStatsImplCopyWith<$Res>
   $Res call(
       {int depositsCount,
       double lpTokensDeposited,
-      List<DexFarmLockStatsRewardsAllocated> rewardsAllocated,
+      List<DexFarmLockStatsRemainingRewards> remainingRewards,
       double weight,
       double aprEstimation});
 }
@@ -120,7 +120,7 @@ class __$$DexFarmLockStatsImplCopyWithImpl<$Res>
   $Res call({
     Object? depositsCount = null,
     Object? lpTokensDeposited = null,
-    Object? rewardsAllocated = null,
+    Object? remainingRewards = null,
     Object? weight = null,
     Object? aprEstimation = null,
   }) {
@@ -133,10 +133,10 @@ class __$$DexFarmLockStatsImplCopyWithImpl<$Res>
           ? _value.lpTokensDeposited
           : lpTokensDeposited // ignore: cast_nullable_to_non_nullable
               as double,
-      rewardsAllocated: null == rewardsAllocated
-          ? _value._rewardsAllocated
-          : rewardsAllocated // ignore: cast_nullable_to_non_nullable
-              as List<DexFarmLockStatsRewardsAllocated>,
+      remainingRewards: null == remainingRewards
+          ? _value._remainingRewards
+          : remainingRewards // ignore: cast_nullable_to_non_nullable
+              as List<DexFarmLockStatsRemainingRewards>,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
@@ -155,10 +155,10 @@ class _$DexFarmLockStatsImpl extends _DexFarmLockStats {
   const _$DexFarmLockStatsImpl(
       {this.depositsCount = 0,
       this.lpTokensDeposited = 0.0,
-      final List<DexFarmLockStatsRewardsAllocated> rewardsAllocated = const [],
+      final List<DexFarmLockStatsRemainingRewards> remainingRewards = const [],
       this.weight = 0.0,
       this.aprEstimation = 0.0})
-      : _rewardsAllocated = rewardsAllocated,
+      : _remainingRewards = remainingRewards,
         super._();
 
   factory _$DexFarmLockStatsImpl.fromJson(Map<String, dynamic> json) =>
@@ -170,14 +170,14 @@ class _$DexFarmLockStatsImpl extends _DexFarmLockStats {
   @override
   @JsonKey()
   final double lpTokensDeposited;
-  final List<DexFarmLockStatsRewardsAllocated> _rewardsAllocated;
+  final List<DexFarmLockStatsRemainingRewards> _remainingRewards;
   @override
   @JsonKey()
-  List<DexFarmLockStatsRewardsAllocated> get rewardsAllocated {
-    if (_rewardsAllocated is EqualUnmodifiableListView)
-      return _rewardsAllocated;
+  List<DexFarmLockStatsRemainingRewards> get remainingRewards {
+    if (_remainingRewards is EqualUnmodifiableListView)
+      return _remainingRewards;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_rewardsAllocated);
+    return EqualUnmodifiableListView(_remainingRewards);
   }
 
   @override
@@ -189,7 +189,7 @@ class _$DexFarmLockStatsImpl extends _DexFarmLockStats {
 
   @override
   String toString() {
-    return 'DexFarmLockStats(depositsCount: $depositsCount, lpTokensDeposited: $lpTokensDeposited, rewardsAllocated: $rewardsAllocated, weight: $weight, aprEstimation: $aprEstimation)';
+    return 'DexFarmLockStats(depositsCount: $depositsCount, lpTokensDeposited: $lpTokensDeposited, remainingRewards: $remainingRewards, weight: $weight, aprEstimation: $aprEstimation)';
   }
 
   @override
@@ -202,7 +202,7 @@ class _$DexFarmLockStatsImpl extends _DexFarmLockStats {
             (identical(other.lpTokensDeposited, lpTokensDeposited) ||
                 other.lpTokensDeposited == lpTokensDeposited) &&
             const DeepCollectionEquality()
-                .equals(other._rewardsAllocated, _rewardsAllocated) &&
+                .equals(other._remainingRewards, _remainingRewards) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.aprEstimation, aprEstimation) ||
                 other.aprEstimation == aprEstimation));
@@ -214,7 +214,7 @@ class _$DexFarmLockStatsImpl extends _DexFarmLockStats {
       runtimeType,
       depositsCount,
       lpTokensDeposited,
-      const DeepCollectionEquality().hash(_rewardsAllocated),
+      const DeepCollectionEquality().hash(_remainingRewards),
       weight,
       aprEstimation);
 
@@ -237,7 +237,7 @@ abstract class _DexFarmLockStats extends DexFarmLockStats {
   const factory _DexFarmLockStats(
       {final int depositsCount,
       final double lpTokensDeposited,
-      final List<DexFarmLockStatsRewardsAllocated> rewardsAllocated,
+      final List<DexFarmLockStatsRemainingRewards> remainingRewards,
       final double weight,
       final double aprEstimation}) = _$DexFarmLockStatsImpl;
   const _DexFarmLockStats._() : super._();
@@ -250,7 +250,7 @@ abstract class _DexFarmLockStats extends DexFarmLockStats {
   @override
   double get lpTokensDeposited;
   @override
-  List<DexFarmLockStatsRewardsAllocated> get rewardsAllocated;
+  List<DexFarmLockStatsRemainingRewards> get remainingRewards;
   @override
   double get weight;
   @override

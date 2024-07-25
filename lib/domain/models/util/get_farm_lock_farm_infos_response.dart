@@ -29,8 +29,8 @@ class Stats with _$Stats {
   const factory Stats({
     @JsonKey(name: 'deposits_count') required int depositsCount,
     @JsonKey(name: 'lp_tokens_deposited') required double lpTokensDeposited,
-    @JsonKey(name: 'rewards_allocated')
-    required List<RewardsAllocated> rewardsAllocated,
+    @JsonKey(name: 'remaining_rewards')
+    required List<RemainingRewards> remainingRewards,
     required double weight,
   }) = _Stats;
 
@@ -38,13 +38,13 @@ class Stats with _$Stats {
 }
 
 @freezed
-class RewardsAllocated with _$RewardsAllocated {
-  const factory RewardsAllocated({
-    required double rewards,
+class RemainingRewards with _$RemainingRewards {
+  const factory RemainingRewards({
+    @JsonKey(name: 'remaining_rewards') required double rewards,
     required int start,
     required int end,
-  }) = _RewardsAllocated;
+  }) = _RemainingRewards;
 
-  factory RewardsAllocated.fromJson(Map<String, dynamic> json) =>
-      _$RewardsAllocatedFromJson(json);
+  factory RemainingRewards.fromJson(Map<String, dynamic> json) =>
+      _$RemainingRewardsFromJson(json);
 }

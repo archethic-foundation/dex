@@ -69,17 +69,12 @@ Future<DexFarmLock?> _getFarmLockInfos(
       var stats = entry.value;
 
       var rewardsInPeriod = 0.0;
-      for (final rewardsAllocated in stats.rewardsAllocated) {
-        final startPeriodDateTime = DateTime.fromMillisecondsSinceEpoch(
-          rewardsAllocated.startPeriod * 1000,
-        );
-
+      for (final rewardsAllocated in stats.remainingRewards) {
         final endPeriodDateTime = DateTime.fromMillisecondsSinceEpoch(
           rewardsAllocated.endPeriod * 1000,
         );
 
-        if (now.isAfter(startPeriodDateTime) &&
-            now.isBefore(endPeriodDateTime)) {
+        if (now.isBefore(endPeriodDateTime)) {
           rewardsInPeriod = rewardsAllocated.rewardsAllocated;
           secondsUntilEnd = endPeriodDateTime.difference(now).inSeconds;
           break;

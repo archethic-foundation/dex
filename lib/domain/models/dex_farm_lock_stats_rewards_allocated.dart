@@ -4,16 +4,16 @@ part 'dex_farm_lock_stats_rewards_allocated.freezed.dart';
 part 'dex_farm_lock_stats_rewards_allocated.g.dart';
 
 @freezed
-class DexFarmLockStatsRewardsAllocated with _$DexFarmLockStatsRewardsAllocated {
-  const factory DexFarmLockStatsRewardsAllocated({
+class DexFarmLockStatsRemainingRewards with _$DexFarmLockStatsRemainingRewards {
+  const factory DexFarmLockStatsRemainingRewards({
     @Default(0.0) double rewardsAllocated,
     @Default(0) int startPeriod,
     @Default(0) int endPeriod,
-  }) = _DexFarmLockStatsRewardsAllocated;
-  const DexFarmLockStatsRewardsAllocated._();
+  }) = _DexFarmLockStatsRemainingRewards;
+  const DexFarmLockStatsRemainingRewards._();
 
-  factory DexFarmLockStatsRewardsAllocated.fromJson(
+  factory DexFarmLockStatsRemainingRewards.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$DexFarmLockStatsRewardsAllocatedFromJson(json);
+      _$DexFarmLockStatsRemainingRewardsFromJson(json);
 }

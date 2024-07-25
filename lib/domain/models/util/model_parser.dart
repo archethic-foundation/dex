@@ -384,13 +384,13 @@ mixin ModelParser {
     final dexFarmLockStatsMap = <String, DexFarmLockStats>{};
     getFarmLockInfosResponse.stats.forEach((level, stats) {
       final dexFarmLockStatsRewardsAllocatedList =
-          <DexFarmLockStatsRewardsAllocated>[];
-      for (final rewardsAllocated in stats.rewardsAllocated) {
+          <DexFarmLockStatsRemainingRewards>[];
+      for (final remainingRewards in stats.remainingRewards) {
         dexFarmLockStatsRewardsAllocatedList.add(
-          DexFarmLockStatsRewardsAllocated(
-            startPeriod: rewardsAllocated.start,
-            endPeriod: rewardsAllocated.end,
-            rewardsAllocated: rewardsAllocated.rewards,
+          DexFarmLockStatsRemainingRewards(
+            startPeriod: remainingRewards.start,
+            endPeriod: remainingRewards.end,
+            rewardsAllocated: remainingRewards.rewards,
           ),
         );
       }
@@ -398,7 +398,7 @@ mixin ModelParser {
       dexFarmLockStatsMap[level] = DexFarmLockStats(
         depositsCount: stats.depositsCount,
         lpTokensDeposited: stats.lpTokensDeposited,
-        rewardsAllocated: dexFarmLockStatsRewardsAllocatedList,
+        remainingRewards: dexFarmLockStatsRewardsAllocatedList,
         weight: stats.weight,
       );
     });
