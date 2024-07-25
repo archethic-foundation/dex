@@ -141,6 +141,16 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         ),
       );
 
+      await aedappfm.PeriodicFuture.periodic<bool>(
+        () => _getDepositFromTx(
+          farmGenesisAddress,
+          transactionWithdraw!.address!.address!,
+        ),
+        sleepDuration: const Duration(seconds: 3),
+        until: (depositOk) => depositOk == true,
+        timeout: const Duration(minutes: 1),
+      );
+
       final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(
@@ -220,5 +230,45 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
       default:
         return AppLocalizations.of(context)!.withdrawFarmLockProcessStep0;
     }
+  }
+
+  // TODO: Move to FM
+  Future<bool> _getDepositFromTx(
+    String contractAddress,
+    String txAddress,
+  ) async {
+    var depositOk = false;
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
+
+    final transactionChainResult = await apiService.getTransactionChain(
+      {contractAddress: ''},
+      orderAsc: false,
+      request:
+          'validationStamp {ledgerOperations { consumedInputs { from, type } } }',
+    );
+
+    if (transactionChainResult[contractAddress] != null) {
+      final transactions = transactionChainResult[contractAddress];
+      for (final transaction in transactions!) {
+        if (transaction.validationStamp != null &&
+            transaction.validationStamp!.ledgerOperations != null &&
+            transaction
+                .validationStamp!.ledgerOperations!.consumedInputs.isNotEmpty) {
+          for (final consumedInput in transaction
+              .validationStamp!.ledgerOperations!.consumedInputs) {
+            if (consumedInput.type == 'call' &&
+                consumedInput.from != null &&
+                consumedInput.from!.toUpperCase() == txAddress.toUpperCase()) {
+              depositOk = true;
+              break;
+            }
+          }
+        }
+        if (depositOk) {
+          break;
+        }
+      }
+    }
+    return depositOk;
   }
 }
