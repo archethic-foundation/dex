@@ -208,16 +208,6 @@ class FarmLockLevelUpFormNotifier
       return false;
     }
 
-    if (state.amount > state.lpTokenBalance) {
-      setFailure(
-        aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .farmDepositControlLPTokenAmountExceedBalance,
-        ),
-      );
-      return false;
-    }
-
     return true;
   }
 
