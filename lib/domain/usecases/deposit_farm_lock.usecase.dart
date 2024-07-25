@@ -29,7 +29,8 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
     double amount,
     String farmAddress,
     bool isUCO,
-    FarmLockDepositDurationType durationType, {
+    FarmLockDepositDurationType durationType,
+    String level, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionDeposit,
   }) async {
@@ -56,6 +57,7 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
           lpTokenAddress,
           amount,
           durationType,
+          level,
         );
 
         transactionDepositMap.map(

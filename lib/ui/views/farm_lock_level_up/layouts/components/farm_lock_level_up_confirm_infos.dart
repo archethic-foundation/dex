@@ -129,14 +129,16 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
                           .farmLockLevelUpUnlockDateLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
-                    if (farmLockLevelUp.farmLockLevelUpDuration !=
-                        FarmLockDepositDurationType.flexible)
+                    if (farmLockLevelUp
+                            .farmLock!.availableLevels[farmLockLevelUp.level] !=
+                        null)
                       SelectableText(
                         DateFormat('yyyy-MM-dd').format(
-                          getFarmLockDepositDuration(
-                            farmLockLevelUp.farmLockLevelUpDuration,
-                            farmLockEndDate: farmLockLevelUp.farmLock!.endDate,
-                          )!,
+                          DateTime.fromMillisecondsSinceEpoch(
+                            farmLockLevelUp.farmLock!
+                                    .availableLevels[farmLockLevelUp.level]! *
+                                1000,
+                          ),
                         ),
                         style: AppTextStyles.bodyLargeSecondaryColor(context),
                       ),

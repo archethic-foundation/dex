@@ -46,6 +46,7 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
               FarmLockDepositFormProvider.farmLockDepositForm.notifier,
             )
               ..setFarmLockDepositDuration(farmLockDepositDuration)
+              ..setLevel(level)
               ..setAPREstimation(
                 aprEstimation,
               );

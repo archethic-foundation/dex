@@ -522,6 +522,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
     String lpTokenAddress,
     double amount,
     FarmLockDepositDurationType durationType,
+    String level,
   ) async {
     return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
@@ -548,8 +549,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
           else if (durationType == FarmLockDepositDurationType.max)
             'max'
           else
-            getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
-                1000,
+            level,
         ],
       );
 
@@ -564,6 +564,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
     double amount,
     String depositId,
     FarmLockDepositDurationType durationType,
+    String level,
   ) async {
     return aedappfm.Result.guard(() async {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
@@ -584,8 +585,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
           else if (durationType == FarmLockDepositDurationType.max)
             'max'
           else
-            getFarmLockDepositDuration(durationType)!.millisecondsSinceEpoch ~/
-                1000,
+            level,
           depositId,
         ],
       );

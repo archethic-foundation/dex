@@ -30,7 +30,8 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
     String depositId,
     String farmAddress,
     bool isUCO,
-    FarmLockDepositDurationType durationType, {
+    FarmLockDepositDurationType durationType,
+    String level, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionLevelUp,
   }) async {
@@ -58,6 +59,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
           amount,
           depositId,
           durationType,
+          level,
         );
 
         transactionDepositMap.map(

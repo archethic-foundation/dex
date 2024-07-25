@@ -119,6 +119,10 @@ class FarmLockLevelUpFormNotifier
     state = state.copyWith(farmLockLevelUpDuration: farmLockLevelUpDuration);
   }
 
+  void setLevel(String level) {
+    state = state.copyWith(level: level);
+  }
+
   void setResumeProcess(bool resumeProcess) {
     state = state.copyWith(resumeProcess: resumeProcess);
   }
@@ -240,6 +244,7 @@ class FarmLockLevelUpFormNotifier
         state.farmLock!.farmAddress,
         false,
         state.farmLockLevelUpDuration,
+        state.level,
       );
 
       state = state.copyWith(finalAmount: finalAmount);

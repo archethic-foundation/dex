@@ -1,4 +1,3 @@
-import 'package:aedex/util/config/config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -64,42 +63,5 @@ FarmLockDepositDurationType getFarmLockDepositDurationTypeFromLevel(
       return FarmLockDepositDurationType.max;
     default:
       return FarmLockDepositDurationType.flexible;
-  }
-}
-
-DateTime? getFarmLockDepositDuration(
-  FarmLockDepositDurationType farmLockDepositDuration, {
-  int numberOfDaysAlreadyUsed = 0,
-  DateTime? farmLockEndDate,
-}) {
-  final dateTimeNow = DateTime.now();
-  final simulatedDayDuration = Duration(seconds: Config.kSecondsInDay);
-
-  switch (farmLockDepositDuration) {
-    case FarmLockDepositDurationType.flexible:
-      return null;
-    case FarmLockDepositDurationType.oneMonth:
-      return dateTimeNow
-          .add(simulatedDayDuration * (30 - numberOfDaysAlreadyUsed));
-    case FarmLockDepositDurationType.oneWeek:
-      return dateTimeNow
-          .add(simulatedDayDuration * (7 - numberOfDaysAlreadyUsed));
-    case FarmLockDepositDurationType.oneYear:
-      return dateTimeNow
-          .add(simulatedDayDuration * (365 - numberOfDaysAlreadyUsed));
-    case FarmLockDepositDurationType.sixMonths:
-      return dateTimeNow
-          .add(simulatedDayDuration * (180 - numberOfDaysAlreadyUsed));
-    case FarmLockDepositDurationType.threeMonths:
-      return dateTimeNow
-          .add(simulatedDayDuration * (90 - numberOfDaysAlreadyUsed));
-    case FarmLockDepositDurationType.threeYears:
-      return dateTimeNow
-          .add(simulatedDayDuration * (1095 - numberOfDaysAlreadyUsed));
-    case FarmLockDepositDurationType.twoYears:
-      return dateTimeNow
-          .add(simulatedDayDuration * (730 - numberOfDaysAlreadyUsed));
-    case FarmLockDepositDurationType.max:
-      return farmLockEndDate ?? DateTime.now();
   }
 }

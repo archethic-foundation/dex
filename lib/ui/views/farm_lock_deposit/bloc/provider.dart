@@ -120,6 +120,10 @@ class FarmLockDepositFormNotifier
     state = state.copyWith(farmLockDepositDuration: farmLockDepositDuration);
   }
 
+  void setLevel(String level) {
+    state = state.copyWith(level: level);
+  }
+
   void setResumeProcess(bool resumeProcess) {
     state = state.copyWith(resumeProcess: resumeProcess);
   }
@@ -246,6 +250,7 @@ class FarmLockDepositFormNotifier
         state.farmLock!.farmAddress,
         false,
         state.farmLockDepositDuration,
+        state.level,
       );
 
       state = state.copyWith(finalAmount: finalAmount);

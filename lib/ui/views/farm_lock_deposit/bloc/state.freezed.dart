@@ -28,6 +28,7 @@ mixin _$FarmLockDepositFormState {
   double? get aprEstimation => throw _privateConstructorUsedError;
   FarmLockDepositDurationType get farmLockDepositDuration =>
       throw _privateConstructorUsedError;
+  String get level => throw _privateConstructorUsedError;
   double get lpTokenBalance => throw _privateConstructorUsedError;
   Transaction? get transactionFarmLockDeposit =>
       throw _privateConstructorUsedError;
@@ -59,6 +60,7 @@ abstract class $FarmLockDepositFormStateCopyWith<$Res> {
       double amount,
       double? aprEstimation,
       FarmLockDepositDurationType farmLockDepositDuration,
+      String level,
       double lpTokenBalance,
       Transaction? transactionFarmLockDeposit,
       Failure? failure,
@@ -97,6 +99,7 @@ class _$FarmLockDepositFormStateCopyWithImpl<$Res,
     Object? amount = null,
     Object? aprEstimation = freezed,
     Object? farmLockDepositDuration = null,
+    Object? level = null,
     Object? lpTokenBalance = null,
     Object? transactionFarmLockDeposit = freezed,
     Object? failure = freezed,
@@ -149,6 +152,10 @@ class _$FarmLockDepositFormStateCopyWithImpl<$Res,
           ? _value.farmLockDepositDuration
           : farmLockDepositDuration // ignore: cast_nullable_to_non_nullable
               as FarmLockDepositDurationType,
+      level: null == level
+          ? _value.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as String,
       lpTokenBalance: null == lpTokenBalance
           ? _value.lpTokenBalance
           : lpTokenBalance // ignore: cast_nullable_to_non_nullable
@@ -247,6 +254,7 @@ abstract class _$$FarmLockDepositFormStateImplCopyWith<$Res>
       double amount,
       double? aprEstimation,
       FarmLockDepositDurationType farmLockDepositDuration,
+      String level,
       double lpTokenBalance,
       Transaction? transactionFarmLockDeposit,
       Failure? failure,
@@ -288,6 +296,7 @@ class __$$FarmLockDepositFormStateImplCopyWithImpl<$Res>
     Object? amount = null,
     Object? aprEstimation = freezed,
     Object? farmLockDepositDuration = null,
+    Object? level = null,
     Object? lpTokenBalance = null,
     Object? transactionFarmLockDeposit = freezed,
     Object? failure = freezed,
@@ -340,6 +349,10 @@ class __$$FarmLockDepositFormStateImplCopyWithImpl<$Res>
           ? _value.farmLockDepositDuration
           : farmLockDepositDuration // ignore: cast_nullable_to_non_nullable
               as FarmLockDepositDurationType,
+      level: null == level
+          ? _value.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as String,
       lpTokenBalance: null == lpTokenBalance
           ? _value.lpTokenBalance
           : lpTokenBalance // ignore: cast_nullable_to_non_nullable
@@ -383,6 +396,7 @@ class _$FarmLockDepositFormStateImpl extends _FarmLockDepositFormState {
       this.amount = 0.0,
       this.aprEstimation,
       this.farmLockDepositDuration = FarmLockDepositDurationType.threeYears,
+      this.level = '',
       this.lpTokenBalance = 0.0,
       this.transactionFarmLockDeposit,
       this.failure,
@@ -423,6 +437,9 @@ class _$FarmLockDepositFormStateImpl extends _FarmLockDepositFormState {
   final FarmLockDepositDurationType farmLockDepositDuration;
   @override
   @JsonKey()
+  final String level;
+  @override
+  @JsonKey()
   final double lpTokenBalance;
   @override
   final Transaction? transactionFarmLockDeposit;
@@ -438,7 +455,7 @@ class _$FarmLockDepositFormStateImpl extends _FarmLockDepositFormState {
 
   @override
   String toString() {
-    return 'FarmLockDepositFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockDepositOk: $farmLockDepositOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockDepositDuration: $farmLockDepositDuration, lpTokenBalance: $lpTokenBalance, transactionFarmLockDeposit: $transactionFarmLockDeposit, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, poolsListTab: $poolsListTab)';
+    return 'FarmLockDepositFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, pool: $pool, farmLock: $farmLock, isProcessInProgress: $isProcessInProgress, farmLockDepositOk: $farmLockDepositOk, walletConfirmation: $walletConfirmation, amount: $amount, aprEstimation: $aprEstimation, farmLockDepositDuration: $farmLockDepositDuration, level: $level, lpTokenBalance: $lpTokenBalance, transactionFarmLockDeposit: $transactionFarmLockDeposit, failure: $failure, finalAmount: $finalAmount, consentDateTime: $consentDateTime, poolsListTab: $poolsListTab)';
   }
 
   @override
@@ -467,6 +484,7 @@ class _$FarmLockDepositFormStateImpl extends _FarmLockDepositFormState {
             (identical(
                     other.farmLockDepositDuration, farmLockDepositDuration) ||
                 other.farmLockDepositDuration == farmLockDepositDuration) &&
+            (identical(other.level, level) || other.level == level) &&
             (identical(other.lpTokenBalance, lpTokenBalance) ||
                 other.lpTokenBalance == lpTokenBalance) &&
             (identical(other.transactionFarmLockDeposit,
@@ -496,6 +514,7 @@ class _$FarmLockDepositFormStateImpl extends _FarmLockDepositFormState {
       amount,
       aprEstimation,
       farmLockDepositDuration,
+      level,
       lpTokenBalance,
       transactionFarmLockDeposit,
       failure,
@@ -524,6 +543,7 @@ abstract class _FarmLockDepositFormState extends FarmLockDepositFormState {
       final double amount,
       final double? aprEstimation,
       final FarmLockDepositDurationType farmLockDepositDuration,
+      final String level,
       final double lpTokenBalance,
       final Transaction? transactionFarmLockDeposit,
       final Failure? failure,
@@ -554,6 +574,8 @@ abstract class _FarmLockDepositFormState extends FarmLockDepositFormState {
   double? get aprEstimation;
   @override
   FarmLockDepositDurationType get farmLockDepositDuration;
+  @override
+  String get level;
   @override
   double get lpTokenBalance;
   @override
