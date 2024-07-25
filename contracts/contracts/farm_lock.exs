@@ -74,7 +74,7 @@ actions triggered_by: transaction, on: deposit(level) do
     new_user_deposits = List.prepend(new_user_deposits, new_deposit)
   else
     new_deposit = Map.set(same_deposit, "amount", same_deposit.amount + transfer_amount)
-    new_user_deposits = List.prepend(new_user_deposits, same_deposit)
+    new_user_deposits = List.prepend(new_user_deposits, new_deposit)
   end
 
   deposits = Map.set(deposits, user_genesis_address, new_user_deposits)
