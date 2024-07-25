@@ -104,10 +104,6 @@ actions triggered_by: transaction, on: deposit(end_timestamp) do
       end
     end
 
-    if deposit_level == nil do
-      deposit_level = "7"
-    end
-
     new_deposit = [
       amount: transfer_amount,
       reward_amount: 0,
@@ -333,10 +329,6 @@ condition triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
     end
   end
 
-  if relock_level == nil do
-    relock_level = "7"
-  end
-
   if relock_level <= user_deposit.level do
     throw(message: "Relock's level must be greater than current level", code: 4004)
   end
@@ -390,10 +382,6 @@ actions triggered_by: transaction, on: relock(end_timestamp, deposit_id) do
     if deposit_level == nil && end_timestamp <= until do
       deposit_level = l
     end
-  end
-
-  if deposit_level == nil do
-    deposit_level = "7"
   end
 
   rewards_distributed = State.get("rewards_distributed", 0)
@@ -803,10 +791,7 @@ fun calculate_new_rewards() do
 end
 
 export fun(get_farm_infos()) do
-  now = Time.now()
-  now = now - Math.rem(now, @ROUND_NOW_TO)
-
-  reward_token_balance = 0
+  now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
 
   years = [
     [
@@ -835,6 +820,8 @@ export fun(get_farm_infos()) do
     ]
   ]
 
+  reward_token_balance = nil
+
   if @REWARD_TOKEN == "UCO" do
     reward_token_balance = contract.balance.uco
   else
@@ -842,24 +829,15 @@ export fun(get_farm_infos()) do
     reward_token_balance = Map.get(contract.balance.tokens, key, 0)
   end
 
-  remaining_rewards = nil
-
-  if reward_token_balance != nil do
-    remaining_rewards = reward_token_balance - State.get("rewards_reserved", 0)
-  end
-
-  deposits = State.get("deposits", Map.new())
-  lp_tokens_deposited = State.get("lp_tokens_deposited", 0)
-
-  weight_per_level = Map.new()
-  weight_per_level = Map.set(weight_per_level, "0", 0.007)
-  weight_per_level = Map.set(weight_per_level, "1", 0.013)
-  weight_per_level = Map.set(weight_per_level, "2", 0.024)
-  weight_per_level = Map.set(weight_per_level, "3", 0.043)
-  weight_per_level = Map.set(weight_per_level, "4", 0.077)
-  weight_per_level = Map.set(weight_per_level, "5", 0.138)
-  weight_per_level = Map.set(weight_per_level, "6", 0.249)
-  weight_per_level = Map.set(weight_per_level, "7", 0.449)
+  weight_by_level = Map.new()
+  weight_by_level = Map.set(weight_by_level, "0", 0.007)
+  weight_by_level = Map.set(weight_by_level, "1", 0.013)
+  weight_by_level = Map.set(weight_by_level, "2", 0.024)
+  weight_by_level = Map.set(weight_by_level, "3", 0.043)
+  weight_by_level = Map.set(weight_by_level, "4", 0.077)
+  weight_by_level = Map.set(weight_by_level, "5", 0.138)
+  weight_by_level = Map.set(weight_by_level, "6", 0.249)
+  weight_by_level = Map.set(weight_by_level, "7", 0.449)
 
   available_levels = Map.new()
   available_levels = Map.set(available_levels, "0", now + 0)
@@ -888,45 +866,24 @@ export fun(get_farm_infos()) do
     end
   end
 
-  weighted_lp_tokens_deposited = 0
-  lp_tokens_deposited_per_level = Map.new()
-  deposits_count_per_level = Map.new()
+  lp_tokens_deposited_by_level = State.get("lp_tokens_deposited_by_level", Map.new())
+  lp_tokens_deposited_weighted = 0
 
-  for user_genesis in Map.keys(deposits) do
-    user_deposits = Map.get(deposits, user_genesis)
+  for level in Map.keys(lp_tokens_deposited_by_level) do
+    lp_tokens_deposited_weighted =
+      lp_tokens_deposited_weighted +
+        lp_tokens_deposited_by_level[level] * weight_by_level[level]
+  end
 
+  deposits_count_by_level = Map.new()
+
+  for user_deposits in Map.values(State.get("deposits", Map.new())) do
     for user_deposit in user_deposits do
-      level = nil
-
-      for l in Map.keys(available_levels) do
-        if level == nil do
-          until = Map.get(available_levels, l)
-
-          if user_deposit.end <= until do
-            level = l
-          end
-        end
-      end
-
-      if level == nil do
-        level = "7"
-      end
-
-      weighted_lp_tokens_deposited =
-        weighted_lp_tokens_deposited + user_deposit.amount * Map.get(weight_per_level, level)
-
-      lp_tokens_deposited_per_level =
+      deposits_count_by_level =
         Map.set(
-          lp_tokens_deposited_per_level,
-          level,
-          Map.get(lp_tokens_deposited_per_level, level, 0) + user_deposit.amount
-        )
-
-      deposits_count_per_level =
-        Map.set(
-          deposits_count_per_level,
-          level,
-          Map.get(deposits_count_per_level, level, 0) + 1
+          deposits_count_by_level,
+          user_deposit.level,
+          Map.get(deposits_count_by_level, user_deposit.level, 0) + 1
         )
     end
   end
@@ -937,12 +894,12 @@ export fun(get_farm_infos()) do
     rewards_allocated = []
 
     for y in years do
-      rewards = Map.get(weight_per_level, level) * y.rewards
+      rewards = 0
 
-      if weighted_lp_tokens_deposited > 0 do
+      if lp_tokens_deposited_weighted > 0 do
         rewards =
-          Map.get(lp_tokens_deposited_per_level, level, 0) * Map.get(weight_per_level, level) /
-            weighted_lp_tokens_deposited * y.rewards
+          Map.get(lp_tokens_deposited_by_level, level, 0) * weight_by_level[level] /
+            lp_tokens_deposited_weighted * y.rewards
       end
 
       rewards_allocated =
@@ -951,9 +908,9 @@ export fun(get_farm_infos()) do
 
     stats =
       Map.set(stats, level,
-        weight: Map.get(weight_per_level, level),
-        lp_tokens_deposited: Map.get(lp_tokens_deposited_per_level, level, 0),
-        deposits_count: Map.get(deposits_count_per_level, level, 0),
+        weight: weight_by_level[level],
+        lp_tokens_deposited: Map.get(lp_tokens_deposited_by_level, level, 0),
+        deposits_count: Map.get(deposits_count_by_level, level, 0),
         rewards_allocated: rewards_allocated
       )
   end
@@ -963,8 +920,8 @@ export fun(get_farm_infos()) do
     reward_token: @REWARD_TOKEN,
     start_date: @START_DATE,
     end_date: @END_DATE,
-    lp_tokens_deposited: lp_tokens_deposited,
-    remaining_rewards: remaining_rewards,
+    lp_tokens_deposited: State.get("lp_tokens_deposited", 0),
+    remaining_rewards: reward_token_balance - State.get("rewards_reserved", 0),
     rewards_distributed: State.get("rewards_distributed", 0),
     available_levels: filtered_levels,
     stats: stats
@@ -972,51 +929,21 @@ export fun(get_farm_infos()) do
 end
 
 export fun(get_user_infos(user_genesis_address)) do
-  now = Time.now()
-
-  deposits = State.get("deposits", Map.new())
-
   reply = []
 
-  user_genesis_address = String.to_hex(user_genesis_address)
-
-  available_levels = Map.new()
-  available_levels = Map.set(available_levels, "0", now + 0)
-  available_levels = Map.set(available_levels, "1", now + 7 * @SECONDS_IN_DAY)
-  available_levels = Map.set(available_levels, "2", now + 30 * @SECONDS_IN_DAY)
-  available_levels = Map.set(available_levels, "3", now + 90 * @SECONDS_IN_DAY)
-  available_levels = Map.set(available_levels, "4", now + 180 * @SECONDS_IN_DAY)
-  available_levels = Map.set(available_levels, "5", now + 365 * @SECONDS_IN_DAY)
-  available_levels = Map.set(available_levels, "6", now + 730 * @SECONDS_IN_DAY)
-  available_levels = Map.set(available_levels, "7", now + 1095 * @SECONDS_IN_DAY)
-
-  user_deposits = Map.get(deposits, user_genesis_address, [])
-
-  for user_deposit in user_deposits do
-    level = nil
-
-    for l in Map.keys(available_levels) do
-      if level == nil do
-        until = Map.get(available_levels, l)
-
-        if user_deposit.end <= until do
-          level = l
-        end
-      end
-    end
-
-    if level == nil do
-      level = "7"
-    end
-
+  for user_deposit in Map.get(
+        State.get("deposits", Map.new()),
+        String.to_hex(user_genesis_address),
+        []
+      ) do
     info = [
       id: user_deposit.id,
       amount: user_deposit.amount,
       reward_amount: user_deposit.reward_amount,
-      level: level
+      level: user_deposit.level
     ]
 
-    if user_deposit.end > now do
+    if user_deposit.end > Time.now() do
       info = Map.set(info, "end", user_deposit.end)
       info = Map.set(info, "start", user_deposit.start)
     end
