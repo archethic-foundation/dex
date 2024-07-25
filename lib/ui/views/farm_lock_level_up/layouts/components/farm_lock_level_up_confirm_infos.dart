@@ -1,11 +1,9 @@
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
-import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -105,16 +103,27 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
                           ),
                         ),
                   ),
-                  SelectableText(
-                    '${farmLockLevelUp.aprEstimation?.formatNumber(precision: 2)}%',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: aedappfm.AppThemeBase.secondaryColor,
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.titleLarge!,
+                  if (farmLockLevelUp.aprEstimation == null ||
+                      farmLockLevelUp.aprEstimation! == 0)
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 2),
+                      child: Icon(
+                        Icons.all_inclusive,
+                        size: 20,
+                        color: Colors.white60,
+                      ),
+                    )
+                  else
+                    SelectableText(
+                      '${farmLockLevelUp.aprEstimation?.formatNumber(precision: 2)}%',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: aedappfm.AppThemeBase.secondaryColor,
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.titleLarge!,
+                            ),
                           ),
-                        ),
-                  ),
+                    ),
                 ],
               ),
               const SizedBox(
@@ -144,67 +153,6 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
                       ),
                   ],
                 ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!
-                        .farmLockLevelUpConfirmYourBalance,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      decoration: BoxDecoration(
-                        gradient: aedappfm.AppThemeBase.gradient,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                  SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
-                    style: AppTextStyles.bodyLarge(context),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DexTokenBalance(
-                    tokenBalance: farmLockLevelUp.lpTokenBalance,
-                    token: farmLockLevelUp.pool!.lpToken,
-                    withFiat: false,
-                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
-                    height: 20,
-                  ),
-                  DexTokenBalance(
-                    tokenBalance: (Decimal.parse(
-                              farmLockLevelUp.lpTokenBalance.toString(),
-                            ) -
-                            Decimal.parse(
-                              farmLockLevelUp.amount.toString(),
-                            ))
-                        .toDouble(),
-                    token: farmLockLevelUp.pool!.lpToken,
-                    digits: aedappfm.Responsive.isMobile(context) ? 2 : 8,
-                    withFiat: false,
-                    height: 20,
-                  ),
-                ],
-              ),
             ],
           ),
         ),

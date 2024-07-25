@@ -105,16 +105,27 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                           ),
                         ),
                   ),
-                  SelectableText(
-                    '${farmLockDeposit.aprEstimation?.formatNumber(precision: 2)}%',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: aedappfm.AppThemeBase.secondaryColor,
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.titleLarge!,
+                  if (farmLockDeposit.aprEstimation == null ||
+                      farmLockDeposit.aprEstimation! == 0)
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 2),
+                      child: Icon(
+                        Icons.all_inclusive,
+                        size: 20,
+                        color: Colors.white60,
+                      ),
+                    )
+                  else
+                    SelectableText(
+                      '${farmLockDeposit.aprEstimation?.formatNumber(precision: 2)}%',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: aedappfm.AppThemeBase.secondaryColor,
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.titleLarge!,
+                            ),
                           ),
-                        ),
-                  ),
+                    ),
                 ],
               ),
               const SizedBox(
