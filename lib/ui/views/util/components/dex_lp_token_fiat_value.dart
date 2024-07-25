@@ -14,6 +14,14 @@ class DEXLPTokenFiatValue {
     String poolAddress, {
     bool withParenthesis = true,
   }) {
+    if (lpTokenAmount == 0) {
+      if (withParenthesis) {
+        return '(\$${0.0.formatNumber(precision: 2)})';
+      } else {
+        return '\$${0.0.formatNumber(precision: 2)}';
+      }
+    }
+
     final estimateLPTokenInFiat = ref.watch(
       DexTokensProviders.estimateLPTokenInFiat(
         token1,
