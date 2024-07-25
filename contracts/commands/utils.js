@@ -143,12 +143,12 @@ export function getFactoryCode(keychain) {
   // Replace master address
   farmLockCode = farmLockCode.replaceAll("@MASTER_ADDRESS", "0x#{master_address}")
   // Replace rewards year
-  farmLockCode = farmLockCode.replaceAll("@REWARDS_YEAR_1", "45_000")
-  farmLockCode = farmLockCode.replaceAll("@REWARDS_YEAR_2", "22_500")
-  farmLockCode = farmLockCode.replaceAll("@REWARDS_YEAR_3", "11_250")
-  farmLockCode = farmLockCode.replaceAll("@REWARDS_YEAR_4", "8_750")
-  farmLockCode = farmLockCode.replaceAll("@SECONDS_IN_DAY", "60")
-  farmLockCode = farmLockCode.replaceAll("@ROUND_NOW_TO", "60")
+  farmLockCode = farmLockCode.replaceAll("@REWARDS_YEAR_1", "45_000_000")
+  farmLockCode = farmLockCode.replaceAll("@REWARDS_YEAR_2", "22_500_000")
+  farmLockCode = farmLockCode.replaceAll("@REWARDS_YEAR_3", "11_250_000")
+  farmLockCode = farmLockCode.replaceAll("@REWARDS_YEAR_4", "8_750_000")
+  farmLockCode = farmLockCode.replaceAll("@SECONDS_IN_DAY", "86400")
+  farmLockCode = farmLockCode.replaceAll("@ROUND_NOW_TO", "3600")
 
   let factoryCode = fs.readFileSync(factoryContractPath, "utf8")
   // Replace router address
