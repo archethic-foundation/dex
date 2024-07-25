@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class FarmLockLevelUpFormSheet extends ConsumerStatefulWidget {
+class FarmLockLevelUpFormSheet extends ConsumerWidget {
   const FarmLockLevelUpFormSheet({
     required this.rewardAmount,
     super.key,
@@ -23,26 +23,7 @@ class FarmLockLevelUpFormSheet extends ConsumerStatefulWidget {
   final double rewardAmount;
 
   @override
-  ConsumerState<FarmLockLevelUpFormSheet> createState() =>
-      FarmLockLevelUpFormSheetState();
-}
-
-class FarmLockLevelUpFormSheetState
-    extends ConsumerState<FarmLockLevelUpFormSheet> {
-  Map<String, int> filterAvailableLevels = <String, int>{};
-
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () {
-      filterAvailableLevels = ref
-          .read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
-          .filterAvailableLevels();
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final farmLockLevelUp =
         ref.watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
 
@@ -136,7 +117,7 @@ class FarmLockLevelUpFormSheetState
                   ),
                   Row(
                     children: [
-                      if (widget.rewardAmount == 0)
+                      if (rewardAmount == 0)
                         SelectableText(
                           AppLocalizations.of(context)!
                               .farmLockWithdrawFormTextNoRewardText1,
@@ -147,14 +128,14 @@ class FarmLockLevelUpFormSheetState
                           future: FiatValue().display(
                             ref,
                             farmLockLevelUp.farmLock!.rewardToken!,
-                            widget.rewardAmount,
+                            rewardAmount,
                           ),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Row(
                                 children: [
                                   SelectableText(
-                                    widget.rewardAmount.formatNumber(),
+                                    rewardAmount.formatNumber(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -238,7 +219,8 @@ class FarmLockLevelUpFormSheetState
                   ),
                   Wrap(
                     children: [
-                      ...filterAvailableLevels.entries.map((entry) {
+                      ...farmLockLevelUp.filterAvailableLevels.entries
+                          .map((entry) {
                         return FarmLockLevelUpDurationButton(
                           farmLockLevelUpDuration:
                               getFarmLockDepositDurationTypeFromLevel(
@@ -253,7 +235,9 @@ class FarmLockLevelUpFormSheetState
                       }).toList(),
                     ],
                   ),
-                  if (filterAvailableLevels[farmLockLevelUp.level] != null)
+                  if (farmLockLevelUp
+                          .filterAvailableLevels[farmLockLevelUp.level] !=
+                      null)
                     Row(
                       children: [
                         SelectableText(
@@ -268,7 +252,8 @@ class FarmLockLevelUpFormSheetState
                                 : 'yyyy-MM-dd HH:mm:ss',
                           ).format(
                             DateTime.fromMillisecondsSinceEpoch(
-                              filterAvailableLevels[farmLockLevelUp.level]! *
+                              farmLockLevelUp.filterAvailableLevels[
+                                      farmLockLevelUp.level]! *
                                   1000,
                             ),
                           ),

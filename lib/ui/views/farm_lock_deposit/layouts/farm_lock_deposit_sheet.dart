@@ -51,6 +51,10 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
         await ref
             .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
             .initBalances();
+
+        ref
+            .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
+            .filterAvailableLevels();
       } catch (e) {
         if (mounted) {
           context.pop();

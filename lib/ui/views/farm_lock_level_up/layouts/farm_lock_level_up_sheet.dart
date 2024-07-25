@@ -62,6 +62,10 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
         await ref
             .read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
             .initBalances();
+
+        ref
+            .read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
+            .filterAvailableLevels();
       } catch (e) {
         if (mounted) {
           context.pop();
