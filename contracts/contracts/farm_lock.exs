@@ -264,7 +264,6 @@ actions triggered_by: transaction, on: relock(level, deposit_id) do
 
   res = calculate_new_rewards()
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
-  State.set("lp_tokens_deposited_by_level", res.lp_tokens_deposited_by_level)
 
   user_deposit = get_user_deposit_or_throw(res.deposits, user_genesis_address, deposit_id)
 
@@ -283,6 +282,22 @@ actions triggered_by: transaction, on: relock(level, deposit_id) do
   rewards_distributed = State.get("rewards_distributed", 0)
   State.set("rewards_distributed", rewards_distributed + user_deposit.reward_amount)
   State.set("rewards_reserved", res.rewards_reserved - user_deposit.reward_amount)
+
+  lp_tokens_deposited_by_level =
+    Map.set(
+      res.lp_tokens_deposited_by_level,
+      user_deposit.level,
+      Map.get(lp_tokens_deposited_by_level, user_deposit.level, 0) - user_deposit.amount
+    )
+
+  lp_tokens_deposited_by_level =
+    Map.set(
+      lp_tokens_deposited_by_level,
+      level,
+      Map.get(lp_tokens_deposited_by_level, level, 0) + user_deposit.amount
+    )
+
+  State.set("lp_tokens_deposited_by_level", lp_tokens_deposited_by_level)
 
   user_deposit = Map.set(user_deposit, "reward_amount", 0)
   user_deposit = Map.set(user_deposit, "start", now)
