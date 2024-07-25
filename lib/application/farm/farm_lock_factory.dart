@@ -57,6 +57,9 @@ class FarmLockFactory with ModelParser {
   Future<List<dynamic>> getUserInfos(
     String userGenesisAddress,
   ) async {
+    if (userGenesisAddress.isEmpty) {
+      return [];
+    }
     final results = await apiService.callSCFunction(
       jsonRPCRequest: SCCallFunctionRequest(
         method: 'contract_fun',
