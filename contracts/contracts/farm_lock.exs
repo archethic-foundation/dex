@@ -697,30 +697,67 @@ end
 export fun(get_farm_infos()) do
   now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
 
+  reward_year1 = 0
+  reward_year2 = 0
+  reward_year3 = 0
+  reward_year4 = 0
+
+  if now < @START_DATE + 365 * @SECONDS_IN_DAY - 1 do
+    reward_year1 =
+      @REWARDS_YEAR_1 - State.get("rewards_reserved") - State.get("rewards_distributed")
+
+    reward_year2 = @REWARDS_YEAR_2
+    reward_year3 = @REWARDS_YEAR_3
+    reward_year4 = @REWARDS_YEAR_4
+  end
+
+  if reward_year1 == 0 && now < @START_DATE + 730 * @SECONDS_IN_DAY - 1 do
+    reward_year2 =
+      @REWARDS_YEAR_1 + @REWARDS_YEAR_2 - State.get("rewards_reserved") -
+        State.get("rewards_distributed")
+
+    reward_year3 = @REWARDS_YEAR_3
+    reward_year4 = @REWARDS_YEAR_4
+  end
+
+  if reward_year2 == 0 && now < @START_DATE + 1095 * @SECONDS_IN_DAY - 1 do
+    reward_year3 =
+      @REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3 - State.get("rewards_reserved") -
+        State.get("rewards_distributed")
+
+    reward_year4 = @REWARDS_YEAR_4
+  end
+
+  if reward_year3 == 0 && now < @END_DATE do
+    reward_year4 =
+      @REWARDS_YEAR_1 + @REWARDS_YEAR_2 + @REWARDS_YEAR_3 + @REWARDS_YEAR_4 -
+        State.get("rewards_reserved") - State.get("rewards_distributed")
+  end
+
   years = [
     [
       year: 1,
       start: @START_DATE,
       end: @START_DATE + 365 * @SECONDS_IN_DAY - 1,
-      rewards: @REWARDS_YEAR_1
+      rewards: reward_year1
     ],
     [
       year: 2,
       start: @START_DATE + 365 * @SECONDS_IN_DAY,
       end: @START_DATE + 730 * @SECONDS_IN_DAY - 1,
-      rewards: @REWARDS_YEAR_2
+      rewards: reward_year2
     ],
     [
       year: 3,
       start: @START_DATE + 730 * @SECONDS_IN_DAY,
       end: @START_DATE + 1095 * @SECONDS_IN_DAY - 1,
-      rewards: @REWARDS_YEAR_3
+      rewards: reward_year3
     ],
     [
       year: 4,
       start: @START_DATE + 1095 * @SECONDS_IN_DAY,
       end: @END_DATE,
-      rewards: @REWARDS_YEAR_4
+      rewards: reward_year4
     ]
   ]
 
@@ -795,7 +832,7 @@ export fun(get_farm_infos()) do
   stats = Map.new()
 
   for level in Map.keys(available_levels) do
-    rewards_allocated = []
+    remaining_rewards = []
 
     for y in years do
       rewards = 0
@@ -806,8 +843,8 @@ export fun(get_farm_infos()) do
             lp_tokens_deposited_weighted * y.rewards
       end
 
-      rewards_allocated =
-        List.append(rewards_allocated, start: y.start, end: y.end, rewards: rewards)
+      remaining_rewards =
+        List.append(remaining_rewards, start: y.start, end: y.end, remaining_rewards: rewards)
     end
 
     stats =
@@ -815,7 +852,7 @@ export fun(get_farm_infos()) do
         weight: weight_by_level[level],
         lp_tokens_deposited: Map.get(lp_tokens_deposited_by_level, level, 0),
         deposits_count: Map.get(deposits_count_by_level, level, 0),
-        rewards_allocated: rewards_allocated
+        remaining_rewards: remaining_rewards
       )
   end
 
