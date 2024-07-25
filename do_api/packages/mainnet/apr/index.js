@@ -17,13 +17,13 @@ const levelToString = {
 export async function main(_args) {
   await archethic.connect()
 
-  const [{ end, rewards, lpTokensDeposited, poolAddress, levelString }, { ucoPrice, wethPrice }]
+  const [{ end, remaining_rewards, lpTokensDeposited, poolAddress, levelString }, { ucoPrice, wethPrice }]
     = await Promise.all([getFarmInfos(), getPrices()])
 
   const { wethAmount, ucoAmount } = await getRemoveAmounts(poolAddress, lpTokensDeposited)
 
   const valueLocked = wethAmount * wethPrice + ucoAmount * ucoPrice
-  const valueReward = rewards * ucoPrice
+  const valueReward = remaining_rewards * ucoPrice
 
   const now = Math.trunc(Date.now() / 1000)
   const apr = (valueReward / valueLocked) * (31536000 / (end - now)) * 100
@@ -37,13 +37,14 @@ async function getFarmInfos() {
 
     const poolAddress = res.lp_token_address
 
+    const now = Math.trunc(Date.now() / 1000)
+
     // Find max available level
     const maxLevel = Math.max(...Object.keys(res.available_levels).map(elt => parseInt(elt))).toString()
-
+    const { end, remaining_rewards } = res.stats[maxLevel].remaining_rewards.find(elt => now < elt.end)
     const lpTokensDeposited = res.stats[maxLevel].lp_tokens_deposited
-    const { end, rewards } = res.stats[maxLevel].rewards_allocated[0]
     const levelString = levelToString[parseInt(maxLevel)]
-    resolve({ end, rewards, lpTokensDeposited, poolAddress, levelString })
+    resolve({ end, remaining_rewards, lpTokensDeposited, poolAddress, levelString })
   })
 }
 
@@ -63,3 +64,7 @@ async function getRemoveAmounts(poolAddress, lpTokensDeposited) {
     resolve({ wethAmount, ucoAmount })
   })
 }
+
+new Promise(async (resolve) => {
+  resolve(await main())
+}).then(res => console.log(res))
