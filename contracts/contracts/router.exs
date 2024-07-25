@@ -134,7 +134,7 @@ condition triggered_by: transaction, on: add_farm(lp_token, start_date, end_date
       end
     end
 
-    lp_token_exists? && valid_date? && valid_code? && valid_reward?
+    lp_token_exists? && valid_code? && valid_reward?
   )
 ]
 
