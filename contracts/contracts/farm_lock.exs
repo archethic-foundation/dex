@@ -287,7 +287,7 @@ actions triggered_by: transaction, on: relock(level, deposit_id) do
     Map.set(
       res.lp_tokens_deposited_by_level,
       user_deposit.level,
-      Map.get(lp_tokens_deposited_by_level, user_deposit.level, 0) - user_deposit.amount
+      Map.get(res.lp_tokens_deposited_by_level, user_deposit.level, 0) - user_deposit.amount
     )
 
   lp_tokens_deposited_by_level =
