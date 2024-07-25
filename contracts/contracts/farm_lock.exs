@@ -910,18 +910,17 @@ fun end_timestamp_from_level_or_throw(level, rounded_now) do
     throw(message: "invalid level", code: 6000)
   end
 
-  if end_timestamp == "max" do
+  if level == "max" do
     if @END_DATE - rounded_now < 3 * 365 * @SECONDS_IN_DAY do
       end_timestamp = @END_DATE
     else
       throw(message: "max only available when less than 3 years remaining", code: 6001)
     end
   else
-    if List.in?(["flex", "0"], end_timestamp) do
+    if List.in?(["flex", "0"], level) do
       end_timestamp = 0
     else
       duration_by_level = Map.new()
-      duration_by_level = Map.set(duration_by_level, "0", 0)
       duration_by_level = Map.set(duration_by_level, "1", 7 * @SECONDS_IN_DAY)
       duration_by_level = Map.set(duration_by_level, "2", 30 * @SECONDS_IN_DAY)
       duration_by_level = Map.set(duration_by_level, "3", 90 * @SECONDS_IN_DAY)
