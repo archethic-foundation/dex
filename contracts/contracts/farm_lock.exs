@@ -484,16 +484,22 @@ fun calculate_new_rewards() do
         seconds_until_end_of_year = @END_DATE - last_calculation_timestamp
       end
 
-      giveaway_for_period =
-        giveaways_to_allocate *
-          ((period_to - last_calculation_timestamp) / time_elapsed_since_last_calc)
+      rewards_to_allocate = 0
 
-      # calculate reward for this period
-      rewards_to_allocate =
-        (rewards_allocated_at_each_year_end[year] - State.get("rewards_distributed", 0) -
-           rewards_reserved) *
-          ((period_to - last_calculation_timestamp) / seconds_until_end_of_year) +
-          giveaway_for_period
+      if period_to >= @END_DATE do
+        rewards_to_allocate = remaining_rewards_balance - rewards_reserved
+      else
+        giveaway_for_period =
+          giveaways_to_allocate *
+            ((period_to - last_calculation_timestamp) / time_elapsed_since_last_calc)
+
+        # calculate reward for this period
+        rewards_to_allocate =
+          (rewards_allocated_at_each_year_end[year] - State.get("rewards_distributed", 0) -
+             rewards_reserved) *
+            ((period_to - last_calculation_timestamp) / seconds_until_end_of_year) +
+            giveaway_for_period
+      end
 
       # calculate tokens_weighted for each level
       tokens_weighted_by_level = Map.new()
