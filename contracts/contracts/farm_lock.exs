@@ -212,8 +212,8 @@ actions triggered_by: transaction, on: withdraw(amount, deposit_id) do
   lp_tokens_deposited_by_level =
     Map.set(
       lp_tokens_deposited_by_level,
-      new_deposit.level,
-      Map.get(lp_tokens_deposited_by_level, new_deposit.level, 0) - amount
+      user_deposit.level,
+      Map.get(lp_tokens_deposited_by_level, user_deposit.level, 0) - amount
     )
 
   State.set("lp_tokens_deposited_by_level", lp_tokens_deposited_by_level)
