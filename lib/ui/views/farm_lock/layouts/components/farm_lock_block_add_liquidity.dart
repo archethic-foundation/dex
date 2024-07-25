@@ -111,7 +111,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
           ),
           InkWell(
             onTap: () async {
-              final uri = Uri.parse(kURIFarmLockArticle);
+              final uri = Uri.parse(kURIFarmLockPoolTuto);
               if (!await canLaunchUrl(uri)) return;
               await launchUrl(uri);
             },

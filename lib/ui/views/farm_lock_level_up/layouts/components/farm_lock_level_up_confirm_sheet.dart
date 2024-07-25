@@ -102,7 +102,7 @@ class FarmLockLevelUpConfirmSheetState
                     controlAffinity: ListTileControlAffinity.leading,
                     subtitle: InkWell(
                       onTap: () async {
-                        final uri = Uri.parse(kURIFarmLockArticle);
+                        final uri = Uri.parse(kURIFarmLockFarmTuto);
                         if (!await canLaunchUrl(uri)) return;
                         await launchUrl(uri);
                       },

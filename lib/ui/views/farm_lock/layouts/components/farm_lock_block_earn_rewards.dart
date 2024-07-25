@@ -116,7 +116,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
             ),
           InkWell(
             onTap: () async {
-              final uri = Uri.parse(kURIFarmLockArticle);
+              final uri = Uri.parse(kURIFarmLockFarmTuto);
               if (!await canLaunchUrl(uri)) return;
               await launchUrl(uri);
             },
