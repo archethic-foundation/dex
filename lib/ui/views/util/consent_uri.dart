@@ -4,4 +4,4 @@ const kURITermsOfUse = 'https://www.archethic.net/terms-of-use-defi.html';
 const kURIFarmLockFarmTuto =
     'https://wiki.archethic.net/participate/dex/Guide_Usage/farming';
 const kURIFarmLockPoolTuto =
-    'http://localhost:9000/participate/dex/Guide_Usage/liquidity_pool';
+    'https://wiki.archethic.net/participate/dex/Guide_Usage/liquidity_pool';

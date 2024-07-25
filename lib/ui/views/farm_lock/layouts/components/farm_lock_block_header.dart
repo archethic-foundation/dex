@@ -145,7 +145,7 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       farmLock: farmLock,
                       farm: farm,
                       width: constraints.maxWidth,
-                      height: 290,
+                      height: 320,
                       sortCriteria: sortCriteria,
                     ),
                     const SizedBox(
