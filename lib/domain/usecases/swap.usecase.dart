@@ -67,9 +67,6 @@ class SwapCase with aedappfm.TransactionMixin {
             }
           },
           failure: (failure) {
-            //FIXME : il faudrait faire ça dans l'autre sens :
-            // - la methode run() retourne un Stream<SwapState>.
-            // - le notifierProvider écoute ce stream et se met a jour en conséquence
             swapNotifier
               ..setFailure(failure)
               ..setCurrentStep(4)

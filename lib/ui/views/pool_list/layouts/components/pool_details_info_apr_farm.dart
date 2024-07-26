@@ -46,7 +46,6 @@ class PoolDetailsInfoAPRFarmState
           ).future,
         );
         setState(() {
-          // TODO: Manage < 3 years
           if (farmLock != null && farmLock.stats['7'] != null) {
             apr3years = farmLock.stats['7']?.aprEstimation ?? 0;
           }
