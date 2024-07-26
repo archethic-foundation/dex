@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:aedex/ui/views/main_screen/layouts/app_bar_welcome.dart';
+import 'package:aedex/ui/views/welcome/layouts/components/welcome_app_bar.dart';
 import 'package:aedex/ui/views/welcome/layouts/components/welcome_launch_btn.dart';
 import 'package:aedex/ui/views/welcome/layouts/components/welcome_title.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -24,7 +24,7 @@ class WelcomeScreen extends ConsumerWidget {
         child: ClipRRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: const AppBarWelcome(),
+            child: const WelcomeAppBar(),
           ),
         ),
       ),
