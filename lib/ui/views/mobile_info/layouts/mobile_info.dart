@@ -12,7 +12,6 @@ class MobileInfoScreen extends ConsumerWidget {
     super.key,
   });
 
-  static const routerPage = '/mobileInfo';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textStyleDesc = Theme.of(context)
