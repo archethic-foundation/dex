@@ -7,7 +7,6 @@ Future<List<DexPoolTx>> _getPoolTxList(
   DexPool pool,
   String lastTransactionAddress,
 ) async {
-  // TODO: Which env ????? Check the address and adapt with env
   const kProtocolFeeAddress =
       '0000CC1FADBD31B043947C016E09CCD59BC3C81E55AB8A4932A046236D5E0FEE9E45';
 

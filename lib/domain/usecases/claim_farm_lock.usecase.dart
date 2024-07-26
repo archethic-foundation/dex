@@ -133,6 +133,16 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         ),
       );
 
+      await aedappfm.PeriodicFuture.periodic<bool>(
+        () => isSCCallExecuted(
+          farmGenesisAddress,
+          transactionClaim!.address!.address!,
+        ),
+        sleepDuration: const Duration(seconds: 3),
+        until: (depositOk) => depositOk == true,
+        timeout: const Duration(minutes: 1),
+      );
+
       final amount = await aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTxInput(
           transactionClaim!.address!.address!,
