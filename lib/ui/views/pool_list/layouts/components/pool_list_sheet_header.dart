@@ -3,6 +3,7 @@ import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_search_bar.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -61,7 +62,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
   }
 
   Widget _addPool(BuildContext context) {
-    return aedappfm.ButtonValidate(
+    return ButtonValidateMobile(
       controlOk: true,
       labelBtn: aedappfm.Responsive.isDesktop(context) ||
               aedappfm.Responsive.isTablet(context)

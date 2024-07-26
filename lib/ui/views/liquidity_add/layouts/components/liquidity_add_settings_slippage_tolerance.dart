@@ -2,6 +2,7 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -147,7 +148,7 @@ class LiquiditySettingsSlippageToleranceState
                 .liquidityAddSettingsSlippageErrorHighSlippage,
             aedappfm.InfoBannerType.error,
           ),
-        aedappfm.ButtonValidate(
+        ButtonValidateMobile(
           controlOk:
               double.tryParse(slippageToleranceController.text) != null &&
                   (double.tryParse(slippageToleranceController.text)! >= 0 &&

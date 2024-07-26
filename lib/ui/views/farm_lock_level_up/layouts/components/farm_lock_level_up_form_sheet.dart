@@ -2,6 +2,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_lock_duration_btn.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
@@ -307,7 +308,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: aedappfm.ButtonValidate(
+                            child: ButtonValidateMobile(
                               controlOk: farmLockLevelUp.isControlsOk &&
                                   ref
                                       .watch(SessionProviders.session)

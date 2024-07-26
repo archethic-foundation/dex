@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_to
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -90,7 +91,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      aedappfm.ButtonValidate(
+                      ButtonValidateMobile(
                         controlOk: poolAdd.isControlsOk,
                         labelBtn: AppLocalizations.of(context)!.btn_pool_add,
                         onPressed: () => ref

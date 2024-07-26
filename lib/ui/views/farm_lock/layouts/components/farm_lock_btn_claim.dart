@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_claim/layouts/farm_lock_claim_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class FarmLockBtnClaim extends ConsumerWidget {
                 .fade(duration: const Duration(milliseconds: 400))
                 .scale(duration: const Duration(milliseconds: 400)),
           )
-        : aedappfm.ButtonValidate(
+        : ButtonValidateMobile(
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmLockBtnClaim,
             onPressed: () async {

@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -104,7 +105,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
                 .fade(duration: const Duration(milliseconds: 350))
                 .scale(duration: const Duration(milliseconds: 350)),
           )
-        : aedappfm.ButtonValidate(
+        : ButtonValidateMobile(
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmLockBtnWithdraw,
             onPressed: () async {

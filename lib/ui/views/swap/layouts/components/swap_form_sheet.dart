@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swapped_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -85,7 +86,7 @@ class SwapFormSheet extends ConsumerWidget {
                     },
                     icon: const Icon(Icons.add),
                   ),
-                aedappfm.ButtonValidate(
+                ButtonValidateMobile(
                   controlOk: swap.isControlsOk,
                   labelBtn: AppLocalizations.of(context)!.btn_swap,
                   onPressed: () => ref

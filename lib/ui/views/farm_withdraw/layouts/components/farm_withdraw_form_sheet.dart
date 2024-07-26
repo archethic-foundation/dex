@@ -2,6 +2,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_textfield_amount.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -182,7 +183,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: aedappfm.ButtonValidate(
+                            child: ButtonValidateMobile(
                               controlOk: farmWithdraw.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_withdraw,

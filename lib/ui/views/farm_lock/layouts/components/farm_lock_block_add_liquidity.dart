@@ -5,6 +5,7 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
+import 'package:aedex/ui/views/mobile_info/layouts/mobile_info.dart';
 
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_item.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -368,6 +369,25 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
+                if (ref.read(SessionProviders.session).isConnected == false &&
+                    context.mounted &&
+                    aedappfm.Responsive.isMobile(context)) {
+                  await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Scaffold(
+                        extendBodyBehindAppBar: true,
+                        extendBody: true,
+                        backgroundColor: Colors.transparent.withAlpha(120),
+                        body: const Align(
+                          child: MobileInfoScreen(),
+                        ),
+                      );
+                    },
+                  );
+                  return;
+                }
+
                 final sessionNotifier =
                     ref.watch(SessionProviders.session.notifier);
                 await sessionNotifier.connectToWallet();

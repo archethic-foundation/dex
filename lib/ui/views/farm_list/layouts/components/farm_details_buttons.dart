@@ -6,6 +6,7 @@ import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -86,7 +87,7 @@ class FarmDetailsButtons extends ConsumerWidget {
   ) {
     final session = ref.watch(SessionProviders.session);
     return farm.endDate != null && farm.endDate!.isBefore(DateTime.now())
-        ? aedappfm.ButtonValidate(
+        ? ButtonValidateMobile(
             labelBtn: AppLocalizations.of(context)!
                 .farmDetailsButtonDepositFarmClosed,
             onPressed: () {},
@@ -120,7 +121,7 @@ class FarmDetailsButtons extends ConsumerWidget {
               }
             },
           )
-        : aedappfm.ButtonValidate(
+        : ButtonValidateMobile(
             controlOk: userBalance != null && userBalance > 0,
             labelBtn: AppLocalizations.of(context)!.farmDetailsButtonDeposit,
             onPressed: () {
@@ -178,7 +179,7 @@ class FarmDetailsButtons extends ConsumerWidget {
 
   Widget _widthdrawButton(BuildContext context, WidgetRef ref) {
     final session = ref.watch(SessionProviders.session);
-    return aedappfm.ButtonValidate(
+    return ButtonValidateMobile(
       controlOk: depositedAmount != null && depositedAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
       onPressed: () {
@@ -237,7 +238,7 @@ class FarmDetailsButtons extends ConsumerWidget {
   Widget _claimButton(BuildContext context, WidgetRef ref) {
     final session = ref.watch(SessionProviders.session);
 
-    return aedappfm.ButtonValidate(
+    return ButtonValidateMobile(
       controlOk: rewardAmount != null && rewardAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
       onPressed: () async {

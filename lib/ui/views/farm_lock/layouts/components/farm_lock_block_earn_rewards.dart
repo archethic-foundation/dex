@@ -10,6 +10,7 @@ import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_apr_
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_details/farm_lock_list_item.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet.dart';
+import 'package:aedex/ui/views/mobile_info/layouts/mobile_info.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
@@ -449,6 +450,25 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
+                if (ref.read(SessionProviders.session).isConnected == false &&
+                    context.mounted &&
+                    aedappfm.Responsive.isMobile(context)) {
+                  await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Scaffold(
+                        extendBodyBehindAppBar: true,
+                        extendBody: true,
+                        backgroundColor: Colors.transparent.withAlpha(120),
+                        body: const Align(
+                          child: MobileInfoScreen(),
+                        ),
+                      );
+                    },
+                  );
+                  return;
+                }
+
                 final sessionNotifier =
                     ref.watch(SessionProviders.session.notifier);
                 await sessionNotifier.connectToWallet();

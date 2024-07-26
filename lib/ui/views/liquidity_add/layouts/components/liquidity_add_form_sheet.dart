@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
@@ -255,7 +256,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: aedappfm.ButtonValidate(
+                              child: ButtonValidateMobile(
                                 controlOk: liquidityAdd.isControlsOk,
                                 labelBtn: AppLocalizations.of(context)!
                                     .btn_liquidity_add,

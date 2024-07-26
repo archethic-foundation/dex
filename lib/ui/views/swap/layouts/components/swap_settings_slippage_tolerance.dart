@@ -2,6 +2,7 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -147,7 +148,7 @@ class SwapSettingsSlippageToleranceState
             AppLocalizations.of(context)!.swapSettingsSlippageErrorHighSlippage,
             aedappfm.InfoBannerType.error,
           ),
-        aedappfm.ButtonValidate(
+        ButtonValidateMobile(
           controlOk: !(slippageToleranceController.text.isNotEmpty &&
               slippageToleranceController.text.isValidNumber() &&
               (double.tryParse(slippageToleranceController.text)! < 0 ||

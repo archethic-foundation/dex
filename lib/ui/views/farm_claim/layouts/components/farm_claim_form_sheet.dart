@@ -1,5 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
@@ -170,7 +171,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: aedappfm.ButtonValidate(
+                            child: ButtonValidateMobile(
                               controlOk: farmClaim.isControlsOk,
                               labelBtn:
                                   AppLocalizations.of(context)!.btn_farm_claim,

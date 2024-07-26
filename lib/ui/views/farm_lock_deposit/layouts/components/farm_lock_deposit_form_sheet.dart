@@ -4,6 +4,7 @@ import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_de
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_textfield_amount.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_header.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/config/config.dart';
@@ -191,7 +192,7 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: aedappfm.ButtonValidate(
+                            child: ButtonValidateMobile(
                               controlOk: farmLockDeposit.isControlsOk &&
                                   ref
                                       .watch(SessionProviders.session)

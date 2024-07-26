@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -122,7 +123,7 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
     WidgetRef ref,
     DexPool pool,
   ) {
-    return aedappfm.ButtonValidate(
+    return ButtonValidateMobile(
       controlOk: true,
       labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonAddLiquidity,
       onPressed: () async {
@@ -170,7 +171,7 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
     WidgetRef ref,
     DexPool pool,
   ) {
-    return aedappfm.ButtonValidate(
+    return ButtonValidateMobile(
       controlOk: pool.lpTokenInUserBalance,
       labelBtn:
           AppLocalizations.of(context)!.poolDetailsInfoButtonRemoveLiquidity,
