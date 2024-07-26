@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
@@ -16,12 +17,14 @@ import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_she
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
+import 'package:aedex/ui/views/mobile_info/layouts/mobile_info.dart';
 import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/welcome/layouts/welcome_screen.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -501,9 +504,22 @@ final routerProvider = Provider<GoRouter>(
             );
           },
         ),
+        GoRoute(
+          path: MobileInfoScreen.routerPage,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const NoTransitionPage(
+              child: MobileInfoScreen(),
+            );
+          },
+        ),
       ],
       // ignore: body_might_complete_normally_nullable
       redirect: (context, state) async {
+        if (ref.read(SessionProviders.session).isConnected == false &&
+            Responsive.isMobile(context)) {
+          if (context.mounted) return MobileInfoScreen.routerPage;
+        }
+
         final preferences = await HivePreferencesDatasource.getInstance();
         if (preferences.isFirstConnection()) {
           await preferences.setFirstConnection(false);
