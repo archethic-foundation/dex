@@ -699,6 +699,11 @@ fun calculate_new_rewards() do
       rewards_reserved = rewards_reserved + rewards_to_allocate
       last_calculation_timestamp = period_to
     end
+  else
+    # edge case when lp_tokens_deposited = 0
+    if last_calculation_timestamp < rounded_now && last_calculation_timestamp < @END_DATE do
+      last_calculation_timestamp = rounded_now
+    end
   end
 
   [
