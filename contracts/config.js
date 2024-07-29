@@ -8,6 +8,9 @@ export default {
     },
     testnet: {
       endpoint: "https://testnet.archethic.net",
+    },
+    mainnet: {
+      endpoint: "https://mainnet.archethic.net",
     }
   }
 }
