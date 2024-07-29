@@ -259,10 +259,6 @@ end
 condition triggered_by: transaction, on: set_protocol_fee(new_protocol_fee), as: [
   content: new_protocol_fee <= 1 && new_protocol_fee >= 0,
   previous_public_key: (
-    # Pool code can only be updated from the master contract of the dex
-
-    # Transaction is not yet validated so we need to use previous address
-    # to get the genesis address
     previous_address = Chain.get_previous_address()
     Chain.get_genesis_address(previous_address) == @MASTER_ADDRESS
   )
@@ -270,6 +266,18 @@ condition triggered_by: transaction, on: set_protocol_fee(new_protocol_fee), as:
 
 actions triggered_by: transaction, on: set_protocol_fee(new_protocol_fee) do
   State.set("protocol_fee", new_protocol_fee)
+end
+
+condition triggered_by: transaction, on: set_lp_fee(new_lp_fee), as: [
+  content: new_lp_fee <= 1 && new_lp_fee >= 0,
+  previous_public_key: (
+    previous_address = Chain.get_previous_address()
+    Chain.get_genesis_address(previous_address) == @MASTER_ADDRESS
+  )
+]
+
+actions triggered_by: transaction, on: set_lp_fee(new_lp_fee) do
+  State.set("lp_fee", new_lp_fee)
 end
 
 export fun get_ratio(token_address) do
@@ -334,7 +342,7 @@ export fun get_swap_infos(token_address, amount) do
   token_address = String.to_uppercase(token_address)
 
   if reserves.token1 > 0 && reserves.token2 > 0 do
-    fee = amount * 0.0025
+    fee = amount * State.get("lp_fee", 0.3) / 100
     protocol_fee = amount * State.get("protocol_fee", 0) / 100
     amount_with_fee = amount - fee - protocol_fee
 
@@ -411,7 +419,7 @@ export fun get_pool_infos() do
       address: @LP_TOKEN,
       supply: State.get("lp_token_supply", 0)
     ],
-    fee: 0.25,
+    fee: State.get("lp_fee", 0.3),
     protocol_fee: State.get("protocol_fee", 0),
     stats: stats
   ]
