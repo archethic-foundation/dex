@@ -1,0 +1,13 @@
+{
+  "cron": "*/15 * * * *",
+  "port": 9103,
+  "archethic": {
+    "endpoint": "https://mainnet.archethic.net"
+  },
+  "dex": {
+    "farmlock": {
+      "address": "0000B2339AADF5685B1C8D400C9092C921E51588DC049E097EC9437017E7DDED0FEB",
+      "schedulerAddress": "0000B2339AADF5685B1C8D400C9092C921E51588DC049E097EC9437017E7DDED0FEB"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "archethic-dex-analytics",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "testnet": "NODE_ENV=testnet DEBUG=* node index.js",
+    "mainnet": "NODE_ENV=mainnet DEBUG=* node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@archethicjs/sdk": "1.20.2",
+    "config": "^3.3.12",
+    "debug": "^4.3.6",
+    "express": "^4.19.2",
+    "node-cron": "^3.0.3"
+  }
+}
