@@ -467,7 +467,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                   );
                 }
                 if (context.mounted) {
-                  await sessionNotifier.updateCtxInfo(context);
+                  await sessionNotifier.updateInfo();
                 }
               },
             ),

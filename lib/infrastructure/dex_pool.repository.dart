@@ -1,7 +1,6 @@
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/repositories/dex_pool.repository.dart';
-import 'package:aedex/infrastructure/dex_config.repository.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
@@ -16,6 +15,7 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
 
   @override
   Future<DexPool?> getPool(
+    String routerGenesisAddress,
     String poolAddress,
     List<String> tokenVerifiedList,
   ) async {
@@ -25,9 +25,8 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
       poolAddress,
     );
     if (poolHive == null) {
-      final dexConf = await DexConfigRepositoryImpl().getDexConfig();
       final resultPoolList = await RouterFactory(
-        dexConf.routerGenesisAddress,
+        routerGenesisAddress,
         apiService,
       ).getPoolList(tokenVerifiedList);
 

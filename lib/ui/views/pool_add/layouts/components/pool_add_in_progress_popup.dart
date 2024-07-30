@@ -111,10 +111,8 @@ class PoolAddInProgressPopup {
             },
           ).toString(),
         );
-        await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
-              tabIndexSelected: poolAdd.poolsListTab,
-              cancelToken: UniqueKey().toString(),
-            );
+        ref.read(PoolListFormProvider.selectedTab.notifier).state =
+            poolAdd.poolsListTab;
       },
     );
   }

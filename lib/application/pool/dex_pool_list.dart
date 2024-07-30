@@ -5,19 +5,22 @@ part of 'dex_pool.dart';
 Future<List<DexPool>> _getPoolList(
   _GetPoolListRef ref,
 ) async {
-  final dexConf =
-      await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+  final routerGenesisAddress = await ref.watch(
+    DexConfigProviders.dexConfig
+        .selectAsync((value) => value.routerGenesisAddress),
+  );
   final apiService = aedappfm.sl.get<ApiService>();
   final dexPools = <DexPool>[];
 
   await ref.read(SessionProviders.session.notifier).refreshUserBalance();
 
-  final tokenVerifiedList = ref
-      .read(aedappfm.VerifiedTokensProviders.verifiedTokens)
-      .verifiedTokensList;
+  final tokenVerifiedList = ref.watch(
+    aedappfm.VerifiedTokensProviders.verifiedTokens
+        .select((value) => value.verifiedTokensList),
+  );
 
   final resultPoolList = await RouterFactory(
-    dexConf.routerGenesisAddress,
+    routerGenesisAddress,
     apiService,
   ).getPoolList(tokenVerifiedList);
 
@@ -30,7 +33,9 @@ Future<List<DexPool>> _getPoolList(
     failure: (failure) {},
   );
 
-  final env = ref.read(SessionProviders.session).envSelected;
+  final env = ref.watch(
+    SessionProviders.session.select((session) => session.envSelected),
+  );
   final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
   final aeETHUCOPoolAddress = contextAddresses.aeETHUCOPoolAddress;
   dexPools.sort((a, b) {

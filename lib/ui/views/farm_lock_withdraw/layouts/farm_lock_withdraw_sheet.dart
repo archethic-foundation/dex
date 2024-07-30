@@ -51,10 +51,6 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.earn;
 
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
         ref.read(FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)

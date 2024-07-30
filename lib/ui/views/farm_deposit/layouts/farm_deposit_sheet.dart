@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_confirm_sheet.dart';
@@ -34,10 +33,6 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
         final farmInfo = await ref.read(
           DexFarmProviders.getFarmInfos(
             widget.farmAddress,

@@ -86,8 +86,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         return;
       }
 
-      final dexConfig =
-          await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+      final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
       final apiService = aedappfm.sl.get<ApiService>();
       if (state.tokenToSwap != null) {
         final routerFactory =
@@ -443,8 +442,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
         return;
       }
 
-      final dexConfig =
-          await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+      final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
       final apiService = aedappfm.sl.get<ApiService>();
       if (state.tokenSwapped != null) {
         final routerFactory =

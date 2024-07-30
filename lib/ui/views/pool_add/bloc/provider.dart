@@ -421,8 +421,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return false;
     }
 
-    final dexConfig =
-        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+    final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
 
     final apiService = aedappfm.sl.get<ApiService>();
     final routerFactory =
@@ -502,8 +501,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return;
     }
 
-    final dexConfig =
-        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+    final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
 
     final session = ref.read(SessionProviders.session);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);

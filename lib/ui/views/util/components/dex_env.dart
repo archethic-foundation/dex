@@ -3,7 +3,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/preferences.hive.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -168,7 +167,7 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 if (context.mounted) {
                   await ref
                       .read(SessionProviders.session.notifier)
-                      .updateCtxInfo(context);
+                      .updateInfo();
                 }
 
                 final preferences =

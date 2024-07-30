@@ -6,13 +6,23 @@ Future<DexPool?> _getPool(
   _GetPoolRef ref,
   String genesisAddress,
 ) async {
-  final tokenVerifiedList = ref
-      .read(aedappfm.VerifiedTokensProviders.verifiedTokens)
-      .verifiedTokensList;
+  final tokenVerifiedList = ref.watch(
+    aedappfm.VerifiedTokensProviders.verifiedTokens.select(
+      (value) => value.verifiedTokensList,
+    ),
+  );
 
-  return ref
-      .read(_dexPoolRepositoryProvider)
-      .getPool(genesisAddress, tokenVerifiedList);
+  final routerGenesisAddress = await ref.watch(
+    DexConfigProviders.dexConfig.selectAsync(
+      (value) => value.routerGenesisAddress,
+    ),
+  );
+
+  return ref.read(_dexPoolRepositoryProvider).getPool(
+        routerGenesisAddress,
+        genesisAddress,
+        tokenVerifiedList,
+      );
 }
 
 @riverpod

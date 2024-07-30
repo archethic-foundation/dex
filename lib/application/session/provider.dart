@@ -15,7 +15,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -29,10 +28,18 @@ class _SessionNotifier extends Notifier<Session> {
     ref.onDispose(() {
       connectionStatusSubscription?.cancel();
     });
-    return const Session();
+    const initialSession = Session();
+    setupServiceLocatorApiService(
+      aedappfm.EndpointUtil.getEnvironnementUrl(
+        initialSession.envSelected,
+      ),
+    );
+
+    return initialSession;
   }
 
   void invalidateInfos() {
+    log('[SessionProvider] Invalidate infos');
     ref
       ..invalidate(DexTokensProviders.getTokenFromAccount)
       ..invalidate(DexTokensProviders.getTokenFromAddress)
@@ -40,41 +47,39 @@ class _SessionNotifier extends Notifier<Session> {
       ..read(DexPoolProviders.invalidateData);
   }
 
-  Future<void> updateCtxInfo(BuildContext context) async {
+  Future<void> updateInfo() async {
     if (state.isConnected == false && state.endpoint.isEmpty) {
-      await connectToWallet(
-        forceConnection: false,
-      );
+      connectEndpoint(state.envSelected);
+      final preferences = await HivePreferencesDatasource.getInstance();
+      aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+          preferences.isLogsActived();
     }
 
-    if (state.isConnected == false && state.endpoint.isEmpty) {
-      if (context.mounted) {
-        connectEndpoint(state.envSelected);
-        final preferences = await HivePreferencesDatasource.getInstance();
-        aedappfm.sl.get<aedappfm.LogManager>().logsActived =
-            preferences.isLogsActived();
-      }
-    }
-
-    final verifiedTokensNetWork =
-        ref.read(aedappfm.VerifiedTokensProviders.verifiedTokens).network;
-    if (verifiedTokensNetWork != state.envSelected) {
+    final verifiedTokens =
+        ref.read(aedappfm.VerifiedTokensProviders.verifiedTokens);
+    if (verifiedTokens.verifiedTokensList.isEmpty ||
+        verifiedTokens.network != state.envSelected) {
       log('Loading verified tokens for network ${state.envSelected}');
       await ref
           .read(aedappfm.VerifiedTokensProviders.verifiedTokens.notifier)
           .init(state.envSelected);
     }
 
-    final ucidsTokens = ref.read(aedappfm.UcidsTokensProviders.ucidsTokens);
-    if (ucidsTokens.isEmpty) {
-      await ref
-          .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
-          .init(state.envSelected);
-    }
+    await ref
+        .read(aedappfm.UcidsTokensProviders.ucidsTokens.notifier)
+        .init(state.envSelected);
     final coinPrice = ref.read(aedappfm.CoinPriceProviders.coinPrice);
     if (coinPrice.timestamp == null) {
       await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
     }
+  }
+
+  void _onEndpointUpdate(String endpoint) {
+
+     if (state.endpoint != endpoint) {
+          await updateInfo();
+        }
+
   }
 
   void connectEndpoint(String env) {
@@ -108,28 +113,14 @@ class _SessionNotifier extends Notifier<Session> {
   Future<void> connectToWallet({
     bool forceConnection = true,
   }) async {
+    if (state.isConnected) return;
     final isBrave = BrowserUtil().isBraveBrowser();
 
     try {
-      state = state.copyWith(
-        isConnected: false,
-        error: '',
-        genesisAddress: '',
-        nameAccount: '',
-      );
-      awc.ArchethicDAppClient? archethicDAppClient;
-      try {
-        archethicDAppClient = awc.ArchethicDAppClient.auto(
-          origin: const awc.RequestOrigin(
-            name: 'aeSwap',
-          ),
-          replyBaseUrl: '',
-        );
-      } catch (e) {
-        throw const aedappfm.Failure.connectivityArchethic();
-      }
+      final archethicDAppClient = _buildWalletClient();
 
       await archethicDAppClient.connect();
+      await Future.delayed(const Duration(milliseconds: 50));
       final endpointResponse = await archethicDAppClient.getEndpoint();
       await endpointResponse.when(
         failure: (failure) {
@@ -151,7 +142,7 @@ class _SessionNotifier extends Notifier<Session> {
             aedappfm.sl.unregister<awc.ArchethicDAppClient>();
           }
           aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
-            () => archethicDAppClient!,
+            () => archethicDAppClient,
           );
 
           setupServiceLocatorApiService(result.endpointUrl);
@@ -160,7 +151,7 @@ class _SessionNotifier extends Notifier<Session> {
               preferences.isLogsActived();
 
           final currentAccountResponse =
-              await archethicDAppClient!.getCurrentAccount();
+              await archethicDAppClient.getCurrentAccount();
           currentAccountResponse.when(
             success: (currentAccount) {
               state = state.copyWith(
@@ -172,12 +163,18 @@ class _SessionNotifier extends Notifier<Session> {
             failure: (_) {},
           );
 
+          if (connectionStatusSubscription != null) {
+            await connectionStatusSubscription?.cancel();
+            connectionStatusSubscription = null;
+          }
           connectionStatusSubscription =
               archethicDAppClient.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
                 state = state.copyWith(
-                  endpoint: '',
+                  endpoint: aedappfm.EndpointUtil.getEnvironnementUrl(
+                    state.envSelected,
+                  ),
                   error: '',
                   genesisAddress: '',
                   nameAccount: '',
@@ -229,9 +226,23 @@ class _SessionNotifier extends Notifier<Session> {
         },
       );
     } catch (e) {
+      log('Connection to AEWallet failed', error: e);
       if (forceConnection == true) {
         _handleConnectionFailure(isBrave);
       }
+    }
+  }
+
+  awc.ArchethicDAppClient _buildWalletClient() {
+    try {
+      return awc.ArchethicDAppClient.auto(
+        origin: const awc.RequestOrigin(
+          name: 'aeSwap',
+        ),
+        replyBaseUrl: '',
+      );
+    } catch (e) {
+      throw const aedappfm.Failure.connectivityArchethic();
     }
   }
 

@@ -461,7 +461,7 @@ class _EstimateStatsProviderElement
   DexPool get pool => (origin as _EstimateStatsProvider).pool;
 }
 
-String _$getPoolHash() => r'f87bd61361cfb101125290cb61c607ff8a5b3516';
+String _$getPoolHash() => r'f975b60dae9eafc620905afb137d60a27e3c705a';
 
 /// See also [_getPool].
 @ProviderFor(_getPool)
@@ -997,7 +997,7 @@ class _AddPoolFromFavoriteProviderElement
       (origin as _AddPoolFromFavoriteProvider).poolGenesisAddress;
 }
 
-String _$getPoolListHash() => r'7a1ba9aa6338640374d51cc08ddd1a5e518ae06a';
+String _$getPoolListHash() => r'c11d0e6b9e6e8a304f01ce5bc845ae35cc9a1945';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)

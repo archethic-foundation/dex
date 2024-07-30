@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
@@ -37,10 +36,6 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.earn;
-
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
 
         ref.read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
           ..setDexPool(widget.pool)

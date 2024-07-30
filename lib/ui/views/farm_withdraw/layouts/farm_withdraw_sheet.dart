@@ -39,10 +39,6 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
         ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)

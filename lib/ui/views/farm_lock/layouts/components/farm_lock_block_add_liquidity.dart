@@ -5,7 +5,6 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
-
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_item.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
@@ -386,7 +385,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                   );
                 }
                 if (context.mounted) {
-                  await sessionNotifier.updateCtxInfo(context);
+                  await sessionNotifier.updateInfo();
                 }
               },
             ),

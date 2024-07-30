@@ -71,7 +71,7 @@ class _ConnectionToWalletStatusState
                 );
               }
               if (context.mounted) {
-                await sessionNotifier.updateCtxInfo(context);
+                await sessionNotifier.updateInfo();
               }
             },
             child: ShaderMask(

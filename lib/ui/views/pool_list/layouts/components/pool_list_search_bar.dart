@@ -1,5 +1,4 @@
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -27,18 +26,6 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      PoolListFormProvider.poolListForm,
-      (previous, next) async {
-        if (previous != null &&
-            previous.tabIndexSelected != PoolsListTab.searchPool &&
-            previous.searchText.isNotEmpty &&
-            previous.searchText != next.searchText) {
-          searchController.value = TextEditingValue(text: next.searchText);
-        }
-      },
-    );
-
     return Container(
       padding: const EdgeInsets.only(top: 2),
       width: aedappfm.Responsive.isDesktop(context) ||
@@ -85,17 +72,12 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               onChanged: (text) async {
                 ref
                     .read(
-                      PoolListFormProvider.poolListForm.notifier,
+                      PoolListFormProvider.searchText.notifier,
                     )
-                    .setSearchText(text);
-
+                    .state = text;
                 if (text.isNotEmpty) {
-                  await ref
-                      .read(PoolListFormProvider.poolListForm.notifier)
-                      .getPoolsList(
-                        tabIndexSelected: PoolsListTab.searchPool,
-                        cancelToken: UniqueKey().toString(),
-                      );
+                  ref.read(PoolListFormProvider.selectedTab.notifier).state =
+                      PoolsListTab.searchPool;
                 }
               },
               textAlign: TextAlign.left,

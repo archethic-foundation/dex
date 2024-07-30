@@ -22,5 +22,19 @@ final _dexConfigRepositoryProvider = Provider<DexConfigRepository>.internal(
 );
 
 typedef _DexConfigRepositoryRef = ProviderRef<DexConfigRepository>;
+String _$dexConfigHash() => r'8ff0ecbd245278af5e980c8b8563cacc4ad84aff';
+
+/// See also [_dexConfig].
+@ProviderFor(_dexConfig)
+final _dexConfigProvider = AutoDisposeFutureProvider<DexConfig>.internal(
+  _dexConfig,
+  name: r'_dexConfigProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$dexConfigHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _DexConfigRef = AutoDisposeFutureProviderRef<DexConfig>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

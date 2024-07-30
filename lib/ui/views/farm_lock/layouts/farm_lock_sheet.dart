@@ -109,9 +109,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     try {
       currentSortedColumn = sortCriteria;
       if (mounted) {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
+        await ref.read(SessionProviders.session.notifier).updateInfo();
         ref
             .read(FarmLockFormProvider.farmLockForm.notifier)
             .setMainInfoloadingInProgress(true);

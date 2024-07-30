@@ -5,8 +5,7 @@ part of 'dex_farm.dart';
 Future<List<DexFarm>> _getFarmList(
   _GetFarmListRef ref,
 ) async {
-  final dexConf =
-      await ref.watch(DexConfigProviders.dexConfigRepository).getDexConfig();
+  final dexConf = await ref.watch(DexConfigProviders.dexConfig.future);
 
   final apiService = aedappfm.sl.get<ApiService>();
   final dexFarms = <DexFarm>[];

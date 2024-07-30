@@ -166,12 +166,11 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                           },
                         ).toString(),
                       );
-                      await ref
-                          .read(PoolListFormProvider.poolListForm.notifier)
-                          .getPoolsList(
-                            tabIndexSelected: PoolsListTab.favoritePools,
-                            cancelToken: UniqueKey().toString(),
-                          );
+                      ref.invalidate(
+                        PoolListFormProvider.pools(
+                          PoolsListTab.favoritePools,
+                        ),
+                      );
                     },
                   ),
                 )

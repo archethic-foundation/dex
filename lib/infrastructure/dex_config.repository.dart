@@ -2,18 +2,16 @@ import 'dart:convert';
 
 import 'package:aedex/domain/models/dex_config.dart';
 import 'package:aedex/domain/repositories/dex_config.repository.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
 import 'package:flutter/services.dart';
 
 class DexConfigRepositoryImpl implements DexConfigRepository {
   @override
-  Future<DexConfig> getDexConfig() async {
+  Future<DexConfig> getDexConfig(String environment) async {
     final jsonContent =
         await rootBundle.loadString('lib/domain/repositories/config.json');
 
     final jsonData = jsonDecode(jsonContent);
-    final environment = aedappfm.EndpointUtil.getEnvironnement();
+
     if (environment.isEmpty) {
       return const DexConfig();
     }

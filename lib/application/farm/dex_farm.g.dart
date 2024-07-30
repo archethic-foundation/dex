@@ -205,7 +205,7 @@ class _GetFarmInfosProviderElement
   DexFarm? get dexFarmInput => (origin as _GetFarmInfosProvider).dexFarmInput;
 }
 
-String _$getFarmListHash() => r'af1840e7d71223a1171be0edd0793034cc4baea0';
+String _$getFarmListHash() => r'a3aad0800621112f55670d2aef4877450cc05f24';
 
 /// See also [_getFarmList].
 @ProviderFor(_getFarmList)
