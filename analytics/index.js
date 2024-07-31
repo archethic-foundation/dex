@@ -71,7 +71,13 @@ async function tick() {
 }
 
 function farm_infos_to_metrics(farm_infos) {
-  return `#TYPE archethic_dex_farm_remaining_rewards gauge\narchethic_dex_farm_remaining_rewards ${farm_infos.remaining_rewards}\n`;
+  const deposits_count = Object.values(farm_infos.stats)
+    .map((s) => s.deposits_count)
+    .reduce((acc, count) => acc + count);
+
+  const metric1 = `#TYPE archethic_dex_farm_remaining_rewards gauge\narchethic_dex_farm_remaining_rewards ${farm_infos.remaining_rewards}\n`;
+  const metric2 = `#TYPE archethic_dex_farm_deposits_count gauge\narchethic_dex_farm_deposits_count ${deposits_count}\n`;
+  return metric1 + metric2;
 }
 
 function latest_timestamp_to_metrics(timestamp) {
