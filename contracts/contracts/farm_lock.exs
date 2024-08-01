@@ -307,24 +307,6 @@ actions triggered_by: transaction, on: relock(level, deposit_id) do
   State.set("deposits", set_user_deposit(res.deposits, user_genesis_address, user_deposit))
 end
 
-condition triggered_by: transaction, on: calculate_rewards() do
-  rounded_now = Time.now() - Math.rem(Time.now(), @ROUND_NOW_TO)
-
-  if rounded_now < @START_DATE do
-    throw(message: "cannot calculate rewards before the farm start", code: 5001)
-  end
-
-  if State.get("last_calculation_timestamp", @START_DATE) >= @END_DATE do
-    throw(message: "cannot calculate rewards after the farm end", code: 5002)
-  end
-
-  if rounded_now == State.get("last_calculation_timestamp", @START_DATE) do
-    throw(message: "rewards already calculated for period", code: 5003)
-  end
-
-  true
-end
-
 actions triggered_by: transaction, on: calculate_rewards() do
   res = calculate_new_rewards()
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
