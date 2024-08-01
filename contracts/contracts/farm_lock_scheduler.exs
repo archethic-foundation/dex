@@ -1,12 +1,7 @@
 @version 1
 
-# allow code change
-condition inherit: [
-  code: true
-]
-
+# stop the scheduler 10 minutes after farm's end
 actions triggered_by: datetime, at: 1848658200 do
-  # stop the scheduler 10 minutes after farm's end
   Contract.set_type("data")
   Contract.set_content("so long and thanks for all the fish")
   Contract.set_code("")
