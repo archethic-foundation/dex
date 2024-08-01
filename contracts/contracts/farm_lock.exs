@@ -307,6 +307,10 @@ actions triggered_by: transaction, on: relock(level, deposit_id) do
   State.set("deposits", set_user_deposit(res.deposits, user_genesis_address, user_deposit))
 end
 
+condition triggered_by: transaction, on: calculate_rewards() do
+  true
+end
+
 actions triggered_by: transaction, on: calculate_rewards() do
   res = calculate_new_rewards()
   State.set("last_calculation_timestamp", res.last_calculation_timestamp)
@@ -385,14 +389,14 @@ fun calculate_new_rewards() do
     duration_by_level = Map.set(duration_by_level, "7", 1095 * @SECONDS_IN_DAY)
 
     weight_by_level = Map.new()
-    weight_by_level = Map.set(weight_by_level, "0", 0.007)
-    weight_by_level = Map.set(weight_by_level, "1", 0.013)
-    weight_by_level = Map.set(weight_by_level, "2", 0.024)
-    weight_by_level = Map.set(weight_by_level, "3", 0.043)
-    weight_by_level = Map.set(weight_by_level, "4", 0.077)
-    weight_by_level = Map.set(weight_by_level, "5", 0.138)
-    weight_by_level = Map.set(weight_by_level, "6", 0.249)
-    weight_by_level = Map.set(weight_by_level, "7", 0.449)
+    weight_by_level = Map.set(weight_by_level, "0", 0)
+    weight_by_level = Map.set(weight_by_level, "1", 0.014)
+    weight_by_level = Map.set(weight_by_level, "2", 0.025)
+    weight_by_level = Map.set(weight_by_level, "3", 0.044)
+    weight_by_level = Map.set(weight_by_level, "4", 0.078)
+    weight_by_level = Map.set(weight_by_level, "5", 0.139)
+    weight_by_level = Map.set(weight_by_level, "6", 0.25)
+    weight_by_level = Map.set(weight_by_level, "7", 0.45)
 
     rewards_allocated_at_each_year_end = Map.new()
 
@@ -564,122 +568,124 @@ fun calculate_new_rewards() do
         tokens_weighted_total = tokens_weighted_total + weighted_amount
       end
 
-      # calculate rewards per level
-      rewards_to_allocated_by_level = Map.new()
+      if tokens_weighted_total > 0 do
+        # calculate rewards per level
+        rewards_to_allocated_by_level = Map.new()
 
-      rewards_to_allocated_by_level =
-        Map.set(
-          rewards_to_allocated_by_level,
-          "0",
-          tokens_weighted_by_level["0"] / tokens_weighted_total * rewards_to_allocate
-        )
+        rewards_to_allocated_by_level =
+          Map.set(
+            rewards_to_allocated_by_level,
+            "0",
+            tokens_weighted_by_level["0"] / tokens_weighted_total * rewards_to_allocate
+          )
 
-      rewards_to_allocated_by_level =
-        Map.set(
-          rewards_to_allocated_by_level,
-          "1",
-          tokens_weighted_by_level["1"] / tokens_weighted_total * rewards_to_allocate
-        )
+        rewards_to_allocated_by_level =
+          Map.set(
+            rewards_to_allocated_by_level,
+            "1",
+            tokens_weighted_by_level["1"] / tokens_weighted_total * rewards_to_allocate
+          )
 
-      rewards_to_allocated_by_level =
-        Map.set(
-          rewards_to_allocated_by_level,
-          "2",
-          tokens_weighted_by_level["2"] / tokens_weighted_total * rewards_to_allocate
-        )
+        rewards_to_allocated_by_level =
+          Map.set(
+            rewards_to_allocated_by_level,
+            "2",
+            tokens_weighted_by_level["2"] / tokens_weighted_total * rewards_to_allocate
+          )
 
-      rewards_to_allocated_by_level =
-        Map.set(
-          rewards_to_allocated_by_level,
-          "3",
-          tokens_weighted_by_level["3"] / tokens_weighted_total * rewards_to_allocate
-        )
+        rewards_to_allocated_by_level =
+          Map.set(
+            rewards_to_allocated_by_level,
+            "3",
+            tokens_weighted_by_level["3"] / tokens_weighted_total * rewards_to_allocate
+          )
 
-      rewards_to_allocated_by_level =
-        Map.set(
-          rewards_to_allocated_by_level,
-          "4",
-          tokens_weighted_by_level["4"] / tokens_weighted_total * rewards_to_allocate
-        )
+        rewards_to_allocated_by_level =
+          Map.set(
+            rewards_to_allocated_by_level,
+            "4",
+            tokens_weighted_by_level["4"] / tokens_weighted_total * rewards_to_allocate
+          )
 
-      rewards_to_allocated_by_level =
-        Map.set(
-          rewards_to_allocated_by_level,
-          "5",
-          tokens_weighted_by_level["5"] / tokens_weighted_total * rewards_to_allocate
-        )
+        rewards_to_allocated_by_level =
+          Map.set(
+            rewards_to_allocated_by_level,
+            "5",
+            tokens_weighted_by_level["5"] / tokens_weighted_total * rewards_to_allocate
+          )
 
-      rewards_to_allocated_by_level =
-        Map.set(
-          rewards_to_allocated_by_level,
-          "6",
-          tokens_weighted_by_level["6"] / tokens_weighted_total * rewards_to_allocate
-        )
+        rewards_to_allocated_by_level =
+          Map.set(
+            rewards_to_allocated_by_level,
+            "6",
+            tokens_weighted_by_level["6"] / tokens_weighted_total * rewards_to_allocate
+          )
 
-      rewards_to_allocated_by_level =
-        Map.set(
-          rewards_to_allocated_by_level,
-          "7",
-          tokens_weighted_by_level["7"] / tokens_weighted_total * rewards_to_allocate
-        )
+        rewards_to_allocated_by_level =
+          Map.set(
+            rewards_to_allocated_by_level,
+            "7",
+            tokens_weighted_by_level["7"] / tokens_weighted_total * rewards_to_allocate
+          )
 
-      # update each deposit with the rewards
-      updated_deposits = Map.new()
+        # update each deposit with the rewards
+        updated_deposits = Map.new()
 
-      for user_address in Map.keys(deposits) do
-        user_deposits = deposits[user_address]
-        updated_user_deposits = []
+        for user_address in Map.keys(deposits) do
+          user_deposits = deposits[user_address]
+          updated_user_deposits = []
 
-        for user_deposit in user_deposits do
-          # calc rewards
-          user_deposit =
-            Map.set(
-              user_deposit,
-              "reward_amount",
-              user_deposit.reward_amount +
-                user_deposit.amount * weight_by_level[user_deposit.level] /
-                  tokens_weighted_by_level[user_deposit.level] *
-                  rewards_to_allocated_by_level[user_deposit.level]
-            )
-
-          # on level change, update cursors and deposit
-          if user_deposit.level != "0" do
-            previous_level = String.from_number(String.to_number(user_deposit.level) - 1)
-
-            if user_deposit.end - duration_by_level[previous_level] <= period_to do
-              lp_tokens_deposited_by_level =
+          for user_deposit in user_deposits do
+            if user_deposit.level != "0" do
+              # calc rewards
+              user_deposit =
                 Map.set(
-                  lp_tokens_deposited_by_level,
-                  user_deposit.level,
-                  Map.get(lp_tokens_deposited_by_level, user_deposit.level, 0) -
-                    user_deposit.amount
+                  user_deposit,
+                  "reward_amount",
+                  user_deposit.reward_amount +
+                    user_deposit.amount * weight_by_level[user_deposit.level] /
+                      tokens_weighted_by_level[user_deposit.level] *
+                      rewards_to_allocated_by_level[user_deposit.level]
                 )
 
-              lp_tokens_deposited_by_level =
-                Map.set(
-                  lp_tokens_deposited_by_level,
-                  previous_level,
-                  Map.get(lp_tokens_deposited_by_level, previous_level, 0) + user_deposit.amount
-                )
+              # on level change, update cursors and deposit
+              previous_level = String.from_number(String.to_number(user_deposit.level) - 1)
 
-              user_deposit = Map.set(user_deposit, "level", previous_level)
+              if user_deposit.end - duration_by_level[previous_level] <= period_to do
+                lp_tokens_deposited_by_level =
+                  Map.set(
+                    lp_tokens_deposited_by_level,
+                    user_deposit.level,
+                    Map.get(lp_tokens_deposited_by_level, user_deposit.level, 0) -
+                      user_deposit.amount
+                  )
 
-              if previous_level == "0" do
-                user_deposit = Map.set(user_deposit, "start", nil)
-                user_deposit = Map.set(user_deposit, "end", 0)
+                lp_tokens_deposited_by_level =
+                  Map.set(
+                    lp_tokens_deposited_by_level,
+                    previous_level,
+                    Map.get(lp_tokens_deposited_by_level, previous_level, 0) + user_deposit.amount
+                  )
+
+                user_deposit = Map.set(user_deposit, "level", previous_level)
+
+                if previous_level == "0" do
+                  user_deposit = Map.set(user_deposit, "start", nil)
+                  user_deposit = Map.set(user_deposit, "end", 0)
+                end
               end
             end
+
+            updated_user_deposits = List.prepend(updated_user_deposits, user_deposit)
           end
 
-          updated_user_deposits = List.prepend(updated_user_deposits, user_deposit)
+          updated_deposits = Map.set(updated_deposits, user_address, updated_user_deposits)
         end
 
-        updated_deposits = Map.set(updated_deposits, user_address, updated_user_deposits)
+        deposits = updated_deposits
+        rewards_reserved = rewards_reserved + rewards_to_allocate
+        last_calculation_timestamp = period_to
       end
-
-      deposits = updated_deposits
-      rewards_reserved = rewards_reserved + rewards_to_allocate
-      last_calculation_timestamp = period_to
     end
   else
     # edge case when lp_tokens_deposited = 0
@@ -773,14 +779,14 @@ export fun(get_farm_infos()) do
   end
 
   weight_by_level = Map.new()
-  weight_by_level = Map.set(weight_by_level, "0", 0.007)
-  weight_by_level = Map.set(weight_by_level, "1", 0.013)
-  weight_by_level = Map.set(weight_by_level, "2", 0.024)
-  weight_by_level = Map.set(weight_by_level, "3", 0.043)
-  weight_by_level = Map.set(weight_by_level, "4", 0.077)
-  weight_by_level = Map.set(weight_by_level, "5", 0.138)
-  weight_by_level = Map.set(weight_by_level, "6", 0.249)
-  weight_by_level = Map.set(weight_by_level, "7", 0.449)
+  weight_by_level = Map.set(weight_by_level, "0", 0)
+  weight_by_level = Map.set(weight_by_level, "1", 0.014)
+  weight_by_level = Map.set(weight_by_level, "2", 0.025)
+  weight_by_level = Map.set(weight_by_level, "3", 0.044)
+  weight_by_level = Map.set(weight_by_level, "4", 0.078)
+  weight_by_level = Map.set(weight_by_level, "5", 0.139)
+  weight_by_level = Map.set(weight_by_level, "6", 0.25)
+  weight_by_level = Map.set(weight_by_level, "7", 0.45)
 
   available_levels = Map.new()
   available_levels = Map.set(available_levels, "0", now + 0)
