@@ -155,18 +155,20 @@ class FarmLockDepositFormNotifier
     for (final entry in state.farmLock!.availableLevels.entries) {
       final level = entry.key;
       final endDate = entry.value;
-      if (DateTime.fromMillisecondsSinceEpoch(
-        entry.value * 1000,
-      ).isBefore(farmEndDate)) {
-        availableLevelsFiltered[level] = endDate;
-      } else {
-        if (needMax == false) {
-          availableLevelsFiltered['max'] =
-              farmEndDate.millisecondsSinceEpoch ~/ 1000;
-          state = state.copyWith(
-            farmLockDepositDuration: FarmLockDepositDurationType.max,
-          );
-          needMax = true;
+      if (level != '0') {
+        if (DateTime.fromMillisecondsSinceEpoch(
+          entry.value * 1000,
+        ).isBefore(farmEndDate)) {
+          availableLevelsFiltered[level] = endDate;
+        } else {
+          if (needMax == false) {
+            availableLevelsFiltered['max'] =
+                farmEndDate.millisecondsSinceEpoch ~/ 1000;
+            state = state.copyWith(
+              farmLockDepositDuration: FarmLockDepositDurationType.max,
+            );
+            needMax = true;
+          }
         }
       }
     }
