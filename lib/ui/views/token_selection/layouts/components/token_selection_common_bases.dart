@@ -75,8 +75,8 @@ class TokenSelectionCommonBases extends ConsumerWidget {
                       width: 10,
                     ),
                     if (token.icon != null && token.icon!.isNotEmpty)
-                      SvgPicture.asset(
-                        'assets/images/bc-logos/${token.icon}',
+                      SvgPicture.string(
+                        token.icon!,
                         width: 20,
                       )
                     else
