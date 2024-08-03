@@ -26,8 +26,8 @@ class DexTokenIcon extends ConsumerWidget {
         if (data.value == null) {
           return _noIcon();
         }
-        return SvgPicture.asset(
-          'assets/images/bc-logos/${data.value}',
+        return SvgPicture.string(
+          data.value!,
           width: iconSize,
         );
       },
