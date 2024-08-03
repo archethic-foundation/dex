@@ -10,7 +10,6 @@ import 'package:aedex/ui/views/pool_list/layouts/components/pool_refresh_icon.da
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_remove_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/pool_tx_list/layouts/pool_tx_list_popup.dart';
-import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -106,36 +105,28 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                     widget.pool.poolAddress.toUpperCase()
                 ? aedappfm.AppThemeBase.sheetBorderSecondary
                 : null,
-            cardContent: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: widget.widthCard,
-                  height: widget.heightCard,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, top: 20),
-                    child: FlipCard(
-                      controller: flipCardController,
-                      flipOnTouch: false,
-                      fill: Fill.fillBack,
-                      front: PoolDetailsFront(
-                        pool: poolInfos ?? widget.pool,
-                        tab: widget.tab,
-                        poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
-                            widget.pool.poolAddress.toUpperCase(),
-                      ),
-                      back: PoolDetailsBack(
-                        pool: poolInfos ?? widget.pool,
-                      ),
-                    ),
+            cardContent: SizedBox(
+              width: widget.widthCard,
+              height: widget.heightCard,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: FlipCard(
+                  controller: flipCardController,
+                  flipOnTouch: false,
+                  fill: Fill.fillBack,
+                  front: PoolDetailsFront(
+                    pool: poolInfos ?? widget.pool,
+                    tab: widget.tab,
+                    poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
+                        widget.pool.poolAddress.toUpperCase(),
+                  ),
+                  back: PoolDetailsBack(
+                    pool: poolInfos ?? widget.pool,
+                    poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
+                        widget.pool.poolAddress.toUpperCase(),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: DexArchethicOracleUco(),
-                ),
-              ],
+              ),
             ),
           ),
         ),

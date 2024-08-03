@@ -74,11 +74,14 @@ class DexPoolInfosHive extends HiveObject {
     required this.token2TotalVolume,
     required this.token1TotalVolume24h,
     required this.token2TotalVolume24h,
+    required this.token1TotalVolume7d,
+    required this.token2TotalVolume7d,
     required this.token1TotalFee24h,
     required this.token2TotalFee24h,
     required this.fee24h,
     required this.feeAllTime,
     required this.volume24h,
+    required this.volume7d,
     required this.volumeAllTime,
   });
 
@@ -136,6 +139,15 @@ class DexPoolInfosHive extends HiveObject {
   @HiveField(18)
   double? volumeAllTime;
 
+  @HiveField(19)
+  double? token1TotalVolume7d;
+
+  @HiveField(20)
+  double? token2TotalVolume7d;
+
+  @HiveField(21)
+  double? volume7d;
+
   DexPoolInfos toModel() => DexPoolInfos(
         fees: fees,
         tvl: tvl ?? 0,
@@ -148,11 +160,14 @@ class DexPoolInfosHive extends HiveObject {
         token2TotalVolume: token2TotalVolume ?? 0,
         token1TotalFee24h: token1TotalFee24h ?? 0,
         token1TotalVolume24h: token1TotalVolume24h ?? 0,
+        token1TotalVolume7d: token1TotalVolume7d ?? 0,
         token2TotalFee24h: token2TotalFee24h ?? 0,
         token2TotalVolume24h: token2TotalVolume24h ?? 0,
+        token2TotalVolume7d: token2TotalVolume7d ?? 0,
         fee24h: fee24h ?? 0,
         feeAllTime: feeAllTime ?? 0,
         volume24h: volume24h ?? 0,
+        volume7d: volume7d ?? 0,
         volumeAllTime: volumeAllTime ?? 0,
       );
 }
@@ -170,11 +185,14 @@ extension DexPoolInfosHiveConversionExt on DexPoolInfos {
         token2TotalVolume: token2TotalVolume,
         token1TotalFee24h: token1TotalFee24h,
         token1TotalVolume24h: token1TotalVolume24h,
+        token1TotalVolume7d: token1TotalVolume7d,
         token2TotalFee24h: token2TotalFee24h,
         token2TotalVolume24h: token2TotalVolume24h,
+        token2TotalVolume7d: token2TotalVolume7d,
         fee24h: fee24h,
         feeAllTime: feeAllTime,
         volume24h: volume24h,
+        volume7d: volume7d,
         volumeAllTime: volumeAllTime,
       );
 }

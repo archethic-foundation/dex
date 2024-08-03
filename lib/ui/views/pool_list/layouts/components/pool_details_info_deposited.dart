@@ -3,7 +3,6 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
-import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -62,64 +61,24 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Row(
-                        children: [
-                          Tooltip(
-                            message: pool!.pair.token1.symbol,
-                            child: SelectableText(
-                              '${pool!.pair.token1.reserve.formatNumber()} ${pool!.pair.token1.symbol}',
-                              style: AppTextStyles.bodyLarge(context),
-                            ),
-                          ),
-                        ],
-                      ),
-                      FutureBuilder<String>(
-                        future: FiatValue().display(
-                          ref,
-                          pool!.pair.token1,
-                          pool!.pair.token1.reserve,
+                      Tooltip(
+                        message: pool!.pair.token1.symbol,
+                        child: SelectableText(
+                          '${pool!.pair.token1.reserve.formatNumber()} ${pool!.pair.token1.symbol}',
+                          style: AppTextStyles.bodyLarge(context),
                         ),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return SelectableText(
-                              snapshot.data!,
-                              style: AppTextStyles.bodyMedium(context),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
                       ),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Row(
-                        children: [
-                          Tooltip(
-                            message: pool!.pair.token2.symbol,
-                            child: SelectableText(
-                              '${pool!.pair.token2.reserve.formatNumber()} ${pool!.pair.token2.symbol}',
-                              style: AppTextStyles.bodyLarge(context),
-                            ),
-                          ),
-                        ],
-                      ),
-                      FutureBuilder<String>(
-                        future: FiatValue().display(
-                          ref,
-                          pool!.pair.token2,
-                          pool!.pair.token2.reserve,
+                      Tooltip(
+                        message: pool!.pair.token2.symbol,
+                        child: SelectableText(
+                          '${pool!.pair.token2.reserve.formatNumber()} ${pool!.pair.token2.symbol}',
+                          style: AppTextStyles.bodyLarge(context),
                         ),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return SelectableText(
-                              snapshot.data!,
-                              style: AppTextStyles.bodyMedium(context),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
                       ),
                     ],
                   ),
