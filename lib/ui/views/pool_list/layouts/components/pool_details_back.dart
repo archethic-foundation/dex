@@ -1,6 +1,7 @@
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_addresses.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_deposited.dart';
+import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_fees.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_header.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_protocol_fees.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_ratio.dart';
@@ -12,8 +13,10 @@ class PoolDetailsBack extends ConsumerStatefulWidget {
   const PoolDetailsBack({
     super.key,
     required this.pool,
+    this.poolWithFarm = false,
   });
   final DexPool pool;
+  final bool poolWithFarm;
 
   @override
   PoolDetailsBackState createState() => PoolDetailsBackState();
@@ -36,6 +39,11 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
         PoolDetailsInfoDeposited(pool: widget.pool),
         PoolDetailsInfoSwapFees(poolInfos: widget.pool.infos),
         PoolDetailsInfoProtocolFees(poolInfos: widget.pool.infos),
+        PoolDetailsInfoFees(
+          fees24h: widget.pool.infos?.fee24h,
+          feesAllTime: widget.pool.infos?.feeAllTime,
+          poolWithFarm: widget.poolWithFarm,
+        ),
         const SizedBox(height: 10),
         PoolDetailsInfoRatio(pool: widget.pool),
       ],

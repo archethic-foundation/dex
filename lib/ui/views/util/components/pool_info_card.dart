@@ -1,10 +1,13 @@
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_header.dart';
+import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_protocol_fees.dart';
+import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_swap_fees.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_fees.dart';
-import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
+import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -82,41 +85,94 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                 right: 20,
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _getPairName(context, pool!),
-                      const SizedBox(
-                        height: 10,
+                      PoolDetailsInfoHeader(
+                        pool: pool,
                       ),
-                      _getRatio(context, pool!),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Opacity(
-                        opacity: AppTextStyles.kOpacityText,
-                        child: VerifiedPoolIcon(
-                          isVerified: pool!.isVerified,
-                          withLabel: true,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _getPairValues(context, pool!),
-                      Opacity(
-                        opacity: AppTextStyles.kOpacityText,
-                        child: SelectableText(
-                          '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl!.formatNumber(precision: 2)}',
-                          style: AppTextStyles.bodyLarge(context),
-                        ),
-                      ),
-                      DexFees(
-                        fees: pool!.infos!.fees,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              PoolDetailsInfoSwapFees(
+                                poolInfos: pool?.infos,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              PoolDetailsInfoProtocolFees(
+                                poolInfos: pool?.infos,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          if (pool!.pair.token1.isUCO == false)
+                            Opacity(
+                              opacity: AppTextStyles.kOpacityText,
+                              child: Row(
+                                children: [
+                                  Tooltip(
+                                    message: pool!.pair.token1.symbol,
+                                    child: FormatAddressLinkCopy(
+                                      header: pool!.pair.token1.symbol,
+                                      address: pool!.pair.token1.address!
+                                          .toUpperCase(),
+                                      typeAddress:
+                                          TypeAddressLinkCopy.transaction,
+                                      reduceAddress: true,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .fontSize!,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  VerifiedTokenIcon(
+                                    address: pool!.pair.token1.address!,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (pool!.pair.token2.isUCO == false)
+                            Opacity(
+                              opacity: AppTextStyles.kOpacityText,
+                              child: Row(
+                                children: [
+                                  Tooltip(
+                                    message: pool!.pair.token2.symbol,
+                                    child: FormatAddressLinkCopy(
+                                      header: pool!.pair.token2.symbol,
+                                      address: pool!.pair.token2.address!
+                                          .toUpperCase(),
+                                      typeAddress:
+                                          TypeAddressLinkCopy.transaction,
+                                      reduceAddress: true,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .fontSize!,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  VerifiedTokenIcon(
+                                    address: pool!.pair.token2.address!,
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
                       ),
                     ],
                   ),
@@ -155,12 +211,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                               top: 5,
                               bottom: 5,
                             ),
-                            child: Column(
-                              children: [
-                                _getPairName(context, pool!),
-                                _getRatio(context, pool!),
-                              ],
-                            ),
+                            child: _getPairName(context, pool!),
                           );
                         },
                         body: Padding(
@@ -169,37 +220,86 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                             right: 10,
                             bottom: 5,
                           ),
-                          child: Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              _getPairValues(context, pool!),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                              Row(
                                 children: [
-                                  VerifiedPoolIcon(
-                                    isVerified: pool!.isVerified,
-                                    withLabel: true,
+                                  PoolDetailsInfoSwapFees(
+                                    poolInfos: pool?.infos,
+                                    style: AppTextStyles.bodyLarge(context),
                                   ),
-                                  SelectableText(
-                                    '${AppLocalizations.of(context)!.poolInfoCardTVL} \$${tvl!.formatNumber(precision: 2)}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          fontSize: aedappfm.Responsive
-                                              .fontSizeFromTextStyle(
-                                            context,
-                                            Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!,
-                                          ),
-                                        ),
-                                  ),
-                                  DexFees(
-                                    fees: pool!.infos!.fees,
+                                  PoolDetailsInfoProtocolFees(
+                                    poolInfos: pool?.infos,
+                                    style: AppTextStyles.bodyLarge(context),
                                   ),
                                 ],
                               ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              if (pool!.pair.token1.isUCO == false)
+                                Opacity(
+                                  opacity: AppTextStyles.kOpacityText,
+                                  child: Row(
+                                    children: [
+                                      Tooltip(
+                                        message: pool!.pair.token1.symbol,
+                                        child: FormatAddressLinkCopy(
+                                          header: pool!.pair.token1.symbol,
+                                          address: pool!.pair.token1.address!
+                                              .toUpperCase(),
+                                          typeAddress:
+                                              TypeAddressLinkCopy.transaction,
+                                          reduceAddress: true,
+                                          fontSize: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .fontSize!,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      VerifiedTokenIcon(
+                                        address: pool!.pair.token1.address!,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              if (pool!.pair.token2.isUCO == false)
+                                Opacity(
+                                  opacity: AppTextStyles.kOpacityText,
+                                  child: Row(
+                                    children: [
+                                      Tooltip(
+                                        message: pool!.pair.token2.symbol,
+                                        child: FormatAddressLinkCopy(
+                                          header: pool!.pair.token2.symbol,
+                                          address: pool!.pair.token2.address!
+                                              .toUpperCase(),
+                                          typeAddress:
+                                              TypeAddressLinkCopy.transaction,
+                                          reduceAddress: true,
+                                          fontSize: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .fontSize!,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      VerifiedTokenIcon(
+                                        address: pool!.pair.token2.address!,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                             ],
                           ),
                         ),
@@ -259,28 +359,6 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
         ),
       ],
     );
-  }
-
-  Widget _getRatio(BuildContext context, DexPool pool) {
-    return pool.infos != null
-        ? Opacity(
-            opacity: AppTextStyles.kOpacityText,
-            child: DexRatio(
-              ratio: widget.tokenAddressRatioPrimary.toUpperCase() ==
-                      pool.pair.token1.address!.toUpperCase()
-                  ? pool.infos!.ratioToken1Token2
-                  : pool.infos!.ratioToken2Token1,
-              token1Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
-                      pool.pair.token1.address!.toUpperCase()
-                  ? pool.pair.token1.symbol.reduceSymbol()
-                  : pool.pair.token2.symbol.reduceSymbol(),
-              token2Symbol: widget.tokenAddressRatioPrimary.toUpperCase() ==
-                      pool.pair.token1.address!.toUpperCase()
-                  ? pool.pair.token2.symbol.reduceSymbol()
-                  : pool.pair.token1.symbol.reduceSymbol(),
-            ),
-          )
-        : const SizedBox.shrink();
   }
 
   Widget _getPairValues(BuildContext context, DexPool pool) {

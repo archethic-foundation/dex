@@ -333,7 +333,7 @@ class _EstimatePoolTVLInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'11226005fae4f2dfdfb7bd418ccd44208dd074f7';
+String _$estimateStatsHash() => r'c24846c3345dd74462ccbb5c48ce6abca55f9b16';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)

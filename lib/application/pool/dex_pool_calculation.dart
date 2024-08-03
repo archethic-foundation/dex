@@ -62,6 +62,7 @@ Future<DexPool> _estimateStats(
   DexPool pool,
 ) async {
   var volume24h = 0.0;
+  var volume7d = 0.0;
   var fee24h = 0.0;
   var volumeAllTime = 0.0;
   var feeAllTime = 0.0;
@@ -73,6 +74,8 @@ Future<DexPool> _estimateStats(
   var token2TotalVolumeCurrentFiat = 0.0;
   var token1TotalVolume24hFiat = 0.0;
   var token2TotalVolume24hFiat = 0.0;
+  var token1TotalVolume7dFiat = 0.0;
+  var token2TotalVolume7dFiat = 0.0;
 
   var token1TotalFeeCurrentFiat = 0.0;
   var token2TotalFeeCurrentFiat = 0.0;
@@ -81,35 +84,37 @@ Future<DexPool> _estimateStats(
 
   var token1TotalVolume24h = 0.0;
   var token2TotalVolume24h = 0.0;
+  var token1TotalVolume7d = 0.0;
+  var token2TotalVolume7d = 0.0;
   var token1TotalFee24h = 0.0;
   var token2TotalFee24h = 0.0;
 
-  Transaction? transaction;
-  final fromCriteria =
+  Transaction? transaction24h;
+  final fromCriteria24h =
       (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
               1000)
           .round();
-  final transactionChainResult =
+  final transactionChainResult24h =
       await aedappfm.sl.get<ApiService>().getTransactionChain(
     {pool.poolAddress: ''},
     request:
         ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
-    fromCriteria: fromCriteria,
+    fromCriteria: fromCriteria24h,
   );
-  if (transactionChainResult[pool.poolAddress] != null &&
-      transactionChainResult[pool.poolAddress]!.length > 1) {
-    transaction = transactionChainResult[pool.poolAddress]!.first;
+  if (transactionChainResult24h[pool.poolAddress] != null &&
+      transactionChainResult24h[pool.poolAddress]!.length > 1) {
+    transaction24h = transactionChainResult24h[pool.poolAddress]!.first;
   }
 
   bool? stateExists;
-  if (transaction != null) {
+  if (transaction24h != null) {
     stateExists = false;
-    if (transaction.validationStamp != null &&
-        transaction.validationStamp!.ledgerOperations != null &&
-        transaction
+    if (transaction24h.validationStamp != null &&
+        transaction24h.validationStamp!.ledgerOperations != null &&
+        transaction24h
             .validationStamp!.ledgerOperations!.unspentOutputs.isNotEmpty) {
       for (final unspentOutput
-          in transaction.validationStamp!.ledgerOperations!.unspentOutputs) {
+          in transaction24h.validationStamp!.ledgerOperations!.unspentOutputs) {
         if (unspentOutput.state != null) {
           stateExists = true;
           final state = unspentOutput.state;
@@ -135,6 +140,51 @@ Future<DexPool> _estimateStats(
               ? 0
               : Decimal.parse(state['stats']['token2_total_fee'].toString())
                   .toDouble();
+        }
+      }
+    }
+  }
+
+  Transaction? transaction7d;
+  final fromCriteria7d =
+      (DateTime.now().subtract(const Duration(days: 7)).millisecondsSinceEpoch /
+              1000)
+          .round();
+  final transactionChainResult7d =
+      await aedappfm.sl.get<ApiService>().getTransactionChain(
+    {pool.poolAddress: ''},
+    request:
+        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
+    fromCriteria: fromCriteria7d,
+  );
+  if (transactionChainResult7d[pool.poolAddress] != null &&
+      transactionChainResult7d[pool.poolAddress]!.length > 1) {
+    transaction7d = transactionChainResult7d[pool.poolAddress]!.first;
+  }
+
+  if (transaction7d != null) {
+    stateExists = false;
+    if (transaction7d.validationStamp != null &&
+        transaction7d.validationStamp!.ledgerOperations != null &&
+        transaction7d
+            .validationStamp!.ledgerOperations!.unspentOutputs.isNotEmpty) {
+      for (final unspentOutput
+          in transaction7d.validationStamp!.ledgerOperations!.unspentOutputs) {
+        if (unspentOutput.state != null) {
+          stateExists = true;
+          final state = unspentOutput.state;
+          token1TotalVolume7d = state!['stats'] == null ||
+                  state['stats']['token1_total_volume'] == null
+              ? 0
+              : Decimal.parse(
+                  state['stats']['token1_total_volume'].toString(),
+                ).toDouble();
+          token2TotalVolume7d = state['stats'] == null ||
+                  state['stats']['token2_total_volume'] == null
+              ? 0
+              : Decimal.parse(
+                  state['stats']['token2_total_volume'].toString(),
+                ).toDouble();
         }
       }
     }
@@ -186,6 +236,9 @@ Future<DexPool> _estimateStats(
     token1TotalVolume24hFiat = priceToken1 * token1TotalVolume24h;
     token2TotalVolume24hFiat = priceToken2 * token2TotalVolume24h;
 
+    token1TotalVolume7dFiat = priceToken1 * token1TotalVolume7d;
+    token2TotalVolume7dFiat = priceToken2 * token2TotalVolume7d;
+
     token1TotalFee24hFiat = priceToken1 * token1TotalFee24h;
     token2TotalFee24hFiat = priceToken2 * token2TotalFee24h;
   }
@@ -197,11 +250,17 @@ Future<DexPool> _estimateStats(
   if (stateExists != null) {
     if (stateExists == false) {
       volume24h = volumeAllTime;
+      volume7d = volumeAllTime;
       fee24h = feeAllTime;
     } else {
       if (token1TotalVolume24hFiat + token2TotalVolume24hFiat > 0) {
         volume24h = volumeAllTime -
             (token1TotalVolume24hFiat + token2TotalVolume24hFiat);
+      }
+
+      if (token1TotalVolume7dFiat + token2TotalVolume7dFiat > 0) {
+        volume7d =
+            volumeAllTime - (token1TotalVolume7dFiat + token2TotalVolume7dFiat);
       }
 
       if (token1TotalFee24hFiat + token2TotalFee24hFiat > 0) {
@@ -219,6 +278,7 @@ Future<DexPool> _estimateStats(
     fee24h: fee24h,
     feeAllTime: feeAllTime,
     volume24h: volume24h,
+    volume7d: volume7d,
     volumeAllTime: volumeAllTime,
   );
   return pool.copyWith(infos: poolInfos);
