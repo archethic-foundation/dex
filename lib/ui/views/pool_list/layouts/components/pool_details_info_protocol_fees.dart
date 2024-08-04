@@ -9,15 +9,21 @@ class PoolDetailsInfoProtocolFees extends ConsumerWidget {
   const PoolDetailsInfoProtocolFees({
     super.key,
     required this.poolInfos,
+    this.style,
   });
 
   final DexPoolInfos? poolInfos;
+  final TextStyle? style;
 
   @override
   Widget build(
     BuildContext context,
     WidgetRef ref,
   ) {
+    if (poolInfos?.protocolFees == 0) {
+      return const SizedBox.shrink();
+    }
+
     return Opacity(
       opacity: AppTextStyles.kOpacityText,
       child: Row(
@@ -26,11 +32,11 @@ class PoolDetailsInfoProtocolFees extends ConsumerWidget {
         children: [
           SelectableText(
             AppLocalizations.of(context)!.poolDetailsInfoProtocolFees,
-            style: AppTextStyles.bodyLarge(context),
+            style: style ?? AppTextStyles.bodyLarge(context),
           ),
           SelectableText(
             '${poolInfos?.protocolFees ?? '-- '}%',
-            style: AppTextStyles.bodyLarge(context),
+            style: style ?? AppTextStyles.bodyLarge(context),
           ),
         ],
       ),
