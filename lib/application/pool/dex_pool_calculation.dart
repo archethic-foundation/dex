@@ -89,26 +89,44 @@ Future<DexPool> _estimateStats(
   var token1TotalFee24h = 0.0;
   var token2TotalFee24h = 0.0;
 
-  Transaction? transaction24h;
   final fromCriteria24h =
       (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
               1000)
           .round();
-  final transactionChainResult24h =
-      await aedappfm.sl.get<ApiService>().getTransactionChain(
+  final fromCriteria7d =
+      (DateTime.now().subtract(const Duration(days: 7)).millisecondsSinceEpoch /
+              1000)
+          .round();
+
+  final transactionFuture24h =
+      aedappfm.sl.get<ApiService>().getTransactionChain(
     {pool.poolAddress: ''},
     request:
         ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
     fromCriteria: fromCriteria24h,
   );
+
+  final transactionFuture7d = aedappfm.sl.get<ApiService>().getTransactionChain(
+    {pool.poolAddress: ''},
+    request:
+        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
+    fromCriteria: fromCriteria7d,
+  );
+
+  final results =
+      await Future.wait([transactionFuture24h, transactionFuture7d]);
+
+  final transactionChainResult24h = results[0];
+  final transactionChainResult7d = results[1];
+
+  Transaction? transaction24h;
   if (transactionChainResult24h[pool.poolAddress] != null &&
       transactionChainResult24h[pool.poolAddress]!.length > 1) {
     transaction24h = transactionChainResult24h[pool.poolAddress]!.first;
   }
 
-  bool? stateExists;
+  var stateExists24h = false;
   if (transaction24h != null) {
-    stateExists = false;
     if (transaction24h.validationStamp != null &&
         transaction24h.validationStamp!.ledgerOperations != null &&
         transaction24h
@@ -116,7 +134,7 @@ Future<DexPool> _estimateStats(
       for (final unspentOutput
           in transaction24h.validationStamp!.ledgerOperations!.unspentOutputs) {
         if (unspentOutput.state != null) {
-          stateExists = true;
+          stateExists24h = true;
           final state = unspentOutput.state;
           token1TotalVolume24h = state!['stats'] == null ||
                   state['stats']['token1_total_volume'] == null
@@ -146,24 +164,13 @@ Future<DexPool> _estimateStats(
   }
 
   Transaction? transaction7d;
-  final fromCriteria7d =
-      (DateTime.now().subtract(const Duration(days: 7)).millisecondsSinceEpoch /
-              1000)
-          .round();
-  final transactionChainResult7d =
-      await aedappfm.sl.get<ApiService>().getTransactionChain(
-    {pool.poolAddress: ''},
-    request:
-        ' validationStamp { ledgerOperations { unspentOutputs { state } } }',
-    fromCriteria: fromCriteria7d,
-  );
   if (transactionChainResult7d[pool.poolAddress] != null &&
       transactionChainResult7d[pool.poolAddress]!.length > 1) {
     transaction7d = transactionChainResult7d[pool.poolAddress]!.first;
   }
 
+  var stateExists7d = false;
   if (transaction7d != null) {
-    stateExists = false;
     if (transaction7d.validationStamp != null &&
         transaction7d.validationStamp!.ledgerOperations != null &&
         transaction7d
@@ -171,7 +178,7 @@ Future<DexPool> _estimateStats(
       for (final unspentOutput
           in transaction7d.validationStamp!.ledgerOperations!.unspentOutputs) {
         if (unspentOutput.state != null) {
-          stateExists = true;
+          stateExists7d = true;
           final state = unspentOutput.state;
           token1TotalVolume7d = state!['stats'] == null ||
                   state['stats']['token1_total_volume'] == null
@@ -247,25 +254,26 @@ Future<DexPool> _estimateStats(
 
   feeAllTime = token1TotalFeeCurrentFiat + token2TotalFeeCurrentFiat;
 
-  if (stateExists != null) {
-    if (stateExists == false) {
-      volume24h = volumeAllTime;
-      volume7d = volumeAllTime;
-      fee24h = feeAllTime;
-    } else {
-      if (token1TotalVolume24hFiat + token2TotalVolume24hFiat > 0) {
-        volume24h = volumeAllTime -
-            (token1TotalVolume24hFiat + token2TotalVolume24hFiat);
-      }
+  if (stateExists24h == false) {
+    volume24h = volumeAllTime;
+    fee24h = feeAllTime;
+  } else {
+    if (token1TotalVolume24hFiat + token2TotalVolume24hFiat > 0) {
+      volume24h =
+          volumeAllTime - (token1TotalVolume24hFiat + token2TotalVolume24hFiat);
+    }
 
-      if (token1TotalVolume7dFiat + token2TotalVolume7dFiat > 0) {
-        volume7d =
-            volumeAllTime - (token1TotalVolume7dFiat + token2TotalVolume7dFiat);
-      }
+    if (token1TotalFee24hFiat + token2TotalFee24hFiat > 0) {
+      fee24h = feeAllTime - (token1TotalFee24hFiat + token2TotalFee24hFiat);
+    }
+  }
 
-      if (token1TotalFee24hFiat + token2TotalFee24hFiat > 0) {
-        fee24h = feeAllTime - (token1TotalFee24hFiat + token2TotalFee24hFiat);
-      }
+  if (stateExists7d == false) {
+    volume7d = volumeAllTime;
+  } else {
+    if (token1TotalVolume7dFiat + token2TotalVolume7dFiat > 0) {
+      volume7d =
+          volumeAllTime - (token1TotalVolume7dFiat + token2TotalVolume7dFiat);
     }
   }
 
