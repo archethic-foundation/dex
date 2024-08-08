@@ -6,8 +6,7 @@ import 'package:aedex/ui/views/farm_lock_claim/layouts/components/farm_lock_clai
 import 'package:aedex/ui/views/farm_lock_claim/layouts/components/farm_lock_claim_form_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
+import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -74,10 +73,7 @@ class _FarmLockClaimSheetState extends ConsumerState<FarmLockClaimSheet> {
           ref.watch(FarmLockClaimFormProvider.farmLockClaimForm).processStep,
       formSheet: const FarmLockClaimFormSheet(),
       confirmSheet: const FarmLockClaimConfirmSheet(),
-      bottomWidget: const aedappfm.ArchethicOracleUco(
-        faqLink:
-            'https://wiki.archethic.net/FAQ/dex/#how-is-the-price-of-uco-estimated',
-      ),
+      bottomWidget: const DexArchethicOracleUco(),
     );
   }
 }
