@@ -600,6 +600,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  humanize_duration:
+    dependency: "direct main"
+    description:
+      name: humanize_duration
+      sha256: a9fb33b18d028aa2ffd1731af25f59cfcb3c1c2af673cf73fffc7f9a42b2f57e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   image:
     dependency: transitive
     description:
@@ -720,14 +728,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  moment_dart:
-    dependency: "direct main"
-    description:
-      name: moment_dart
-      sha256: "721f008251341578a818140afe402be827bc29951846575598426f4039a0799b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.1+beta.0"
   ninja_asn1:
     dependency: transitive
     description:

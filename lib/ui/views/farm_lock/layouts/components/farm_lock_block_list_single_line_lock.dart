@@ -15,7 +15,7 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:intl/intl.dart';
-import 'package:moment_dart/moment_dart.dart';
+import 'package:humanize_duration/humanize_duration.dart';
 
 class FarmLockBlockListSingleLineLock extends ConsumerWidget {
   const FarmLockBlockListSingleLineLock({
@@ -186,19 +186,23 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                               child: Column(
                                                 children: [
                                                   SelectableText(
-                                                    DateTime.fromMillisecondsSinceEpoch(
-                                                      farmLockUserInfos.end! *
-                                                          1000,
-                                                    )
-                                                        .difference(
-                                                          DateTime.now()
-                                                              .toUtc(),
-                                                        )
-                                                        .toDurationString(
-                                                          includeWeeks: true,
-                                                          round: false,
-                                                          delimiter: ', ',
-                                                        ),
+                                                    humanizeDuration(
+                                                      DateTime.fromMillisecondsSinceEpoch(
+                                                        farmLockUserInfos.end! *
+                                                            1000,
+                                                      ).toUtc().difference(
+                                                            DateTime.now()
+                                                                .toUtc(),
+                                                          ),
+                                                      options:
+                                                          const HumanizeOptions(
+                                                        units: [
+                                                          Units.year,
+                                                          Units.day,
+                                                          Units.hour,
+                                                        ],
+                                                      ),
+                                                    ),
                                                     style: style,
                                                   ),
                                                   SelectableText(
@@ -206,13 +210,14 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       Localizations.localeOf(
                                                         context,
                                                       ).languageCode,
-                                                    ).format(
-                                                      DateTime
-                                                          .fromMillisecondsSinceEpoch(
-                                                        farmLockUserInfos.end! *
-                                                            1000,
-                                                      ),
-                                                    ),
+                                                    ).add_Hm().format(
+                                                          DateTime
+                                                              .fromMillisecondsSinceEpoch(
+                                                            farmLockUserInfos
+                                                                    .end! *
+                                                                1000,
+                                                          ).toUtc(),
+                                                        ),
                                                     style:
                                                         AppTextStyles.bodySmall(
                                                       context,
@@ -447,19 +452,24 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       style: styleHeader,
                                                     ),
                                                     SelectableText(
-                                                      DateTime.fromMillisecondsSinceEpoch(
-                                                        farmLockUserInfos.end! *
-                                                            1000,
-                                                      )
-                                                          .difference(
-                                                            DateTime.now()
-                                                                .toUtc(),
-                                                          )
-                                                          .toDurationString(
-                                                            includeWeeks: true,
-                                                            round: false,
-                                                            delimiter: ', ',
-                                                          ),
+                                                      humanizeDuration(
+                                                        DateTime.fromMillisecondsSinceEpoch(
+                                                          farmLockUserInfos
+                                                                  .end! *
+                                                              1000,
+                                                        ).toUtc().difference(
+                                                              DateTime.now()
+                                                                  .toUtc(),
+                                                            ),
+                                                        options:
+                                                            const HumanizeOptions(
+                                                          units: [
+                                                            Units.year,
+                                                            Units.day,
+                                                            Units.hour,
+                                                          ],
+                                                        ),
+                                                      ),
                                                       style: style,
                                                     ),
                                                   ],
@@ -469,13 +479,14 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     Localizations.localeOf(
                                                       context,
                                                     ).languageCode,
-                                                  ).format(
-                                                    DateTime
-                                                        .fromMillisecondsSinceEpoch(
-                                                      farmLockUserInfos.end! *
-                                                          1000,
-                                                    ),
-                                                  ),
+                                                  ).add_Hm().format(
+                                                        DateTime
+                                                            .fromMillisecondsSinceEpoch(
+                                                          farmLockUserInfos
+                                                                  .end! *
+                                                              1000,
+                                                        ).toUtc(),
+                                                      ),
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodySmall,
