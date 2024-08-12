@@ -45,8 +45,6 @@ jobs:
           seed: ${{ secrets.ARCH_BASE_SEED }}
           endpoint: "https://testnet.archethic.net"
           path: "build/web"
-          sslCertificateFile: "certificate_swap_testnet.crt"
-          sslKey: ${{ secrets.SSL_KEY_TESTNET }}
           keychainFundingService: "archethic-wallet-ARCHETHIC.NET"
           keychainWebsiteService: "aeweb-SWAP"
        
