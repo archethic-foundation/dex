@@ -27,6 +27,7 @@ class FarmLockSheet extends ConsumerStatefulWidget {
   });
 
   static const routerPage = '/farmLock';
+  static const routerPage2 = '/earn';
 
   @override
   ConsumerState<FarmLockSheet> createState() => FarmLockSheetState();

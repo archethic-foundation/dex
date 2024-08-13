@@ -148,7 +148,7 @@ class _BottomNavigationBarMainScreenState
                       )
                       .state = NavigationIndex.earn;
                 });
-                context.go(FarmLockSheet.routerPage);
+                context.go(FarmLockSheet.routerPage2);
                 break;
 
               default:

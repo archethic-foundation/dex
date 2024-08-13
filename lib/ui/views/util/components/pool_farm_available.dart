@@ -28,7 +28,7 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
       onExit: (_) => setState(() => _isHovered = false),
       child: InkWell(
         onTap: () {
-          context.go(FarmLockSheet.routerPage);
+          context.go(FarmLockSheet.routerPage2);
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 15, bottom: 2),
