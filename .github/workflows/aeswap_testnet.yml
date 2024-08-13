@@ -1,0 +1,52 @@
+on:
+  push:
+    branches:
+      - 263-add-new-url-swaparchethicnet
+
+jobs:
+  deploy_to_aeweb:
+    runs-on: ubuntu-latest
+    name: A job to deploy file to aeHosting
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version: '3.22.3'
+      - run: flutter --version
+
+      - name: Install dependencies
+        run: |
+          flutter clean
+          flutter pub get
+
+      - name: Check files
+        run: |
+          ls -R
+
+      - name: Build web app
+        run: flutter build web --web-renderer canvaskit --release --dart-define=ENV=test
+
+      - name: Inject meta robots tag if in test environment
+        run: |
+          sed -i 's/<!-- #robotsMetaTag -->/<meta name="robots" content="noindex">/' build/web/index.html
+
+      - name: Check files
+        run: |
+          ls -R
+
+      - name: Deploy to aeHosting
+        id: deploy
+        uses: archethic-foundation/aeweb-github-action@v1.8.7
+        with:
+          seed: ${{ secrets.ARCH_BASE_SEED }}
+          endpoint: "https://testnet.archethic.net"
+          path: "build/web"
+          sslCertificateFile: "certificate_swap_testnet.crt"
+          sslKey: ${{ secrets.SSL_KEY_SWAP_TESTNET }}
+          keychainFundingService: "archethic-wallet-ARCHETHIC.NET"
+          keychainWebsiteService: "aeweb-SWAP"
+       
