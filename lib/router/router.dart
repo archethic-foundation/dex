@@ -111,6 +111,14 @@ final routerProvider = Provider<GoRouter>(
               },
             ),
             GoRoute(
+              path: FarmLockSheet.routerPage,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: FarmLockSheet(),
+                );
+              },
+            ),
+            GoRoute(
               path: PoolAddSheet.routerPage,
               pageBuilder: (context, state) {
                 final token1 = state.uri.queryParameters.getDecodedParameter(
