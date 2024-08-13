@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - 263-add-new-url-swaparchethicnet
+      - testnet
 
 jobs:
   deploy_to_aeweb:
