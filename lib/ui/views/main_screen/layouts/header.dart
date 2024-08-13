@@ -154,7 +154,7 @@ class Header extends ConsumerWidget {
                       children: [
                         TextButton(
                           onPressed: () {
-                            context.go(FarmLockSheet.routerPage);
+                            context.go(FarmLockSheet.routerPage2);
                           },
                           child: Text(
                             AppLocalizations.of(context)!.menu_earn,

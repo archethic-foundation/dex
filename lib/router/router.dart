@@ -103,7 +103,7 @@ final routerProvider = Provider<GoRouter>(
               },
             ),
             GoRoute(
-              path: FarmLockSheet.routerPage,
+              path: FarmLockSheet.routerPage2,
               pageBuilder: (context, state) {
                 return const NoTransitionPage(
                   child: FarmLockSheet(),
