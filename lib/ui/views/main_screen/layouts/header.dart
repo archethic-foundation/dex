@@ -189,9 +189,13 @@ class Header extends ConsumerWidget {
                             await launchUrl(
                               Uri.parse(
                                 (Uri.base
-                                        .toString()
-                                        .toLowerCase()
-                                        .contains('dex.archethic'))
+                                            .toString()
+                                            .toLowerCase()
+                                            .contains('dex.archethic') ||
+                                        Uri.base
+                                            .toString()
+                                            .toLowerCase()
+                                            .contains('swap.archethic'))
                                     ? 'https://bridge.archethic.net'
                                     : 'https://bridge.testnet.archethic.net',
                               ),

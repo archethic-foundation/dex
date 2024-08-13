@@ -15,7 +15,8 @@ void setupServiceLocator() {
           OracleService('https://mainnet.archethic.net', logsActivation: false),
     )
     ..registerLazySingleton<aedappfm.LogManager>(() {
-      if (Uri.base.toString().toLowerCase().contains('dex.archethic')) {
+      if (Uri.base.toString().toLowerCase().contains('dex.archethic') ||
+          Uri.base.toString().toLowerCase().contains('swap.archethic')) {
         return aedappfm.LogManager(
           url:
               'https://faas-lon1-917a94a7.doserverless.co/api/v1/web/fn-279bbae3-a757-4cef-ade7-a63bdaca36f7/default/app-log-mainnet',
