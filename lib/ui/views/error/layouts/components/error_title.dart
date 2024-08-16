@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
-class WelcomeTitle extends StatelessWidget {
-  const WelcomeTitle({
+class ErrorTitle extends StatelessWidget {
+  const ErrorTitle({
     super.key,
   });
 
@@ -13,16 +13,17 @@ class WelcomeTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 130),
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 aedappfm.GradientText(
-                  AppLocalizations.of(context)!.welcomeDesc1,
+                  AppLocalizations.of(context)!.errorDesc1,
                   style: const TextStyle(
-                    fontSize: 30,
+                    fontSize: 22,
                     fontWeight: FontWeight.w600,
                   ),
                   gradient: aedappfm.AppThemeBase.gradientWelcomeTxt,
@@ -34,9 +35,9 @@ class WelcomeTitle extends StatelessWidget {
                       curve: Curves.easeOutQuad,
                     ),
                 SelectableText(
-                  ' ${AppLocalizations.of(context)!.welcomeDesc2}',
+                  AppLocalizations.of(context)!.errorDesc2,
                   style: const TextStyle(
-                    fontSize: 30,
+                    fontSize: 20,
                     fontWeight: FontWeight.w400,
                   ),
                   textScaler: TextScaler.linear(
@@ -51,28 +52,6 @@ class WelcomeTitle extends StatelessWidget {
                     ),
               ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SelectableText(
-                AppLocalizations.of(context)!.welcomeDesc3,
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
-                textScaler: TextScaler.linear(
-                  aedappfm.ScaleSize.textScaleFactor(context),
-                ),
-              )
-                  .animate(delay: 300.ms)
-                  .fadeIn(duration: 400.ms, delay: 300.ms)
-                  .move(
-                    begin: const Offset(-16, 0),
-                    curve: Curves.easeOutQuad,
-                  ),
-            ],
           ),
           const Spacer(),
         ],
