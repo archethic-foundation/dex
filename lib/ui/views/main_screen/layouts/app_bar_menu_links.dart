@@ -88,6 +88,7 @@ class AppBarMenuLinks extends ConsumerWidget {
                     ? 'https://bridge.archethic.net'
                     : 'https://bridge.testnet.archethic.net',
               ),
+              webOnlyWindowName: '_self',
             );
           },
         ),
