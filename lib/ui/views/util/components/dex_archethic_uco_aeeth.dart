@@ -29,8 +29,7 @@ class ArchethicOraclePair extends ConsumerWidget {
         return const SizedBox.shrink();
       }
     } else {
-      final valueToken1 =
-          ref.read(DexTokensProviders.estimateTokenInFiat(token1));
+      valueToken1 = ref.read(DexTokensProviders.estimateTokenInFiat(token1));
       if (valueToken1 == 0) {
         return const SizedBox.shrink();
       }
@@ -43,8 +42,7 @@ class ArchethicOraclePair extends ConsumerWidget {
         return const SizedBox.shrink();
       }
     } else {
-      final valueToken2 =
-          ref.read(DexTokensProviders.estimateTokenInFiat(token2));
+      valueToken2 = ref.read(DexTokensProviders.estimateTokenInFiat(token2));
       if (valueToken2 == 0) {
         return const SizedBox.shrink();
       }
@@ -59,7 +57,7 @@ class ArchethicOraclePair extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         SelectableText(
-          '1 ${token1.symbol} = \$${valueToken1.formatNumber(precision: 2)} / 1 ${token2.symbol} = \$${valueToken2.formatNumber(precision: 2)} ($timestamp)',
+          '1 ${token1.symbol} = \$${valueToken1.formatNumber(precision: 2)} / 1 ${token2.symbol} = \$${valueToken2.formatNumber(precision: 4)} ($timestamp)',
           style: TextStyle(
             fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
           ),
