@@ -147,47 +147,22 @@ class _ConnectionToWalletStatusState
             ],
           ),
           const SizedBox(
+            width: 16,
+          ),
+          IconButton(
+            icon: const Icon(aedappfm.Iconsax.logout),
+            iconSize: 18,
+            onPressed: () async {
+              await ref
+                  .read(SessionProviders.session.notifier)
+                  .cancelConnection();
+            },
+          ),
+          const SizedBox(
             width: 4,
           ),
         ],
       ),
-    );
-  }
-}
-
-class MenuConnectionToWalletStatus extends ConsumerWidget {
-  const MenuConnectionToWalletStatus({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
-
-    return Column(
-      children: [
-        Container(
-          constraints: const BoxConstraints(maxWidth: 300),
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Center(
-                child: SelectableText(
-                  session.nameAccount,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Center(
-                child: FormatAddressLinkCopy(
-                  address: session.genesisAddress,
-                  typeAddress: TypeAddressLinkCopy.chain,
-                  reduceAddress: true,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
