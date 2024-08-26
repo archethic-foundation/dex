@@ -4,7 +4,7 @@ import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/infrastructure/hive/preferences.hive.dart';
+import 'package:aedex/ui/views/error/layouts/error_screen.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
 import 'package:aedex/ui/views/farm_list/layouts/farm_list_sheet.dart';
@@ -21,7 +21,6 @@ import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-import 'package:aedex/ui/views/welcome/layouts/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +31,7 @@ final routerProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
       navigatorKey: rootNavigatorKey,
-      initialLocation: SwapSheet.routerPage,
+      initialLocation: '/',
       debugLogDiagnostics: true,
       routes: [
         ShellRoute(
@@ -64,11 +63,7 @@ final routerProvider = Provider<GoRouter>(
             ),
             GoRoute(
               path: '/',
-              pageBuilder: (context, state) {
-                return const NoTransitionPage(
-                  child: SwapSheet(),
-                );
-              },
+              redirect: (context, state) => null,
             ),
             GoRoute(
               path: PoolListSheet.routerPage,
@@ -501,26 +496,8 @@ final routerProvider = Provider<GoRouter>(
             ),
           ],
         ),
-        GoRoute(
-          path: WelcomeScreen.routerPage,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return const NoTransitionPage(
-              child: WelcomeScreen(),
-            );
-          },
-        ),
       ],
-      // ignore: body_might_complete_normally_nullable
-      redirect: (context, state) async {
-        final preferences = await HivePreferencesDatasource.getInstance();
-        if (preferences.isFirstConnection()) {
-          await preferences.setFirstConnection(false);
-          if (context.mounted) return WelcomeScreen.routerPage;
-        }
-
-        return null;
-      },
-      errorBuilder: (context, state) => const WelcomeScreen(),
+      errorBuilder: (context, state) => const ErrorScreen(),
     );
   },
 );

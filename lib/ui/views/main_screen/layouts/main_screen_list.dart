@@ -65,35 +65,39 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      backgroundColor: aedappfm.AppThemeBase.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: const AppBarMainScreen(),
+    return Title(
+      title: 'aeSwap - Archethic DEX to swap, stake and farm UCO token',
+      color: Colors.black,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        backgroundColor: aedappfm.AppThemeBase.backgroundColor,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: const AppBarMainScreen(),
+            ),
           ),
         ),
+        body: Stack(
+          alignment: widget.bodyVerticalAlignment,
+          children: [
+            const aedappfm.AppBackground(
+              backgroundImage: 'assets/images/background-welcome.png',
+            ),
+            widget.body,
+          ],
+        ),
+        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? BottomNavigationBarMainScreen(
+                listNavigationLabelIcon: listNavigationLabelIcon,
+                navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
+              )
+            : null,
       ),
-      body: Stack(
-        alignment: widget.bodyVerticalAlignment,
-        children: [
-          const aedappfm.AppBackground(
-            backgroundImage: 'assets/images/background-welcome.png',
-          ),
-          widget.body,
-        ],
-      ),
-      bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
-              aedappfm.Responsive.isTablet(context)
-          ? BottomNavigationBarMainScreen(
-              listNavigationLabelIcon: listNavigationLabelIcon,
-              navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
-            )
-          : null,
     );
   }
 }

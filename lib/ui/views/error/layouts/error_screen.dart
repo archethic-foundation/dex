@@ -1,19 +1,19 @@
 import 'dart:ui';
 
-import 'package:aedex/ui/views/welcome/layouts/components/welcome_app_bar.dart';
-import 'package:aedex/ui/views/welcome/layouts/components/welcome_launch_btn.dart';
-import 'package:aedex/ui/views/welcome/layouts/components/welcome_title.dart';
+import 'package:aedex/ui/views/error/layouts/components/error_app_bar.dart';
+import 'package:aedex/ui/views/error/layouts/components/error_btn.dart';
+import 'package:aedex/ui/views/error/layouts/components/error_title.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WelcomeScreen extends ConsumerWidget {
-  const WelcomeScreen({
+class ErrorScreen extends ConsumerWidget {
+  const ErrorScreen({
     super.key,
   });
 
-  static const routerPage = '/welcome';
+  static const routerPage = '/error';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -24,20 +24,22 @@ class WelcomeScreen extends ConsumerWidget {
         child: ClipRRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: const WelcomeAppBar(),
+            child: const ErrorAppBar(),
           ),
         ),
       ),
       body: const Stack(
+        alignment: Alignment.center,
         children: [
           aedappfm.AppBackground(
             withAnimation: true,
             backgroundImage: 'assets/images/background-welcome.png',
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              WelcomeTitle(),
-              WelcomeLaunchBtn(),
+              ErrorTitle(),
+              ErrorBtn(),
             ],
           ),
         ],

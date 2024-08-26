@@ -1,21 +1,20 @@
-import 'package:aedex/ui/views/main_screen/layouts/app_bar_menu_links.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WelcomeAppBar extends ConsumerStatefulWidget
+class ErrorAppBar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
-  const WelcomeAppBar({
+  const ErrorAppBar({
     super.key,
   });
   @override
   Size get preferredSize => AppBar().preferredSize;
 
   @override
-  ConsumerState<WelcomeAppBar> createState() => _WelcomeAppBarState();
+  ConsumerState<ErrorAppBar> createState() => _ErrorAppBarState();
 }
 
-class _WelcomeAppBarState extends ConsumerState<WelcomeAppBar> {
+class _ErrorAppBarState extends ConsumerState<ErrorAppBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,12 +24,6 @@ class _WelcomeAppBarState extends ConsumerState<WelcomeAppBar> {
         elevation: 0,
         leading: const Header(withMenu: false),
         leadingWidth: MediaQuery.of(context).size.width,
-        actions: const [
-          AppBarMenuLinks(),
-          SizedBox(
-            width: 16,
-          ),
-        ],
       ),
     );
   }

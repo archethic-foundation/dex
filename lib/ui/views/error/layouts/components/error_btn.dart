@@ -1,22 +1,20 @@
-import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class WelcomeLaunchBtn extends ConsumerStatefulWidget {
-  const WelcomeLaunchBtn({
+class ErrorBtn extends ConsumerStatefulWidget {
+  const ErrorBtn({
     super.key,
   });
   @override
-  WelcomeLaunchBtnState createState() => WelcomeLaunchBtnState();
+  ErrorBtnState createState() => ErrorBtnState();
 }
 
 var _over = false;
 
-class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
+class ErrorBtnState extends ConsumerState<ErrorBtn> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,7 +42,10 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                 ),
                 onPressed: () {
                   if (!context.mounted) return;
-                  context.go(SwapSheet.routerPage);
+                  launchUrl(
+                    Uri.parse('/'),
+                    webOnlyWindowName: '_self',
+                  );
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -62,37 +63,13 @@ class WelcomeLaunchBtnState extends ConsumerState<WelcomeLaunchBtn> {
                     ],
                   ),
                   child: Text(
-                    AppLocalizations.of(context)!.go,
+                    AppLocalizations.of(context)!.errorDesc3,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.labelMedium!.color,
                       fontSize: 17,
                     ),
                   ),
                 ).animate(target: _over ? 0 : 1).fade(end: 0.8),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          InkWell(
-            onTap: () async {
-              await launchUrl(
-                Uri.parse(
-                  'https://www.archethic.net/wallet.html',
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-              ),
-              child: Text(
-                maxLines: 2,
-                AppLocalizations.of(context)!.welcomeNoWallet,
-                style: Theme.of(context).textTheme.labelLarge,
-                textAlign: TextAlign.center,
-                softWrap: true,
               ),
             ),
           ),

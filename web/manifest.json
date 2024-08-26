@@ -1,11 +1,11 @@
 {
-    "name": "aeSwap",
-    "short_name": "aeSwap",
+    "name": "aeSwap - Archethic DEX to swap, stake and farm UCO token",
+    "short_name": "aeSwap - Archethic DEX to swap, stake and farm UCO token",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#000000",
-    "description": "aeSwap",
+    "description": "Jump into aeSwap, the go-to DEX on Archethic to swap, stake, and farm UCO tokens. Get started now and take advantage of high-yield farming and secure staking on a revolutionary blockchain platform.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
