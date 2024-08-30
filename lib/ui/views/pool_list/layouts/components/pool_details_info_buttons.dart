@@ -4,7 +4,6 @@ import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -40,10 +39,6 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
 
       return Column(
         children: [
-          _swapButton(context, pool),
-          const SizedBox(
-            height: 30,
-          ),
           Row(
             children: [
               Expanded(
@@ -66,10 +61,6 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
       }
       return Column(
         children: [
-          _swapButton(context, pool),
-          const SizedBox(
-            height: 10,
-          ),
           _addLiquidityButton(context, ref, pool),
           const SizedBox(
             height: 10,
@@ -78,29 +69,6 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
         ],
       );
     }
-  }
-
-  Widget _swapButton(BuildContext context, DexPool pool) {
-    return aedappfm.AppButton(
-      backgroundGradient: LinearGradient(
-        colors: [
-          aedappfm.ArchethicThemeBase.blue400,
-          aedappfm.ArchethicThemeBase.blue600,
-        ],
-      ),
-      labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonSwap,
-      onPressed: () async {
-        await context.push(
-          Uri(
-            path: SwapSheet.routerPage,
-            queryParameters: {
-              'tokenToSwap': pool.pair.token1.toJson().encodeParam(),
-              'tokenSwapped': pool.pair.token2.toJson().encodeParam(),
-            },
-          ).toString(),
-        );
-      },
-    );
   }
 
   Widget _closeButton(BuildContext context) {

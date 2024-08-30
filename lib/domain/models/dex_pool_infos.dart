@@ -18,11 +18,14 @@ class DexPoolInfos with _$DexPoolInfos {
     required double token2TotalVolume,
     double? token1TotalVolume24h,
     double? token2TotalVolume24h,
+    double? token1TotalVolume7d,
+    double? token2TotalVolume7d,
     double? token1TotalFee24h,
     double? token2TotalFee24h,
     double? fee24h,
     double? feeAllTime,
     double? volume24h,
+    double? volume7d,
     double? volumeAllTime,
   }) = _DexPoolInfos;
   const DexPoolInfos._();

@@ -3,7 +3,6 @@ import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_apr.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_apr_farm.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_buttons.dart';
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_fees.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_header.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_tvl.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_volume.dart';
@@ -65,12 +64,8 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
                 PoolDetailsInfoVolume(
                   volume24h: widget.pool.infos?.volume24h,
                   volumeAllTime: widget.pool.infos?.volumeAllTime,
+                  volume7d: widget.pool.infos?.volume7d,
                 ),
-                if (widget.poolWithFarm == false)
-                  PoolDetailsInfoFees(
-                    fees24h: widget.pool.infos?.fee24h,
-                    feesAllTime: widget.pool.infos?.feeAllTime,
-                  ),
               ],
             ),
           ],

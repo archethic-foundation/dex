@@ -40,33 +40,32 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 controller.open();
               }
             },
-            child: Row(
-              children: [
-                Text(
-                  aedappfm.EndpointUtil.getEnvironnementLabel(session.endpoint),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: aedappfm.EndpointUtil.getEnvironnementLabel(
-                              session.endpoint,
-                            ) !=
-                            'Archethic Mainnet'
-                        ? Colors.red
-                        : Colors.white,
-                  ),
-                ),
-                const SizedBox(width: 5),
-                if (session.isConnected == false)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 2),
-                    child: Icon(
-                      controller.isOpen
-                          ? aedappfm.Iconsax.arrow_up_2
-                          : aedappfm.Iconsax.arrow_down_1,
-                      size: 18,
-                    ),
-                  ),
-              ],
-            ),
+            child: aedappfm.EndpointUtil.getEnvironnementLabel(
+                      session.endpoint,
+                    ) !=
+                    'Archethic Mainnet'
+                ? Row(
+                    children: [
+                      Text(
+                        aedappfm.EndpointUtil.getEnvironnementLabel(
+                          session.endpoint,
+                        ),
+                        style: const TextStyle(fontSize: 12, color: Colors.red),
+                      ),
+                      const SizedBox(width: 5),
+                      if (session.isConnected == false)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2),
+                          child: Icon(
+                            controller.isOpen
+                                ? aedappfm.Iconsax.arrow_up_2
+                                : aedappfm.Iconsax.arrow_down_1,
+                            size: 18,
+                          ),
+                        ),
+                    ],
+                  )
+                : const SizedBox.shrink(),
           );
         },
         menuChildren: [

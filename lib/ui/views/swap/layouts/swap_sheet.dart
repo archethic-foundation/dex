@@ -37,10 +37,12 @@ class _SwapSheetState extends ConsumerState<SwapSheet> {
       await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
 
       try {
-        if (widget.tokenToSwap != null && widget.tokenSwapped != null) {
+        if (widget.tokenToSwap != null) {
           await ref
               .read(SwapFormProvider.swapForm.notifier)
               .setTokenToSwap(widget.tokenToSwap!);
+        }
+        if (widget.tokenSwapped != null) {
           await ref
               .read(SwapFormProvider.swapForm.notifier)
               .setTokenSwapped(widget.tokenSwapped!);

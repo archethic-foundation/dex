@@ -26,15 +26,19 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
       children: [
         Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 2, right: 5),
-              child: Tooltip(
-                message: AppLocalizations.of(context)!.apr24hTooltip,
-                triggerMode: TooltipTriggerMode.tap,
-                showDuration: const Duration(seconds: 5),
-                child: Icon(
-                  Icons.help,
-                  color: Theme.of(context).colorScheme.primary,
+            SizedBox(
+              height: 30,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 2, right: 5),
+                child: Tooltip(
+                  message: AppLocalizations.of(context)!.apr24hTooltip,
+                  triggerMode: TooltipTriggerMode.tap,
+                  showDuration: const Duration(seconds: 5),
+                  child: Icon(
+                    Icons.help,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 18,
+                  ),
                 ),
               ),
             ),

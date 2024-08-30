@@ -10,83 +10,96 @@ class PoolDetailsInfoFees extends ConsumerWidget {
     super.key,
     required this.feesAllTime,
     required this.fees24h,
+    this.poolWithFarm = false,
   });
 
   final double? feesAllTime;
   final double? fees24h;
+  final bool poolWithFarm;
 
   @override
   Widget build(
     BuildContext context,
     WidgetRef ref,
   ) {
+    if (poolWithFarm) {
+      return const SizedBox(
+        height: 30,
+      );
+    }
     return Opacity(
       opacity: AppTextStyles.kOpacityText,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Stack(
-            alignment: Alignment.centerRight,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: SelectableText(
-                  AppLocalizations.of(context)!.time24h,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodySmall!,
-                        ),
-                      ),
-                ),
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SelectableText(
+                      AppLocalizations.of(context)!.time24h,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodySmall!,
+                            ),
+                          ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 25),
+                    child: SelectableText(
+                      AppLocalizations.of(context)!.poolDetailsInfoFees,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 25),
-                child: SelectableText(
-                  AppLocalizations.of(context)!.poolDetailsInfoFees,
-                  style: AppTextStyles.bodyLarge(context),
-                ),
+              SelectableText(
+                fees24h == null
+                    ? ''
+                    : ': \$${fees24h!.formatNumber(precision: 2)}',
+                style: AppTextStyles.bodyLarge(context),
               ),
             ],
           ),
-          SelectableText(
-            fees24h == null
-                ? ''
-                : '\$${fees24h!.formatNumber(precision: fees24h! > 1 ? 2 : 8)}',
-            style: AppTextStyles.bodyLarge(context),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Stack(
-            alignment: Alignment.centerRight,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: SelectableText(
-                  AppLocalizations.of(context)!.timeAll,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                          context,
-                          Theme.of(context).textTheme.bodySmall!,
-                        ),
-                      ),
-                ),
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SelectableText(
+                      AppLocalizations.of(context)!.timeAll,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodySmall!,
+                            ),
+                          ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 17),
+                    child: SelectableText(
+                      AppLocalizations.of(context)!.poolDetailsInfoFees,
+                      style: AppTextStyles.bodyLarge(context),
+                    ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 17),
-                child: SelectableText(
-                  AppLocalizations.of(context)!.poolDetailsInfoFees,
-                  style: AppTextStyles.bodyLarge(context),
-                ),
+              SelectableText(
+                feesAllTime == null
+                    ? ''
+                    : ': \$${feesAllTime!.formatNumber(precision: 2)}',
+                style: AppTextStyles.bodyLarge(context),
               ),
             ],
-          ),
-          SelectableText(
-            feesAllTime == null
-                ? ''
-                : '\$${feesAllTime!.formatNumber(precision: feesAllTime! > 1 ? 2 : 8)}',
-            style: AppTextStyles.bodyLarge(context),
           ),
         ],
       ),
