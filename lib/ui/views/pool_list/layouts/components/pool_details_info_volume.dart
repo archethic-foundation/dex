@@ -37,19 +37,14 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
                       AppLocalizations.of(context)!.time24h,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodySmall!,
-                            ),
-                          ),
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: SelectableText(
                       AppLocalizations.of(context)!.poolDetailsInfoVolume,
-                      style: AppTextStyles.bodyLarge(context),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 ],
@@ -58,7 +53,7 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                 volume24h == null
                     ? ''
                     : '\$${volume24h!.formatNumber(precision: volume24h! > 1 ? 2 : 8)}',
-                style: AppTextStyles.bodyLarge(context),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 10,
@@ -70,19 +65,14 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
                       AppLocalizations.of(context)!.timeAll,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodySmall!,
-                            ),
-                          ),
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 17),
                     child: SelectableText(
                       AppLocalizations.of(context)!.poolDetailsInfoVolume,
-                      style: AppTextStyles.bodyLarge(context),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 ],
@@ -91,7 +81,7 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                 volumeAllTime == null
                     ? ''
                     : '\$${volumeAllTime!.formatNumber(precision: volumeAllTime! > 1 ? 2 : 8)}',
-                style: AppTextStyles.bodyLarge(context),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ],
           ),
@@ -108,19 +98,14 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
                       AppLocalizations.of(context)!.time7d,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.bodySmall!,
-                            ),
-                          ),
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 17),
                     child: SelectableText(
                       AppLocalizations.of(context)!.poolDetailsInfoVolume,
-                      style: AppTextStyles.bodyLarge(context),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 ],
@@ -129,7 +114,7 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                 volume7d == null
                     ? ''
                     : '\$${volume7d!.formatNumber(precision: volume7d! > 1 ? 2 : 8)}',
-                style: AppTextStyles.bodyLarge(context),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ],
           ),

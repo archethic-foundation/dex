@@ -22,11 +22,14 @@ class PoolDetailsInfoTVL extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Opacity(
-          opacity: AppTextStyles.kOpacityText,
-          child: SelectableText(
-            AppLocalizations.of(context)!.poolDetailsInfoTVL,
-            style: AppTextStyles.bodyLarge(context),
+        SizedBox(
+          height: 20,
+          child: Opacity(
+            opacity: AppTextStyles.kOpacityText,
+            child: SelectableText(
+              AppLocalizations.of(context)!.poolDetailsInfoTVL,
+              style: AppTextStyles.bodyLarge(context),
+            ),
           ),
         ),
         SelectableText(

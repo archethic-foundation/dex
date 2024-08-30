@@ -64,37 +64,30 @@ class PoolDetailsInfoAPRFarmState
       children: [
         Row(
           children: [
-            Opacity(
-              opacity: AppTextStyles.kOpacityText,
-              child: SelectableText(
-                AppLocalizations.of(context)!.poolDetailsInfoAPRFarm3Years,
-                style: AppTextStyles.bodyLarge(context),
+            SizedBox(
+              height: 20,
+              child: Opacity(
+                opacity: AppTextStyles.kOpacityText,
+                child: SelectableText(
+                  AppLocalizations.of(context)!.poolDetailsInfoAPRFarm3Years,
+                  style: AppTextStyles.bodyLarge(context),
+                ),
               ),
             ),
           ],
         ),
-        if (apr3years == 0)
-          Text(
-            '__,__%',
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                    context,
-                    Theme.of(context).textTheme.headlineMedium!,
-                  ),
-                  color: aedappfm.AppThemeBase.secondaryColor,
+        Text(
+          apr3years == 0
+              ? '__,__%'
+              : '${(apr3years * 100).formatNumber(precision: 2)}%',
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                  context,
+                  Theme.of(context).textTheme.headlineMedium!,
                 ),
-          )
-        else
-          Text(
-            '${(apr3years * 100).formatNumber(precision: 2)}%',
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                    context,
-                    Theme.of(context).textTheme.headlineMedium!,
-                  ),
-                  color: aedappfm.AppThemeBase.secondaryColor,
-                ),
-          ),
+                color: aedappfm.AppThemeBase.secondaryColor,
+              ),
+        ),
       ],
     );
   }
