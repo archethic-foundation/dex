@@ -1,11 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
+import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_need_tokens.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityAddToken2Amount extends ConsumerStatefulWidget {
@@ -200,6 +202,26 @@ class _LiquidityAddToken2AmountState
             ),
             Row(
               children: [
+                if (liquidityAdd.token2 != null &&
+                    (liquidityAdd.token2Balance == 0 ||
+                        (liquidityAdd.failure != null &&
+                            (liquidityAdd.failure! as aedappfm.OtherFailure)
+                                    .cause ==
+                                AppLocalizations.of(context)!
+                                    .liquidityAddControlToken2AmountExceedBalance)))
+                  LiquidityAddNeedTokens(
+                    balance: liquidityAdd.token2Balance,
+                    token: liquidityAdd.token2!,
+                  ),
+                if (liquidityAdd.token2 != null &&
+                    (liquidityAdd.failure != null &&
+                        (liquidityAdd.failure! as aedappfm.OtherFailure)
+                                .cause ==
+                            AppLocalizations.of(context)!
+                                .liquidityAddControlToken2AmountExceedBalance))
+                  const SizedBox(
+                    width: 10,
+                  ),
                 aedappfm.ButtonHalf(
                   balanceAmount: liquidityAdd.token2Balance,
                   onTap: () async {
