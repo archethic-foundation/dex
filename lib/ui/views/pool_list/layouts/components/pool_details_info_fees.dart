@@ -61,7 +61,7 @@ class PoolDetailsInfoFees extends ConsumerWidget {
               SelectableText(
                 fees24h == null
                     ? ''
-                    : ': \$${fees24h!.formatNumber(precision: fees24h! > 1 ? 2 : 8)}',
+                    : ': \$${fees24h!.formatNumber(precision: 2)}',
                 style: AppTextStyles.bodyLarge(context),
               ),
             ],
@@ -96,7 +96,7 @@ class PoolDetailsInfoFees extends ConsumerWidget {
               SelectableText(
                 feesAllTime == null
                     ? ''
-                    : ': \$${feesAllTime!.formatNumber(precision: feesAllTime! > 1 ? 2 : 8)}',
+                    : ': \$${feesAllTime!.formatNumber(precision: 2)}',
                 style: AppTextStyles.bodyLarge(context),
               ),
             ],

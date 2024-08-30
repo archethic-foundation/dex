@@ -23,7 +23,7 @@ class PoolDetailsInfoTVL extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          height: 20,
+          height: 30,
           child: Opacity(
             opacity: AppTextStyles.kOpacityText,
             child: SelectableText(

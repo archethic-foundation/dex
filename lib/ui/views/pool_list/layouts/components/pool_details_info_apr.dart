@@ -27,7 +27,7 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
         Row(
           children: [
             SizedBox(
-              height: 20,
+              height: 30,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 2, right: 5),
                 child: Tooltip(

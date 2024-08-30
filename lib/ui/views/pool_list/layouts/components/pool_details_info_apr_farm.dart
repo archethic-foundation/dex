@@ -65,7 +65,7 @@ class PoolDetailsInfoAPRFarmState
         Row(
           children: [
             SizedBox(
-              height: 20,
+              height: 30,
               child: Opacity(
                 opacity: AppTextStyles.kOpacityText,
                 child: SelectableText(
