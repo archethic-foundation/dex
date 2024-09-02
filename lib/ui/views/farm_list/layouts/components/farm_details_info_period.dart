@@ -1,7 +1,7 @@
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 

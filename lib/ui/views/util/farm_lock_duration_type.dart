@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
 
 enum FarmLockDepositDurationType {
   flexible,

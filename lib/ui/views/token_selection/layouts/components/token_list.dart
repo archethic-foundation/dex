@@ -5,7 +5,7 @@ import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/layouts/components/token_single.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TokenList extends ConsumerWidget {

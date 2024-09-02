@@ -3,7 +3,7 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_settings_popup.dart'
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SwapTokenIconSettings extends ConsumerWidget {
