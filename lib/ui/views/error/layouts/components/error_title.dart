@@ -21,7 +21,7 @@ class ErrorTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 aedappfm.GradientText(
-                  AppLocalizations.of(context)!.errorDesc1,
+                  AppLocalizations.of(context)!.aeswap_errorDesc1,
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
@@ -35,7 +35,7 @@ class ErrorTitle extends StatelessWidget {
                       curve: Curves.easeOutQuad,
                     ),
                 SelectableText(
-                  AppLocalizations.of(context)!.errorDesc2,
+                  AppLocalizations.of(context)!.aeswap_errorDesc2,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w400,

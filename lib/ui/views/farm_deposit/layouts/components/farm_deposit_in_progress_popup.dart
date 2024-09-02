@@ -44,10 +44,10 @@ class FarmDepositInProgressPopup {
         inProgressTxt: AppLocalizations.of(
           context,
         )!
-            .farmDepositProcessInProgress,
-        walletConfirmationTxt:
-            AppLocalizations.of(context)!.farmDepositInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.farmDepositSuccessInfo,
+            .aeswap_farmDepositProcessInProgress,
+        walletConfirmationTxt: AppLocalizations.of(context)!
+            .aeswap_farmDepositInProgressConfirmAEWallet,
+        successTxt: AppLocalizations.of(context)!.aeswap_farmDepositSuccessInfo,
       ),
       const FarmDepositInProgressTxAddresses(),
       if (farmDeposit.transactionDepositFarm != null &&
@@ -88,7 +88,8 @@ class FarmDepositInProgressPopup {
     return aedappfm.PopupCloseButton(
       warningCloseWarning: farmDeposit.isProcessInProgress,
       warningCloseLabel: farmDeposit.isProcessInProgress == true
-          ? AppLocalizations.of(context)!.farmDepositProcessInterruptionWarning
+          ? AppLocalizations.of(context)!
+              .aeswap_farmDepositProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         final _farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);

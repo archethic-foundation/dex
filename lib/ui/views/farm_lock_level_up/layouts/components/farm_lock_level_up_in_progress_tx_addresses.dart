@@ -30,7 +30,8 @@ class FarmLockLevelUpInProgressTxAddresses extends ConsumerWidget {
             address: farmLockLevelUp
                 .transactionFarmLockLevelUp!.address!.address!
                 .toUpperCase(),
-            header: AppLocalizations.of(context)!.farmLockLevelUpTxAddress,
+            header:
+                AppLocalizations.of(context)!.aeswap_farmLockLevelUpTxAddress,
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

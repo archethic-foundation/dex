@@ -207,7 +207,7 @@ class _LiquidityAddToken1AmountState
                             (liquidityAdd.failure! as aedappfm.OtherFailure)
                                     .cause ==
                                 AppLocalizations.of(context)!
-                                    .liquidityAddControlToken1AmountExceedBalance)))
+                                    .aeswap_liquidityAddControlToken1AmountExceedBalance)))
                   LiquidityAddNeedTokens(
                     balance: liquidityAdd.token1Balance,
                     token: liquidityAdd.token1!,
@@ -217,7 +217,7 @@ class _LiquidityAddToken1AmountState
                         (liquidityAdd.failure! as aedappfm.OtherFailure)
                                 .cause ==
                             AppLocalizations.of(context)!
-                                .liquidityAddControlToken1AmountExceedBalance))
+                                .aeswap_liquidityAddControlToken1AmountExceedBalance))
                   const SizedBox(
                     width: 10,
                   ),

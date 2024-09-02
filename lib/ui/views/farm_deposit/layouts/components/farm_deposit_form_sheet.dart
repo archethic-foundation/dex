@@ -44,7 +44,7 @@ class FarmDepositFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.farmDepositFormTitle,
+                      AppLocalizations.of(context)!.aeswap_farmDepositFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -98,7 +98,7 @@ class FarmDepositFormSheet extends ConsumerWidget {
                             child: ButtonValidateMobile(
                               controlOk: farmDeposit.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
-                                  .btn_farm_deposit,
+                                  .aeswap_btn_farm_deposit,
                               onPressed: () => ref
                                   .read(
                                     FarmDepositFormProvider

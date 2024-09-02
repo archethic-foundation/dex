@@ -105,7 +105,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                           child: Column(
                                             children: [
                                               SelectableText(
-                                                '${farmLockUserInfos.amount.formatNumber(precision: farmLockUserInfos.amount < 1 ? 8 : 3)} ${farmLockUserInfos.amount < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                '${farmLockUserInfos.amount.formatNumber(precision: farmLockUserInfos.amount < 1 ? 8 : 3)} ${farmLockUserInfos.amount < 1 ? AppLocalizations.of(context)!.aeswap_lpToken : AppLocalizations.of(context)!.aeswap_lpTokens}',
                                                 style: style,
                                               ),
                                               SelectableText(
@@ -171,7 +171,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                               child: Center(
                                                 child: Text(
                                                   AppLocalizations.of(context)!
-                                                      .available,
+                                                      .aeswap_available,
                                                   style: style!.copyWith(
                                                     color: aedappfm
                                                         .ArchethicThemeBase
@@ -229,7 +229,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         child: Center(
                                           child: Text(
                                             farmLock.availableLevels.isNotEmpty
-                                                ? '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}'
+                                                ? '${AppLocalizations.of(context)!.aeswap_lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}'
                                                 : 'N/A',
                                             style: style,
                                           ),
@@ -348,11 +348,11 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                   Text(
                                                     '${AppLocalizations.of(
                                                       context,
-                                                    )!.farmLockBlockListHeaderAmount}: ',
+                                                    )!.aeswap_farmLockBlockListHeaderAmount}: ',
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    '${farmLockUserInfos.amount.formatNumber(precision: farmLockUserInfos.amount < 1 ? 8 : 3)} ${farmLockUserInfos.amount < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                    '${farmLockUserInfos.amount.formatNumber(precision: farmLockUserInfos.amount < 1 ? 8 : 3)} ${farmLockUserInfos.amount < 1 ? AppLocalizations.of(context)!.aeswap_lpToken : AppLocalizations.of(context)!.aeswap_lpTokens}',
                                                     style: style,
                                                   ),
                                                 ],
@@ -385,7 +385,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                   Text(
                                                     '${AppLocalizations.of(
                                                       context,
-                                                    )!.farmLockBlockListHeaderRewards}: ',
+                                                    )!.aeswap_farmLockBlockListHeaderRewards}: ',
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
@@ -424,7 +424,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                           SizedBox(
                                             child: Text(
                                               AppLocalizations.of(context)!
-                                                  .available,
+                                                  .aeswap_available,
                                               style: style!.copyWith(
                                                 color: aedappfm
                                                     .ArchethicThemeBase
@@ -443,7 +443,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     Text(
                                                       '${AppLocalizations.of(
                                                         context,
-                                                      )!.farmLockBlockListHeaderUnlocks}: ',
+                                                      )!.aeswap_farmLockBlockListHeaderUnlocks}: ',
                                                       style: styleHeader,
                                                     ),
                                                     SelectableText(
@@ -494,13 +494,13 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                   Text(
                                                     '${AppLocalizations.of(
                                                       context,
-                                                    )!.level}: ',
+                                                    )!.aeswap_level}: ',
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
                                                     farmLock.availableLevels
                                                             .isNotEmpty
-                                                        ? '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}'
+                                                        ? '${AppLocalizations.of(context)!.aeswap_lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}'
                                                         : 'N/A',
                                                     style: style,
                                                   ),
@@ -520,7 +520,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                   Text(
                                                     '${AppLocalizations.of(
                                                       context,
-                                                    )!.farmLockBlockListHeaderAPR}: ',
+                                                    )!.aeswap_farmLockBlockListHeaderAPR}: ',
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(

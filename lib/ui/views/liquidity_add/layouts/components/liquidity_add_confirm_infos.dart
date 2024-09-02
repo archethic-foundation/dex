@@ -48,12 +48,12 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   children: [
                     SelectableText(
                       AppLocalizations.of(context)!
-                          .liquidityAddConfirmInfosAmountTokens,
+                          .aeswap_liquidityAddConfirmInfosAmountTokens,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
                       AppLocalizations.of(context)!
-                          .liquidityAddConfirmInfosMinAmount,
+                          .aeswap_liquidityAddConfirmInfosMinAmount,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -131,11 +131,11 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -213,8 +213,8 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   ),
                   SelectableText(
                     liquidityAdd.expectedTokenLP > 1
-                        ? AppLocalizations.of(context)!.lpTokensExpected
-                        : AppLocalizations.of(context)!.lpTokenExpected,
+                        ? AppLocalizations.of(context)!.aeswap_lpTokensExpected
+                        : AppLocalizations.of(context)!.aeswap_lpTokenExpected,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
@@ -225,11 +225,11 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -265,7 +265,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
                     height: 45,
                     child: aedappfm.InfoBanner(
                       AppLocalizations.of(context)!
-                          .liquidityAddConfirmMessageMaxHalfUCO,
+                          .aeswap_liquidityAddConfirmMessageMaxHalfUCO,
                       aedappfm.InfoBannerType.request,
                     ),
                   ),

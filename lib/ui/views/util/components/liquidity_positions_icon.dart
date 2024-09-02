@@ -34,8 +34,8 @@ class LiquidityPositionsIcon extends ConsumerWidget {
             right: 3,
           ),
           child: Tooltip(
-            message:
-                AppLocalizations.of(context)!.liquidityPositionsIconTooltip,
+            message: AppLocalizations.of(context)!
+                .aeswap_liquidityPositionsIconTooltip,
             child: Icon(
               aedappfm.Iconsax.receipt,
               color: aedappfm.ArchethicThemeBase.systemInfo500,

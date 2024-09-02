@@ -60,7 +60,7 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${AppLocalizations.of(context)!.level} $level',
+                      '${AppLocalizations.of(context)!.aeswap_level} $level',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
@@ -87,7 +87,7 @@ class FarmLockDepositDurationButton extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${AppLocalizations.of(context)!.farmLockDepositAPRLbl} ',
+                      '${AppLocalizations.of(context)!.aeswap_farmLockDepositAPRLbl} ',
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!

@@ -51,7 +51,7 @@ class _PoolRefreshIconState extends ConsumerState<PoolRefreshIcon> {
         }
       },
       child: Tooltip(
-        message: AppLocalizations.of(context)!.poolRefreshIconTooltip,
+        message: AppLocalizations.of(context)!.aeswap_poolRefreshIconTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

@@ -24,7 +24,7 @@ class FarmLockClaimFinalAmount extends ConsumerWidget {
 
     return finalAmount != null
         ? SelectableText(
-            '${AppLocalizations.of(context)!.farmLockClaimFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${farmLockClaim.rewardToken!.symbol}',
+            '${AppLocalizations.of(context)!.aeswap_farmLockClaimFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${farmLockClaim.rewardToken!.symbol}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -36,7 +36,8 @@ class FarmLockClaimFinalAmount extends ConsumerWidget {
             ? Row(
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.farmLockClaimFinalAmount,
+                    AppLocalizations.of(context)!
+                        .aeswap_farmLockClaimFinalAmount,
                     style: TextStyle(
                       fontSize: aedappfm.Responsive.fontSizeFromValue(
                         context,
@@ -52,7 +53,7 @@ class FarmLockClaimFinalAmount extends ConsumerWidget {
                 ],
               )
             : SelectableText(
-                '${AppLocalizations.of(context)!.farmLockClaimFinalAmount} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
+                '${AppLocalizations.of(context)!.aeswap_farmLockClaimFinalAmount} ${AppLocalizations.of(context)!.aeswap_finalAmountNotRecovered}',
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,

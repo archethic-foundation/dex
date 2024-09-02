@@ -66,7 +66,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
       controlOk: true,
       labelBtn: aedappfm.Responsive.isDesktop(context) ||
               aedappfm.Responsive.isTablet(context)
-          ? AppLocalizations.of(context)!.poolCreatePoolButton
+          ? AppLocalizations.of(context)!.aeswap_poolCreatePoolButton
           : '+',
       onPressed: () {
         final selectedTab =
@@ -160,10 +160,10 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           fontWeight: FontWeight.w400,
         ),
         labels: [
-          AppLocalizations.of(context)!.poolListTabVerified,
-          AppLocalizations.of(context)!.poolListTabMyPools,
-          AppLocalizations.of(context)!.poolListTabFavorites,
-          AppLocalizations.of(context)!.poolListTabResults,
+          AppLocalizations.of(context)!.aeswap_poolListTabVerified,
+          AppLocalizations.of(context)!.aeswap_poolListTabMyPools,
+          AppLocalizations.of(context)!.aeswap_poolListTabFavorites,
+          AppLocalizations.of(context)!.aeswap_poolListTabResults,
         ],
         icons: const [
           aedappfm.Iconsax.verify,

@@ -30,7 +30,8 @@ class FarmLockDepositInProgressTxAddresses extends ConsumerWidget {
             address: farmLockDeposit
                 .transactionFarmLockDeposit!.address!.address!
                 .toUpperCase(),
-            header: AppLocalizations.of(context)!.farmLockDepositTxAddress,
+            header:
+                AppLocalizations.of(context)!.aeswap_farmLockDepositTxAddress,
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

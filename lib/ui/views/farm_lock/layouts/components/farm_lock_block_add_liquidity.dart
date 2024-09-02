@@ -54,7 +54,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 1),
                     child: Text(
-                      '${AppLocalizations.of(context)!.farmLockBlockAddLiquidityHeader} ',
+                      '${AppLocalizations.of(context)!.aeswap_farmLockBlockAddLiquidityHeader} ',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: aedappfm.AppThemeBase.secondaryColor,
                             fontWeight: FontWeight.w500,
@@ -106,7 +106,8 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
           Opacity(
             opacity: AppTextStyles.kOpacityText,
             child: Text(
-              AppLocalizations.of(context)!.farmLockBlockAddLiquidityDesc,
+              AppLocalizations.of(context)!
+                  .aeswap_farmLockBlockAddLiquidityDesc,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
@@ -128,7 +129,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 ),
                 Text(
                   AppLocalizations.of(context)!
-                      .farmLockBlockAddLiquidityViewGuideArticle,
+                      .aeswap_farmLockBlockAddLiquidityViewGuideArticle,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.w500,
@@ -225,7 +226,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                     opacity: 0.8,
                     child: Text(
                       AppLocalizations.of(context)!
-                          .farmLockBlockAddLiquidityBtnInfos,
+                          .aeswap_farmLockBlockAddLiquidityBtnInfos,
                       style: const TextStyle(fontSize: 10),
                     ),
                   ),
@@ -277,7 +278,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                     opacity: 0.8,
                     child: Text(
                       AppLocalizations.of(context)!
-                          .farmLockBlockAddLiquidityBtnAdd,
+                          .aeswap_farmLockBlockAddLiquidityBtnAdd,
                       style: const TextStyle(fontSize: 10),
                     ),
                   ),
@@ -335,7 +336,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                     opacity: 0.8,
                     child: Text(
                       AppLocalizations.of(context)!
-                          .farmLockBlockAddLiquidityBtnWithdraw,
+                          .aeswap_farmLockBlockAddLiquidityBtnWithdraw,
                       style: const TextStyle(fontSize: 10),
                     ),
                   ),
@@ -416,7 +417,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
             Opacity(
               opacity: 0.8,
               child: Text(
-                AppLocalizations.of(context)!.btn_connect_wallet,
+                AppLocalizations.of(context)!.aeswap_btn_connect_wallet,
                 style: const TextStyle(fontSize: 10),
               ),
             ),

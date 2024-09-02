@@ -89,7 +89,7 @@ class FarmDetailsButtons extends ConsumerWidget {
     return farm.endDate != null && farm.endDate!.isBefore(DateTime.now())
         ? ButtonValidateMobile(
             labelBtn: AppLocalizations.of(context)!
-                .farmDetailsButtonDepositFarmClosed,
+                .aeswap_farmDetailsButtonDepositFarmClosed,
             onPressed: () {},
             controlOk: false,
             displayWalletConnect: true,
@@ -123,7 +123,8 @@ class FarmDetailsButtons extends ConsumerWidget {
           )
         : ButtonValidateMobile(
             controlOk: userBalance != null && userBalance > 0,
-            labelBtn: AppLocalizations.of(context)!.farmDetailsButtonDeposit,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_farmDetailsButtonDeposit,
             onPressed: () {
               final farmAddressJson = jsonEncode(farm.farmAddress);
               final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
@@ -181,7 +182,7 @@ class FarmDetailsButtons extends ConsumerWidget {
     final session = ref.watch(SessionProviders.session);
     return ButtonValidateMobile(
       controlOk: depositedAmount != null && depositedAmount! > 0,
-      labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
+      labelBtn: AppLocalizations.of(context)!.aeswap_farmDetailsButtonWithdraw,
       onPressed: () {
         final farmAddressJson = jsonEncode(farm.farmAddress);
         final farmAddressEncoded = Uri.encodeComponent(farmAddressJson);
@@ -240,7 +241,7 @@ class FarmDetailsButtons extends ConsumerWidget {
 
     return ButtonValidateMobile(
       controlOk: rewardAmount != null && rewardAmount! > 0,
-      labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
+      labelBtn: AppLocalizations.of(context)!.aeswap_farmDetailsButtonClaim,
       onPressed: () async {
         if (context.mounted) {
           await context.push(
@@ -292,7 +293,7 @@ class FarmDetailsButtons extends ConsumerWidget {
           aedappfm.ArchethicThemeBase.blue600,
         ],
       ),
-      labelBtn: AppLocalizations.of(context)!.btn_close,
+      labelBtn: AppLocalizations.of(context)!.aeswap_btn_close,
       onPressed: () async {
         context.pop();
       },

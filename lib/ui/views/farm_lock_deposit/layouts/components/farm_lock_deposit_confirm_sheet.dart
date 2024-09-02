@@ -50,7 +50,8 @@ class FarmLockDepositConfirmSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmLockDepositConfirmTitle,
+            title: AppLocalizations.of(context)!
+                .aeswap_farmLockDepositConfirmTitle,
             onPressed: farmLockDeposit.pool == null
                 ? null
                 : () {
@@ -76,7 +77,7 @@ class FarmLockDepositConfirmSheetState
                       children: [
                         Text(
                           AppLocalizations.of(context)!
-                              .farmLockDepositConfirmCheckBoxUnderstand,
+                              .aeswap_farmLockDepositConfirmCheckBoxUnderstand,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -108,7 +109,7 @@ class FarmLockDepositConfirmSheetState
                       },
                       child: Text(
                         AppLocalizations.of(context)!
-                            .farmLockDepositConfirmMoreInfo,
+                            .aeswap_farmLockDepositConfirmMoreInfo,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               decoration: TextDecoration.underline,
                               fontSize:
@@ -143,7 +144,8 @@ class FarmLockDepositConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_add_lock,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_btn_confirm_farm_add_lock,
             disabled: !warningChecked ||
                 (!consentChecked && farmLockDeposit.consentDateTime == null),
             onPressed: () async {

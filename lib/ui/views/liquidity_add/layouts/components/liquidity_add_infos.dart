@@ -36,7 +36,7 @@ class LiquidityAddInfos extends ConsumerWidget {
                 Tooltip(
                   message: liquidityAdd.token1!.symbol,
                   child: SelectableText(
-                    '${AppLocalizations.of(context)!.liquidityAddInfosMinimumAmount} ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
+                    '${AppLocalizations.of(context)!.aeswap_liquidityAddInfosMinimumAmount} ${liquidityAdd.token1!.symbol.reduceSymbol()}: ',
                     style: AppTextStyles.bodyMedium(context),
                   ),
                 ),
@@ -55,7 +55,7 @@ class LiquidityAddInfos extends ConsumerWidget {
                 Tooltip(
                   message: liquidityAdd.token2!.symbol,
                   child: SelectableText(
-                    '${AppLocalizations.of(context)!.liquidityAddInfosMinimumAmount} ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
+                    '${AppLocalizations.of(context)!.aeswap_liquidityAddInfosMinimumAmount} ${liquidityAdd.token2!.symbol.reduceSymbol()}: ',
                     style: AppTextStyles.bodyMedium(context),
                   ),
                 ),
@@ -72,7 +72,8 @@ class LiquidityAddInfos extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SelectableText(
-                  AppLocalizations.of(context)!.liquidityAddInfosExpectedToken,
+                  AppLocalizations.of(context)!
+                      .aeswap_liquidityAddInfosExpectedToken,
                   style: AppTextStyles.bodyMedium(context),
                 ),
                 const SizedBox(
@@ -100,7 +101,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               Tooltip(
                 message: liquidityAdd.token1!.symbol,
                 child: SelectableText(
-                  '${AppLocalizations.of(context)!.liquidityAddInfosMinimumAmount} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
+                  '${AppLocalizations.of(context)!.aeswap_liquidityAddInfosMinimumAmount} ${liquidityAdd.token1!.symbol.reduceSymbol()}',
                   style: AppTextStyles.bodyMedium(context),
                 ),
               ),
@@ -119,7 +120,7 @@ class LiquidityAddInfos extends ConsumerWidget {
               Tooltip(
                 message: liquidityAdd.token2!.symbol,
                 child: SelectableText(
-                  '${AppLocalizations.of(context)!.liquidityAddInfosMinimumAmount} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
+                  '${AppLocalizations.of(context)!.aeswap_liquidityAddInfosMinimumAmount} ${liquidityAdd.token2!.symbol.reduceSymbol()}',
                   style: AppTextStyles.bodyMedium(context),
                 ),
               ),
@@ -136,11 +137,12 @@ class LiquidityAddInfos extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SelectableText(
-                AppLocalizations.of(context)!.liquidityAddInfosExpectedToken,
+                AppLocalizations.of(context)!
+                    .aeswap_liquidityAddInfosExpectedToken,
                 style: AppTextStyles.bodyMedium(context),
               ),
               SelectableText(
-                '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                '${liquidityAdd.expectedTokenLP.formatNumber()} ${liquidityAdd.expectedTokenLP > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
                 style: liquidityAdd.expectedTokenLP == 0
                     ? Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: aedappfm.ArchethicThemeBase.systemWarning600,

@@ -40,10 +40,11 @@ class PoolAddInProgressPopup {
           context: context,
           failure: poolAdd.failure,
         ).getMessage(),
-        inProgressTxt: AppLocalizations.of(context)!.poolAddProcessInProgress,
-        walletConfirmationTxt:
-            AppLocalizations.of(context)!.poolAddInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.poolAddSuccessInfo,
+        inProgressTxt:
+            AppLocalizations.of(context)!.aeswap_poolAddProcessInProgress,
+        walletConfirmationTxt: AppLocalizations.of(context)!
+            .aeswap_poolAddInProgressConfirmAEWallet,
+        successTxt: AppLocalizations.of(context)!.aeswap_poolAddSuccessInfo,
       ),
       const PoolAddInProgressTxAddresses(),
       const Spacer(),
@@ -79,7 +80,8 @@ class PoolAddInProgressPopup {
     return aedappfm.PopupCloseButton(
       warningCloseWarning: poolAdd.isProcessInProgress,
       warningCloseLabel: poolAdd.isProcessInProgress == true
-          ? AppLocalizations.of(context)!.poolAddProcessInterruptionWarning
+          ? AppLocalizations.of(context)!
+              .aeswap_poolAddProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         ref.invalidate(

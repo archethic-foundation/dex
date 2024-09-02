@@ -44,10 +44,11 @@ class FarmLockClaimInProgressPopup {
         inProgressTxt: AppLocalizations.of(
           context,
         )!
-            .farmLockClaimProcessInProgress,
+            .aeswap_farmLockClaimProcessInProgress,
         walletConfirmationTxt: AppLocalizations.of(context)!
-            .farmLockClaimInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.farmLockClaimSuccessInfo,
+            .aeswap_farmLockClaimInProgressConfirmAEWallet,
+        successTxt:
+            AppLocalizations.of(context)!.aeswap_farmLockClaimSuccessInfo,
       ),
       const FarmLockClaimInProgressTxAddresses(),
       if (farmLockClaim.transactionClaimFarmLock != null &&
@@ -90,7 +91,7 @@ class FarmLockClaimInProgressPopup {
       warningCloseWarning: farmLockClaim.isProcessInProgress,
       warningCloseLabel: farmLockClaim.isProcessInProgress == true
           ? AppLocalizations.of(context)!
-              .farmLockClaimProcessInterruptionWarning
+              .aeswap_farmLockClaimProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         final _farmLockClaim =

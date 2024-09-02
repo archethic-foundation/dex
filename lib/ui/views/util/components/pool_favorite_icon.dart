@@ -25,7 +25,8 @@ class LiquidityFavoriteIcon extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 3),
           child: Tooltip(
-            message: AppLocalizations.of(context)!.liquidityFavoriteIconTooltip,
+            message: AppLocalizations.of(context)!
+                .aeswap_liquidityFavoriteIconTooltip,
             child: Icon(
               aedappfm.Iconsax.star,
               color: aedappfm.ArchethicThemeBase.systemWarning600,

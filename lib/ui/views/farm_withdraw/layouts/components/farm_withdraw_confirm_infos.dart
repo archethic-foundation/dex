@@ -50,7 +50,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                   children: [
                     TextSpan(
                       text: AppLocalizations.of(context)!
-                          .farmWithdrawConfirmInfosText,
+                          .aeswap_farmWithdrawConfirmInfosText,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     TextSpan(
@@ -59,7 +59,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                     ),
                     TextSpan(
                       text:
-                          ' ${farmWithdraw.amount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                          ' ${farmWithdraw.amount > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -72,7 +72,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!
-                        .farmWithdrawConfirmYourBalance,
+                        .aeswap_farmWithdrawConfirmYourBalance,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                   const SizedBox(
@@ -92,11 +92,11 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
+                    AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
+                    AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
@@ -151,7 +151,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!
-                        .farmWithdrawConfirmFarmBalance,
+                        .aeswap_farmWithdrawConfirmFarmBalance,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                   const SizedBox(
@@ -171,11 +171,11 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
+                    AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
+                    AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                 ],
@@ -217,7 +217,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                       children: [
                         SelectableText(
                           AppLocalizations.of(context)!
-                              .farmWithdrawConfirmRewards,
+                              .aeswap_farmWithdrawConfirmRewards,
                           style: AppTextStyles.bodyLarge(context),
                         ),
                         const SizedBox(
@@ -246,7 +246,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                               children: [
                                 TextSpan(
                                   text: AppLocalizations.of(context)!
-                                      .farmWithdrawConfirmYouWillReceive,
+                                      .aeswap_farmWithdrawConfirmYouWillReceive,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!

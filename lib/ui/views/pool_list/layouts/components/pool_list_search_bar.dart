@@ -108,7 +108,8 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 isDense: true,
-                hintText: AppLocalizations.of(context)!.poolListSearchBarHint,
+                hintText:
+                    AppLocalizations.of(context)!.aeswap_poolListSearchBarHint,
                 hintStyle: Theme.of(context).textTheme.bodySmall,
               ),
             ),

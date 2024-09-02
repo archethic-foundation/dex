@@ -45,7 +45,8 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.farmLockWithdrawFormTitle,
+                      AppLocalizations.of(context)!
+                          .aeswap_farmLockWithdrawFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -77,13 +78,14 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SelectableText(
-                        AppLocalizations.of(context)!.farmLockWithdrawFormText,
+                        AppLocalizations.of(context)!
+                            .aeswap_farmLockWithdrawFormText,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                       if (farmLockWithdraw.rewardAmount == 0)
                         SelectableText(
                           AppLocalizations.of(context)!
-                              .farmLockWithdrawFormTextNoRewardText1,
+                              .aeswap_farmLockWithdrawFormTextNoRewardText1,
                           style: AppTextStyles.bodyLarge(context),
                         )
                       else
@@ -147,7 +149,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                   ),
                                   SelectableText(
                                     AppLocalizations.of(context)!
-                                        .farmLockWithdrawFormTextNoRewardText2,
+                                        .aeswap_farmLockWithdrawFormTextNoRewardText2,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -190,7 +192,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                       .watch(SessionProviders.session)
                                       .isConnected,
                               labelBtn: AppLocalizations.of(context)!
-                                  .btn_farm_withdraw,
+                                  .aeswap_btn_farm_withdraw,
                               onPressed: () => ref
                                   .read(
                                     FarmLockWithdrawFormProvider

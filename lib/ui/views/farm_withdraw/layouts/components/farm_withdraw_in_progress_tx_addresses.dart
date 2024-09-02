@@ -27,7 +27,7 @@ class FarmWithdrawInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: farmWithdraw.transactionWithdrawFarm!.address!.address!
                 .toUpperCase(),
-            header: AppLocalizations.of(context)!.farmWithdrawTxAddress,
+            header: AppLocalizations.of(context)!.aeswap_farmWithdrawTxAddress,
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

@@ -26,7 +26,7 @@ class FarmLockLevelUpFinalAmount extends ConsumerWidget {
 
     return finalAmount != null
         ? SelectableText(
-            '${AppLocalizations.of(context)!.farmLockLevelUpFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? 'LP Tokens' : 'LP Token'}',
+            '${AppLocalizations.of(context)!.aeswap_farmLockLevelUpFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? 'LP Tokens' : 'LP Token'}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -38,7 +38,8 @@ class FarmLockLevelUpFinalAmount extends ConsumerWidget {
             ? Row(
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.farmLockLevelUpFinalAmount,
+                    AppLocalizations.of(context)!
+                        .aeswap_farmLockLevelUpFinalAmount,
                     style: TextStyle(
                       fontSize: aedappfm.Responsive.fontSizeFromValue(
                         context,
@@ -54,7 +55,7 @@ class FarmLockLevelUpFinalAmount extends ConsumerWidget {
                 ],
               )
             : SelectableText(
-                '${AppLocalizations.of(context)!.farmLockLevelUpFinalAmount} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
+                '${AppLocalizations.of(context)!.aeswap_farmLockLevelUpFinalAmount} ${AppLocalizations.of(context)!.aeswap_finalAmountNotRecovered}',
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,

@@ -32,7 +32,8 @@ class _BottomNavigationBarMainScreenState
   @override
   Widget build(BuildContext context) {
     widget.listNavigationLabelIcon.removeWhere(
-      (element) => element.$1 == AppLocalizations.of(context)!.menu_bridge,
+      (element) =>
+          element.$1 == AppLocalizations.of(context)!.aeswap_menu_bridge,
     );
     return ClipRRect(
       child: BackdropFilter(

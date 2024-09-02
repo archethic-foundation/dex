@@ -26,7 +26,8 @@ class TokenList extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              AppLocalizations.of(context)!.token_selection_your_tokens_title,
+              AppLocalizations.of(context)!
+                  .aeswap_token_selection_your_tokens_title,
               style: AppTextStyles.bodyLarge(context),
             ),
           ),
@@ -49,7 +50,7 @@ class TokenList extends ConsumerWidget {
                         Expanded(
                           child: Text(
                             AppLocalizations.of(context)!
-                                .token_selection_get_tokens_from_wallet,
+                                .aeswap_token_selection_get_tokens_from_wallet,
                             style: AppTextStyles.bodyMedium(context),
                           ),
                         ),

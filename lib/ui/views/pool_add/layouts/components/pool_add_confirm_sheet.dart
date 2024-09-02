@@ -34,7 +34,7 @@ class PoolAddConfirmSheetState extends ConsumerState<PoolAddConfirmSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.poolAddConfirmTitle,
+            title: AppLocalizations.of(context)!.aeswap_poolAddConfirmTitle,
             onPressed: poolAdd.token1 == null
                 ? null
                 : () {
@@ -69,7 +69,7 @@ class PoolAddConfirmSheetState extends ConsumerState<PoolAddConfirmSheet> {
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_pool_add,
+            labelBtn: AppLocalizations.of(context)!.aeswap_btn_confirm_pool_add,
             disabled: !consentChecked && poolAdd.consentDateTime == null,
             onPressed: () async {
               final poolAddNotifier =

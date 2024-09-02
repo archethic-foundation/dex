@@ -63,7 +63,7 @@ class ErrorBtnState extends ConsumerState<ErrorBtn> {
                     ],
                   ),
                   child: Text(
-                    AppLocalizations.of(context)!.errorDesc3,
+                    AppLocalizations.of(context)!.aeswap_errorDesc3,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.labelMedium!.color,
                       fontSize: 17,

@@ -255,9 +255,9 @@ class DexTokenBalance extends ConsumerWidget {
   ) {
     if (token.isLpToken == true) {
       if (balance > 1) {
-        return AppLocalizations.of(context)!.lpTokens;
+        return AppLocalizations.of(context)!.aeswap_lpTokens;
       } else {
-        return AppLocalizations.of(context)!.lpToken;
+        return AppLocalizations.of(context)!.aeswap_lpToken;
       }
     }
     return token.symbol.reduceSymbol();

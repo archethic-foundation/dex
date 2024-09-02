@@ -40,7 +40,7 @@ class PoolDetailsInfoFees extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.time24h,
+                      AppLocalizations.of(context)!.aeswap_time24h,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -52,7 +52,7 @@ class PoolDetailsInfoFees extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.poolDetailsInfoFees,
+                      AppLocalizations.of(context)!.aeswap_poolDetailsInfoFees,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ),
@@ -75,7 +75,7 @@ class PoolDetailsInfoFees extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.timeAll,
+                      AppLocalizations.of(context)!.aeswap_timeAll,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -87,7 +87,7 @@ class PoolDetailsInfoFees extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 17),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.poolDetailsInfoFees,
+                      AppLocalizations.of(context)!.aeswap_poolDetailsInfoFees,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ),

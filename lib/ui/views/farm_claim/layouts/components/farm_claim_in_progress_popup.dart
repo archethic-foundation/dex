@@ -43,10 +43,10 @@ class FarmClaimInProgressPopup {
         inProgressTxt: AppLocalizations.of(
           context,
         )!
-            .farmClaimProcessInProgress,
-        walletConfirmationTxt:
-            AppLocalizations.of(context)!.farmClaimInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.farmClaimSuccessInfo,
+            .aeswap_farmClaimProcessInProgress,
+        walletConfirmationTxt: AppLocalizations.of(context)!
+            .aeswap_farmClaimInProgressConfirmAEWallet,
+        successTxt: AppLocalizations.of(context)!.aeswap_farmClaimSuccessInfo,
       ),
       const FarmClaimInProgressTxAddresses(),
       if (farmClaim.transactionClaimFarm != null &&
@@ -87,7 +87,8 @@ class FarmClaimInProgressPopup {
     return aedappfm.PopupCloseButton(
       warningCloseWarning: farmClaim.isProcessInProgress,
       warningCloseLabel: farmClaim.isProcessInProgress == true
-          ? AppLocalizations.of(context)!.farmClaimProcessInterruptionWarning
+          ? AppLocalizations.of(context)!
+              .aeswap_farmClaimProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         final _farmClaim = ref.read(FarmClaimFormProvider.farmClaimForm);

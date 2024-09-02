@@ -33,7 +33,7 @@ class DexFees extends StatelessWidget {
         opacity: AppTextStyles.kOpacityText,
         child: withLabel
             ? SelectableText(
-                '${AppLocalizations.of(context)!.feesLbl}: $fees%',
+                '${AppLocalizations.of(context)!.aeswap_feesLbl}: $fees%',
                 style: Theme.of(context).textTheme.labelSmall,
               )
             : SelectableText(

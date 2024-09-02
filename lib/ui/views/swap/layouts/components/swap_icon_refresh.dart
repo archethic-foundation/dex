@@ -79,7 +79,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
         }
       },
       child: Tooltip(
-        message: AppLocalizations.of(context)!.swapIconRefreshTooltip,
+        message: AppLocalizations.of(context)!.aeswap_swapIconRefreshTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

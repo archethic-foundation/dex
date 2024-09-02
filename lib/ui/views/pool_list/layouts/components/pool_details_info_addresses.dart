@@ -30,7 +30,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: pool!.poolAddress.toUpperCase(),
             header: AppLocalizations.of(context)!
-                .poolDetailsInfoAddressesPoolAddress,
+                .aeswap_poolDetailsInfoAddressesPoolAddress,
             typeAddress: TypeAddressLinkCopy.chain,
             reduceAddress: true,
             fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize!,
@@ -39,7 +39,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
             children: [
               FormatAddressLinkCopy(
                 header: AppLocalizations.of(context)!
-                    .poolDetailsInfoAddressesLPAddress,
+                    .aeswap_poolDetailsInfoAddressesLPAddress,
                 address: pool!.lpToken.address!.toUpperCase(),
                 typeAddress: TypeAddressLinkCopy.transaction,
                 reduceAddress: true,
@@ -54,7 +54,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
                   message: pool!.pair.token1.symbol,
                   child: FormatAddressLinkCopy(
                     header: AppLocalizations.of(context)!
-                        .poolDetailsInfoAddressesToken1Address
+                        .aeswap_poolDetailsInfoAddressesToken1Address
                         .replaceFirst(
                           '%1',
                           pool!.pair.token1.symbol.reduceSymbol(),
@@ -82,7 +82,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
                   message: pool!.pair.token2.symbol,
                   child: FormatAddressLinkCopy(
                     header: AppLocalizations.of(context)!
-                        .poolDetailsInfoAddressesToken2Address
+                        .aeswap_poolDetailsInfoAddressesToken2Address
                         .replaceFirst(
                           '%1',
                           pool!.pair.token2.symbol.reduceSymbol(),

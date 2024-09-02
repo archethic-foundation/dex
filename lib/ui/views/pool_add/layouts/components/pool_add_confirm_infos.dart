@@ -51,12 +51,13 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.poolAddConfirmNewPoolLbl,
+                      AppLocalizations.of(context)!
+                          .aeswap_poolAddConfirmNewPoolLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
                       AppLocalizations.of(context)!
-                          .poolAddConfirmWithLiquidityLbl,
+                          .aeswap_poolAddConfirmWithLiquidityLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -348,11 +349,11 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -413,7 +414,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                     height: 45,
                     child: aedappfm.InfoBanner(
                       AppLocalizations.of(context)!
-                          .poolAddConfirmMessageMaxHalfUCO,
+                          .aeswap_poolAddConfirmMessageMaxHalfUCO,
                       aedappfm.InfoBannerType.request,
                     ),
                   ),

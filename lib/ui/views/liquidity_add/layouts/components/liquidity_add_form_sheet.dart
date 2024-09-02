@@ -41,7 +41,8 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.liquidityAddFormTitle,
+                      AppLocalizations.of(context)!
+                          .aeswap_liquidityAddFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -88,7 +89,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             SelectableText(
-                              '${AppLocalizations.of(context)!.slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
+                              '${AppLocalizations.of(context)!.aeswap_slippage_tolerance} ${liquidityAdd.slippageTolerance}%',
                               style: AppTextStyles.bodyLarge(context),
                             ),
                             const Align(
@@ -235,7 +236,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                               height: 40,
                               child: aedappfm.InfoBanner(
                                 AppLocalizations.of(context)!
-                                    .liquidityAddMessageMaxHalfUCO
+                                    .aeswap_liquidityAddMessageMaxHalfUCO
                                     .replaceFirst(
                                       '%1',
                                       liquidityAdd.feesEstimatedUCO
@@ -259,7 +260,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                               child: ButtonValidateMobile(
                                 controlOk: liquidityAdd.isControlsOk,
                                 labelBtn: AppLocalizations.of(context)!
-                                    .btn_liquidity_add,
+                                    .aeswap_btn_liquidity_add,
                                 onPressed: () => ref
                                     .read(
                                       LiquidityAddFormProvider

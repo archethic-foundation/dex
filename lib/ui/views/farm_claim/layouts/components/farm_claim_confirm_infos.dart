@@ -56,7 +56,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                         children: [
                           TextSpan(
                             text: AppLocalizations.of(context)!
-                                .farmClaimConfirmInfosText,
+                                .aeswap_farmClaimConfirmInfosText,
                             style: AppTextStyles.bodyLarge(context),
                           ),
                           TextSpan(
@@ -96,11 +96,11 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
+                    AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
+                    AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                 ],

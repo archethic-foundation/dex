@@ -25,7 +25,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
       children: [
         if (finalAmountWithdraw != null)
           SelectableText(
-            '${AppLocalizations.of(context)!.farmWithdrawFinalAmount} ${finalAmountWithdraw.formatNumber(precision: 8)} ${finalAmountWithdraw > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+            '${AppLocalizations.of(context)!.aeswap_farmWithdrawFinalAmount} ${finalAmountWithdraw.formatNumber(precision: 8)} ${finalAmountWithdraw > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -37,7 +37,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
           Row(
             children: [
               SelectableText(
-                AppLocalizations.of(context)!.farmWithdrawFinalAmount,
+                AppLocalizations.of(context)!.aeswap_farmWithdrawFinalAmount,
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,
@@ -54,7 +54,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
           )
         else
           SelectableText(
-            '${AppLocalizations.of(context)!.farmWithdrawFinalAmount} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
+            '${AppLocalizations.of(context)!.aeswap_farmWithdrawFinalAmount} ${AppLocalizations.of(context)!.aeswap_finalAmountNotRecovered}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -66,7 +66,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
           if ((farmWithdraw.isFarmClose && farmWithdraw.rewardAmount! > 0) ||
               farmWithdraw.isFarmClose == false)
             SelectableText(
-              '${AppLocalizations.of(context)!.farmWithdrawFinalAmountReward} ${finalAmountReward.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
+              '${AppLocalizations.of(context)!.aeswap_farmWithdrawFinalAmountReward} ${finalAmountReward.formatNumber(precision: 8)} ${farmWithdraw.dexFarmInfo!.rewardToken!.symbol}',
               style: TextStyle(
                 fontSize: aedappfm.Responsive.fontSizeFromValue(
                   context,
@@ -81,7 +81,8 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
             Row(
               children: [
                 SelectableText(
-                  AppLocalizations.of(context)!.farmWithdrawFinalAmountReward,
+                  AppLocalizations.of(context)!
+                      .aeswap_farmWithdrawFinalAmountReward,
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
@@ -100,7 +101,7 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
             const SizedBox.shrink()
         else
           SelectableText(
-            '${AppLocalizations.of(context)!.farmWithdrawFinalAmountReward} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
+            '${AppLocalizations.of(context)!.aeswap_farmWithdrawFinalAmountReward} ${AppLocalizations.of(context)!.aeswap_finalAmountNotRecovered}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,

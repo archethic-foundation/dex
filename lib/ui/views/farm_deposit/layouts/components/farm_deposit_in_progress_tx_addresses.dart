@@ -27,7 +27,7 @@ class FarmDepositInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: farmDeposit.transactionDepositFarm!.address!.address!
                 .toUpperCase(),
-            header: AppLocalizations.of(context)!.farmDepositTxAddress,
+            header: AppLocalizations.of(context)!.aeswap_farmDepositTxAddress,
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

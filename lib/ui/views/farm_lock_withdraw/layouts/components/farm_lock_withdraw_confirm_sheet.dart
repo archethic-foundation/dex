@@ -32,7 +32,8 @@ class FarmLockWithdrawConfirmSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmLockWithdrawConfirmTitle,
+            title: AppLocalizations.of(context)!
+                .aeswap_farmLockWithdrawConfirmTitle,
             onPressed: () {
               ref
                   .read(
@@ -67,7 +68,8 @@ class FarmLockWithdrawConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_withdraw,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_btn_confirm_farm_withdraw,
             disabled:
                 !consentChecked && farmLockWithdraw.consentDateTime == null,
             onPressed: () async {

@@ -36,7 +36,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
           Row(
             children: [
               SelectableText(
-                AppLocalizations.of(context)!.poolDetailsInfoDeposited,
+                AppLocalizations.of(context)!.aeswap_poolDetailsInfoDeposited,
                 style: AppTextStyles.bodyLarge(context),
               ),
               const SizedBox(
@@ -48,7 +48,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                 tooltipLink: AppLocalizations.of(
                   context,
                 )!
-                    .localHistoryTooltipLinkPool,
+                    .aeswap_localHistoryTooltipLinkPool,
               ),
             ],
           ),
@@ -119,16 +119,16 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                                     ),
                                     if (pool!.lpToken.supply > 0)
                                       SelectableText(
-                                        ' / ${pool!.lpToken.supply.formatNumber()} ${pool!.lpToken.supply > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                                        ' / ${pool!.lpToken.supply.formatNumber()} ${pool!.lpToken.supply > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
                                         style: AppTextStyles.bodyLarge(context),
                                       )
                                     else
                                       SelectableText(
                                         pool!.lpToken.supply > 1
                                             ? AppLocalizations.of(context)!
-                                                .lpTokens
+                                                .aeswap_lpTokens
                                             : AppLocalizations.of(context)!
-                                                .lpToken,
+                                                .aeswap_lpToken,
                                         style: AppTextStyles.bodyLarge(context),
                                       ),
                                   ],
@@ -165,7 +165,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                                                 as double;
 
                                         return SelectableText(
-                                          '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${pool!.pair.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${pool!.pair.token2.symbol.reduceSymbol()}',
+                                          '${AppLocalizations.of(context)!.aeswap_poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${pool!.pair.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${pool!.pair.token2.symbol.reduceSymbol()}',
                                           style:
                                               AppTextStyles.bodyMedium(context),
                                         );

@@ -123,10 +123,10 @@ class SwapCase with aedappfm.TransactionMixin {
         [transactionSwap!],
         description: {
           'en': context.mounted
-              ? AppLocalizations.of(context)!.swapSignTxDesc_en
+              ? AppLocalizations.of(context)!.aeswap_swapSignTxDesc_en
               : '',
           'fr': context.mounted
-              ? AppLocalizations.of(context)!.swapSignTxDesc_fr
+              ? AppLocalizations.of(context)!.aeswap_swapSignTxDesc_fr
               : '',
         },
       ))
@@ -229,15 +229,15 @@ class SwapCase with aedappfm.TransactionMixin {
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.swapProcessStep1;
+        return AppLocalizations.of(context)!.aeswap_swapProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.swapProcessStep2;
+        return AppLocalizations.of(context)!.aeswap_swapProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.swapProcessStep3;
+        return AppLocalizations.of(context)!.aeswap_swapProcessStep3;
       case 4:
-        return AppLocalizations.of(context)!.swapProcessStep4;
+        return AppLocalizations.of(context)!.aeswap_swapProcessStep4;
       default:
-        return AppLocalizations.of(context)!.swapProcessStep0;
+        return AppLocalizations.of(context)!.aeswap_swapProcessStep0;
     }
   }
 

@@ -35,7 +35,7 @@ class _ConnectionToWalletStatusState
           SnackBar(
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
             content: SelectableText(
-              AppLocalizations.of(context)!.changeCurrentAccountWarning,
+              AppLocalizations.of(context)!.aeswap_changeCurrentAccountWarning,
               style: Theme.of(context).snackBarTheme.contentTextStyle,
             ),
             duration: const Duration(seconds: 3),
@@ -81,7 +81,7 @@ class _ConnectionToWalletStatusState
                 Rect.fromLTWH(0, 0, bounds.width, bounds.height),
               ),
               child: Text(
-                AppLocalizations.of(context)!.btn_connect_wallet,
+                AppLocalizations.of(context)!.aeswap_btn_connect_wallet,
                 style: const TextStyle(
                   fontSize: 16,
                 ),

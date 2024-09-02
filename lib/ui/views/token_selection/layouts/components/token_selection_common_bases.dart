@@ -26,7 +26,8 @@ class TokenSelectionCommonBases extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
-            AppLocalizations.of(context)!.token_selection_common_bases_title,
+            AppLocalizations.of(context)!
+                .aeswap_token_selection_common_bases_title,
             style: AppTextStyles.bodyLarge(context),
           ),
         ),

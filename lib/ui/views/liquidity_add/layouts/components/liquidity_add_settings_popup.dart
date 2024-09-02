@@ -19,7 +19,7 @@ class LiquidityAddSettingsPopup {
             ),
             child: const LiquiditySettingsSlippageTolerance(),
           ),
-          popupTitle: AppLocalizations.of(context)!.settingsTitle,
+          popupTitle: AppLocalizations.of(context)!.aeswap_settingsTitle,
           popupHeight: 200,
         );
       },

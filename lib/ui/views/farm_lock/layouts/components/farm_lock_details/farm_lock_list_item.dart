@@ -98,7 +98,7 @@ class FarmLockListItemState extends ConsumerState<FarmLockListItem> {
                       right: 10,
                     ),
                     child: Text(
-                      AppLocalizations.of(context)!.farmCardTitle,
+                      AppLocalizations.of(context)!.aeswap_farmCardTitle,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

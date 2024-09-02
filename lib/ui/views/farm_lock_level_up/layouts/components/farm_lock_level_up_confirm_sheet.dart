@@ -50,7 +50,8 @@ class FarmLockLevelUpConfirmSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmLockLevelUpConfirmTitle,
+            title: AppLocalizations.of(context)!
+                .aeswap_farmLockLevelUpConfirmTitle,
             onPressed: farmLockLevelUp.pool == null
                 ? null
                 : () {
@@ -76,7 +77,7 @@ class FarmLockLevelUpConfirmSheetState
                       children: [
                         Text(
                           AppLocalizations.of(context)!
-                              .farmLockLevelUpConfirmCheckBoxUnderstand,
+                              .aeswap_farmLockLevelUpConfirmCheckBoxUnderstand,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -108,7 +109,7 @@ class FarmLockLevelUpConfirmSheetState
                       },
                       child: Text(
                         AppLocalizations.of(context)!
-                            .farmLockLevelUpConfirmMoreInfo,
+                            .aeswap_farmLockLevelUpConfirmMoreInfo,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               decoration: TextDecoration.underline,
                               fontSize:
@@ -143,7 +144,8 @@ class FarmLockLevelUpConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_add_lock,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_btn_confirm_farm_add_lock,
             disabled: !warningChecked ||
                 (!consentChecked && farmLockLevelUp.consentDateTime == null),
             onPressed: () async {

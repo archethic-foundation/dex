@@ -35,7 +35,7 @@ class FarmDepositConfirmSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmDepositConfirmTitle,
+            title: AppLocalizations.of(context)!.aeswap_farmDepositConfirmTitle,
             onPressed: farmDeposit.dexFarmInfo == null
                 ? null
                 : () {
@@ -72,7 +72,8 @@ class FarmDepositConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_deposit,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_btn_confirm_farm_deposit,
             disabled: !consentChecked && farmDeposit.consentDateTime == null,
             onPressed: () async {
               final farmDepositNotifier =

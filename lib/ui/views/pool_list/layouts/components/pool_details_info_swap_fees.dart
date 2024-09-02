@@ -31,7 +31,7 @@ class PoolDetailsInfoSwapFees extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SelectableText(
-            AppLocalizations.of(context)!.poolDetailsInfoSwapFees,
+            AppLocalizations.of(context)!.aeswap_poolDetailsInfoSwapFees,
             style: style ?? AppTextStyles.bodyLarge(context),
           ),
           SelectableText(

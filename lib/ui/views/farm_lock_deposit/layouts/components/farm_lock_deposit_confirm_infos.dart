@@ -49,7 +49,7 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                   children: [
                     TextSpan(
                       text: AppLocalizations.of(context)!
-                          .farmLockDepositConfirmInfosText,
+                          .aeswap_farmLockDepositConfirmInfosText,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     TextSpan(
@@ -58,14 +58,14 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                     ),
                     TextSpan(
                       text:
-                          ' ${farmLockDeposit.amount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                          ' ${farmLockDeposit.amount > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     if (farmLockDeposit.farmLockDepositDuration !=
                         FarmLockDepositDurationType.flexible)
                       TextSpan(
                         text: AppLocalizations.of(context)!
-                            .farmLockDepositConfirmInfosText2,
+                            .aeswap_farmLockDepositConfirmInfosText2,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                     if (farmLockDeposit.farmLockDepositDuration !=
@@ -85,7 +85,7 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                         FarmLockDepositDurationType.flexible)
                       TextSpan(
                         text: AppLocalizations.of(context)!
-                            .farmLockDepositConfirmInfosText3,
+                            .aeswap_farmLockDepositConfirmInfosText3,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                   ],
@@ -97,7 +97,7 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
               Row(
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.farmLockDepositAPRLbl,
+                    AppLocalizations.of(context)!.aeswap_farmLockDepositAPRLbl,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                             context,
@@ -137,7 +137,7 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                   children: [
                     SelectableText(
                       AppLocalizations.of(context)!
-                          .farmLockDepositUnlockDateLbl,
+                          .aeswap_farmLockDepositUnlockDateLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     if (farmLockDeposit.farmLockDepositDuration !=
@@ -164,7 +164,7 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                 children: [
                   SelectableText(
                     AppLocalizations.of(context)!
-                        .farmLockDepositConfirmYourBalance,
+                        .aeswap_farmLockDepositConfirmYourBalance,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                   const SizedBox(
@@ -184,11 +184,11 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.confirmBeforeLbl,
+                    AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                   SelectableText(
-                    AppLocalizations.of(context)!.confirmAfterLbl,
+                    AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                     style: AppTextStyles.bodyLarge(context),
                   ),
                 ],

@@ -69,7 +69,8 @@ class PoolDetailsInfoAPRFarmState
               child: Opacity(
                 opacity: AppTextStyles.kOpacityText,
                 child: SelectableText(
-                  AppLocalizations.of(context)!.poolDetailsInfoAPRFarm3Years,
+                  AppLocalizations.of(context)!
+                      .aeswap_poolDetailsInfoAPRFarm3Years,
                   style: AppTextStyles.bodyLarge(context),
                 ),
               ),

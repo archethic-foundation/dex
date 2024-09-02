@@ -91,10 +91,12 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         [transactionWithdraw!],
         description: {
           'en': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmLockSignTxDesc_en
+              ? AppLocalizations.of(context)!
+                  .aeswap_withdrawFarmLockSignTxDesc_en
               : '',
           'fr': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmLockSignTxDesc_fr
+              ? AppLocalizations.of(context)!
+                  .aeswap_withdrawFarmLockSignTxDesc_fr
               : '',
         },
       ))
@@ -222,13 +224,17 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep1;
+        return AppLocalizations.of(context)!
+            .aeswap_withdrawFarmLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep2;
+        return AppLocalizations.of(context)!
+            .aeswap_withdrawFarmLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep3;
+        return AppLocalizations.of(context)!
+            .aeswap_withdrawFarmLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep0;
+        return AppLocalizations.of(context)!
+            .aeswap_withdrawFarmLockProcessStep0;
     }
   }
 }

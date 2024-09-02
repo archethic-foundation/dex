@@ -205,7 +205,8 @@ class FarmLockDepositFormNotifier
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmDepositControlAmountEmpty,
+          cause: AppLocalizations.of(context)!
+              .aeswap_farmDepositControlAmountEmpty,
         ),
       );
       return false;
@@ -215,7 +216,7 @@ class FarmLockDepositFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .farmDepositControlLPTokenAmountExceedBalance,
+              .aeswap_farmDepositControlLPTokenAmountExceedBalance,
         ),
       );
       return false;
@@ -224,7 +225,8 @@ class FarmLockDepositFormNotifier
     if (state.amount < 0.00000143) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmDepositControlAmountMin,
+          cause:
+              AppLocalizations.of(context)!.aeswap_farmDepositControlAmountMin,
         ),
       );
       return false;

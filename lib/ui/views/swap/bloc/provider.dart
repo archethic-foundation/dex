@@ -671,7 +671,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenToSwap == null) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
+          cause:
+              AppLocalizations.of(context)!.aeswap_swapControlTokenToSwapEmpty,
         ),
       );
       return false;
@@ -680,7 +681,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenSwapped == null) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
+          cause:
+              AppLocalizations.of(context)!.aeswap_swapControlTokenSwappedEmpty,
         ),
       );
       return false;
@@ -689,7 +691,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenToSwapAmount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
+          cause:
+              AppLocalizations.of(context)!.aeswap_swapControlTokenToSwapEmpty,
         ),
       );
       return false;
@@ -698,7 +701,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     if (state.tokenSwappedAmount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
+          cause:
+              AppLocalizations.of(context)!.aeswap_swapControlTokenSwappedEmpty,
         ),
       );
       return false;
@@ -708,7 +712,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .swapControlTokenToSwapAmountExceedBalance,
+              .aeswap_swapControlTokenToSwapAmountExceedBalance,
         ),
       );
       return false;

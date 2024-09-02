@@ -42,8 +42,8 @@ class RunningTasksNotificationWidget extends ConsumerWidget {
                 ),
                 Text(
                   runningTasksCount > 1
-                      ? '$runningTasksCount ${AppLocalizations.of(context)!.runningTasksNotificationTasksInProgress}'
-                      : '$runningTasksCount ${AppLocalizations.of(context)!.runningTasksNotificationTaskInProgress}',
+                      ? '$runningTasksCount ${AppLocalizations.of(context)!.aeswap_runningTasksNotificationTasksInProgress}'
+                      : '$runningTasksCount ${AppLocalizations.of(context)!.aeswap_runningTasksNotificationTaskInProgress}',
                 ),
               ],
             ),

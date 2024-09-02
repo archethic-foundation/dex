@@ -81,7 +81,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
                   height: 5,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.farmDetailsButtonClaim,
+                  AppLocalizations.of(context)!.aeswap_farmDetailsButtonClaim,
                   style: TextStyle(
                     fontSize: 10,
                     color: enabled
@@ -97,7 +97,8 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
           )
         : ButtonValidateMobile(
             controlOk: enabled,
-            labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_farmDetailsButtonClaim,
             onPressed: () async {
               await _validate(context);
             },

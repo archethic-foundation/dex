@@ -88,10 +88,10 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
         [transactionWithdraw!],
         description: {
           'en': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmSignTxDesc_en
+              ? AppLocalizations.of(context)!.aeswap_withdrawFarmSignTxDesc_en
               : '',
           'fr': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmSignTxDesc_fr
+              ? AppLocalizations.of(context)!.aeswap_withdrawFarmSignTxDesc_fr
               : '',
         },
       ))
@@ -209,13 +209,13 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.withdrawProcessStep1;
+        return AppLocalizations.of(context)!.aeswap_withdrawProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.withdrawProcessStep2;
+        return AppLocalizations.of(context)!.aeswap_withdrawProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.withdrawProcessStep3;
+        return AppLocalizations.of(context)!.aeswap_withdrawProcessStep3;
       default:
-        return AppLocalizations.of(context)!.withdrawProcessStep0;
+        return AppLocalizations.of(context)!.aeswap_withdrawProcessStep0;
     }
   }
 }

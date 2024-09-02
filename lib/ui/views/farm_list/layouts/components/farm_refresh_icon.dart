@@ -53,7 +53,7 @@ class _FarmRefreshIconState extends ConsumerState<FarmRefreshIcon> {
         }
       },
       child: Tooltip(
-        message: AppLocalizations.of(context)!.refreshIconToolTip,
+        message: AppLocalizations.of(context)!.aeswap_refreshIconToolTip,
         child: SizedBox(
           height: 40,
           child: Card(

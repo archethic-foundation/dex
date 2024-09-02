@@ -67,7 +67,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                                 _buildHeaderCell(
                                   context,
                                   AppLocalizations.of(context)!
-                                      .farmLockBlockListHeaderAmount,
+                                      .aeswap_farmLockBlockListHeaderAmount,
                                   style,
                                   'amount',
                                   constraints.maxWidth * 0.15,
@@ -75,7 +75,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                                 _buildHeaderCell(
                                   context,
                                   AppLocalizations.of(context)!
-                                      .farmLockBlockListHeaderRewards,
+                                      .aeswap_farmLockBlockListHeaderRewards,
                                   style,
                                   'rewards',
                                   constraints.maxWidth * 0.20,
@@ -83,7 +83,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                                 _buildHeaderCell(
                                   context,
                                   AppLocalizations.of(context)!
-                                      .farmLockBlockListHeaderUnlocksIn,
+                                      .aeswap_farmLockBlockListHeaderUnlocksIn,
                                   style,
                                   'unlocks_in',
                                   constraints.maxWidth * 0.15,
@@ -91,7 +91,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                                 _buildHeaderCell(
                                   context,
                                   AppLocalizations.of(context)!
-                                      .farmLockBlockListHeaderLevel,
+                                      .aeswap_farmLockBlockListHeaderLevel,
                                   style,
                                   'level',
                                   constraints.maxWidth * 0.15,
@@ -99,7 +99,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                                 _buildHeaderCell(
                                   context,
                                   AppLocalizations.of(context)!
-                                      .farmLockBlockListHeaderAPR,
+                                      .aeswap_farmLockBlockListHeaderAPR,
                                   style,
                                   'apr',
                                   constraints.maxWidth * 0.10,
@@ -109,7 +109,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                                   child: Center(
                                     child: Text(
                                       AppLocalizations.of(context)!
-                                          .farmLockBlockListHeaderActions,
+                                          .aeswap_farmLockBlockListHeaderActions,
                                       style: style,
                                     ),
                                   ),

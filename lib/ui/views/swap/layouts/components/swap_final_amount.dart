@@ -20,7 +20,7 @@ class SwapFinalAmount extends ConsumerWidget {
 
     return finalAmount != null
         ? SelectableText(
-            '${AppLocalizations.of(context)!.swapFinalAmountAmountSwapped} ${finalAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
+            '${AppLocalizations.of(context)!.aeswap_swapFinalAmountAmountSwapped} ${finalAmount.formatNumber(precision: 8)} ${swap.tokenSwapped!.symbol}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -32,7 +32,7 @@ class SwapFinalAmount extends ConsumerWidget {
             ? Row(
                 children: [
                   SelectableText(
-                    '${AppLocalizations.of(context)!.swapFinalAmountAmountSwapped} ',
+                    '${AppLocalizations.of(context)!.aeswap_swapFinalAmountAmountSwapped} ',
                     style: TextStyle(
                       fontSize: aedappfm.Responsive.fontSizeFromValue(
                         context,
@@ -48,7 +48,7 @@ class SwapFinalAmount extends ConsumerWidget {
                 ],
               )
             : SelectableText(
-                '${AppLocalizations.of(context)!.swapFinalAmountAmountSwapped} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
+                '${AppLocalizations.of(context)!.aeswap_swapFinalAmountAmountSwapped} ${AppLocalizations.of(context)!.aeswap_finalAmountNotRecovered}',
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,

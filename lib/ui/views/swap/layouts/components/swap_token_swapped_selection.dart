@@ -45,7 +45,7 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                 children: [
                   if (swap.tokenSwapped == null)
                     Text(
-                      AppLocalizations.of(context)!.btn_selectToken,
+                      AppLocalizations.of(context)!.aeswap_btn_selectToken,
                       style: AppTextStyles.bodyLarge(context),
                     )
                   else

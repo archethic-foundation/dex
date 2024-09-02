@@ -31,14 +31,15 @@ class VerifiedPoolIcon extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(right: 5),
             child: SelectableText(
-              AppLocalizations.of(context)!.poolCardPoolVerified,
+              AppLocalizations.of(context)!.aeswap_poolCardPoolVerified,
               style: AppTextStyles.bodyLarge(context),
             ),
           ),
         Padding(
           padding: const EdgeInsets.only(bottom: 3, right: 3),
           child: Tooltip(
-            message: AppLocalizations.of(context)!.verifiedPoolIconTooltip,
+            message:
+                AppLocalizations.of(context)!.aeswap_verifiedPoolIconTooltip,
             child: Icon(
               aedappfm.Iconsax.verify,
               color: aedappfm.ArchethicThemeBase.systemPositive500,

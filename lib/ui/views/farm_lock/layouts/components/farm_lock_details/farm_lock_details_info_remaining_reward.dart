@@ -26,7 +26,7 @@ class FarmLockDetailsInfoRemainingReward extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SelectableText(
-          AppLocalizations.of(context)!.farmDetailsInfoRemainingReward,
+          AppLocalizations.of(context)!.aeswap_farmDetailsInfoRemainingReward,
           style: AppTextStyles.bodyLarge(context),
         ),
         Column(

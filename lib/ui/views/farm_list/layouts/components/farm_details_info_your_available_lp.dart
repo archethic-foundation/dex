@@ -39,7 +39,8 @@ class FarmDetailsInfoYourAvailableLP extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SelectableText(
-              AppLocalizations.of(context)!.farmDetailsInfoYourAvailableLP,
+              AppLocalizations.of(context)!
+                  .aeswap_farmDetailsInfoYourAvailableLP,
               style: AppTextStyles.bodyLarge(context),
             ),
             if (balance == null)
@@ -55,7 +56,7 @@ class FarmDetailsInfoYourAvailableLP extends ConsumerWidget {
               SelectableText(
                 balance == null
                     ? ''
-                    : '${balance!.formatNumber()} ${balance! > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                    : '${balance!.formatNumber()} ${balance! > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
                 style: AppTextStyles.bodyLarge(context),
               ),
           ],
@@ -93,7 +94,7 @@ class FarmDetailsInfoYourAvailableLP extends ConsumerWidget {
                     : snapshotAmounts.data!['token2'] as double;
 
                 return SelectableText(
-                  '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                  '${AppLocalizations.of(context)!.aeswap_poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token2.symbol.reduceSymbol()}',
                   style: AppTextStyles.bodyMedium(context),
                 );
               }

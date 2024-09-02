@@ -26,12 +26,14 @@ class FarmDetailsInfoPeriod extends ConsumerWidget {
             children: [
               if (farm.startDate!.isAfter(DateTime.now()))
                 SelectableText(
-                  AppLocalizations.of(context)!.farmDetailsInfoPeriodWillStart,
+                  AppLocalizations.of(context)!
+                      .aeswap_farmDetailsInfoPeriodWillStart,
                   style: AppTextStyles.bodyLarge(context),
                 )
               else
                 SelectableText(
-                  AppLocalizations.of(context)!.farmDetailsInfoPeriodStarted,
+                  AppLocalizations.of(context)!
+                      .aeswap_farmDetailsInfoPeriodStarted,
                   style: AppTextStyles.bodyLarge(context),
                 ),
               SelectableText(
@@ -48,12 +50,14 @@ class FarmDetailsInfoPeriod extends ConsumerWidget {
             children: [
               if (farm.endDate!.isAfter(DateTime.now()))
                 SelectableText(
-                  AppLocalizations.of(context)!.farmDetailsInfoPeriodEndAt,
+                  AppLocalizations.of(context)!
+                      .aeswap_farmDetailsInfoPeriodEndAt,
                   style: AppTextStyles.bodyLarge(context),
                 )
               else
                 SelectableText(
-                  AppLocalizations.of(context)!.farmDetailsInfoPeriodEnded,
+                  AppLocalizations.of(context)!
+                      .aeswap_farmDetailsInfoPeriodEnded,
                   style: AppTextStyles.bodyLarge(context),
                 ),
               SelectableText(

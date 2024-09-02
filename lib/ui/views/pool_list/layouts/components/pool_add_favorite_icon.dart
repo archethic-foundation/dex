@@ -31,7 +31,8 @@ class PoolAddFavoriteIcon extends ConsumerWidget {
         }
       },
       child: Tooltip(
-        message: AppLocalizations.of(context)!.poolAddFavoriteIconTooltip,
+        message:
+            AppLocalizations.of(context)!.aeswap_poolAddFavoriteIconTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

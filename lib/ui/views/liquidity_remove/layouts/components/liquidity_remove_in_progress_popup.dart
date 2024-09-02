@@ -41,13 +41,13 @@ class LiquidityRemoveInProgressPopup {
         inProgressTxt: AppLocalizations.of(
           context,
         )!
-            .liquidityRemoveProcessInProgress,
+            .aeswap_liquidityRemoveProcessInProgress,
         walletConfirmationTxt: AppLocalizations.of(context)!
-            .liquidityRemoveInProgressConfirmAEWallet,
+            .aeswap_liquidityRemoveInProgressConfirmAEWallet,
         successTxt: AppLocalizations.of(
           context,
         )!
-            .liquidityRemoveSuccessInfo,
+            .aeswap_liquidityRemoveSuccessInfo,
       ),
       const LiquidityRemoveInProgressTxAddresses(),
       if (liquidityRemove.transactionRemoveLiquidity != null &&
@@ -91,7 +91,7 @@ class LiquidityRemoveInProgressPopup {
       warningCloseWarning: liquidityRemove.isProcessInProgress,
       warningCloseLabel: liquidityRemove.isProcessInProgress == true
           ? AppLocalizations.of(context)!
-              .liquidityRemoveProcessInterruptionWarning
+              .aeswap_liquidityRemoveProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         ref.invalidate(

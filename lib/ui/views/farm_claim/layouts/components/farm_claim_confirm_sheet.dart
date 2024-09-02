@@ -34,7 +34,7 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmClaimConfirmTitle,
+            title: AppLocalizations.of(context)!.aeswap_farmClaimConfirmTitle,
             onPressed: farmClaim.rewardAmount == null
                 ? null
                 : () {
@@ -71,7 +71,8 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_claim,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_btn_confirm_farm_claim,
             disabled: !consentChecked && farmClaim.consentDateTime == null,
             onPressed: () async {
               final farmClaimNotifier =

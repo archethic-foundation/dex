@@ -36,7 +36,8 @@ class LiquidityRemoveConfirmSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.liquidityRemoveConfirmTitle,
+            title: AppLocalizations.of(context)!
+                .aeswap_liquidityRemoveConfirmTitle,
             onPressed: liquidityRemove.lpToken == null
                 ? null
                 : () {
@@ -74,8 +75,8 @@ class LiquidityRemoveConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn:
-                AppLocalizations.of(context)!.btn_confirm_liquidity_remove,
+            labelBtn: AppLocalizations.of(context)!
+                .aeswap_btn_confirm_liquidity_remove,
             disabled:
                 !consentChecked && liquidityRemove.consentDateTime == null,
             onPressed: () async {

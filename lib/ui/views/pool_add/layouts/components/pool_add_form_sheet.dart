@@ -36,7 +36,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.poolAddFormTitle,
+                      AppLocalizations.of(context)!.aeswap_poolAddFormTitle,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ),
@@ -74,7 +74,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                             height: 40,
                             child: aedappfm.InfoBanner(
                               AppLocalizations.of(context)!
-                                  .poolAddAddMessageMaxHalfUCO,
+                                  .aeswap_poolAddAddMessageMaxHalfUCO,
                               aedappfm.InfoBannerType.request,
                             ),
                           ),
@@ -93,7 +93,8 @@ class PoolAddFormSheet extends ConsumerWidget {
                     children: [
                       ButtonValidateMobile(
                         controlOk: poolAdd.isControlsOk,
-                        labelBtn: AppLocalizations.of(context)!.btn_pool_add,
+                        labelBtn:
+                            AppLocalizations.of(context)!.aeswap_btn_pool_add,
                         onPressed: () => ref
                             .read(PoolAddFormProvider.poolAddForm.notifier)
                             .validateForm(context),

@@ -84,10 +84,10 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         [transactionClaim!],
         description: {
           'en': context.mounted
-              ? AppLocalizations.of(context)!.claimFarmLockSignTxDesc_en
+              ? AppLocalizations.of(context)!.aeswap_claimFarmLockSignTxDesc_en
               : '',
           'fr': context.mounted
-              ? AppLocalizations.of(context)!.claimFarmLockSignTxDesc_fr
+              ? AppLocalizations.of(context)!.aeswap_claimFarmLockSignTxDesc_fr
               : '',
         },
       ))
@@ -197,13 +197,13 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.claimLockProcessStep1;
+        return AppLocalizations.of(context)!.aeswap_claimLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.claimLockProcessStep2;
+        return AppLocalizations.of(context)!.aeswap_claimLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.claimLockProcessStep3;
+        return AppLocalizations.of(context)!.aeswap_claimLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.claimLockProcessStep0;
+        return AppLocalizations.of(context)!.aeswap_claimLockProcessStep0;
     }
   }
 }

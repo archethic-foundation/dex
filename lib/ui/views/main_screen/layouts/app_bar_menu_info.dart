@@ -80,7 +80,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                     width: 10,
                   ),
                   Text(
-                    AppLocalizations.of(context)!.menu_documentation,
+                    AppLocalizations.of(context)!.aeswap_menu_documentation,
                   ),
                   const SizedBox(
                     width: 8,
@@ -114,7 +114,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                   width: 10,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.menu_sourceCode,
+                  AppLocalizations.of(context)!.aeswap_menu_sourceCode,
                 ),
                 const SizedBox(
                   width: 8,
@@ -146,7 +146,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(AppLocalizations.of(context)!.menu_faq),
+                Text(AppLocalizations.of(context)!.aeswap_menu_faq),
                 const SizedBox(
                   width: 8,
                 ),
@@ -177,7 +177,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(AppLocalizations.of(context)!.menu_tuto),
+                Text(AppLocalizations.of(context)!.aeswap_menu_tuto),
                 const SizedBox(
                   width: 8,
                 ),
@@ -209,7 +209,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                   width: 10,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.menu_privacy_policy,
+                  AppLocalizations.of(context)!.aeswap_menu_privacy_policy,
                 ),
                 const SizedBox(
                   width: 8,
@@ -242,7 +242,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                   width: 10,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.menu_terms_of_use,
+                  AppLocalizations.of(context)!.aeswap_menu_terms_of_use,
                 ),
                 const SizedBox(
                   width: 8,
@@ -274,7 +274,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(AppLocalizations.of(context)!.menu_report_bug),
+                Text(AppLocalizations.of(context)!.aeswap_menu_report_bug),
                 const SizedBox(
                   width: 8,
                 ),
@@ -306,7 +306,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(AppLocalizations.of(context)!.logout),
+                  Text(AppLocalizations.of(context)!.aeswap_logout),
                 ],
               ),
             ),
@@ -338,7 +338,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
                                     AppLocalizations.of(context)!
-                                        .confirmationPopupTitle,
+                                        .aeswap_confirmationPopupTitle,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium!
@@ -357,7 +357,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
                                     AppLocalizations.of(context)!
-                                        .connectionWalletDisconnectWarning,
+                                        .aeswap_connectionWalletDisconnectWarning,
                                     softWrap: true,
                                     style: Theme.of(context)
                                         .textTheme
@@ -389,7 +389,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                       Expanded(
                                         child: aedappfm.AppButton(
                                           labelBtn:
-                                              AppLocalizations.of(context)!.no,
+                                              AppLocalizations.of(context)!
+                                                  .aeswap_no,
                                           onPressed: () async {
                                             context.pop();
                                           },
@@ -398,7 +399,8 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
                                       Expanded(
                                         child: aedappfm.AppButton(
                                           labelBtn:
-                                              AppLocalizations.of(context)!.yes,
+                                              AppLocalizations.of(context)!
+                                                  .aeswap_yes,
                                           onPressed: () async {
                                             await sessionNotifier
                                                 .cancelConnection();

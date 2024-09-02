@@ -27,7 +27,7 @@ class FarmDetailsInfoLPDeposited extends ConsumerWidget {
       children: [
         Expanded(
           child: SelectableText(
-            AppLocalizations.of(context)!.farmDetailsInfoLPDeposited,
+            AppLocalizations.of(context)!.aeswap_farmDetailsInfoLPDeposited,
             style: AppTextStyles.bodyLarge(context),
           ),
         ),
@@ -35,7 +35,7 @@ class FarmDetailsInfoLPDeposited extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             SelectableText(
-              '${farm.lpTokenDeposited.formatNumber(precision: 8)} ${farm.lpTokenDeposited > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+              '${farm.lpTokenDeposited.formatNumber(precision: 8)} ${farm.lpTokenDeposited > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
               style: AppTextStyles.bodyLarge(context),
             ),
             SelectableText(
@@ -63,7 +63,7 @@ class FarmDetailsInfoLPDeposited extends ConsumerWidget {
                         : snapshotAmounts.data!['token2'] as double;
 
                     return SelectableText(
-                      '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                      '${AppLocalizations.of(context)!.aeswap_poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token2.symbol.reduceSymbol()}',
                       style: AppTextStyles.bodyMedium(context),
                     );
                   }

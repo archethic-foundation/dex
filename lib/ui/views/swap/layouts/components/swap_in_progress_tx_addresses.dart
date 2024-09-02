@@ -28,7 +28,7 @@ class SwapInProgressTxAddresses extends ConsumerWidget {
             address:
                 swap.recoveryTransactionSwap!.address!.address!.toUpperCase(),
             header:
-                '${AppLocalizations.of(context)!.swapInProgressTxAddresses} ',
+                '${AppLocalizations.of(context)!.aeswap_swapInProgressTxAddresses} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

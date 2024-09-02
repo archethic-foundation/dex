@@ -42,10 +42,11 @@ class FarmLockWithdrawInProgressPopup {
         inProgressTxt: AppLocalizations.of(
           context,
         )!
-            .farmLockWithdrawProcessInProgress,
+            .aeswap_farmLockWithdrawProcessInProgress,
         walletConfirmationTxt: AppLocalizations.of(context)!
-            .farmLockWithdrawInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.farmLockWithdrawSuccessInfo,
+            .aeswap_farmLockWithdrawInProgressConfirmAEWallet,
+        successTxt:
+            AppLocalizations.of(context)!.aeswap_farmLockWithdrawSuccessInfo,
       ),
       const FarmLockWithdrawInProgressTxAddresses(),
       if (farmLockWithdraw.transactionWithdrawFarmLock != null &&
@@ -90,7 +91,7 @@ class FarmLockWithdrawInProgressPopup {
       warningCloseWarning: farmLockWithdraw.isProcessInProgress,
       warningCloseLabel: farmLockWithdraw.isProcessInProgress == true
           ? AppLocalizations.of(context)!
-              .farmLockWithdrawProcessInterruptionWarning
+              .aeswap_farmLockWithdrawProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         ref.invalidate(

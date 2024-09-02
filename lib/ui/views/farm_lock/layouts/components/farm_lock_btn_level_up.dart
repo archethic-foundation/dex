@@ -85,7 +85,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                   height: 5,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.farmLockBtnLevelUp,
+                  AppLocalizations.of(context)!.aeswap_farmLockBtnLevelUp,
                   style: TextStyle(
                     fontSize: 10,
                     color: enabled
@@ -101,7 +101,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
           )
         : ButtonValidateMobile(
             controlOk: enabled,
-            labelBtn: AppLocalizations.of(context)!.farmLockBtnLevelUp,
+            labelBtn: AppLocalizations.of(context)!.aeswap_farmLockBtnLevelUp,
             onPressed: () async {
               await _validate(context, ref);
             },

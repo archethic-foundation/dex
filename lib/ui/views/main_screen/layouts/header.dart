@@ -31,7 +31,7 @@ class Header extends ConsumerWidget {
             top: 40,
             left: 65,
             child: SelectableText(
-              AppLocalizations.of(context)!.headerDecentralizedExchange,
+              AppLocalizations.of(context)!.aeswap_headerDecentralizedExchange,
               style: TextStyle(
                 fontSize: 10.5,
                 color: aedappfm.ArchethicThemeBase.neutral0,
@@ -93,7 +93,7 @@ class Header extends ConsumerWidget {
                             context.go(SwapSheet.routerPage);
                           },
                           child: Text(
-                            AppLocalizations.of(context)!.menu_swap,
+                            AppLocalizations.of(context)!.aeswap_menu_swap,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w300,
@@ -125,7 +125,7 @@ class Header extends ConsumerWidget {
                             context.go(PoolListSheet.routerPage);
                           },
                           child: Text(
-                            AppLocalizations.of(context)!.menu_liquidity,
+                            AppLocalizations.of(context)!.aeswap_menu_liquidity,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w300,
@@ -157,7 +157,7 @@ class Header extends ConsumerWidget {
                             context.go(FarmLockSheet.routerPage2);
                           },
                           child: Text(
-                            AppLocalizations.of(context)!.menu_earn,
+                            AppLocalizations.of(context)!.aeswap_menu_earn,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w300,
@@ -203,7 +203,7 @@ class Header extends ConsumerWidget {
                             );
                           },
                           child: Text(
-                            AppLocalizations.of(context)!.menu_bridge,
+                            AppLocalizations.of(context)!.aeswap_menu_bridge,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w300,
@@ -246,7 +246,8 @@ class Header extends ConsumerWidget {
                               );
                             },
                             child: Text(
-                              AppLocalizations.of(context)!.menu_get_wallet,
+                              AppLocalizations.of(context)!
+                                  .aeswap_menu_get_wallet,
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w300,

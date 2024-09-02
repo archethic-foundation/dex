@@ -82,7 +82,8 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
                   height: 5,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
+                  AppLocalizations.of(context)!
+                      .aeswap_farmDetailsButtonWithdraw,
                   style: TextStyle(
                     fontSize: 10,
                     color: enabled
@@ -98,7 +99,8 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
           )
         : ButtonValidateMobile(
             controlOk: enabled,
-            labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_farmDetailsButtonWithdraw,
             onPressed: () async {
               await _validate(context);
             },

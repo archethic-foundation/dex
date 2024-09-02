@@ -34,7 +34,8 @@ class FarmWithdrawConfirmSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmWithdrawConfirmTitle,
+            title:
+                AppLocalizations.of(context)!.aeswap_farmWithdrawConfirmTitle,
             onPressed: farmWithdraw.dexFarmInfo == null
                 ? null
                 : () {
@@ -71,7 +72,8 @@ class FarmWithdrawConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_withdraw,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_btn_confirm_farm_withdraw,
             disabled: !consentChecked && farmWithdraw.consentDateTime == null,
             onPressed: () async {
               final farmWithdrawNotifier =

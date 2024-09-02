@@ -47,7 +47,7 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
                   children: [
                     TextSpan(
                       text: AppLocalizations.of(context)!
-                          .farmLockLevelUpConfirmInfosText,
+                          .aeswap_farmLockLevelUpConfirmInfosText,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     TextSpan(
@@ -56,14 +56,14 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
                     ),
                     TextSpan(
                       text:
-                          ' ${farmLockLevelUp.amount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                          ' ${farmLockLevelUp.amount > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     if (farmLockLevelUp.farmLockLevelUpDuration !=
                         FarmLockDepositDurationType.flexible)
                       TextSpan(
                         text: AppLocalizations.of(context)!
-                            .farmLockLevelUpConfirmInfosText2,
+                            .aeswap_farmLockLevelUpConfirmInfosText2,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                     if (farmLockLevelUp.farmLockLevelUpDuration !=
@@ -83,7 +83,7 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
                         FarmLockDepositDurationType.flexible)
                       TextSpan(
                         text: AppLocalizations.of(context)!
-                            .farmLockLevelUpConfirmInfosText3,
+                            .aeswap_farmLockLevelUpConfirmInfosText3,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                   ],
@@ -95,7 +95,7 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
               Row(
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.farmLockLevelUpAPRLbl,
+                    AppLocalizations.of(context)!.aeswap_farmLockLevelUpAPRLbl,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                             context,
@@ -135,7 +135,7 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
                   children: [
                     SelectableText(
                       AppLocalizations.of(context)!
-                          .farmLockLevelUpUnlockDateLbl,
+                          .aeswap_farmLockLevelUpUnlockDateLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     if (farmLockLevelUp

@@ -316,7 +316,7 @@ class LiquidityRemoveFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .liquidityRemoveControlLPTokenAmountEmpty,
+              .aeswap_liquidityRemoveControlLPTokenAmountEmpty,
         ),
       );
       return false;

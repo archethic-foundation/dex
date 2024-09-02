@@ -82,12 +82,12 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                 backgroundColor:
                     Theme.of(context).snackBarTheme.backgroundColor,
                 content: SelectableText(
-                  AppLocalizations.of(context)!.addressCopied,
+                  AppLocalizations.of(context)!.aeswap_addressCopied,
                   style: Theme.of(context).snackBarTheme.contentTextStyle,
                 ),
                 duration: const Duration(seconds: 3),
                 action: SnackBarAction(
-                  label: AppLocalizations.of(context)!.ok,
+                  label: AppLocalizations.of(context)!.aeswap_ok,
                   onPressed: () {},
                 ),
               ),

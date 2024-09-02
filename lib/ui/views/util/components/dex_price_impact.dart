@@ -22,7 +22,7 @@ class DexPriceImpact extends StatelessWidget {
       children: [
         if (withLabel!)
           SelectableText(
-            '${AppLocalizations.of(context)!.priceImpact} ${priceImpact.formatNumber()}%',
+            '${AppLocalizations.of(context)!.aeswap_priceImpact} ${priceImpact.formatNumber()}%',
             style: priceImpact > 5
                 ? textStyle?.copyWith(
                       color: aedappfm.ArchethicThemeBase.systemDanger500,
@@ -73,7 +73,8 @@ class DexPriceImpact extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Tooltip(
-              message: AppLocalizations.of(context)!.priceImpactHighTooltip,
+              message:
+                  AppLocalizations.of(context)!.aeswap_priceImpactHighTooltip,
               child: Icon(
                 Icons.warning,
                 color: priceImpact > 5

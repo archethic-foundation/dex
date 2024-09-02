@@ -43,10 +43,11 @@ class FarmLockLevelUpInProgressPopup {
         inProgressTxt: AppLocalizations.of(
           context,
         )!
-            .depositFarmLockProcessInProgress,
+            .aeswap_depositFarmLockProcessInProgress,
         walletConfirmationTxt: AppLocalizations.of(context)!
-            .farmLockLevelUpInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.farmLockLevelUpSuccessInfo,
+            .aeswap_farmLockLevelUpInProgressConfirmAEWallet,
+        successTxt:
+            AppLocalizations.of(context)!.aeswap_farmLockLevelUpSuccessInfo,
       ),
       const FarmLockLevelUpInProgressTxAddresses(),
       if (farmLockLevelUp.transactionFarmLockLevelUp != null &&
@@ -88,7 +89,8 @@ class FarmLockLevelUpInProgressPopup {
     return aedappfm.PopupCloseButton(
       warningCloseWarning: farmLockLevelUp.isProcessInProgress,
       warningCloseLabel: farmLockLevelUp.isProcessInProgress == true
-          ? AppLocalizations.of(context)!.farmDepositProcessInterruptionWarning
+          ? AppLocalizations.of(context)!
+              .aeswap_farmDepositProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         final _farmLockLevelUp =

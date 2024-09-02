@@ -33,7 +33,8 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.liquidityAddConfirmTitle,
+            title:
+                AppLocalizations.of(context)!.aeswap_liquidityAddConfirmTitle,
             onPressed: swap.tokenToSwap == null
                 ? null
                 : () {
@@ -70,7 +71,7 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_swap,
+            labelBtn: AppLocalizations.of(context)!.aeswap_btn_confirm_swap,
             disabled: !consentChecked && swap.consentDateTime == null,
             onPressed: () async {
               final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);

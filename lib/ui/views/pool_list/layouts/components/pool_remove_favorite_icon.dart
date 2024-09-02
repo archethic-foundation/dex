@@ -57,7 +57,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
                                     AppLocalizations.of(context)!
-                                        .confirmationPopupTitle,
+                                        .aeswap_confirmationPopupTitle,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium!
@@ -76,7 +76,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
                                     AppLocalizations.of(context)!
-                                        .poolRemoveFavoriteIconConfirmation,
+                                        .aeswap_poolRemoveFavoriteIconConfirmation,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -109,7 +109,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                           labelBtn: AppLocalizations.of(
                                             context,
                                           )!
-                                              .no,
+                                              .aeswap_no,
                                           onPressed: () {
                                             context.pop();
                                           },
@@ -120,7 +120,7 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                           labelBtn: AppLocalizations.of(
                                             context,
                                           )!
-                                              .yes,
+                                              .aeswap_yes,
                                           onPressed: () async {
                                             ref.read(
                                               DexPoolProviders
@@ -150,7 +150,8 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
         );
       },
       child: Tooltip(
-        message: AppLocalizations.of(context)!.poolRemoveFavoriteIconTooltip,
+        message:
+            AppLocalizations.of(context)!.aeswap_poolRemoveFavoriteIconTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

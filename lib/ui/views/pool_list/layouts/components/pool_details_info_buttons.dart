@@ -79,7 +79,7 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
           aedappfm.ArchethicThemeBase.blue600,
         ],
       ),
-      labelBtn: AppLocalizations.of(context)!.btn_close,
+      labelBtn: AppLocalizations.of(context)!.aeswap_btn_close,
       onPressed: () async {
         context.pop();
       },
@@ -93,7 +93,8 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
   ) {
     return ButtonValidateMobile(
       controlOk: true,
-      labelBtn: AppLocalizations.of(context)!.poolDetailsInfoButtonAddLiquidity,
+      labelBtn: AppLocalizations.of(context)!
+          .aeswap_poolDetailsInfoButtonAddLiquidity,
       onPressed: () async {
         final poolsListTabEncoded = Uri.encodeComponent(tab!.name);
         await context.push(
@@ -141,8 +142,8 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
   ) {
     return ButtonValidateMobile(
       controlOk: pool.lpTokenInUserBalance,
-      labelBtn:
-          AppLocalizations.of(context)!.poolDetailsInfoButtonRemoveLiquidity,
+      labelBtn: AppLocalizations.of(context)!
+          .aeswap_poolDetailsInfoButtonRemoveLiquidity,
       onPressed: () async {
         final poolsListTabEncoded = Uri.encodeComponent(tab!.name);
         await context.push(

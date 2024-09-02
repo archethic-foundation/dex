@@ -54,7 +54,8 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.farmLockDepositFormTitle,
+                      AppLocalizations.of(context)!
+                          .aeswap_farmLockDepositFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -90,12 +91,12 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                     children: [
                       SelectableText(
                         AppLocalizations.of(context)!
-                            .farmLockDepositFormAmountLbl,
+                            .aeswap_farmLockDepositFormAmountLbl,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                       if (farmLockDeposit.aprEstimation != null)
                         SelectableText(
-                          '${AppLocalizations.of(context)!.farmLockDepositAPREstimationLbl} ${farmLockDeposit.aprEstimation!.formatNumber(precision: 2)}%',
+                          '${AppLocalizations.of(context)!.aeswap_farmLockDepositAPREstimationLbl} ${farmLockDeposit.aprEstimation!.formatNumber(precision: 2)}%',
                           style: AppTextStyles.bodyLarge(context),
                         )
                       else
@@ -115,7 +116,7 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                     children: [
                       SelectableText(
                         AppLocalizations.of(context)!
-                            .farmLockDepositFormLockDurationLbl,
+                            .aeswap_farmLockDepositFormLockDurationLbl,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
@@ -147,7 +148,7 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                       children: [
                         SelectableText(
                           AppLocalizations.of(context)!
-                              .farmLockDepositUnlockDateLbl,
+                              .aeswap_farmLockDepositUnlockDateLbl,
                           style: AppTextStyles.bodyLarge(context),
                         ),
                         SelectableText(
@@ -198,7 +199,7 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                                       .watch(SessionProviders.session)
                                       .isConnected,
                               labelBtn: AppLocalizations.of(context)!
-                                  .btn_farmLockDeposit,
+                                  .aeswap_btn_farmLockDeposit,
                               onPressed: () => ref
                                   .read(
                                     FarmLockDepositFormProvider

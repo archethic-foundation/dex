@@ -86,10 +86,10 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         [transactionDeposit!],
         description: {
           'en': context.mounted
-              ? AppLocalizations.of(context)!.depositFarmSignTxDesc_en
+              ? AppLocalizations.of(context)!.aeswap_depositFarmSignTxDesc_en
               : '',
           'fr': context.mounted
-              ? AppLocalizations.of(context)!.depositFarmSignTxDesc_fr
+              ? AppLocalizations.of(context)!.aeswap_depositFarmSignTxDesc_fr
               : '',
         },
       ))
@@ -191,13 +191,13 @@ class DepositFarmCase with aedappfm.TransactionMixin {
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.depositProcessStep1;
+        return AppLocalizations.of(context)!.aeswap_depositProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.depositProcessStep2;
+        return AppLocalizations.of(context)!.aeswap_depositProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.depositProcessStep3;
+        return AppLocalizations.of(context)!.aeswap_depositProcessStep3;
       default:
-        return AppLocalizations.of(context)!.depositProcessStep0;
+        return AppLocalizations.of(context)!.aeswap_depositProcessStep0;
     }
   }
 }

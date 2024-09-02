@@ -45,7 +45,8 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.farmLockClaimFormTitle,
+                      AppLocalizations.of(context)!
+                          .aeswap_farmLockClaimFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -138,7 +139,7 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                                   ),
                                   TextSpan(
                                     text: AppLocalizations.of(context)!
-                                        .farmLockClaimFormText,
+                                        .aeswap_farmLockClaimFormText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -179,7 +180,7 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                                       .watch(SessionProviders.session)
                                       .isConnected,
                               labelBtn: AppLocalizations.of(context)!
-                                  .btn_farm_lock_claim,
+                                  .aeswap_btn_farm_lock_claim,
                               onPressed: () => ref
                                   .read(
                                     FarmLockClaimFormProvider

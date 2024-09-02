@@ -60,7 +60,7 @@ class FarmLockLevelUpDurationButton extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${AppLocalizations.of(context)!.level} $level',
+                      '${AppLocalizations.of(context)!.aeswap_level} $level',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
@@ -88,7 +88,7 @@ class FarmLockLevelUpDurationButton extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${AppLocalizations.of(context)!.farmLockLevelUpAPRLbl} ',
+                      '${AppLocalizations.of(context)!.aeswap_farmLockLevelUpAPRLbl} ',
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!

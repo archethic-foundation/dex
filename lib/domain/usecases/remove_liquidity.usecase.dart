@@ -84,10 +84,12 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
           [transactionRemoveLiquidity!],
           description: {
             'en': context.mounted
-                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_en
+                ? AppLocalizations.of(context)!
+                    .aeswap_removeLiquiditySignTxDesc_en
                 : '',
             'fr': context.mounted
-                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_fr
+                ? AppLocalizations.of(context)!
+                    .aeswap_removeLiquiditySignTxDesc_fr
                 : '',
           },
         ))
@@ -212,13 +214,13 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep1;
+        return AppLocalizations.of(context)!.aeswap_removeLiquidityProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep2;
+        return AppLocalizations.of(context)!.aeswap_removeLiquidityProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep3;
+        return AppLocalizations.of(context)!.aeswap_removeLiquidityProcessStep3;
       default:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep0;
+        return AppLocalizations.of(context)!.aeswap_removeLiquidityProcessStep0;
     }
   }
 }

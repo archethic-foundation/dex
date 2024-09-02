@@ -43,10 +43,11 @@ class FarmWithdrawInProgressPopup {
         inProgressTxt: AppLocalizations.of(
           context,
         )!
-            .farmWithdrawProcessInProgress,
-        walletConfirmationTxt:
-            AppLocalizations.of(context)!.farmWithdrawInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.farmWithdrawSuccessInfo,
+            .aeswap_farmWithdrawProcessInProgress,
+        walletConfirmationTxt: AppLocalizations.of(context)!
+            .aeswap_farmWithdrawInProgressConfirmAEWallet,
+        successTxt:
+            AppLocalizations.of(context)!.aeswap_farmWithdrawSuccessInfo,
       ),
       const FarmWithdrawInProgressTxAddresses(),
       if (farmWithdraw.transactionWithdrawFarm != null &&
@@ -87,7 +88,8 @@ class FarmWithdrawInProgressPopup {
     return aedappfm.PopupCloseButton(
       warningCloseWarning: farmWithdraw.isProcessInProgress,
       warningCloseLabel: farmWithdraw.isProcessInProgress == true
-          ? AppLocalizations.of(context)!.farmWithdrawProcessInterruptionWarning
+          ? AppLocalizations.of(context)!
+              .aeswap_farmWithdrawProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         final _farmWithdraw =

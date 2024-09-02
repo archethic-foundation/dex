@@ -90,7 +90,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                           child: Column(
                                             children: [
                                               SelectableText(
-                                                '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.aeswap_lpToken : AppLocalizations.of(context)!.aeswap_lpTokens}',
                                                 style: style,
                                               ),
                                               SelectableText(
@@ -153,7 +153,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                         child: Center(
                                           child: Text(
                                             AppLocalizations.of(context)!
-                                                .available,
+                                                .aeswap_available,
                                             style: style!.copyWith(
                                               color: aedappfm.ArchethicThemeBase
                                                   .systemPositive600,
@@ -172,7 +172,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                           children: [
                                             Text(
                                               AppLocalizations.of(context)!
-                                                  .legacy,
+                                                  .aeswap_legacy,
                                               style: style,
                                             ),
                                             const SizedBox(
@@ -261,11 +261,11 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                   Text(
                                                     '${AppLocalizations.of(
                                                       context,
-                                                    )!.farmLockBlockListHeaderAmount}: ',
+                                                    )!.aeswap_farmLockBlockListHeaderAmount}: ',
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                    '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.aeswap_lpToken : AppLocalizations.of(context)!.aeswap_lpTokens}',
                                                     style: style,
                                                   ),
                                                 ],
@@ -298,7 +298,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                   Text(
                                                     '${AppLocalizations.of(
                                                       context,
-                                                    )!.farmLockBlockListHeaderRewards}: ',
+                                                    )!.aeswap_farmLockBlockListHeaderRewards}: ',
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
@@ -335,7 +335,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                         SizedBox(
                                           child: Text(
                                             AppLocalizations.of(context)!
-                                                .available,
+                                                .aeswap_available,
                                             style: style!.copyWith(
                                               color: aedappfm.ArchethicThemeBase
                                                   .systemPositive600,
@@ -350,7 +350,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                             children: [
                                               Text(
                                                 AppLocalizations.of(context)!
-                                                    .legacy,
+                                                    .aeswap_legacy,
                                                 style: style,
                                               ),
                                               const SizedBox(
@@ -379,7 +379,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                   Text(
                                                     '${AppLocalizations.of(
                                                       context,
-                                                    )!.farmLockBlockListHeaderAPR}: ',
+                                                    )!.aeswap_farmLockBlockListHeaderAPR}: ',
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(

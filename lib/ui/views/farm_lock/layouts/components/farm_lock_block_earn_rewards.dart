@@ -59,7 +59,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
           Row(
             children: [
               SelectableText(
-                '${AppLocalizations.of(context)!.farmLockBlockEarnRewardsHeader} ',
+                '${AppLocalizations.of(context)!.aeswap_farmLockBlockEarnRewardsHeader} ',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: aedappfm.AppThemeBase.secondaryColor,
                       fontWeight: FontWeight.w500,
@@ -85,7 +85,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
           Opacity(
             opacity: AppTextStyles.kOpacityText,
             child: Text(
-              AppLocalizations.of(context)!.farmLockBlockEarnRewardsDesc,
+              AppLocalizations.of(context)!.aeswap_farmLockBlockEarnRewardsDesc,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
@@ -95,7 +95,8 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
             Opacity(
               opacity: AppTextStyles.kOpacityText,
               child: Text(
-                AppLocalizations.of(context)!.farmLockBlockEarnRewardsWarning,
+                AppLocalizations.of(context)!
+                    .aeswap_farmLockBlockEarnRewardsWarning,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: aedappfm.ArchethicThemeBase.systemWarning500,
                     ),
@@ -105,7 +106,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
             Opacity(
               opacity: AppTextStyles.kOpacityText,
               child: Text(
-                '${AppLocalizations.of(context)!.farmLockBlockEarnRewardsStartFarm} ${DateFormat.yMd(
+                '${AppLocalizations.of(context)!.aeswap_farmLockBlockEarnRewardsStartFarm} ${DateFormat.yMd(
                   Localizations.localeOf(context).languageCode,
                 ).add_Hm().format(
                       farmLock!.startDate!.toLocal(),
@@ -133,7 +134,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                 ),
                 Text(
                   AppLocalizations.of(context)!
-                      .farmLockBlockEarnRewardsViewGuideArticle,
+                      .aeswap_farmLockBlockEarnRewardsViewGuideArticle,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.w500,
@@ -224,7 +225,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                           opacity: 0.8,
                           child: Text(
                             AppLocalizations.of(context)!
-                                .farmLockBlockEarnRewardsBtnInfosFarmLegacy,
+                                .aeswap_farmLockBlockEarnRewardsBtnInfosFarmLegacy,
                             style: const TextStyle(fontSize: 10),
                           ),
                         ),
@@ -341,7 +342,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                           opacity: 0.8,
                           child: Text(
                             AppLocalizations.of(context)!
-                                .farmLockBlockEarnRewardsBtnInfosFarmLock,
+                                .aeswap_farmLockBlockEarnRewardsBtnInfosFarmLock,
                             style: const TextStyle(fontSize: 10),
                           ),
                         ),
@@ -416,9 +417,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                 child: Text(
                   farmLock == null || farmLock!.isOpen == false
                       ? AppLocalizations.of(context)!
-                          .farmLockBlockEarnRewardsBtnNotAvailable
+                          .aeswap_farmLockBlockEarnRewardsBtnNotAvailable
                       : AppLocalizations.of(context)!
-                          .farmLockBlockEarnRewardsBtnAdd,
+                          .aeswap_farmLockBlockEarnRewardsBtnAdd,
                   style: const TextStyle(fontSize: 10),
                 ),
               ),
@@ -497,7 +498,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
             Opacity(
               opacity: 0.8,
               child: Text(
-                AppLocalizations.of(context)!.btn_connect_wallet,
+                AppLocalizations.of(context)!.aeswap_btn_connect_wallet,
                 style: const TextStyle(fontSize: 10),
               ),
             ),

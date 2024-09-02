@@ -91,7 +91,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
                   height: 5,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.farmLockBtnWithdraw,
+                  AppLocalizations.of(context)!.aeswap_farmLockBtnWithdraw,
                   style: TextStyle(
                     fontSize: 10,
                     color: enabled
@@ -107,7 +107,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
           )
         : ButtonValidateMobile(
             controlOk: enabled,
-            labelBtn: AppLocalizations.of(context)!.farmLockBtnWithdraw,
+            labelBtn: AppLocalizations.of(context)!.aeswap_farmLockBtnWithdraw,
             onPressed: () async {
               await _validate(context);
             },

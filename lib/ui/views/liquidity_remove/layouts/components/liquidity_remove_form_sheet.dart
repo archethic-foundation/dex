@@ -36,7 +36,8 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.liquidityRemoveFormTitle,
+                      AppLocalizations.of(context)!
+                          .aeswap_liquidityRemoveFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -104,7 +105,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                               child: ButtonValidateMobile(
                                 controlOk: liquidityRemove.isControlsOk,
                                 labelBtn: AppLocalizations.of(context)!
-                                    .btn_liquidity_remove,
+                                    .aeswap_btn_liquidity_remove,
                                 onPressed: () => ref
                                     .read(
                                       LiquidityRemoveFormProvider

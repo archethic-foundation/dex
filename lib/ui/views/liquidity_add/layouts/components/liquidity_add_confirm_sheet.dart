@@ -35,7 +35,8 @@ class LiquidityAddConfirmSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.liquidityAddConfirmTitle,
+            title:
+                AppLocalizations.of(context)!.aeswap_liquidityAddConfirmTitle,
             onPressed: liquidityAdd.token1 == null
                 ? null
                 : () {
@@ -72,7 +73,8 @@ class LiquidityAddConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_liquidity_add,
+            labelBtn:
+                AppLocalizations.of(context)!.aeswap_btn_confirm_liquidity_add,
             disabled: !consentChecked && liquidityAdd.consentDateTime == null,
             onPressed: () async {
               final liquidityAddNotifier =

@@ -71,8 +71,9 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
                 children: [
                   Text(
                     aedappfm.Responsive.isMobile(context)
-                        ? AppLocalizations.of(context)!.poolFarming
-                        : AppLocalizations.of(context)!.poolFarmingAvailable,
+                        ? AppLocalizations.of(context)!.aeswap_poolFarming
+                        : AppLocalizations.of(context)!
+                            .aeswap_poolFarmingAvailable,
                     style: TextStyle(
                       color: aedappfm.ArchethicThemeBase.systemPositive100,
                       fontSize: 12,

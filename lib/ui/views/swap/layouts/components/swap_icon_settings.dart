@@ -20,7 +20,7 @@ class SwapTokenIconSettings extends ConsumerWidget {
         );
       },
       child: Tooltip(
-        message: AppLocalizations.of(context)!.swapIconSlippageTooltip,
+        message: AppLocalizations.of(context)!.aeswap_swapIconSlippageTooltip,
         child: SizedBox(
           height: 40,
           child: Card(

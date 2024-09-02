@@ -71,7 +71,7 @@ class PoolListSingle extends ConsumerWidget {
               children: [
                 SelectableText(
                   dexPoolTx.typeTx == null
-                      ? AppLocalizations.of(context)!.poolTxTypeUnknown
+                      ? AppLocalizations.of(context)!.aeswap_poolTxTypeUnknown
                       : '${dexPoolTx.typeTx!.getLabel(context)}  ',
                   style: style,
                 ),
@@ -96,7 +96,7 @@ class PoolListSingle extends ConsumerWidget {
                   const SelectableText(''),
                 if (aedappfm.Responsive.isMobile(context) == false)
                   SelectableText(
-                    AppLocalizations.of(context)!.poolTxAccount,
+                    AppLocalizations.of(context)!.aeswap_poolTxAccount,
                     style: style,
                   ),
               ],
@@ -113,7 +113,7 @@ class PoolListSingle extends ConsumerWidget {
                       )
                     else
                       SelectableText(
-                        '${AppLocalizations.of(context)!.poolTxTotalValue} ${dexPoolTx.totalValue! < 0.01 ? '<' : ''} ${dexPoolTx.totalValue == null ? r'$0' : '\$${dexPoolTx.totalValue!.formatNumber(precision: 2)}'}',
+                        '${AppLocalizations.of(context)!.aeswap_poolTxTotalValue} ${dexPoolTx.totalValue! < 0.01 ? '<' : ''} ${dexPoolTx.totalValue == null ? r'$0' : '\$${dexPoolTx.totalValue!.formatNumber(precision: 2)}'}',
                         style: style,
                       ),
                     const SizedBox(

@@ -47,7 +47,7 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                   children: [
                     TextSpan(
                       text: AppLocalizations.of(context)!
-                          .liquidityRemovePleaseConfirm,
+                          .aeswap_liquidityRemovePleaseConfirm,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     TextSpan(
@@ -58,9 +58,9 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                     TextSpan(
                       text: liquidityRemove.lpTokenAmount > 1
                           ? AppLocalizations.of(context)!
-                              .liquidityRemoveAmountLPTokens
+                              .aeswap_liquidityRemoveAmountLPTokens
                           : AppLocalizations.of(context)!
-                              .liquidityRemoveAmountLPToken,
+                              .aeswap_liquidityRemoveAmountLPToken,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -84,11 +84,11 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -168,11 +168,11 @@ class LiquidityRemoveConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],

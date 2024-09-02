@@ -275,7 +275,7 @@ class LiquidityAddFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken1AmountExceedBalance,
+              .aeswap_liquidityAddControlToken1AmountExceedBalance,
         ),
       );
       return;
@@ -288,7 +288,7 @@ class LiquidityAddFormNotifier
         setFailure(
           aedappfm.Failure.other(
             cause: AppLocalizations.of(context)!
-                .liquidityAddControlToken2AmountExceedBalance,
+                .aeswap_liquidityAddControlToken2AmountExceedBalance,
           ),
         );
       }
@@ -313,7 +313,7 @@ class LiquidityAddFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken2AmountExceedBalance,
+              .aeswap_liquidityAddControlToken2AmountExceedBalance,
         ),
       );
       return;
@@ -326,7 +326,7 @@ class LiquidityAddFormNotifier
         setFailure(
           aedappfm.Failure.other(
             cause: AppLocalizations.of(context)!
-                .liquidityAddControlToken1AmountExceedBalance,
+                .aeswap_liquidityAddControlToken1AmountExceedBalance,
           ),
         );
       }
@@ -454,7 +454,7 @@ class LiquidityAddFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken1AmountEmpty,
+              .aeswap_liquidityAddControlToken1AmountEmpty,
         ),
       );
       return false;
@@ -464,7 +464,7 @@ class LiquidityAddFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken2AmountEmpty,
+              .aeswap_liquidityAddControlToken2AmountEmpty,
         ),
       );
       return false;
@@ -474,7 +474,7 @@ class LiquidityAddFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken1AmountExceedBalance,
+              .aeswap_liquidityAddControlToken1AmountExceedBalance,
         ),
       );
       return false;
@@ -484,7 +484,7 @@ class LiquidityAddFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken2AmountExceedBalance,
+              .aeswap_liquidityAddControlToken2AmountExceedBalance,
         ),
       );
       return false;

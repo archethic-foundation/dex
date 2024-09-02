@@ -28,7 +28,7 @@ class FarmLockClaimInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: farmLockClaim.transactionClaimFarmLock!.address!.address!
                 .toUpperCase(),
-            header: AppLocalizations.of(context)!.farmLockClaimTxAddress,
+            header: AppLocalizations.of(context)!.aeswap_farmLockClaimTxAddress,
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

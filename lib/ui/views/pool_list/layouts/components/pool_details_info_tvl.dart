@@ -27,7 +27,7 @@ class PoolDetailsInfoTVL extends ConsumerWidget {
           child: Opacity(
             opacity: AppTextStyles.kOpacityText,
             child: SelectableText(
-              AppLocalizations.of(context)!.poolDetailsInfoTVL,
+              AppLocalizations.of(context)!.aeswap_poolDetailsInfoTVL,
               style: AppTextStyles.bodyLarge(context),
             ),
           ),

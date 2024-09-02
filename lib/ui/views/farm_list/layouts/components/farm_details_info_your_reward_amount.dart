@@ -26,7 +26,7 @@ class FarmDetailsInfoYourRewardAmount extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SelectableText(
-          AppLocalizations.of(context)!.farmDetailsInfoYourRewardAmount,
+          AppLocalizations.of(context)!.aeswap_farmDetailsInfoYourRewardAmount,
           style: AppTextStyles.bodyLarge(context),
         ),
         Wrap(

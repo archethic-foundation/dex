@@ -36,7 +36,8 @@ class FarmLockClaimConfirmSheetState
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmLockClaimConfirmTitle,
+            title:
+                AppLocalizations.of(context)!.aeswap_farmLockClaimConfirmTitle,
             onPressed: farmLockClaim.rewardAmount == null
                 ? null
                 : () {
@@ -73,7 +74,8 @@ class FarmLockClaimConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_lock_claim,
+            labelBtn: AppLocalizations.of(context)!
+                .aeswap_btn_confirm_farm_lock_claim,
             disabled: !consentChecked && farmLockClaim.consentDateTime == null,
             onPressed: () async {
               final farmLockClaimNotifier = ref

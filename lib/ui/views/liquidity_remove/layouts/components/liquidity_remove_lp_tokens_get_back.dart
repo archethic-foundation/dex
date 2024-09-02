@@ -29,7 +29,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
             children: [
               SelectableText(
                 AppLocalizations.of(context)!
-                    .liquidityRemoveTokensGetBackHeader,
+                    .aeswap_liquidityRemoveTokensGetBackHeader,
                 style: AppTextStyles.bodyMedium(context),
               ),
               Row(
@@ -87,7 +87,8 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SelectableText(
-              AppLocalizations.of(context)!.liquidityRemoveTokensGetBackHeader,
+              AppLocalizations.of(context)!
+                  .aeswap_liquidityRemoveTokensGetBackHeader,
               style: AppTextStyles.bodyMedium(context),
             ),
             Row(

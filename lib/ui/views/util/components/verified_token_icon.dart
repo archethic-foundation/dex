@@ -27,7 +27,8 @@ class VerifiedTokenIcon extends ConsumerWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 3),
               child: Tooltip(
-                message: AppLocalizations.of(context)!.verifiedTokenIconTooltip,
+                message: AppLocalizations.of(context)!
+                    .aeswap_verifiedTokenIconTooltip,
                 child: Icon(
                   aedappfm.Iconsax.verify,
                   color: aedappfm.ArchethicThemeBase.systemPositive500,

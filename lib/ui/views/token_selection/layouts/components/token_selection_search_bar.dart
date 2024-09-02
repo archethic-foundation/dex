@@ -117,7 +117,7 @@ class TokenSelectionSearchBarState
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: AppLocalizations.of(context)!
-                                    .token_selection_search_bar_hint,
+                                    .aeswap_token_selection_search_bar_hint,
                                 hintStyle: AppTextStyles.bodyLarge(context),
                                 contentPadding: const EdgeInsets.only(left: 10),
                               ),

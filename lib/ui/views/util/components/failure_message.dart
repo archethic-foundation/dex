@@ -20,33 +20,33 @@ class FailureMessage {
     if (failure == null) return '';
 
     if (failure is aedappfm.UserRejected) {
-      return AppLocalizations.of(context)!.failureUserRejected;
+      return AppLocalizations.of(context)!.aeswap_failureUserRejected;
     }
 
     if (failure is aedappfm.ConnectivityArchethic) {
       if (kIsWeb == true) {
         if (BrowserUtil().isBraveBrowser()) {
           return AppLocalizations.of(context)!
-              .failureConnectivityArchethicBrave;
+              .aeswap_failureConnectivityArchethicBrave;
         }
       }
-      return AppLocalizations.of(context)!.failureConnectivityArchethic;
+      return AppLocalizations.of(context)!.aeswap_failureConnectivityArchethic;
     }
 
     if (failure is aedappfm.Timeout) {
-      return AppLocalizations.of(context)!.failureTimeout;
+      return AppLocalizations.of(context)!.aeswap_failureTimeout;
     }
 
     if (failure is aedappfm.PoolAlreadyExists) {
-      return AppLocalizations.of(context)!.failurePoolAlreadyExists;
+      return AppLocalizations.of(context)!.aeswap_failurePoolAlreadyExists;
     }
 
     if (failure is aedappfm.PoolNotExists) {
-      return AppLocalizations.of(context)!.failurePoolNotExists;
+      return AppLocalizations.of(context)!.aeswap_failurePoolNotExists;
     }
 
     if (failure is aedappfm.InsufficientFunds) {
-      return AppLocalizations.of(context)!.failureInsufficientFunds;
+      return AppLocalizations.of(context)!.aeswap_failureInsufficientFunds;
     }
 
     if (failure is aedappfm.WrongNetwork) {
@@ -54,7 +54,7 @@ class FailureMessage {
     }
 
     if (failure is aedappfm.LPTokenAmountExceedBalance) {
-      return AppLocalizations.of(context)!.lpTokenAmountExceedBalance;
+      return AppLocalizations.of(context)!.aeswap_lpTokenAmountExceedBalance;
     }
 
     if (failure is aedappfm.OtherFailure) {
@@ -62,7 +62,7 @@ class FailureMessage {
     }
 
     if (failure is aedappfm.IncompatibleBrowser) {
-      return AppLocalizations.of(context)!.failureIncompatibleBrowser;
+      return AppLocalizations.of(context)!.aeswap_failureIncompatibleBrowser;
     }
 
     return failure.toString();

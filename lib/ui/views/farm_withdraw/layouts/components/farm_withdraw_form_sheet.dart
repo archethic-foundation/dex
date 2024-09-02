@@ -45,7 +45,8 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.farmWithdrawFormTitle,
+                      AppLocalizations.of(context)!
+                          .aeswap_farmWithdrawFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -77,13 +78,14 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SelectableText(
-                        AppLocalizations.of(context)!.farmWithdrawFormText,
+                        AppLocalizations.of(context)!
+                            .aeswap_farmWithdrawFormText,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                       if (farmWithdraw.rewardAmount == 0)
                         SelectableText(
                           AppLocalizations.of(context)!
-                              .farmWithdrawFormTextNoRewardText1,
+                              .aeswap_farmWithdrawFormTextNoRewardText1,
                           style: AppTextStyles.bodyLarge(context),
                         )
                       else
@@ -146,7 +148,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                                   ),
                                   SelectableText(
                                     AppLocalizations.of(context)!
-                                        .farmWithdrawFormTextNoRewardText2,
+                                        .aeswap_farmWithdrawFormTextNoRewardText2,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -186,7 +188,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                             child: ButtonValidateMobile(
                               controlOk: farmWithdraw.isControlsOk,
                               labelBtn: AppLocalizations.of(context)!
-                                  .btn_farm_withdraw,
+                                  .aeswap_btn_farm_withdraw,
                               onPressed: () => ref
                                   .read(
                                     FarmWithdrawFormProvider

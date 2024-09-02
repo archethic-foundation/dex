@@ -23,7 +23,7 @@ class FarmDepositFinalAmount extends ConsumerWidget {
 
     return finalAmount != null
         ? SelectableText(
-            '${AppLocalizations.of(context)!.farmDepositFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+            '${AppLocalizations.of(context)!.aeswap_farmDepositFinalAmount} ${finalAmount.formatNumber(precision: 8)} ${finalAmount > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -35,7 +35,7 @@ class FarmDepositFinalAmount extends ConsumerWidget {
             ? Row(
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.farmDepositFinalAmount,
+                    AppLocalizations.of(context)!.aeswap_farmDepositFinalAmount,
                     style: TextStyle(
                       fontSize: aedappfm.Responsive.fontSizeFromValue(
                         context,
@@ -51,7 +51,7 @@ class FarmDepositFinalAmount extends ConsumerWidget {
                 ],
               )
             : SelectableText(
-                '${AppLocalizations.of(context)!.farmDepositFinalAmount} ${AppLocalizations.of(context)!.finalAmountNotRecovered}',
+                '${AppLocalizations.of(context)!.aeswap_farmDepositFinalAmount} ${AppLocalizations.of(context)!.aeswap_finalAmountNotRecovered}',
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,

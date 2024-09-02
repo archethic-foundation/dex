@@ -21,7 +21,7 @@ class FarmDetailsInfoNbDeposit extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SelectableText(
-          AppLocalizations.of(context)!.farmDetailsInfoNbDeposit,
+          AppLocalizations.of(context)!.aeswap_farmDetailsInfoNbDeposit,
           style: AppTextStyles.bodyLarge(context),
         ),
         SelectableText(

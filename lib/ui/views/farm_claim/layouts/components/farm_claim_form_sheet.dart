@@ -44,7 +44,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.farmClaimFormTitle,
+                      AppLocalizations.of(context)!.aeswap_farmClaimFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -136,7 +136,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                                   ),
                                   TextSpan(
                                     text: AppLocalizations.of(context)!
-                                        .farmClaimFormText,
+                                        .aeswap_farmClaimFormText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -173,8 +173,8 @@ class FarmClaimFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmClaim.isControlsOk,
-                              labelBtn:
-                                  AppLocalizations.of(context)!.btn_farm_claim,
+                              labelBtn: AppLocalizations.of(context)!
+                                  .aeswap_btn_farm_claim,
                               onPressed: () => ref
                                   .read(
                                     FarmClaimFormProvider

@@ -37,10 +37,11 @@ class SwapInProgressPopup {
           context: context,
           failure: swap.failure,
         ).getMessage(),
-        inProgressTxt: AppLocalizations.of(context)!.swapProcessInProgress,
+        inProgressTxt:
+            AppLocalizations.of(context)!.aeswap_swapProcessInProgress,
         walletConfirmationTxt:
-            AppLocalizations.of(context)!.swapInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.swapSuccessInfo,
+            AppLocalizations.of(context)!.aeswap_swapInProgressConfirmAEWallet,
+        successTxt: AppLocalizations.of(context)!.aeswap_swapSuccessInfo,
       ),
       const SwapInProgressTxAddresses(),
       if (swap.recoveryTransactionSwap != null &&
@@ -81,7 +82,7 @@ class SwapInProgressPopup {
     return aedappfm.PopupCloseButton(
       warningCloseWarning: swap.isProcessInProgress,
       warningCloseLabel: swap.isProcessInProgress == true
-          ? AppLocalizations.of(context)!.swapProcessInterruptionWarning
+          ? AppLocalizations.of(context)!.aeswap_swapProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         ref.invalidate(

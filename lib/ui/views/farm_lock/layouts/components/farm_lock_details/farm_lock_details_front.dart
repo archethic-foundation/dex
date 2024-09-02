@@ -93,7 +93,7 @@ class FarmDetailsFrontState extends ConsumerState<FarmLockDetailsFront>
           aedappfm.ArchethicThemeBase.blue600,
         ],
       ),
-      labelBtn: AppLocalizations.of(context)!.btn_close,
+      labelBtn: AppLocalizations.of(context)!.aeswap_btn_close,
       onPressed: () async {
         context.pop();
       },

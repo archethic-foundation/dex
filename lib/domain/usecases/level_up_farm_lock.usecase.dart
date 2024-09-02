@@ -94,10 +94,12 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         [transactionLevelUp!],
         description: {
           'en': context.mounted
-              ? AppLocalizations.of(context)!.levelUpFarmLockSignTxDesc_en
+              ? AppLocalizations.of(context)!
+                  .aeswap_levelUpFarmLockSignTxDesc_en
               : '',
           'fr': context.mounted
-              ? AppLocalizations.of(context)!.levelUpFarmLockSignTxDesc_fr
+              ? AppLocalizations.of(context)!
+                  .aeswap_levelUpFarmLockSignTxDesc_fr
               : '',
         },
       ))
@@ -198,13 +200,13 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep1;
+        return AppLocalizations.of(context)!.aeswap_levelUpFarmLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep2;
+        return AppLocalizations.of(context)!.aeswap_levelUpFarmLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep3;
+        return AppLocalizations.of(context)!.aeswap_levelUpFarmLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep0;
+        return AppLocalizations.of(context)!.aeswap_levelUpFarmLockProcessStep0;
     }
   }
 }

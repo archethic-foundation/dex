@@ -82,7 +82,8 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                     children: [
                       if (selectedTab == PoolsListTab.searchPool)
                         SelectableText(
-                          AppLocalizations.of(context)!.poolListSearching,
+                          AppLocalizations.of(context)!
+                              .aeswap_poolListSearching,
                           style: AppTextStyles.bodyLarge(context),
                         ),
                       const SizedBox(
@@ -117,7 +118,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                   children: [
                     SelectableText(
                       AppLocalizations.of(context)!
-                          .poolListConnectWalletMyPools,
+                          .aeswap_poolListConnectWalletMyPools,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -131,7 +132,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                     children: [
                       SelectableText(
                         AppLocalizations.of(context)!
-                            .poolListEnterSearchCriteria,
+                            .aeswap_poolListEnterSearchCriteria,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
@@ -141,7 +142,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SelectableText(
-                        AppLocalizations.of(context)!.poolListNoResult,
+                        AppLocalizations.of(context)!.aeswap_poolListNoResult,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
@@ -154,7 +155,8 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.poolListAddFavoriteText1,
+                      AppLocalizations.of(context)!
+                          .aeswap_poolListAddFavoriteText1,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     const Padding(
@@ -168,7 +170,8 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                       ),
                     ),
                     SelectableText(
-                      AppLocalizations.of(context)!.poolListAddFavoriteText2,
+                      AppLocalizations.of(context)!
+                          .aeswap_poolListAddFavoriteText2,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],

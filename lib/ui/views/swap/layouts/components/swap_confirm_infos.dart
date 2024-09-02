@@ -49,12 +49,12 @@ class SwapConfirmInfos extends ConsumerWidget {
                   children: [
                     SelectableText(
                       AppLocalizations.of(context)!
-                          .swapConfirmInfosAmountTokens,
+                          .aeswap_swapConfirmInfosAmountTokens,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
                       AppLocalizations.of(context)!
-                          .swapConfirmInfosAmountMinReceived,
+                          .aeswap_swapConfirmInfosAmountMinReceived,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -156,11 +156,11 @@ class SwapConfirmInfos extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmBeforeLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmBeforeLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                     SelectableText(
-                      AppLocalizations.of(context)!.confirmAfterLbl,
+                      AppLocalizations.of(context)!.aeswap_confirmAfterLbl,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -264,7 +264,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                       Tooltip(
                         message: swap.tokenToSwap!.symbol,
                         child: SelectableText(
-                          '${AppLocalizations.of(context)!.swapConfirmInfosAmountMinFees} ${swap.swapTotalFees.formatNumber(
+                          '${AppLocalizations.of(context)!.aeswap_swapConfirmInfosAmountMinFees} ${swap.swapTotalFees.formatNumber(
                             precision: aedappfm.Responsive.isMobile(context) &&
                                     swap.swapTotalFees > 1
                                 ? 2
@@ -300,7 +300,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                           swap.tokenToSwap != null)
                         Tooltip(
                           message:
-                              '${AppLocalizations.of(context)!.swapConfirmInfosFeesLP} (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \n${AppLocalizations.of(context)!.swapConfirmInfosFeesProtocol} (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                              '${AppLocalizations.of(context)!.aeswap_swapConfirmInfosFeesLP} (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \n${AppLocalizations.of(context)!.aeswap_swapConfirmInfosFeesProtocol} (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
                           child: const Padding(
                             padding: EdgeInsets.only(bottom: 2),
                             child: Icon(
@@ -324,7 +324,7 @@ class SwapConfirmInfos extends ConsumerWidget {
                     height: 45,
                     child: aedappfm.InfoBanner(
                       AppLocalizations.of(context)!
-                          .swapConfirmInfosMessageMaxHalfUCO,
+                          .aeswap_swapConfirmInfosMessageMaxHalfUCO,
                       aedappfm.InfoBannerType.request,
                     ),
                   ),

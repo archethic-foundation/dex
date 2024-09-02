@@ -81,7 +81,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SelectableText(
-              AppLocalizations.of(context)!.swapFromLbl,
+              AppLocalizations.of(context)!.aeswap_swapFromLbl,
               style: AppTextStyles.bodyLarge(context),
             ),
             Row(
@@ -89,7 +89,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SelectableText(
-                  '${AppLocalizations.of(context)!.slippage_tolerance} ${swap.slippageTolerance}%',
+                  '${AppLocalizations.of(context)!.aeswap_slippage_tolerance} ${swap.slippageTolerance}%',
                   style: AppTextStyles.bodyLarge(context),
                 ),
                 const Align(

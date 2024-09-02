@@ -31,7 +31,7 @@ class LiquidityRemoveInProgressTxAddresses extends ConsumerWidget {
                 .transactionRemoveLiquidity!.address!.address!
                 .toUpperCase(),
             header:
-                '${AppLocalizations.of(context)!.liquidityRemoveInProgressTxAddresses} ',
+                '${AppLocalizations.of(context)!.aeswap_liquidityRemoveInProgressTxAddresses} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

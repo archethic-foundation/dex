@@ -31,7 +31,7 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 2, right: 5),
                 child: Tooltip(
-                  message: AppLocalizations.of(context)!.apr24hTooltip,
+                  message: AppLocalizations.of(context)!.aeswap_apr24hTooltip,
                   triggerMode: TooltipTriggerMode.tap,
                   showDuration: const Duration(seconds: 5),
                   child: Icon(
@@ -50,7 +50,7 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.time24h,
+                      AppLocalizations.of(context)!.aeswap_time24h,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -62,7 +62,7 @@ class PoolDetailsInfoAPR extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.poolDetailsInfoAPR,
+                      AppLocalizations.of(context)!.aeswap_poolDetailsInfoAPR,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ),

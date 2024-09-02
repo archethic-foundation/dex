@@ -62,7 +62,8 @@ class SwapSettingsSlippageToleranceState
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: AppLocalizations.of(context)!.slippage_tolerance,
+                      text: AppLocalizations.of(context)!
+                          .aeswap_slippage_tolerance,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -130,13 +131,13 @@ class SwapSettingsSlippageToleranceState
           aedappfm.ErrorMessage(
             failure: aedappfm.Failure.other(
               cause: AppLocalizations.of(context)!
-                  .swapSettingsSlippageErrorBetween0and100,
+                  .aeswap_swapSettingsSlippageErrorBetween0and100,
             ),
             failureMessage: FailureMessage(
               context: context,
               failure: aedappfm.Failure.other(
                 cause: AppLocalizations.of(context)!
-                    .swapSettingsSlippageErrorBetween0and100,
+                    .aeswap_swapSettingsSlippageErrorBetween0and100,
               ),
             ).getMessage(),
           ),
@@ -145,7 +146,8 @@ class SwapSettingsSlippageToleranceState
             double.tryParse(slippageToleranceController.text)! >= 3 &&
             double.tryParse(slippageToleranceController.text)! <= 100)
           aedappfm.InfoBanner(
-            AppLocalizations.of(context)!.swapSettingsSlippageErrorHighSlippage,
+            AppLocalizations.of(context)!
+                .aeswap_swapSettingsSlippageErrorHighSlippage,
             aedappfm.InfoBannerType.error,
           ),
         ButtonValidateMobile(
@@ -153,7 +155,7 @@ class SwapSettingsSlippageToleranceState
               slippageToleranceController.text.isValidNumber() &&
               (double.tryParse(slippageToleranceController.text)! < 0 ||
                   double.tryParse(slippageToleranceController.text)! > 100)),
-          labelBtn: AppLocalizations.of(context)!.btn_save,
+          labelBtn: AppLocalizations.of(context)!.aeswap_btn_save,
           onPressed: () {
             swapNotifier.setSlippageTolerance(
               double.tryParse(slippageToleranceController.text) ?? 0,

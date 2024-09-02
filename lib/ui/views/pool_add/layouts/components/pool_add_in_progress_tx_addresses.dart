@@ -25,7 +25,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: poolAdd.recoveryPoolGenesisAddress!.toUpperCase(),
             header:
-                '${AppLocalizations.of(context)!.poolAddInProgressTxAddressesPoolGenesisAddress} ',
+                '${AppLocalizations.of(context)!.aeswap_poolAddInProgressTxAddressesPoolGenesisAddress} ',
             typeAddress: TypeAddressLinkCopy.chain,
             reduceAddress: true,
           ),
@@ -36,7 +36,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
             address: poolAdd.recoveryTransactionAddPool!.address!.address!
                 .toUpperCase(),
             header:
-                '${AppLocalizations.of(context)!.poolAddInProgressTxAddressesPoolRegistrationAddress} ',
+                '${AppLocalizations.of(context)!.aeswap_poolAddInProgressTxAddressesPoolRegistrationAddress} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
@@ -49,7 +49,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
                 .recoveryTransactionAddPoolTransfer!.address!.address!
                 .toUpperCase(),
             header:
-                '${AppLocalizations.of(context)!.poolAddInProgressTxAddressesPoolFundsAddress} ',
+                '${AppLocalizations.of(context)!.aeswap_poolAddInProgressTxAddressesPoolFundsAddress} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),
@@ -62,7 +62,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
                 .recoveryTransactionAddPoolLiquidity!.address!.address!
                 .toUpperCase(),
             header:
-                '${AppLocalizations.of(context)!.poolAddInProgressTxAddressesPoolAdditionAddress} ',
+                '${AppLocalizations.of(context)!.aeswap_poolAddInProgressTxAddressesPoolAdditionAddress} ',
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

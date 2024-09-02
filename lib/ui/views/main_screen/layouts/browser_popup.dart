@@ -49,7 +49,7 @@ class BrowserPopup extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SelectableText(
-                      AppLocalizations.of(context)!.warning,
+                      AppLocalizations.of(context)!.aeswap_warning,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -60,7 +60,7 @@ class BrowserPopup extends ConsumerWidget {
                     const SizedBox(height: 20),
                     Linkify(
                       text: AppLocalizations.of(context)!
-                          .failureIncompatibleBrowser,
+                          .aeswap_failureIncompatibleBrowser,
                       textAlign: TextAlign.left,
                       options: const LinkifyOptions(
                         humanize: false,
@@ -85,7 +85,8 @@ class BrowserPopup extends ConsumerWidget {
                     ),
                     const SizedBox(height: 40),
                     aedappfm.AppButton(
-                      labelBtn: AppLocalizations.of(context)!.btn_understand,
+                      labelBtn:
+                          AppLocalizations.of(context)!.aeswap_btn_understand,
                       onPressed: () async {
                         if (!context.mounted) return;
                         Navigator.of(context).pop();

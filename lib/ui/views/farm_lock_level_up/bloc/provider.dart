@@ -202,7 +202,8 @@ class FarmLockLevelUpFormNotifier
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmDepositControlAmountEmpty,
+          cause: AppLocalizations.of(context)!
+              .aeswap_farmDepositControlAmountEmpty,
         ),
       );
       return false;

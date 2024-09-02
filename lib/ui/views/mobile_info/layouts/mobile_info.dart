@@ -39,7 +39,7 @@ class MobileInfoScreen extends ConsumerWidget {
                         ),
                   ),
                   Text(
-                    AppLocalizations.of(context)!.mobileInfoTitle,
+                    AppLocalizations.of(context)!.aeswap_mobileInfoTitle,
                     style: Theme.of(context)
                         .textTheme
                         .headlineLarge!
@@ -54,20 +54,20 @@ class MobileInfoScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.mobileInfoTxt1,
+                          AppLocalizations.of(context)!.aeswap_mobileInfoTxt1,
                           style: textStyleDesc,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            AppLocalizations.of(context)!.mobileInfoTxt2,
+                            AppLocalizations.of(context)!.aeswap_mobileInfoTxt2,
                             style: textStyleDesc,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            AppLocalizations.of(context)!.mobileInfoTxt3,
+                            AppLocalizations.of(context)!.aeswap_mobileInfoTxt3,
                             style: textStyleDesc,
                           ),
                         ),
@@ -75,14 +75,14 @@ class MobileInfoScreen extends ConsumerWidget {
                           height: 10,
                         ),
                         Text(
-                          AppLocalizations.of(context)!.mobileInfoTxt4,
+                          AppLocalizations.of(context)!.aeswap_mobileInfoTxt4,
                           style: textStyleDesc,
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         Text(
-                          AppLocalizations.of(context)!.mobileInfoTxt5,
+                          AppLocalizations.of(context)!.aeswap_mobileInfoTxt5,
                           style: textStyleDesc,
                         ),
                       ],
@@ -97,7 +97,7 @@ class MobileInfoScreen extends ConsumerWidget {
                     aedappfm.ArchethicThemeBase.blue600,
                   ],
                 ),
-                labelBtn: AppLocalizations.of(context)!.btn_close,
+                labelBtn: AppLocalizations.of(context)!.aeswap_btn_close,
                 onPressed: () async {
                   context.pop();
                 },

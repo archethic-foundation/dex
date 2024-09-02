@@ -36,14 +36,15 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.time24h,
+                      AppLocalizations.of(context)!.aeswap_time24h,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.poolDetailsInfoVolume,
+                      AppLocalizations.of(context)!
+                          .aeswap_poolDetailsInfoVolume,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
@@ -64,14 +65,15 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.timeAll,
+                      AppLocalizations.of(context)!.aeswap_timeAll,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 17),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.poolDetailsInfoVolume,
+                      AppLocalizations.of(context)!
+                          .aeswap_poolDetailsInfoVolume,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
@@ -97,14 +99,15 @@ class PoolDetailsInfoVolume extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.time7d,
+                      AppLocalizations.of(context)!.aeswap_time7d,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 17),
                     child: SelectableText(
-                      AppLocalizations.of(context)!.poolDetailsInfoVolume,
+                      AppLocalizations.of(context)!
+                          .aeswap_poolDetailsInfoVolume,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),

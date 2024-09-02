@@ -27,7 +27,7 @@ class FarmLockDetailsInfoAddresses extends ConsumerWidget {
             FormatAddressLinkCopy(
               address: farmLock.farmAddress.toUpperCase(),
               header: AppLocalizations.of(context)!
-                  .farmDetailsInfoAddressesFarmAddress,
+                  .aeswap_farmDetailsInfoAddressesFarmAddress,
               typeAddress: TypeAddressLinkCopy.chain,
               reduceAddress: true,
               fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize!,
@@ -38,7 +38,7 @@ class FarmLockDetailsInfoAddresses extends ConsumerWidget {
             FormatAddressLinkCopy(
               address: farmLock.lpToken!.address!.toUpperCase(),
               header: AppLocalizations.of(context)!
-                  .farmDetailsInfoAddressesLPAddress,
+                  .aeswap_farmDetailsInfoAddressesLPAddress,
               typeAddress: TypeAddressLinkCopy.chain,
               reduceAddress: true,
               fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize!,

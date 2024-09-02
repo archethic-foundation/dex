@@ -46,7 +46,7 @@ class SwapFormSheet extends ConsumerWidget {
                     child: SizedBox(
                       child: aedappfm.InfoBanner(
                         AppLocalizations.of(context)!
-                            .swapMessageMaxHalfUCO
+                            .aeswap_swapMessageMaxHalfUCO
                             .replaceFirst(
                               '%1',
                               swap.feesEstimatedUCO.formatNumber(precision: 8),
@@ -67,7 +67,9 @@ class SwapFormSheet extends ConsumerWidget {
                     swap.tokenSwapped != null &&
                     swap.tokenToSwap!.address != swap.tokenSwapped!.address)
                   TextButton.icon(
-                    label: Text(AppLocalizations.of(context)!.swapCreatePool),
+                    label: Text(
+                      AppLocalizations.of(context)!.aeswap_swapCreatePool,
+                    ),
                     onPressed: () {
                       final token1Json = jsonEncode(swap.tokenToSwap!.toJson());
                       final token2Json =
@@ -88,7 +90,7 @@ class SwapFormSheet extends ConsumerWidget {
                   ),
                 ButtonValidateMobile(
                   controlOk: swap.isControlsOk,
-                  labelBtn: AppLocalizations.of(context)!.btn_swap,
+                  labelBtn: AppLocalizations.of(context)!.aeswap_btn_swap,
                   onPressed: () => ref
                       .read(SwapFormProvider.swapForm.notifier)
                       .validateForm(context),

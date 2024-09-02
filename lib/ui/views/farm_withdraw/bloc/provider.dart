@@ -52,7 +52,7 @@ class FarmWithdrawFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .farmWithdrawControlLPTokenAmountExceedDeposited,
+              .aeswap_farmWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
     }
@@ -174,7 +174,8 @@ class FarmWithdrawFormNotifier
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmWithdrawControlAmountEmpty,
+          cause: AppLocalizations.of(context)!
+              .aeswap_farmWithdrawControlAmountEmpty,
         ),
       );
       return false;
@@ -184,7 +185,7 @@ class FarmWithdrawFormNotifier
       setFailure(
         aedappfm.Failure.other(
           cause: AppLocalizations.of(context)!
-              .farmWithdrawControlLPTokenAmountExceedDeposited,
+              .aeswap_farmWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
       return false;

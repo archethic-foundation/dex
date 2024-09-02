@@ -30,7 +30,7 @@ class LiquidityRemoveFinalAmount extends ConsumerWidget {
         if (timeout == false)
           if (finalAmountToken1 != null)
             SelectableText(
-              '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenObtained} ${finalAmountToken1.formatNumber(precision: 8)} ${liquidityRemove.token1!.symbol}',
+              '${AppLocalizations.of(context)!.aeswap_liquidityRemoveFinalAmountTokenObtained} ${finalAmountToken1.formatNumber(precision: 8)} ${liquidityRemove.token1!.symbol}',
               style: TextStyle(
                 fontSize: aedappfm.Responsive.fontSizeFromValue(
                   context,
@@ -42,7 +42,7 @@ class LiquidityRemoveFinalAmount extends ConsumerWidget {
             Row(
               children: [
                 SelectableText(
-                  '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenObtained} ',
+                  '${AppLocalizations.of(context)!.aeswap_liquidityRemoveFinalAmountTokenObtained} ',
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
@@ -60,7 +60,7 @@ class LiquidityRemoveFinalAmount extends ConsumerWidget {
         if (timeout == false)
           if (finalAmountToken2 != null)
             SelectableText(
-              '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenObtained} ${finalAmountToken2.formatNumber(precision: 8)} ${liquidityRemove.token2!.symbol}',
+              '${AppLocalizations.of(context)!.aeswap_liquidityRemoveFinalAmountTokenObtained} ${finalAmountToken2.formatNumber(precision: 8)} ${liquidityRemove.token2!.symbol}',
               style: TextStyle(
                 fontSize: aedappfm.Responsive.fontSizeFromValue(
                   context,
@@ -72,7 +72,7 @@ class LiquidityRemoveFinalAmount extends ConsumerWidget {
             Row(
               children: [
                 SelectableText(
-                  '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenObtained} ',
+                  '${AppLocalizations.of(context)!.aeswap_liquidityRemoveFinalAmountTokenObtained} ',
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
@@ -90,7 +90,7 @@ class LiquidityRemoveFinalAmount extends ConsumerWidget {
         if (timeout == false)
           if (finalAmountLPToken != null)
             SelectableText(
-              '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenBurned} ${finalAmountLPToken.formatNumber(precision: 8)} ${finalAmountLPToken > 1 ? 'LP Tokens' : 'LP Token'}',
+              '${AppLocalizations.of(context)!.aeswap_liquidityRemoveFinalAmountTokenBurned} ${finalAmountLPToken.formatNumber(precision: 8)} ${finalAmountLPToken > 1 ? 'LP Tokens' : 'LP Token'}',
               style: TextStyle(
                 fontSize: aedappfm.Responsive.fontSizeFromValue(
                   context,
@@ -102,7 +102,7 @@ class LiquidityRemoveFinalAmount extends ConsumerWidget {
             Row(
               children: [
                 SelectableText(
-                  '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenBurned} ',
+                  '${AppLocalizations.of(context)!.aeswap_liquidityRemoveFinalAmountTokenBurned} ',
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
@@ -119,7 +119,7 @@ class LiquidityRemoveFinalAmount extends ConsumerWidget {
             ),
         if (timeout == true)
           SelectableText(
-            '${AppLocalizations.of(context)!.liquidityRemoveFinalAmountTokenObtained} ${AppLocalizations.of(context)!.finalAmountsNotRecovered}',
+            '${AppLocalizations.of(context)!.aeswap_liquidityRemoveFinalAmountTokenObtained} ${AppLocalizations.of(context)!.aeswap_finalAmountsNotRecovered}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,

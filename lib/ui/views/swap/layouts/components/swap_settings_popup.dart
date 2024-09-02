@@ -19,7 +19,7 @@ class SwapSettingsPopup {
             ),
             child: const SwapSettingsSlippageTolerance(),
           ),
-          popupTitle: AppLocalizations.of(context)!.settingsTitle,
+          popupTitle: AppLocalizations.of(context)!.aeswap_settingsTitle,
           popupHeight: 200,
         );
       },

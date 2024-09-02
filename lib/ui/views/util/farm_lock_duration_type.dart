@@ -19,23 +19,31 @@ String getFarmLockDepositDurationTypeLabel(
 ) {
   switch (farmLockDepositDuration) {
     case FarmLockDepositDurationType.flexible:
-      return AppLocalizations.of(context)!.farmLockDepositDurationFlexible;
+      return AppLocalizations.of(context)!
+          .aeswap_farmLockDepositDurationFlexible;
     case FarmLockDepositDurationType.oneMonth:
-      return AppLocalizations.of(context)!.farmLockDepositDurationOneMonth;
+      return AppLocalizations.of(context)!
+          .aeswap_farmLockDepositDurationOneMonth;
     case FarmLockDepositDurationType.oneWeek:
-      return AppLocalizations.of(context)!.farmLockDepositDurationOneWeek;
+      return AppLocalizations.of(context)!
+          .aeswap_farmLockDepositDurationOneWeek;
     case FarmLockDepositDurationType.oneYear:
-      return AppLocalizations.of(context)!.farmLockDepositDurationOneYear;
+      return AppLocalizations.of(context)!
+          .aeswap_farmLockDepositDurationOneYear;
     case FarmLockDepositDurationType.sixMonths:
-      return AppLocalizations.of(context)!.farmLockDepositDurationSixMonths;
+      return AppLocalizations.of(context)!
+          .aeswap_farmLockDepositDurationSixMonths;
     case FarmLockDepositDurationType.threeMonths:
-      return AppLocalizations.of(context)!.farmLockDepositDurationThreeMonths;
+      return AppLocalizations.of(context)!
+          .aeswap_farmLockDepositDurationThreeMonths;
     case FarmLockDepositDurationType.threeYears:
-      return AppLocalizations.of(context)!.farmLockDepositDurationThreeYears;
+      return AppLocalizations.of(context)!
+          .aeswap_farmLockDepositDurationThreeYears;
     case FarmLockDepositDurationType.twoYears:
-      return AppLocalizations.of(context)!.farmLockDepositDurationTwoYears;
+      return AppLocalizations.of(context)!
+          .aeswap_farmLockDepositDurationTwoYears;
     case FarmLockDepositDurationType.max:
-      return AppLocalizations.of(context)!.farmLockDepositDurationMax;
+      return AppLocalizations.of(context)!.aeswap_farmLockDepositDurationMax;
   }
 }
 

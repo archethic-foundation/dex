@@ -30,7 +30,8 @@ class FarmLockWithdrawInProgressTxAddresses extends ConsumerWidget {
             address: farmLockWithdraw
                 .transactionWithdrawFarmLock!.address!.address!
                 .toUpperCase(),
-            header: AppLocalizations.of(context)!.farmLockWithdrawTxAddress,
+            header:
+                AppLocalizations.of(context)!.aeswap_farmLockWithdrawTxAddress,
             typeAddress: TypeAddressLinkCopy.transaction,
             reduceAddress: true,
           ),

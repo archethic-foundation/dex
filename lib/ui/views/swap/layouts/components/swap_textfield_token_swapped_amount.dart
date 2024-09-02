@@ -74,7 +74,7 @@ class _SwapTokenSwappedAmountState
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         SelectableText(
-          AppLocalizations.of(context)!.swapToEstimatedLbl,
+          AppLocalizations.of(context)!.aeswap_swapToEstimatedLbl,
           style: AppTextStyles.bodyLarge(context),
         ),
         Stack(

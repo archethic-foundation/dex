@@ -52,7 +52,8 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: SelectionArea(
                     child: SelectableText(
-                      AppLocalizations.of(context)!.farmLockLevelUpFormTitle,
+                      AppLocalizations.of(context)!
+                          .aeswap_farmLockLevelUpFormTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                               context,
@@ -81,7 +82,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    AppLocalizations.of(context)!.farmLockLevelUpDesc,
+                    AppLocalizations.of(context)!.aeswap_farmLockLevelUpDesc,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(
@@ -93,7 +94,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                       Row(
                         children: [
                           SelectableText(
-                            '${AppLocalizations.of(context)!.farmLockLevelUpFormAmountLbl}: ',
+                            '${AppLocalizations.of(context)!.aeswap_farmLockLevelUpFormAmountLbl}: ',
                             style: AppTextStyles.bodyLarge(context),
                           ),
                           SelectableText(
@@ -102,14 +103,14 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                                 AppTextStyles.bodyLargeSecondaryColor(context),
                           ),
                           SelectableText(
-                            ' ${farmLockLevelUp.amount < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                            ' ${farmLockLevelUp.amount < 1 ? AppLocalizations.of(context)!.aeswap_lpToken : AppLocalizations.of(context)!.aeswap_lpTokens}',
                             style: AppTextStyles.bodyLarge(context),
                           ),
                         ],
                       ),
                       if (farmLockLevelUp.aprEstimation != null)
                         SelectableText(
-                          '${AppLocalizations.of(context)!.farmLockLevelUpAPREstimationLbl} ${farmLockLevelUp.aprEstimation!.formatNumber(precision: 2)}%',
+                          '${AppLocalizations.of(context)!.aeswap_farmLockLevelUpAPREstimationLbl} ${farmLockLevelUp.aprEstimation!.formatNumber(precision: 2)}%',
                           style: AppTextStyles.bodyLarge(context),
                         )
                       else
@@ -121,7 +122,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                       if (rewardAmount == 0)
                         SelectableText(
                           AppLocalizations.of(context)!
-                              .farmLockWithdrawFormTextNoRewardText1,
+                              .aeswap_farmLockWithdrawFormTextNoRewardText1,
                           style: AppTextStyles.bodyLarge(context),
                         )
                       else
@@ -184,7 +185,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                                   ),
                                   SelectableText(
                                     AppLocalizations.of(context)!
-                                        .farmLockWithdrawFormTextNoRewardText2,
+                                        .aeswap_farmLockWithdrawFormTextNoRewardText2,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -213,7 +214,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                     children: [
                       SelectableText(
                         AppLocalizations.of(context)!
-                            .farmLockLevelUpFormLockDurationLbl,
+                            .aeswap_farmLockLevelUpFormLockDurationLbl,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                     ],
@@ -243,7 +244,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                       children: [
                         SelectableText(
                           AppLocalizations.of(context)!
-                              .farmLockLevelUpUnlockDateLbl,
+                              .aeswap_farmLockLevelUpUnlockDateLbl,
                           style: AppTextStyles.bodyLarge(context),
                         ),
                         SelectableText(
@@ -266,7 +267,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                     children: [
                       SelectableText(
                         AppLocalizations.of(context)!
-                            .farmLockLevelUpCurrentLvlLbl,
+                            .aeswap_farmLockLevelUpCurrentLvlLbl,
                         style: AppTextStyles.bodyLarge(context),
                       ),
                       if (farmLockLevelUp.currentLevel != null)
@@ -314,7 +315,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                                       .watch(SessionProviders.session)
                                       .isConnected,
                               labelBtn: AppLocalizations.of(context)!
-                                  .btn_farmLockLevelUp,
+                                  .aeswap_btn_farmLockLevelUp,
                               onPressed: () => ref
                                   .read(
                                     FarmLockLevelUpFormProvider

@@ -22,7 +22,7 @@ class FarmLockDetailsInfoTokenReward extends ConsumerWidget {
     return Row(
       children: [
         SelectableText(
-          '${AppLocalizations.of(context)!.farmDetailsInfoTokenRewardEarn} ${farmLock.rewardToken!.symbol}',
+          '${AppLocalizations.of(context)!.aeswap_farmDetailsInfoTokenRewardEarn} ${farmLock.rewardToken!.symbol}',
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,

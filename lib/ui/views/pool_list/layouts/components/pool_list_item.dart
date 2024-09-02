@@ -238,7 +238,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                       right: 10,
                     ),
                     child: Text(
-                      AppLocalizations.of(context)!.poolCardTitle,
+                      AppLocalizations.of(context)!.aeswap_poolCardTitle,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

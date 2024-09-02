@@ -39,7 +39,7 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${AppLocalizations.of(context)!.farmLockBlockAprLbl}: ',
+              '${AppLocalizations.of(context)!.aeswap_farmLockBlockAprLbl}: ',
               style: styleBannerText,
             ),
             if (farmLockForm.farmLock!.apr3years > 0)

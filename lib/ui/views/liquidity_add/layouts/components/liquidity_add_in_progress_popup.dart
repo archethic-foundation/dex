@@ -40,10 +40,11 @@ class LiquidityAddInProgressPopup {
         inProgressTxt: AppLocalizations.of(
           context,
         )!
-            .liquidityAddProcessInProgress,
-        walletConfirmationTxt:
-            AppLocalizations.of(context)!.liquidityAddInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.liquidityAddSuccessInfo,
+            .aeswap_liquidityAddProcessInProgress,
+        walletConfirmationTxt: AppLocalizations.of(context)!
+            .aeswap_liquidityAddInProgressConfirmAEWallet,
+        successTxt:
+            AppLocalizations.of(context)!.aeswap_liquidityAddSuccessInfo,
       ),
       const LiquidityAddInProgressTxAddresses(),
       if (liquidityAdd.pool != null &&
@@ -89,7 +90,8 @@ class LiquidityAddInProgressPopup {
     return aedappfm.PopupCloseButton(
       warningCloseWarning: liquidityAdd.isProcessInProgress,
       warningCloseLabel: liquidityAdd.isProcessInProgress == true
-          ? AppLocalizations.of(context)!.liquidityAddProcessInterruptionWarning
+          ? AppLocalizations.of(context)!
+              .aeswap_liquidityAddProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
         ref.invalidate(

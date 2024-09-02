@@ -20,7 +20,8 @@ class LiquidityAddTokenIconSettings extends ConsumerWidget {
         );
       },
       child: Tooltip(
-        message: AppLocalizations.of(context)!.liquidityAddTooltipSlippage,
+        message:
+            AppLocalizations.of(context)!.aeswap_liquidityAddTooltipSlippage,
         child: SizedBox(
           height: 40,
           child: Card(

@@ -27,7 +27,7 @@ class FarmDetailsInfoAPR extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SelectableText(
-              AppLocalizations.of(context)!.farmDetailsInfoAPR,
+              AppLocalizations.of(context)!.aeswap_farmDetailsInfoAPR,
               style: AppTextStyles.bodyLarge(context),
             ),
             SelectableText(

@@ -61,7 +61,8 @@ class LiquiditySettingsSlippageToleranceState
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: AppLocalizations.of(context)!.slippage_tolerance,
+                      text: AppLocalizations.of(context)!
+                          .aeswap_slippage_tolerance,
                       style: AppTextStyles.bodyLarge(context),
                     ),
                   ],
@@ -129,13 +130,13 @@ class LiquiditySettingsSlippageToleranceState
           aedappfm.ErrorMessage(
             failure: aedappfm.Failure.other(
               cause: AppLocalizations.of(context)!
-                  .liquidityAddSettingsSlippageErrorBetween0and100,
+                  .aeswap_liquidityAddSettingsSlippageErrorBetween0and100,
             ),
             failureMessage: FailureMessage(
               context: context,
               failure: aedappfm.Failure.other(
                 cause: AppLocalizations.of(context)!
-                    .liquidityAddSettingsSlippageErrorBetween0and100,
+                    .aeswap_liquidityAddSettingsSlippageErrorBetween0and100,
               ),
             ).getMessage(),
           ),
@@ -145,7 +146,7 @@ class LiquiditySettingsSlippageToleranceState
             double.tryParse(slippageToleranceController.text)! <= 100)
           aedappfm.InfoBanner(
             AppLocalizations.of(context)!
-                .liquidityAddSettingsSlippageErrorHighSlippage,
+                .aeswap_liquidityAddSettingsSlippageErrorHighSlippage,
             aedappfm.InfoBannerType.error,
           ),
         ButtonValidateMobile(
@@ -153,7 +154,7 @@ class LiquiditySettingsSlippageToleranceState
               double.tryParse(slippageToleranceController.text) != null &&
                   (double.tryParse(slippageToleranceController.text)! >= 0 &&
                       double.tryParse(slippageToleranceController.text)! < 100),
-          labelBtn: AppLocalizations.of(context)!.btn_save,
+          labelBtn: AppLocalizations.of(context)!.aeswap_btn_save,
           onPressed: () {
             liquidityAddNotifier.setSlippageTolerance(
               double.tryParse(slippageToleranceController.text) ?? 0,

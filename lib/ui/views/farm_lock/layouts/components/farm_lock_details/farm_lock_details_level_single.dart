@@ -80,11 +80,11 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SelectableText(
-                    '${AppLocalizations.of(context)!.level}: $level',
+                    '${AppLocalizations.of(context)!.aeswap_level}: $level',
                     style: style,
                   ),
                   SelectableText(
-                    '${AppLocalizations.of(context)!.farmDetailsInfoNbDeposit}: ${farmLockStats.depositsCount}',
+                    '${AppLocalizations.of(context)!.aeswap_farmDetailsInfoNbDeposit}: ${farmLockStats.depositsCount}',
                     style: style,
                   ),
                 ],
@@ -93,7 +93,7 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SelectableText(
-                    '${AppLocalizations.of(context)!.farmLockDetailsLevelSingleWeight}: ${(farmLockStats.weight * 100).formatNumber(precision: 2)}%',
+                    '${AppLocalizations.of(context)!.aeswap_farmLockDetailsLevelSingleWeight}: ${(farmLockStats.weight * 100).formatNumber(precision: 2)}%',
                     style: style,
                   ),
                 ],
@@ -101,7 +101,7 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
               Row(
                 children: [
                   SelectableText(
-                    '${AppLocalizations.of(context)!.farmDetailsInfoLPDeposited}: ${farmLockStats.lpTokensDeposited.formatNumber(precision: 8)} ${farmLockStats.lpTokensDeposited > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken} ${DEXLPTokenFiatValue().display(ref, farmLock.lpTokenPair!.token1, farmLock.lpTokenPair!.token2, farmLockStats.lpTokensDeposited, farmLock.poolAddress)}',
+                    '${AppLocalizations.of(context)!.aeswap_farmDetailsInfoLPDeposited}: ${farmLockStats.lpTokensDeposited.formatNumber(precision: 8)} ${farmLockStats.lpTokensDeposited > 1 ? AppLocalizations.of(context)!.aeswap_lpTokens : AppLocalizations.of(context)!.aeswap_lpToken} ${DEXLPTokenFiatValue().display(ref, farmLock.lpTokenPair!.token1, farmLock.lpTokenPair!.token2, farmLockStats.lpTokensDeposited, farmLock.poolAddress)}',
                     style: style,
                   ),
                 ],
