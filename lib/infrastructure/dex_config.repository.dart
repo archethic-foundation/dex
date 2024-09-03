@@ -9,8 +9,8 @@ import 'package:flutter/services.dart';
 class DexConfigRepositoryImpl implements DexConfigRepository {
   @override
   Future<DexConfig> getDexConfig() async {
-    final jsonContent =
-        await rootBundle.loadString('lib/domain/repositories/config.json');
+    final jsonContent = await rootBundle
+        .loadString('packages/aedex/lib/domain/repositories/config.json');
 
     final jsonData = jsonDecode(jsonContent);
     final environment = aedappfm.EndpointUtil.getEnvironnement();
