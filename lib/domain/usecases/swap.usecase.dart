@@ -32,7 +32,7 @@ class SwapCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionSwap,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -159,6 +159,7 @@ class SwapCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionSwap!,
         ],
+        apiService,
       );
 
       swapNotifier
@@ -179,6 +180,7 @@ class SwapCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionSwap!.address!.address!,
           tokenSwapped.address,
+          apiService,
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,
@@ -248,7 +250,7 @@ class SwapCase with aedappfm.TransactionMixin {
     double slippage,
   ) async {
     final archethicContract = ArchethicContract();
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     archethic.Transaction? transactionSwap;
     var outputAmount = 0.0;
 
@@ -296,7 +298,8 @@ class SwapCase with aedappfm.TransactionMixin {
             previousPublicKey:
                 '00000000000000000000000000000000000000000000000000000000000000000000',
           );
-          final fees = await calculateFees(transactionSwap!, slippage: 1.1);
+          final fees =
+              await calculateFees(transactionSwap!, apiService, slippage: 1.1);
           return fees;
         },
         failure: (failure) {

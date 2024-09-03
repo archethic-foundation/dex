@@ -166,12 +166,13 @@ class PoolTxListState extends ConsumerState<PoolTxList> {
             ),
           ],
         ),
-        ratioTokens(context, ref),
+        //ratioTokens(context, ref),
       ],
     );
   }
 
-  Widget ratioTokens(BuildContext context, WidgetRef ref) {
+// TODO: PB await
+  /*Widget ratioTokens(BuildContext context, WidgetRef ref) async {
     final fiatValueToken1 = ref
         .watch(DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token1));
     final fiatValueToken2 = ref
@@ -204,5 +205,5 @@ class PoolTxListState extends ConsumerState<PoolTxList> {
         ],
       ),
     );
-  }
+  }*/
 }

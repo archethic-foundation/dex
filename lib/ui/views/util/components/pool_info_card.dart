@@ -44,9 +44,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
     pool = await ref
         .read(DexPoolProviders.getPool(widget.poolGenesisAddress).future);
     pool = await ref.read(DexPoolProviders.loadPoolCard(pool!).future);
-    tvl = ref.read(
-      DexPoolProviders.estimatePoolTVLInFiat(pool),
-    );
+    tvl = await ref.read(DexPoolProviders.estimatePoolTVLInFiat(pool).future);
     if (mounted) {
       setState(() {});
     }

@@ -19,10 +19,10 @@ Future<List<DexPoolTx>> _getPoolTxList(
         ' address, validationStamp {timestamp ledgerOperations { transactionMovements { amount to tokenAddress type } consumedInputs { from, type } } }',
   );
 
-  final fiatValueToken1 =
-      ref.read(DexTokensProviders.estimateTokenInFiat(pool.pair.token1));
-  final fiatValueToken2 =
-      ref.read(DexTokensProviders.estimateTokenInFiat(pool.pair.token2));
+  final fiatValueToken1 = await ref
+      .read(DexTokensProviders.estimateTokenInFiat(pool.pair.token1).future);
+  final fiatValueToken2 = await ref
+      .read(DexTokensProviders.estimateTokenInFiat(pool.pair.token2).future);
 
   final transactionsMap = <String, Transaction>{};
   if (transactionChainResult[pool.poolAddress] != null) {

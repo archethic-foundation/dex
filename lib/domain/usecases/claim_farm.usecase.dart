@@ -29,7 +29,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionClaim,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -115,6 +115,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionClaim!,
         ],
+        apiService,
       );
 
       farmClaimNotifier
@@ -135,6 +136,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionClaim!.address!.address!,
           rewardToken.address,
+          apiService,
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,

@@ -205,14 +205,14 @@ class _GetRatioProviderElement extends AutoDisposeFutureProviderElement<double>
 }
 
 String _$estimatePoolTVLInFiatHash() =>
-    r'9766fc5d3e258589d599654f78bb81dfbcd3328f';
+    r'c7aa475e9e354a0c083618ed950616a67a278004';
 
 /// See also [_estimatePoolTVLInFiat].
 @ProviderFor(_estimatePoolTVLInFiat)
 const _estimatePoolTVLInFiatProvider = _EstimatePoolTVLInFiatFamily();
 
 /// See also [_estimatePoolTVLInFiat].
-class _EstimatePoolTVLInFiatFamily extends Family<double> {
+class _EstimatePoolTVLInFiatFamily extends Family<AsyncValue<double>> {
   /// See also [_estimatePoolTVLInFiat].
   const _EstimatePoolTVLInFiatFamily();
 
@@ -250,7 +250,7 @@ class _EstimatePoolTVLInFiatFamily extends Family<double> {
 }
 
 /// See also [_estimatePoolTVLInFiat].
-class _EstimatePoolTVLInFiatProvider extends AutoDisposeProvider<double> {
+class _EstimatePoolTVLInFiatProvider extends AutoDisposeFutureProvider<double> {
   /// See also [_estimatePoolTVLInFiat].
   _EstimatePoolTVLInFiatProvider(
     DexPool? pool,
@@ -285,7 +285,7 @@ class _EstimatePoolTVLInFiatProvider extends AutoDisposeProvider<double> {
 
   @override
   Override overrideWith(
-    double Function(_EstimatePoolTVLInFiatRef provider) create,
+    FutureOr<double> Function(_EstimatePoolTVLInFiatRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -302,7 +302,7 @@ class _EstimatePoolTVLInFiatProvider extends AutoDisposeProvider<double> {
   }
 
   @override
-  AutoDisposeProviderElement<double> createElement() {
+  AutoDisposeFutureProviderElement<double> createElement() {
     return _EstimatePoolTVLInFiatProviderElement(this);
   }
 
@@ -320,20 +320,21 @@ class _EstimatePoolTVLInFiatProvider extends AutoDisposeProvider<double> {
   }
 }
 
-mixin _EstimatePoolTVLInFiatRef on AutoDisposeProviderRef<double> {
+mixin _EstimatePoolTVLInFiatRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `pool` of this provider.
   DexPool? get pool;
 }
 
 class _EstimatePoolTVLInFiatProviderElement
-    extends AutoDisposeProviderElement<double> with _EstimatePoolTVLInFiatRef {
+    extends AutoDisposeFutureProviderElement<double>
+    with _EstimatePoolTVLInFiatRef {
   _EstimatePoolTVLInFiatProviderElement(super.provider);
 
   @override
   DexPool? get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'c40f87f20c9bfd7873f6b63bf6826762f63867ff';
+String _$estimateStatsHash() => r'd97f44059b58de84ad4f935a69ac70062f173eb3';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -588,7 +589,7 @@ class _GetPoolProviderElement extends AutoDisposeFutureProviderElement<DexPool?>
   String get genesisAddress => (origin as _GetPoolProvider).genesisAddress;
 }
 
-String _$loadPoolCardHash() => r'3ce156ad66a475d9fb60d522006199bf96a9cbb4';
+String _$loadPoolCardHash() => r'8f7a524b5e9d1913fa3dfa2de0c1240bff1f9a59';
 
 /// See also [_loadPoolCard].
 @ProviderFor(_loadPoolCard)
@@ -1159,7 +1160,7 @@ class _GetPoolListForSearchProviderElement
       (origin as _GetPoolListForSearchProvider).poolList;
 }
 
-String _$getPoolTxListHash() => r'bef0aed679ce1967a80bb31de70ba5d202846dcc';
+String _$getPoolTxListHash() => r'a68f3f546c76e650d9f8ffb75576118198c05df9';
 
 /// See also [_getPoolTxList].
 @ProviderFor(_getPoolTxList)

@@ -27,19 +27,19 @@ Future<double> _getRatio(
 }
 
 @riverpod
-double _estimatePoolTVLInFiat(
+Future<double> _estimatePoolTVLInFiat(
   _EstimatePoolTVLInFiatRef ref,
   DexPool? pool,
-) {
+) async {
   if (pool == null) return 0;
 
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
   var tvl = 0.0;
-  fiatValueToken1 =
-      ref.read(DexTokensProviders.estimateTokenInFiat(pool.pair.token1));
-  fiatValueToken2 =
-      ref.read(DexTokensProviders.estimateTokenInFiat(pool.pair.token2));
+  fiatValueToken1 = await ref
+      .read(DexTokensProviders.estimateTokenInFiat(pool.pair.token1).future);
+  fiatValueToken2 = await ref
+      .read(DexTokensProviders.estimateTokenInFiat(pool.pair.token2).future);
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
     tvl = pool.pair.token1.reserve * fiatValueToken1 +
@@ -244,23 +244,27 @@ Future<DexPool> _estimateStats(
   final archethicOracleUCO =
       ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
+  final session = ref.read(SessionProviders.session);
+
   if (pool.pair.token1.symbol == 'UCO') {
     priceToken1 = archethicOracleUCO.usd;
   } else {
-    priceToken1 = ref.read(
-      aedappfm.CoinPriceProviders.coinPriceFromAddress(
-        pool.pair.token1.address!,
-      ),
+    priceToken1 = await ref.read(
+      aedappfm.CoinPriceProviders.coinPrice(
+        address: pool.pair.token1.address!,
+        network: session.envSelected,
+      ).future,
     );
   }
 
   if (pool.pair.token2.symbol == 'UCO') {
     priceToken2 = archethicOracleUCO.usd;
   } else {
-    priceToken2 = ref.read(
-      aedappfm.CoinPriceProviders.coinPriceFromAddress(
-        pool.pair.token2.address!,
-      ),
+    priceToken2 = await ref.read(
+      aedappfm.CoinPriceProviders.coinPrice(
+        address: pool.pair.token2.address!,
+        network: session.envSelected,
+      ).future,
     );
   }
 

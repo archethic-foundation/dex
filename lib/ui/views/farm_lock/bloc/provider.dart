@@ -70,8 +70,9 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
         ).future,
       );
 
-      price = ref.read(
-        DexTokensProviders.estimateTokenInFiat(state.farmLock!.rewardToken!),
+      price = await ref.read(
+        DexTokensProviders.estimateTokenInFiat(state.farmLock!.rewardToken!)
+            .future,
       );
     }
 

@@ -126,6 +126,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
       final apiService = aedappfm.sl.get<archethic.ApiService>();
       final feesToken = await calculateFees(
         transactionPool,
+        apiService,
       );
       final blockchainTxVersion = int.parse(
         (await apiService.getBlockchainVersion()).version.transaction,

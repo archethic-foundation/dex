@@ -31,7 +31,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionDeposit,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -118,6 +118,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionDeposit!,
         ],
+        apiService,
       );
 
       farmDepositNotifier
@@ -137,6 +138,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
 
       final amount = await aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTx(
+          apiService,
           transactionDeposit!.address!.address!,
           isUCO,
           farmAddress,

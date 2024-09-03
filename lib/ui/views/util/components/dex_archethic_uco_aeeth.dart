@@ -19,7 +19,7 @@ class ArchethicOraclePair extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var valueToken1 = 0.0;
+    /*var valueToken1 = 0.0;
     var valueToken2 = 0.0;
     if (token1.isUCO) {
       final archethicOracleUCO =
@@ -64,5 +64,8 @@ class ArchethicOraclePair extends ConsumerWidget {
         ),
       ],
     );
+  }*/
+    // TODO: PB await
+    return Text('');
   }
 }

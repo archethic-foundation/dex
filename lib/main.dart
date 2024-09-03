@@ -42,12 +42,16 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
         await ref
             .read(
               aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
             )
-            .init();
+            .startSubscription();
+        await ref
+            .read(
+              aedappfm.CoinPriceProviders.coinPrices.notifier,
+            )
+            .starTimer();
       } catch (e) {
         aedappfm.sl.get<aedappfm.LogManager>().log('main initState $e');
       } finally {

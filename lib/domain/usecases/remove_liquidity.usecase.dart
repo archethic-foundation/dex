@@ -33,7 +33,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
     DexToken lpToken, {
     int recoveryStep = 0,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -117,6 +117,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionRemoveLiquidity!,
         ],
+        apiService,
       );
 
       liquidityRemoveNotifier
@@ -137,12 +138,15 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
           getAmountFromTxInput(
             transactionRemoveLiquidity!.address!.address!,
             token1.address,
+            apiService,
           ),
           getAmountFromTxInput(
             transactionRemoveLiquidity!.address!.address!,
             token2.address,
+            apiService,
           ),
           getAmountFromTx(
+            apiService,
             transactionRemoveLiquidity!.address!.address!,
             false,
             '00000000000000000000000000000000000000000000000000000000000000000000',

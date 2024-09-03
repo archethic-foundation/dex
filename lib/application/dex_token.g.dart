@@ -455,14 +455,14 @@ class _GetTokenIconProviderElement
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'd94d4a41a5c8626a826183eb10e5124cfadb870c';
+    r'92ff1d150af86865703bc5ff54ca6e823091a242';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)
 const _estimateTokenInFiatProvider = _EstimateTokenInFiatFamily();
 
 /// See also [_estimateTokenInFiat].
-class _EstimateTokenInFiatFamily extends Family<double> {
+class _EstimateTokenInFiatFamily extends Family<AsyncValue<double>> {
   /// See also [_estimateTokenInFiat].
   const _EstimateTokenInFiatFamily();
 
@@ -500,7 +500,7 @@ class _EstimateTokenInFiatFamily extends Family<double> {
 }
 
 /// See also [_estimateTokenInFiat].
-class _EstimateTokenInFiatProvider extends AutoDisposeProvider<double> {
+class _EstimateTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   /// See also [_estimateTokenInFiat].
   _EstimateTokenInFiatProvider(
     DexToken token,
@@ -535,7 +535,7 @@ class _EstimateTokenInFiatProvider extends AutoDisposeProvider<double> {
 
   @override
   Override overrideWith(
-    double Function(_EstimateTokenInFiatRef provider) create,
+    FutureOr<double> Function(_EstimateTokenInFiatRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -552,7 +552,7 @@ class _EstimateTokenInFiatProvider extends AutoDisposeProvider<double> {
   }
 
   @override
-  AutoDisposeProviderElement<double> createElement() {
+  AutoDisposeFutureProviderElement<double> createElement() {
     return _EstimateTokenInFiatProviderElement(this);
   }
 
@@ -570,13 +570,14 @@ class _EstimateTokenInFiatProvider extends AutoDisposeProvider<double> {
   }
 }
 
-mixin _EstimateTokenInFiatRef on AutoDisposeProviderRef<double> {
+mixin _EstimateTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `token` of this provider.
   DexToken get token;
 }
 
 class _EstimateTokenInFiatProviderElement
-    extends AutoDisposeProviderElement<double> with _EstimateTokenInFiatRef {
+    extends AutoDisposeFutureProviderElement<double>
+    with _EstimateTokenInFiatRef {
   _EstimateTokenInFiatProviderElement(super.provider);
 
   @override
@@ -584,7 +585,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimateLPTokenInFiatHash() =>
-    r'a17f42e14e86865e76a043bdaec17f957818e7f4';
+    r'9c857c000dfddf2ccc694d3ec53c5313c6baac55';
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)

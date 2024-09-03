@@ -35,7 +35,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionLevelUp,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -128,6 +128,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionLevelUp!,
         ],
+        apiService,
       );
 
       farmLevelUpNotifier

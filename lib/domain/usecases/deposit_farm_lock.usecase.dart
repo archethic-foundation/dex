@@ -34,7 +34,7 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionDeposit,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -126,6 +126,7 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionDeposit!,
         ],
+        apiService,
       );
 
       farmDepositNotifier

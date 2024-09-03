@@ -33,7 +33,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionWithdraw,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -126,6 +126,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionWithdraw!,
         ],
+        apiService,
       );
 
       farmLockWithdrawNotifier
@@ -158,10 +159,12 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
           getAmountFromTxInput(
             transactionWithdraw!.address!.address!,
             rewardToken.address,
+            apiService,
           ),
           getAmountFromTxInput(
             transactionWithdraw!.address!.address!,
             lpTokenAddress,
+            apiService,
           ),
         ]),
         sleepDuration: const Duration(seconds: 3),

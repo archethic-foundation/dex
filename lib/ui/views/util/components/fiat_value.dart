@@ -13,7 +13,8 @@ class FiatValue {
     bool withParenthesis = true,
     int precision = 2,
   }) async {
-    final price = ref.watch(DexTokensProviders.estimateTokenInFiat(token));
+    final price =
+        await ref.watch(DexTokensProviders.estimateTokenInFiat(token).future);
 
     if (price == 0) {
       if (withParenthesis) {

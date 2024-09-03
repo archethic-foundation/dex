@@ -33,7 +33,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
     DexToken lpToken, {
     int recoveryStep = 0,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
     final archethicContract = ArchethicContract();
@@ -115,6 +115,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionAddLiquidity!,
         ],
+        apiService,
       );
 
       liquidityAddNotifier
@@ -134,6 +135,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionAddLiquidity!.address!.address!,
           lpToken.address,
+          apiService,
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,
@@ -186,7 +188,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
     double token2Amount,
     double slippage,
   ) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     final archethicContract = ArchethicContract();
     archethic.Transaction? transactionAddLiquidity;
 
@@ -222,9 +224,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
       return 0.0;
     }
 
-    final fees = await calculateFees(
-      transactionAddLiquidity!,
-    );
+    final fees = await calculateFees(transactionAddLiquidity!, apiService);
     return fees;
   }
 

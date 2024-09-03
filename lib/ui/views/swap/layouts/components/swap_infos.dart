@@ -288,10 +288,11 @@ class SwapInfos extends ConsumerWidget {
                   AppLocalizations.of(context)!.aeswap_swapInfosTVL,
                   style: AppTextStyles.bodyMedium(context),
                 ),
-                SelectableText(
+                // TODO: Pb await
+                /* SelectableText(
                   '\$${tvl.formatNumber(precision: 2)}',
                   style: AppTextStyles.bodyMedium(context),
-                ),
+                ),*/
               ],
             ),
             Row(
