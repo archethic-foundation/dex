@@ -2,7 +2,7 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_settings_slippage_to
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
+import 'package:aedex/l10n/localizations-aeswap.dart';
 
 class SwapSettingsPopup {
   static Future<void> getDialog(

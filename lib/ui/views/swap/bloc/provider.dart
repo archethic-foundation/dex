@@ -17,7 +17,7 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
+import 'package:aedex/l10n/localizations-aeswap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _swapFormProvider =

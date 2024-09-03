@@ -7,7 +7,7 @@ import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
+import 'package:aedex/l10n/localizations-aeswap.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class SingleToken extends StatefulWidget {

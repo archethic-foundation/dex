@@ -10,7 +10,7 @@ import 'package:aedex/util/browser_util_desktop.dart'
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
+import 'package:aedex/l10n/localizations-aeswap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainScreenList extends ConsumerStatefulWidget {

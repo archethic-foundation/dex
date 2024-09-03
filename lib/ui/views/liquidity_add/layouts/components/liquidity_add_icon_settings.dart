@@ -3,7 +3,7 @@ import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_se
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations-aeswap.dart';
+import 'package:aedex/l10n/localizations-aeswap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LiquidityAddTokenIconSettings extends ConsumerWidget {
