@@ -117,7 +117,7 @@ flutter:
     - assets/images/
     - assets/images/bc-logos/
     - lib/domain/repositories/common_bases.json
-    - packages/aedex/lib/domain/repositories/config.json
+    - assets/packages/aedex/lib/domain/repositories/config.json
     - lib/domain/repositories/blockchains_list.json
 
   fonts:
