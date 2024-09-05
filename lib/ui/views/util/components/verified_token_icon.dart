@@ -17,6 +17,20 @@ class VerifiedTokenIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (address == 'UCO') {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 3),
+        child: Tooltip(
+          message: AppLocalizations.of(context)!.verifiedTokenIconTooltip,
+          child: Icon(
+            aedappfm.Iconsax.verify,
+            color: aedappfm.ArchethicThemeBase.systemPositive500,
+            size: iconSize,
+          ),
+        ),
+      );
+    }
+
     return FutureBuilder<bool>(
       future: ref.read(
         aedappfm.VerifiedTokensProviders.isVerifiedToken(address).future,
