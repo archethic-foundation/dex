@@ -21,7 +21,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class _SessionNotifier extends Notifier<Session> {
+class _SessionNotifier extends _$SessionNotifier {
   StreamSubscription? connectionStatusSubscription;
   awc.ArchethicDAppClient? _archethicDAppClient;
 
@@ -43,20 +43,23 @@ class _SessionNotifier extends Notifier<Session> {
 
   Future<void> updateCtxInfo(BuildContext context) async {
     if (state.isConnected == false && state.endpoint.isEmpty) {
+      print('state.endpoint ${state.endpoint} ---- 0');
       await connectToWallet(
         forceConnection: false,
       );
+      print('state.endpoint ${state.endpoint} ---- 1');
     }
 
     if (state.isConnected == false && state.endpoint.isEmpty) {
       if (context.mounted) {
-        connectEndpoint(state.envSelected);
+        print('state.endpoint ${state.endpoint} ---- 2');
+        await connectEndpoint(state.envSelected);
         final preferences = await HivePreferencesDatasource.getInstance();
         aedappfm.sl.get<aedappfm.LogManager>().logsActived =
             preferences.isLogsActived();
       }
     }
-
+    print('state.endpoint ${state.endpoint} ---- 3');
     final verifiedTokensNetWork =
         ref.read(aedappfm.VerifiedTokensProviders.verifiedTokens).network;
     if (verifiedTokensNetWork != state.envSelected) {
@@ -78,7 +81,7 @@ class _SessionNotifier extends Notifier<Session> {
     }
   }
 
-  void connectEndpoint(String env) {
+  Future<void> connectEndpoint(String env) async {
     state = state.copyWith(
       envSelected: env,
       isConnected: false,
@@ -86,7 +89,7 @@ class _SessionNotifier extends Notifier<Session> {
       endpoint: aedappfm.EndpointUtil.getEnvironnementUrl(env),
     );
 
-    setupServiceLocatorApiService(state.endpoint);
+    await setupServiceLocatorApiService(state.endpoint);
     invalidateInfos();
   }
 
@@ -118,7 +121,7 @@ class _SessionNotifier extends Notifier<Session> {
         nameAccount: '',
       );
 
-      final client = _getDappClient();
+      final client = await _getDappClient();
 
       await client.connect();
     } catch (e) {
@@ -128,7 +131,7 @@ class _SessionNotifier extends Notifier<Session> {
     }
   }
 
-  awc.ArchethicDAppClient _getDappClient() {
+  Future<awc.ArchethicDAppClient> _getDappClient() async {
     awc.ArchethicDAppClient buildDappClient() {
       try {
         return awc.ArchethicDAppClient.auto(
@@ -142,13 +145,13 @@ class _SessionNotifier extends Notifier<Session> {
       }
     }
 
-    awc.ArchethicDAppClient prepareDappClient() {
+    Future<awc.ArchethicDAppClient> prepareDappClient() async {
       final archethicDAppClient = buildDappClient();
 
       connectionStatusSubscription =
           archethicDAppClient.connectionStateStream.listen(
-        (event) {
-          event.when(
+        (event) async {
+          await event.when(
             disconnected: () {
               state = state.copyWith(
                 endpoint: '',
@@ -161,81 +164,97 @@ class _SessionNotifier extends Notifier<Session> {
             },
             connected: () async {
               try {
-                final endpointResult =
-                    await archethicDAppClient.getEndpoint().valueOrThrow;
+                final endpointResult = await archethicDAppClient.getEndpoint();
 
-                if (state.endpoint.isNotEmpty &&
-                    state.endpoint != endpointResult.endpointUrl) {
-                  final poolsListDatasource =
-                      await HivePoolsListDatasource.getInstance();
-                  await poolsListDatasource.clearAll();
-                }
-
-                state = state.copyWith(
-                  endpoint: endpointResult.endpointUrl,
-                  isConnected: true,
-                );
-                if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
-                  aedappfm.sl.unregister<awc.ArchethicDAppClient>();
-                }
-                aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
-                  () => archethicDAppClient,
-                );
-
-                setupServiceLocatorApiService(endpointResult.endpointUrl);
-                final preferences =
-                    await HivePreferencesDatasource.getInstance();
-                aedappfm.sl.get<aedappfm.LogManager>().logsActived =
-                    preferences.isLogsActived();
-
-                // final currentAccountResponse =
-                //     await archethicDAppClient.getCurrentAccount();
-                // currentAccountResponse.when(
-                //   success: (currentAccount) {
-                //     state = state.copyWith(
-                //       oldNameAccount: state.nameAccount,
-                //       genesisAddress: currentAccount.genesisAddress,
-                //       nameAccount: currentAccount.shortName,
-                //     );
-                //   },
-                //   failure: (_) {},
-                // );
-                final subscription =
-                    await archethicDAppClient.subscribeCurrentAccount();
-
-                await subscription.when(
+                await endpointResult.map(
                   success: (success) async {
-                    connectEndpoint(aedappfm.EndpointUtil.getEnvironnement());
+                    print('state.endpoint ${state.endpoint} 1');
+                    if (state.endpoint.isNotEmpty &&
+                        state.endpoint != success.value.endpointUrl) {
+                      print('state.endpoint ${state.endpoint} 2');
+
+                      await (await HivePoolsListDatasource.getInstance())
+                          .clearAll();
+                    }
+                    print('state.endpoint ${state.endpoint} 3');
+
+                    if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
+                      aedappfm.sl.unregister<awc.ArchethicDAppClient>();
+                    }
+                    aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
+                      () => archethicDAppClient,
+                    );
+
+                    await setupServiceLocatorApiService(
+                        success.value.endpointUrl);
                     final preferences =
                         await HivePreferencesDatasource.getInstance();
                     aedappfm.sl.get<aedappfm.LogManager>().logsActived =
                         preferences.isLogsActived();
-                    invalidateInfos();
+
+                    // final currentAccountResponse =
+                    //     await archethicDAppClient.getCurrentAccount();
+                    // currentAccountResponse.when(
+                    //   success: (currentAccount) {
+                    //     state = state.copyWith(
+                    //       oldNameAccount: state.nameAccount,
+                    //       genesisAddress: currentAccount.genesisAddress,
+                    //       nameAccount: currentAccount.shortName,
+                    //     );
+                    //   },
+                    //   failure: (_) {},
+                    // );
+                    final subscription =
+                        await archethicDAppClient.subscribeCurrentAccount();
+
                     state = state.copyWith(
-                      accountSub: success,
-                      error: '',
+                      endpoint: success.value.endpointUrl,
                       isConnected: true,
-                      envSelected: aedappfm.EndpointUtil.getEnvironnement(),
-                      accountStreamSub: success.updates.listen((event) {
+                    );
+                    print('state.endpoint ${state.endpoint} 4');
+
+                    await subscription.when(
+                      success: (success) async {
+                        connectEndpoint(
+                            aedappfm.EndpointUtil.getEnvironnement());
+                        final preferences =
+                            await HivePreferencesDatasource.getInstance();
+                        aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+                            preferences.isLogsActived();
+                        invalidateInfos();
                         state = state.copyWith(
-                          oldNameAccount: state.nameAccount,
-                          genesisAddress: event.genesisAddress,
-                          nameAccount: event.name,
+                          accountSub: success,
+                          error: '',
+                          isConnected: true,
+                          envSelected: aedappfm.EndpointUtil.getEnvironnement(),
+                          accountStreamSub: success.updates.listen((event) {
+                            state = state.copyWith(
+                              oldNameAccount: state.nameAccount,
+                              genesisAddress: event.genesisAddress,
+                              nameAccount: event.name,
+                            );
+                          }),
                         );
-                      }),
+                      },
+                      failure: (failure) {
+                        state = state.copyWith(
+                          isConnected: false,
+                          error: failure.message,
+                        );
+                      },
+                    );
+
+                    state = state.copyWith(
+                      isConnected: true,
+                      error: '',
                     );
                   },
                   failure: (failure) {
                     state = state.copyWith(
                       isConnected: false,
-                      error: failure.message,
+                      error: failure.failure.message,
                     );
                   },
-                );
-
-                state = state.copyWith(
-                  isConnected: true,
-                  error: '',
                 );
               } catch (e) {
                 _handleConnectionFailure();
@@ -249,7 +268,10 @@ class _SessionNotifier extends Notifier<Session> {
       return archethicDAppClient;
     }
 
-    return _archethicDAppClient ??= prepareDappClient();
+    if (_archethicDAppClient != null) {
+      return _archethicDAppClient!;
+    } else {}
+    return prepareDappClient();
   }
 
   void setOldNameAccount() {
