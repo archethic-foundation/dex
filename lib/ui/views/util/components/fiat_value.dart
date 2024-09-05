@@ -13,20 +13,25 @@ class FiatValue {
     bool withParenthesis = true,
     int precision = 2,
   }) async {
-    final price = ref.watch(DexTokensProviders.estimateTokenInFiat(token));
+    final priceAsyncValue =
+        ref.watch(DexTokensProviders.estimateTokenInFiat(token));
 
-    if (price == 0) {
-      if (withParenthesis) {
-        return r'($--)';
-      } else {
-        return r'$--';
-      }
-    }
-    final fiatValue = price * amount;
-    if (withParenthesis) {
-      return '(\$${fiatValue.formatNumber(precision: precision)})';
-    } else {
-      return '\$${fiatValue.formatNumber(precision: precision)}';
-    }
+    return priceAsyncValue.when(
+      data: (price) {
+        if (price == 0) {
+          return withParenthesis ? r'($--)' : r'$--';
+        }
+        final fiatValue = price * amount;
+        return withParenthesis
+            ? '(\$${fiatValue.formatNumber(precision: precision)})'
+            : '\$${fiatValue.formatNumber(precision: precision)}';
+      },
+      loading: () {
+        return withParenthesis ? r'($--)' : r'$--';
+      },
+      error: (error, stackTrace) {
+        return withParenthesis ? r'($--)' : r'$--';
+      },
+    );
   }
 }

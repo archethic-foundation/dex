@@ -118,6 +118,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionDeposit!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
 
       farmDepositNotifier
@@ -137,6 +138,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
 
       final amount = await aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTx(
+          aedappfm.sl.get<archethic.ApiService>(),
           transactionDeposit!.address!.address!,
           isUCO,
           farmAddress,

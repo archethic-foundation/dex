@@ -124,6 +124,7 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionDeposit!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
 
       farmDepositNotifier

@@ -68,7 +68,8 @@ Future<DexPool> _loadPoolCard(
     lpTokenInUserBalance: lpTokenInUserBalance,
   );
 
-  final tvl = ref.read(DexPoolProviders.estimatePoolTVLInFiat(poolOutput));
+  final tvl =
+      await ref.read(DexPoolProviders.estimatePoolTVLInFiat(poolOutput).future);
 
   poolOutput =
       await ref.read(DexPoolProviders.estimateStats(poolOutput).future);

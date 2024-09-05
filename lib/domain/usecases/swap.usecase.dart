@@ -159,6 +159,7 @@ class SwapCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionSwap!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
 
       swapNotifier
@@ -179,6 +180,7 @@ class SwapCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionSwap!.address!.address!,
           tokenSwapped.address,
+          aedappfm.sl.get<archethic.ApiService>(),
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,
@@ -296,7 +298,11 @@ class SwapCase with aedappfm.TransactionMixin {
             previousPublicKey:
                 '00000000000000000000000000000000000000000000000000000000000000000000',
           );
-          final fees = await calculateFees(transactionSwap!, slippage: 1.1);
+          final fees = await calculateFees(
+            transactionSwap!,
+            aedappfm.sl.get<archethic.ApiService>(),
+            slippage: 1.1,
+          );
           return fees;
         },
         failure: (failure) {

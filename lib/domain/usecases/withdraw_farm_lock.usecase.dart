@@ -124,6 +124,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionWithdraw!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
 
       farmLockWithdrawNotifier
@@ -151,15 +152,18 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         timeout: const Duration(minutes: 1),
       );
 
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(
             transactionWithdraw!.address!.address!,
             rewardToken.address,
+            apiService,
           ),
           getAmountFromTxInput(
             transactionWithdraw!.address!.address!,
             lpTokenAddress,
+            apiService,
           ),
         ]),
         sleepDuration: const Duration(seconds: 3),

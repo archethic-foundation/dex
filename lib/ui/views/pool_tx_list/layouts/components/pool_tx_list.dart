@@ -166,41 +166,62 @@ class PoolTxListState extends ConsumerState<PoolTxList> {
             ),
           ],
         ),
-        ratioTokens(context, ref),
+        _buildRatioTokens(context, ref),
       ],
     );
   }
 
-  Widget ratioTokens(BuildContext context, WidgetRef ref) {
-    final fiatValueToken1 = ref
-        .watch(DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token1));
-    final fiatValueToken2 = ref
-        .watch(DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token2));
-    final timestamp = DateFormat.yMd(
-      Localizations.localeOf(context).languageCode,
-    ).add_Hm().format(
-          DateTime.now().toLocal(),
-        );
+  Widget _buildRatioTokens(BuildContext context, WidgetRef ref) {
+    final fiatValueToken1 = ref.watch(
+      DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token1),
+    );
+    final fiatValueToken2 = ref.watch(
+      DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token2),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if (fiatValueToken1 > 0)
-            Text(
-              '1 ${widget.pool.pair.token1.symbol} = \$${fiatValueToken1.formatNumber()} ($timestamp)',
-              style: TextStyle(
-                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
-              ),
-            ),
-          if (fiatValueToken2 > 0)
-            Text(
-              '1 ${widget.pool.pair.token2.symbol} = \$${fiatValueToken2.formatNumber()} ($timestamp)',
-              style: TextStyle(
-                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
-              ),
-            ),
+          fiatValueToken1.when(
+            data: (price1) {
+              if (price1 > 0) {
+                final timestamp = DateFormat.yMd(
+                  Localizations.localeOf(context).languageCode,
+                ).add_Hm().format(DateTime.now().toLocal());
+                return Text(
+                  '1 ${widget.pool.pair.token1.symbol} = \$${price1.formatNumber()} ($timestamp)',
+                  style: TextStyle(
+                    fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+                  ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+            loading: () => const SizedBox.shrink(),
+            error: (err, stack) => const SizedBox.shrink(),
+          ),
+          fiatValueToken2.when(
+            data: (price2) {
+              if (price2 > 0) {
+                final timestamp = DateFormat.yMd(
+                  Localizations.localeOf(context).languageCode,
+                ).add_Hm().format(DateTime.now().toLocal());
+                return Text(
+                  '1 ${widget.pool.pair.token2.symbol} = \$${price2.formatNumber()} ($timestamp)',
+                  style: TextStyle(
+                    fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+                  ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+            loading: () => const SizedBox.shrink(),
+            error: (err, stack) => const SizedBox.shrink(),
+          ),
         ],
       ),
     );

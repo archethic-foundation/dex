@@ -161,9 +161,6 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 await ref
                     .read(SessionProviders.session.notifier)
                     .connectEndpointWithoutWallet('testnet');
-                ref
-                  ..invalidate(aedappfm.UcidsTokensProviders.ucidsTokens)
-                  ..invalidate(aedappfm.CoinPriceProviders.coinPrice);
                 if (context.mounted) {
                   await ref
                       .read(SessionProviders.session.notifier)

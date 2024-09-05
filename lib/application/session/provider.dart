@@ -77,18 +77,7 @@ class _SessionNotifier extends _$SessionNotifier {
           )
           .init(state.envSelected);
     }
-    final ucidsTokens = ref.read(aedappfm.UcidsTokensProviders.ucidsTokens);
-    if (ucidsTokens.isEmpty) {
-      await ref
-          .read(
-            aedappfm.UcidsTokensProviders.ucidsTokens.notifier,
-          )
-          .init(state.envSelected);
-    }
-    final coinPrice = ref.read(aedappfm.CoinPriceProviders.coinPrice);
-    if (coinPrice.timestamp == null) {
-      await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
-    }
+    await ref.read(aedappfm.CoinPriceProviders.coinPrices.notifier).starTimer();
   }
 
   void _handleConnectionFailure() {

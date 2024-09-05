@@ -115,6 +115,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionRemoveLiquidity!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
 
       liquidityRemoveNotifier
@@ -130,17 +131,21 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         ),
       );
 
+      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(
             transactionRemoveLiquidity!.address!.address!,
             token1.address,
+            apiService,
           ),
           getAmountFromTxInput(
             transactionRemoveLiquidity!.address!.address!,
             token2.address,
+            apiService,
           ),
           getAmountFromTx(
+            apiService,
             transactionRemoveLiquidity!.address!.address!,
             false,
             '00000000000000000000000000000000000000000000000000000000000000000000',

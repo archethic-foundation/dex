@@ -115,6 +115,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionAddLiquidity!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
 
       liquidityAddNotifier
@@ -134,6 +135,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionAddLiquidity!.address!.address!,
           lpToken.address,
+          aedappfm.sl.get<archethic.ApiService>(),
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,
@@ -224,6 +226,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
 
     final fees = await calculateFees(
       transactionAddLiquidity!,
+      aedappfm.sl.get<archethic.ApiService>(),
     );
     return fees;
   }
