@@ -30,9 +30,9 @@ void setupServiceLocator() {
     });
 }
 
-Future<void> setupServiceLocatorApiService(String endpoint) async {
+void setupServiceLocatorApiService(String endpoint) {
   if (aedappfm.sl.isRegistered<ApiService>()) {
-    await aedappfm.sl.unregister<ApiService>();
+    aedappfm.sl.unregister<ApiService>();
   }
 
   aedappfm.sl.registerLazySingleton<ApiService>(

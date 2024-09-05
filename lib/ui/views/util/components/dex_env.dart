@@ -107,9 +107,9 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 final poolsListDatasource =
                     await HivePoolsListDatasource.getInstance();
                 await poolsListDatasource.clearAll();
-                ref
+                await ref
                     .read(SessionProviders.session.notifier)
-                    .connectEndpoint('mainnet');
+                    .connectEndpointWithoutWallet('mainnet');
                 final preferences =
                     await HivePreferencesDatasource.getInstance();
                 aedappfm.sl.get<aedappfm.LogManager>().logsActived =
@@ -158,9 +158,9 @@ class _DexEnvState extends ConsumerState<DexEnv> {
                 final poolsListDatasource =
                     await HivePoolsListDatasource.getInstance();
                 await poolsListDatasource.clearAll();
-                ref
+                await ref
                     .read(SessionProviders.session.notifier)
-                    .connectEndpoint('testnet');
+                    .connectEndpointWithoutWallet('testnet');
                 ref
                   ..invalidate(aedappfm.UcidsTokensProviders.ucidsTokens)
                   ..invalidate(aedappfm.CoinPriceProviders.coinPrice);
