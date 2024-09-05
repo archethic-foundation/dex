@@ -19,48 +19,52 @@ class ArchethicOraclePair extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var valueToken1 = 0.0;
-    var valueToken2 = 0.0;
-    if (token1.isUCO) {
-      final archethicOracleUCO =
-          ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
-      valueToken1 = archethicOracleUCO.usd;
-      if (valueToken1 == 0) {
-        return const SizedBox.shrink();
-      }
-    } else {
-      valueToken1 = ref.read(DexTokensProviders.estimateTokenInFiat(token1));
-      if (valueToken1 == 0) {
-        return const SizedBox.shrink();
-      }
-    }
-    if (token2.isUCO) {
-      final archethicOracleUCO =
-          ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
-      valueToken2 = archethicOracleUCO.usd;
-      if (valueToken2 == 0) {
-        return const SizedBox.shrink();
-      }
-    } else {
-      valueToken2 = ref.read(DexTokensProviders.estimateTokenInFiat(token2));
-      if (valueToken2 == 0) {
-        return const SizedBox.shrink();
-      }
-    }
+    final valueToken1 =
+        ref.watch(DexTokensProviders.estimateTokenInFiat(token1));
+    final valueToken2 =
+        ref.watch(DexTokensProviders.estimateTokenInFiat(token2));
 
-    final timestamp = DateFormat.yMd(
-      Localizations.localeOf(context).languageCode,
-    ).add_Hm().format(
-          DateTime.now().toLocal(),
-        );
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        SelectableText(
-          '1 ${token1.symbol} = \$${valueToken1.formatNumber(precision: 2)} / 1 ${token2.symbol} = \$${valueToken2.formatNumber(precision: 4)} ($timestamp)',
-          style: TextStyle(
-            fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
-          ),
+        valueToken1.when(
+          data: (fiatValueToken1) {
+            if (fiatValueToken1 == 0) {
+              return const SizedBox.shrink();
+            }
+            final timestamp = DateFormat.yMd(
+              Localizations.localeOf(context).languageCode,
+            ).add_Hm().format(DateTime.now().toLocal());
+
+            return SelectableText(
+              '1 ${token1.symbol} = \$${fiatValueToken1.formatNumber(precision: 2)} ($timestamp)',
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+              ),
+            );
+          },
+          loading: () => const SizedBox.shrink(),
+          error: (err, stack) => const SizedBox.shrink(),
+        ),
+        const SizedBox(width: 8),
+        valueToken2.when(
+          data: (fiatValueToken2) {
+            if (fiatValueToken2 == 0) {
+              return const SizedBox.shrink();
+            }
+            final timestamp = DateFormat.yMd(
+              Localizations.localeOf(context).languageCode,
+            ).add_Hm().format(DateTime.now().toLocal());
+
+            return SelectableText(
+              '1 ${token2.symbol} = \$${fiatValueToken2.formatNumber(precision: 4)} ($timestamp)',
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+              ),
+            );
+          },
+          loading: () => const SizedBox.shrink(),
+          error: (err, stack) => const SizedBox.shrink(),
         ),
       ],
     );

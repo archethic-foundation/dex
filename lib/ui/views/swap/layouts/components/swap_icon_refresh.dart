@@ -39,8 +39,6 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
           },
         );
 
-        ref.invalidate(aedappfm.CoinPriceProviders.coinPrice);
-        await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
         final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
         final swap = ref.read(SwapFormProvider.swapForm);
 

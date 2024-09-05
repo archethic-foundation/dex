@@ -42,8 +42,8 @@ Future<DexFarmLock?> _getFarmLockInfos(
               userGenesisAddress,
             );
 
-    final rewardTokenPriceInFiat = ref.read(
-      DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!),
+    final rewardTokenPriceInFiat = await ref.read(
+      DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!).future,
     );
 
     final estimateLPTokenInFiat = await ref.read(

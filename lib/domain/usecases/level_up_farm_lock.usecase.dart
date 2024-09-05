@@ -126,6 +126,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionLevelUp!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
 
       farmLevelUpNotifier

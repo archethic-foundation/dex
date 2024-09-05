@@ -117,6 +117,7 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionClaim!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
 
       farmClaimLockNotifier
@@ -147,6 +148,7 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionClaim!.address!.address!,
           rewardToken.address,
+          aedappfm.sl.get<archethic.ApiService>(),
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,

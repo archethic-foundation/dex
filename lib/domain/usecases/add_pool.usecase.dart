@@ -165,6 +165,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
           transactionAddPoolTransfer!,
           transactionAddPool!,
         ],
+        aedappfm.sl.get<archethic.ApiService>(),
       );
     }
 
@@ -256,6 +257,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
           <archethic.Transaction>[
             transactionAddPoolLiquidity!,
           ],
+          aedappfm.sl.get<archethic.ApiService>(),
         );
         poolAddNotifier
           ..setCurrentStep(6)

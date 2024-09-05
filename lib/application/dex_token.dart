@@ -1,3 +1,4 @@
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_token.repository.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
@@ -40,10 +41,10 @@ Future<String?> _getTokenIcon(
 }
 
 @riverpod
-double _estimateTokenInFiat(
+Future<double> _estimateTokenInFiat(
   _EstimateTokenInFiatRef ref,
   DexToken token,
-) {
+) async {
   var fiatValue = 0.0;
   if (token.symbol == 'UCO') {
     final archethicOracleUCO =
@@ -51,8 +52,12 @@ double _estimateTokenInFiat(
 
     fiatValue = archethicOracleUCO.usd;
   } else {
-    final price = ref.watch(
-      aedappfm.CoinPriceProviders.coinPriceFromAddress(token.address!),
+    final session = ref.watch(SessionProviders.session);
+    final price = await ref.watch(
+      aedappfm.CoinPriceProviders.coinPrice(
+        address: token.address!,
+        network: session.envSelected,
+      ).future,
     );
 
     fiatValue = price;
@@ -75,8 +80,10 @@ Future<double> _estimateLPTokenInFiat(
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
 
-  fiatValueToken1 = ref.read(DexTokensProviders.estimateTokenInFiat(token1));
-  fiatValueToken2 = ref.read(DexTokensProviders.estimateTokenInFiat(token2));
+  fiatValueToken1 =
+      await ref.read(DexTokensProviders.estimateTokenInFiat(token1).future);
+  fiatValueToken2 =
+      await ref.read(DexTokensProviders.estimateTokenInFiat(token2).future);
 
   if (fiatValueToken1 == 0 && fiatValueToken2 == 0) {
     throw Exception();
