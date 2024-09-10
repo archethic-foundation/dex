@@ -332,7 +332,7 @@ export fun get_lp_token_to_mint(token1_amount, token2_amount) do
   end
 end
 
-export fun get_swap_infos(token_address, amount) do
+export fun get_swap_infos(token_address, input_amount) do
   output_amount = 0
   fee = 0
   protocol_fee = 0
@@ -342,33 +342,30 @@ export fun get_swap_infos(token_address, amount) do
   token_address = String.to_uppercase(token_address)
 
   if reserves.token1 > 0 && reserves.token2 > 0 do
-    fee = amount * State.get("lp_fee", 0.3) / 100
-    protocol_fee = amount * State.get("protocol_fee", 0) / 100
-    amount_with_fee = amount - fee - protocol_fee
+    fee = input_amount * State.get("lp_fee", 0.3) / 100
+    protocol_fee = input_amount * State.get("protocol_fee", 0) / 100
+    amount_with_fee = input_amount - fee - protocol_fee
 
     market_price = 0
 
     if token_address == @TOKEN1 do
-      market_price = amount_with_fee * (reserves.token2 / reserves.token1)
+      market_price = reserves.token2 / reserves.token1
       amount = (amount_with_fee * reserves.token2) / (amount_with_fee + reserves.token1)
       if amount < reserves.token2 do
         output_amount = amount
       end
     else
-      market_price = amount_with_fee * (reserves.token1 / reserves.token2)
+      market_price = reserves.token1 / reserves.token2
       amount = (amount_with_fee * reserves.token1) / (amount_with_fee + reserves.token2)
       if amount < reserves.token1 do
         output_amount = amount
       end
     end
 
-    if output_amount > 0 do
-      # This check is necessary as there might be some approximation in small decimal calculation
-      if market_price > output_amount do
-        price_impact = ((market_price / output_amount) - 1) * 100
-      else
-        price_impact = 0
-      end
+    # This check is necessary as there might be some approximation in small decimal calculation
+    output_price = output_amount / input_amount
+    if output_amount > 0 && market_price > output_price do
+      price_impact = 100 - (output_price * 100 / market_price)
     end
   end
 
