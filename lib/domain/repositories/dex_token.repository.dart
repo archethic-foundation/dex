@@ -1,7 +1,7 @@
 import 'package:aedex/domain/models/dex_token.dart';
 
 abstract class DexTokenRepository {
-  Future<List<DexToken>> getTokenFromAddress(
+  Future<DexToken?> getTokenFromAddress(
     String address,
   );
 

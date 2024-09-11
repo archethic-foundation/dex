@@ -5,6 +5,9 @@ import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -92,6 +95,7 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
 
   Future<void> initBalances() async {
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
 
     final token1Balance = await ref.read(
       BalanceProviders.getBalance(
@@ -99,6 +103,7 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
         state.pool!.pair.token1.isUCO
             ? 'UCO'
             : state.pool!.pair.token1.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(token1Balance: token1Balance);
@@ -109,6 +114,7 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
         state.pool!.pair.token2.isUCO
             ? 'UCO'
             : state.pool!.pair.token2.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(token2Balance: token2Balance);
@@ -117,6 +123,7 @@ class FarmLockFormNotifier extends AutoDisposeNotifier<FarmLockFormState> {
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.pool!.lpToken.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);

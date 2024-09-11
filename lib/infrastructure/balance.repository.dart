@@ -1,6 +1,4 @@
 import 'package:aedex/domain/repositories/balance.repository.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart'
     show Balance, ApiService, fromBigInt;
 
@@ -9,9 +7,9 @@ class BalanceRepositoryImpl implements BalanceRepository {
   Future<double> getBalance(
     String address,
     String tokenAddress,
+    ApiService apiService,
   ) async {
-    final balanceGetResponseMap =
-        await aedappfm.sl.get<ApiService>().fetchBalance([address]);
+    final balanceGetResponseMap = await apiService.fetchBalance([address]);
     if (balanceGetResponseMap[address] == null) {
       return 0.0;
     }
@@ -32,9 +30,9 @@ class BalanceRepositoryImpl implements BalanceRepository {
   @override
   Future<Balance?> getUserTokensBalance(
     String address,
+    ApiService apiService,
   ) async {
-    final balanceGetResponseMap =
-        await aedappfm.sl.get<ApiService>().fetchBalance([address]);
+    final balanceGetResponseMap = await apiService.fetchBalance([address]);
     if (balanceGetResponseMap[address] != null) {
       return balanceGetResponseMap[address];
     }

@@ -24,7 +24,7 @@ final _dexTokenRepositoryProvider =
 
 typedef _DexTokenRepositoryRef = AutoDisposeProviderRef<DexTokenRepositoryImpl>;
 String _$getTokenFromAddressHash() =>
-    r'ca7b4cf09071bc8c2ea6bc060a9a058e74074187';
+    r'cf8e812a1e9ba63434814666d403198598251bc8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -52,18 +52,16 @@ class _SystemHash {
 const _getTokenFromAddressProvider = _GetTokenFromAddressFamily();
 
 /// See also [_getTokenFromAddress].
-class _GetTokenFromAddressFamily extends Family<AsyncValue<List<DexToken>>> {
+class _GetTokenFromAddressFamily extends Family<AsyncValue<DexToken?>> {
   /// See also [_getTokenFromAddress].
   const _GetTokenFromAddressFamily();
 
   /// See also [_getTokenFromAddress].
   _GetTokenFromAddressProvider call(
     dynamic address,
-    dynamic accountAddress,
   ) {
     return _GetTokenFromAddressProvider(
       address,
-      accountAddress,
     );
   }
 
@@ -73,7 +71,6 @@ class _GetTokenFromAddressFamily extends Family<AsyncValue<List<DexToken>>> {
   ) {
     return call(
       provider.address,
-      provider.accountAddress,
     );
   }
 
@@ -94,16 +91,14 @@ class _GetTokenFromAddressFamily extends Family<AsyncValue<List<DexToken>>> {
 
 /// See also [_getTokenFromAddress].
 class _GetTokenFromAddressProvider
-    extends AutoDisposeFutureProvider<List<DexToken>> {
+    extends AutoDisposeFutureProvider<DexToken?> {
   /// See also [_getTokenFromAddress].
   _GetTokenFromAddressProvider(
     dynamic address,
-    dynamic accountAddress,
   ) : this._internal(
           (ref) => _getTokenFromAddress(
             ref as _GetTokenFromAddressRef,
             address,
-            accountAddress,
           ),
           from: _getTokenFromAddressProvider,
           name: r'_getTokenFromAddressProvider',
@@ -115,7 +110,6 @@ class _GetTokenFromAddressProvider
           allTransitiveDependencies:
               _GetTokenFromAddressFamily._allTransitiveDependencies,
           address: address,
-          accountAddress: accountAddress,
         );
 
   _GetTokenFromAddressProvider._internal(
@@ -126,15 +120,13 @@ class _GetTokenFromAddressProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.address,
-    required this.accountAddress,
   }) : super.internal();
 
   final dynamic address;
-  final dynamic accountAddress;
 
   @override
   Override overrideWith(
-    FutureOr<List<DexToken>> Function(_GetTokenFromAddressRef provider) create,
+    FutureOr<DexToken?> Function(_GetTokenFromAddressRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -146,51 +138,41 @@ class _GetTokenFromAddressProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         address: address,
-        accountAddress: accountAddress,
       ),
     );
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<DexToken>> createElement() {
+  AutoDisposeFutureProviderElement<DexToken?> createElement() {
     return _GetTokenFromAddressProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is _GetTokenFromAddressProvider &&
-        other.address == address &&
-        other.accountAddress == accountAddress;
+    return other is _GetTokenFromAddressProvider && other.address == address;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, address.hashCode);
-    hash = _SystemHash.combine(hash, accountAddress.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin _GetTokenFromAddressRef on AutoDisposeFutureProviderRef<List<DexToken>> {
+mixin _GetTokenFromAddressRef on AutoDisposeFutureProviderRef<DexToken?> {
   /// The parameter `address` of this provider.
   dynamic get address;
-
-  /// The parameter `accountAddress` of this provider.
-  dynamic get accountAddress;
 }
 
 class _GetTokenFromAddressProviderElement
-    extends AutoDisposeFutureProviderElement<List<DexToken>>
+    extends AutoDisposeFutureProviderElement<DexToken?>
     with _GetTokenFromAddressRef {
   _GetTokenFromAddressProviderElement(super.provider);
 
   @override
   dynamic get address => (origin as _GetTokenFromAddressProvider).address;
-  @override
-  dynamic get accountAddress =>
-      (origin as _GetTokenFromAddressProvider).accountAddress;
 }
 
 String _$getTokenFromAccountHash() =>

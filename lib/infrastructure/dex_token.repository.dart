@@ -16,7 +16,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
   DexTokenRepositoryImpl();
 
   @override
-  Future<List<DexToken>> getTokenFromAddress(
+  Future<DexToken?> getTokenFromAddress(
     String address,
   ) async {
     DexToken? token;
@@ -42,11 +42,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
       token = tokenHive.toModel();
     }
 
-    if (token == null) {
-      return [];
-    }
-
-    return <DexToken>[token];
+    return token;
   }
 
   @override

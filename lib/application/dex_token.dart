@@ -14,10 +14,9 @@ DexTokenRepositoryImpl _dexTokenRepository(_DexTokenRepositoryRef ref) =>
     DexTokenRepositoryImpl();
 
 @riverpod
-Future<List<DexToken>> _getTokenFromAddress(
+Future<DexToken?> _getTokenFromAddress(
   _GetTokenFromAddressRef ref,
   address,
-  accountAddress,
 ) async {
   return ref.watch(_dexTokenRepositoryProvider).getTokenFromAddress(address);
 }

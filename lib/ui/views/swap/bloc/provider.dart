@@ -66,10 +66,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
     );
 
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(tokenToSwapBalance: balance);
@@ -386,6 +388,14 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
     await calculateOutputAmount();
   }
 
+  Future<void> setTokenToSwapAmountWithoutCalculation(
+    double tokenToSwapAmount,
+  ) async {
+    state = state.copyWith(
+      tokenToSwapAmount: tokenToSwapAmount,
+    );
+  }
+
   Future<void> setTokenSwappedAmount(
     double tokenSwappedAmount,
   ) async {
@@ -423,10 +433,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
     );
 
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(tokenSwappedBalance: balance);

@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_swapped_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_swap_amount.dart';
+import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 
@@ -16,11 +19,92 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SwapFormSheet extends ConsumerWidget {
-  const SwapFormSheet({super.key});
+class SwapFormSheet extends ConsumerStatefulWidget {
+  const SwapFormSheet({
+    this.tokenToSwap,
+    this.tokenSwapped,
+    this.from,
+    this.to,
+    this.value,
+    super.key,
+  });
+
+  final DexToken? tokenToSwap;
+  final DexToken? tokenSwapped;
+  final String? from;
+  final String? to;
+  final double? value;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SwapFormSheet> createState() => _SwapFormSheetState();
+}
+
+class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      try {
+        if (widget.value != null) {
+          await ref
+              .read(SwapFormProvider.swapForm.notifier)
+              .setTokenToSwapAmountWithoutCalculation(widget.value!);
+        }
+
+        if (widget.from != null) {
+          DexToken? _tokenToSwap;
+          if (widget.from != 'UCO') {
+            _tokenToSwap = await ref.read(
+              DexTokensProviders.getTokenFromAddress(widget.from).future,
+            );
+          } else {
+            _tokenToSwap = ucoToken;
+          }
+          if (_tokenToSwap != null) {
+            await ref
+                .read(SwapFormProvider.swapForm.notifier)
+                .setTokenToSwap(_tokenToSwap);
+          }
+        } else {
+          if (widget.tokenToSwap != null) {
+            await ref
+                .read(SwapFormProvider.swapForm.notifier)
+                .setTokenToSwap(widget.tokenToSwap!);
+          }
+        }
+
+        if (widget.to != null) {
+          DexToken? _tokenSwapped;
+          if (widget.to != 'UCO') {
+            _tokenSwapped = await ref.read(
+              DexTokensProviders.getTokenFromAddress(widget.to).future,
+            );
+          } else {
+            _tokenSwapped = ucoToken;
+          }
+          if (_tokenSwapped != null) {
+            await ref
+                .read(SwapFormProvider.swapForm.notifier)
+                .setTokenSwapped(_tokenSwapped);
+          }
+        } else {
+          if (widget.tokenSwapped != null) {
+            await ref
+                .read(SwapFormProvider.swapForm.notifier)
+                .setTokenSwapped(widget.tokenSwapped!);
+          }
+        }
+      } catch (e) {
+        if (mounted) {
+          context.go(SwapSheet.routerPage);
+        }
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext contextf) {
     final swap = ref.watch(SwapFormProvider.swapForm);
 
     return Expanded(

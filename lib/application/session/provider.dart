@@ -91,8 +91,10 @@ class _SessionNotifier extends _$SessionNotifier {
   }
 
   Future<void> refreshUserBalance() async {
+    final apiService = aedappfm.sl.get<ApiService>();
     final userBalance = await BalanceRepositoryImpl().getUserTokensBalance(
       state.genesisAddress,
+      apiService,
     );
     state = state.copyWith(userBalance: userBalance);
   }

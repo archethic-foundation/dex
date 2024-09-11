@@ -5,6 +5,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,10 +44,12 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
         final swap = ref.read(SwapFormProvider.swapForm);
 
         final session = ref.read(SessionProviders.session);
+        final apiService = aedappfm.sl.get<ApiService>();
         final balanceToSwap = await ref.read(
           BalanceProviders.getBalance(
             session.genesisAddress,
             swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+            apiService,
           ).future,
         );
         swapNotifier.setTokenToSwapBalance(balanceToSwap);
@@ -54,6 +57,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
           BalanceProviders.getBalance(
             session.genesisAddress,
             swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
+            apiService,
           ).future,
         );
         swapNotifier.setTokenSwappedBalance(balanceSwapped);

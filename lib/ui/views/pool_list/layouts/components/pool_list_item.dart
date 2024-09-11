@@ -13,6 +13,7 @@ import 'package:aedex/ui/views/pool_tx_list/layouts/pool_tx_list_popup.dart';
 import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -61,10 +62,12 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
     );
     if (mounted) {
       final session = ref.watch(SessionProviders.session);
+      final apiService = aedappfm.sl.get<ApiService>();
       ref.invalidate(
         BalanceProviders.getBalance(
           session.genesisAddress,
           widget.pool.lpToken.address!,
+          apiService,
         ),
       );
     }

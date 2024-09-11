@@ -49,11 +49,13 @@ class LiquidityAddFormNotifier
 
   Future<void> initBalances() async {
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
 
     final token1Balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(token1Balance: token1Balance);
@@ -62,6 +64,7 @@ class LiquidityAddFormNotifier
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(token2Balance: token2Balance);
@@ -70,6 +73,7 @@ class LiquidityAddFormNotifier
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.pool!.lpToken.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);

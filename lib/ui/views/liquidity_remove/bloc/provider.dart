@@ -108,11 +108,13 @@ class LiquidityRemoveFormNotifier
 
   Future<void> initBalance() async {
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
 
     final lpTokenBalance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.lpToken!.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
@@ -189,10 +191,12 @@ class LiquidityRemoveFormNotifier
       token2AmountGetBack: calculateRemoveAmountsResult.removeAmountToken2,
     );
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
     final balanceToken1 = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(token1Balance: balanceToken1);
@@ -200,6 +204,7 @@ class LiquidityRemoveFormNotifier
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(

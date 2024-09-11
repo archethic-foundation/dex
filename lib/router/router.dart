@@ -21,6 +21,7 @@ import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -53,10 +54,22 @@ final routerProvider = Provider<GoRouter>(
                   (json) => DexToken.fromJson(jsonDecode(json)),
                 );
 
+                final from = state.uri.queryParameters['from'];
+                final to = state.uri.queryParameters['to'];
+                final value = state.uri.queryParameters['value'] != null &&
+                        state.uri.queryParameters['value']!.isValidNumber()
+                    ? double.tryParse(
+                        state.uri.queryParameters['value']!,
+                      )
+                    : null;
+
                 return NoTransitionPage(
                   child: SwapSheet(
                     tokenToSwap: tokenToSwap,
                     tokenSwapped: tokenSwapped,
+                    from: from,
+                    to: to,
+                    value: value,
                   ),
                 );
               },
