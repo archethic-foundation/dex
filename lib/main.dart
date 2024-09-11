@@ -44,7 +44,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       try {
         await ref
             .read(aedappfm.CoinPriceProviders.coinPrices.notifier)
-            .starTimer();
+            .startTimer();
         await ref
             .read(
               aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,

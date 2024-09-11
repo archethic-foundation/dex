@@ -394,7 +394,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
       final getSwapInfosResult = await PoolFactoryRepositoryImpl(
         poolGenesisAddress,
         apiService,
-      ).getSwapInfos(tokenToSwap.address!, tokenToSwapAmount);
+      ).getSwapInfosOutput(tokenToSwap.address!, tokenToSwapAmount);
       getSwapInfosResult.map(
         success: (success) {
           if (success != null) {

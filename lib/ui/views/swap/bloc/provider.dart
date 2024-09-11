@@ -135,7 +135,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
         bool cancel,
       })> calculateSwapInfos(
     String tokenAddress,
-    double amount, {
+    double amount,
+    bool calculateOutputAmount, {
     Duration delay = const Duration(milliseconds: 800),
   }) async {
     if (state.poolGenesisAddress.isEmpty) {
@@ -190,36 +191,70 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
               var _priceImpact = 0.0;
               var _protocolFees = 0.0;
 
-              final getSwapInfosResult = await PoolFactoryRepositoryImpl(
-                state.poolGenesisAddress,
-                apiService,
-              ).getSwapInfos(tokenAddress, amount);
+              if (calculateOutputAmount) {
+                final getSwapInfosResult = await PoolFactoryRepositoryImpl(
+                  state.poolGenesisAddress,
+                  apiService,
+                ).getSwapInfosOutput(tokenAddress, amount);
 
-              getSwapInfosResult.map(
-                success: (success) {
-                  if (success != null) {
-                    _outputAmount = success['output_amount'] is int
-                        ? double.parse(success['output_amount'].toString())
-                        : success['output_amount'] ?? 0;
-                    _fees = success['fee'] is int
-                        ? double.parse(success['fee'].toString())
-                        : success['fee'] ?? 0;
-                    _priceImpact = success['price_impact'] is int
-                        ? double.parse(success['price_impact'].toString())
-                        : success['price_impact'] ?? 0;
-                    _protocolFees = success['protocol_fee'] is int
-                        ? double.parse(success['protocol_fee'].toString())
-                        : success['protocol_fee'] ?? 0;
-                  }
-                },
-                failure: (failure) {
-                  setFailure(
-                    aedappfm.Failure.other(
-                      cause: 'calculateOutputAmount error $failure',
-                    ),
-                  );
-                },
-              );
+                getSwapInfosResult.map(
+                  success: (success) {
+                    if (success != null) {
+                      _outputAmount = success['output_amount'] is int
+                          ? double.parse(success['output_amount'].toString())
+                          : success['output_amount'] ?? 0;
+                      _fees = success['fee'] is int
+                          ? double.parse(success['fee'].toString())
+                          : success['fee'] ?? 0;
+                      _priceImpact = success['price_impact'] is int
+                          ? double.parse(success['price_impact'].toString())
+                          : success['price_impact'] ?? 0;
+                      _protocolFees = success['protocol_fee'] is int
+                          ? double.parse(success['protocol_fee'].toString())
+                          : success['protocol_fee'] ?? 0;
+                    }
+                  },
+                  failure: (failure) {
+                    setFailure(
+                      aedappfm.Failure.other(
+                        cause: 'calculateOutputAmount error $failure',
+                      ),
+                    );
+                  },
+                );
+              } else {
+                final getSwapInfosResult = await PoolFactoryRepositoryImpl(
+                  state.poolGenesisAddress,
+                  apiService,
+                ).getSwapInfosInput(tokenAddress, amount);
+
+                getSwapInfosResult.map(
+                  success: (success) {
+                    if (success != null) {
+                      _outputAmount = success['input_amount'] is int
+                          ? double.parse(success['input_amount'].toString())
+                          : success['input_amount'] ?? 0;
+                      _fees = success['fee'] is int
+                          ? double.parse(success['fee'].toString())
+                          : success['fee'] ?? 0;
+                      _priceImpact = success['price_impact'] is int
+                          ? double.parse(success['price_impact'].toString())
+                          : success['price_impact'] ?? 0;
+                      _protocolFees = success['protocol_fee'] is int
+                          ? double.parse(success['protocol_fee'].toString())
+                          : success['protocol_fee'] ?? 0;
+                    }
+                  },
+                  failure: (failure) {
+                    setFailure(
+                      aedappfm.Failure.other(
+                        cause: 'calculateOutputAmount error $failure',
+                      ),
+                    );
+                  },
+                );
+              }
+
               return (
                 outputAmount: _outputAmount,
                 fees: _fees,
@@ -288,6 +323,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       swapInfos = await calculateSwapInfos(
         state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
         state.tokenToSwapAmount,
+        true,
       );
       state = state.copyWith(
         tokenSwappedAmount: swapInfos.outputAmount,
@@ -314,6 +350,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       swapInfos = await calculateSwapInfos(
         state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
         state.tokenSwappedAmount,
+        false,
       );
 
       if (swapInfos.cancel == false &&
@@ -334,6 +371,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
         swapInfos = await calculateSwapInfos(
           state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
           state.tokenToSwapAmount,
+          true,
         );
 
         if (swapInfos.cancel == false &&
@@ -548,6 +586,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
     final swapInfos = await calculateSwapInfos(
       state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
       state.tokenToSwapAmount,
+      true,
     );
 
     final minToReceive = (Decimal.parse(swapInfos.outputAmount.toString()) *

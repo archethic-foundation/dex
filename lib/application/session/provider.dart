@@ -77,7 +77,9 @@ class _SessionNotifier extends _$SessionNotifier {
           )
           .init(state.envSelected);
     }
-    await ref.read(aedappfm.CoinPriceProviders.coinPrices.notifier).starTimer();
+    await ref
+        .read(aedappfm.CoinPriceProviders.coinPrices.notifier)
+        .startTimer();
   }
 
   void _handleConnectionFailure() {

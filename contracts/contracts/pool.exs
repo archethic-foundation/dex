@@ -377,7 +377,7 @@ export fun get_swap_infos(token_address, input_amount) do
   ]
 end
 
-export fun get_input_swap_infos(token_address, input_amount) do
+export fun get_output_swap_infos(token_address, input_amount) do
   output_amount = 0
   fee = 0
   protocol_fee = 0
@@ -422,7 +422,7 @@ export fun get_input_swap_infos(token_address, input_amount) do
   ]
 end
 
-export fun get_output_swap_infos(token_address, output_amount) do
+export fun get_input_swap_infos(token_address, output_amount) do
   input_amount = 0
   lp_fee = State.get("lp_fee", 0.3) / 100
   protocol_fee = State.get("protocol_fee", 0) / 100
