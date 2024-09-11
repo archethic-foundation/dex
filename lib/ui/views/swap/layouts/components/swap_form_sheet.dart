@@ -45,9 +45,9 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
     Future.delayed(Duration.zero, () async {
       try {
         if (widget.value != null) {
-          await ref
-              .read(SwapFormProvider.swapForm.notifier)
-              .setTokenToSwapAmountWithoutCalculation(widget.value!);
+          ref.read(SwapFormProvider.swapForm.notifier)
+            ..setTokenFormSelected(1)
+            ..setTokenToSwapAmountWithoutCalculation(widget.value!);
         }
 
         if (widget.from != null) {
@@ -93,7 +93,16 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
                 .setTokenSwapped(widget.tokenSwapped!);
           }
         }
+
+        if (widget.value != null) {
+          ref.read(SwapFormProvider.swapForm.notifier).setTokenFormSelected(2);
+        }
       } catch (e) {
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              e.toString(),
+              level: aedappfm.LogLevel.error,
+              name: 'SwapFormSheet - initState',
+            );
         if (mounted) {
           context.go(SwapSheet.routerPage);
         }

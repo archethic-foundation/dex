@@ -326,6 +326,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
           ),
         );
       }
+
       state = state.copyWith(
         tokenToSwapAmount: swapInfos.outputAmount,
       );
@@ -388,9 +389,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
     await calculateOutputAmount();
   }
 
-  Future<void> setTokenToSwapAmountWithoutCalculation(
+  void setTokenToSwapAmountWithoutCalculation(
     double tokenToSwapAmount,
-  ) async {
+  ) {
     state = state.copyWith(
       tokenToSwapAmount: tokenToSwapAmount,
     );
