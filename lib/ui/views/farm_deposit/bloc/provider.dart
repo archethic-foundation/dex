@@ -31,6 +31,7 @@ class FarmDepositFormNotifier
 
   Future<void> initBalances() async {
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
 
     final lpTokenBalance = await ref.read(
       BalanceProviders.getBalance(
@@ -38,6 +39,7 @@ class FarmDepositFormNotifier
         state.dexFarmInfo!.lpToken!.isUCO
             ? 'UCO'
             : state.dexFarmInfo!.lpToken!.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);

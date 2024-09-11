@@ -26,6 +26,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
 
     return Opacity(
       opacity: AppTextStyles.kOpacityText,
@@ -90,6 +91,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                           BalanceProviders.getBalance(
                             session.genesisAddress,
                             pool!.lpToken.address!,
+                            apiService,
                           ).future,
                         ),
                         builder: (context, snapshotBalance) {

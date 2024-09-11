@@ -37,11 +37,12 @@ class FarmLockDepositFormNotifier
       state = state.copyWith(lpTokenBalance: 0);
       return;
     }
-
+    final apiService = aedappfm.sl.get<ApiService>();
     final lpTokenBalance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
         state.pool!.lpToken.isUCO ? 'UCO' : state.pool!.lpToken.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);

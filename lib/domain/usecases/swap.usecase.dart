@@ -203,10 +203,13 @@ class SwapCase with aedappfm.TransactionMixin {
         await ref.read(SessionProviders.session.notifier).refreshUserBalance();
         final swap = ref.read(SwapFormProvider.swapForm);
         final session = ref.read(SessionProviders.session);
+
+        final apiService = aedappfm.sl.get<archethic.ApiService>();
         final balanceSwapped = await ref.read(
           BalanceProviders.getBalance(
             session.genesisAddress,
             swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
+            apiService,
           ).future,
         );
         swapNotifier.setTokenSwappedBalance(balanceSwapped);
@@ -215,6 +218,7 @@ class SwapCase with aedappfm.TransactionMixin {
           BalanceProviders.getBalance(
             session.genesisAddress,
             swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+            apiService,
           ).future,
         );
         swapNotifier.setTokenToSwapBalance(balanceToSwap);

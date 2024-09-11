@@ -45,10 +45,12 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
 
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
         token.isUCO ? 'UCO' : token.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(token1Balance: balance);
@@ -92,10 +94,12 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
 
     final session = ref.read(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
       BalanceProviders.getBalance(
         session.genesisAddress,
         token.isUCO ? 'UCO' : token.address!,
+        apiService,
       ).future,
     );
     state = state.copyWith(token2Balance: balance);

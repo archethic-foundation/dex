@@ -6,6 +6,7 @@ import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -28,6 +29,7 @@ class FarmLockClaimConfirmInfos extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     final session = ref.watch(SessionProviders.session);
+    final apiService = aedappfm.sl.get<archethic.ApiService>();
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -113,6 +115,7 @@ class FarmLockClaimConfirmInfos extends ConsumerWidget {
                     farmLockClaim.rewardToken!.isUCO
                         ? 'UCO'
                         : farmLockClaim.rewardToken!.address!,
+                    apiService,
                   ).future,
                 ),
                 builder: (

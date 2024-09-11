@@ -4,9 +4,9 @@ import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -27,6 +27,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
         ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
 
     final session = ref.watch(SessionProviders.session);
+    final apiService = aedappfm.sl.get<ApiService>();
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -106,6 +107,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                     farmLockWithdraw.lpToken!.isUCO
                         ? 'UCO'
                         : farmLockWithdraw.lpToken!.address!,
+                    apiService,
                   ).future,
                 ),
                 builder: (

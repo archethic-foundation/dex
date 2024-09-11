@@ -91,8 +91,10 @@ class _SessionNotifier extends _$SessionNotifier {
   }
 
   Future<void> refreshUserBalance() async {
+    final apiService = aedappfm.sl.get<ApiService>();
     final userBalance = await BalanceRepositoryImpl().getUserTokensBalance(
       state.genesisAddress,
+      apiService,
     );
     state = state.copyWith(userBalance: userBalance);
   }
@@ -163,11 +165,6 @@ class _SessionNotifier extends _$SessionNotifier {
                   await poolsListDatasource.clearAll();
                 }
 
-                state = state.copyWith(
-                  endpoint: endpointResult.endpointUrl,
-                  isConnected: true,
-                  error: '',
-                );
                 if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
                   aedappfm.sl.unregister<awc.ArchethicDAppClient>();
                 }
@@ -176,6 +173,12 @@ class _SessionNotifier extends _$SessionNotifier {
                 );
 
                 setupServiceLocatorApiService(endpointResult.endpointUrl);
+
+                state = state.copyWith(
+                  endpoint: endpointResult.endpointUrl,
+                  isConnected: true,
+                  error: '',
+                );
 
                 final currentAccountResponse =
                     await archethicDAppClient.getCurrentAccount();

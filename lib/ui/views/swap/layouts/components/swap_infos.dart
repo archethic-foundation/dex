@@ -52,6 +52,7 @@ class SwapInfos extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildDivider(context),
+            const SizedBox(height: 5),
             _buildRowWithFees(context, ref, swap),
             _buildRowWithPriceImpact(context, swap),
             _buildRowWithMinReceived(context, ref, swap),
