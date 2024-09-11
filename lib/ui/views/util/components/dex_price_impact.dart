@@ -18,72 +18,75 @@ class DexPriceImpact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (withLabel!)
-          SelectableText(
-            '${AppLocalizations.of(context)!.priceImpact} ${priceImpact.formatNumber()}%',
-            style: priceImpact > 5
-                ? textStyle?.copyWith(
-                      color: aedappfm.ArchethicThemeBase.systemDanger500,
-                    ) ??
-                    Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: aedappfm.ArchethicThemeBase.systemDanger500,
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyLarge!,
-                          ),
-                        )
-                : priceImpact > 1
-                    ? textStyle?.copyWith(
-                          color: aedappfm.ArchethicThemeBase.systemWarning600,
-                        ) ??
-                        Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color:
-                                  aedappfm.ArchethicThemeBase.systemWarning600,
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyLarge!,
-                              ),
-                            )
-                    : textStyle ?? AppTextStyles.bodyLarge(context),
-          )
-        else
-          SelectableText(
-            '${priceImpact.formatNumber()}%',
-            style: priceImpact > 5
-                ? textStyle?.copyWith(
-                      color: aedappfm.ArchethicThemeBase.systemDanger500,
-                    ) ??
-                    Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: aedappfm.ArchethicThemeBase.systemDanger500,
-                        )
-                : priceImpact > 1
-                    ? textStyle?.copyWith(
-                          color: aedappfm.ArchethicThemeBase.systemWarning600,
-                        ) ??
-                        Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color:
-                                  aedappfm.ArchethicThemeBase.systemWarning600,
-                            )
-                    : textStyle ?? AppTextStyles.bodyLarge(context),
-          ),
-        if (priceImpact > 1)
-          Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Tooltip(
-              message: AppLocalizations.of(context)!.priceImpactHighTooltip,
-              child: Icon(
-                Icons.warning,
-                color: priceImpact > 5
-                    ? aedappfm.ArchethicThemeBase.systemDanger500
-                    : aedappfm.ArchethicThemeBase.systemWarning600,
-                size: 15,
+    return Opacity(
+      opacity: AppTextStyles.kOpacityText,
+      child: Row(
+        children: [
+          if (withLabel!)
+            SelectableText(
+              '${AppLocalizations.of(context)!.priceImpact} ${priceImpact.formatNumber()}%',
+              style: priceImpact > 5
+                  ? textStyle?.copyWith(
+                        color: aedappfm.ArchethicThemeBase.systemDanger500,
+                      ) ??
+                      Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: aedappfm.ArchethicThemeBase.systemDanger500,
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge!,
+                            ),
+                          )
+                  : priceImpact > 1
+                      ? textStyle?.copyWith(
+                            color: aedappfm.ArchethicThemeBase.systemWarning600,
+                          ) ??
+                          Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: aedappfm
+                                    .ArchethicThemeBase.systemWarning600,
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.bodyLarge!,
+                                ),
+                              )
+                      : textStyle ?? AppTextStyles.bodyLarge(context),
+            )
+          else
+            SelectableText(
+              '${priceImpact.formatNumber()}%',
+              style: priceImpact > 5
+                  ? textStyle?.copyWith(
+                        color: aedappfm.ArchethicThemeBase.systemDanger500,
+                      ) ??
+                      Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: aedappfm.ArchethicThemeBase.systemDanger500,
+                          )
+                  : priceImpact > 1
+                      ? textStyle?.copyWith(
+                            color: aedappfm.ArchethicThemeBase.systemWarning600,
+                          ) ??
+                          Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: aedappfm
+                                    .ArchethicThemeBase.systemWarning600,
+                              )
+                      : textStyle ?? AppTextStyles.bodyLarge(context),
+            ),
+          if (priceImpact > 1)
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Tooltip(
+                message: AppLocalizations.of(context)!.priceImpactHighTooltip,
+                child: Icon(
+                  Icons.warning,
+                  color: priceImpact > 5
+                      ? aedappfm.ArchethicThemeBase.systemDanger500
+                      : aedappfm.ArchethicThemeBase.systemWarning600,
+                  size: 15,
+                ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -33,6 +33,7 @@ class PoolDetailsInfoAPRFarmState
       final contextAddresses =
           PoolFarmAvailableState().getContextAddresses(env);
 
+      if (!mounted) return;
       final farmLockAddress = contextAddresses.aeETHUCOFarmLockAddress;
       if (farmLockAddress.isNotEmpty) {
         final farmLock = await ref.read(

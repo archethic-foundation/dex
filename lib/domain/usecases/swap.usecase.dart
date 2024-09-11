@@ -1,7 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/contracts/archethic_contract.dart';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
@@ -196,7 +198,27 @@ class SwapCase with aedappfm.TransactionMixin {
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(() async {
+        await refreshCurrentAccountInfoWallet();
+        await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+        final swap = ref.read(SwapFormProvider.swapForm);
+        final session = ref.read(SessionProviders.session);
+        final balanceSwapped = await ref.read(
+          BalanceProviders.getBalance(
+            session.genesisAddress,
+            swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
+          ).future,
+        );
+        swapNotifier.setTokenSwappedBalance(balanceSwapped);
+
+        final balanceToSwap = await ref.read(
+          BalanceProviders.getBalance(
+            session.genesisAddress,
+            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+          ).future,
+        );
+        swapNotifier.setTokenToSwapBalance(balanceToSwap);
+      }());
 
       return amount;
     } catch (e) {

@@ -27,7 +27,8 @@ final _swapFormProvider =
   },
 );
 
-class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
+class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
+    with aedappfm.TransactionMixin {
   SwapFormNotifier();
 
   @override
@@ -638,6 +639,11 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState> {
     state = state.copyWith(
       messageMaxHalfUCO: messageMaxHalfUCO,
     );
+  }
+
+  Future<void> returnToSwapForm() async {
+    setSwapProcessStep(aedappfm.ProcessStep.form);
+    await calculateOutputAmount();
   }
 
   Future<void> validateForm(BuildContext context) async {

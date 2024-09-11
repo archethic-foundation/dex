@@ -187,9 +187,11 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
                 tabIndexSelected: PoolsListTab.values[index],
                 cancelToken: UniqueKey().toString(),
               );
-          ref
-              .read(PoolListFormProvider.poolListForm.notifier)
-              .setSearchText('');
+          if (mounted) {
+            ref
+                .read(PoolListFormProvider.poolListForm.notifier)
+                .setSearchText('');
+          }
         },
         isScroll: false,
       ),

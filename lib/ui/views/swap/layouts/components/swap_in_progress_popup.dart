@@ -83,19 +83,15 @@ class SwapInProgressPopup {
       warningCloseLabel: swap.isProcessInProgress == true
           ? AppLocalizations.of(context)!.swapProcessInterruptionWarning
           : '',
-      warningCloseFunction: () {
-        ref.invalidate(
-          SwapFormProvider.swapForm,
-        );
+      warningCloseFunction: () async {
         if (!context.mounted) return;
         Navigator.of(context).pop();
+        await ref.read(SwapFormProvider.swapForm.notifier).returnToSwapForm();
       },
-      closeFunction: () {
-        ref.invalidate(
-          SwapFormProvider.swapForm,
-        );
+      closeFunction: () async {
         if (!context.mounted) return;
         Navigator.of(context).pop();
+        await ref.read(SwapFormProvider.swapForm.notifier).returnToSwapForm();
       },
     );
   }
