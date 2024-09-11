@@ -10,7 +10,7 @@
     "go": "Go !",
     "btn_connect_wallet": "Connect wallet",
     "confirmationPopupTitle": "Confirmation Request",
-    "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallet and exit the application?",
+    "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallet?",
     "changeCurrentAccountWarning": "Warning, your current account has been updated.",
     "welcomeNoWallet": "Unlock the full potential of our Web3 application - get the Archethic Wallet now!",
     "menu_swap": "Swap",

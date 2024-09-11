@@ -11,9 +11,9 @@ import 'package:aedex/ui/views/swap/layouts/components/swap_textfield_token_to_s
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,6 +48,12 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
           ref.read(SwapFormProvider.swapForm.notifier)
             ..setTokenFormSelected(1)
             ..setTokenToSwapAmountWithoutCalculation(widget.value!);
+        }
+
+        if (aedappfm.sl.isRegistered<ApiService>() == false) {
+          await ref
+              .read(SessionProviders.session.notifier)
+              .connectEndpointWithoutWallet('mainnet');
         }
 
         if (widget.from != null) {
