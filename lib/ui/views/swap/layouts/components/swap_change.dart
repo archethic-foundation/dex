@@ -31,7 +31,9 @@ class SwapChange extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
-          onTap: swapNotifier.swapDirections,
+          onTap: () async {
+            await swapNotifier.swapDirections();
+          },
           child: Icon(
             aedappfm.Iconsax.arrange_square_2,
             size: aedappfm.Responsive.fontSizeFromValue(
