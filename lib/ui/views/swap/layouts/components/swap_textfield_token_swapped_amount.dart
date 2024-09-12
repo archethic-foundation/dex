@@ -33,7 +33,6 @@ class _SwapTokenSwappedAmountState
 
   void _updateAmountTextController() {
     final swap = ref.read(SwapFormProvider.swapForm);
-
     tokenAmountController = TextEditingController();
     tokenAmountController.value = aedappfm.AmountTextInputFormatter(
       precision: 8,
@@ -64,7 +63,6 @@ class _SwapTokenSwappedAmountState
     final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
 
     final swap = ref.watch(SwapFormProvider.swapForm);
-
     if (swap.tokenFormSelected != 2) {
       _updateAmountTextController();
     }
@@ -93,7 +91,6 @@ class _SwapTokenSwappedAmountState
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Expanded(
                                 child: DecoratedBox(
@@ -106,6 +103,19 @@ class _SwapTokenSwappedAmountState
                                           .colorScheme
                                           .primaryContainer,
                                       width: 0.5,
+                                    ),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .surface
+                                            .withOpacity(1),
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .surface
+                                            .withOpacity(0.3),
+                                      ],
+                                      stops: const [0, 1],
                                     ),
                                   ),
                                   child: Padding(
@@ -134,7 +144,6 @@ class _SwapTokenSwappedAmountState
                                             ),
                                           )
                                         : TextField(
-                                            readOnly: true,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium!

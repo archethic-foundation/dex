@@ -147,11 +147,12 @@ class PoolFactoryRepositoryImpl
 
   /// Returns the info about a swap: expected output_amount, fee and price impact
   /// [tokenAddress] One of the 2 tokens of the pool
-  /// [amount] Amount of of this token you want to swap
+  /// [inputAmount] Amount of this token you want to swap
   @override
-  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>> getSwapInfos(
+  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
+      getSwapInfosOutput(
     String tokenAddress,
-    double amount,
+    double inputAmount,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -160,10 +161,41 @@ class PoolFactoryRepositoryImpl
             method: 'contract_fun',
             params: SCCallFunctionParams(
               contract: factoryAddress.toUpperCase(),
-              function: 'get_swap_infos',
+              function: 'get_output_swap_infos',
               args: [
                 tokenAddress,
-                amount,
+                inputAmount,
+              ],
+            ),
+          ),
+          resultMap: true,
+        ) as Map<String, dynamic>?;
+
+        return result;
+      },
+    );
+  }
+
+  /// Returns the info about a swap: expected input_amount, fee and price impact
+  /// [tokenAddress] One of the 2 tokens of the pool
+  /// [outputAmount] Amount of this token swapped
+  @override
+  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
+      getSwapInfosInput(
+    String tokenAddress,
+    double outputAmount,
+  ) async {
+    return aedappfm.Result.guard(
+      () async {
+        final result = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_input_swap_infos',
+              args: [
+                tokenAddress,
+                outputAmount,
               ],
             ),
           ),

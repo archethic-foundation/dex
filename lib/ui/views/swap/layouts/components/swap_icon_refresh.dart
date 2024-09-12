@@ -66,6 +66,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
           await swapNotifier.calculateSwapInfos(
             swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
             swap.tokenToSwapAmount,
+            true,
           );
           await swapNotifier.getRatio();
           await swapNotifier.getPool();

@@ -27,7 +27,7 @@ const builder = {
   }
 }
 
-const handler = async function(argv) {
+const handler = async function (argv) {
   const envName = argv["env"] ? argv["env"] : "local"
   const env = config.environments[envName]
 
@@ -70,7 +70,7 @@ const handler = async function(argv) {
   const index = await archethic.transaction.getTransactionIndex(userAddress)
   console.log("User genesis address:", userAddress)
 
-  const swapInfos = await archethic.network.callFunction(poolAddresses.address, "get_swap_infos", [token1Address, token1Amount])
+  const swapInfos = await archethic.network.callFunction(poolAddresses.address, "get_output_swap_infos", [token1Address, token1Amount])
   const minToReceive = swapInfos.output_amount * ((100 - slippage) / 100)
 
   console.log("Expected output amount:", swapInfos.output_amount)

@@ -377,6 +377,91 @@ export fun get_swap_infos(token_address, input_amount) do
   ]
 end
 
+export fun get_output_swap_infos(token_address, input_amount) do
+  output_amount = 0
+  fee = 0
+  protocol_fee = 0
+  price_impact = 0
+
+  reserves = State.get("reserves", [token1: 0, token2: 0])
+  token_address = String.to_uppercase(token_address)
+
+  if reserves.token1 > 0 && reserves.token2 > 0 do
+    fee = input_amount * State.get("lp_fee", 0.3) / 100
+    protocol_fee = input_amount * State.get("protocol_fee", 0) / 100
+    amount_with_fee = input_amount - fee - protocol_fee
+
+    market_price = 0
+
+    if token_address == @TOKEN1 do
+      market_price = reserves.token2 / reserves.token1
+      amount = (amount_with_fee * reserves.token2) / (amount_with_fee + reserves.token1)
+      if amount < reserves.token2 do
+        output_amount = amount
+      end
+    else
+      market_price = reserves.token1 / reserves.token2
+      amount = (amount_with_fee * reserves.token1) / (amount_with_fee + reserves.token2)
+      if amount < reserves.token1 do
+        output_amount = amount
+      end
+    end
+
+    # This check is necessary as there might be some approximation in small decimal calculation
+    output_price = output_amount / input_amount
+    if output_amount > 0 && market_price > output_price do
+      price_impact = 100 - (output_price * 100 / market_price)
+    end
+  end
+
+  [
+    output_amount: output_amount,
+    fee: fee,
+    protocol_fee: protocol_fee,
+    price_impact: price_impact
+  ]
+end
+
+export fun get_input_swap_infos(token_address, output_amount) do
+  input_amount = 0
+  lp_fee = State.get("lp_fee", 0.3) / 100
+  protocol_fee = State.get("protocol_fee", 0) / 100
+  price_impact = 0
+
+  reserves = State.get("reserves", [token1: 0, token2: 0])
+  token_address = String.to_uppercase(token_address)
+
+  if reserves.token1 > 0 && reserves.token2 > 0 do
+
+    market_price = 0
+
+    if token_address == @TOKEN1 && output_amount < reserves.token1 do
+      market_price = reserves.token1 / reserves.token2
+      input_amount = (output_amount * reserves.token2) / ((reserves.token1 - output_amount) * (1 - lp_fee - protocol_fee))
+    else
+      if output_amount < reserves.token2 do
+        market_price = reserves.token2 / reserves.token1
+        input_amount = (output_amount * reserves.token1) / ((reserves.token2 - output_amount) * (1 - lp_fee - protocol_fee))
+      end
+    end
+
+    if input_amount > 0 do
+      # This check is necessary as there might be some approximation in small decimal calculation
+      output_price = output_amount / input_amount
+      if market_price > output_price do
+        price_impact = 100 - (output_price * 100 / market_price)
+      end
+    end
+  end
+
+  [
+    input_amount: input_amount,
+    fee: input_amount * lp_fee,
+    protocol_fee: input_amount * protocol_fee,
+    price_impact: price_impact
+  ]
+end
+
 export fun get_remove_amounts(lp_token_amount) do
   reserves = State.get("reserves", [token1: 0, token2: 0])
   lp_token_supply = State.get("lp_token_supply", 0)

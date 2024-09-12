@@ -26,9 +26,16 @@ abstract class PoolFactoryRepository {
     double token2Amount,
   );
 
-  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>> getSwapInfos(
+  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
+      getSwapInfosInput(
     String tokenAddress,
-    double amount,
+    double outputAmount,
+  );
+
+  Future<aedappfm.Result<Map<String, dynamic>?, aedappfm.Failure>>
+      getSwapInfosOutput(
+    String tokenAddress,
+    double inputAmount,
   );
 
   Future<Map<String, dynamic>?> getRemoveAmounts(
