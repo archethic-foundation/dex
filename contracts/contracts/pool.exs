@@ -140,7 +140,7 @@ condition triggered_by: transaction, on: swap(_min_to_receive), as: [
 actions triggered_by: transaction, on: swap(min_to_receive) do
   transfer = get_user_transfer(transaction)
 
-  swap = get_swap_infos(transfer.token_address, transfer.amount)
+  swap = get_output_swap_infos(transfer.token_address, transfer.amount)
 
   if swap.output_amount > 0 && swap.output_amount >= min_to_receive do
 
@@ -330,51 +330,6 @@ export fun get_lp_token_to_mint(token1_amount, token2_amount) do
       mint_amount2
     end
   end
-end
-
-export fun get_swap_infos(token_address, input_amount) do
-  output_amount = 0
-  fee = 0
-  protocol_fee = 0
-  price_impact = 0
-
-  reserves = State.get("reserves", [token1: 0, token2: 0])
-  token_address = String.to_uppercase(token_address)
-
-  if reserves.token1 > 0 && reserves.token2 > 0 do
-    fee = input_amount * State.get("lp_fee", 0.3) / 100
-    protocol_fee = input_amount * State.get("protocol_fee", 0) / 100
-    amount_with_fee = input_amount - fee - protocol_fee
-
-    market_price = 0
-
-    if token_address == @TOKEN1 do
-      market_price = reserves.token2 / reserves.token1
-      amount = (amount_with_fee * reserves.token2) / (amount_with_fee + reserves.token1)
-      if amount < reserves.token2 do
-        output_amount = amount
-      end
-    else
-      market_price = reserves.token1 / reserves.token2
-      amount = (amount_with_fee * reserves.token1) / (amount_with_fee + reserves.token2)
-      if amount < reserves.token1 do
-        output_amount = amount
-      end
-    end
-
-    # This check is necessary as there might be some approximation in small decimal calculation
-    output_price = output_amount / input_amount
-    if output_amount > 0 && market_price > output_price do
-      price_impact = 100 - (output_price * 100 / market_price)
-    end
-  end
-
-  [
-    output_amount: output_amount,
-    fee: fee,
-    protocol_fee: protocol_fee,
-    price_impact: price_impact
-  ]
 end
 
 export fun get_output_swap_infos(token_address, input_amount) do
