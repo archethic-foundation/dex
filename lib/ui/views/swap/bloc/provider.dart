@@ -4,6 +4,7 @@ import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
@@ -65,10 +66,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       tokenToSwap: tokenToSwap,
     );
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
         apiService,
@@ -471,10 +472,10 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       calculationInProgress: true,
     );
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
         apiService,
@@ -709,7 +710,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -819,7 +820,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
@@ -835,7 +836,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       );
       state = state.copyWith(finalAmount: finalAmount);
 
-      await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+      await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
     }
   }
 }

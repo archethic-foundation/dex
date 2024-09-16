@@ -28,7 +28,7 @@ class FarmLockLevelUpInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: LevelUpFarmLockCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           farmLockLevelUp.currentStep,
         ),
       ),

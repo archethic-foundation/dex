@@ -1,5 +1,6 @@
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/claim_farm_lock.usecase.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
@@ -10,6 +11,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _farmLockClaimFormProvider = NotifierProvider.autoDispose<
@@ -103,7 +105,7 @@ class FarmLockClaimFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -137,13 +139,13 @@ class FarmLockClaimFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
       final finalAmount = await ClaimFarmLockCase().run(
         ref,
-        context,
+        AppLocalizations.of(context)!,
         ref.watch(NotificationProviders.notificationService),
         state.farmAddress!,
         state.depositId!,

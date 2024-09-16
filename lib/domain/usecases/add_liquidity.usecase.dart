@@ -232,18 +232,18 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.addLiquidityProcessStep1;
+        return localizations.addLiquidityProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.addLiquidityProcessStep2;
+        return localizations.addLiquidityProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.addLiquidityProcessStep3;
+        return localizations.addLiquidityProcessStep3;
       default:
-        return AppLocalizations.of(context)!.addLiquidityProcessStep0;
+        return localizations.addLiquidityProcessStep0;
     }
   }
 }

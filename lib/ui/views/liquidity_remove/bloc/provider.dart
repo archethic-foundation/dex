@@ -2,6 +2,7 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
@@ -107,11 +108,11 @@ class LiquidityRemoveFormNotifier
   }
 
   Future<void> initBalance() async {
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     final apiService = aedappfm.sl.get<ApiService>();
 
     final lpTokenBalance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.lpToken!.address!,
         apiService,
@@ -190,10 +191,10 @@ class LiquidityRemoveFormNotifier
       token1AmountGetBack: calculateRemoveAmountsResult.removeAmountToken1,
       token2AmountGetBack: calculateRemoveAmountsResult.removeAmountToken2,
     );
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     final apiService = aedappfm.sl.get<ApiService>();
     final balanceToken1 = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.token1!.isUCO ? 'UCO' : state.token1!.address!,
         apiService,
@@ -201,7 +202,7 @@ class LiquidityRemoveFormNotifier
     );
     state = state.copyWith(token1Balance: balanceToken1);
     final balanceToken2 = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.token2!.isUCO ? 'UCO' : state.token2!.address!,
         apiService,
@@ -295,7 +296,7 @@ class LiquidityRemoveFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -346,13 +347,13 @@ class LiquidityRemoveFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
     if (context.mounted) {
       final finalAmounts = await RemoveLiquidityCase().run(
         state.pool!.poolAddress,
         ref,
-        context,
+        AppLocalizations.of(context)!,
         ref.watch(NotificationProviders.notificationService),
         state.lpToken!.address!,
         state.lpTokenAmount,
@@ -367,7 +368,7 @@ class LiquidityRemoveFormNotifier
         finalAmountLPToken: finalAmounts.amountLPToken,
       );
 
-      await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+      await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
       if (context.mounted) {
         final poolListItemState =
             context.findAncestorStateOfType<PoolListItemState>();

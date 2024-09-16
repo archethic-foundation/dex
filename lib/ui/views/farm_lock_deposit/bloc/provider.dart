@@ -1,6 +1,7 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/usecases/deposit_farm_lock.usecase.dart';
@@ -32,14 +33,14 @@ class FarmLockDepositFormNotifier
   FarmLockDepositFormState build() => const FarmLockDepositFormState();
 
   Future<void> initBalances() async {
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     if (session.isConnected == false) {
       state = state.copyWith(lpTokenBalance: 0);
       return;
     }
     final apiService = aedappfm.sl.get<ApiService>();
     final lpTokenBalance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.pool!.lpToken.isUCO ? 'UCO' : state.pool!.lpToken.address!,
         apiService,
@@ -181,7 +182,7 @@ class FarmLockDepositFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -243,13 +244,13 @@ class FarmLockDepositFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
       final finalAmount = await DepositFarmLockCase().run(
         ref,
-        context,
+        AppLocalizations.of(context)!,
         ref.watch(NotificationProviders.notificationService),
         state.farmLock!.farmAddress,
         state.farmLock!.lpToken!.address!,

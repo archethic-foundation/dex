@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_search_bar.dart';
@@ -89,12 +90,11 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
         ratioMobile: -8,
       ),
       height: 30,
-      isConnected: ref.watch(SessionProviders.session).isConnected,
+      isConnected: (ref.watch(sessionNotifierProvider).value ?? const Session())
+          .isConnected,
       displayWalletConnectOnPressed: () async {
-        final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        await sessionNotifier.connectToWallet();
-
-        final session = ref.read(SessionProviders.session);
+        final session =
+            ref.read(sessionNotifierProvider).value ?? const Session();
         if (session.error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(

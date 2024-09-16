@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
@@ -33,8 +34,6 @@ class _PoolListSheetState extends ConsumerState<PoolListSheet> {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.pool;
 
-      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
-
       await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
             tabIndexSelected: widget.tab,
             cancelToken: UniqueKey().toString(),
@@ -57,7 +56,8 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
   final asyncPools =
       ref.watch(PoolListFormProvider.poolListForm).poolsToDisplay;
   final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
-  final session = ref.watch(SessionProviders.session);
+  final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
   return Stack(
     children: [
       Center(

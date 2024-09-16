@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -25,7 +26,8 @@ class FarmDetailsInfoYourAvailableLP extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
     if (session.isConnected == false) {
       return const SizedBox(
         height: 190,

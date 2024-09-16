@@ -2,6 +2,7 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
@@ -48,11 +49,11 @@ class LiquidityAddFormNotifier
   }
 
   Future<void> initBalances() async {
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     final apiService = aedappfm.sl.get<ApiService>();
 
     final token1Balance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.token1!.isUCO ? 'UCO' : state.token1!.address!,
         apiService,
@@ -61,7 +62,7 @@ class LiquidityAddFormNotifier
     state = state.copyWith(token1Balance: token1Balance);
 
     final token2Balance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.token2!.isUCO ? 'UCO' : state.token2!.address!,
         apiService,
@@ -70,7 +71,7 @@ class LiquidityAddFormNotifier
     state = state.copyWith(token2Balance: token2Balance);
 
     final lpTokenBalance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.pool!.lpToken.address!,
         apiService,
@@ -423,7 +424,7 @@ class LiquidityAddFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -563,7 +564,7 @@ class LiquidityAddFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
     if (context.mounted) {
       final finalAmount = await AddLiquidityCase().run(
@@ -581,7 +582,7 @@ class LiquidityAddFormNotifier
       );
       state = state.copyWith(finalAmount: finalAmount);
 
-      await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+      await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
       if (context.mounted) {
         final poolListItemState =
             context.findAncestorStateOfType<PoolListItemState>();

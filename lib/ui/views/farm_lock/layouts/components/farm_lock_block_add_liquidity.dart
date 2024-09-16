@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
+import 'package:aedex/application/session/state.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/mobile_info/layouts/mobile_info.dart';
@@ -23,14 +24,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 class FarmLockBlockAddLiquidity extends ConsumerWidget {
   const FarmLockBlockAddLiquidity({
-    required this.pool,
     required this.width,
     required this.height,
     required this.sortCriteria,
     super.key,
   });
 
-  final DexPool pool;
   final double width;
   final double height;
   final String sortCriteria;
@@ -40,7 +39,14 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
+
+    if (farmLockForm.pool == null) {
+      return const SizedBox.shrink();
+    }
 
     return BlockInfo(
       info: Column(
@@ -64,9 +70,10 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                   Row(
                     children: [
                       Tooltip(
-                        message: pool.pair.token1.symbol,
+                        message: farmLockForm.pool!.pair.token1.symbol,
                         child: SelectableText(
-                          pool.pair.token1.symbol.reduceSymbol(lengthMax: 6),
+                          farmLockForm.pool!.pair.token1.symbol
+                              .reduceSymbol(lengthMax: 6),
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
                                     fontWeight: FontWeight.w500,
@@ -80,9 +87,10 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                             ),
                       ),
                       Tooltip(
-                        message: pool.pair.token2.symbol,
+                        message: farmLockForm.pool!.pair.token2.symbol,
                         child: SelectableText(
-                          pool.pair.token2.symbol.reduceSymbol(lengthMax: 6),
+                          farmLockForm.pool!.pair.token2.symbol
+                              .reduceSymbol(lengthMax: 6),
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
                                     fontWeight: FontWeight.w500,
@@ -96,8 +104,8 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 2),
                 child: DexPairIcons(
-                  token1Address: pool.pair.token1.address!,
-                  token2Address: pool.pair.token2.address!,
+                  token1Address: farmLockForm.pool!.pair.token1.address!,
+                  token2Address: farmLockForm.pool!.pair.token2.address!,
                   iconSize: 26,
                 ),
               ),
@@ -154,6 +162,9 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
   }
 
   Widget _btnConnected(BuildContext context, WidgetRef ref) {
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return Row(
@@ -195,8 +206,10 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                                   width: 550,
                                   height: 500,
                                   child: PoolListItem(
-                                    key: ValueKey(pool.poolAddress),
-                                    pool: pool,
+                                    key: ValueKey(
+                                      farmLockForm.pool!.poolAddress,
+                                    ),
+                                    pool: farmLockForm.pool!,
                                     heightCard: 440,
                                   )
                                       .animate()
@@ -251,7 +264,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                       ),
                     ),
                     onTap: () async {
-                      final poolJson = jsonEncode(pool.toJson());
+                      final poolJson = jsonEncode(farmLockForm.pool!.toJson());
                       final poolEncoded = Uri.encodeComponent(poolJson);
                       await context.push(
                         Uri(
@@ -261,13 +274,6 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                           },
                         ).toString(),
                       );
-                      if (context.mounted) {
-                        {
-                          await context
-                              .findAncestorStateOfType<FarmLockSheetState>()
-                              ?.loadInfo(sortCriteria: sortCriteria);
-                        }
-                      }
                     },
                   ),
                   const SizedBox(
@@ -303,9 +309,11 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                       ),
                     ),
                     onTap: () async {
-                      final poolJson = jsonEncode(pool.toJson());
-                      final pairJson = jsonEncode(pool.pair.toJson());
-                      final lpTokenJson = jsonEncode(pool.lpToken.toJson());
+                      final poolJson = jsonEncode(farmLockForm.pool!.toJson());
+                      final pairJson =
+                          jsonEncode(farmLockForm.pool!.pair.toJson());
+                      final lpTokenJson =
+                          jsonEncode(farmLockForm.pool!.lpToken.toJson());
                       final poolEncoded = Uri.encodeComponent(poolJson);
                       final pairEncoded = Uri.encodeComponent(pairJson);
                       final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
@@ -319,13 +327,6 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                           },
                         ).toString(),
                       );
-                      if (context.mounted) {
-                        {
-                          await context
-                              .findAncestorStateOfType<FarmLockSheetState>()
-                              ?.loadInfo(sortCriteria: sortCriteria);
-                        }
-                      }
                     },
                   ),
                   const SizedBox(
@@ -369,7 +370,9 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
-                if (ref.read(SessionProviders.session).isConnected == false &&
+                if ((ref.read(sessionNotifierProvider).value ?? const Session())
+                            .isConnected ==
+                        false &&
                     context.mounted &&
                     aedappfm.Responsive.isMobile(context)) {
                   await showDialog(
@@ -387,26 +390,23 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                   );
                   return;
                 }
-
-                final sessionNotifier =
-                    ref.watch(SessionProviders.session.notifier);
-                await sessionNotifier.connectToWallet();
-                if (ref.read(SessionProviders.session).error.isNotEmpty) {
+                if ((ref.read(sessionNotifierProvider).value ?? const Session())
+                    .error
+                    .isNotEmpty) {
                   if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor:
                           Theme.of(context).snackBarTheme.backgroundColor,
                       content: SelectableText(
-                        ref.read(SessionProviders.session).error,
+                        (ref.read(sessionNotifierProvider).value ??
+                                const Session())
+                            .error,
                         style: Theme.of(context).snackBarTheme.contentTextStyle,
                       ),
                       duration: const Duration(seconds: 2),
                     ),
                   );
-                }
-                if (context.mounted) {
-                  await sessionNotifier.updateCtxInfo(context);
                 }
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -25,7 +26,8 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
     final apiService = aedappfm.sl.get<ApiService>();
 
     return Opacity(
@@ -88,7 +90,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                     children: [
                       FutureBuilder<double>(
                         future: ref.watch(
-                          BalanceProviders.getBalance(
+                          getBalanceProvider(
                             session.genesisAddress,
                             pool!.lpToken.address!,
                             apiService,

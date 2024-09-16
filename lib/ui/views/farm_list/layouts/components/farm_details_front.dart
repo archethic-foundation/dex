@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_details_buttons.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_details_info_apr.dart';
@@ -38,7 +39,8 @@ class FarmDetailsFrontState extends ConsumerState<FarmDetailsFront>
   ) {
     super.build(context);
 
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
     return Column(
       children: [
         FarmDetailsInfoHeader(farm: widget.farm),

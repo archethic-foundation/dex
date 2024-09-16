@@ -11,7 +11,6 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -23,7 +22,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
       run(
     String poolGenesisAddress,
     WidgetRef ref,
-    BuildContext context,
+    AppLocalizations localizations,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String lpTokenAddress,
@@ -83,12 +82,8 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
           '',
           [transactionRemoveLiquidity!],
           description: {
-            'en': context.mounted
-                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_en
-                : '',
-            'fr': context.mounted
-                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_fr
-                : '',
+            'en': localizations.removeLiquiditySignTxDesc_en,
+            'fr': localizations.removeLiquiditySignTxDesc_fr,
           },
         ))
             .first;
@@ -212,18 +207,18 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep1;
+        return localizations.removeLiquidityProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep2;
+        return localizations.removeLiquidityProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep3;
+        return localizations.removeLiquidityProcessStep3;
       default:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep0;
+        return localizations.removeLiquidityProcessStep0;
     }
   }
 }

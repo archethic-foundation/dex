@@ -9,7 +9,6 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,7 +17,7 @@ const logName = 'AddPoolCase';
 class AddPoolCase with aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref,
-    BuildContext context,
+    AppLocalizations localizations,
     DexToken token1,
     double token1Amount,
     DexToken token2,
@@ -129,12 +128,8 @@ class AddPoolCase with aedappfm.TransactionMixin {
           '',
           [transactionAddPoolTransfer!],
           description: {
-            'en': context.mounted
-                ? AppLocalizations.of(context)!.addPoolSignTxDesc1_en
-                : '',
-            'fr': context.mounted
-                ? AppLocalizations.of(context)!.addPoolSignTxDesc1_fr
-                : '',
+            'en': localizations.addPoolSignTxDesc1_en,
+            'fr': localizations.addPoolSignTxDesc1_fr,
           },
         ))
             .first;
@@ -214,12 +209,8 @@ class AddPoolCase with aedappfm.TransactionMixin {
           '',
           [transactionAddPoolLiquidity!],
           description: {
-            'en': context.mounted
-                ? AppLocalizations.of(context)!.addPoolSignTxDesc2_en
-                : '',
-            'fr': context.mounted
-                ? AppLocalizations.of(context)!.addPoolSignTxDesc2_fr
-                : '',
+            'en': localizations.addPoolSignTxDesc2_en,
+            'fr': localizations.addPoolSignTxDesc2_fr,
           },
         ))
             .first;
@@ -285,24 +276,24 @@ class AddPoolCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.addPoolProcessStep1;
+        return localizations.addPoolProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.addPoolProcessStep2;
+        return localizations.addPoolProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.addPoolProcessStep3;
+        return localizations.addPoolProcessStep3;
       case 4:
-        return AppLocalizations.of(context)!.addPoolProcessStep4;
+        return localizations.addPoolProcessStep4;
       case 5:
-        return AppLocalizations.of(context)!.addPoolProcessStep5;
+        return localizations.addPoolProcessStep5;
       case 6:
-        return AppLocalizations.of(context)!.addPoolProcessStep6;
+        return localizations.addPoolProcessStep6;
       default:
-        return AppLocalizations.of(context)!.addPoolProcessStep0;
+        return localizations.addPoolProcessStep0;
     }
   }
 }

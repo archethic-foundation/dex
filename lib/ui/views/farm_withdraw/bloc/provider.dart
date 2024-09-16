@@ -1,5 +1,6 @@
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
@@ -149,7 +150,7 @@ class FarmWithdrawFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -202,13 +203,13 @@ class FarmWithdrawFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
       final finalAmounts = await WithdrawFarmCase().run(
         ref,
-        context,
+        AppLocalizations.of(context)!,
         ref.watch(NotificationProviders.notificationService),
         state.farmAddress!,
         state.lpTokenAddress!,

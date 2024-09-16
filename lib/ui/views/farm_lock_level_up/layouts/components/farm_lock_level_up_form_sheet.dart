@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_lock_duration_btn.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -310,8 +311,8 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmLockLevelUp.isControlsOk &&
-                                  ref
-                                      .watch(SessionProviders.session)
+                                  (ref.watch(sessionNotifierProvider).value ??
+                                          const Session())
                                       .isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farmLockLevelUp,
@@ -323,12 +324,9 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                                   .validateForm(context),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
                                 final session =
-                                    ref.read(SessionProviders.session);
+                                    ref.read(sessionNotifierProvider).value ??
+                                        const Session();
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(

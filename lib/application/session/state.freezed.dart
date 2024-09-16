@@ -26,7 +26,13 @@ mixin _$Session {
   Balance? get userBalance => throw _privateConstructorUsedError;
   Subscription<Account>? get accountSub => throw _privateConstructorUsedError;
   StreamSubscription<Account>? get accountStreamSub =>
-      throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; // TODO: inutile
+  String? get aeETHUCOPoolAddress => throw _privateConstructorUsedError;
+  String? get aeETHUCOFarmLegacyAddress => throw _privateConstructorUsedError;
+  String? get aeETHUCOFarmLockAddress => throw _privateConstructorUsedError;
+  DexPool? get aeETHUCOPool => throw _privateConstructorUsedError;
+  DexFarm? get aeETHUCOFarm => throw _privateConstructorUsedError;
+  DexFarmLock? get aeETHUCOFarmLock => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SessionCopyWith<Session> get copyWith => throw _privateConstructorUsedError;
@@ -47,10 +53,19 @@ abstract class $SessionCopyWith<$Res> {
       bool isConnected,
       Balance? userBalance,
       Subscription<Account>? accountSub,
-      StreamSubscription<Account>? accountStreamSub});
+      StreamSubscription<Account>? accountStreamSub,
+      String? aeETHUCOPoolAddress,
+      String? aeETHUCOFarmLegacyAddress,
+      String? aeETHUCOFarmLockAddress,
+      DexPool? aeETHUCOPool,
+      DexFarm? aeETHUCOFarm,
+      DexFarmLock? aeETHUCOFarmLock});
 
   $BalanceCopyWith<$Res>? get userBalance;
   $SubscriptionCopyWith<Account, $Res>? get accountSub;
+  $DexPoolCopyWith<$Res>? get aeETHUCOPool;
+  $DexFarmCopyWith<$Res>? get aeETHUCOFarm;
+  $DexFarmLockCopyWith<$Res>? get aeETHUCOFarmLock;
 }
 
 /// @nodoc
@@ -76,6 +91,12 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
     Object? userBalance = freezed,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
+    Object? aeETHUCOPoolAddress = freezed,
+    Object? aeETHUCOFarmLegacyAddress = freezed,
+    Object? aeETHUCOFarmLockAddress = freezed,
+    Object? aeETHUCOPool = freezed,
+    Object? aeETHUCOFarm = freezed,
+    Object? aeETHUCOFarmLock = freezed,
   }) {
     return _then(_value.copyWith(
       envSelected: null == envSelected
@@ -118,6 +139,30 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
           ? _value.accountStreamSub
           : accountStreamSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<Account>?,
+      aeETHUCOPoolAddress: freezed == aeETHUCOPoolAddress
+          ? _value.aeETHUCOPoolAddress
+          : aeETHUCOPoolAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      aeETHUCOFarmLegacyAddress: freezed == aeETHUCOFarmLegacyAddress
+          ? _value.aeETHUCOFarmLegacyAddress
+          : aeETHUCOFarmLegacyAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      aeETHUCOFarmLockAddress: freezed == aeETHUCOFarmLockAddress
+          ? _value.aeETHUCOFarmLockAddress
+          : aeETHUCOFarmLockAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      aeETHUCOPool: freezed == aeETHUCOPool
+          ? _value.aeETHUCOPool
+          : aeETHUCOPool // ignore: cast_nullable_to_non_nullable
+              as DexPool?,
+      aeETHUCOFarm: freezed == aeETHUCOFarm
+          ? _value.aeETHUCOFarm
+          : aeETHUCOFarm // ignore: cast_nullable_to_non_nullable
+              as DexFarm?,
+      aeETHUCOFarmLock: freezed == aeETHUCOFarmLock
+          ? _value.aeETHUCOFarmLock
+          : aeETHUCOFarmLock // ignore: cast_nullable_to_non_nullable
+              as DexFarmLock?,
     ) as $Val);
   }
 
@@ -144,6 +189,42 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
       return _then(_value.copyWith(accountSub: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexPoolCopyWith<$Res>? get aeETHUCOPool {
+    if (_value.aeETHUCOPool == null) {
+      return null;
+    }
+
+    return $DexPoolCopyWith<$Res>(_value.aeETHUCOPool!, (value) {
+      return _then(_value.copyWith(aeETHUCOPool: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexFarmCopyWith<$Res>? get aeETHUCOFarm {
+    if (_value.aeETHUCOFarm == null) {
+      return null;
+    }
+
+    return $DexFarmCopyWith<$Res>(_value.aeETHUCOFarm!, (value) {
+      return _then(_value.copyWith(aeETHUCOFarm: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DexFarmLockCopyWith<$Res>? get aeETHUCOFarmLock {
+    if (_value.aeETHUCOFarmLock == null) {
+      return null;
+    }
+
+    return $DexFarmLockCopyWith<$Res>(_value.aeETHUCOFarmLock!, (value) {
+      return _then(_value.copyWith(aeETHUCOFarmLock: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -163,12 +244,24 @@ abstract class _$$SessionImplCopyWith<$Res> implements $SessionCopyWith<$Res> {
       bool isConnected,
       Balance? userBalance,
       Subscription<Account>? accountSub,
-      StreamSubscription<Account>? accountStreamSub});
+      StreamSubscription<Account>? accountStreamSub,
+      String? aeETHUCOPoolAddress,
+      String? aeETHUCOFarmLegacyAddress,
+      String? aeETHUCOFarmLockAddress,
+      DexPool? aeETHUCOPool,
+      DexFarm? aeETHUCOFarm,
+      DexFarmLock? aeETHUCOFarmLock});
 
   @override
   $BalanceCopyWith<$Res>? get userBalance;
   @override
   $SubscriptionCopyWith<Account, $Res>? get accountSub;
+  @override
+  $DexPoolCopyWith<$Res>? get aeETHUCOPool;
+  @override
+  $DexFarmCopyWith<$Res>? get aeETHUCOFarm;
+  @override
+  $DexFarmLockCopyWith<$Res>? get aeETHUCOFarmLock;
 }
 
 /// @nodoc
@@ -192,6 +285,12 @@ class __$$SessionImplCopyWithImpl<$Res>
     Object? userBalance = freezed,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
+    Object? aeETHUCOPoolAddress = freezed,
+    Object? aeETHUCOFarmLegacyAddress = freezed,
+    Object? aeETHUCOFarmLockAddress = freezed,
+    Object? aeETHUCOPool = freezed,
+    Object? aeETHUCOFarm = freezed,
+    Object? aeETHUCOFarmLock = freezed,
   }) {
     return _then(_$SessionImpl(
       envSelected: null == envSelected
@@ -234,6 +333,30 @@ class __$$SessionImplCopyWithImpl<$Res>
           ? _value.accountStreamSub
           : accountStreamSub // ignore: cast_nullable_to_non_nullable
               as StreamSubscription<Account>?,
+      aeETHUCOPoolAddress: freezed == aeETHUCOPoolAddress
+          ? _value.aeETHUCOPoolAddress
+          : aeETHUCOPoolAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      aeETHUCOFarmLegacyAddress: freezed == aeETHUCOFarmLegacyAddress
+          ? _value.aeETHUCOFarmLegacyAddress
+          : aeETHUCOFarmLegacyAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      aeETHUCOFarmLockAddress: freezed == aeETHUCOFarmLockAddress
+          ? _value.aeETHUCOFarmLockAddress
+          : aeETHUCOFarmLockAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      aeETHUCOPool: freezed == aeETHUCOPool
+          ? _value.aeETHUCOPool
+          : aeETHUCOPool // ignore: cast_nullable_to_non_nullable
+              as DexPool?,
+      aeETHUCOFarm: freezed == aeETHUCOFarm
+          ? _value.aeETHUCOFarm
+          : aeETHUCOFarm // ignore: cast_nullable_to_non_nullable
+              as DexFarm?,
+      aeETHUCOFarmLock: freezed == aeETHUCOFarmLock
+          ? _value.aeETHUCOFarmLock
+          : aeETHUCOFarmLock // ignore: cast_nullable_to_non_nullable
+              as DexFarmLock?,
     ));
   }
 }
@@ -251,7 +374,13 @@ class _$SessionImpl extends _Session {
       this.isConnected = false,
       this.userBalance,
       this.accountSub,
-      this.accountStreamSub})
+      this.accountStreamSub,
+      this.aeETHUCOPoolAddress,
+      this.aeETHUCOFarmLegacyAddress,
+      this.aeETHUCOFarmLockAddress,
+      this.aeETHUCOPool,
+      this.aeETHUCOFarm,
+      this.aeETHUCOFarmLock})
       : super._();
 
   @override
@@ -281,10 +410,23 @@ class _$SessionImpl extends _Session {
   final Subscription<Account>? accountSub;
   @override
   final StreamSubscription<Account>? accountStreamSub;
+// TODO: inutile
+  @override
+  final String? aeETHUCOPoolAddress;
+  @override
+  final String? aeETHUCOFarmLegacyAddress;
+  @override
+  final String? aeETHUCOFarmLockAddress;
+  @override
+  final DexPool? aeETHUCOPool;
+  @override
+  final DexFarm? aeETHUCOFarm;
+  @override
+  final DexFarmLock? aeETHUCOFarmLock;
 
   @override
   String toString() {
-    return 'Session(envSelected: $envSelected, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, userBalance: $userBalance, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
+    return 'Session(envSelected: $envSelected, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, userBalance: $userBalance, accountSub: $accountSub, accountStreamSub: $accountStreamSub, aeETHUCOPoolAddress: $aeETHUCOPoolAddress, aeETHUCOFarmLegacyAddress: $aeETHUCOFarmLegacyAddress, aeETHUCOFarmLockAddress: $aeETHUCOFarmLockAddress, aeETHUCOPool: $aeETHUCOPool, aeETHUCOFarm: $aeETHUCOFarm, aeETHUCOFarmLock: $aeETHUCOFarmLock)';
   }
 
   @override
@@ -310,7 +452,21 @@ class _$SessionImpl extends _Session {
             (identical(other.accountSub, accountSub) ||
                 other.accountSub == accountSub) &&
             (identical(other.accountStreamSub, accountStreamSub) ||
-                other.accountStreamSub == accountStreamSub));
+                other.accountStreamSub == accountStreamSub) &&
+            (identical(other.aeETHUCOPoolAddress, aeETHUCOPoolAddress) ||
+                other.aeETHUCOPoolAddress == aeETHUCOPoolAddress) &&
+            (identical(other.aeETHUCOFarmLegacyAddress,
+                    aeETHUCOFarmLegacyAddress) ||
+                other.aeETHUCOFarmLegacyAddress == aeETHUCOFarmLegacyAddress) &&
+            (identical(
+                    other.aeETHUCOFarmLockAddress, aeETHUCOFarmLockAddress) ||
+                other.aeETHUCOFarmLockAddress == aeETHUCOFarmLockAddress) &&
+            (identical(other.aeETHUCOPool, aeETHUCOPool) ||
+                other.aeETHUCOPool == aeETHUCOPool) &&
+            (identical(other.aeETHUCOFarm, aeETHUCOFarm) ||
+                other.aeETHUCOFarm == aeETHUCOFarm) &&
+            (identical(other.aeETHUCOFarmLock, aeETHUCOFarmLock) ||
+                other.aeETHUCOFarmLock == aeETHUCOFarmLock));
   }
 
   @override
@@ -325,7 +481,13 @@ class _$SessionImpl extends _Session {
       isConnected,
       userBalance,
       accountSub,
-      accountStreamSub);
+      accountStreamSub,
+      aeETHUCOPoolAddress,
+      aeETHUCOFarmLegacyAddress,
+      aeETHUCOFarmLockAddress,
+      aeETHUCOPool,
+      aeETHUCOFarm,
+      aeETHUCOFarmLock);
 
   @JsonKey(ignore: true)
   @override
@@ -345,7 +507,13 @@ abstract class _Session extends Session {
       final bool isConnected,
       final Balance? userBalance,
       final Subscription<Account>? accountSub,
-      final StreamSubscription<Account>? accountStreamSub}) = _$SessionImpl;
+      final StreamSubscription<Account>? accountStreamSub,
+      final String? aeETHUCOPoolAddress,
+      final String? aeETHUCOFarmLegacyAddress,
+      final String? aeETHUCOFarmLockAddress,
+      final DexPool? aeETHUCOPool,
+      final DexFarm? aeETHUCOFarm,
+      final DexFarmLock? aeETHUCOFarmLock}) = _$SessionImpl;
   const _Session._() : super._();
 
   @override
@@ -368,6 +536,18 @@ abstract class _Session extends Session {
   Subscription<Account>? get accountSub;
   @override
   StreamSubscription<Account>? get accountStreamSub;
+  @override // TODO: inutile
+  String? get aeETHUCOPoolAddress;
+  @override
+  String? get aeETHUCOFarmLegacyAddress;
+  @override
+  String? get aeETHUCOFarmLockAddress;
+  @override
+  DexPool? get aeETHUCOPool;
+  @override
+  DexFarm? get aeETHUCOFarm;
+  @override
+  DexFarmLock? get aeETHUCOFarmLock;
   @override
   @JsonKey(ignore: true)
   _$$SessionImplCopyWith<_$SessionImpl> get copyWith =>

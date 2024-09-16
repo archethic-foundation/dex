@@ -25,7 +25,7 @@ class LiquidityAddInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: AddLiquidityCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           liquidityAdd.currentStep,
         ),
       ),

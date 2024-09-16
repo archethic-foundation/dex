@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
@@ -200,13 +201,14 @@ class SwapCase with aedappfm.TransactionMixin {
 
       unawaited(() async {
         await refreshCurrentAccountInfoWallet();
-        await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+        final session =
+            ref.read(sessionNotifierProvider).value ?? const Session();
+        await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
         final swap = ref.read(SwapFormProvider.swapForm);
-        final session = ref.read(SessionProviders.session);
 
         final apiService = aedappfm.sl.get<archethic.ApiService>();
         final balanceSwapped = await ref.read(
-          BalanceProviders.getBalance(
+          getBalanceProvider(
             session.genesisAddress,
             swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
             apiService,
@@ -215,7 +217,7 @@ class SwapCase with aedappfm.TransactionMixin {
         swapNotifier.setTokenSwappedBalance(balanceSwapped);
 
         final balanceToSwap = await ref.read(
-          BalanceProviders.getBalance(
+          getBalanceProvider(
             session.genesisAddress,
             swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
             apiService,
@@ -252,20 +254,20 @@ class SwapCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.swapProcessStep1;
+        return localizations.swapProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.swapProcessStep2;
+        return localizations.swapProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.swapProcessStep3;
+        return localizations.swapProcessStep3;
       case 4:
-        return AppLocalizations.of(context)!.swapProcessStep4;
+        return localizations.swapProcessStep4;
       default:
-        return AppLocalizations.of(context)!.swapProcessStep0;
+        return localizations.swapProcessStep0;
     }
   }
 

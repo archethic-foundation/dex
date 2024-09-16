@@ -1,9 +1,9 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -16,21 +16,11 @@ import 'package:go_router/go_router.dart';
 
 class FarmLegacyBtnClaim extends ConsumerWidget {
   const FarmLegacyBtnClaim({
-    required this.farmAddress,
-    required this.poolAddress,
-    required this.rewardToken,
-    required this.lpTokenAddress,
-    required this.rewardAmount,
     required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
 
-  final String farmAddress;
-  final String poolAddress;
-  final DexToken rewardToken;
-  final String lpTokenAddress;
-  final double rewardAmount;
   final bool enabled;
   final String currentSortedColumn;
 
@@ -39,14 +29,16 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
             onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
                 ? null
                 : () async {
-                    await _validate(context);
+                    await _validate(context, ref);
                   },
             child: Column(
               children: [
@@ -99,16 +91,13 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
             onPressed: () async {
-              await _validate(context);
+              await _validate(context, ref);
             },
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {
-              final sessionNotifier =
-                  ref.read(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-
-              final session = ref.read(SessionProviders.session);
+              final session =
+                  ref.read(sessionNotifierProvider).value ?? const Session();
               if (session.error.isNotEmpty) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -135,26 +124,22 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
             .scale(duration: const Duration(milliseconds: 400));
   }
 
-  Future<void> _validate(BuildContext context) async {
+  Future<void> _validate(BuildContext context, WidgetRef ref) async {
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
+
     if (context.mounted) {
       await context.push(
         Uri(
           path: FarmClaimSheet.routerPage,
           queryParameters: {
-            'farmAddress': farmAddress.encodeParam(),
-            'rewardToken': rewardToken.encodeParam(),
-            'lpTokenAddress': lpTokenAddress.encodeParam(),
-            'rewardAmount': rewardAmount.encodeParam(),
+            'farmAddress': farmLockForm.farm!.farmAddress.encodeParam(),
+            'rewardToken': farmLockForm.farm!.rewardToken.encodeParam(),
+            'lpTokenAddress': farmLockForm.pool!.lpToken.address.encodeParam(),
+            'rewardAmount': farmLockForm.farm!.rewardAmount.encodeParam(),
           },
         ).toString(),
       );
-      if (context.mounted) {
-        {
-          await context
-              .findAncestorStateOfType<FarmLockSheetState>()
-              ?.loadInfo(sortCriteria: currentSortedColumn);
-        }
-      }
     }
   }
 }

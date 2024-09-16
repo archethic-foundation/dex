@@ -10,7 +10,7 @@ Future<List<DexPool>> _getPoolList(
   final apiService = aedappfm.sl.get<ApiService>();
   final dexPools = <DexPool>[];
 
-  await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+  await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
 
   final tokenVerifiedList = ref
       .read(aedappfm.VerifiedTokensProviders.verifiedTokens)
@@ -30,9 +30,11 @@ Future<List<DexPool>> _getPoolList(
     failure: (failure) {},
   );
 
-  final env = ref.read(SessionProviders.session).envSelected;
-  final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
-  final aeETHUCOPoolAddress = contextAddresses.aeETHUCOPoolAddress;
+  final aeETHUCOPoolAddress =
+      (ref.read(sessionNotifierProvider).value ?? const Session())
+              .aeETHUCOPoolAddress ??
+          '';
+
   dexPools.sort((a, b) {
     if (a.poolAddress.toUpperCase() == aeETHUCOPoolAddress.toUpperCase()) {
       return -1;

@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -21,7 +22,8 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
     if (farmLockForm.farmLock == null ||
         farmLockForm.farmLock!.isOpen == false) {
       return const SizedBox.shrink();

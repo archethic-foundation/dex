@@ -12,7 +12,6 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -22,7 +21,7 @@ const logName = 'WithdrawFarmLockCase';
 class WithdrawFarmLockCase with aedappfm.TransactionMixin {
   Future<({double finalAmountReward, double finalAmountWithdraw})> run(
     WidgetRef ref,
-    BuildContext context,
+    AppLocalizations localizations,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -90,12 +89,8 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         '',
         [transactionWithdraw!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmLockSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmLockSignTxDesc_fr
-              : '',
+          'en': localizations.withdrawFarmLockSignTxDesc_en,
+          'fr': localizations.withdrawFarmLockSignTxDesc_fr,
         },
       ))
           .first;
@@ -221,18 +216,18 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep1;
+        return localizations.withdrawFarmLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep2;
+        return localizations.withdrawFarmLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep3;
+        return localizations.withdrawFarmLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep0;
+        return localizations.withdrawFarmLockProcessStep0;
     }
   }
 }

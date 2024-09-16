@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
@@ -26,8 +27,10 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final env = ref.watch(SessionProviders.session).envSelected;
-    final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
+    final aeETHUCOPoolAddress =
+        (ref.read(sessionNotifierProvider).value ?? const Session())
+                .aeETHUCOPoolAddress ??
+            '';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +82,7 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
               ],
             ),
             if (displayPoolFarmAvailable &&
-                contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
+                aeETHUCOPoolAddress.toUpperCase() ==
                     pool!.poolAddress.toUpperCase())
               const PoolFarmAvailable(),
           ],

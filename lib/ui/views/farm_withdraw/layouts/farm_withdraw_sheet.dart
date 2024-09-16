@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_list/layouts/farm_list_sheet.dart';
@@ -39,10 +40,6 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
         ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
@@ -70,7 +67,8 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
             ..setDepositedAmount(farmInfo.depositedAmount);
         }
 
-        final session = ref.read(SessionProviders.session);
+        final session =
+            ref.read(sessionNotifierProvider).value ?? const Session();
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.pop();

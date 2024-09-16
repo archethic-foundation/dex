@@ -28,7 +28,7 @@ class FarmClaimInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: ClaimFarmCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           farmClaim.currentStep,
         ),
       ),

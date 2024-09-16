@@ -1,6 +1,5 @@
-import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/models/dex_farm_lock.dart';
-import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_add_liquidity.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_balances_summary.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_earn_rewards.dart';
@@ -12,16 +11,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmLockBlockHeader extends ConsumerWidget {
   const FarmLockBlockHeader({
-    required this.pool,
-    required this.farmLock,
-    required this.farm,
     required this.sortCriteria,
     super.key,
   });
 
-  final DexPool? pool;
-  final DexFarmLock? farmLock;
-  final DexFarm? farm;
   final String sortCriteria;
 
   @override
@@ -29,7 +22,10 @@ class FarmLockBlockHeader extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    if (pool == null) {
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
+
+    if (farmLockForm.pool == null) {
       return const SizedBox.shrink();
     }
     return Padding(
@@ -46,7 +42,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     FarmLockBlockAddLiquidity(
-                      pool: pool!,
                       width: constraints.maxWidth * 0.32,
                       height: 300,
                       sortCriteria: sortCriteria,
@@ -55,9 +50,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       width: constraints.maxWidth * 0.02,
                     ),
                     FarmLockBlockEarnRewards(
-                      pool: pool!,
-                      farmLock: farmLock,
-                      farm: farm,
                       width: constraints.maxWidth * 0.32,
                       height: 300,
                       sortCriteria: sortCriteria,
@@ -91,7 +83,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FarmLockBlockAddLiquidity(
-                          pool: pool!,
                           width: constraints.maxWidth * 0.49,
                           height: 300,
                           sortCriteria: sortCriteria,
@@ -100,9 +91,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                           width: constraints.maxWidth * 0.02,
                         ),
                         FarmLockBlockEarnRewards(
-                          pool: pool!,
-                          farmLock: farmLock,
-                          farm: farm,
                           width: constraints.maxWidth * 0.49,
                           height: 300,
                           sortCriteria: sortCriteria,
@@ -132,7 +120,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     FarmLockBlockAddLiquidity(
-                      pool: pool!,
                       width: constraints.maxWidth,
                       height: 290,
                       sortCriteria: sortCriteria,
@@ -141,9 +128,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                       height: 10,
                     ),
                     FarmLockBlockEarnRewards(
-                      pool: pool!,
-                      farmLock: farmLock,
-                      farm: farm,
                       width: constraints.maxWidth,
                       height: 320,
                       sortCriteria: sortCriteria,

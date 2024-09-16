@@ -29,7 +29,7 @@ class FarmLockClaimInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: ClaimFarmCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           farmLockClaim.currentStep,
         ),
       ),

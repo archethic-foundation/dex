@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
@@ -85,7 +86,8 @@ class FarmDetailsButtons extends ConsumerWidget {
     WidgetRef ref,
     double? userBalance,
   ) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
     return farm.endDate != null && farm.endDate!.isBefore(DateTime.now())
         ? ButtonValidateMobile(
             labelBtn: AppLocalizations.of(context)!
@@ -95,11 +97,8 @@ class FarmDetailsButtons extends ConsumerWidget {
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {
-              final sessionNotifier =
-                  ref.read(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-
-              final session = ref.read(SessionProviders.session);
+              final session =
+                  ref.read(sessionNotifierProvider).value ?? const Session();
               if (session.error.isNotEmpty) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -149,11 +148,8 @@ class FarmDetailsButtons extends ConsumerWidget {
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {
-              final sessionNotifier =
-                  ref.read(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-
-              final session = ref.read(SessionProviders.session);
+              final session =
+                  ref.read(sessionNotifierProvider).value ?? const Session();
               if (session.error.isNotEmpty) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -178,7 +174,8 @@ class FarmDetailsButtons extends ConsumerWidget {
   }
 
   Widget _widthdrawButton(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
     return ButtonValidateMobile(
       controlOk: depositedAmount != null && depositedAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
@@ -209,10 +206,8 @@ class FarmDetailsButtons extends ConsumerWidget {
       },
       isConnected: session.isConnected,
       displayWalletConnectOnPressed: () async {
-        final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        await sessionNotifier.connectToWallet();
-
-        final session = ref.read(SessionProviders.session);
+        final session =
+            ref.read(sessionNotifierProvider).value ?? const Session();
         if (session.error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
@@ -236,7 +231,7 @@ class FarmDetailsButtons extends ConsumerWidget {
   }
 
   Widget _claimButton(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
 
     return ButtonValidateMobile(
       controlOk: rewardAmount != null && rewardAmount! > 0,
@@ -258,10 +253,8 @@ class FarmDetailsButtons extends ConsumerWidget {
       },
       isConnected: session.isConnected,
       displayWalletConnectOnPressed: () async {
-        final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        await sessionNotifier.connectToWallet();
-
-        final session = ref.read(SessionProviders.session);
+        final session =
+            ref.read(sessionNotifierProvider).value ?? const Session();
         if (session.error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(

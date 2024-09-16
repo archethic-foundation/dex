@@ -1,5 +1,7 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -23,12 +25,14 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
     var opacity = AppTextStyles.kOpacityText;
     if (session.isConnected == false) {
       opacity = 0.5;
     }
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
     return BlockInfo(
       info: Column(
         children: [

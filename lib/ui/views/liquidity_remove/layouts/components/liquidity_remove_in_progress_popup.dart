@@ -26,7 +26,7 @@ class LiquidityRemoveInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: RemoveLiquidityCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           liquidityRemove.currentStep,
         ),
       ),

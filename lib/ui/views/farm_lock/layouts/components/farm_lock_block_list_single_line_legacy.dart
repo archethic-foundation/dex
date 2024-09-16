@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_legacy_btn_claim.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_legacy_btn_withdraw.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -17,11 +17,9 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
   const FarmLockBlockListSingleLineLegacy({
     super.key,
-    required this.farm,
     required this.currentSortedColumn,
   });
 
-  final DexFarm farm;
   final String currentSortedColumn;
 
   @override
@@ -29,10 +27,14 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLock = ref.watch(FarmLockFormProvider.farmLockForm);
+    final farmLock = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
 
-    if ((farm.depositedAmount == null || farm.depositedAmount == 0) &&
-        (farm.rewardAmount == null || farm.rewardAmount == 0)) {
+    if (farmLock.farm == null ||
+        ((farmLock.farm!.depositedAmount == null ||
+                farmLock.farm!.depositedAmount == 0) &&
+            (farmLock.farm!.rewardAmount == null ||
+                farmLock.farm!.rewardAmount == 0))) {
       return const SizedBox.shrink();
     }
 
@@ -90,16 +92,19 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                           child: Column(
                                             children: [
                                               SelectableText(
-                                                '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                '${farmLock.farm!.depositedAmount!.formatNumber(precision: farmLock.farm!.depositedAmount! < 1 ? 8 : 3)}  ${farmLock.farm!.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
                                                 style: style,
                                               ),
                                               SelectableText(
                                                 DEXLPTokenFiatValue().display(
                                                   ref,
-                                                  farm.lpTokenPair!.token1,
-                                                  farm.lpTokenPair!.token2,
-                                                  farm.depositedAmount!,
-                                                  farm.poolAddress,
+                                                  farmLock.farm!.lpTokenPair!
+                                                      .token1,
+                                                  farmLock.farm!.lpTokenPair!
+                                                      .token2,
+                                                  farmLock
+                                                      .farm!.depositedAmount!,
+                                                  farmLock.farm!.poolAddress,
                                                 ),
                                                 style: AppTextStyles.bodySmall(
                                                   context,
@@ -118,14 +123,14 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                           child: Column(
                                             children: [
                                               SelectableText(
-                                                '${farm.rewardAmount!.formatNumber(precision: farm.rewardAmount! < 1 ? 8 : 3)} ${farm.rewardToken!.symbol}',
+                                                '${farmLock.farm!.rewardAmount!.formatNumber(precision: farmLock.farm!.rewardAmount! < 1 ? 8 : 3)} ${farmLock.farm!.rewardToken!.symbol}',
                                                 style: style,
                                               ),
                                               FutureBuilder<String>(
                                                 future: FiatValue().display(
                                                   ref,
-                                                  farm.rewardToken!,
-                                                  farm.rewardAmount!,
+                                                  farmLock.farm!.rewardToken!,
+                                                  farmLock.farm!.rewardAmount!,
                                                 ),
                                                 builder: (context, snapshot) {
                                                   if (snapshot.hasData) {
@@ -198,7 +203,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                           child: Column(
                                             children: [
                                               Text(
-                                                '${(farm.apr * 100).formatNumber(precision: 2)}%',
+                                                '${(farmLock.farm!.apr * 100).formatNumber(precision: 2)}%',
                                                 style: style,
                                               ),
                                             ],
@@ -209,16 +214,10 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                     SizedBox(
                                       width: constraints.maxWidth * 0.125,
                                       child: FarmLegacyBtnWithdraw(
-                                        farmAddress: farmLock.farm!.farmAddress,
-                                        lpTokenAddress:
-                                            farmLock.farm!.lpToken!.address!,
-                                        poolAddress: farmLock.pool!.poolAddress,
-                                        rewardAmount:
-                                            farmLock.farm!.rewardAmount!,
-                                        rewardToken:
-                                            farmLock.farm!.rewardToken!,
-                                        enabled: farm.depositedAmount != null &&
-                                            farm.depositedAmount! > 0,
+                                        enabled: farmLock
+                                                    .farm!.depositedAmount !=
+                                                null &&
+                                            farmLock.farm!.depositedAmount! > 0,
                                         currentSortedColumn:
                                             currentSortedColumn,
                                       ),
@@ -226,14 +225,6 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                     SizedBox(
                                       width: constraints.maxWidth * 0.125,
                                       child: FarmLegacyBtnClaim(
-                                        farmAddress: farmLock.farm!.farmAddress,
-                                        lpTokenAddress:
-                                            farmLock.farm!.lpToken!.address!,
-                                        poolAddress: farmLock.pool!.poolAddress,
-                                        rewardAmount:
-                                            farmLock.farm!.rewardAmount!,
-                                        rewardToken:
-                                            farmLock.farm!.rewardToken!,
                                         enabled: farmLock.farm!.rewardAmount !=
                                                 null &&
                                             farmLock.farm!.rewardAmount! > 0,
@@ -265,7 +256,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    '${farm.depositedAmount!.formatNumber(precision: farm.depositedAmount! < 1 ? 8 : 3)}  ${farm.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
+                                                    '${farmLock.farm!.depositedAmount!.formatNumber(precision: farmLock.farm!.depositedAmount! < 1 ? 8 : 3)}  ${farmLock.farm!.depositedAmount! < 1 ? AppLocalizations.of(context)!.lpToken : AppLocalizations.of(context)!.lpTokens}',
                                                     style: style,
                                                   ),
                                                 ],
@@ -273,10 +264,13 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                               SelectableText(
                                                 DEXLPTokenFiatValue().display(
                                                   ref,
-                                                  farm.lpTokenPair!.token1,
-                                                  farm.lpTokenPair!.token2,
-                                                  farm.depositedAmount!,
-                                                  farm.poolAddress,
+                                                  farmLock.farm!.lpTokenPair!
+                                                      .token1,
+                                                  farmLock.farm!.lpTokenPair!
+                                                      .token2,
+                                                  farmLock
+                                                      .farm!.depositedAmount!,
+                                                  farmLock.farm!.poolAddress,
                                                 ),
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -302,7 +296,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    '${farm.rewardAmount!.formatNumber(precision: farm.rewardAmount! < 1 ? 8 : 3)} ${farm.rewardToken!.symbol}',
+                                                    '${farmLock.farm!.rewardAmount!.formatNumber(precision: farmLock.farm!.rewardAmount! < 1 ? 8 : 3)} ${farmLock.farm!.rewardToken!.symbol}',
                                                     style: style,
                                                   ),
                                                 ],
@@ -310,8 +304,8 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                               FutureBuilder<String>(
                                                 future: FiatValue().display(
                                                   ref,
-                                                  farm.rewardToken!,
-                                                  farm.rewardAmount!,
+                                                  farmLock.farm!.rewardToken!,
+                                                  farmLock.farm!.rewardAmount!,
                                                 ),
                                                 builder: (context, snapshot) {
                                                   if (snapshot.hasData) {
@@ -383,7 +377,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    '${(farm.apr * 100).formatNumber(precision: 2)}%',
+                                                    '${(farmLock.farm!.apr * 100).formatNumber(precision: 2)}%',
                                                     style: style,
                                                   ),
                                                 ],
@@ -405,41 +399,18 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                   Expanded(
                                                     child:
                                                         FarmLegacyBtnWithdraw(
-                                                      farmAddress: farmLock
-                                                          .farm!.farmAddress,
-                                                      lpTokenAddress: farmLock
-                                                          .farm!
-                                                          .lpToken!
-                                                          .address!,
-                                                      poolAddress: farmLock
-                                                          .pool!.poolAddress,
-                                                      rewardAmount: farmLock
-                                                          .farm!.rewardAmount!,
-                                                      rewardToken: farmLock
-                                                          .farm!.rewardToken!,
-                                                      enabled:
-                                                          farm.depositedAmount !=
-                                                                  null &&
-                                                              farm.depositedAmount! >
-                                                                  0,
+                                                      enabled: farmLock.farm!
+                                                                  .depositedAmount !=
+                                                              null &&
+                                                          farmLock.farm!
+                                                                  .depositedAmount! >
+                                                              0,
                                                       currentSortedColumn:
                                                           currentSortedColumn,
                                                     ),
                                                   ),
                                                   Expanded(
                                                     child: FarmLegacyBtnClaim(
-                                                      farmAddress: farmLock
-                                                          .farm!.farmAddress,
-                                                      lpTokenAddress: farmLock
-                                                          .farm!
-                                                          .lpToken!
-                                                          .address!,
-                                                      poolAddress: farmLock
-                                                          .pool!.poolAddress,
-                                                      rewardAmount: farmLock
-                                                          .farm!.rewardAmount!,
-                                                      rewardToken: farmLock
-                                                          .farm!.rewardToken!,
                                                       enabled: farmLock.farm!
                                                                   .rewardAmount !=
                                                               null &&

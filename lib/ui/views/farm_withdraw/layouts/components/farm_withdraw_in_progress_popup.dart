@@ -28,7 +28,7 @@ class FarmWithdrawInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: WithdrawFarmCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           farmWithdraw.currentStep,
         ),
       ),

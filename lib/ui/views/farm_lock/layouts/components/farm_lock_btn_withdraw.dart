@@ -1,9 +1,8 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_pair.dart';
-import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
@@ -17,30 +16,18 @@ import 'package:go_router/go_router.dart';
 
 class FarmLockBtnWithdraw extends ConsumerWidget {
   const FarmLockBtnWithdraw({
-    required this.farmAddress,
-    required this.poolAddress,
-    required this.rewardToken,
-    required this.lpToken,
-    required this.lpTokenPair,
     required this.rewardAmount,
     required this.depositedAmount,
     required this.depositId,
-    required this.endDate,
     required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
 
-  final String farmAddress;
-  final String poolAddress;
-  final DexToken rewardToken;
-  final DexToken lpToken;
-  final DexPair lpTokenPair;
   final double rewardAmount;
   final double depositedAmount;
   final String depositId;
   final bool enabled;
-  final DateTime endDate;
   final String currentSortedColumn;
 
   @override
@@ -48,15 +35,17 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
 
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
             onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
                 ? null
                 : () async {
-                    await _validate(context);
+                    await _validate(context, ref);
                   },
             child: Column(
               children: [
@@ -109,16 +98,13 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmLockBtnWithdraw,
             onPressed: () async {
-              await _validate(context);
+              await _validate(context, ref);
             },
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {
-              final sessionNotifier =
-                  ref.read(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-
-              final session = ref.read(SessionProviders.session);
+              final session =
+                  ref.read(sessionNotifierProvider).value ?? const Session();
               if (session.error.isNotEmpty) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -145,31 +131,29 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
             .scale(duration: const Duration(milliseconds: 350));
   }
 
-  Future<void> _validate(BuildContext context) async {
+  Future<void> _validate(BuildContext context, WidgetRef ref) async {
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
+
     if (context.mounted) {
       await context.push(
         Uri(
           path: FarmLockWithdrawSheet.routerPage,
           queryParameters: {
-            'farmAddress': farmAddress.encodeParam(),
-            'poolAddress': poolAddress.encodeParam(),
-            'rewardToken': rewardToken.encodeParam(),
-            'lpToken': lpToken.encodeParam(),
-            'lpTokenPair': lpTokenPair.encodeParam(),
+            'farmAddress': farmLockForm.farmLock!.farmAddress.encodeParam(),
+            'poolAddress': farmLockForm.pool!.poolAddress.encodeParam(),
+            'rewardToken': farmLockForm.farmLock!.rewardToken.encodeParam(),
+            'lpToken': farmLockForm.pool!.lpToken.encodeParam(),
+            'lpTokenPair': farmLockForm.pool!.lpToken.lpTokenPair.encodeParam(),
             'rewardAmount': rewardAmount.encodeParam(),
             'depositedAmount': depositedAmount.encodeParam(),
             'depositId': depositId.encodeParam(),
-            'endDate': (endDate.millisecondsSinceEpoch ~/ 1000).encodeParam(),
+            'endDate':
+                (farmLockForm.farmLock!.endDate!.millisecondsSinceEpoch ~/ 1000)
+                    .encodeParam(),
           },
         ).toString(),
       );
-      if (context.mounted) {
-        {
-          await context
-              .findAncestorStateOfType<FarmLockSheetState>()
-              ?.loadInfo(sortCriteria: currentSortedColumn);
-        }
-      }
     }
   }
 }

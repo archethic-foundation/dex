@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/util/service_locator.dart';
@@ -7,17 +8,18 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 Future<void> main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await DBHelper.setupDatabase();
-  setupServiceLocator();
+  await setupServiceLocator();
+  await setupServiceLocatorApiService(
+    aedappfm.EndpointUtil.getEnvironnementUrl('mainnet'),
+  );
+
   setPathUrlStrategy();
   runApp(
     ProviderScope(
@@ -30,32 +32,38 @@ Future<void> main() async {
 }
 
 class MyApp extends ConsumerStatefulWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
 
   @override
-  ConsumerState<MyApp> createState() => _MyAppState();
+  ConsumerState<MyApp> createState() => MyAppState();
 }
 
-class _MyAppState extends ConsumerState<MyApp> {
+class MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
+    unawaited(
+      ref.read(aedappfm.CoinPriceProviders.coinPrices.notifier).startTimer(),
+    );
+    unawaited(
+      ref
+          .read(
+            aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
+          )
+          .startSubscription(),
+    );
+    // Faire un futur provider. Donc pas besoin du init
+    unawaited(
+      ref
+          .read(
+            aedappfm.VerifiedTokensProviders.verifiedTokens.notifier,
+          )
+          .init('mainnet'),
+    );
+
+    ref.read(sessionNotifierProvider);
     super.initState();
-    Future.delayed(Duration.zero, () async {
-      try {
-        await ref
-            .read(aedappfm.CoinPriceProviders.coinPrices.notifier)
-            .startTimer();
-        await ref
-            .read(
-              aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
-            )
-            .startSubscription();
-      } catch (e) {
-        aedappfm.sl.get<aedappfm.LogManager>().log('main initState $e');
-      } finally {
-        FlutterNativeSplash.remove();
-      }
-    });
   }
 
   @override

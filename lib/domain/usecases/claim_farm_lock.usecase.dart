@@ -11,7 +11,6 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -21,7 +20,7 @@ const logName = 'ClaimFarmLockCase';
 class ClaimFarmLockCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
-    BuildContext context,
+    AppLocalizations localizations,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -83,12 +82,8 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         '',
         [transactionClaim!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.claimFarmLockSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.claimFarmLockSignTxDesc_fr
-              : '',
+          'en': localizations.claimFarmLockSignTxDesc_en,
+          'fr': localizations.claimFarmLockSignTxDesc_fr,
         },
       ))
           .first;
@@ -194,18 +189,18 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.claimLockProcessStep1;
+        return localizations.claimLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.claimLockProcessStep2;
+        return localizations.claimLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.claimLockProcessStep3;
+        return localizations.claimLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.claimLockProcessStep0;
+        return localizations.claimLockProcessStep0;
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -13,12 +14,18 @@ class FarmLockBlockListHeader extends ConsumerWidget {
     required this.onSort,
     required this.sortAscending,
     required this.currentSortedColumn,
+    required this.sortedUserInfos,
     super.key,
   });
 
-  final void Function(String, bool) onSort;
+  final List<DexFarmLockUserInfos> Function(
+    String,
+    bool,
+    List<DexFarmLockUserInfos>,
+  ) onSort;
   final Map<String, bool> sortAscending;
   final String currentSortedColumn;
+  final List<DexFarmLockUserInfos> sortedUserInfos;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -142,7 +149,11 @@ class FarmLockBlockListHeader extends ConsumerWidget {
     double width,
   ) {
     return InkWell(
-      onTap: () => onSort(sortBy, true),
+      onTap: () => onSort(
+        sortBy,
+        true,
+        sortedUserInfos,
+      ),
       child: Container(
         padding: const EdgeInsets.only(left: 16),
         width: width,

@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
@@ -162,12 +163,12 @@ class SwapSettingsSlippageToleranceState
             if (!context.mounted) return;
             Navigator.of(context).pop();
           },
-          isConnected: ref.watch(SessionProviders.session).isConnected,
+          isConnected:
+              (ref.watch(sessionNotifierProvider).value ?? const Session())
+                  .isConnected,
           displayWalletConnectOnPressed: () async {
-            final sessionNotifier = ref.read(SessionProviders.session.notifier);
-            await sessionNotifier.connectToWallet();
-
-            final session = ref.read(SessionProviders.session);
+            final session =
+                ref.read(sessionNotifierProvider).value ?? const Session();
             if (session.error.isNotEmpty) {
               if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(

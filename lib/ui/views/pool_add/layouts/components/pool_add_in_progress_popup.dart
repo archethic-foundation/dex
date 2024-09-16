@@ -28,7 +28,7 @@ class PoolAddInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: AddPoolCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           poolAdd.currentStep,
         ),
       ),

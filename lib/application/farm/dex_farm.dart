@@ -3,6 +3,7 @@ import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/infrastructure/dex_farm.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -34,7 +35,9 @@ Future<DexFarm?> _getFarmInfos(
   );
   if (pool == null) return null;
 
-  final userGenesisAddress = ref.read(SessionProviders.session).genesisAddress;
+  final userGenesisAddress =
+      (ref.read(sessionNotifierProvider).value ?? const Session())
+          .genesisAddress;
   final farmInfos =
       await ref.watch(_dexFarmRepositoryProvider).populateFarmInfos(
             farmGenesisAddress,

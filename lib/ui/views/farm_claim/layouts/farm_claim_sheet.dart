@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_confirm_sheet.dart';
@@ -36,16 +37,13 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
         ref.read(FarmClaimFormProvider.farmClaimForm.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
           ..setLpTokenAddress(widget.lpTokenAddress)
           ..setRewardAmount(widget.rewardAmount);
-        final session = ref.read(SessionProviders.session);
+        final session =
+            ref.read(sessionNotifierProvider).value ?? const Session();
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.pop();

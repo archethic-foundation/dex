@@ -2,6 +2,7 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
@@ -44,10 +45,10 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       token1: token,
     );
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         token.isUCO ? 'UCO' : token.address!,
         apiService,
@@ -93,10 +94,10 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       token2: token,
     );
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         token.isUCO ? 'UCO' : token.address!,
         apiService,
@@ -336,7 +337,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -509,12 +510,12 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     final dexConfig =
         await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
     if (context.mounted) {
       await AddPoolCase().run(
         ref,
-        context,
+        AppLocalizations.of(context)!,
         state.token1!,
         state.token1Amount,
         state.token2!,
@@ -530,7 +531,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
             state.recoveryTransactionAddPoolLiquidity,
       );
 
-      await ref.read(SessionProviders.session.notifier).refreshUserBalance();
+      await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
     }
   }
 }

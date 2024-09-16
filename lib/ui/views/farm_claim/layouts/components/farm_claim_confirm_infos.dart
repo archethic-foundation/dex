@@ -1,5 +1,6 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
@@ -27,7 +28,8 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
     if (farmClaim.rewardAmount == null) {
       return const SizedBox.shrink();
     }
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
     final apiService = aedappfm.sl.get<archethic.ApiService>();
     return SizedBox(
       child: DecoratedBox(
@@ -109,7 +111,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
               ),
               FutureBuilder<double>(
                 future: ref.watch(
-                  BalanceProviders.getBalance(
+                  getBalanceProvider(
                     session.genesisAddress,
                     farmClaim.rewardToken!.isUCO
                         ? 'UCO'

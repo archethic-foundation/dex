@@ -1,6 +1,7 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/state.dart';
@@ -30,11 +31,11 @@ class FarmDepositFormNotifier
   FarmDepositFormState build() => const FarmDepositFormState();
 
   Future<void> initBalances() async {
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     final apiService = aedappfm.sl.get<ApiService>();
 
     final lpTokenBalance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         session.genesisAddress,
         state.dexFarmInfo!.lpToken!.isUCO
             ? 'UCO'
@@ -122,7 +123,7 @@ class FarmDepositFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -175,13 +176,13 @@ class FarmDepositFormNotifier
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider).value ?? const Session();
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
       final finalAmount = await DepositFarmCase().run(
         ref,
-        context,
+        AppLocalizations.of(context)!,
         ref.watch(NotificationProviders.notificationService),
         state.dexFarmInfo!.farmAddress,
         state.dexFarmInfo!.lpToken!.address!,

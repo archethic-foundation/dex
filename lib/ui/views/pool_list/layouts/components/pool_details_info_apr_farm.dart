@@ -1,8 +1,8 @@
 import 'package:aedex/application/farm/dex_farm_lock.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
-import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -29,12 +29,11 @@ class PoolDetailsInfoAPRFarmState
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      final env = ref.read(SessionProviders.session).envSelected;
-      final contextAddresses =
-          PoolFarmAvailableState().getContextAddresses(env);
-
       if (!mounted) return;
-      final farmLockAddress = contextAddresses.aeETHUCOFarmLockAddress;
+      final farmLockAddress =
+          (ref.read(sessionNotifierProvider).value ?? const Session())
+                  .aeETHUCOFarmLockAddress ??
+              '';
       if (farmLockAddress.isNotEmpty) {
         final farmLock = await ref.read(
           DexFarmLockProviders.getFarmLockInfos(
@@ -46,7 +45,7 @@ class PoolDetailsInfoAPRFarmState
             ),
           ).future,
         );
-        if (context.mounted) {
+        if (mounted) {
           setState(() {
             if (farmLock != null && farmLock.stats['7'] != null) {
               apr3years = farmLock.stats['7']?.aprEstimation ?? 0;

@@ -1,4 +1,5 @@
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -22,7 +23,8 @@ class FarmLockBlockBalanceSummary extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+        const FarmLockFormState();
 
     return BlockInfo(
       info: Column(

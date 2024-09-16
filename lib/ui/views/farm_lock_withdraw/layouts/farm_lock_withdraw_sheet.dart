@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
@@ -50,11 +51,6 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.earn;
-
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
         ref.read(FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
@@ -66,7 +62,8 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
           ..setLPTokenPair(widget.lpTokenPair)
           ..setLpToken(widget.lpToken);
 
-        final session = ref.read(SessionProviders.session);
+        final session =
+            ref.read(sessionNotifierProvider).value ?? const Session();
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.pop();

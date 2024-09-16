@@ -1,6 +1,7 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_add_favorite_icon.dart';
@@ -10,7 +11,6 @@ import 'package:aedex/ui/views/pool_list/layouts/components/pool_refresh_icon.da
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_remove_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/pool_tx_list/layouts/pool_tx_list_popup.dart';
-import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -61,10 +61,12 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
       ).future,
     );
     if (mounted) {
-      final session = ref.watch(SessionProviders.session);
+      final session =
+          ref.watch(sessionNotifierProvider).value ?? const Session();
+
       final apiService = aedappfm.sl.get<ApiService>();
       ref.invalidate(
-        BalanceProviders.getBalance(
+        getBalanceProvider(
           session.genesisAddress,
           widget.pool.lpToken.address!,
           apiService,
@@ -90,9 +92,10 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final env = ref.watch(SessionProviders.session).envSelected;
-    final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
-    final aeETHUCOPoolAddress = contextAddresses.aeETHUCOPoolAddress;
+    final aeETHUCOPoolAddress =
+        (ref.read(sessionNotifierProvider).value ?? const Session())
+                .aeETHUCOPoolAddress ??
+            '';
 
     return Stack(
       children: [

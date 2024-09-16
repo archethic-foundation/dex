@@ -11,7 +11,6 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -21,7 +20,7 @@ const logName = 'LevelUpFarmLockCase';
 class LevelUpFarmLockCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
-    BuildContext context,
+    AppLocalizations localizations,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -93,12 +92,8 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         '',
         [transactionLevelUp!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.levelUpFarmLockSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.levelUpFarmLockSignTxDesc_fr
-              : '',
+          'en': localizations.levelUpFarmLockSignTxDesc_en,
+          'fr': localizations.levelUpFarmLockSignTxDesc_fr,
         },
       ))
           .first;
@@ -194,18 +189,18 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep1;
+        return localizations.levelUpFarmLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep2;
+        return localizations.levelUpFarmLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep3;
+        return localizations.levelUpFarmLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep0;
+        return localizations.levelUpFarmLockProcessStep0;
     }
   }
 }

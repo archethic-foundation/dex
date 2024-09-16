@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/infrastructure/hive/favorite_pools.hive.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state.dart';
@@ -84,7 +85,9 @@ class PoolListFormNotifier extends AutoDisposeNotifier<PoolListFormState> {
             .toList();
         break;
       case PoolsListTab.myPools:
-        final userBalance = ref.read(SessionProviders.session).userBalance;
+        final userBalance =
+            (ref.read(sessionNotifierProvider).value ?? const Session())
+                .userBalance;
         if (userBalance != null) {
           for (final pool in poolList) {
             var lpTokenInUserBalance = false;

@@ -1,6 +1,7 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_list/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -16,10 +17,11 @@ final _farmListFormProvider =
 
 @riverpod
 Future<double> _balance(_BalanceRef ref, String? lpTokenAddress) async {
-  final session = ref.watch(SessionProviders.session);
+  final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
   final apiService = aedappfm.sl.get<archethic.ApiService>();
   final balance = await ref.watch(
-    BalanceProviders.getBalance(
+    getBalanceProvider(
       session.genesisAddress,
       lpTokenAddress == 'UCO' || lpTokenAddress == null
           ? 'UCO'

@@ -28,7 +28,7 @@ class FarmLockDepositInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: DepositFarmLockCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           farmLockDeposit.currentStep,
         ),
       ),

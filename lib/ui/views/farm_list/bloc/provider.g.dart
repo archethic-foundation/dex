@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$balanceHash() => r'2a521bdf28f4c1d325982472e64593f3f29531bb';
+String _$balanceHash() => r'6452c793e4a7e7db336fb895e9273393ef458bad';
 
 /// Copied from Dart SDK
 class _SystemHash {

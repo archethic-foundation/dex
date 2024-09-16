@@ -1,6 +1,7 @@
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
@@ -32,7 +33,9 @@ Future<DexFarmLock?> _getFarmLockInfos(
   );
   if (pool == null) return null;
 
-  final userGenesisAddress = ref.read(SessionProviders.session).genesisAddress;
+  final userGenesisAddress =
+      (ref.read(sessionNotifierProvider).value ?? const Session())
+          .genesisAddress;
   try {
     final farmLockInfos =
         await ref.read(_dexFarmLockRepositoryProvider).populateFarmLockInfos(

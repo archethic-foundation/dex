@@ -25,7 +25,7 @@ class SwapInProgressPopup {
       ),
       aedappfm.InProgressCurrentStep(
         steplabel: SwapCase().getAEStepLabel(
-          context,
+          AppLocalizations.of(context)!,
           swap.currentStep,
         ),
       ),

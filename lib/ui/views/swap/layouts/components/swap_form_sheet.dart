@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
@@ -52,7 +53,7 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
 
         if (aedappfm.sl.isRegistered<ApiService>() == false) {
           await ref
-              .read(SessionProviders.session.notifier)
+              .read(sessionNotifierProvider.notifier)
               .connectEndpointWithoutWallet('mainnet');
         }
 
@@ -192,13 +193,12 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
                       .read(SwapFormProvider.swapForm.notifier)
                       .validateForm(context),
                   displayWalletConnect: true,
-                  isConnected: ref.watch(SessionProviders.session).isConnected,
+                  isConnected: (ref.watch(sessionNotifierProvider).value ??
+                          const Session())
+                      .isConnected,
                   displayWalletConnectOnPressed: () async {
-                    final sessionNotifier =
-                        ref.read(SessionProviders.session.notifier);
-                    await sessionNotifier.connectToWallet();
-
-                    final session = ref.read(SessionProviders.session);
+                    final session = ref.read(sessionNotifierProvider).value ??
+                        const Session();
                     if (session.error.isNotEmpty) {
                       if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(

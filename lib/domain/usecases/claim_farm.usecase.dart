@@ -11,7 +11,6 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -21,7 +20,7 @@ const logName = 'ClaimFarmCase';
 class ClaimFarmCase with aedappfm.TransactionMixin {
   Future<double> run(
     WidgetRef ref,
-    BuildContext context,
+    AppLocalizations localizations,
     ns.TaskNotificationService<DexNotification, aedappfm.Failure>
         notificationService,
     String farmGenesisAddress,
@@ -81,12 +80,8 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         '',
         [transactionClaim!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.claimFarmSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.claimFarmSignTxDesc_fr
-              : '',
+          'en': localizations.claimFarmSignTxDesc_en,
+          'fr': localizations.claimFarmSignTxDesc_fr,
         },
       ))
           .first;
@@ -182,18 +177,18 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.claimProcessStep1;
+        return localizations.claimProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.claimProcessStep2;
+        return localizations.claimProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.claimProcessStep3;
+        return localizations.claimProcessStep3;
       default:
-        return AppLocalizations.of(context)!.claimProcessStep0;
+        return localizations.claimProcessStep0;
     }
   }
 }

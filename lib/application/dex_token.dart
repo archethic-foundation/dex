@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_token.repository.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
@@ -51,7 +52,7 @@ Future<double> _estimateTokenInFiat(
 
     fiatValue = archethicOracleUCO.usd;
   } else {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
     final price = await ref.watch(
       aedappfm.CoinPriceProviders.coinPrice(
         address: token.address!,

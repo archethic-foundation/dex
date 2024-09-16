@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_textfield_amount.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -186,8 +187,8 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmLockWithdraw.isControlsOk &&
-                                  ref
-                                      .watch(SessionProviders.session)
+                                  (ref.watch(sessionNotifierProvider).value ??
+                                          const Session())
                                       .isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_withdraw,
@@ -199,12 +200,9 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                   .validateForm(context),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
                                 final session =
-                                    ref.read(SessionProviders.session);
+                                    ref.read(sessionNotifierProvider).value ??
+                                        const Session();
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(

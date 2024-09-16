@@ -244,7 +244,8 @@ Future<DexPool> _estimateStats(
   final archethicOracleUCO =
       ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
-  final session = ref.watch(SessionProviders.session);
+  final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+
   if (pool.pair.token1.symbol == 'UCO') {
     priceToken1 = archethicOracleUCO.usd;
   } else {

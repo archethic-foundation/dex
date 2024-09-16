@@ -54,7 +54,8 @@ Future<DexPool> _loadPoolCard(
     failure: (failure) {},
   );
 
-  final userBalance = ref.read(SessionProviders.session).userBalance;
+  final userBalance =
+      (ref.read(sessionNotifierProvider).value ?? const Session()).userBalance;
   var lpTokenInUserBalance = false;
   if (userBalance != null) {
     for (final userTokensBalance in userBalance.token) {

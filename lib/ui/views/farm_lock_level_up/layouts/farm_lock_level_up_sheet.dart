@@ -1,5 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
@@ -45,10 +43,6 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.earn;
-
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
 
         ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
           ..setDexPool(widget.pool)

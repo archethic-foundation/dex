@@ -10,8 +10,8 @@ BalanceRepository _balanceRepository(_BalanceRepositoryRef ref) =>
     BalanceRepositoryImpl();
 
 @riverpod
-Future<double> _getBalance(
-  _GetBalanceRef ref,
+Future<double> getBalance(
+  GetBalanceRef ref,
   String address,
   String tokenAddress,
   ApiService apiService,
@@ -21,9 +21,4 @@ Future<double> _getBalance(
         tokenAddress,
         apiService,
       );
-}
-
-abstract class BalanceProviders {
-  static const getBalance = _getBalanceProvider;
-  static final balanceRepository = _balanceRepositoryProvider;
 }

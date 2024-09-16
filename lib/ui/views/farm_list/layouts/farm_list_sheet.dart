@@ -1,4 +1,3 @@
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
@@ -24,8 +23,6 @@ class _FarmListSheetState extends ConsumerState<FarmListSheet> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
-
       await ref.read(FarmListFormProvider.farmListForm.notifier).getFarmsList(
             cancelToken: UniqueKey().toString(),
           );

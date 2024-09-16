@@ -2,6 +2,7 @@
 
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -43,10 +44,11 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
         final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
         final swap = ref.read(SwapFormProvider.swapForm);
 
-        final session = ref.read(SessionProviders.session);
+        final session =
+            ref.read(sessionNotifierProvider).value ?? const Session();
         final apiService = aedappfm.sl.get<ApiService>();
         final balanceToSwap = await ref.read(
-          BalanceProviders.getBalance(
+          getBalanceProvider(
             session.genesisAddress,
             swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
             apiService,
@@ -54,7 +56,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
         );
         swapNotifier.setTokenToSwapBalance(balanceToSwap);
         final balanceSwapped = await ref.read(
-          BalanceProviders.getBalance(
+          getBalanceProvider(
             session.genesisAddress,
             swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
             apiService,

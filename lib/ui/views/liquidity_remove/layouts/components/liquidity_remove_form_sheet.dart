@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
@@ -111,16 +112,14 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                                           .liquidityRemoveForm.notifier,
                                     )
                                     .validateForm(context),
-                                isConnected: ref
-                                    .watch(SessionProviders.session)
-                                    .isConnected,
+                                isConnected:
+                                    (ref.watch(sessionNotifierProvider).value ??
+                                            const Session())
+                                        .isConnected,
                                 displayWalletConnectOnPressed: () async {
-                                  final sessionNotifier = ref
-                                      .read(SessionProviders.session.notifier);
-                                  await sessionNotifier.connectToWallet();
-
                                   final session =
-                                      ref.read(SessionProviders.session);
+                                      ref.read(sessionNotifierProvider).value ??
+                                          const Session();
                                   if (session.error.isNotEmpty) {
                                     if (!context.mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(

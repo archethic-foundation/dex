@@ -1,4 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_lock_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
@@ -175,8 +176,8 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmLockClaim.isControlsOk &&
-                                  ref
-                                      .watch(SessionProviders.session)
+                                  (ref.watch(sessionNotifierProvider).value ??
+                                          const Session())
                                       .isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_lock_claim,
@@ -188,12 +189,9 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                                   .validateForm(context),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
                                 final session =
-                                    ref.read(SessionProviders.session);
+                                    ref.read(sessionNotifierProvider).value ??
+                                        const Session();
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
