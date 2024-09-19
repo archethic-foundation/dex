@@ -21,6 +21,7 @@ import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
+import 'package:aedex/ui/views/welcome/layouts/welcome_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -76,7 +77,11 @@ final routerProvider = Provider<GoRouter>(
             ),
             GoRoute(
               path: '/',
-              redirect: (context, state) => null,
+              pageBuilder: (context, state) {
+                return const NoTransitionPage(
+                  child: WelcomeSheet(),
+                );
+              },
             ),
             GoRoute(
               path: PoolListSheet.routerPage,
