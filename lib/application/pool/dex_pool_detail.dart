@@ -1,18 +1,21 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 part of 'dex_pool.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<DexPool?> _getPool(
   _GetPoolRef ref,
   String genesisAddress,
 ) async {
-  final tokenVerifiedList = ref
-      .read(aedappfm.VerifiedTokensProviders.verifiedTokens)
-      .verifiedTokensList;
+  final environment = ref
+      .watch(sessionNotifierProvider.select((session) => session.environment));
+  final dexPoolRepository = ref.watch(_dexPoolRepositoryProvider);
+  final tokenVerifiedList = await ref.watch(
+    aedappfm.VerifiedTokensProviders.verifiedTokensByNetwork(
+      environment,
+    ).future,
+  );
 
-  return ref
-      .read(_dexPoolRepositoryProvider)
-      .getPool(genesisAddress, tokenVerifiedList);
+  return dexPoolRepository.getPool(genesisAddress, tokenVerifiedList);
 }
 
 @riverpod
@@ -21,19 +24,21 @@ Future<DexPool> _loadPoolCard(
   DexPool poolInput, {
   bool forceLoadFromBC = false,
 }) async {
+  final environment = ref.watch(environmentProvider);
+  final apiService = ref.watch(apiServiceProvider);
   DexPool poolOutput;
 
   // Load from cache
   final poolsListDatasource = await HivePoolsListDatasource.getInstance();
   final poolHive = poolsListDatasource.getPool(
-    aedappfm.EndpointUtil.getEnvironnement(),
+    environment.name,
     poolInput.poolAddress,
   );
 
   if (forceLoadFromBC == true || poolHive == null) {
     // Set to cache
     await poolsListDatasource.setPool(
-      aedappfm.EndpointUtil.getEnvironnement(),
+      environment.name,
       poolInput.toHive(),
     );
     poolOutput = poolInput;
@@ -42,7 +47,6 @@ Future<DexPool> _loadPoolCard(
   }
 
   // Load dynamic values
-  final apiService = aedappfm.sl.get<ApiService>();
   final poolFactory =
       PoolFactoryRepositoryImpl(poolInput.poolAddress, apiService);
   final populatePoolInfosResult =
@@ -54,32 +58,29 @@ Future<DexPool> _loadPoolCard(
     failure: (failure) {},
   );
 
-  final userBalance =
-      (ref.read(sessionNotifierProvider).value ?? const Session()).userBalance;
+  final userBalance = await ref.watch(userBalanceProvider.future);
   var lpTokenInUserBalance = false;
-  if (userBalance != null) {
-    for (final userTokensBalance in userBalance.token) {
-      if (poolOutput.lpToken.address!.toUpperCase() ==
-          userTokensBalance.address!.toUpperCase()) {
-        lpTokenInUserBalance = true;
-      }
+  for (final userTokensBalance in userBalance.token) {
+    if (poolOutput.lpToken.address!.toUpperCase() ==
+        userTokensBalance.address!.toUpperCase()) {
+      lpTokenInUserBalance = true;
     }
   }
   poolOutput = poolOutput.copyWith(
     lpTokenInUserBalance: lpTokenInUserBalance,
   );
 
-  final tvl =
-      await ref.read(DexPoolProviders.estimatePoolTVLInFiat(poolOutput).future);
+  final tvl = await ref
+      .watch(DexPoolProviders.estimatePoolTVLInFiat(poolOutput).future);
 
   poolOutput =
-      await ref.read(DexPoolProviders.estimateStats(poolOutput).future);
+      await ref.watch(DexPoolProviders.estimateStats(poolOutput).future);
 
   // Favorite
   final favoritePoolsDatasource =
       await HiveFavoritePoolsDatasource.getInstance();
   final isFavorite = favoritePoolsDatasource.isFavoritePool(
-    aedappfm.EndpointUtil.getEnvironnement(),
+    environment.name,
     poolInput.poolAddress,
   );
 

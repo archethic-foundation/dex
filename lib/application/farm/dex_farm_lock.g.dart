@@ -7,12 +7,12 @@ part of 'dex_farm_lock.dart';
 // **************************************************************************
 
 String _$dexFarmLockRepositoryHash() =>
-    r'06c81e91f5c7e027005bdb0fffa7fc6444beeec3';
+    r'94e6e9a203616b35e84ebad29a2beb489b3af26c';
 
 /// See also [_dexFarmLockRepository].
 @ProviderFor(_dexFarmLockRepository)
 final _dexFarmLockRepositoryProvider =
-    AutoDisposeProvider<DexFarmLockRepositoryImpl>.internal(
+    Provider<DexFarmLockRepositoryImpl>.internal(
   _dexFarmLockRepository,
   name: r'_dexFarmLockRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,9 +22,8 @@ final _dexFarmLockRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _DexFarmLockRepositoryRef
-    = AutoDisposeProviderRef<DexFarmLockRepositoryImpl>;
-String _$getFarmLockInfosHash() => r'844ee07026f43f6c903e0bd19a82e8c978420be1';
+typedef _DexFarmLockRepositoryRef = ProviderRef<DexFarmLockRepositoryImpl>;
+String _$getFarmLockInfosHash() => r'47deba48dbdd5e9321ca886f3b993c954e6c2c9d';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -96,8 +95,7 @@ class _GetFarmLockInfosFamily extends Family<AsyncValue<DexFarmLock?>> {
 }
 
 /// See also [_getFarmLockInfos].
-class _GetFarmLockInfosProvider
-    extends AutoDisposeFutureProvider<DexFarmLock?> {
+class _GetFarmLockInfosProvider extends FutureProvider<DexFarmLock?> {
   /// See also [_getFarmLockInfos].
   _GetFarmLockInfosProvider(
     String farmGenesisAddress,
@@ -161,7 +159,7 @@ class _GetFarmLockInfosProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<DexFarmLock?> createElement() {
+  FutureProviderElement<DexFarmLock?> createElement() {
     return _GetFarmLockInfosProviderElement(this);
   }
 
@@ -184,7 +182,7 @@ class _GetFarmLockInfosProvider
   }
 }
 
-mixin _GetFarmLockInfosRef on AutoDisposeFutureProviderRef<DexFarmLock?> {
+mixin _GetFarmLockInfosRef on FutureProviderRef<DexFarmLock?> {
   /// The parameter `farmGenesisAddress` of this provider.
   String get farmGenesisAddress;
 
@@ -196,8 +194,7 @@ mixin _GetFarmLockInfosRef on AutoDisposeFutureProviderRef<DexFarmLock?> {
 }
 
 class _GetFarmLockInfosProviderElement
-    extends AutoDisposeFutureProviderElement<DexFarmLock?>
-    with _GetFarmLockInfosRef {
+    extends FutureProviderElement<DexFarmLock?> with _GetFarmLockInfosRef {
   _GetFarmLockInfosProviderElement(super.provider);
 
   @override

@@ -11,8 +11,7 @@ class FarmLockWithdrawInProgressTxAddresses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmLockWithdraw =
-        ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
+    final farmLockWithdraw = ref.watch(farmLockWithdrawFormNotifierProvider);
     if (farmLockWithdraw.farmLockWithdrawOk == false) {
       return const SizedBox.shrink();
     }

@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/domain/usecases/add_pool.usecase.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_in_progress_tx_addresses.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
@@ -17,7 +17,8 @@ class PoolAddInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final localizations = AppLocalizations.of(context)!;
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
 
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
@@ -27,10 +28,10 @@ class PoolAddInProgressPopup {
         failure: poolAdd.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: AddPoolCase().getAEStepLabel(
-          AppLocalizations.of(context)!,
-          poolAdd.currentStep,
-        ),
+        steplabel: ref.read(addPoolCaseProvider).getAEStepLabel(
+              localizations,
+              poolAdd.currentStep,
+            ),
       ),
       aedappfm.InProgressInfosBanner(
         isProcessInProgress: poolAdd.isProcessInProgress,
@@ -53,16 +54,16 @@ class PoolAddInProgressPopup {
         onPressed: () async {
           ref
               .read(
-                PoolAddFormProvider.poolAddForm.notifier,
+                poolAddFormNotifierProvider.notifier,
               )
               .setResumeProcess(true);
 
           if (!context.mounted) return;
           await ref
               .read(
-                PoolAddFormProvider.poolAddForm.notifier,
+                poolAddFormNotifierProvider.notifier,
               )
-              .add(context, ref);
+              .add(context);
         },
         failure: poolAdd.failure,
       ),
@@ -73,7 +74,7 @@ class PoolAddInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
     final poolsListTabEncoded = Uri.encodeComponent(poolAdd.poolsListTab.name);
 
     return aedappfm.PopupCloseButton(
@@ -83,7 +84,7 @@ class PoolAddInProgressPopup {
           : '',
       warningCloseFunction: () {
         ref.invalidate(
-          PoolAddFormProvider.poolAddForm,
+          poolAddFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
@@ -98,7 +99,7 @@ class PoolAddInProgressPopup {
       },
       closeFunction: () async {
         ref.invalidate(
-          PoolAddFormProvider.poolAddForm,
+          poolAddFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
@@ -111,9 +112,8 @@ class PoolAddInProgressPopup {
             },
           ).toString(),
         );
-        await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
-              tabIndexSelected: poolAdd.poolsListTab,
-              cancelToken: UniqueKey().toString(),
+        ref.read(poolListFormNotifierProvider.notifier).selectTab(
+              poolAdd.poolsListTab,
             );
       },
     );

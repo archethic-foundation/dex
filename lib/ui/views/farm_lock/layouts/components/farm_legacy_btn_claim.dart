@@ -1,5 +1,4 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
@@ -29,7 +28,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+    final session = ref.watch(sessionNotifierProvider);
 
     final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
         const FarmLockFormState();
@@ -96,8 +95,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {
-              final session =
-                  ref.read(sessionNotifierProvider).value ?? const Session();
+              final session = ref.read(sessionNotifierProvider);
               if (session.error.isNotEmpty) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -125,7 +123,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
   }
 
   Future<void> _validate(BuildContext context, WidgetRef ref) async {
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+    final farmLockForm = ref.read(farmLockFormNotifierProvider).value ??
         const FarmLockFormState();
 
     if (context.mounted) {

@@ -3,8 +3,6 @@ import 'dart:async';
 
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/contracts/archethic_contract.dart';
-import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
@@ -14,7 +12,6 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -22,11 +19,22 @@ import 'package:uuid/uuid.dart';
 const logName = 'SwapCase';
 
 class SwapCase with aedappfm.TransactionMixin {
+  SwapCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.swapNotifier,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final SwapFormNotifier swapNotifier;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
-    BuildContext context,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
+    Ref ref, // TODO(Chralu): usecases should not depend on riverpod
+    AppLocalizations localizations,
     String poolGenesisAddress,
     DexToken tokenToSwap,
     DexToken tokenSwapped,
@@ -35,11 +43,12 @@ class SwapCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionSwap,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionSwap;
     if (recoveryTransactionSwap != null) {
@@ -125,12 +134,8 @@ class SwapCase with aedappfm.TransactionMixin {
         '',
         [transactionSwap!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.swapSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.swapSignTxDesc_fr
-              : '',
+          'en': localizations.swapSignTxDesc_en,
+          'fr': localizations.swapSignTxDesc_fr,
         },
       ))
           .first;
@@ -162,7 +167,7 @@ class SwapCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionSwap!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       swapNotifier
@@ -183,7 +188,7 @@ class SwapCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionSwap!.address!.address!,
           tokenSwapped.address,
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,
@@ -201,26 +206,20 @@ class SwapCase with aedappfm.TransactionMixin {
 
       unawaited(() async {
         await refreshCurrentAccountInfoWallet();
-        final session =
-            ref.read(sessionNotifierProvider).value ?? const Session();
-        await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
-        final swap = ref.read(SwapFormProvider.swapForm);
 
-        final apiService = aedappfm.sl.get<archethic.ApiService>();
+        ref.invalidate(userBalanceProvider);
+        final swap = ref.read(swapFormNotifierProvider);
+
         final balanceSwapped = await ref.read(
           getBalanceProvider(
-            session.genesisAddress,
             swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
-            apiService,
           ).future,
         );
         swapNotifier.setTokenSwappedBalance(balanceSwapped);
 
         final balanceToSwap = await ref.read(
           getBalanceProvider(
-            session.genesisAddress,
             swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
-            apiService,
           ).future,
         );
         swapNotifier.setTokenToSwapBalance(balanceToSwap);
@@ -277,8 +276,10 @@ class SwapCase with aedappfm.TransactionMixin {
     double tokenToSwapAmount,
     double slippage,
   ) async {
-    final archethicContract = ArchethicContract();
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
     archethic.Transaction? transactionSwap;
     var outputAmount = 0.0;
 
@@ -328,7 +329,7 @@ class SwapCase with aedappfm.TransactionMixin {
           );
           final fees = await calculateFees(
             transactionSwap!,
-            aedappfm.sl.get<archethic.ApiService>(),
+            apiService,
             slippage: 1.1,
           );
           return fees;

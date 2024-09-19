@@ -1,5 +1,4 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
@@ -75,7 +74,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
   Widget _body(BuildContext context, WidgetRef ref, DexPool? pool) {
     final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
         const FarmLockFormState();
-    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+    final session = ref.watch(sessionNotifierProvider);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -100,7 +99,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
             if (session.isConnected)
               FarmLockBlockListHeader(
                 onSort:
-                    ref.watch(farmLockFormNotifierProvider.notifier).sortData,
+                    ref.read(farmLockFormNotifierProvider.notifier).sortData,
                 sortAscending: sortAscending,
                 currentSortedColumn: currentSortedColumn,
                 sortedUserInfos: sortedUserInfos,

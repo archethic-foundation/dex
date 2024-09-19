@@ -12,17 +12,26 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'DepositFarmLockCase';
 
 class DepositFarmLockCase with aedappfm.TransactionMixin {
+  DepositFarmLockCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.farmLockDepositNotifier,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final FarmLockDepositFormNotifier farmLockDepositNotifier;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
     AppLocalizations localizations,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -33,22 +42,22 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionDeposit,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmDepositNotifier =
-        ref.read(FarmLockDepositFormProvider.farmLockDepositForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionDeposit;
     if (recoveryTransactionDeposit != null) {
       transactionDeposit = recoveryTransactionDeposit;
     }
 
-    farmDepositNotifier.setFinalAmount(null);
+    farmLockDepositNotifier.setFinalAmount(null);
 
     if (recoveryStep <= 1) {
-      farmDepositNotifier.setCurrentStep(1);
+      farmLockDepositNotifier.setCurrentStep(1);
       try {
         final transactionDepositMap =
             await archethicContract.getFarmLockDepositTx(
@@ -62,12 +71,12 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
         transactionDepositMap.map(
           success: (success) {
             transactionDeposit = success;
-            farmDepositNotifier.setTransactionFarmLockDeposit(
+            farmLockDepositNotifier.setTransactionFarmLockDeposit(
               transactionDeposit!,
             );
           },
           failure: (failure) {
-            farmDepositNotifier
+            farmLockDepositNotifier
               ..setFailure(failure)
               ..setProcessInProgress(false);
             throw failure;
@@ -79,11 +88,11 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
     }
 
     if (recoveryStep <= 2) {
-      farmDepositNotifier.setCurrentStep(2);
+      farmLockDepositNotifier.setCurrentStep(2);
     }
     try {
       final currentNameAccount = await getCurrentAccount();
-      farmDepositNotifier.setWalletConfirmation(true);
+      farmLockDepositNotifier.setWalletConfirmation(true);
 
       transactionDeposit = (await signTx(
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
@@ -96,17 +105,17 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
       ))
           .first;
 
-      farmDepositNotifier
+      farmLockDepositNotifier
         ..setWalletConfirmation(false)
         ..setTransactionFarmLockDeposit(
           transactionDeposit!,
         );
     } catch (e) {
       if (e is aedappfm.Failure) {
-        farmDepositNotifier.setFailure(e);
+        farmLockDepositNotifier.setFailure(e);
         throw aedappfm.Failure.fromError(e);
       }
-      farmDepositNotifier.setFailure(
+      farmLockDepositNotifier.setFailure(
         aedappfm.Failure.other(
           cause: e.toString().replaceAll('Exception: ', '').capitalize(),
         ),
@@ -119,10 +128,10 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionDeposit!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
-      farmDepositNotifier
+      farmLockDepositNotifier
         ..setCurrentStep(3)
         ..setResumeProcess(false)
         ..setProcessInProgress(false)
@@ -139,6 +148,7 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
 
       await aedappfm.PeriodicFuture.periodic<bool>(
         () => isSCCallExecuted(
+          apiService,
           farmAddress,
           transactionDeposit!.address!.address!,
         ),
@@ -167,7 +177,7 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
             name: 'aedappfm.TransactionMixin - sendTransactions',
           );
 
-      farmDepositNotifier
+      farmLockDepositNotifier
         ..setFailure(
           e is aedappfm.Timeout
               ? e

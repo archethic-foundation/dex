@@ -12,19 +12,28 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'RemoveLiquidityCase';
 
 class RemoveLiquidityCase with aedappfm.TransactionMixin {
+  RemoveLiquidityCase({
+    required this.apiService,
+    required this.liquidityRemoveNotifier,
+    required this.notificationService,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final LiquidityRemoveFormNotifier liquidityRemoveNotifier;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<({double amountToken1, double amountToken2, double amountLPToken})>
       run(
-    String poolGenesisAddress,
-    WidgetRef ref,
     AppLocalizations localizations,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
+    String poolGenesisAddress,
     String lpTokenAddress,
     double lpTokenAmount,
     DexToken token1,
@@ -32,12 +41,12 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
     DexToken lpToken, {
     int recoveryStep = 0,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final liquidityRemoveNotifier =
-        ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionRemoveLiquidity;
 
@@ -110,7 +119,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionRemoveLiquidity!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       liquidityRemoveNotifier
@@ -126,7 +135,6 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         ),
       );
 
-      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(

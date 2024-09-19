@@ -7,7 +7,7 @@ part of 'dex_token.dart';
 // **************************************************************************
 
 String _$dexTokenRepositoryHash() =>
-    r'06772e9d37d0b17b928e636ebe69402ca7019924';
+    r'ade02ca17b75a909abb603d932b162020132aaaf';
 
 /// See also [_dexTokenRepository].
 @ProviderFor(_dexTokenRepository)
@@ -437,7 +437,7 @@ class _GetTokenIconProviderElement
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'82ba692218b8312fc010300b5cae7477f2041d15';
+    r'4da060e8331e874aade07955209404b1444a3947';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)
@@ -482,7 +482,7 @@ class _EstimateTokenInFiatFamily extends Family<AsyncValue<double>> {
 }
 
 /// See also [_estimateTokenInFiat].
-class _EstimateTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
+class _EstimateTokenInFiatProvider extends FutureProvider<double> {
   /// See also [_estimateTokenInFiat].
   _EstimateTokenInFiatProvider(
     DexToken token,
@@ -534,7 +534,7 @@ class _EstimateTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<double> createElement() {
+  FutureProviderElement<double> createElement() {
     return _EstimateTokenInFiatProviderElement(this);
   }
 
@@ -552,13 +552,12 @@ class _EstimateTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
-mixin _EstimateTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
+mixin _EstimateTokenInFiatRef on FutureProviderRef<double> {
   /// The parameter `token` of this provider.
   DexToken get token;
 }
 
-class _EstimateTokenInFiatProviderElement
-    extends AutoDisposeFutureProviderElement<double>
+class _EstimateTokenInFiatProviderElement extends FutureProviderElement<double>
     with _EstimateTokenInFiatRef {
   _EstimateTokenInFiatProviderElement(super.provider);
 
@@ -567,7 +566,7 @@ class _EstimateTokenInFiatProviderElement
 }
 
 String _$estimateLPTokenInFiatHash() =>
-    r'9c857c000dfddf2ccc694d3ec53c5313c6baac55';
+    r'2246df0af9c65196a7b71371c7bc2da3cbaf246f';
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)
@@ -621,7 +620,7 @@ class _EstimateLPTokenInFiatFamily extends Family<AsyncValue<double>> {
 }
 
 /// See also [_estimateLPTokenInFiat].
-class _EstimateLPTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
+class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
   /// See also [_estimateLPTokenInFiat].
   _EstimateLPTokenInFiatProvider(
     DexToken token1,
@@ -691,7 +690,7 @@ class _EstimateLPTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<double> createElement() {
+  FutureProviderElement<double> createElement() {
     return _EstimateLPTokenInFiatProviderElement(this);
   }
 
@@ -716,7 +715,7 @@ class _EstimateLPTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
-mixin _EstimateLPTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
+mixin _EstimateLPTokenInFiatRef on FutureProviderRef<double> {
   /// The parameter `token1` of this provider.
   DexToken get token1;
 
@@ -731,8 +730,7 @@ mixin _EstimateLPTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
 }
 
 class _EstimateLPTokenInFiatProviderElement
-    extends AutoDisposeFutureProviderElement<double>
-    with _EstimateLPTokenInFiatRef {
+    extends FutureProviderElement<double> with _EstimateLPTokenInFiatRef {
   _EstimateLPTokenInFiatProviderElement(super.provider);
 
   @override

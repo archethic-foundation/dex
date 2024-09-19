@@ -34,7 +34,7 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   void initState() {
     Future.delayed(Duration.zero, () async {
       ref
-          .read(PoolAddFormProvider.poolAddForm.notifier)
+          .read(poolAddFormNotifierProvider.notifier)
           .setPoolsListTab(widget.poolsListTab);
 
       if (widget.token1 != null && widget.token2 != null) {
@@ -44,13 +44,13 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
 
           if (context.mounted) {
             await ref
-                .read(PoolAddFormProvider.poolAddForm.notifier)
+                .read(poolAddFormNotifierProvider.notifier)
                 // ignore: use_build_context_synchronously
                 .setToken1(widget.token1!, context);
           }
           if (context.mounted) {
             await ref
-                .read(PoolAddFormProvider.poolAddForm.notifier)
+                .read(poolAddFormNotifierProvider.notifier)
                 // ignore: use_build_context_synchronously
                 .setToken2(widget.token2!, context);
           }
@@ -75,7 +75,7 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref.watch(PoolAddFormProvider.poolAddForm).processStep,
+      currentStep: ref.watch(poolAddFormNotifierProvider).processStep,
       formSheet: const PoolAddFormSheet(),
       confirmSheet: const PoolAddConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

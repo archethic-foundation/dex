@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
@@ -26,11 +25,25 @@ class _ConnectionToWalletStatusState
     extends ConsumerState<ConnectionToWalletStatus> {
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+    final session = ref.watch(sessionNotifierProvider);
 
-    if (session.oldNameAccount.isNotEmpty &&
-        session.oldNameAccount != session.nameAccount) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+    ref.listen(sessionNotifierProvider, (previous, next) {
+      if (previous?.error != next.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
+            content: SelectableText(
+              next.error,
+              style: Theme.of(context).snackBarTheme.contentTextStyle,
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+
+      if (previous != null &&
+          previous.nameAccount.isNotEmpty &&
+          next.nameAccount != previous.nameAccount) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
@@ -41,35 +54,13 @@ class _ConnectionToWalletStatusState
             duration: const Duration(seconds: 3),
           ),
         );
-        ref.read(sessionNotifierProvider.notifier).setOldNameAccount(session);
         context.go(SwapSheet.routerPage);
-      });
-    }
+      }
+    });
 
     if (session.isConnected == false) {
       return InkWell(
-        onTap: () async {
-          ref
-            ..invalidate(sessionNotifierProvider)
-            ..read(sessionNotifierProvider);
-          if ((ref.read(sessionNotifierProvider).value ?? const Session())
-              .error
-              .isNotEmpty) {
-            if (!context.mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor:
-                    Theme.of(context).snackBarTheme.backgroundColor,
-                content: SelectableText(
-                  (ref.read(sessionNotifierProvider).value ?? const Session())
-                      .error,
-                  style: Theme.of(context).snackBarTheme.contentTextStyle,
-                ),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          }
-        },
+        onTap: ref.read(sessionNotifierProvider.notifier).connectWallet,
         child: ShaderMask(
           blendMode: BlendMode.srcIn,
           shaderCallback: (bounds) =>

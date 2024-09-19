@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_confirm_sheet.dart';
@@ -37,13 +36,12 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        ref.read(FarmClaimFormProvider.farmClaimForm.notifier)
+        ref.read(farmClaimFormNotifierProvider.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
           ..setLpTokenAddress(widget.lpTokenAddress)
           ..setRewardAmount(widget.rewardAmount);
-        final session =
-            ref.read(sessionNotifierProvider).value ?? const Session();
+        final session = ref.read(sessionNotifierProvider);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.pop();
@@ -60,7 +58,7 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref.watch(FarmClaimFormProvider.farmClaimForm).processStep,
+      currentStep: ref.watch(farmClaimFormNotifierProvider).processStep,
       formSheet: const FarmClaimFormSheet(),
       confirmSheet: const FarmClaimConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

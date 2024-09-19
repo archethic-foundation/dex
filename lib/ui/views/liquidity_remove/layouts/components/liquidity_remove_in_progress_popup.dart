@@ -1,4 +1,4 @@
-import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_final_amount.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_in_progress_tx_addresses.dart';
@@ -14,8 +14,8 @@ class LiquidityRemoveInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final liquidityRemove =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final localizations = AppLocalizations.of(context)!;
+    final liquidityRemove = ref.watch(liquidityRemoveFormNotifierProvider);
 
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
@@ -25,10 +25,10 @@ class LiquidityRemoveInProgressPopup {
         failure: liquidityRemove.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: RemoveLiquidityCase().getAEStepLabel(
-          AppLocalizations.of(context)!,
-          liquidityRemove.currentStep,
-        ),
+        steplabel: ref.read(removeLiquidityCaseProvider).getAEStepLabel(
+              localizations,
+              liquidityRemove.currentStep,
+            ),
       ),
       aedappfm.InProgressInfosBanner(
         isProcessInProgress: liquidityRemove.isProcessInProgress,
@@ -64,16 +64,16 @@ class LiquidityRemoveInProgressPopup {
           onPressed: () async {
             ref
                 .read(
-                  LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
+                  liquidityRemoveFormNotifierProvider.notifier,
                 )
                 .setResumeProcess(true);
 
             if (!context.mounted) return;
             await ref
                 .read(
-                  LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
+                  liquidityRemoveFormNotifierProvider.notifier,
                 )
-                .remove(context, ref);
+                .remove(context);
           },
           failure: liquidityRemove.failure,
         ),
@@ -84,8 +84,7 @@ class LiquidityRemoveInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final liquidityRemove =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final liquidityRemove = ref.watch(liquidityRemoveFormNotifierProvider);
 
     return aedappfm.PopupCloseButton(
       warningCloseWarning: liquidityRemove.isProcessInProgress,
@@ -95,7 +94,7 @@ class LiquidityRemoveInProgressPopup {
           : '',
       warningCloseFunction: () {
         ref.invalidate(
-          LiquidityRemoveFormProvider.liquidityRemoveForm,
+          liquidityRemoveFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
@@ -103,7 +102,7 @@ class LiquidityRemoveInProgressPopup {
       },
       closeFunction: () {
         ref.invalidate(
-          LiquidityRemoveFormProvider.liquidityRemoveForm,
+          liquidityRemoveFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();

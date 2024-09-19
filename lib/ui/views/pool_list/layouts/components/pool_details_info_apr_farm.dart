@@ -31,9 +31,7 @@ class PoolDetailsInfoAPRFarmState
     Future.delayed(Duration.zero, () async {
       if (!mounted) return;
       final farmLockAddress =
-          (ref.read(sessionNotifierProvider).value ?? const Session())
-                  .aeETHUCOFarmLockAddress ??
-              '';
+          ref.read(environmentProvider).aeETHUCOFarmLockAddress;
       if (farmLockAddress.isNotEmpty) {
         final farmLock = await ref.read(
           DexFarmLockProviders.getFarmLockInfos(

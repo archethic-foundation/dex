@@ -1,18 +1,17 @@
+import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_token.repository.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_token.g.dart';
 
 @riverpod
 DexTokenRepositoryImpl _dexTokenRepository(_DexTokenRepositoryRef ref) =>
-    DexTokenRepositoryImpl();
+    DexTokenRepositoryImpl(apiService: ref.watch(apiServiceProvider));
 
 @riverpod
 Future<DexToken?> _getTokenFromAddress(
@@ -40,7 +39,7 @@ Future<String?> _getTokenIcon(
   return ref.watch(_dexTokenRepositoryProvider).getTokenIcon(address);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<double> _estimateTokenInFiat(
   _EstimateTokenInFiatRef ref,
   DexToken token,
@@ -52,11 +51,11 @@ Future<double> _estimateTokenInFiat(
 
     fiatValue = archethicOracleUCO.usd;
   } else {
-    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+    final session = ref.watch(sessionNotifierProvider);
     final price = await ref.watch(
       aedappfm.CoinPriceProviders.coinPrice(
         address: token.address!,
-        network: session.envSelected,
+        environment: session.environment,
       ).future,
     );
 
@@ -65,7 +64,7 @@ Future<double> _estimateTokenInFiat(
   return fiatValue;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<double> _estimateLPTokenInFiat(
   _EstimateLPTokenInFiatRef ref,
   DexToken token1,
@@ -81,15 +80,15 @@ Future<double> _estimateLPTokenInFiat(
   var fiatValueToken2 = 0.0;
 
   fiatValueToken1 =
-      await ref.read(DexTokensProviders.estimateTokenInFiat(token1).future);
+      await ref.watch(DexTokensProviders.estimateTokenInFiat(token1).future);
   fiatValueToken2 =
-      await ref.read(DexTokensProviders.estimateTokenInFiat(token2).future);
+      await ref.watch(DexTokensProviders.estimateTokenInFiat(token2).future);
 
   if (fiatValueToken1 == 0 && fiatValueToken2 == 0) {
     throw Exception();
   }
 
-  final apiService = aedappfm.sl.get<ApiService>();
+  final apiService = ref.watch(apiServiceProvider);
   final amounts = await PoolFactoryRepositoryImpl(poolAddress, apiService)
       .getRemoveAmounts(lpTokenAmount);
   var amountToken1 = 0.0;

@@ -44,7 +44,7 @@ class _SwapSheetState extends ConsumerState<SwapSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref.watch(SwapFormProvider.swapForm).processStep,
+      currentStep: ref.watch(swapFormNotifierProvider).processStep,
       formSheet: SwapFormSheet(
         tokenToSwap: widget.tokenToSwap,
         tokenSwapped: widget.tokenSwapped,

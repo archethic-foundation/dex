@@ -1,5 +1,4 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/pool_add/layouts/components/pool_add_textfield_token_2_amount.dart';
@@ -7,7 +6,6 @@ import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -22,7 +20,7 @@ class PoolAddFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
 
     return Expanded(
       child: Column(
@@ -96,16 +94,12 @@ class PoolAddFormSheet extends ConsumerWidget {
                         controlOk: poolAdd.isControlsOk,
                         labelBtn: AppLocalizations.of(context)!.btn_pool_add,
                         onPressed: () => ref
-                            .read(PoolAddFormProvider.poolAddForm.notifier)
+                            .read(poolAddFormNotifierProvider.notifier)
                             .validateForm(context),
                         isConnected:
-                            (ref.watch(sessionNotifierProvider).value ??
-                                    const Session())
-                                .isConnected,
+                            ref.watch(sessionNotifierProvider).isConnected,
                         displayWalletConnectOnPressed: () async {
-                          final session =
-                              ref.read(sessionNotifierProvider).value ??
-                                  const Session();
+                          final session = ref.read(sessionNotifierProvider);
                           if (session.error.isNotEmpty) {
                             if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(

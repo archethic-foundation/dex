@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
@@ -110,15 +111,16 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                 style: style,
                                               ),
                                               SelectableText(
-                                                DEXLPTokenFiatValue().display(
-                                                  ref,
-                                                  farmLockForm.farmLock!
-                                                      .lpTokenPair!.token1,
-                                                  farmLockForm.farmLock!
-                                                      .lpTokenPair!.token2,
-                                                  farmLockUserInfos.amount,
-                                                  farmLockForm
-                                                      .farmLock!.poolAddress,
+                                                ref.watch(
+                                                  dexLPTokenFiatValueProvider(
+                                                    farmLockForm.farmLock!
+                                                        .lpTokenPair!.token1,
+                                                    farmLockForm.farmLock!
+                                                        .lpTokenPair!.token2,
+                                                    farmLockUserInfos.amount,
+                                                    farmLockForm
+                                                        .farmLock!.poolAddress,
+                                                  ),
                                                 ),
                                                 style: AppTextStyles.bodySmall(
                                                   context,
@@ -355,15 +357,16 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                 ],
                                               ),
                                               SelectableText(
-                                                DEXLPTokenFiatValue().display(
-                                                  ref,
-                                                  farmLockForm.farmLock!
-                                                      .lpTokenPair!.token1,
-                                                  farmLockForm.farmLock!
-                                                      .lpTokenPair!.token2,
-                                                  farmLockUserInfos.amount,
-                                                  farmLockForm
-                                                      .farmLock!.poolAddress,
+                                                ref.watch(
+                                                  dexLPTokenFiatValueProvider(
+                                                    farmLockForm.farmLock!
+                                                        .lpTokenPair!.token1,
+                                                    farmLockForm.farmLock!
+                                                        .lpTokenPair!.token2,
+                                                    farmLockUserInfos.amount,
+                                                    farmLockForm
+                                                        .farmLock!.poolAddress,
+                                                  ),
                                                 ),
                                                 style: Theme.of(context)
                                                     .textTheme

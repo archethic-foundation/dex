@@ -1,8 +1,6 @@
-import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/usecases/claim_farm_lock.usecase.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
 import 'package:aedex/ui/views/farm_lock_claim/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -12,17 +10,12 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _farmLockClaimFormProvider = NotifierProvider.autoDispose<
-    FarmLockClaimFormNotifier, FarmLockClaimFormState>(
-  () {
-    return FarmLockClaimFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class FarmLockClaimFormNotifier
-    extends AutoDisposeNotifier<FarmLockClaimFormState> {
+@Riverpod(keepAlive: true)
+class FarmLockClaimFormNotifier extends _$FarmLockClaimFormNotifier {
   FarmLockClaimFormNotifier();
 
   @override
@@ -105,7 +98,7 @@ class FarmLockClaimFormNotifier
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -130,7 +123,8 @@ class FarmLockClaimFormNotifier
     return true;
   }
 
-  Future<void> claim(BuildContext context, WidgetRef ref) async {
+  Future<void> claim(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
     setFarmLockClaimOk(false);
     setProcessInProgress(true);
 
@@ -139,18 +133,15 @@ class FarmLockClaimFormNotifier
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
-      final finalAmount = await ClaimFarmLockCase().run(
-        ref,
-        AppLocalizations.of(context)!,
-        ref.watch(NotificationProviders.notificationService),
-        state.farmAddress!,
-        state.depositId!,
-        state.rewardToken!,
-      );
+      final finalAmount = await ref.read(claimFarmCaseProvider).run(
+            localizations,
+            state.farmAddress!,
+            state.rewardToken!,
+          );
       state = state.copyWith(finalAmount: finalAmount);
 
       if (context.mounted) {
@@ -160,8 +151,4 @@ class FarmLockClaimFormNotifier
       }
     }
   }
-}
-
-abstract class FarmLockClaimFormProvider {
-  static final farmLockClaimForm = _farmLockClaimFormProvider;
 }

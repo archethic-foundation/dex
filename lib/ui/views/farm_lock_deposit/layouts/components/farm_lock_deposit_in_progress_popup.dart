@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/domain/usecases/deposit_farm_lock.usecase.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_final_amount.dart';
@@ -17,8 +17,8 @@ class FarmLockDepositInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockDeposit =
-        ref.watch(FarmLockDepositFormProvider.farmLockDepositForm);
+    final localizations = AppLocalizations.of(context)!;
+    final farmLockDeposit = ref.watch(farmLockDepositFormNotifierProvider);
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
         currentStep: farmLockDeposit.currentStep,
@@ -27,10 +27,10 @@ class FarmLockDepositInProgressPopup {
         failure: farmLockDeposit.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: DepositFarmLockCase().getAEStepLabel(
-          AppLocalizations.of(context)!,
-          farmLockDeposit.currentStep,
-        ),
+        steplabel: ref.read(depositFarmLockCaseProvider).getAEStepLabel(
+              localizations,
+              farmLockDeposit.currentStep,
+            ),
       ),
       aedappfm.InProgressInfosBanner(
         isProcessInProgress: farmLockDeposit.isProcessInProgress,
@@ -63,16 +63,16 @@ class FarmLockDepositInProgressPopup {
           onPressed: () async {
             ref
                 .read(
-                  FarmLockDepositFormProvider.farmLockDepositForm.notifier,
+                  farmLockDepositFormNotifierProvider.notifier,
                 )
                 .setResumeProcess(true);
 
             if (!context.mounted) return;
             await ref
                 .read(
-                  FarmLockDepositFormProvider.farmLockDepositForm.notifier,
+                  farmLockDepositFormNotifierProvider.notifier,
                 )
-                .lock(context, ref);
+                .lock(context);
           },
           failure: farmLockDeposit.failure,
         ),
@@ -83,16 +83,14 @@ class FarmLockDepositInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockDeposit =
-        ref.watch(FarmLockDepositFormProvider.farmLockDepositForm);
+    final farmLockDeposit = ref.watch(farmLockDepositFormNotifierProvider);
     return aedappfm.PopupCloseButton(
       warningCloseWarning: farmLockDeposit.isProcessInProgress,
       warningCloseLabel: farmLockDeposit.isProcessInProgress == true
           ? AppLocalizations.of(context)!.farmDepositProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        final _farmLockDeposit =
-            ref.read(FarmLockDepositFormProvider.farmLockDepositForm);
+        final _farmLockDeposit = ref.read(farmLockDepositFormNotifierProvider);
         ref
           ..invalidate(
             DexFarmProviders.getFarmList,
@@ -103,7 +101,7 @@ class FarmLockDepositInProgressPopup {
             ),
           )
           ..invalidate(
-            FarmLockDepositFormProvider.farmLockDepositForm,
+            farmLockDepositFormNotifierProvider,
           );
         if (!context.mounted) return;
         Navigator.of(context).pop();
@@ -111,7 +109,7 @@ class FarmLockDepositInProgressPopup {
       },
       closeFunction: () {
         ref.invalidate(
-          FarmLockDepositFormProvider.farmLockDepositForm,
+          farmLockDepositFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();

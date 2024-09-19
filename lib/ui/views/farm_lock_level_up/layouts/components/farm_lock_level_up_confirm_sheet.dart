@@ -28,8 +28,7 @@ class FarmLockLevelUpConfirmSheetState
 
   @override
   void initState() {
-    final farmLockLevelUp =
-        ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
+    final farmLockLevelUp = ref.read(farmLockLevelUpFormNotifierProvider);
     if (farmLockLevelUp.farmLockLevelUpDuration ==
         FarmLockDepositDurationType.flexible) {
       warningChecked = true;
@@ -39,8 +38,7 @@ class FarmLockLevelUpConfirmSheetState
 
   @override
   Widget build(BuildContext context) {
-    final farmLockLevelUp =
-        ref.watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
+    final farmLockLevelUp = ref.watch(farmLockLevelUpFormNotifierProvider);
     if (farmLockLevelUp.pool == null) {
       return const SizedBox.shrink();
     }
@@ -56,8 +54,7 @@ class FarmLockLevelUpConfirmSheetState
                 : () {
                     ref
                         .read(
-                          FarmLockLevelUpFormProvider
-                              .farmLockLevelUpForm.notifier,
+                          farmLockLevelUpFormNotifierProvider.notifier,
                         )
                         .setFarmLockLevelUpProcessStep(
                           aedappfm.ProcessStep.form,
@@ -148,9 +145,9 @@ class FarmLockLevelUpConfirmSheetState
                 (!consentChecked && farmLockLevelUp.consentDateTime == null),
             onPressed: () async {
               final farmLockLevelUpNotifier = ref.read(
-                FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier,
+                farmLockLevelUpFormNotifierProvider.notifier,
               );
-              unawaited(farmLockLevelUpNotifier.lock(context, ref));
+              unawaited(farmLockLevelUpNotifier.lock(context));
               await FarmLockLevelUpInProgressPopup.getDialog(
                 context,
                 ref,

@@ -50,13 +50,11 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
           }
         } else {
           ref
-              .read(FarmDepositFormProvider.farmDepositForm.notifier)
+              .read(farmDepositFormNotifierProvider.notifier)
               .setDexFarmInfo(farmInfo);
         }
 
-        await ref
-            .read(FarmDepositFormProvider.farmDepositForm.notifier)
-            .initBalances();
+        await ref.read(farmDepositFormNotifierProvider.notifier).initBalances();
       } catch (e) {
         if (mounted) {
           context.go(FarmListSheet.routerPage);
@@ -68,8 +66,7 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep:
-          ref.watch(FarmDepositFormProvider.farmDepositForm).processStep,
+      currentStep: ref.watch(farmDepositFormNotifierProvider).processStep,
       formSheet: const FarmDepositFormSheet(),
       confirmSheet: const FarmDepositConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

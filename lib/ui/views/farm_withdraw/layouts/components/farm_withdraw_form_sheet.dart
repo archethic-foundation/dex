@@ -1,5 +1,4 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/components/farm_withdraw_textfield_amount.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -20,7 +19,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
+    final farmWithdraw = ref.watch(farmWithdrawFormNotifierProvider);
     if (farmWithdraw.dexFarmInfo == null ||
         farmWithdraw.rewardToken == null ||
         farmWithdraw.depositedAmount == null) {
@@ -33,6 +32,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
         ),
       );
     }
+    final session = ref.watch(sessionNotifierProvider);
     return Expanded(
       child: Column(
         children: [
@@ -190,18 +190,11 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                                   .btn_farm_withdraw,
                               onPressed: () => ref
                                   .read(
-                                    FarmWithdrawFormProvider
-                                        .farmWithdrawForm.notifier,
+                                    farmWithdrawFormNotifierProvider.notifier,
                                   )
                                   .validateForm(context),
-                              isConnected:
-                                  (ref.watch(sessionNotifierProvider).value ??
-                                          const Session())
-                                      .isConnected,
+                              isConnected: session.isConnected,
                               displayWalletConnectOnPressed: () async {
-                                final session =
-                                    ref.read(sessionNotifierProvider).value ??
-                                        const Session();
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(

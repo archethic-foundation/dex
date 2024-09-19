@@ -29,7 +29,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
   }
 
   void _updateAmountTextController() {
-    final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.read(poolAddFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value = aedappfm.AmountTextInputFormatter(
       precision: 8,
@@ -57,9 +57,9 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
   Widget build(
     BuildContext context,
   ) {
-    final poolAddNotifier = ref.watch(PoolAddFormProvider.poolAddForm.notifier);
+    final poolAddNotifier = ref.watch(poolAddFormNotifierProvider.notifier);
 
-    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
 
     return Column(
       children: [
@@ -126,8 +126,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                   onChanged: (text) {
                                     ref
                                         .read(
-                                          PoolAddFormProvider
-                                              .poolAddForm.notifier,
+                                          poolAddFormNotifierProvider.notifier,
                                         )
                                         .setTokenFormSelected(1);
                                     poolAddNotifier.setToken1Amount(
@@ -141,8 +140,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                   onTap: () {
                                     ref
                                         .read(
-                                          PoolAddFormProvider
-                                              .poolAddForm.notifier,
+                                          poolAddFormNotifierProvider.notifier,
                                         )
                                         .setTokenFormSelected(1);
                                   },
@@ -197,11 +195,11 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                     onTap: () {
                       ref
                           .read(
-                            PoolAddFormProvider.poolAddForm.notifier,
+                            poolAddFormNotifierProvider.notifier,
                           )
                           .setTokenFormSelected(1);
                       ref
-                          .read(PoolAddFormProvider.poolAddForm.notifier)
+                          .read(poolAddFormNotifierProvider.notifier)
                           .setToken1AmountHalf(context);
                       _updateAmountTextController();
                     },
@@ -214,11 +212,11 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                     onTap: () {
                       ref
                           .read(
-                            PoolAddFormProvider.poolAddForm.notifier,
+                            poolAddFormNotifierProvider.notifier,
                           )
                           .setTokenFormSelected(1);
                       ref
-                          .read(PoolAddFormProvider.poolAddForm.notifier)
+                          .read(poolAddFormNotifierProvider.notifier)
                           .setToken1AmountMax(context);
                       _updateAmountTextController();
                     },

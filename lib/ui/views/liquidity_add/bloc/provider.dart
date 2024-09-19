@@ -1,11 +1,10 @@
+import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/state.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
@@ -18,17 +17,12 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _liquidityAddFormProvider = NotifierProvider.autoDispose<
-    LiquidityAddFormNotifier, LiquidityAddFormState>(
-  () {
-    return LiquidityAddFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class LiquidityAddFormNotifier
-    extends AutoDisposeNotifier<LiquidityAddFormState> {
+@Riverpod(keepAlive: true)
+class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
   LiquidityAddFormNotifier();
 
   @override
@@ -49,39 +43,30 @@ class LiquidityAddFormNotifier
   }
 
   Future<void> initBalances() async {
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
-    final apiService = aedappfm.sl.get<ApiService>();
-
     final token1Balance = await ref.read(
       getBalanceProvider(
-        session.genesisAddress,
         state.token1!.isUCO ? 'UCO' : state.token1!.address!,
-        apiService,
       ).future,
     );
     state = state.copyWith(token1Balance: token1Balance);
 
     final token2Balance = await ref.read(
       getBalanceProvider(
-        session.genesisAddress,
         state.token2!.isUCO ? 'UCO' : state.token2!.address!,
-        apiService,
       ).future,
     );
     state = state.copyWith(token2Balance: token2Balance);
 
     final lpTokenBalance = await ref.read(
       getBalanceProvider(
-        session.genesisAddress,
         state.pool!.lpToken.address!,
-        apiService,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
   }
 
   Future<void> initRatio() async {
-    final apiService = aedappfm.sl.get<ApiService>();
+    final apiService = ref.read(apiServiceProvider);
     final equivalentAmounResult =
         await PoolFactoryRepositoryImpl(state.pool!.poolAddress, apiService)
             .getEquivalentAmount(
@@ -148,7 +133,7 @@ class LiquidityAddFormNotifier
     if (state.token1Amount <= 0 || state.token2Amount <= 0) {
       return;
     }
-    final apiService = aedappfm.sl.get<ApiService>();
+    final apiService = ref.read(apiServiceProvider);
     final expectedTokenLPResult = await PoolFactoryRepositoryImpl(
       state.pool!.poolAddress,
       apiService,
@@ -177,7 +162,7 @@ class LiquidityAddFormNotifier
     double amount, {
     Duration delay = const Duration(milliseconds: 800),
   }) async {
-    final apiService = aedappfm.sl.get<ApiService>();
+    final apiService = ref.read(apiServiceProvider);
     late final double equivalentAmount;
     try {
       equivalentAmount = await Future<double>(
@@ -424,7 +409,7 @@ class LiquidityAddFormNotifier
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -444,6 +429,8 @@ class LiquidityAddFormNotifier
   }
 
   Future<bool> control(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
+
     setFailure(null);
     setMessageMaxHalfUCO(false);
 
@@ -488,8 +475,7 @@ class LiquidityAddFormNotifier
     if (state.token2Amount > state.token2Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken2AmountExceedBalance,
+          cause: localizations.liquidityAddControlToken2AmountExceedBalance,
         ),
       );
       return false;
@@ -498,14 +484,14 @@ class LiquidityAddFormNotifier
     var feesEstimatedUCO = 0.0;
     if (state.token1 != null && state.token1!.isUCO) {
       state = state.copyWith(calculationInProgress: true);
-      feesEstimatedUCO = await AddLiquidityCase().estimateFees(
-        state.pool!.poolAddress,
-        state.token1!,
-        state.token1Amount,
-        state.token2!,
-        state.token2Amount,
-        state.slippageTolerance,
-      );
+      feesEstimatedUCO = await ref.read(addLiquidityCaseProvider).estimateFees(
+            state.pool!.poolAddress,
+            state.token1!,
+            state.token1Amount,
+            state.token2!,
+            state.token2Amount,
+            state.slippageTolerance,
+          );
       state = state.copyWith(calculationInProgress: false);
     }
     state = state.copyWith(
@@ -527,14 +513,14 @@ class LiquidityAddFormNotifier
 
     if (state.token2 != null && state.token2!.isUCO) {
       state = state.copyWith(calculationInProgress: true);
-      feesEstimatedUCO = await AddLiquidityCase().estimateFees(
-        state.pool!.poolAddress,
-        state.token1!,
-        state.token1Amount,
-        state.token2!,
-        state.token2Amount,
-        state.slippageTolerance,
-      );
+      feesEstimatedUCO = await ref.read(addLiquidityCaseProvider).estimateFees(
+            state.pool!.poolAddress,
+            state.token1!,
+            state.token1Amount,
+            state.token2!,
+            state.token2Amount,
+            state.slippageTolerance,
+          );
       state = state.copyWith(calculationInProgress: false);
     }
     state = state.copyWith(feesEstimatedUCO: feesEstimatedUCO);
@@ -555,7 +541,9 @@ class LiquidityAddFormNotifier
     return true;
   }
 
-  Future<void> add(BuildContext context, WidgetRef ref) async {
+  Future<void> add(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
+
     setLiquidityAddOk(false);
     setProcessInProgress(true);
 
@@ -564,25 +552,23 @@ class LiquidityAddFormNotifier
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
     if (context.mounted) {
-      final finalAmount = await AddLiquidityCase().run(
-        ref,
-        context,
-        ref.watch(NotificationProviders.notificationService),
-        state.pool!.poolAddress,
-        state.token1!,
-        state.token1Amount,
-        state.token2!,
-        state.token2Amount,
-        state.slippageTolerance,
-        state.pool!.lpToken,
-        recoveryStep: state.currentStep,
-      );
+      final finalAmount = await ref.read(addLiquidityCaseProvider).run(
+            localizations,
+            state.pool!.poolAddress,
+            state.token1!,
+            state.token1Amount,
+            state.token2!,
+            state.token2Amount,
+            state.slippageTolerance,
+            state.pool!.lpToken,
+            recoveryStep: state.currentStep,
+          );
       state = state.copyWith(finalAmount: finalAmount);
 
-      await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
+      ref.invalidate(userBalanceProvider);
       if (context.mounted) {
         final poolListItemState =
             context.findAncestorStateOfType<PoolListItemState>();
@@ -590,8 +576,4 @@ class LiquidityAddFormNotifier
       }
     }
   }
-}
-
-abstract class LiquidityAddFormProvider {
-  static final liquidityAddForm = _liquidityAddFormProvider;
 }

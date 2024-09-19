@@ -1,10 +1,10 @@
+import 'package:aedex/application/api_service.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +22,7 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final apiService = ref.watch(apiServiceProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -53,12 +54,13 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
         SelectableText(
           farm.depositedAmount == null
               ? ''
-              : DEXLPTokenFiatValue().display(
-                  ref,
-                  farm.lpTokenPair!.token1,
-                  farm.lpTokenPair!.token2,
-                  farm.depositedAmount!,
-                  farm.poolAddress,
+              : ref.watch(
+                  dexLPTokenFiatValueProvider(
+                    farm.lpTokenPair!.token1,
+                    farm.lpTokenPair!.token2,
+                    farm.depositedAmount!,
+                    farm.poolAddress,
+                  ),
                 ),
           style: AppTextStyles.bodyMedium(context),
         ),
@@ -66,7 +68,7 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
           FutureBuilder<Map<String, dynamic>?>(
             future: PoolFactoryRepositoryImpl(
               farm.poolAddress,
-              aedappfm.sl.get<ApiService>(),
+              apiService,
             ).getRemoveAmounts(
               farm.depositedAmount!,
             ),

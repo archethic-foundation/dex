@@ -10,12 +10,12 @@ class SwapFinalAmount extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
     if (swap.swapOk == false) return const SizedBox.shrink();
 
     final finalAmount = swap.finalAmount;
     final timeout = ref.watch(
-      SwapFormProvider.swapForm.select((value) => value.failure != null),
+      swapFormNotifierProvider.select((value) => value.failure != null),
     );
 
     return finalAmount != null

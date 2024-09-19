@@ -1,13 +1,12 @@
+import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
-import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -19,16 +18,12 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _swapFormProvider =
-    NotifierProvider.autoDispose<SwapFormNotifier, SwapFormState>(
-  () {
-    return SwapFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
+@Riverpod(keepAlive: true)
+class SwapFormNotifier extends _$SwapFormNotifier
     with aedappfm.TransactionMixin {
   SwapFormNotifier();
 
@@ -66,13 +61,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       tokenToSwap: tokenToSwap,
     );
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
-    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
       getBalanceProvider(
-        session.genesisAddress,
         state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-        apiService,
       ).future,
     );
     state = state.copyWith(tokenToSwapBalance: balance);
@@ -90,12 +81,13 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
         return;
       }
 
-      final dexConfig =
-          await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-      final apiService = aedappfm.sl.get<ApiService>();
+      final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
       if (state.tokenToSwap != null) {
-        final routerFactory =
-            RouterFactory(dexConfig.routerGenesisAddress, apiService);
+        final routerFactory = ref.read(
+          routerFactoryProvider(
+            dexConfig.routerGenesisAddress,
+          ),
+        );
         final poolInfosResult = await routerFactory.getPoolAddresses(
           state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
           state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
@@ -149,7 +141,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
         cancel: false,
       );
     }
-    final apiService = aedappfm.sl.get<ApiService>();
+    final apiService = ref.read(apiServiceProvider);
     final ({
       double fees,
       double outputAmount,
@@ -472,13 +464,9 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       calculationInProgress: true,
     );
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
-    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
       getBalanceProvider(
-        session.genesisAddress,
         state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
-        apiService,
       ).future,
     );
     state = state.copyWith(tokenSwappedBalance: balance);
@@ -496,12 +484,13 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
         return;
       }
 
-      final dexConfig =
-          await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-      final apiService = aedappfm.sl.get<ApiService>();
+      final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
       if (state.tokenSwapped != null) {
-        final routerFactory =
-            RouterFactory(dexConfig.routerGenesisAddress, apiService);
+        final routerFactory = ref.read(
+          routerFactoryProvider(
+            dexConfig.routerGenesisAddress,
+          ),
+        );
         final poolInfosResult = await routerFactory.getPoolAddresses(
           state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
           state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
@@ -710,7 +699,7 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -782,12 +771,12 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
     var feesEstimatedUCO = 0.0;
     if (state.tokenToSwap != null && state.tokenToSwap!.isUCO) {
       state = state.copyWith(calculationInProgress: true);
-      feesEstimatedUCO = await SwapCase().estimateFees(
-        state.poolGenesisAddress,
-        state.tokenToSwap!,
-        state.tokenToSwapAmount,
-        state.slippageTolerance,
-      );
+      feesEstimatedUCO = await ref.read(swapCaseProvider).estimateFees(
+            state.poolGenesisAddress,
+            state.tokenToSwap!,
+            state.tokenToSwapAmount,
+            state.slippageTolerance,
+          );
       state = state.copyWith(calculationInProgress: false);
     }
     state = state.copyWith(
@@ -811,7 +800,8 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
     return true;
   }
 
-  Future<void> swap(BuildContext context, WidgetRef ref) async {
+  Future<void> swap(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
     setSwapOk(false);
     setProcessInProgress(true);
 
@@ -820,27 +810,22 @@ class SwapFormNotifier extends AutoDisposeNotifier<SwapFormState>
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
-      final finalAmount = await SwapCase().run(
-        ref,
-        context,
-        ref.watch(NotificationProviders.notificationService),
-        state.poolGenesisAddress,
-        state.tokenToSwap!,
-        state.tokenSwapped!,
-        state.tokenToSwapAmount,
-        state.slippageTolerance,
-      );
+      final finalAmount = await ref.read(swapCaseProvider).run(
+            ref,
+            localizations,
+            state.poolGenesisAddress,
+            state.tokenToSwap!,
+            state.tokenSwapped!,
+            state.tokenToSwapAmount,
+            state.slippageTolerance,
+          );
       state = state.copyWith(finalAmount: finalAmount);
 
-      await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
+      ref.invalidate(userBalanceProvider);
     }
   }
-}
-
-abstract class SwapFormProvider {
-  static final swapForm = _swapFormProvider;
 }

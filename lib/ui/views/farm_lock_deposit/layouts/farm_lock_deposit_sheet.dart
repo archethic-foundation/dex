@@ -36,18 +36,18 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.earn;
 
-        ref.read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
+        ref.read(farmLockDepositFormNotifierProvider.notifier)
           ..setDexPool(widget.pool)
           ..setDexFarmLock(widget.farmLock)
           ..setLevel(widget.farmLock.availableLevels.entries.last.key)
           ..setAPREstimation(widget.farmLock.apr3years * 100);
 
         await ref
-            .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
+            .read(farmLockDepositFormNotifierProvider.notifier)
             .initBalances();
 
         ref
-            .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
+            .read(farmLockDepositFormNotifierProvider.notifier)
             .filterAvailableLevels();
       } catch (e) {
         if (mounted) {
@@ -60,9 +60,7 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref
-          .watch(FarmLockDepositFormProvider.farmLockDepositForm)
-          .processStep,
+      currentStep: ref.watch(farmLockDepositFormNotifierProvider).processStep,
       formSheet: const FarmLockDepositFormSheet(),
       confirmSheet: const FarmLockDepositConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

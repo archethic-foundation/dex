@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/domain/usecases/withdraw_farm_lock.usecase.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_final_amount.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_in_progress_tx_addresses.dart';
@@ -16,8 +16,8 @@ class FarmLockWithdrawInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockWithdraw =
-        ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
+    final localizations = AppLocalizations.of(context)!;
+    final farmLockWithdraw = ref.watch(farmLockWithdrawFormNotifierProvider);
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
         currentStep: farmLockWithdraw.currentStep,
@@ -26,10 +26,10 @@ class FarmLockWithdrawInProgressPopup {
         failure: farmLockWithdraw.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: WithdrawFarmLockCase().getAEStepLabel(
-          AppLocalizations.of(context)!,
-          farmLockWithdraw.currentStep,
-        ),
+        steplabel: ref.read(withdrawFarmLockCaseProvider).getAEStepLabel(
+              localizations,
+              farmLockWithdraw.currentStep,
+            ),
       ),
       aedappfm.InProgressInfosBanner(
         isProcessInProgress: farmLockWithdraw.isProcessInProgress,
@@ -64,16 +64,16 @@ class FarmLockWithdrawInProgressPopup {
           onPressed: () async {
             ref
                 .read(
-                  FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier,
+                  farmLockWithdrawFormNotifierProvider.notifier,
                 )
                 .setResumeProcess(true);
 
             if (!context.mounted) return;
             await ref
                 .read(
-                  FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier,
+                  farmLockWithdrawFormNotifierProvider.notifier,
                 )
-                .withdraw(context, ref);
+                .withdraw(context);
           },
           failure: farmLockWithdraw.failure,
         ),
@@ -84,8 +84,7 @@ class FarmLockWithdrawInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockWithdraw =
-        ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
+    final farmLockWithdraw = ref.watch(farmLockWithdrawFormNotifierProvider);
     return aedappfm.PopupCloseButton(
       warningCloseWarning: farmLockWithdraw.isProcessInProgress,
       warningCloseLabel: farmLockWithdraw.isProcessInProgress == true
@@ -94,7 +93,7 @@ class FarmLockWithdrawInProgressPopup {
           : '',
       warningCloseFunction: () {
         ref.invalidate(
-          FarmLockWithdrawFormProvider.farmLockWithdrawForm,
+          farmLockWithdrawFormNotifierProvider,
         );
         if (!context.mounted) return;
         context
@@ -103,7 +102,7 @@ class FarmLockWithdrawInProgressPopup {
       },
       closeFunction: () {
         ref.invalidate(
-          FarmLockWithdrawFormProvider.farmLockWithdrawForm,
+          farmLockWithdrawFormNotifierProvider,
         );
         if (!context.mounted) return;
         context

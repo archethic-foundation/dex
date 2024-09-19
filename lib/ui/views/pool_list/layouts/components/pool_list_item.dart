@@ -13,7 +13,6 @@ import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/pool_tx_list/layouts/pool_tx_list_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +52,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
     super.initState();
   }
 
+// TODO(Chralu): pourquoi ne pas juste ecouter les bons providers dans le main ?
   Future<void> loadInfo({bool forceLoadFromBC = false}) async {
     poolInfos = await ref.read(
       DexPoolProviders.loadPoolCard(
@@ -61,15 +61,9 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
       ).future,
     );
     if (mounted) {
-      final session =
-          ref.watch(sessionNotifierProvider).value ?? const Session();
-
-      final apiService = aedappfm.sl.get<ApiService>();
       ref.invalidate(
         getBalanceProvider(
-          session.genesisAddress,
           widget.pool.lpToken.address!,
-          apiService,
         ),
       );
     }
@@ -93,9 +87,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
   @override
   Widget build(BuildContext context) {
     final aeETHUCOPoolAddress =
-        (ref.read(sessionNotifierProvider).value ?? const Session())
-                .aeETHUCOPoolAddress ??
-            '';
+        ref.watch(environmentProvider).aeETHUCOPoolAddress;
 
     return Stack(
       children: [
@@ -163,11 +155,8 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                           },
                         ).toString(),
                       );
-                      await ref
-                          .read(PoolListFormProvider.poolListForm.notifier)
-                          .getPoolsList(
-                            tabIndexSelected: PoolsListTab.favoritePools,
-                            cancelToken: UniqueKey().toString(),
+                      ref.read(poolListFormNotifierProvider.notifier).selectTab(
+                            PoolsListTab.favoritePools,
                           );
                     },
                   ),

@@ -1,7 +1,6 @@
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -31,8 +30,7 @@ class _LiquidityRemoveLPTokenAmountState
   }
 
   void _updateAmountTextController() {
-    final liquidityRemove =
-        ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final liquidityRemove = ref.read(liquidityRemoveFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value = aedappfm.AmountTextInputFormatter(
       precision: 8,
@@ -62,10 +60,9 @@ class _LiquidityRemoveLPTokenAmountState
     BuildContext context,
   ) {
     final liquidityRemoveNotifier =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier);
+        ref.watch(liquidityRemoveFormNotifierProvider.notifier);
 
-    final liquidityRemove =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final liquidityRemove = ref.watch(liquidityRemoveFormNotifierProvider);
     final textNum = double.tryParse(tokenAmountController.text);
     if (!(liquidityRemove.lpTokenAmount != 0.0 ||
         tokenAmountController.text == '' ||
@@ -181,8 +178,7 @@ class _LiquidityRemoveLPTokenAmountState
                     onTap: () async {
                       await ref
                           .read(
-                            LiquidityRemoveFormProvider
-                                .liquidityRemoveForm.notifier,
+                            liquidityRemoveFormNotifierProvider.notifier,
                           )
                           .setLpTokenAmountHalf();
                       _updateAmountTextController();
@@ -196,8 +192,7 @@ class _LiquidityRemoveLPTokenAmountState
                     onTap: () async {
                       await ref
                           .read(
-                            LiquidityRemoveFormProvider
-                                .liquidityRemoveForm.notifier,
+                            liquidityRemoveFormNotifierProvider.notifier,
                           )
                           .setLpTokenAmountMax();
                       _updateAmountTextController();

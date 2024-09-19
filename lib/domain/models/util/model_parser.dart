@@ -19,6 +19,7 @@ import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 
 mixin ModelParser {
@@ -92,6 +93,8 @@ mixin ModelParser {
   }
 
   Future<DexPool> poolListItemToModel(
+    aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository,
+    Environment environment,
     GetPoolListResponse getPoolListResponse,
     List<String> tokenVerifiedList,
   ) async {
@@ -108,12 +111,14 @@ mixin ModelParser {
       token1Verified = true;
     } else {
       final token1 = tokensListDatasource.getToken(
-        aedappfm.EndpointUtil.getEnvironnement(),
+        environment.name,
         tokens[0],
       );
       if (token1 != null) {
-        final tokenVerified = await aedappfm.VerifiedTokensRepositoryImpl()
-            .isVerifiedToken(token1.address!, tokenVerifiedList);
+        final tokenVerified = await verifiedTokensRepository.isVerifiedToken(
+          token1.address!,
+          tokenVerifiedList,
+        );
         token1Name = token1.name;
         token1Symbol = token1.symbol;
         token1Verified = tokenVerified;
@@ -128,12 +133,14 @@ mixin ModelParser {
       token2Verified = true;
     } else {
       final token2 = tokensListDatasource.getToken(
-        aedappfm.EndpointUtil.getEnvironnement(),
+        environment.name,
         tokens[1],
       );
       if (token2 != null) {
-        final tokenVerified = await aedappfm.VerifiedTokensRepositoryImpl()
-            .isVerifiedToken(token2.address!, tokenVerifiedList);
+        final tokenVerified = await verifiedTokensRepository.isVerifiedToken(
+          token2.address!,
+          tokenVerifiedList,
+        );
         token2Name = token2.name;
         token2Symbol = token2.symbol;
         token2Verified = tokenVerified;
@@ -143,7 +150,7 @@ mixin ModelParser {
     var lpTokenName = '';
     var lpTokenSymbol = '';
     final lpToken = tokensListDatasource.getToken(
-      aedappfm.EndpointUtil.getEnvironnement(),
+      environment.name,
       getPoolListResponse.lpTokenAddress,
     );
     if (lpToken != null) {
@@ -170,7 +177,7 @@ mixin ModelParser {
     var _isFavorite = false;
     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
     final isPoolFavorite = poolsListDatasource.getPool(
-      aedappfm.EndpointUtil.getEnvironnement(),
+      environment.name,
       getPoolListResponse.address,
     );
     if (isPoolFavorite != null) {
@@ -192,6 +199,7 @@ mixin ModelParser {
   }
 
   Future<DexFarm> farmListToModel(
+    archethic.ApiService apiService,
     GetFarmListResponse getFarmListResponse,
     DexPool pool,
   ) async {
@@ -200,9 +208,7 @@ mixin ModelParser {
       adressesToSearch.add(getFarmListResponse.rewardTokenAddress);
     }
 
-    final tokenResultMap = await aedappfm.sl
-        .get<archethic.ApiService>()
-        .getToken(adressesToSearch);
+    final tokenResultMap = await apiService.getToken(adressesToSearch);
     DexToken? lpToken;
     if (tokenResultMap[getFarmListResponse.lpTokenAddress] != null) {
       lpToken = DexToken(
@@ -241,6 +247,7 @@ mixin ModelParser {
   }
 
   Future<DexFarm> farmInfosToModel(
+    archethic.ApiService apiService,
     String farmGenesisAddress,
     GetFarmInfosResponse getFarmInfosResponse,
     DexPool pool,
@@ -249,9 +256,8 @@ mixin ModelParser {
   }) async {
     var remainingReward = 0.0;
     if (getFarmInfosResponse.remainingReward == null) {
-      final transactionChainMap = await aedappfm.sl
-          .get<archethic.ApiService>()
-          .getTransactionChain({farmGenesisAddress: ''});
+      final transactionChainMap =
+          await apiService.getTransactionChain({farmGenesisAddress: ''});
       if (transactionChainMap[farmGenesisAddress] != null &&
           transactionChainMap[farmGenesisAddress]!.isNotEmpty) {
         final tx = transactionChainMap[farmGenesisAddress]!.first;
@@ -273,7 +279,7 @@ mixin ModelParser {
 
     final farmFactory = FarmFactory(
       farmGenesisAddress,
-      aedappfm.sl.get<archethic.ApiService>(),
+      apiService,
     );
 
     var depositedAmount = 0.0;
@@ -306,9 +312,7 @@ mixin ModelParser {
     );
     if (dexFarmInput == null || dexFarmInput.lpToken == null) {
       final adressesToSearch = <String>[getFarmInfosResponse.lpTokenAddress];
-      final tokenResultMap = await aedappfm.sl
-          .get<archethic.ApiService>()
-          .getToken(adressesToSearch);
+      final tokenResultMap = await apiService.getToken(adressesToSearch);
       DexToken? lpToken;
       if (tokenResultMap[getFarmInfosResponse.lpTokenAddress] != null) {
         lpToken = DexToken(
@@ -330,9 +334,7 @@ mixin ModelParser {
       dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
     } else {
       final adressesToSearch = <String>[getFarmInfosResponse.rewardToken];
-      final tokenResultMap = await aedappfm.sl
-          .get<archethic.ApiService>()
-          .getToken(adressesToSearch);
+      final tokenResultMap = await apiService.getToken(adressesToSearch);
 
       if (tokenResultMap[getFarmInfosResponse.rewardToken] != null) {
         rewardToken = DexToken(
@@ -348,6 +350,7 @@ mixin ModelParser {
   }
 
   Future<DexFarmLock> farmLockInfosToModel(
+    archethic.ApiService apiService,
     String farmGenesisAddress,
     GetFarmLockFarmInfosResponse getFarmLockInfosResponse,
     DexPool pool,
@@ -356,7 +359,7 @@ mixin ModelParser {
   }) async {
     final farmLockFactory = FarmLockFactory(
       farmGenesisAddress,
-      aedappfm.sl.get<archethic.ApiService>(),
+      apiService,
     );
 
     final farmUserInfosResult =
@@ -424,9 +427,7 @@ mixin ModelParser {
       final adressesToSearch = <String>[
         getFarmLockInfosResponse.lpTokenAddress,
       ];
-      final tokenResultMap = await aedappfm.sl
-          .get<archethic.ApiService>()
-          .getToken(adressesToSearch);
+      final tokenResultMap = await apiService.getToken(adressesToSearch);
       DexToken? lpToken;
       if (tokenResultMap[getFarmLockInfosResponse.lpTokenAddress] != null) {
         lpToken = DexToken(
@@ -449,9 +450,7 @@ mixin ModelParser {
       dexFarmLock = dexFarmLock.copyWith(rewardToken: rewardToken);
     } else {
       final adressesToSearch = <String>[getFarmLockInfosResponse.rewardToken];
-      final tokenResultMap = await aedappfm.sl
-          .get<archethic.ApiService>()
-          .getToken(adressesToSearch);
+      final tokenResultMap = await apiService.getToken(adressesToSearch);
 
       if (tokenResultMap[getFarmLockInfosResponse.rewardToken] != null) {
         rewardToken = DexToken(

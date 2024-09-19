@@ -2,9 +2,8 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -16,16 +15,12 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _poolAddFormProvider =
-    NotifierProvider.autoDispose<PoolAddFormNotifier, PoolAddFormState>(
-  () {
-    return PoolAddFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
+@Riverpod(keepAlive: true)
+class PoolAddFormNotifier extends _$PoolAddFormNotifier {
   PoolAddFormNotifier();
 
   @override
@@ -45,13 +40,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       token1: token,
     );
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
-    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
       getBalanceProvider(
-        session.genesisAddress,
         token.isUCO ? 'UCO' : token.address!,
-        apiService,
       ).future,
     );
     state = state.copyWith(token1Balance: balance);
@@ -94,13 +85,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       token2: token,
     );
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
-    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
       getBalanceProvider(
-        session.genesisAddress,
         token.isUCO ? 'UCO' : token.address!,
-        apiService,
       ).future,
     );
     state = state.copyWith(token2Balance: balance);
@@ -337,7 +324,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -426,12 +413,13 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return false;
     }
 
-    final dexConfig =
-        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+    final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
 
-    final apiService = aedappfm.sl.get<ApiService>();
-    final routerFactory =
-        RouterFactory(dexConfig.routerGenesisAddress, apiService);
+    final routerFactory = ref.read(
+      routerFactoryProvider(
+        dexConfig.routerGenesisAddress,
+      ),
+    );
     final poolInfosResult = await routerFactory.getPoolAddresses(
       state.token1!.isUCO ? 'UCO' : state.token1!.address!,
       state.token2!.isUCO ? 'UCO' : state.token2!.address!,
@@ -498,7 +486,8 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     return true;
   }
 
-  Future<void> add(BuildContext context, WidgetRef ref) async {
+  Future<void> add(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
     setProcessInProgress(true);
     setPoolAddOk(false);
     final _control = await control(context);
@@ -507,35 +496,29 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       return;
     }
 
-    final dexConfig =
-        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+    final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
     if (context.mounted) {
-      await AddPoolCase().run(
-        ref,
-        AppLocalizations.of(context)!,
-        state.token1!,
-        state.token1Amount,
-        state.token2!,
-        state.token2Amount,
-        dexConfig.routerGenesisAddress,
-        dexConfig.factoryGenesisAddress,
-        state.slippage,
-        recoveryStep: state.currentStep,
-        recoveryTransactionAddPool: state.recoveryTransactionAddPool,
-        recoveryTransactionAddPoolTransfer:
-            state.recoveryTransactionAddPoolTransfer,
-        recoveryTransactionAddPoolLiquidity:
-            state.recoveryTransactionAddPoolLiquidity,
-      );
+      await ref.read(addPoolCaseProvider).run(
+            localizations,
+            state.token1!,
+            state.token1Amount,
+            state.token2!,
+            state.token2Amount,
+            dexConfig.routerGenesisAddress,
+            dexConfig.factoryGenesisAddress,
+            state.slippage,
+            recoveryStep: state.currentStep,
+            recoveryTransactionAddPool: state.recoveryTransactionAddPool,
+            recoveryTransactionAddPoolTransfer:
+                state.recoveryTransactionAddPoolTransfer,
+            recoveryTransactionAddPoolLiquidity:
+                state.recoveryTransactionAddPoolLiquidity,
+          );
 
-      await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
+      ref.invalidate(userBalanceProvider);
     }
   }
-}
-
-abstract class PoolAddFormProvider {
-  static final poolAddForm = _poolAddFormProvider;
 }

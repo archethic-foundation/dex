@@ -10,14 +10,13 @@ class FarmWithdrawFinalAmount extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
+    final farmWithdraw = ref.watch(farmWithdrawFormNotifierProvider);
     if (farmWithdraw.farmWithdrawOk == false) return const SizedBox.shrink();
 
     final finalAmountReward = farmWithdraw.finalAmountReward;
     final finalAmountWithdraw = farmWithdraw.finalAmountWithdraw;
     final timeout = ref.watch(
-      FarmWithdrawFormProvider.farmWithdrawForm
-          .select((value) => value.failure != null),
+      farmWithdrawFormNotifierProvider.select((value) => value.failure != null),
     );
 
     return Column(

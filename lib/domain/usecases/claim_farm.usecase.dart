@@ -12,28 +12,37 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'ClaimFarmCase';
 
 class ClaimFarmCase with aedappfm.TransactionMixin {
+  ClaimFarmCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.farmClaimNotifier,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final FarmClaimFormNotifier farmClaimNotifier;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
     AppLocalizations localizations,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
     String farmGenesisAddress,
     DexToken rewardToken, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionClaim,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmClaimNotifier =
-        ref.read(FarmClaimFormProvider.farmClaimForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionClaim;
     if (recoveryTransactionClaim != null) {
@@ -110,7 +119,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionClaim!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmClaimNotifier
@@ -131,7 +140,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionClaim!.address!.address!,
           rewardToken.address,
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,

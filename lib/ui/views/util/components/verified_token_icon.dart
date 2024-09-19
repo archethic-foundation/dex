@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -31,28 +32,29 @@ class VerifiedTokenIcon extends ConsumerWidget {
       );
     }
 
-    return FutureBuilder<bool>(
-      future: ref.read(
-        aedappfm.VerifiedTokensProviders.isVerifiedToken(address).future,
+    final environment = ref.watch(environmentProvider);
+    final isVerifiedToken = ref
+        .watch(
+          aedappfm.VerifiedTokensProviders.isVerifiedToken(
+            environment,
+            address,
+          ),
+        )
+        .value;
+
+    if (isVerifiedToken == null) return const CircularProgressIndicator();
+    if (isVerifiedToken == false) return const SizedBox();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 3),
+      child: Tooltip(
+        message: AppLocalizations.of(context)!.verifiedTokenIconTooltip,
+        child: Icon(
+          aedappfm.Iconsax.verify,
+          color: aedappfm.ArchethicThemeBase.systemPositive500,
+          size: iconSize,
+        ),
       ),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data == true) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 3),
-              child: Tooltip(
-                message: AppLocalizations.of(context)!.verifiedTokenIconTooltip,
-                child: Icon(
-                  aedappfm.Iconsax.verify,
-                  color: aedappfm.ArchethicThemeBase.systemPositive500,
-                  size: iconSize,
-                ),
-              ),
-            );
-          }
-        }
-        return const SizedBox();
-      },
     );
   }
 }

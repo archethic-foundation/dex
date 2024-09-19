@@ -7,12 +7,12 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$farmLockFormNotifierHash() =>
-    r'bfb0308cf8bbfd171874a3b16bd0e8abee755a38';
+    r'923ca3c31a58c3484b7a9289ee92bd0a5ef83ba5';
 
 /// See also [FarmLockFormNotifier].
 @ProviderFor(FarmLockFormNotifier)
-final farmLockFormNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    FarmLockFormNotifier, FarmLockFormState>.internal(
+final farmLockFormNotifierProvider =
+    AsyncNotifierProvider<FarmLockFormNotifier, FarmLockFormState>.internal(
   FarmLockFormNotifier.new,
   name: r'farmLockFormNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final farmLockFormNotifierProvider = AutoDisposeAsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$FarmLockFormNotifier = AutoDisposeAsyncNotifier<FarmLockFormState>;
+typedef _$FarmLockFormNotifier = AsyncNotifier<FarmLockFormState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

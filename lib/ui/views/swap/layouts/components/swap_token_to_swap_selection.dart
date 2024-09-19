@@ -1,9 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/layouts/token_selection_popup.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class SwapTokenToSwapSelection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
 
     return Container(
       width: aedappfm.Responsive.isMobile(context) ? 100 : 150,
@@ -30,10 +30,11 @@ class SwapTokenToSwapSelection extends ConsumerWidget {
         onTap: () async {
           final token = await TokenSelectionPopup.getDialog(
             context,
+            ref.read(environmentProvider),
           );
           if (token == null) return;
           await ref
-              .read(SwapFormProvider.swapForm.notifier)
+              .read(swapFormNotifierProvider.notifier)
               .setTokenToSwap(token);
         },
         child: Row(

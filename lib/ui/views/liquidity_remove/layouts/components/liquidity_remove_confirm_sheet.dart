@@ -25,8 +25,7 @@ class LiquidityRemoveConfirmSheetState
 
   @override
   Widget build(BuildContext context) {
-    final liquidityRemove =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final liquidityRemove = ref.watch(liquidityRemoveFormNotifierProvider);
     if (liquidityRemove.lpToken == null) {
       return const SizedBox.shrink();
     }
@@ -42,8 +41,7 @@ class LiquidityRemoveConfirmSheetState
                 : () {
                     ref
                         .read(
-                          LiquidityRemoveFormProvider
-                              .liquidityRemoveForm.notifier,
+                          liquidityRemoveFormNotifierProvider.notifier,
                         )
                         .setLiquidityRemoveProcessStep(
                           aedappfm.ProcessStep.form,
@@ -80,9 +78,9 @@ class LiquidityRemoveConfirmSheetState
                 !consentChecked && liquidityRemove.consentDateTime == null,
             onPressed: () async {
               final liquidityRemoveNotifier = ref.read(
-                LiquidityRemoveFormProvider.liquidityRemoveForm.notifier,
+                liquidityRemoveFormNotifierProvider.notifier,
               );
-              unawaited(liquidityRemoveNotifier.remove(context, ref));
+              unawaited(liquidityRemoveNotifier.remove(context));
               await LiquidityRemoveInProgressPopup.getDialog(
                 context,
                 ref,

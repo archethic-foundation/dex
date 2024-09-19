@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/domain/usecases/level_up_farm_lock.usecase.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_final_amount.dart';
@@ -17,8 +17,8 @@ class FarmLockLevelUpInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockLevelUp =
-        ref.watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
+    final localizations = AppLocalizations.of(context)!;
+    final farmLockLevelUp = ref.watch(farmLockLevelUpFormNotifierProvider);
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
         currentStep: farmLockLevelUp.currentStep,
@@ -27,10 +27,10 @@ class FarmLockLevelUpInProgressPopup {
         failure: farmLockLevelUp.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: LevelUpFarmLockCase().getAEStepLabel(
-          AppLocalizations.of(context)!,
-          farmLockLevelUp.currentStep,
-        ),
+        steplabel: ref.read(levelUpFarmLockCaseProvider).getAEStepLabel(
+              localizations,
+              farmLockLevelUp.currentStep,
+            ),
       ),
       aedappfm.InProgressInfosBanner(
         isProcessInProgress: farmLockLevelUp.isProcessInProgress,
@@ -63,16 +63,16 @@ class FarmLockLevelUpInProgressPopup {
           onPressed: () async {
             ref
                 .read(
-                  FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier,
+                  farmLockLevelUpFormNotifierProvider.notifier,
                 )
                 .setResumeProcess(true);
 
             if (!context.mounted) return;
             await ref
                 .read(
-                  FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier,
+                  farmLockLevelUpFormNotifierProvider.notifier,
                 )
-                .lock(context, ref);
+                .lock(context);
           },
           failure: farmLockLevelUp.failure,
         ),
@@ -83,16 +83,14 @@ class FarmLockLevelUpInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockLevelUp =
-        ref.watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
+    final farmLockLevelUp = ref.watch(farmLockLevelUpFormNotifierProvider);
     return aedappfm.PopupCloseButton(
       warningCloseWarning: farmLockLevelUp.isProcessInProgress,
       warningCloseLabel: farmLockLevelUp.isProcessInProgress == true
           ? AppLocalizations.of(context)!.farmDepositProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        final _farmLockLevelUp =
-            ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
+        final _farmLockLevelUp = ref.read(farmLockLevelUpFormNotifierProvider);
         ref
           ..invalidate(
             DexFarmProviders.getFarmList,
@@ -103,7 +101,7 @@ class FarmLockLevelUpInProgressPopup {
             ),
           )
           ..invalidate(
-            FarmLockLevelUpFormProvider.farmLockLevelUpForm,
+            farmLockLevelUpFormNotifierProvider,
           );
         if (!context.mounted) return;
         Navigator.of(context).pop();
@@ -111,7 +109,7 @@ class FarmLockLevelUpInProgressPopup {
       },
       closeFunction: () {
         ref.invalidate(
-          FarmLockLevelUpFormProvider.farmLockLevelUpForm,
+          farmLockLevelUpFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();

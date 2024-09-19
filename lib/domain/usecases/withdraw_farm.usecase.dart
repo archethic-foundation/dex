@@ -5,6 +5,7 @@ import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
 import 'package:aedex/util/string_util.dart';
@@ -12,17 +13,27 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'WithdrawFarmCase';
 
 class WithdrawFarmCase with aedappfm.TransactionMixin {
+  WithdrawFarmCase({
+    required this.apiService,
+    required this.farmWithdrawNotifier,
+    required this.notificationService,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final FarmWithdrawFormNotifier farmWithdrawNotifier;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<({double finalAmountReward, double finalAmountWithdraw})> run(
-    WidgetRef ref,
     AppLocalizations localizations,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
+    FarmWithdrawFormState farmWithdraw,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -30,13 +41,12 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionWithdraw,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmWithdrawNotifier =
-        ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier);
-    final farmWithdraw = ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionWithdraw;
     if (recoveryTransactionWithdraw != null) {
@@ -116,7 +126,7 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionWithdraw!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmWithdrawNotifier
@@ -134,7 +144,6 @@ class WithdrawFarmCase with aedappfm.TransactionMixin {
         ),
       );
 
-      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(

@@ -1,13 +1,11 @@
 import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
 import 'package:aedex/ui/views/mobile_info/layouts/mobile_info.dart';
-
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_item.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
@@ -39,7 +37,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
+    final session = ref.watch(sessionNotifierProvider);
 
     final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
         const FarmLockFormState();
@@ -370,9 +368,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
-                if ((ref.read(sessionNotifierProvider).value ?? const Session())
-                            .isConnected ==
-                        false &&
+                if (ref.read(sessionNotifierProvider).isConnected == false &&
                     context.mounted &&
                     aedappfm.Responsive.isMobile(context)) {
                   await showDialog(
@@ -390,18 +386,14 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                   );
                   return;
                 }
-                if ((ref.read(sessionNotifierProvider).value ?? const Session())
-                    .error
-                    .isNotEmpty) {
+                if (ref.read(sessionNotifierProvider).error.isNotEmpty) {
                   if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor:
                           Theme.of(context).snackBarTheme.backgroundColor,
                       content: SelectableText(
-                        (ref.read(sessionNotifierProvider).value ??
-                                const Session())
-                            .error,
+                        ref.read(sessionNotifierProvider).error,
                         style: Theme.of(context).snackBarTheme.contentTextStyle,
                       ),
                       duration: const Duration(seconds: 2),

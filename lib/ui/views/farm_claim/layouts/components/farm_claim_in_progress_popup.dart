@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/domain/usecases/claim_farm.usecase.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_final_amount.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/components/farm_claim_in_progress_tx_addresses.dart';
@@ -17,7 +17,8 @@ class FarmClaimInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
+    final localizations = AppLocalizations.of(context)!;
+    final farmClaim = ref.watch(farmClaimFormNotifierProvider);
 
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
@@ -27,10 +28,10 @@ class FarmClaimInProgressPopup {
         failure: farmClaim.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: ClaimFarmCase().getAEStepLabel(
-          AppLocalizations.of(context)!,
-          farmClaim.currentStep,
-        ),
+        steplabel: ref.watch(claimFarmCaseProvider).getAEStepLabel(
+              localizations,
+              farmClaim.currentStep,
+            ),
       ),
       aedappfm.InProgressInfosBanner(
         isProcessInProgress: farmClaim.isProcessInProgress,
@@ -63,16 +64,16 @@ class FarmClaimInProgressPopup {
           onPressed: () async {
             ref
                 .read(
-                  FarmClaimFormProvider.farmClaimForm.notifier,
+                  farmClaimFormNotifierProvider.notifier,
                 )
                 .setResumeProcess(true);
 
             if (!context.mounted) return;
             await ref
                 .read(
-                  FarmClaimFormProvider.farmClaimForm.notifier,
+                  farmClaimFormNotifierProvider.notifier,
                 )
-                .claim(context, ref);
+                .claim(context);
           },
           failure: farmClaim.failure,
         ),
@@ -83,14 +84,14 @@ class FarmClaimInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
+    final farmClaim = ref.watch(farmClaimFormNotifierProvider);
     return aedappfm.PopupCloseButton(
       warningCloseWarning: farmClaim.isProcessInProgress,
       warningCloseLabel: farmClaim.isProcessInProgress == true
           ? AppLocalizations.of(context)!.farmClaimProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        final _farmClaim = ref.read(FarmClaimFormProvider.farmClaimForm);
+        final _farmClaim = ref.read(farmClaimFormNotifierProvider);
         ref
           ..invalidate(
             DexFarmProviders.getFarmList,
@@ -101,7 +102,7 @@ class FarmClaimInProgressPopup {
             ),
           )
           ..invalidate(
-            FarmClaimFormProvider.farmClaimForm,
+            farmClaimFormNotifierProvider,
           );
         if (!context.mounted) return;
         Navigator.of(context).pop();
@@ -109,7 +110,7 @@ class FarmClaimInProgressPopup {
       },
       closeFunction: () {
         ref.invalidate(
-          FarmClaimFormProvider.farmClaimForm,
+          farmClaimFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();

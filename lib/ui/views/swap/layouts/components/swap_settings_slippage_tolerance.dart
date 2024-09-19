@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
@@ -31,12 +30,12 @@ class SwapSettingsSlippageToleranceState
   @override
   void initState() {
     super.initState();
-    final swap = ref.read(SwapFormProvider.swapForm);
+    final swap = ref.read(swapFormNotifierProvider);
     slippageToleranceFocusNode = FocusNode();
     slippageToleranceController =
         TextEditingController(text: swap.slippageTolerance.toString());
     Future.delayed(Duration.zero, () {
-      ref.read(SwapFormProvider.swapForm.notifier).setTokenFormSelected(0);
+      ref.read(swapFormNotifierProvider.notifier).setTokenFormSelected(0);
     });
   }
 
@@ -49,7 +48,7 @@ class SwapSettingsSlippageToleranceState
 
   @override
   Widget build(BuildContext context) {
-    final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
+    final swapNotifier = ref.watch(swapFormNotifierProvider.notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,12 +162,9 @@ class SwapSettingsSlippageToleranceState
             if (!context.mounted) return;
             Navigator.of(context).pop();
           },
-          isConnected:
-              (ref.watch(sessionNotifierProvider).value ?? const Session())
-                  .isConnected,
+          isConnected: ref.watch(sessionNotifierProvider).isConnected,
           displayWalletConnectOnPressed: () async {
-            final session =
-                ref.read(sessionNotifierProvider).value ?? const Session();
+            final session = ref.read(sessionNotifierProvider);
             if (session.error.isNotEmpty) {
               if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(

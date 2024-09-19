@@ -6,12 +6,11 @@ part of 'dex_pool.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dexPoolRepositoryHash() => r'f0302ebbeaf116b99bb49d1f59bca82c50263afd';
+String _$dexPoolRepositoryHash() => r'c7f209c6db8a3ce0d65efef356a1bf4936bdd49b';
 
 /// See also [_dexPoolRepository].
 @ProviderFor(_dexPoolRepository)
-final _dexPoolRepositoryProvider =
-    AutoDisposeProvider<DexPoolRepositoryImpl>.internal(
+final _dexPoolRepositoryProvider = Provider<DexPoolRepository>.internal(
   _dexPoolRepository,
   name: r'_dexPoolRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,24 +20,8 @@ final _dexPoolRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _DexPoolRepositoryRef = AutoDisposeProviderRef<DexPoolRepositoryImpl>;
-String _$invalidateDataUseCaseHash() =>
-    r'3a55e94e5ae3319be3889ccf38520f62be24e12f';
-
-/// See also [_invalidateDataUseCase].
-@ProviderFor(_invalidateDataUseCase)
-final _invalidateDataUseCaseProvider = AutoDisposeProvider<void>.internal(
-  _invalidateDataUseCase,
-  name: r'_invalidateDataUseCaseProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$invalidateDataUseCaseHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _InvalidateDataUseCaseRef = AutoDisposeProviderRef<void>;
-String _$getRatioHash() => r'ab779336d5767381e4e30930bda8546150c3af98';
+typedef _DexPoolRepositoryRef = ProviderRef<DexPoolRepository>;
+String _$getRatioHash() => r'6ecfbb5b119346790822a4621c265611b2bd94d2';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -107,7 +90,7 @@ class _GetRatioFamily extends Family<AsyncValue<double>> {
 }
 
 /// See also [_getRatio].
-class _GetRatioProvider extends AutoDisposeFutureProvider<double> {
+class _GetRatioProvider extends FutureProvider<double> {
   /// See also [_getRatio].
   _GetRatioProvider(
     String poolGenesisAddress,
@@ -164,7 +147,7 @@ class _GetRatioProvider extends AutoDisposeFutureProvider<double> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<double> createElement() {
+  FutureProviderElement<double> createElement() {
     return _GetRatioProviderElement(this);
   }
 
@@ -185,7 +168,7 @@ class _GetRatioProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
-mixin _GetRatioRef on AutoDisposeFutureProviderRef<double> {
+mixin _GetRatioRef on FutureProviderRef<double> {
   /// The parameter `poolGenesisAddress` of this provider.
   String get poolGenesisAddress;
 
@@ -193,7 +176,7 @@ mixin _GetRatioRef on AutoDisposeFutureProviderRef<double> {
   DexToken get token;
 }
 
-class _GetRatioProviderElement extends AutoDisposeFutureProviderElement<double>
+class _GetRatioProviderElement extends FutureProviderElement<double>
     with _GetRatioRef {
   _GetRatioProviderElement(super.provider);
 
@@ -334,7 +317,7 @@ class _EstimatePoolTVLInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'80eae6db40fd4eb834a5863736df264d4a37d1a7';
+String _$estimateStatsHash() => r'b41ec775a9cdc6ac8894bfe04951b12906f5538a';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -462,7 +445,7 @@ class _EstimateStatsProviderElement
   DexPool get pool => (origin as _EstimateStatsProvider).pool;
 }
 
-String _$getPoolHash() => r'f87bd61361cfb101125290cb61c607ff8a5b3516';
+String _$getPoolHash() => r'490dee8222d84e86737f8f5fbe21ec2aab4cb3b3';
 
 /// See also [_getPool].
 @ProviderFor(_getPool)
@@ -507,7 +490,7 @@ class _GetPoolFamily extends Family<AsyncValue<DexPool?>> {
 }
 
 /// See also [_getPool].
-class _GetPoolProvider extends AutoDisposeFutureProvider<DexPool?> {
+class _GetPoolProvider extends FutureProvider<DexPool?> {
   /// See also [_getPool].
   _GetPoolProvider(
     String genesisAddress,
@@ -558,7 +541,7 @@ class _GetPoolProvider extends AutoDisposeFutureProvider<DexPool?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<DexPool?> createElement() {
+  FutureProviderElement<DexPool?> createElement() {
     return _GetPoolProviderElement(this);
   }
 
@@ -576,12 +559,12 @@ class _GetPoolProvider extends AutoDisposeFutureProvider<DexPool?> {
   }
 }
 
-mixin _GetPoolRef on AutoDisposeFutureProviderRef<DexPool?> {
+mixin _GetPoolRef on FutureProviderRef<DexPool?> {
   /// The parameter `genesisAddress` of this provider.
   String get genesisAddress;
 }
 
-class _GetPoolProviderElement extends AutoDisposeFutureProviderElement<DexPool?>
+class _GetPoolProviderElement extends FutureProviderElement<DexPool?>
     with _GetPoolRef {
   _GetPoolProviderElement(super.provider);
 
@@ -589,7 +572,7 @@ class _GetPoolProviderElement extends AutoDisposeFutureProviderElement<DexPool?>
   String get genesisAddress => (origin as _GetPoolProvider).genesisAddress;
 }
 
-String _$loadPoolCardHash() => r'0d079b7ab15160de7d937bc0d5737ba528490b65';
+String _$loadPoolCardHash() => r'ffb74b55dec99072e029bd6f296513f6f0bf642b';
 
 /// See also [_loadPoolCard].
 @ProviderFor(_loadPoolCard)
@@ -735,7 +718,7 @@ class _LoadPoolCardProviderElement
 }
 
 String _$removePoolFromFavoriteHash() =>
-    r'811908ba75f9f687313b27c9cae6b052bdfb8a21';
+    r'cd55b9e36199bddbf2e7490a3a88ffc329542531';
 
 /// See also [_removePoolFromFavorite].
 @ProviderFor(_removePoolFromFavorite)
@@ -867,7 +850,7 @@ class _RemovePoolFromFavoriteProviderElement
 }
 
 String _$addPoolFromFavoriteHash() =>
-    r'da6f979a82a4132f34f169ca7a60f24970d7abfa';
+    r'0221bf89306a03cd6d397e870662e90c1f4e9944';
 
 /// See also [_addPoolFromFavorite].
 @ProviderFor(_addPoolFromFavorite)
@@ -998,11 +981,11 @@ class _AddPoolFromFavoriteProviderElement
       (origin as _AddPoolFromFavoriteProvider).poolGenesisAddress;
 }
 
-String _$getPoolListHash() => r'73313bfab72796763d6122cf411d94c9cb66b106';
+String _$getPoolListHash() => r'0e8c43838da5cabfb06e452e82ec2e307abac4c6';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)
-final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
+final _getPoolListProvider = FutureProvider<List<DexPool>>.internal(
   _getPoolList,
   name: r'_getPoolListProvider',
   debugGetCreateSourceHash:
@@ -1011,7 +994,7 @@ final _getPoolListProvider = AutoDisposeFutureProvider<List<DexPool>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _GetPoolListRef = AutoDisposeFutureProviderRef<List<DexPool>>;
+typedef _GetPoolListRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForSearchHash() =>
     r'97a05577a87ca0b808612809ba8ed684bfdae08d';
 
@@ -1160,7 +1143,7 @@ class _GetPoolListForSearchProviderElement
       (origin as _GetPoolListForSearchProvider).poolList;
 }
 
-String _$getPoolTxListHash() => r'a68f3f546c76e650d9f8ffb75576118198c05df9';
+String _$getPoolTxListHash() => r'436a4e6ecbb4bb663463114bf2a9590444e84c1c';
 
 /// See also [_getPoolTxList].
 @ProviderFor(_getPoolTxList)

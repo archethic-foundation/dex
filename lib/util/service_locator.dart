@@ -29,13 +29,3 @@ Future<void> setupServiceLocator() async {
       }
     });
 }
-
-Future<void> setupServiceLocatorApiService(String endpoint) async {
-  if (aedappfm.sl.isRegistered<ApiService>()) {
-    await aedappfm.sl.unregister<ApiService>();
-  }
-
-  aedappfm.sl.registerLazySingleton<ApiService>(
-    () => ApiService(endpoint, logsActivation: false),
-  );
-}

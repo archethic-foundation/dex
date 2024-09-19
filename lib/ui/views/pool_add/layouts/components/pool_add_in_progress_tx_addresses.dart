@@ -11,7 +11,7 @@ class PoolAddInProgressTxAddresses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
     if (poolAdd.poolAddOk == false) {
       return const SizedBox.shrink();
     }

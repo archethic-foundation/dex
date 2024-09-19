@@ -6,7 +6,6 @@ import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -28,9 +27,7 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final aeETHUCOPoolAddress =
-        (ref.read(sessionNotifierProvider).value ?? const Session())
-                .aeETHUCOPoolAddress ??
-            '';
+        ref.read(environmentProvider).aeETHUCOPoolAddress;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

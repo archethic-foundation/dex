@@ -1,6 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aedex/application/api_service.dart';
+import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/util/get_farm_list_response.dart';
@@ -8,17 +10,33 @@ import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/infrastructure/hive/dex_token.hive.dart';
 import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'router_factory.g.dart';
+
+@Riverpod(keepAlive: true)
+RouterFactory routerFactory(RouterFactoryRef ref, String address) {
+  return RouterFactory(
+    address,
+    ref.watch(apiServiceProvider),
+    ref.watch(verifiedTokensRepositoryProvider),
+  );
+}
 
 /// Router is a helper factory for user to easily retrieve existing pools and create new pools.
 class RouterFactory with ModelParser {
-  RouterFactory(this.factoryAddress, this.apiService);
+  RouterFactory(
+    this.factoryAddress,
+    this.apiService,
+    this.verifiedTokensRepository,
+  );
 
   final String factoryAddress;
   final ApiService apiService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   /// Returns the info of the pool for the 2 tokens address.
   /// [token1Address] is the address of the first token
@@ -58,6 +76,7 @@ class RouterFactory with ModelParser {
 
   /// Return the infos of all the pools.
   Future<aedappfm.Result<List<DexPool>, aedappfm.Failure>> getPoolList(
+    aedappfm.Environment environment,
     List<String> tokenVerifiedList,
   ) async {
     return aedappfm.Result.guard(
@@ -84,7 +103,7 @@ class RouterFactory with ModelParser {
           final tokens = getPoolListResponse.tokens.split('/');
           if (tokens[0] != 'UCO') {
             if (tokensListDatasource.getToken(
-                  aedappfm.EndpointUtil.getEnvironnement(),
+                  environment.endpoint,
                   tokens[0],
                 ) ==
                 null) {
@@ -93,7 +112,7 @@ class RouterFactory with ModelParser {
           }
           if (tokens[1] != 'UCO') {
             if (tokensListDatasource.getToken(
-                  aedappfm.EndpointUtil.getEnvironnement(),
+                  environment.endpoint,
                   tokens[1],
                 ) ==
                 null) {
@@ -101,24 +120,24 @@ class RouterFactory with ModelParser {
             }
           }
           if (tokensListDatasource.getToken(
-                aedappfm.EndpointUtil.getEnvironnement(),
+                environment.endpoint,
                 getPoolListResponse.lpTokenAddress,
               ) ==
               null) {
             tokensAddresses.add(getPoolListResponse.lpTokenAddress);
           }
         }
-        final tokenResultMap = await aedappfm.sl.get<ApiService>().getToken(
-              tokensAddresses.toSet().toList(),
-              request: 'name, symbol',
-            );
+        final tokenResultMap = await apiService.getToken(
+          tokensAddresses.toSet().toList(),
+          request: 'name, symbol',
+        );
 
         for (final entry in tokenResultMap.entries) {
           final address = entry.key.toUpperCase();
           var tokenResult = tokenSDKToModel(entry.value, 0);
           tokenResult = tokenResult.copyWith(address: address);
           await tokensListDatasource.setToken(
-            aedappfm.EndpointUtil.getEnvironnement(),
+            environment.endpoint,
             tokenResult.toHive(),
           );
         }
@@ -126,7 +145,12 @@ class RouterFactory with ModelParser {
         for (final result in results) {
           final getPoolListResponse = GetPoolListResponse.fromJson(result);
           poolList.add(
-            await poolListItemToModel(getPoolListResponse, tokenVerifiedList),
+            await poolListItemToModel(
+              verifiedTokensRepository,
+              environment,
+              getPoolListResponse,
+              tokenVerifiedList,
+            ),
           );
         }
 
@@ -170,6 +194,7 @@ class RouterFactory with ModelParser {
 
           farmList.add(
             await farmListToModel(
+              apiService,
               getFarmListResponse,
               dexpool,
             ),

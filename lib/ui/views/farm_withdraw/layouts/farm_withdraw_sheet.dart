@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_list/layouts/farm_list_sheet.dart';
@@ -40,7 +39,7 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+        ref.read(farmWithdrawFormNotifierProvider.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
           ..setLpTokenAddress(widget.lpTokenAddress);
@@ -61,14 +60,13 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
             context.go(FarmListSheet.routerPage);
           }
         } else {
-          ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+          ref.read(farmWithdrawFormNotifierProvider.notifier)
             ..setDexFarmInfo(farmInfo)
             ..setRewardAmount(farmInfo.rewardAmount)
             ..setDepositedAmount(farmInfo.depositedAmount);
         }
 
-        final session =
-            ref.read(sessionNotifierProvider).value ?? const Session();
+        final session = ref.read(sessionNotifierProvider);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.pop();
@@ -85,8 +83,7 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep:
-          ref.watch(FarmWithdrawFormProvider.farmWithdrawForm).processStep,
+      currentStep: ref.watch(farmWithdrawFormNotifierProvider).processStep,
       formSheet: const FarmWithdrawFormSheet(),
       confirmSheet: const FarmWithdrawConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

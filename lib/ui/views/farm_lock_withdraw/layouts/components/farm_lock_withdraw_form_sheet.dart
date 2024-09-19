@@ -1,5 +1,4 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_textfield_amount.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -20,8 +19,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmLockWithdraw =
-        ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
+    final farmLockWithdraw = ref.watch(farmLockWithdrawFormNotifierProvider);
     if (farmLockWithdraw.rewardToken == null ||
         farmLockWithdraw.depositedAmount == null) {
       return const Padding(
@@ -33,6 +31,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
         ),
       );
     }
+    final session = ref.watch(sessionNotifierProvider);
     return Expanded(
       child: Column(
         children: [
@@ -187,22 +186,17 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmLockWithdraw.isControlsOk &&
-                                  (ref.watch(sessionNotifierProvider).value ??
-                                          const Session())
-                                      .isConnected,
+                                  session.isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_withdraw,
                               onPressed: () => ref
                                   .read(
-                                    FarmLockWithdrawFormProvider
-                                        .farmLockWithdrawForm.notifier,
+                                    farmLockWithdrawFormNotifierProvider
+                                        .notifier,
                                   )
                                   .validateForm(context),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
-                                final session =
-                                    ref.read(sessionNotifierProvider).value ??
-                                        const Session();
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(

@@ -25,8 +25,7 @@ class FarmLockClaimConfirmSheetState
 
   @override
   Widget build(BuildContext context) {
-    final farmLockClaim =
-        ref.watch(FarmLockClaimFormProvider.farmLockClaimForm);
+    final farmLockClaim = ref.watch(farmLockClaimFormNotifierProvider);
     if (farmLockClaim.rewardAmount == null) {
       return const SizedBox.shrink();
     }
@@ -42,7 +41,7 @@ class FarmLockClaimConfirmSheetState
                 : () {
                     ref
                         .read(
-                          FarmLockClaimFormProvider.farmLockClaimForm.notifier,
+                          farmLockClaimFormNotifierProvider.notifier,
                         )
                         .setFarmLockClaimProcessStep(
                           aedappfm.ProcessStep.form,
@@ -76,9 +75,9 @@ class FarmLockClaimConfirmSheetState
             labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_lock_claim,
             disabled: !consentChecked && farmLockClaim.consentDateTime == null,
             onPressed: () async {
-              final farmLockClaimNotifier = ref
-                  .read(FarmLockClaimFormProvider.farmLockClaimForm.notifier);
-              unawaited(farmLockClaimNotifier.claim(context, ref));
+              final farmLockClaimNotifier =
+                  ref.read(farmLockClaimFormNotifierProvider.notifier);
+              unawaited(farmLockClaimNotifier.claim(context));
               await FarmLockClaimInProgressPopup.getDialog(
                 context,
                 ref,

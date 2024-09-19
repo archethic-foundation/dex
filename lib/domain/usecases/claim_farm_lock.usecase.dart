@@ -12,29 +12,38 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'ClaimFarmLockCase';
 
 class ClaimFarmLockCase with aedappfm.TransactionMixin {
+  ClaimFarmLockCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.farmClaimLockNotifier,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final FarmLockClaimFormNotifier farmClaimLockNotifier;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
     AppLocalizations localizations,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
     String farmGenesisAddress,
     String depositId,
     DexToken rewardToken, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionClaim,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmClaimLockNotifier =
-        ref.read(FarmLockClaimFormProvider.farmLockClaimForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionClaim;
     if (recoveryTransactionClaim != null) {
@@ -112,7 +121,7 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionClaim!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmClaimLockNotifier
@@ -131,6 +140,7 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
 
       await aedappfm.PeriodicFuture.periodic<bool>(
         () => isSCCallExecuted(
+          apiService,
           farmGenesisAddress,
           transactionClaim!.address!.address!,
         ),
@@ -143,7 +153,7 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionClaim!.address!.address!,
           rewardToken.address,
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,

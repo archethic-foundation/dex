@@ -1,14 +1,12 @@
+import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
+import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/infrastructure/dex_farm.repository.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,18 +14,25 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'dex_farm.g.dart';
 part 'dex_farm_list.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 DexFarmRepositoryImpl _dexFarmRepository(_DexFarmRepositoryRef ref) =>
-    DexFarmRepositoryImpl();
+    DexFarmRepositoryImpl(
+      apiService: ref.watch(apiServiceProvider),
+      verifiedTokensRepository: ref.watch(
+        verifiedTokensRepositoryProvider,
+      ),
+    );
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<DexFarm?> _getFarmInfos(
   _GetFarmInfosRef ref,
   String farmGenesisAddress,
   String poolAddress, {
   DexFarm? dexFarmInput,
 }) async {
-  final poolList = await ref.read(DexPoolProviders.getPoolList.future);
+  final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
+  final userGenesisAddress = ref.watch(sessionNotifierProvider).genesisAddress;
+  final dexFarmRepository = ref.watch(_dexFarmRepositoryProvider);
 
   final pool = poolList.firstWhereOrNull(
     (poolSelect) =>
@@ -35,19 +40,15 @@ Future<DexFarm?> _getFarmInfos(
   );
   if (pool == null) return null;
 
-  final userGenesisAddress =
-      (ref.read(sessionNotifierProvider).value ?? const Session())
-          .genesisAddress;
-  final farmInfos =
-      await ref.watch(_dexFarmRepositoryProvider).populateFarmInfos(
-            farmGenesisAddress,
-            pool,
-            dexFarmInput!,
-            userGenesisAddress,
-          );
+  final farmInfos = await dexFarmRepository.populateFarmInfos(
+    farmGenesisAddress,
+    pool,
+    dexFarmInput!,
+    userGenesisAddress,
+  );
 
   var apr = 0.0;
-  final estimateLPTokenInFiat = await ref.read(
+  final estimateLPTokenInFiat = await ref.watch(
     DexTokensProviders.estimateLPTokenInFiat(
       farmInfos.lpTokenPair!.token1,
       farmInfos.lpTokenPair!.token2,

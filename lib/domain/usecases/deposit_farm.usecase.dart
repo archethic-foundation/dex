@@ -11,17 +11,26 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'DepositFarmCase';
 
 class DepositFarmCase with aedappfm.TransactionMixin {
+  DepositFarmCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.farmDepositNotifier,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final FarmDepositFormNotifier farmDepositNotifier;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
     AppLocalizations localizations,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -30,12 +39,12 @@ class DepositFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionDeposit,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmDepositNotifier =
-        ref.read(FarmDepositFormProvider.farmDepositForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionDeposit;
     if (recoveryTransactionDeposit != null) {
@@ -113,7 +122,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionDeposit!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmDepositNotifier
@@ -133,7 +142,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
 
       final amount = await aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTx(
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
           transactionDeposit!.address!.address!,
           isUCO,
           farmAddress,

@@ -1,13 +1,11 @@
+import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -26,9 +24,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(sessionNotifierProvider).value ?? const Session();
-
-    final apiService = aedappfm.sl.get<ApiService>();
+    final apiService = ref.watch(apiServiceProvider);
 
     return Opacity(
       opacity: AppTextStyles.kOpacityText,
@@ -91,9 +87,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                       FutureBuilder<double>(
                         future: ref.watch(
                           getBalanceProvider(
-                            session.genesisAddress,
                             pool!.lpToken.address!,
-                            apiService,
                           ).future,
                         ),
                         builder: (context, snapshotBalance) {
@@ -145,7 +139,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                                   FutureBuilder<Map<String, dynamic>?>(
                                     future: PoolFactoryRepositoryImpl(
                                       pool!.poolAddress,
-                                      aedappfm.sl.get<ApiService>(),
+                                      apiService,
                                     ).getRemoveAmounts(
                                       snapshotBalance.data!,
                                     ),

@@ -25,7 +25,7 @@ class FarmDepositConfirmSheetState
 
   @override
   Widget build(BuildContext context) {
-    final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
+    final farmDeposit = ref.watch(farmDepositFormNotifierProvider);
     if (farmDeposit.dexFarmInfo == null) {
       return const SizedBox.shrink();
     }
@@ -41,7 +41,7 @@ class FarmDepositConfirmSheetState
                 : () {
                     ref
                         .read(
-                          FarmDepositFormProvider.farmDepositForm.notifier,
+                          farmDepositFormNotifierProvider.notifier,
                         )
                         .setFarmDepositProcessStep(
                           aedappfm.ProcessStep.form,
@@ -76,8 +76,8 @@ class FarmDepositConfirmSheetState
             disabled: !consentChecked && farmDeposit.consentDateTime == null,
             onPressed: () async {
               final farmDepositNotifier =
-                  ref.read(FarmDepositFormProvider.farmDepositForm.notifier);
-              unawaited(farmDepositNotifier.deposit(context, ref));
+                  ref.read(farmDepositFormNotifierProvider.notifier);
+              unawaited(farmDepositNotifier.deposit(context));
               await FarmDepositInProgressPopup.getDialog(
                 context,
                 ref,

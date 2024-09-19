@@ -1,5 +1,4 @@
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_add_liquidity.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_balances_summary.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_earn_rewards.dart';
@@ -22,10 +21,9 @@ class FarmLockBlockHeader extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value;
 
-    if (farmLockForm.pool == null) {
+    if (farmLockForm?.pool == null) {
       return const SizedBox.shrink();
     }
     return Padding(

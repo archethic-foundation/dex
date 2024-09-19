@@ -1,9 +1,7 @@
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/domain/usecases/deposit_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/state.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -14,33 +12,23 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _farmDepositFormProvider =
-    NotifierProvider.autoDispose<FarmDepositFormNotifier, FarmDepositFormState>(
-  () {
-    return FarmDepositFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class FarmDepositFormNotifier
-    extends AutoDisposeNotifier<FarmDepositFormState> {
+@Riverpod(keepAlive: true)
+class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
   FarmDepositFormNotifier();
 
   @override
   FarmDepositFormState build() => const FarmDepositFormState();
 
   Future<void> initBalances() async {
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
-    final apiService = aedappfm.sl.get<ApiService>();
-
     final lpTokenBalance = await ref.read(
       getBalanceProvider(
-        session.genesisAddress,
         state.dexFarmInfo!.lpToken!.isUCO
             ? 'UCO'
             : state.dexFarmInfo!.lpToken!.address!,
-        apiService,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
@@ -123,7 +111,7 @@ class FarmDepositFormNotifier
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -167,7 +155,8 @@ class FarmDepositFormNotifier
     return true;
   }
 
-  Future<void> deposit(BuildContext context, WidgetRef ref) async {
+  Future<void> deposit(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
     setFarmDepositOk(false);
     setProcessInProgress(true);
 
@@ -176,20 +165,18 @@ class FarmDepositFormNotifier
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
-      final finalAmount = await DepositFarmCase().run(
-        ref,
-        AppLocalizations.of(context)!,
-        ref.watch(NotificationProviders.notificationService),
-        state.dexFarmInfo!.farmAddress,
-        state.dexFarmInfo!.lpToken!.address!,
-        state.amount,
-        state.dexFarmInfo!.farmAddress,
-        false,
-      );
+      final finalAmount = await ref.read(depositFarmCaseProvider).run(
+            localizations,
+            state.dexFarmInfo!.farmAddress,
+            state.dexFarmInfo!.lpToken!.address!,
+            state.amount,
+            state.dexFarmInfo!.farmAddress,
+            false,
+          );
 
       state = state.copyWith(finalAmount: finalAmount);
 
@@ -200,8 +187,4 @@ class FarmDepositFormNotifier
       }
     }
   }
-}
-
-abstract class FarmDepositFormProvider {
-  static final farmDepositForm = _farmDepositFormProvider;
 }

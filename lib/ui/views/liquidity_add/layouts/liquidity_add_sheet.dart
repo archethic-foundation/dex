@@ -32,20 +32,18 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       try {
-        ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+        ref.read(liquidityAddFormNotifierProvider.notifier)
           ..setPoolsListTab(widget.poolsListTab)
           ..setToken1(widget.pool.pair.token1)
           ..setToken2(widget.pool.pair.token2);
 
         await ref
-            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+            .read(liquidityAddFormNotifierProvider.notifier)
             .setPool(widget.pool);
         await ref
-            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+            .read(liquidityAddFormNotifierProvider.notifier)
             .initBalances();
-        await ref
-            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-            .initRatio();
+        await ref.read(liquidityAddFormNotifierProvider.notifier).initRatio();
       } catch (e) {
         if (mounted) {
           context.go(
@@ -64,8 +62,7 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep:
-          ref.watch(LiquidityAddFormProvider.liquidityAddForm).processStep,
+      currentStep: ref.watch(liquidityAddFormNotifierProvider).processStep,
       formSheet: const LiquidityAddFormSheet(),
       confirmSheet: const LiquidityAddConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

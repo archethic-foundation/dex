@@ -5,18 +5,25 @@ import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/util/string_util.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'AddPoolCase';
 
 class AddPoolCase with aedappfm.TransactionMixin {
+  AddPoolCase({
+    required this.apiService,
+    required this.poolAddNotifier,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final PoolAddFormNotifier poolAddNotifier;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<void> run(
-    WidgetRef ref,
     AppLocalizations localizations,
     DexToken token1,
     double token1Amount,
@@ -31,9 +38,10 @@ class AddPoolCase with aedappfm.TransactionMixin {
     archethic.Transaction? recoveryTransactionAddPoolLiquidity,
     String? recoveryPoolGenesisAddress,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
-    final archethicContract = ArchethicContract();
-    final poolAddNotifier = ref.read(PoolAddFormProvider.poolAddForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionAddPool;
     archethic.Transaction? transactionAddPoolTransfer;
@@ -119,9 +127,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
       poolAddNotifier.setCurrentStep(3);
       try {
         final currentNameAccount = await getCurrentAccount();
-        ref
-            .read(PoolAddFormProvider.poolAddForm.notifier)
-            .setWalletConfirmation(true);
+        poolAddNotifier.setWalletConfirmation(true);
 
         transactionAddPoolTransfer = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
@@ -134,12 +140,11 @@ class AddPoolCase with aedappfm.TransactionMixin {
         ))
             .first;
 
-        ref
-            .read(PoolAddFormProvider.poolAddForm.notifier)
-            .setWalletConfirmation(false);
-        poolAddNotifier.setRecoveryTransactionAddPoolTransfer(
-          transactionAddPoolTransfer,
-        );
+        poolAddNotifier
+          ..setWalletConfirmation(false)
+          ..setRecoveryTransactionAddPoolTransfer(
+            transactionAddPoolTransfer,
+          );
       } catch (e) {
         if (e is aedappfm.Failure) {
           poolAddNotifier
@@ -160,7 +165,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
           transactionAddPoolTransfer!,
           transactionAddPool!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
     }
 
@@ -248,7 +253,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
           <archethic.Transaction>[
             transactionAddPoolLiquidity!,
           ],
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
         );
         poolAddNotifier
           ..setCurrentStep(6)

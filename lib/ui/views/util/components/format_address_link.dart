@@ -1,5 +1,4 @@
 import 'package:aedex/application/dex_blockchain.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -27,9 +26,7 @@ class FormatAddressLink extends ConsumerWidget {
     return InkWell(
       onTap: () async {
         final blockchain = await ref.read(
-          DexBlockchainsProviders.getBlockchainFromEnv(
-            aedappfm.EndpointUtil.getEnvironnement(),
-          ).future,
+          DexBlockchainsProviders.currentBlockchain.future,
         );
         if (typeAddress == TypeAddressLink.transaction) {
           await launchUrl(

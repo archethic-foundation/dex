@@ -12,13 +12,12 @@ class FarmClaimFinalAmount extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
+    final farmClaim = ref.watch(farmClaimFormNotifierProvider);
     if (farmClaim.farmClaimOk == false) return const SizedBox.shrink();
 
     final finalAmount = farmClaim.finalAmount;
     final timeout = ref.watch(
-      FarmClaimFormProvider.farmClaimForm
-          .select((value) => value.failure != null),
+      farmClaimFormNotifierProvider.select((value) => value.failure != null),
     );
 
     return finalAmount != null

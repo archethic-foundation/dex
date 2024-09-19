@@ -96,15 +96,16 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                 style: style,
                                               ),
                                               SelectableText(
-                                                DEXLPTokenFiatValue().display(
-                                                  ref,
-                                                  farmLock.farm!.lpTokenPair!
-                                                      .token1,
-                                                  farmLock.farm!.lpTokenPair!
-                                                      .token2,
-                                                  farmLock
-                                                      .farm!.depositedAmount!,
-                                                  farmLock.farm!.poolAddress,
+                                                ref.watch(
+                                                  dexLPTokenFiatValueProvider(
+                                                    farmLock.farm!.lpTokenPair!
+                                                        .token1,
+                                                    farmLock.farm!.lpTokenPair!
+                                                        .token2,
+                                                    farmLock
+                                                        .farm!.depositedAmount!,
+                                                    farmLock.farm!.poolAddress,
+                                                  ),
                                                 ),
                                                 style: AppTextStyles.bodySmall(
                                                   context,
@@ -262,15 +263,16 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                                                 ],
                                               ),
                                               SelectableText(
-                                                DEXLPTokenFiatValue().display(
-                                                  ref,
-                                                  farmLock.farm!.lpTokenPair!
-                                                      .token1,
-                                                  farmLock.farm!.lpTokenPair!
-                                                      .token2,
-                                                  farmLock
-                                                      .farm!.depositedAmount!,
-                                                  farmLock.farm!.poolAddress,
+                                                ref.watch(
+                                                  dexLPTokenFiatValueProvider(
+                                                    farmLock.farm!.lpTokenPair!
+                                                        .token1,
+                                                    farmLock.farm!.lpTokenPair!
+                                                        .token2,
+                                                    farmLock
+                                                        .farm!.depositedAmount!,
+                                                    farmLock.farm!.poolAddress,
+                                                  ),
                                                 ),
                                                 style: Theme.of(context)
                                                     .textTheme

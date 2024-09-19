@@ -25,7 +25,7 @@ class LiquidityAddConfirmSheetState
 
   @override
   Widget build(BuildContext context) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
     if (liquidityAdd.token1 == null) {
       return const SizedBox.shrink();
     }
@@ -40,7 +40,7 @@ class LiquidityAddConfirmSheetState
                 ? null
                 : () {
                     ref.read(
-                      LiquidityAddFormProvider.liquidityAddForm.notifier,
+                      liquidityAddFormNotifierProvider.notifier,
                     )
                       ..setLiquidityAddProcessStep(
                         aedappfm.ProcessStep.form,
@@ -76,8 +76,8 @@ class LiquidityAddConfirmSheetState
             disabled: !consentChecked && liquidityAdd.consentDateTime == null,
             onPressed: () async {
               final liquidityAddNotifier =
-                  ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier);
-              unawaited(liquidityAddNotifier.add(context, ref));
+                  ref.read(liquidityAddFormNotifierProvider.notifier);
+              unawaited(liquidityAddNotifier.add(context));
               await LiquidityAddInProgressPopup.getDialog(
                 context,
                 ref,

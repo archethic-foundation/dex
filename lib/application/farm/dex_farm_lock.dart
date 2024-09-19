@@ -1,7 +1,8 @@
+import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
+import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
@@ -12,20 +13,23 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_farm_lock.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 DexFarmLockRepositoryImpl _dexFarmLockRepository(
   _DexFarmLockRepositoryRef ref,
 ) =>
-    DexFarmLockRepositoryImpl();
+    DexFarmLockRepositoryImpl(
+      apiService: ref.watch(apiServiceProvider),
+      verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
+    );
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<DexFarmLock?> _getFarmLockInfos(
   _GetFarmLockInfosRef ref,
   String farmGenesisAddress,
   String poolAddress, {
   DexFarmLock? dexFarmLockInput,
 }) async {
-  final poolList = await ref.read(DexPoolProviders.getPoolList.future);
+  final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
 
   final pool = poolList.firstWhereOrNull(
     (poolSelect) =>
@@ -33,23 +37,23 @@ Future<DexFarmLock?> _getFarmLockInfos(
   );
   if (pool == null) return null;
 
-  final userGenesisAddress =
-      (ref.read(sessionNotifierProvider).value ?? const Session())
-          .genesisAddress;
+  final userGenesisAddress = ref.watch(
+    sessionNotifierProvider.select((session) => session.genesisAddress),
+  );
   try {
     final farmLockInfos =
-        await ref.read(_dexFarmLockRepositoryProvider).populateFarmLockInfos(
+        await ref.watch(_dexFarmLockRepositoryProvider).populateFarmLockInfos(
               farmGenesisAddress,
               pool,
               dexFarmLockInput!,
               userGenesisAddress,
             );
 
-    final rewardTokenPriceInFiat = await ref.read(
+    final rewardTokenPriceInFiat = await ref.watch(
       DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!).future,
     );
 
-    final estimateLPTokenInFiat = await ref.read(
+    final estimateLPTokenInFiat = await ref.watch(
       DexTokensProviders.estimateLPTokenInFiat(
         farmLockInfos.lpTokenPair!.token1,
         farmLockInfos.lpTokenPair!.token2,
@@ -86,7 +90,7 @@ Future<DexFarmLock?> _getFarmLockInfos(
 
       final rewardsAllocatedInFiat = rewardsInPeriod * rewardTokenPriceInFiat;
 
-      final lpDepositedPerLevelInFiat = await ref.read(
+      final lpDepositedPerLevelInFiat = await ref.watch(
         DexTokensProviders.estimateLPTokenInFiat(
           farmLockInfos.lpTokenPair!.token1,
           farmLockInfos.lpTokenPair!.token2,

@@ -1,9 +1,7 @@
-import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -14,17 +12,12 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _farmWithdrawFormProvider = NotifierProvider.autoDispose<
-    FarmWithdrawFormNotifier, FarmWithdrawFormState>(
-  () {
-    return FarmWithdrawFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class FarmWithdrawFormNotifier
-    extends AutoDisposeNotifier<FarmWithdrawFormState> {
+@Riverpod(keepAlive: true)
+class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
   FarmWithdrawFormNotifier();
 
   @override
@@ -150,7 +143,7 @@ class FarmWithdrawFormNotifier
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -194,7 +187,8 @@ class FarmWithdrawFormNotifier
     return true;
   }
 
-  Future<void> withdraw(BuildContext context, WidgetRef ref) async {
+  Future<void> withdraw(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
     setFarmWithdrawOk(false);
     setProcessInProgress(true);
 
@@ -203,19 +197,18 @@ class FarmWithdrawFormNotifier
       return;
     }
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
     if (context.mounted) {
-      final finalAmounts = await WithdrawFarmCase().run(
-        ref,
-        AppLocalizations.of(context)!,
-        ref.watch(NotificationProviders.notificationService),
-        state.farmAddress!,
-        state.lpTokenAddress!,
-        state.amount,
-        state.rewardToken!,
-      );
+      final finalAmounts = await ref.read(withdrawFarmCaseProvider).run(
+            localizations,
+            ref.read(farmWithdrawFormNotifierProvider),
+            state.farmAddress!,
+            state.lpTokenAddress!,
+            state.amount,
+            state.rewardToken!,
+          );
 
       state = state.copyWith(
         finalAmountReward: finalAmounts.finalAmountReward,
@@ -229,8 +222,4 @@ class FarmWithdrawFormNotifier
       }
     }
   }
-}
-
-abstract class FarmWithdrawFormProvider {
-  static final farmWithdrawForm = _farmWithdrawFormProvider;
 }

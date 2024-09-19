@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
@@ -14,7 +13,6 @@ import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,15 +44,9 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
     Future.delayed(Duration.zero, () async {
       try {
         if (widget.value != null) {
-          ref.read(SwapFormProvider.swapForm.notifier)
+          ref.read(swapFormNotifierProvider.notifier)
             ..setTokenFormSelected(1)
             ..setTokenToSwapAmountWithoutCalculation(widget.value!);
-        }
-
-        if (aedappfm.sl.isRegistered<ApiService>() == false) {
-          await ref
-              .read(sessionNotifierProvider.notifier)
-              .connectEndpointWithoutWallet('mainnet');
         }
 
         if (widget.from != null) {
@@ -68,13 +60,13 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
           }
           if (_tokenToSwap != null) {
             await ref
-                .read(SwapFormProvider.swapForm.notifier)
+                .read(swapFormNotifierProvider.notifier)
                 .setTokenToSwap(_tokenToSwap);
           }
         } else {
           if (widget.tokenToSwap != null) {
             await ref
-                .read(SwapFormProvider.swapForm.notifier)
+                .read(swapFormNotifierProvider.notifier)
                 .setTokenToSwap(widget.tokenToSwap!);
           }
         }
@@ -90,19 +82,19 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
           }
           if (_tokenSwapped != null) {
             await ref
-                .read(SwapFormProvider.swapForm.notifier)
+                .read(swapFormNotifierProvider.notifier)
                 .setTokenSwapped(_tokenSwapped);
           }
         } else {
           if (widget.tokenSwapped != null) {
             await ref
-                .read(SwapFormProvider.swapForm.notifier)
+                .read(swapFormNotifierProvider.notifier)
                 .setTokenSwapped(widget.tokenSwapped!);
           }
         }
 
         if (widget.value != null) {
-          ref.read(SwapFormProvider.swapForm.notifier).setTokenFormSelected(2);
+          ref.read(swapFormNotifierProvider.notifier).setTokenFormSelected(2);
         }
       } catch (e) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -121,7 +113,7 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
 
   @override
   Widget build(BuildContext contextf) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
 
     return Expanded(
       child: Padding(
@@ -190,15 +182,12 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
                   controlOk: swap.isControlsOk,
                   labelBtn: AppLocalizations.of(context)!.btn_swap,
                   onPressed: () => ref
-                      .read(SwapFormProvider.swapForm.notifier)
+                      .read(swapFormNotifierProvider.notifier)
                       .validateForm(context),
                   displayWalletConnect: true,
-                  isConnected: (ref.watch(sessionNotifierProvider).value ??
-                          const Session())
-                      .isConnected,
+                  isConnected: ref.watch(sessionNotifierProvider).isConnected,
                   displayWalletConnectOnPressed: () async {
-                    final session = ref.read(sessionNotifierProvider).value ??
-                        const Session();
+                    final session = ref.read(sessionNotifierProvider);
                     if (session.error.isNotEmpty) {
                       if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(

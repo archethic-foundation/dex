@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_final_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_tx_addresses.dart';
@@ -15,7 +15,8 @@ class LiquidityAddInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final localizations = AppLocalizations.of(context)!;
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
         currentStep: liquidityAdd.currentStep,
@@ -24,10 +25,10 @@ class LiquidityAddInProgressPopup {
         failure: liquidityAdd.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: AddLiquidityCase().getAEStepLabel(
-          AppLocalizations.of(context)!,
-          liquidityAdd.currentStep,
-        ),
+        steplabel: ref.read(addLiquidityCaseProvider).getAEStepLabel(
+              localizations,
+              liquidityAdd.currentStep,
+            ),
       ),
       aedappfm.InProgressInfosBanner(
         isProcessInProgress: liquidityAdd.isProcessInProgress,
@@ -64,16 +65,16 @@ class LiquidityAddInProgressPopup {
           onPressed: () async {
             ref
                 .read(
-                  LiquidityAddFormProvider.liquidityAddForm.notifier,
+                  liquidityAddFormNotifierProvider.notifier,
                 )
                 .setResumeProcess(true);
 
             if (!context.mounted) return;
             await ref
                 .read(
-                  LiquidityAddFormProvider.liquidityAddForm.notifier,
+                  liquidityAddFormNotifierProvider.notifier,
                 )
-                .add(context, ref);
+                .add(context);
           },
           failure: liquidityAdd.failure,
         ),
@@ -84,7 +85,7 @@ class LiquidityAddInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
 
     return aedappfm.PopupCloseButton(
       warningCloseWarning: liquidityAdd.isProcessInProgress,
@@ -93,7 +94,7 @@ class LiquidityAddInProgressPopup {
           : '',
       warningCloseFunction: () {
         ref.invalidate(
-          LiquidityAddFormProvider.liquidityAddForm,
+          liquidityAddFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
@@ -101,7 +102,7 @@ class LiquidityAddInProgressPopup {
       },
       closeFunction: () {
         ref.invalidate(
-          LiquidityAddFormProvider.liquidityAddForm,
+          liquidityAddFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();

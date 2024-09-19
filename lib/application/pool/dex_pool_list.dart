@@ -1,25 +1,32 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 part of 'dex_pool.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<DexPool>> _getPoolList(
   _GetPoolListRef ref,
 ) async {
-  final dexConf =
-      await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
-  final apiService = aedappfm.sl.get<ApiService>();
+  final environment = ref.watch(environmentProvider);
+  final aeETHUCOPoolAddress = environment.aeETHUCOPoolAddress;
+
+  final dexConf = await ref.watch(DexConfigProviders.dexConfig.future);
   final dexPools = <DexPool>[];
 
-  await ref.read(sessionNotifierProvider.notifier).refreshUserBalance();
+  final tokenVerifiedList = await ref.watch(
+    aedappfm.VerifiedTokensProviders.verifiedTokensByNetwork(
+      environment,
+    ).future,
+  );
 
-  final tokenVerifiedList = ref
-      .read(aedappfm.VerifiedTokensProviders.verifiedTokens)
-      .verifiedTokensList;
-
-  final resultPoolList = await RouterFactory(
-    dexConf.routerGenesisAddress,
-    apiService,
-  ).getPoolList(tokenVerifiedList);
+  final resultPoolList = await ref
+      .watch(
+        routerFactoryProvider(
+          dexConf.routerGenesisAddress,
+        ),
+      )
+      .getPoolList(
+        environment,
+        tokenVerifiedList,
+      );
 
   await resultPoolList.map(
     success: (poolList) async {
@@ -29,11 +36,6 @@ Future<List<DexPool>> _getPoolList(
     },
     failure: (failure) {},
   );
-
-  final aeETHUCOPoolAddress =
-      (ref.read(sessionNotifierProvider).value ?? const Session())
-              .aeETHUCOPoolAddress ??
-          '';
 
   dexPools.sort((a, b) {
     if (a.poolAddress.toUpperCase() == aeETHUCOPoolAddress.toUpperCase()) {

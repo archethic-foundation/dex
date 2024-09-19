@@ -1,11 +1,9 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_textfield_amount.dart';
 import 'package:aedex/ui/views/farm_list/layouts/farm_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -20,7 +18,7 @@ class FarmDepositFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
+    final farmDeposit = ref.watch(farmDepositFormNotifierProvider);
     if (farmDeposit.dexFarmInfo == null) {
       return const Padding(
         padding: EdgeInsets.only(top: 80, bottom: 80),
@@ -102,18 +100,15 @@ class FarmDepositFormSheet extends ConsumerWidget {
                                   .btn_farm_deposit,
                               onPressed: () => ref
                                   .read(
-                                    FarmDepositFormProvider
-                                        .farmDepositForm.notifier,
+                                    farmDepositFormNotifierProvider.notifier,
                                   )
                                   .validateForm(context),
-                              isConnected:
-                                  (ref.watch(sessionNotifierProvider).value ??
-                                          const Session())
-                                      .isConnected,
+                              isConnected: ref
+                                  .watch(sessionNotifierProvider)
+                                  .isConnected,
                               displayWalletConnectOnPressed: () async {
                                 final session =
-                                    ref.read(sessionNotifierProvider).value ??
-                                        const Session();
+                                    ref.read(sessionNotifierProvider);
 
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;

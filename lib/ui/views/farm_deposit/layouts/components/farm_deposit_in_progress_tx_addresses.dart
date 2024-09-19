@@ -11,7 +11,7 @@ class FarmDepositInProgressTxAddresses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
+    final farmDeposit = ref.watch(farmDepositFormNotifierProvider);
     if (farmDeposit.farmDepositOk == false) {
       return const SizedBox.shrink();
     }

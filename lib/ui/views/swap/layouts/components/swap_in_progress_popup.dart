@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/domain/usecases/swap.usecase.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_final_amount.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_tx_addresses.dart';
@@ -15,7 +15,8 @@ class SwapInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final localizations = AppLocalizations.of(context)!;
+    final swap = ref.watch(swapFormNotifierProvider);
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
         currentStep: swap.currentStep,
@@ -24,10 +25,10 @@ class SwapInProgressPopup {
         failure: swap.failure,
       ),
       aedappfm.InProgressCurrentStep(
-        steplabel: SwapCase().getAEStepLabel(
-          AppLocalizations.of(context)!,
-          swap.currentStep,
-        ),
+        steplabel: ref.read(swapCaseProvider).getAEStepLabel(
+              localizations,
+              swap.currentStep,
+            ),
       ),
       aedappfm.InProgressInfosBanner(
         isProcessInProgress: swap.isProcessInProgress,
@@ -37,10 +38,9 @@ class SwapInProgressPopup {
           context: context,
           failure: swap.failure,
         ).getMessage(),
-        inProgressTxt: AppLocalizations.of(context)!.swapProcessInProgress,
-        walletConfirmationTxt:
-            AppLocalizations.of(context)!.swapInProgressConfirmAEWallet,
-        successTxt: AppLocalizations.of(context)!.swapSuccessInfo,
+        inProgressTxt: localizations.swapProcessInProgress,
+        walletConfirmationTxt: localizations.swapInProgressConfirmAEWallet,
+        successTxt: localizations.swapSuccessInfo,
       ),
       const SwapInProgressTxAddresses(),
       if (swap.recoveryTransactionSwap != null &&
@@ -57,16 +57,16 @@ class SwapInProgressPopup {
           onPressed: () async {
             ref
                 .read(
-                  SwapFormProvider.swapForm.notifier,
+                  swapFormNotifierProvider.notifier,
                 )
                 .setResumeProcess(true);
 
             if (!context.mounted) return;
             await ref
                 .read(
-                  SwapFormProvider.swapForm.notifier,
+                  swapFormNotifierProvider.notifier,
                 )
-                .swap(context, ref);
+                .swap(context);
           },
           failure: swap.failure,
         ),
@@ -77,7 +77,7 @@ class SwapInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
     return aedappfm.PopupCloseButton(
       warningCloseWarning: swap.isProcessInProgress,
       warningCloseLabel: swap.isProcessInProgress == true
@@ -86,12 +86,12 @@ class SwapInProgressPopup {
       warningCloseFunction: () async {
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        await ref.read(SwapFormProvider.swapForm.notifier).returnToSwapForm();
+        await ref.read(swapFormNotifierProvider.notifier).returnToSwapForm();
       },
       closeFunction: () async {
         if (!context.mounted) return;
         Navigator.of(context).pop();
-        await ref.read(SwapFormProvider.swapForm.notifier).returnToSwapForm();
+        await ref.read(swapFormNotifierProvider.notifier).returnToSwapForm();
       },
     );
   }

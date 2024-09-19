@@ -1,11 +1,9 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/application/session/state.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -21,8 +19,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final liquidityRemove =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final liquidityRemove = ref.watch(liquidityRemoveFormNotifierProvider);
 
     return Expanded(
       child: Column(
@@ -108,18 +105,16 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                                     .btn_liquidity_remove,
                                 onPressed: () => ref
                                     .read(
-                                      LiquidityRemoveFormProvider
-                                          .liquidityRemoveForm.notifier,
+                                      liquidityRemoveFormNotifierProvider
+                                          .notifier,
                                     )
                                     .validateForm(context),
-                                isConnected:
-                                    (ref.watch(sessionNotifierProvider).value ??
-                                            const Session())
-                                        .isConnected,
+                                isConnected: ref
+                                    .watch(sessionNotifierProvider)
+                                    .isConnected,
                                 displayWalletConnectOnPressed: () async {
                                   final session =
-                                      ref.read(sessionNotifierProvider).value ??
-                                          const Session();
+                                      ref.read(sessionNotifierProvider);
                                   if (session.error.isNotEmpty) {
                                     if (!context.mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(

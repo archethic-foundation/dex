@@ -24,8 +24,7 @@ class FarmLockWithdrawConfirmSheetState
   bool consentChecked = false;
   @override
   Widget build(BuildContext context) {
-    final farmLockWithdraw =
-        ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
+    final farmLockWithdraw = ref.watch(farmLockWithdrawFormNotifierProvider);
 
     return Expanded(
       child: Column(
@@ -36,7 +35,7 @@ class FarmLockWithdrawConfirmSheetState
             onPressed: () {
               ref
                   .read(
-                    FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier,
+                    farmLockWithdrawFormNotifierProvider.notifier,
                   )
                   .setFarmLockWithdrawProcessStep(
                     aedappfm.ProcessStep.form,
@@ -72,9 +71,9 @@ class FarmLockWithdrawConfirmSheetState
                 !consentChecked && farmLockWithdraw.consentDateTime == null,
             onPressed: () async {
               final farmLockWithdrawNotifier = ref.read(
-                FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier,
+                farmLockWithdrawFormNotifierProvider.notifier,
               );
-              unawaited(farmLockWithdrawNotifier.withdraw(context, ref));
+              unawaited(farmLockWithdrawNotifier.withdraw(context));
               await FarmLockWithdrawInProgressPopup.getDialog(
                 context,
                 ref,

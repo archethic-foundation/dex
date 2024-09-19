@@ -2,7 +2,6 @@ import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -32,8 +31,7 @@ class _FarmLockDepositToken1AmountState
   }
 
   void _updateAmountTextController() {
-    final farmLockDeposit =
-        ref.read(FarmLockDepositFormProvider.farmLockDepositForm);
+    final farmLockDeposit = ref.read(farmLockDepositFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value = aedappfm.AmountTextInputFormatter(
       precision: 8,
@@ -63,10 +61,9 @@ class _FarmLockDepositToken1AmountState
     BuildContext context,
   ) {
     final farmLockDepositNotifier =
-        ref.watch(FarmLockDepositFormProvider.farmLockDepositForm.notifier);
+        ref.watch(farmLockDepositFormNotifierProvider.notifier);
 
-    final farmLockDeposit =
-        ref.watch(FarmLockDepositFormProvider.farmLockDepositForm);
+    final farmLockDeposit = ref.watch(farmLockDepositFormNotifierProvider);
     final textNum = double.tryParse(tokenAmountController.text);
     if (!(farmLockDeposit.amount != 0.0 ||
         tokenAmountController.text == '' ||
@@ -181,12 +178,13 @@ class _FarmLockDepositToken1AmountState
                   width: 5,
                 ),
                 SelectableText(
-                  DEXLPTokenFiatValue().display(
-                    ref,
-                    farmLockDeposit.pool!.pair.token1,
-                    farmLockDeposit.pool!.pair.token2,
-                    farmLockDeposit.lpTokenBalance,
-                    farmLockDeposit.pool!.poolAddress,
+                  ref.watch(
+                    dexLPTokenFiatValueProvider(
+                      farmLockDeposit.pool!.pair.token1,
+                      farmLockDeposit.pool!.pair.token2,
+                      farmLockDeposit.lpTokenBalance,
+                      farmLockDeposit.pool!.poolAddress,
+                    ),
                   ),
                   style: AppTextStyles.bodyLarge(context),
                 ),
@@ -202,8 +200,7 @@ class _FarmLockDepositToken1AmountState
                   onTap: () {
                     ref
                         .read(
-                          FarmLockDepositFormProvider
-                              .farmLockDepositForm.notifier,
+                          farmLockDepositFormNotifierProvider.notifier,
                         )
                         .setAmountHalf();
                     _updateAmountTextController();
@@ -217,8 +214,7 @@ class _FarmLockDepositToken1AmountState
                   onTap: () {
                     ref
                         .read(
-                          FarmLockDepositFormProvider
-                              .farmLockDepositForm.notifier,
+                          farmLockDepositFormNotifierProvider.notifier,
                         )
                         .setAmountMax();
                     _updateAmountTextController();

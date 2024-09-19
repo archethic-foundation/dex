@@ -1,12 +1,14 @@
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_token.dart';
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/farm/dex_farm_lock.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/session/state.dart';
+import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,7 +23,7 @@ Map<String, bool> sortAscending = {
   'apr': true,
 };
 
-@riverpod
+@Riverpod(keepAlive: true)
 class FarmLockFormNotifier extends _$FarmLockFormNotifier {
   FarmLockFormNotifier();
 
@@ -29,21 +31,53 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
 
   @override
   Future<FarmLockFormState> build() async {
+    final isConnected = ref.watch(
+      sessionNotifierProvider.select((session) => session.isConnected),
+    );
+    final environment = ref.watch(environmentProvider);
+
+    final pool = await ref.watch(
+      DexPoolProviders.getPool(
+        environment.aeETHUCOPoolAddress,
+      ).future,
+    );
+
+    final farm = await ref.watch(
+      DexFarmProviders.getFarmInfos(
+        environment.aeETHUCOFarmLegacyAddress,
+        environment.aeETHUCOPoolAddress,
+        dexFarmInput: DexFarm(
+          poolAddress: environment.aeETHUCOPoolAddress,
+          farmAddress: environment.aeETHUCOFarmLegacyAddress,
+        ),
+      ).future,
+    );
+
+    final farmLock = await ref.read(
+      DexFarmLockProviders.getFarmLockInfos(
+        environment.aeETHUCOFarmLockAddress,
+        environment.aeETHUCOPoolAddress,
+        dexFarmLockInput: DexFarmLock(
+          poolAddress: environment.aeETHUCOPoolAddress,
+          farmAddress: environment.aeETHUCOFarmLockAddress,
+        ),
+      ).future,
+    );
+
     var _tempState = const FarmLockFormState();
     try {
+      // TODO(Chralu): [mainInfoloadingInProgress] is useless : provider state alredy indicates if it is loading.
       _tempState = _tempState.copyWith(mainInfoloadingInProgress: true);
 
-      final session = await ref.read(sessionNotifierProvider.future);
-
       _tempState = _tempState.copyWith(
-        pool: session.aeETHUCOPool,
-        farm: session.aeETHUCOFarm,
-        farmLock: session.aeETHUCOFarmLock,
+        pool: pool,
+        farm: farm,
+        farmLock: farmLock,
       );
 
-      if (session.aeETHUCOFarmLock != null) {
-        _tempState = await _calculateSummary(_tempState);
-        _tempState = await _initBalances(_tempState);
+      if (farmLock != null) {
+        _tempState = await _calculateSummary(_tempState, isConnected);
+        _tempState = await _initBalances(_tempState, isConnected);
       }
       return _tempState.copyWith(mainInfoloadingInProgress: false);
     } catch (e) {
@@ -56,14 +90,14 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
 
   Future<FarmLockFormState> _calculateSummary(
     FarmLockFormState state,
+    bool isConnected,
   ) async {
     var capitalInvested = 0.0;
     var rewardsEarned = 0.0;
     var farmedTokensCapitalInFiat = 0.0;
     var price = 0.0;
 
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
-    if (session.isConnected == false) {
+    if (isConnected == false) {
       return state.copyWith(
         farmedTokensCapital: 0,
         farmedTokensRewards: 0,
@@ -108,10 +142,11 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
     );
   }
 
-  Future<FarmLockFormState> _initBalances(FarmLockFormState state) async {
-    final session = ref.read(sessionNotifierProvider).value ?? const Session();
-    final apiService = aedappfm.sl.get<ApiService>();
-    if (session.isConnected == false) {
+  Future<FarmLockFormState> _initBalances(
+    FarmLockFormState state,
+    bool isConnected,
+  ) async {
+    if (isConnected == false) {
       return state.copyWith(
         token1Balance: 0,
         token2Balance: 0,
@@ -119,31 +154,25 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
       );
     }
 
-    final token1BalanceFuture = ref.read(
+    final token1BalanceFuture = ref.watch(
       getBalanceProvider(
-        session.genesisAddress,
         state.pool!.pair.token1.isUCO
             ? 'UCO'
             : state.pool!.pair.token1.address!,
-        apiService,
       ).future,
     );
 
-    final token2BalanceFuture = ref.read(
+    final token2BalanceFuture = ref.watch(
       getBalanceProvider(
-        session.genesisAddress,
         state.pool!.pair.token2.isUCO
             ? 'UCO'
             : state.pool!.pair.token2.address!,
-        apiService,
       ).future,
     );
 
-    final lpTokenBalanceFuture = ref.read(
+    final lpTokenBalanceFuture = ref.watch(
       getBalanceProvider(
-        session.genesisAddress,
         state.pool!.lpToken.address!,
-        apiService,
       ).future,
     );
 

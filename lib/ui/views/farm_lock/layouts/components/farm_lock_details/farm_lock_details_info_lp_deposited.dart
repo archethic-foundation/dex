@@ -1,9 +1,9 @@
+import 'package:aedex/application/api_service.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +21,7 @@ class FarmLockDetailsInfoLPDeposited extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final apiService = ref.watch(apiServiceProvider);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +47,7 @@ class FarmLockDetailsInfoLPDeposited extends ConsumerWidget {
               FutureBuilder<Map<String, dynamic>?>(
                 future: PoolFactoryRepositoryImpl(
                   farmLock.poolAddress,
-                  aedappfm.sl.get<ApiService>(),
+                  apiService,
                 ).getRemoveAmounts(
                   farmLock.lpTokensDeposited,
                 ),

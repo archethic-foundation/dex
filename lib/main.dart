@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:aedex/application/session/provider.dart';
+
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/util/service_locator.dart';
@@ -16,9 +16,6 @@ Future<void> main() async {
   GoRouter.optionURLReflectsImperativeAPIs = true;
   await DBHelper.setupDatabase();
   await setupServiceLocator();
-  await setupServiceLocatorApiService(
-    aedappfm.EndpointUtil.getEnvironnementUrl('mainnet'),
-  );
 
   setPathUrlStrategy();
   runApp(
@@ -53,16 +50,7 @@ class MyAppState extends ConsumerState<MyApp> {
           )
           .startSubscription(),
     );
-    // Faire un futur provider. Donc pas besoin du init
-    unawaited(
-      ref
-          .read(
-            aedappfm.VerifiedTokensProviders.verifiedTokens.notifier,
-          )
-          .init('mainnet'),
-    );
 
-    ref.read(sessionNotifierProvider);
     super.initState();
   }
 

@@ -19,7 +19,7 @@ class SwapInfos extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
 
     if (swap.tokenToSwap == null ||
         swap.tokenSwapped == null ||

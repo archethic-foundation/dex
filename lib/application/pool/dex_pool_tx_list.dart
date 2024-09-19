@@ -10,7 +10,14 @@ Future<List<DexPoolTx>> _getPoolTxList(
   const kProtocolFeeAddress =
       '0000CC1FADBD31B043947C016E09CCD59BC3C81E55AB8A4932A046236D5E0FEE9E45';
 
-  final apiService = aedappfm.sl.get<ApiService>();
+  final fiatValueToken1 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token1).future,
+  );
+  final fiatValueToken2 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token2).future,
+  );
+
+  final apiService = ref.watch(apiServiceProvider);
   final dexPoolTxList = <DexPoolTx>[];
   final transactionChainResult = await apiService.getTransactionChain(
     {pool.poolAddress: lastTransactionAddress},
@@ -18,11 +25,6 @@ Future<List<DexPoolTx>> _getPoolTxList(
     request:
         ' address, validationStamp {timestamp ledgerOperations { transactionMovements { amount to tokenAddress type } consumedInputs { from, type } } }',
   );
-
-  final fiatValueToken1 = await ref
-      .read(DexTokensProviders.estimateTokenInFiat(pool.pair.token1).future);
-  final fiatValueToken2 = await ref
-      .read(DexTokensProviders.estimateTokenInFiat(pool.pair.token2).future);
 
   final transactionsMap = <String, Transaction>{};
   if (transactionChainResult[pool.poolAddress] != null) {

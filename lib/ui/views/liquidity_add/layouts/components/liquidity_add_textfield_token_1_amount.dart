@@ -30,7 +30,7 @@ class _LiquidityAddToken1AmountState
   }
 
   void _updateAmountTextController() {
-    final liquidityAdd = ref.read(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.read(liquidityAddFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value = aedappfm.AmountTextInputFormatter(
       precision: 8,
@@ -59,9 +59,9 @@ class _LiquidityAddToken1AmountState
     BuildContext context,
   ) {
     final liquidityAddNotifier =
-        ref.watch(LiquidityAddFormProvider.liquidityAddForm.notifier);
+        ref.watch(liquidityAddFormNotifierProvider.notifier);
 
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
 
     if (liquidityAdd.tokenFormSelected != 1) {
       _updateAmountTextController();

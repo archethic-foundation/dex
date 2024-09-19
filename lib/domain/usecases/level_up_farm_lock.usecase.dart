@@ -12,17 +12,26 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'LevelUpFarmLockCase';
 
 class LevelUpFarmLockCase with aedappfm.TransactionMixin {
+  LevelUpFarmLockCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.farmLevelUpNotifier,
+    required this.verifiedTokensRepository,
+  });
+
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final FarmLockLevelUpFormNotifier farmLevelUpNotifier;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
     AppLocalizations localizations,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -34,12 +43,12 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionLevelUp,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmLevelUpNotifier =
-        ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionLevelUp;
     if (recoveryTransactionLevelUp != null) {
@@ -121,7 +130,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionLevelUp!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmLevelUpNotifier
@@ -141,6 +150,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
 
       await aedappfm.PeriodicFuture.periodic<bool>(
         () => isSCCallExecuted(
+          apiService,
           farmAddress,
           transactionLevelUp!.address!.address!,
         ),
