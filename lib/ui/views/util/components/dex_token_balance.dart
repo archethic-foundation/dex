@@ -73,9 +73,13 @@ class DexTokenBalance extends ConsumerWidget {
                     opacity: opacity,
                     child: SelectableText(
                       '${tokenBalance.formatNumber(precision: digits)} ${getSymbolDisplay(context, token!, tokenBalance)}',
-                      style: styleResponsive
-                          ? AppTextStyles.bodyLarge(context)
-                          : Theme.of(context).textTheme.bodyLarge!,
+                      style: fiatTextStyleMedium
+                          ? styleResponsive
+                              ? AppTextStyles.bodyMedium(context)
+                              : Theme.of(context).textTheme.bodyMedium!
+                          : styleResponsive
+                              ? AppTextStyles.bodyLarge(context)
+                              : Theme.of(context).textTheme.bodyLarge!,
                     ),
                   ),
                 ],
