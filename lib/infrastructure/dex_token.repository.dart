@@ -167,26 +167,19 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
   }
 
   @override
-  Future<String?> getTokenIcon(String address) async {
+  Future<List<DexTokenDescription>> getLocalTokensDescriptions() async {
     final jsonContent = await rootBundle
         .loadString('lib/domain/repositories/common_bases.json');
 
     final jsonData = jsonDecode(jsonContent);
 
     final environment = aedappfm.Environment.byEndpoint(apiService.endpoint);
-    try {
-      final tokens = jsonData['tokens'][environment.name] as List<dynamic>;
-      String? tokenIcon;
-      for (final token in tokens) {
-        if (token['address'].toString().toUpperCase() ==
-            address.toUpperCase()) {
-          tokenIcon = token['icon'];
-          break;
-        }
-      }
-      return tokenIcon;
-    } catch (e) {
-      return null;
-    }
+    final jsonTokens = jsonData['tokens'][environment.name] as List<dynamic>;
+    return jsonTokens
+        .map(
+          (jsonToken) =>
+              DexTokenDescription.fromJson(jsonToken as Map<String, dynamic>),
+        )
+        .toList();
   }
 }

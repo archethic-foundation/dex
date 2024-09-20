@@ -9,5 +9,5 @@ abstract class DexTokenRepository {
     String accountAddress,
   );
 
-  Future<String?> getTokenIcon(String address);
+  Future<List<DexTokenDescription>> getLocalTokensDescriptions();
 }

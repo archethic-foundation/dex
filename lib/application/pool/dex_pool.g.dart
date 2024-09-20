@@ -188,7 +188,7 @@ class _GetRatioProviderElement extends FutureProviderElement<double>
 }
 
 String _$estimatePoolTVLInFiatHash() =>
-    r'c7aa475e9e354a0c083618ed950616a67a278004';
+    r'6cf48ebb9991e89a2cc3491bd3dddbfc8188ae89';
 
 /// See also [_estimatePoolTVLInFiat].
 @ProviderFor(_estimatePoolTVLInFiat)

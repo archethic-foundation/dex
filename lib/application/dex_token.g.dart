@@ -308,7 +308,159 @@ class _GetTokenFromAccountProviderElement
       (origin as _GetTokenFromAccountProvider).accountAddress;
 }
 
-String _$getTokenIconHash() => r'5b7dcd4fcb5c79850acf7124bcefa0a86733e921';
+String _$dexTokenDescriptionsHash() =>
+    r'b120b6d2c566c6d43bae4e8b4fb71acb6f3c6412';
+
+/// See also [_dexTokenDescriptions].
+@ProviderFor(_dexTokenDescriptions)
+final _dexTokenDescriptionsProvider =
+    AutoDisposeFutureProvider<List<DexTokenDescription>>.internal(
+  _dexTokenDescriptions,
+  name: r'_dexTokenDescriptionsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$dexTokenDescriptionsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _DexTokenDescriptionsRef
+    = AutoDisposeFutureProviderRef<List<DexTokenDescription>>;
+String _$dexTokenDescriptionHash() =>
+    r'0dae4932f1e2a73a5ffe6ab0ba808b45708e7ef8';
+
+/// See also [_dexTokenDescription].
+@ProviderFor(_dexTokenDescription)
+const _dexTokenDescriptionProvider = _DexTokenDescriptionFamily();
+
+/// See also [_dexTokenDescription].
+class _DexTokenDescriptionFamily
+    extends Family<AsyncValue<DexTokenDescription?>> {
+  /// See also [_dexTokenDescription].
+  const _DexTokenDescriptionFamily();
+
+  /// See also [_dexTokenDescription].
+  _DexTokenDescriptionProvider call(
+    String address,
+  ) {
+    return _DexTokenDescriptionProvider(
+      address,
+    );
+  }
+
+  @override
+  _DexTokenDescriptionProvider getProviderOverride(
+    covariant _DexTokenDescriptionProvider provider,
+  ) {
+    return call(
+      provider.address,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_dexTokenDescriptionProvider';
+}
+
+/// See also [_dexTokenDescription].
+class _DexTokenDescriptionProvider
+    extends AutoDisposeFutureProvider<DexTokenDescription?> {
+  /// See also [_dexTokenDescription].
+  _DexTokenDescriptionProvider(
+    String address,
+  ) : this._internal(
+          (ref) => _dexTokenDescription(
+            ref as _DexTokenDescriptionRef,
+            address,
+          ),
+          from: _dexTokenDescriptionProvider,
+          name: r'_dexTokenDescriptionProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$dexTokenDescriptionHash,
+          dependencies: _DexTokenDescriptionFamily._dependencies,
+          allTransitiveDependencies:
+              _DexTokenDescriptionFamily._allTransitiveDependencies,
+          address: address,
+        );
+
+  _DexTokenDescriptionProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.address,
+  }) : super.internal();
+
+  final String address;
+
+  @override
+  Override overrideWith(
+    FutureOr<DexTokenDescription?> Function(_DexTokenDescriptionRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _DexTokenDescriptionProvider._internal(
+        (ref) => create(ref as _DexTokenDescriptionRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        address: address,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<DexTokenDescription?> createElement() {
+    return _DexTokenDescriptionProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _DexTokenDescriptionProvider && other.address == address;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, address.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _DexTokenDescriptionRef
+    on AutoDisposeFutureProviderRef<DexTokenDescription?> {
+  /// The parameter `address` of this provider.
+  String get address;
+}
+
+class _DexTokenDescriptionProviderElement
+    extends AutoDisposeFutureProviderElement<DexTokenDescription?>
+    with _DexTokenDescriptionRef {
+  _DexTokenDescriptionProviderElement(super.provider);
+
+  @override
+  String get address => (origin as _DexTokenDescriptionProvider).address;
+}
+
+String _$getTokenIconHash() => r'f855dac1325cbc3b54cb4e8f5d3fef0c9311847d';
 
 /// See also [_getTokenIcon].
 @ProviderFor(_getTokenIcon)

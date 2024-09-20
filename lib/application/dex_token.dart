@@ -5,6 +5,7 @@ import 'package:aedex/infrastructure/dex_token.repository.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_token.g.dart';
@@ -32,11 +33,33 @@ Future<List<DexToken>> _getTokenFromAccount(
 }
 
 @riverpod
+Future<List<DexTokenDescription>> _dexTokenDescriptions(
+  _DexTokenDescriptionsRef ref,
+) async {
+  final repository = ref.watch(_dexTokenRepositoryProvider);
+  return repository.getLocalTokensDescriptions();
+}
+
+@riverpod
+Future<DexTokenDescription?> _dexTokenDescription(
+  _DexTokenDescriptionRef ref,
+  String address,
+) async {
+  final dexTokens = await ref.watch(_dexTokenDescriptionsProvider.future);
+  return dexTokens.firstWhereOrNull(
+    (token) => token.address.toUpperCase() == address.toUpperCase(),
+  );
+}
+
+@riverpod
 Future<String?> _getTokenIcon(
   _GetTokenIconRef ref,
   address,
 ) async {
-  return ref.watch(_dexTokenRepositoryProvider).getTokenIcon(address);
+  final tokenDescription =
+      await ref.watch(_dexTokenDescriptionProvider(address).future);
+
+  return tokenDescription?.icon;
 }
 
 @Riverpod(keepAlive: true)
@@ -116,6 +139,8 @@ Future<double> _estimateLPTokenInFiat(
 }
 
 abstract class DexTokensProviders {
+  static final tokensDescriptions = _dexTokenDescriptionsProvider;
+  static const tokenDescription = _dexTokenDescriptionProvider;
   static const getTokenFromAddress = _getTokenFromAddressProvider;
   static const getTokenFromAccount = _getTokenFromAccountProvider;
   static const getTokenIcon = _getTokenIconProvider;

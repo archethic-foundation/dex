@@ -6,6 +6,24 @@ part of 'dex_token.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$DexTokenDescriptionImpl _$$DexTokenDescriptionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DexTokenDescriptionImpl(
+      name: json['name'] as String,
+      address: json['address'] as String,
+      symbol: json['symbol'] as String,
+      icon: json['icon'] as String,
+    );
+
+Map<String, dynamic> _$$DexTokenDescriptionImplToJson(
+        _$DexTokenDescriptionImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'address': instance.address,
+      'symbol': instance.symbol,
+      'icon': instance.icon,
+    };
+
 _$DexTokenImpl _$$DexTokenImplFromJson(Map<String, dynamic> json) =>
     _$DexTokenImpl(
       name: json['name'] as String? ?? '',

@@ -6,6 +6,29 @@ part 'dex_token.freezed.dart';
 part 'dex_token.g.dart';
 
 @freezed
+class DexTokenDescription with _$DexTokenDescription {
+  const factory DexTokenDescription({
+    required String name,
+    required String address,
+    required String symbol,
+    required String icon,
+  }) = _DexTokenDescription;
+  const DexTokenDescription._();
+
+  factory DexTokenDescription.fromJson(Map<String, dynamic> json) =>
+      _$DexTokenDescriptionFromJson(json);
+
+  bool get isUCO => symbol == 'UCO' && (address == 'UCO');
+
+  DexToken get toToken => DexToken(
+        name: name,
+        address: address,
+        symbol: symbol,
+        icon: icon,
+      );
+}
+
+@freezed
 class DexToken with _$DexToken {
   const factory DexToken({
     @Default('') String name,
