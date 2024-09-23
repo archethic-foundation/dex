@@ -32,9 +32,14 @@ class TokenSelectionCommonBases extends ConsumerWidget {
         ),
         Wrap(
           spacing: 10,
-          children: tokens.map((token) {
-            return _TokenSelector(token: token);
-          }).toList(),
+          children: tokens
+              .map(
+                (token) => _TokenSelector(
+                  key: ValueKey(token.address),
+                  token: token,
+                ),
+              )
+              .toList(),
         ),
       ],
     );

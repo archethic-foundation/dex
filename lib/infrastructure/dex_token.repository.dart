@@ -25,7 +25,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
     DexToken? token;
     final tokensListDatasource = await HiveTokensListDatasource.getInstance();
     final tokenHive = tokensListDatasource.getToken(
-      environment.name,
+      environment,
       address,
     );
     if (tokenHive == null) {
@@ -37,7 +37,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
         token = tokenSDKToModel(tokenMap[address]!, 0);
         token = token.copyWith(address: address);
         await tokensListDatasource.setToken(
-          environment.name,
+          environment,
           token.toHive(),
         );
       }

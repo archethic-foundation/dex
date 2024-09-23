@@ -13,6 +13,7 @@ import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router_factory.g.dart';
@@ -81,7 +82,10 @@ class RouterFactory with ModelParser {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final results = await apiService.callSCFunction(
+        final localTokensDatasource =
+            await HiveTokensListDatasource.getInstance();
+
+        final getPooListResponseRaw = await apiService.callSCFunction(
           jsonRPCRequest: SCCallFunctionRequest(
             method: 'contract_fun',
             params: SCCallFunctionParams(
@@ -92,69 +96,51 @@ class RouterFactory with ModelParser {
           ),
           resultMap: true,
         ) as List<dynamic>;
+        final getPoolListResponse =
+            getPooListResponseRaw.map<GetPoolListResponse>((getPoolResponse) {
+          return GetPoolListResponse.fromJson(getPoolResponse);
+        });
 
-        final poolList = <DexPool>[];
+        final tokensMissingFromCache = getPoolListResponse
+            .expand((poolListResponse) => poolListResponse.tokens)
+            .whereNot((tokenAddress) => tokenAddress == 'UCO')
+            .whereNot(
+              (tokenAddress) => localTokensDatasource.containsToken(
+                environment,
+                tokenAddress,
+              ),
+            )
+            .toSet()
+            .toList();
 
-        final tokensListDatasource =
-            await HiveTokensListDatasource.getInstance();
-        final tokensAddresses = <String>[];
-        for (final result in results) {
-          final getPoolListResponse = GetPoolListResponse.fromJson(result);
-          final tokens = getPoolListResponse.tokens.split('/');
-          if (tokens[0] != 'UCO') {
-            if (tokensListDatasource.getToken(
-                  environment.endpoint,
-                  tokens[0],
-                ) ==
-                null) {
-              tokensAddresses.add(tokens[0]);
-            }
-          }
-          if (tokens[1] != 'UCO') {
-            if (tokensListDatasource.getToken(
-                  environment.endpoint,
-                  tokens[1],
-                ) ==
-                null) {
-              tokensAddresses.add(tokens[1]);
-            }
-          }
-          if (tokensListDatasource.getToken(
-                environment.endpoint,
-                getPoolListResponse.lpTokenAddress,
-              ) ==
-              null) {
-            tokensAddresses.add(getPoolListResponse.lpTokenAddress);
-          }
-        }
-        final tokenResultMap = await apiService.getToken(
-          tokensAddresses.toSet().toList(),
+        final tokensFromBlockchain = await apiService.getToken(
+          tokensMissingFromCache,
           request: 'name, symbol',
         );
-
-        for (final entry in tokenResultMap.entries) {
-          final address = entry.key.toUpperCase();
-          var tokenResult = tokenSDKToModel(entry.value, 0);
-          tokenResult = tokenResult.copyWith(address: address);
-          await tokensListDatasource.setToken(
-            environment.endpoint,
+        for (final tokenFromBlockchain in tokensFromBlockchain.entries) {
+          final address = tokenFromBlockchain.key.toUpperCase();
+          final tokenResult = tokenSDKToModel(
+            tokenFromBlockchain.value,
+            0,
+          ).copyWith(
+            address: address,
+          );
+          await localTokensDatasource.setToken(
+            environment,
             tokenResult.toHive(),
           );
         }
 
-        for (final result in results) {
-          final getPoolListResponse = GetPoolListResponse.fromJson(result);
-          poolList.add(
+        return [
+          for (final pool in getPoolListResponse)
             await poolListItemToModel(
+              localTokensDatasource,
               verifiedTokensRepository,
               environment,
-              getPoolListResponse,
+              pool,
               tokenVerifiedList,
             ),
-          );
-        }
-
-        return poolList;
+        ];
       },
     );
   }

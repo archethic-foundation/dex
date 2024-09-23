@@ -9,7 +9,6 @@ Future<List<DexPool>> _getPoolList(
   final aeETHUCOPoolAddress = environment.aeETHUCOPoolAddress;
 
   final dexConf = await ref.watch(DexConfigProviders.dexConfig.future);
-  final dexPools = <DexPool>[];
 
   final tokenVerifiedList = await ref.watch(
     aedappfm.VerifiedTokensProviders.verifiedTokensByNetwork(
@@ -28,27 +27,19 @@ Future<List<DexPool>> _getPoolList(
         tokenVerifiedList,
       );
 
-  await resultPoolList.map(
-    success: (poolList) async {
-      for (final pool in poolList) {
-        dexPools.add(pool);
+  return resultPoolList.map<List<DexPool>>(
+    success: (pools) => pools,
+    failure: (failure) => [],
+  )..sort((a, b) {
+      if (a.poolAddress.toUpperCase() == aeETHUCOPoolAddress.toUpperCase()) {
+        return -1;
+      } else if (b.poolAddress.toUpperCase() ==
+          aeETHUCOPoolAddress.toUpperCase()) {
+        return 1;
+      } else {
+        return 0;
       }
-    },
-    failure: (failure) {},
-  );
-
-  dexPools.sort((a, b) {
-    if (a.poolAddress.toUpperCase() == aeETHUCOPoolAddress.toUpperCase()) {
-      return -1;
-    } else if (b.poolAddress.toUpperCase() ==
-        aeETHUCOPoolAddress.toUpperCase()) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
-
-  return dexPools;
+    });
 }
 
 @riverpod

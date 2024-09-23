@@ -19,7 +19,6 @@ import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 
 mixin ModelParser {
@@ -92,109 +91,91 @@ mixin ModelParser {
     );
   }
 
+  Future<DexToken> _hiveTokenToModel({
+    required aedappfm.Environment environment,
+    required aedappfm.VerifiedTokensRepositoryInterface
+        verifiedTokensRepository,
+    required List<String> tokenVerifiedList,
+    required String tokenAddress,
+  }) async {
+    if (tokenAddress == 'UCO') {
+      return ucoToken;
+    }
+
+    final tokensListDatasource = await HiveTokensListDatasource.getInstance();
+
+    final hiveToken = tokensListDatasource.getToken(
+      environment,
+      tokenAddress,
+    );
+    if (hiveToken != null) {
+      final tokenVerified = verifiedTokensRepository.isVerifiedToken(
+        hiveToken.address!,
+        tokenVerifiedList,
+      );
+      return DexToken(
+        address: tokenAddress,
+        name: hiveToken.name,
+        symbol: hiveToken.symbol,
+        isVerified: tokenVerified,
+      );
+    }
+
+    // TODO(Chralu): Wrong idea to act as if we had data about that token
+    return DexToken(
+      address: tokenAddress,
+    );
+  }
+
   Future<DexPool> poolListItemToModel(
+    HiveTokensListDatasource localTokensDatasource,
     aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository,
-    Environment environment,
+    aedappfm.Environment environment,
     GetPoolListResponse getPoolListResponse,
     List<String> tokenVerifiedList,
   ) async {
-    final tokens = getPoolListResponse.tokens.split('/');
-    final tokensListDatasource = await HiveTokensListDatasource.getInstance();
+    final tokens = getPoolListResponse.tokens;
 
-    var token1Name = '';
-    var token1Symbol = '';
-    var token1Verified = false;
-    var token2Verified = false;
-    if (tokens[0] == 'UCO') {
-      token1Name = 'Universal Coin';
-      token1Symbol = 'UCO';
-      token1Verified = true;
-    } else {
-      final token1 = tokensListDatasource.getToken(
-        environment.name,
-        tokens[0],
-      );
-      if (token1 != null) {
-        final tokenVerified = await verifiedTokensRepository.isVerifiedToken(
-          token1.address!,
-          tokenVerifiedList,
-        );
-        token1Name = token1.name;
-        token1Symbol = token1.symbol;
-        token1Verified = tokenVerified;
-      }
-    }
+    final token1 = await _hiveTokenToModel(
+      environment: environment,
+      verifiedTokensRepository: verifiedTokensRepository,
+      tokenVerifiedList: tokenVerifiedList,
+      tokenAddress: tokens[0],
+    );
+    final token2 = await _hiveTokenToModel(
+      environment: environment,
+      verifiedTokensRepository: verifiedTokensRepository,
+      tokenVerifiedList: tokenVerifiedList,
+      tokenAddress: tokens[1],
+    );
 
-    var token2Name = '';
-    var token2Symbol = '';
-    if (tokens[1] == 'UCO') {
-      token2Name = 'Universal Coin';
-      token2Symbol = 'UCO';
-      token2Verified = true;
-    } else {
-      final token2 = tokensListDatasource.getToken(
-        environment.name,
-        tokens[1],
-      );
-      if (token2 != null) {
-        final tokenVerified = await verifiedTokensRepository.isVerifiedToken(
-          token2.address!,
-          tokenVerifiedList,
-        );
-        token2Name = token2.name;
-        token2Symbol = token2.symbol;
-        token2Verified = tokenVerified;
-      }
-    }
-
-    var lpTokenName = '';
-    var lpTokenSymbol = '';
-    final lpToken = tokensListDatasource.getToken(
-      environment.name,
+    final hiveLpToken = localTokensDatasource.getToken(
+      environment,
       getPoolListResponse.lpTokenAddress,
     );
-    if (lpToken != null) {
-      lpTokenName = lpToken.name;
-      lpTokenSymbol = lpToken.symbol;
-    }
-
-    final dexPair = DexPair(
-      token1: DexToken(
-        address: tokens[0].toUpperCase(),
-        name: token1Name,
-        symbol: token1Symbol,
-        isVerified: token1Verified,
-      ),
-      token2: DexToken(
-        address: tokens[1].toUpperCase(),
-        name: token2Name,
-        symbol: token2Symbol,
-        isVerified: token2Verified,
-      ),
+    final lpToken = DexToken(
+      address: getPoolListResponse.lpTokenAddress.toUpperCase(),
+      name: hiveLpToken?.name ?? '',
+      symbol: hiveLpToken?.symbol ?? '',
+      isLpToken: true,
     );
 
     // Check if favorite in cache
-    var _isFavorite = false;
     final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-    final isPoolFavorite = poolsListDatasource.getPool(
+    final isPoolFavorite = poolsListDatasource.containsPool(
       environment.name,
       getPoolListResponse.address,
     );
-    if (isPoolFavorite != null) {
-      _isFavorite = isPoolFavorite.isFavorite!;
-    }
 
     return DexPool(
       poolAddress: getPoolListResponse.address,
-      pair: dexPair,
-      lpToken: DexToken(
-        address: getPoolListResponse.lpTokenAddress.toUpperCase(),
-        name: lpTokenName,
-        symbol: lpTokenSymbol,
-        isLpToken: true,
+      pair: DexPair(
+        token1: token1,
+        token2: token2,
       ),
+      lpToken: lpToken,
       lpTokenInUserBalance: false,
-      isFavorite: _isFavorite,
+      isFavorite: isPoolFavorite,
     );
   }
 
