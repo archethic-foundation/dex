@@ -71,6 +71,8 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                 : 0,
           ),
           child: asyncPools.when(
+            skipLoadingOnRefresh: true,
+            skipLoadingOnReload: true,
             loading: () {
               return Stack(
                 alignment: Alignment.centerLeft,

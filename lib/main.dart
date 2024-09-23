@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:aedex/application/dex_token.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/util/service_locator.dart';
@@ -23,9 +25,26 @@ Future<void> main() async {
       observers: [
         aedappfm.ProvidersLogger(),
       ],
-      child: const MyApp(),
+      child: const ProvidersInitialization(child: MyApp()),
     ),
   );
+}
+
+/// Eagerly initializes providers (https://riverpod.dev/docs/essentials/eager_initialization).
+///
+/// Add Watch here for any provider you want to init when app is displayed.
+class ProvidersInitialization extends ConsumerWidget {
+  const ProvidersInitialization({required this.child, super.key});
+
+  final Widget child;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref
+      ..watch(DexPoolProviders.getPoolList)
+      ..watch(DexTokensProviders.tokensCommonBases);
+
+    return child;
+  }
 }
 
 class MyApp extends ConsumerStatefulWidget {
