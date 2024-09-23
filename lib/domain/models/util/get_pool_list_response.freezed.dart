@@ -23,7 +23,8 @@ mixin _$GetPoolListResponse {
   String get address =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'lp_token_address')
-  String get lpTokenAddress => throw _privateConstructorUsedError;
+  String get lpTokenAddress =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'tokens')
   String get concatenatedTokensAddresses => throw _privateConstructorUsedError;
 
@@ -143,6 +144,7 @@ class _$GetPoolListResponseImpl extends _GetPoolListResponse {
   @override
   @JsonKey(name: 'lp_token_address')
   final String lpTokenAddress;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: 'tokens')
   final String concatenatedTokensAddresses;
@@ -203,7 +205,7 @@ abstract class _GetPoolListResponse extends GetPoolListResponse {
   @override // ignore: invalid_annotation_target
   @JsonKey(name: 'lp_token_address')
   String get lpTokenAddress;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: 'tokens')
   String get concatenatedTokensAddresses;
   @override

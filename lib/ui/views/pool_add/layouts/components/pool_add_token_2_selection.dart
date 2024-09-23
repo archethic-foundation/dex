@@ -39,7 +39,7 @@ class PoolAddToken2Selection extends ConsumerWidget {
           if (context.mounted) {
             await ref
                 .read(poolAddFormNotifierProvider.notifier)
-                .setToken2(token.toToken, context);
+                .setToken2(token, context);
           }
         },
         child: Row(

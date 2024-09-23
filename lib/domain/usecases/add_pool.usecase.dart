@@ -8,6 +8,7 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 const logName = 'AddPoolCase';
@@ -17,8 +18,10 @@ class AddPoolCase with aedappfm.TransactionMixin {
     required this.apiService,
     required this.poolAddNotifier,
     required this.verifiedTokensRepository,
+    required this.dappClient,
   });
 
+  final awc.ArchethicDAppClient dappClient;
   final archethic.ApiService apiService;
   final PoolAddFormNotifier poolAddNotifier;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
@@ -126,10 +129,11 @@ class AddPoolCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 3) {
       poolAddNotifier.setCurrentStep(3);
       try {
-        final currentNameAccount = await getCurrentAccount();
+        final currentNameAccount = await getCurrentAccount(dappClient);
         poolAddNotifier.setWalletConfirmation(true);
 
         transactionAddPoolTransfer = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddPoolTransfer!],
@@ -206,10 +210,11 @@ class AddPoolCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 5) {
       poolAddNotifier.setCurrentStep(5);
       try {
-        final currentNameAccount = await getCurrentAccount();
+        final currentNameAccount = await getCurrentAccount(dappClient);
         poolAddNotifier.setWalletConfirmation(true);
 
         transactionAddPoolLiquidity = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddPoolLiquidity!],
@@ -260,7 +265,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
           ..setResumeProcess(false)
           ..setProcessInProgress(false)
           ..setPoolAddOk(true);
-        unawaited(refreshCurrentAccountInfoWallet());
+        unawaited(refreshCurrentAccountInfoWallet(dappClient));
       } catch (e) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
               'TransactionAddPoolLiquidity sendTx failed $e',

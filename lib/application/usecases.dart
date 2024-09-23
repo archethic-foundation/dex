@@ -1,4 +1,5 @@
 import 'package:aedex/application/api_service.dart';
+import 'package:aedex/application/dapp_client.dart';
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/usecases/add_liquidity.usecase.dart';
@@ -22,7 +23,6 @@ import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
-import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'usecases.g.dart';
@@ -38,6 +38,7 @@ AddLiquidityCase addLiquidityCase(
         liquidityAddFormNotifierProvider.notifier,
       ),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -48,6 +49,7 @@ AddPoolCase addPoolCase(
       apiService: ref.watch(apiServiceProvider),
       poolAddNotifier: ref.watch(poolAddFormNotifierProvider.notifier),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -61,6 +63,7 @@ ClaimFarmLockCase claimFarmLockCase(
         farmLockClaimFormNotifierProvider.notifier,
       ),
       notificationService: ref.watch(NotificationProviders.notificationService),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -72,6 +75,7 @@ ClaimFarmCase claimFarmCase(
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
       farmClaimNotifier: ref.watch(farmClaimFormNotifierProvider.notifier),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -85,6 +89,7 @@ DepositFarmLockCase depositFarmLockCase(
       farmLockDepositNotifier: ref.watch(
         farmLockDepositFormNotifierProvider.notifier,
       ),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -96,6 +101,7 @@ DepositFarmCase depositFarmCase(
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
       farmDepositNotifier: ref.watch(farmDepositFormNotifierProvider.notifier),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -108,6 +114,7 @@ LevelUpFarmLockCase levelUpFarmLockCase(
       notificationService: ref.watch(NotificationProviders.notificationService),
       farmLevelUpNotifier:
           ref.watch(farmLockLevelUpFormNotifierProvider.notifier),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -121,6 +128,7 @@ RemoveLiquidityCase removeLiquidityCase(
       liquidityRemoveNotifier: ref.watch(
         liquidityRemoveFormNotifierProvider.notifier,
       ),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -131,7 +139,7 @@ SwapCase swapCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      swapNotifier: ref.watch(swapFormNotifierProvider.notifier),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -145,6 +153,7 @@ WithdrawFarmLockCase withdrawFarmLockCase(
       farmLockWithdrawNotifier: ref.watch(
         farmLockWithdrawFormNotifierProvider.notifier,
       ),
+      dappClient: ref.watch(dappClientProvider),
     );
 
 @Riverpod(keepAlive: true)
@@ -158,4 +167,5 @@ WithdrawFarmCase withdrawFarmCase(
       farmWithdrawNotifier: ref.watch(
         farmWithdrawFormNotifierProvider.notifier,
       ),
+      dappClient: ref.watch(dappClientProvider),
     );

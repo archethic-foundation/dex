@@ -11,6 +11,7 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:uuid/uuid.dart';
 
@@ -22,8 +23,10 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
     required this.notificationService,
     required this.farmClaimLockNotifier,
     required this.verifiedTokensRepository,
+    required this.dappClient,
   });
 
+  final awc.ArchethicDAppClient dappClient;
   final archethic.ApiService apiService;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
@@ -83,10 +86,11 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
       farmClaimLockNotifier.setCurrentStep(2);
     }
     try {
-      final currentNameAccount = await getCurrentAccount();
+      final currentNameAccount = await getCurrentAccount(dappClient);
       farmClaimLockNotifier.setWalletConfirmation(true);
 
       transactionClaim = (await signTx(
+        dappClient,
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionClaim!],
@@ -169,7 +173,7 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet(dappClient));
 
       return amount;
     } catch (e) {

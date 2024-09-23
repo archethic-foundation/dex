@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:aedex/application/dapp_client.dart';
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -24,11 +25,6 @@ Environment environment(EnvironmentRef ref) => ref.watch(
 class SessionNotifier extends _$SessionNotifier {
   SessionNotifier();
 
-  final _archethicDAppClient = ArchethicDAppClient.auto(
-    origin: const RequestOrigin(name: 'aeSwap'),
-    replyBaseUrl: '',
-  );
-
   StreamSubscription<ArchethicDappConnectionState>?
       _connectionStateSubscription;
 
@@ -42,9 +38,14 @@ class SessionNotifier extends _$SessionNotifier {
       _connectionStateSubscription?.cancel();
     });
 
-    _listenConnectionState();
+    final _archethicDAppClient = ref.watch(dappClientProvider);
 
-    Future.delayed(const Duration(milliseconds: 50), connectWallet);
+    _listenConnectionState(_archethicDAppClient);
+
+    Future.delayed(
+      const Duration(milliseconds: 50),
+      connectWallet,
+    );
     return const Session(
       environment: Environment.mainnet,
       walletConnectionState: awc.ArchethicDappConnectionState.disconnected(),
@@ -56,9 +57,11 @@ class SessionNotifier extends _$SessionNotifier {
   Future<void> connectWallet() async {
     if (_connectionCompleter != null) return _connectionCompleter!.future;
 
+    final dappClient = ref.read(dappClientProvider);
+
     _connectionCompleter = Completer();
     _connectionTaskStateSubscription =
-        _archethicDAppClient.connectionStateStream.listen((connectionState) {
+        dappClient.connectionStateStream.listen((connectionState) {
       connectionState.maybeWhen(
         connected: () {
           _connectionCompleter?.complete();
@@ -76,7 +79,7 @@ class SessionNotifier extends _$SessionNotifier {
     });
 
     try {
-      await _archethicDAppClient.connect();
+      await dappClient.connect();
     } catch (e) {
       _handleConnectionFailure();
     }
@@ -84,12 +87,12 @@ class SessionNotifier extends _$SessionNotifier {
     return _connectionCompleter?.future;
   }
 
-  void _listenConnectionState() {
+  void _listenConnectionState(ArchethicDAppClient dappClient) {
     _connectionStateSubscription =
-        _archethicDAppClient.connectionStateStream.listen((connectionState) {
+        dappClient.connectionStateStream.listen((connectionState) {
       connectionState.maybeWhen(
         disconnected: _onWalletDisconnected,
-        connected: _onWalletConnected,
+        connected: () => _onWalletConnected(dappClient),
         orElse: () => update(
           (state) => state.copyWith(walletConnectionState: connectionState),
         ),
@@ -104,22 +107,20 @@ class SessionNotifier extends _$SessionNotifier {
     );
   }
 
-  Future<void> _onWalletConnected() async {
+  Future<void> _onWalletConnected(ArchethicDAppClient dappClient) async {
     log('Wallet connected');
     try {
-      final endpointResult =
-          await _archethicDAppClient.getEndpoint().valueOrThrow;
+      final endpointResult = await dappClient.getEndpoint().valueOrThrow;
       final environment = Environment.byEndpoint(endpointResult.endpointUrl);
 
-      final currentAccount =
-          await _archethicDAppClient.getCurrentAccount().valueOrNull;
+      final currentAccount = await dappClient.getCurrentAccount().valueOrNull;
 
       if (state.environment != environment) {
         final poolsListDatasource = await HivePoolsListDatasource.getInstance();
         await poolsListDatasource.clearAll();
       }
 
-      final subscription = await _archethicDAppClient.subscribeCurrentAccount();
+      final subscription = await dappClient.subscribeCurrentAccount();
 
       await subscription.when(
         success: (success) async => update(
@@ -176,7 +177,7 @@ class SessionNotifier extends _$SessionNotifier {
       walletConnectionState:
           const awc.ArchethicDappConnectionState.disconnected(),
     );
-    await _archethicDAppClient.close();
+    await ref.read(dappClientProvider).close();
   }
 
   Future<void> update(FutureOr<Session> Function(Session previous) func) async {

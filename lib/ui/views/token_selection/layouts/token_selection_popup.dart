@@ -7,11 +7,11 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 
 class TokenSelectionPopup {
-  static Future<DexTokenDescription?> getDialog(
+  static Future<DexToken?> getDialog(
     BuildContext context,
     aedappfm.Environment environment,
   ) async {
-    return showDialog<DexTokenDescription>(
+    return showDialog<DexToken>(
       context: context,
       builder: (context) {
         return aedappfm.PopupTemplate(

@@ -12,6 +12,7 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -22,18 +23,19 @@ class SwapCase with aedappfm.TransactionMixin {
   SwapCase({
     required this.apiService,
     required this.notificationService,
-    required this.swapNotifier,
     required this.verifiedTokensRepository,
+    required this.dappClient,
   });
 
+  final awc.ArchethicDAppClient dappClient;
   final archethic.ApiService apiService;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
-  final SwapFormNotifier swapNotifier;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   Future<double> run(
     Ref ref, // TODO(Chralu): usecases should not depend on riverpod
+    SwapFormNotifier swapNotifier,
     AppLocalizations localizations,
     String poolGenesisAddress,
     DexToken tokenToSwap,
@@ -126,10 +128,11 @@ class SwapCase with aedappfm.TransactionMixin {
       swapNotifier.setCurrentStep(3);
     }
     try {
-      final currentNameAccount = await getCurrentAccount();
+      final currentNameAccount = await getCurrentAccount(dappClient);
       swapNotifier.setWalletConfirmation(true);
 
       transactionSwap = (await signTx(
+        dappClient,
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionSwap!],
@@ -205,9 +208,8 @@ class SwapCase with aedappfm.TransactionMixin {
       );
 
       unawaited(() async {
-        await refreshCurrentAccountInfoWallet();
+        await refreshCurrentAccountInfoWallet(dappClient);
 
-        ref.invalidate(userBalanceProvider);
         final swap = ref.read(swapFormNotifierProvider);
 
         final balanceSwapped = await ref.read(

@@ -33,21 +33,21 @@ Future<List<DexToken>> _getTokenFromAccount(
 }
 
 @riverpod
-Future<List<DexTokenDescription>> _dexTokenDescriptions(
-  _DexTokenDescriptionsRef ref,
+Future<List<DexToken>> _dexTokenBases(
+  _DexTokenBasesRef ref,
 ) async {
   final repository = ref.watch(_dexTokenRepositoryProvider);
   return repository.getLocalTokensDescriptions();
 }
 
 @riverpod
-Future<DexTokenDescription?> _dexTokenDescription(
-  _DexTokenDescriptionRef ref,
+Future<DexToken?> _dexTokenBase(
+  _DexTokenBaseRef ref,
   String address,
 ) async {
-  final dexTokens = await ref.watch(_dexTokenDescriptionsProvider.future);
+  final dexTokens = await ref.watch(_dexTokenBasesProvider.future);
   return dexTokens.firstWhereOrNull(
-    (token) => token.address.toUpperCase() == address.toUpperCase(),
+    (token) => token.address?.toUpperCase() == address.toUpperCase(),
   );
 }
 
@@ -57,7 +57,7 @@ Future<String?> _getTokenIcon(
   address,
 ) async {
   final tokenDescription =
-      await ref.watch(_dexTokenDescriptionProvider(address).future);
+      await ref.watch(_dexTokenBaseProvider(address).future);
 
   return tokenDescription?.icon;
 }
@@ -139,8 +139,7 @@ Future<double> _estimateLPTokenInFiat(
 }
 
 abstract class DexTokensProviders {
-  static final tokensDescriptions = _dexTokenDescriptionsProvider;
-  static const tokenDescription = _dexTokenDescriptionProvider;
+  static final tokensCommonBases = _dexTokenBasesProvider;
   static const getTokenFromAddress = _getTokenFromAddressProvider;
   static const getTokenFromAccount = _getTokenFromAccountProvider;
   static const getTokenIcon = _getTokenIconProvider;

@@ -35,7 +35,7 @@ class SwapTokenToSwapSelection extends ConsumerWidget {
           if (token == null) return;
           await ref
               .read(swapFormNotifierProvider.notifier)
-              .setTokenToSwap(token.toToken);
+              .setTokenToSwap(token);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

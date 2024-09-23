@@ -11,6 +11,7 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:uuid/uuid.dart';
 
@@ -22,6 +23,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
     required this.notificationService,
     required this.liquidityAddNotifier,
     required this.verifiedTokensRepository,
+    required this.dappClient,
   });
 
   final archethic.ApiService apiService;
@@ -30,6 +32,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
   final LiquidityAddFormNotifier liquidityAddNotifier;
+  final awc.ArchethicDAppClient dappClient;
 
   Future<double> run(
     AppLocalizations localizations,
@@ -85,9 +88,10 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 1) {
       liquidityAddNotifier.setCurrentStep(2);
       try {
-        final currentNameAccount = await getCurrentAccount();
+        final currentNameAccount = await getCurrentAccount(dappClient);
         liquidityAddNotifier.setWalletConfirmation(true);
         transactionAddLiquidity = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddLiquidity!],
@@ -156,7 +160,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet(dappClient));
 
       return amount;
     } catch (e) {

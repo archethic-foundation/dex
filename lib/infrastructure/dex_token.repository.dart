@@ -167,7 +167,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
   }
 
   @override
-  Future<List<DexTokenDescription>> getLocalTokensDescriptions() async {
+  Future<List<DexToken>> getLocalTokensDescriptions() async {
     final jsonContent = await rootBundle
         .loadString('lib/domain/repositories/common_bases.json');
 
@@ -177,8 +177,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
     final jsonTokens = jsonData['tokens'][environment.name] as List<dynamic>;
     return jsonTokens
         .map(
-          (jsonToken) =>
-              DexTokenDescription.fromJson(jsonToken as Map<String, dynamic>),
+          (jsonToken) => DexToken.fromJson(jsonToken as Map<String, dynamic>),
         )
         .toList();
   }

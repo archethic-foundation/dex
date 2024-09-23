@@ -17,7 +17,7 @@ class TokenSelectionCommonBases extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tokens = ref.watch(DexTokensProviders.tokensDescriptions).value;
+    final tokens = ref.watch(DexTokensProviders.tokensCommonBases).value;
 
     if (tokens == null) return const SizedBox();
     return Column(
@@ -32,14 +32,9 @@ class TokenSelectionCommonBases extends ConsumerWidget {
         ),
         Wrap(
           spacing: 10,
-          children: tokens
-              .map(
-                (token) => _TokenSelector(
-                  key: ValueKey(token.address),
-                  token: token,
-                ),
-              )
-              .toList(),
+          children: tokens.map((token) {
+            return _TokenSelector(key: ValueKey(token.address), token: token);
+          }).toList(),
         ),
       ],
     );
@@ -52,7 +47,7 @@ class _TokenSelector extends StatelessWidget {
     required this.token,
   });
 
-  final DexTokenDescription token;
+  final DexToken token;
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +83,9 @@ class _TokenSelector extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            if (token.icon.isNotEmpty)
+            if (token.icon != '')
               SvgPicture.string(
-                token.icon,
+                token.icon!,
                 width: 20,
               )
             else
@@ -120,7 +115,7 @@ class _TokenSelector extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 2),
                   child: VerifiedTokenIcon(
-                    address: token.isUCO ? 'UCO' : token.address,
+                    address: token.isUCO ? 'UCO' : token.address!,
                     iconSize: 12,
                   ),
                 ),

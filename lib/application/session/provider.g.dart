@@ -20,7 +20,7 @@ final environmentProvider = Provider<Environment>.internal(
 );
 
 typedef EnvironmentRef = ProviderRef<Environment>;
-String _$sessionNotifierHash() => r'e306a5cebc5ab0a0c728e12e284af0fada9fdd8c';
+String _$sessionNotifierHash() => r'ad609c4a7dafa6eba52ac35cb3f11800a3aaf3bb';
 
 /// See also [SessionNotifier].
 @ProviderFor(SessionNotifier)
