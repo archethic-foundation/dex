@@ -1,14 +1,14 @@
+import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_claim/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -32,6 +32,12 @@ class FarmLockClaimFormNotifier extends _$FarmLockClaimFormNotifier {
   void setFarmAddress(String farmAddress) {
     state = state.copyWith(
       farmAddress: farmAddress,
+    );
+  }
+
+  void setPoolAddress(String poolAddress) {
+    state = state.copyWith(
+      poolAddress: poolAddress,
     );
   }
 
@@ -93,8 +99,8 @@ class FarmLockClaimFormNotifier extends _$FarmLockClaimFormNotifier {
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm() async {
+    if (control() == false) {
       return;
     }
 
@@ -109,7 +115,7 @@ class FarmLockClaimFormNotifier extends _$FarmLockClaimFormNotifier {
     );
   }
 
-  bool control(BuildContext context) {
+  bool control() {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -123,12 +129,11 @@ class FarmLockClaimFormNotifier extends _$FarmLockClaimFormNotifier {
     return true;
   }
 
-  Future<void> claim(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> claim(AppLocalizations localizations) async {
     setFarmLockClaimOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control() == false) {
       setProcessInProgress(false);
       return;
     }
@@ -136,19 +141,20 @@ class FarmLockClaimFormNotifier extends _$FarmLockClaimFormNotifier {
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    if (context.mounted) {
-      final finalAmount = await ref.read(claimFarmCaseProvider).run(
-            localizations,
-            state.farmAddress!,
-            state.rewardToken!,
-          );
-      state = state.copyWith(finalAmount: finalAmount);
+    final finalAmount = await ref.read(claimFarmCaseProvider).run(
+          localizations,
+          state.farmAddress!,
+          state.rewardToken!,
+        );
+    state = state.copyWith(finalAmount: finalAmount);
 
-      if (context.mounted) {
-        final farmListItemState =
-            context.findAncestorStateOfType<FarmListItemState>();
-        await farmListItemState?.reload();
-      }
-    }
+    ref
+      ..invalidate(FarmListFormProvider.balance(state.lpTokenAddress))
+      ..invalidate(
+        DexFarmProviders.getFarmInfos(
+          state.farmAddress!,
+          state.poolAddress!,
+        ),
+      );
   }
 }

@@ -25,6 +25,7 @@ class FarmLockClaimConfirmSheetState
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final farmLockClaim = ref.watch(farmLockClaimFormNotifierProvider);
     if (farmLockClaim.rewardAmount == null) {
       return const SizedBox.shrink();
@@ -72,12 +73,12 @@ class FarmLockClaimConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_lock_claim,
+            labelBtn: localizations.btn_confirm_farm_lock_claim,
             disabled: !consentChecked && farmLockClaim.consentDateTime == null,
             onPressed: () async {
               final farmLockClaimNotifier =
                   ref.read(farmLockClaimFormNotifierProvider.notifier);
-              unawaited(farmLockClaimNotifier.claim(context));
+              unawaited(farmLockClaimNotifier.claim(localizations));
               await FarmLockClaimInProgressPopup.getDialog(
                 context,
                 ref,

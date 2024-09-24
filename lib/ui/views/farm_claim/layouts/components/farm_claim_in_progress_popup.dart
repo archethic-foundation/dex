@@ -45,8 +45,7 @@ class FarmClaimInProgressPopup {
           context,
         )!
             .farmClaimProcessInProgress,
-        walletConfirmationTxt:
-            AppLocalizations.of(context)!.farmClaimInProgressConfirmAEWallet,
+        walletConfirmationTxt: localizations.farmClaimInProgressConfirmAEWallet,
         successTxt: AppLocalizations.of(context)!.farmClaimSuccessInfo,
       ),
       const FarmClaimInProgressTxAddresses(),
@@ -73,7 +72,7 @@ class FarmClaimInProgressPopup {
                 .read(
                   farmClaimFormNotifierProvider.notifier,
                 )
-                .claim(context);
+                .claim(localizations);
           },
           failure: farmClaim.failure,
         ),

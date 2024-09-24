@@ -17,6 +17,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = AppLocalizations.of(context)!;
     final farmClaim = ref.watch(farmClaimFormNotifierProvider);
     if (farmClaim.rewardAmount == null) {
       return const Padding(
@@ -175,7 +176,7 @@ class FarmClaimFormSheet extends ConsumerWidget {
                                   AppLocalizations.of(context)!.btn_farm_claim,
                               onPressed: () => ref
                                   .read(farmClaimFormNotifierProvider.notifier)
-                                  .validateForm(context),
+                                  .validateForm(localizations),
                               isConnected: ref
                                   .watch(sessionNotifierProvider)
                                   .isConnected,

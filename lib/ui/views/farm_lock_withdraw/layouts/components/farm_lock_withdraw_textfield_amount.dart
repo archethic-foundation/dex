@@ -6,6 +6,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmLockWithdrawAmount extends ConsumerStatefulWidget {
@@ -60,6 +61,7 @@ class _FarmLockWithdrawToken1AmountState
   Widget build(
     BuildContext context,
   ) {
+    final localizations = AppLocalizations.of(context)!;
     final farmLockWithdrawNotifier =
         ref.watch(farmLockWithdrawFormNotifierProvider.notifier);
 
@@ -125,7 +127,7 @@ class _FarmLockWithdrawToken1AmountState
                             controller: tokenAmountController,
                             onChanged: (text) async {
                               farmLockWithdrawNotifier.setAmount(
-                                context,
+                                localizations,
                                 double.tryParse(text.replaceAll(',', '')) ?? 0,
                               );
                             },
@@ -192,12 +194,8 @@ class _FarmLockWithdrawToken1AmountState
                   balanceAmount: farmLockWithdraw.depositedAmount!,
                   onTap: () {
                     ref
-                        .read(
-                          farmLockWithdrawFormNotifierProvider.notifier,
-                        )
-                        .setAmountHalf(
-                          context,
-                        );
+                        .read(farmLockWithdrawFormNotifierProvider.notifier)
+                        .setAmountHalf(localizations);
                     _updateAmountTextController();
                   },
                 ),
@@ -208,12 +206,8 @@ class _FarmLockWithdrawToken1AmountState
                   balanceAmount: farmLockWithdraw.depositedAmount!,
                   onTap: () {
                     ref
-                        .read(
-                          farmLockWithdrawFormNotifierProvider.notifier,
-                        )
-                        .setAmountMax(
-                          context,
-                        );
+                        .read(farmLockWithdrawFormNotifierProvider.notifier)
+                        .setAmountMax(localizations);
                     _updateAmountTextController();
                   },
                 ),

@@ -331,6 +331,11 @@ final routerProvider = Provider<GoRouter>(
                   'farmAddress',
                   jsonDecode,
                 );
+                final poolAddress =
+                    state.uri.queryParameters.getDecodedParameter(
+                  'poolAddress',
+                  jsonDecode,
+                );
                 final rewardToken =
                     state.uri.queryParameters.getDecodedParameter(
                   'rewardToken',
@@ -348,6 +353,7 @@ final routerProvider = Provider<GoRouter>(
                 );
 
                 if (farmAddress == null ||
+                    poolAddress == null ||
                     rewardToken == null ||
                     lpTokenAddress == null ||
                     rewardAmount == null) {
@@ -359,6 +365,7 @@ final routerProvider = Provider<GoRouter>(
                 return NoTransitionPage(
                   child: FarmClaimSheet(
                     farmAddress: farmAddress,
+                    poolAddress: poolAddress,
                     rewardToken: rewardToken,
                     lpTokenAddress: lpTokenAddress,
                     rewardAmount: rewardAmount,
@@ -414,6 +421,9 @@ final routerProvider = Provider<GoRouter>(
               pageBuilder: (context, state) {
                 final farmAddress = state.uri.queryParameters
                     .getDecodedParameter('farmAddress', jsonDecode);
+                final poolAddress = state.uri.queryParameters
+                    .getDecodedParameter('poolAddress', jsonDecode);
+
                 final rewardToken =
                     state.uri.queryParameters.getDecodedParameter(
                   'rewardToken',
@@ -427,6 +437,7 @@ final routerProvider = Provider<GoRouter>(
                     .getDecodedParameter('depositId', jsonDecode);
 
                 if (farmAddress == null ||
+                    poolAddress == null ||
                     rewardToken == null ||
                     lpTokenAddress == null ||
                     rewardAmount == null ||
@@ -439,6 +450,7 @@ final routerProvider = Provider<GoRouter>(
                 return NoTransitionPage(
                   child: FarmLockClaimSheet(
                     farmAddress: farmAddress,
+                    poolAddress: poolAddress,
                     rewardToken: rewardToken,
                     lpTokenAddress: lpTokenAddress,
                     rewardAmount: rewardAmount,

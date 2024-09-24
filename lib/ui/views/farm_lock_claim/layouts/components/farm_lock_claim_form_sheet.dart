@@ -180,7 +180,7 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                                   .read(
                                     farmLockClaimFormNotifierProvider.notifier,
                                   )
-                                  .validateForm(context),
+                                  .validateForm(),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
                                 final session =

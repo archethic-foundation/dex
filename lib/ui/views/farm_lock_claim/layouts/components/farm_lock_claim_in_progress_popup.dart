@@ -73,7 +73,7 @@ class FarmLockClaimInProgressPopup {
                 .read(
                   farmLockClaimFormNotifierProvider.notifier,
                 )
-                .claim(context);
+                .claim(localizations);
           },
           failure: farmLockClaim.failure,
         ),

@@ -73,7 +73,7 @@ class FarmWithdrawInProgressPopup {
                 .read(
                   farmWithdrawFormNotifierProvider.notifier,
                 )
-                .withdraw(context);
+                .withdraw(localizations);
           },
           failure: farmWithdraw.failure,
         ),

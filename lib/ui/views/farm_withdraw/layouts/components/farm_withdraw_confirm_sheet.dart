@@ -24,6 +24,7 @@ class FarmWithdrawConfirmSheetState
   bool consentChecked = false;
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final farmWithdraw = ref.watch(farmWithdrawFormNotifierProvider);
     if (farmWithdraw.dexFarmInfo == null) {
       return const SizedBox.shrink();
@@ -39,12 +40,8 @@ class FarmWithdrawConfirmSheetState
                 ? null
                 : () {
                     ref
-                        .read(
-                          farmWithdrawFormNotifierProvider.notifier,
-                        )
-                        .setFarmWithdrawProcessStep(
-                          aedappfm.ProcessStep.form,
-                        );
+                        .read(farmWithdrawFormNotifierProvider.notifier)
+                        .setFarmWithdrawProcessStep(aedappfm.ProcessStep.form);
                   },
           ),
           const SizedBox(height: 15),
@@ -71,12 +68,12 @@ class FarmWithdrawConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_withdraw,
+            labelBtn: localizations.btn_confirm_farm_withdraw,
             disabled: !consentChecked && farmWithdraw.consentDateTime == null,
             onPressed: () async {
               final farmWithdrawNotifier =
                   ref.read(farmWithdrawFormNotifierProvider.notifier);
-              unawaited(farmWithdrawNotifier.withdraw(context));
+              unawaited(farmWithdrawNotifier.withdraw(localizations));
               await FarmWithdrawInProgressPopup.getDialog(
                 context,
                 ref,

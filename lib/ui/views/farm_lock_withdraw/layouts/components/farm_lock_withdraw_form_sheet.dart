@@ -19,6 +19,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = AppLocalizations.of(context)!;
     final farmLockWithdraw = ref.watch(farmLockWithdrawFormNotifierProvider);
     if (farmLockWithdraw.rewardToken == null ||
         farmLockWithdraw.depositedAmount == null) {
@@ -194,7 +195,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                                     farmLockWithdrawFormNotifierProvider
                                         .notifier,
                                   )
-                                  .validateForm(context),
+                                  .validateForm(localizations),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
                                 if (session.error.isNotEmpty) {

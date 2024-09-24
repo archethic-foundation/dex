@@ -74,7 +74,7 @@ class FarmDepositInProgressPopup {
                 .read(
                   farmDepositFormNotifierProvider.notifier,
                 )
-                .deposit(context);
+                .deposit(localizations);
           },
           failure: farmDeposit.failure,
         ),

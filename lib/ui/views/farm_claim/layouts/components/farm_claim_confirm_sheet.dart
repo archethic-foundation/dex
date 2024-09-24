@@ -29,12 +29,14 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
       return const SizedBox.shrink();
     }
 
+    final localizations = AppLocalizations.of(context)!;
+
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmClaimConfirmTitle,
+            title: localizations.farmClaimConfirmTitle,
             onPressed: farmClaim.rewardAmount == null
                 ? null
                 : () {
@@ -76,7 +78,7 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
             onPressed: () async {
               final farmClaimNotifier =
                   ref.read(farmClaimFormNotifierProvider.notifier);
-              unawaited(farmClaimNotifier.claim(context));
+              unawaited(farmClaimNotifier.claim(localizations));
               await FarmClaimInProgressPopup.getDialog(
                 context,
                 ref,

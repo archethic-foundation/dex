@@ -1,8 +1,9 @@
+import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
@@ -138,8 +139,8 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm(AppLocalizations localizations) async {
+    if (control(localizations) == false) {
       return;
     }
 
@@ -154,7 +155,7 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     );
   }
 
-  bool control(BuildContext context) {
+  bool control(AppLocalizations localizations) {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -168,7 +169,7 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmWithdrawControlAmountEmpty,
+          cause: localizations.farmWithdrawControlAmountEmpty,
         ),
       );
       return false;
@@ -177,8 +178,7 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     if (state.amount > state.depositedAmount!) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .farmWithdrawControlLPTokenAmountExceedDeposited,
+          cause: localizations.farmWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
       return false;
@@ -187,12 +187,11 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     return true;
   }
 
-  Future<void> withdraw(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> withdraw(AppLocalizations localizations) async {
     setFarmWithdrawOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control(localizations) == false) {
       setProcessInProgress(false);
       return;
     }
@@ -200,26 +199,29 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    if (context.mounted) {
-      final finalAmounts = await ref.read(withdrawFarmCaseProvider).run(
-            localizations,
-            ref.read(farmWithdrawFormNotifierProvider),
-            state.farmAddress!,
-            state.lpTokenAddress!,
-            state.amount,
-            state.rewardToken!,
-          );
+    final finalAmounts = await ref.read(withdrawFarmCaseProvider).run(
+          localizations,
+          ref.read(farmWithdrawFormNotifierProvider),
+          state.farmAddress!,
+          state.lpTokenAddress!,
+          state.amount,
+          state.rewardToken!,
+        );
 
-      state = state.copyWith(
-        finalAmountReward: finalAmounts.finalAmountReward,
-        finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
+    state = state.copyWith(
+      finalAmountReward: finalAmounts.finalAmountReward,
+      finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
+    );
+
+    ref
+      ..invalidate(
+        FarmListFormProvider.balance(state.dexFarmInfo!.lpToken!.address),
+      )
+      ..invalidate(
+        DexFarmProviders.getFarmInfos(
+          state.dexFarmInfo!.farmAddress,
+          state.dexFarmInfo!.poolAddress,
+        ),
       );
-
-      if (context.mounted) {
-        final farmListItemState =
-            context.findAncestorStateOfType<FarmListItemState>();
-        await farmListItemState?.reload();
-      }
-    }
   }
 }

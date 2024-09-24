@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$farmLockClaimFormNotifierHash() =>
-    r'3434ffc4b35f03ff7c4e0667763d6b9071b1b774';
+    r'07283d181146e0dd2a7d0337fdec9c555e33b66c';
 
 /// See also [FarmLockClaimFormNotifier].
 @ProviderFor(FarmLockClaimFormNotifier)

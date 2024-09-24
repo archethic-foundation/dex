@@ -233,6 +233,7 @@ class FarmDetailsButtons extends ConsumerWidget {
               queryParameters: {
                 'farmAddress': farm.farmAddress.encodeParam(),
                 'rewardToken': farm.rewardToken.encodeParam(),
+                'poolAddress': farm.poolAddress.encodeParam(),
                 'lpTokenAddress': farm.lpToken!.address.encodeParam(),
                 'rewardAmount': farm.rewardAmount.encodeParam(),
               },

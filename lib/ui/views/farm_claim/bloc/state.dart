@@ -19,6 +19,7 @@ class FarmClaimFormState with _$FarmClaimFormState {
     Failure? failure,
     double? finalAmount,
     String? farmAddress,
+    String? poolAddress,
     DexToken? rewardToken,
     String? lpTokenAddress,
     DateTime? consentDateTime,

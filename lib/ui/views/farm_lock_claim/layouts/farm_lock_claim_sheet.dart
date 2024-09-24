@@ -14,6 +14,7 @@ import 'package:go_router/go_router.dart';
 class FarmLockClaimSheet extends ConsumerStatefulWidget {
   const FarmLockClaimSheet({
     required this.farmAddress,
+    required this.poolAddress,
     required this.rewardToken,
     required this.lpTokenAddress,
     required this.rewardAmount,
@@ -22,6 +23,7 @@ class FarmLockClaimSheet extends ConsumerStatefulWidget {
   });
 
   final String farmAddress;
+  final String poolAddress;
   final DexToken rewardToken;
   final String lpTokenAddress;
   final double rewardAmount;
@@ -44,6 +46,7 @@ class _FarmLockClaimSheetState extends ConsumerState<FarmLockClaimSheet> {
 
         ref.read(farmLockClaimFormNotifierProvider.notifier)
           ..setFarmAddress(widget.farmAddress)
+          ..setPoolAddress(widget.poolAddress)
           ..setRewardToken(widget.rewardToken)
           ..setLpTokenAddress(widget.lpTokenAddress)
           ..setRewardAmount(widget.rewardAmount)

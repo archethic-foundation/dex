@@ -133,6 +133,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
           queryParameters: {
             'farmAddress': farmLockForm.farm!.farmAddress.encodeParam(),
             'rewardToken': farmLockForm.farm!.rewardToken.encodeParam(),
+            'poolAddress': farmLockForm.farm!.poolAddress.encodeParam(),
             'lpTokenAddress': farmLockForm.pool!.lpToken.address.encodeParam(),
             'rewardAmount': farmLockForm.farm!.rewardAmount.encodeParam(),
           },

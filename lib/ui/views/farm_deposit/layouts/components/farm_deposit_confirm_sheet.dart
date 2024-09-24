@@ -30,12 +30,14 @@ class FarmDepositConfirmSheetState
       return const SizedBox.shrink();
     }
 
+    final localizations = AppLocalizations.of(context)!;
+
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmDepositConfirmTitle,
+            title: localizations.farmDepositConfirmTitle,
             onPressed: farmDeposit.dexFarmInfo == null
                 ? null
                 : () {
@@ -72,12 +74,12 @@ class FarmDepositConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_deposit,
+            labelBtn: localizations.btn_confirm_farm_deposit,
             disabled: !consentChecked && farmDeposit.consentDateTime == null,
             onPressed: () async {
               final farmDepositNotifier =
                   ref.read(farmDepositFormNotifierProvider.notifier);
-              unawaited(farmDepositNotifier.deposit(context));
+              unawaited(farmDepositNotifier.deposit(localizations));
               await FarmDepositInProgressPopup.getDialog(
                 context,
                 ref,

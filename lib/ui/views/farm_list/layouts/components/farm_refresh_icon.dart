@@ -1,4 +1,6 @@
-import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
+import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -7,12 +9,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmRefreshIcon extends ConsumerStatefulWidget {
   const FarmRefreshIcon({
-    required this.farmAddress,
+    required this.farm,
     required this.lpTokenAddress,
     super.key,
   });
 
-  final String farmAddress;
+  final DexFarm farm;
   final String lpTokenAddress;
 
   @override
@@ -30,6 +32,14 @@ class _FarmRefreshIconState extends ConsumerState<FarmRefreshIcon> {
 
   @override
   Widget build(BuildContext context) {
+    final farmProvider = DexFarmProviders.getFarmInfos(
+      widget.farm.farmAddress,
+      widget.farm.poolAddress,
+      dexFarmInput: widget.farm,
+    );
+    final balanceProvider =
+        FarmListFormProvider.balance(widget.farm.lpToken!.address);
+
     return InkWell(
       onTap: () async {
         if (isRefreshSuccess != null && isRefreshSuccess == true) return;
@@ -38,9 +48,11 @@ class _FarmRefreshIconState extends ConsumerState<FarmRefreshIcon> {
             isRefreshSuccess = true;
           },
         );
-        final farmListItemState =
-            context.findAncestorStateOfType<FarmListItemState>();
-        await farmListItemState?.reload();
+
+        // ignore: unused_result
+        await ref.refresh(farmProvider.future);
+        // ignore: unused_result
+        await ref.refresh(balanceProvider.future);
 
         await Future.delayed(const Duration(seconds: 3));
 

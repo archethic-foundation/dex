@@ -18,6 +18,7 @@ class FarmDepositFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localizations = AppLocalizations.of(context)!;
     final farmDeposit = ref.watch(farmDepositFormNotifierProvider);
     if (farmDeposit.dexFarmInfo == null) {
       return const Padding(
@@ -102,7 +103,7 @@ class FarmDepositFormSheet extends ConsumerWidget {
                                   .read(
                                     farmDepositFormNotifierProvider.notifier,
                                   )
-                                  .validateForm(context),
+                                  .validateForm(localizations),
                               isConnected: ref
                                   .watch(sessionNotifierProvider)
                                   .isConnected,

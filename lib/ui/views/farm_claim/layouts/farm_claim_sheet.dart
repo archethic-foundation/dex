@@ -13,6 +13,7 @@ import 'package:go_router/go_router.dart';
 class FarmClaimSheet extends ConsumerStatefulWidget {
   const FarmClaimSheet({
     required this.farmAddress,
+    required this.poolAddress,
     required this.rewardToken,
     required this.lpTokenAddress,
     required this.rewardAmount,
@@ -20,6 +21,7 @@ class FarmClaimSheet extends ConsumerStatefulWidget {
   });
 
   final String farmAddress;
+  final String poolAddress;
   final DexToken rewardToken;
   final String lpTokenAddress;
   final double rewardAmount;

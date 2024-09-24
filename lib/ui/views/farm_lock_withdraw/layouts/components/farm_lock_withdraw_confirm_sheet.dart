@@ -25,7 +25,7 @@ class FarmLockWithdrawConfirmSheetState
   @override
   Widget build(BuildContext context) {
     final farmLockWithdraw = ref.watch(farmLockWithdrawFormNotifierProvider);
-
+    final localizations = AppLocalizations.of(context)!;
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -73,7 +73,7 @@ class FarmLockWithdrawConfirmSheetState
               final farmLockWithdrawNotifier = ref.read(
                 farmLockWithdrawFormNotifierProvider.notifier,
               );
-              unawaited(farmLockWithdrawNotifier.withdraw(context));
+              unawaited(farmLockWithdrawNotifier.withdraw(localizations));
               await FarmLockWithdrawInProgressPopup.getDialog(
                 context,
                 ref,

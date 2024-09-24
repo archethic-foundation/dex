@@ -27,6 +27,7 @@ mixin _$FarmLockClaimFormState {
   Failure? get failure => throw _privateConstructorUsedError;
   double? get finalAmount => throw _privateConstructorUsedError;
   String? get farmAddress => throw _privateConstructorUsedError;
+  String? get poolAddress => throw _privateConstructorUsedError;
   DexToken? get rewardToken => throw _privateConstructorUsedError;
   String? get depositId => throw _privateConstructorUsedError;
   String? get lpTokenAddress => throw _privateConstructorUsedError;
@@ -55,6 +56,7 @@ abstract class $FarmLockClaimFormStateCopyWith<$Res> {
       Failure? failure,
       double? finalAmount,
       String? farmAddress,
+      String? poolAddress,
       DexToken? rewardToken,
       String? depositId,
       String? lpTokenAddress,
@@ -90,6 +92,7 @@ class _$FarmLockClaimFormStateCopyWithImpl<$Res,
     Object? failure = freezed,
     Object? finalAmount = freezed,
     Object? farmAddress = freezed,
+    Object? poolAddress = freezed,
     Object? rewardToken = freezed,
     Object? depositId = freezed,
     Object? lpTokenAddress = freezed,
@@ -136,6 +139,10 @@ class _$FarmLockClaimFormStateCopyWithImpl<$Res,
       farmAddress: freezed == farmAddress
           ? _value.farmAddress
           : farmAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      poolAddress: freezed == poolAddress
+          ? _value.poolAddress
+          : poolAddress // ignore: cast_nullable_to_non_nullable
               as String?,
       rewardToken: freezed == rewardToken
           ? _value.rewardToken
@@ -218,6 +225,7 @@ abstract class _$$FarmLockClaimFormStateImplCopyWith<$Res>
       Failure? failure,
       double? finalAmount,
       String? farmAddress,
+      String? poolAddress,
       DexToken? rewardToken,
       String? depositId,
       String? lpTokenAddress,
@@ -255,6 +263,7 @@ class __$$FarmLockClaimFormStateImplCopyWithImpl<$Res>
     Object? failure = freezed,
     Object? finalAmount = freezed,
     Object? farmAddress = freezed,
+    Object? poolAddress = freezed,
     Object? rewardToken = freezed,
     Object? depositId = freezed,
     Object? lpTokenAddress = freezed,
@@ -302,6 +311,10 @@ class __$$FarmLockClaimFormStateImplCopyWithImpl<$Res>
           ? _value.farmAddress
           : farmAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      poolAddress: freezed == poolAddress
+          ? _value.poolAddress
+          : poolAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       rewardToken: freezed == rewardToken
           ? _value.rewardToken
           : rewardToken // ignore: cast_nullable_to_non_nullable
@@ -340,6 +353,7 @@ class _$FarmLockClaimFormStateImpl extends _FarmLockClaimFormState {
       this.failure,
       this.finalAmount,
       this.farmAddress,
+      this.poolAddress,
       this.rewardToken,
       this.depositId,
       this.lpTokenAddress,
@@ -374,6 +388,8 @@ class _$FarmLockClaimFormStateImpl extends _FarmLockClaimFormState {
   @override
   final String? farmAddress;
   @override
+  final String? poolAddress;
+  @override
   final DexToken? rewardToken;
   @override
   final String? depositId;
@@ -386,7 +402,7 @@ class _$FarmLockClaimFormStateImpl extends _FarmLockClaimFormState {
 
   @override
   String toString() {
-    return 'FarmLockClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, farmLockClaimOk: $farmLockClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarmLock: $transactionClaimFarmLock, failure: $failure, finalAmount: $finalAmount, farmAddress: $farmAddress, rewardToken: $rewardToken, depositId: $depositId, lpTokenAddress: $lpTokenAddress, consentDateTime: $consentDateTime, rewardAmount: $rewardAmount)';
+    return 'FarmLockClaimFormState(processStep: $processStep, resumeProcess: $resumeProcess, currentStep: $currentStep, isProcessInProgress: $isProcessInProgress, farmLockClaimOk: $farmLockClaimOk, walletConfirmation: $walletConfirmation, transactionClaimFarmLock: $transactionClaimFarmLock, failure: $failure, finalAmount: $finalAmount, farmAddress: $farmAddress, poolAddress: $poolAddress, rewardToken: $rewardToken, depositId: $depositId, lpTokenAddress: $lpTokenAddress, consentDateTime: $consentDateTime, rewardAmount: $rewardAmount)';
   }
 
   @override
@@ -414,6 +430,8 @@ class _$FarmLockClaimFormStateImpl extends _FarmLockClaimFormState {
                 other.finalAmount == finalAmount) &&
             (identical(other.farmAddress, farmAddress) ||
                 other.farmAddress == farmAddress) &&
+            (identical(other.poolAddress, poolAddress) ||
+                other.poolAddress == poolAddress) &&
             (identical(other.rewardToken, rewardToken) ||
                 other.rewardToken == rewardToken) &&
             (identical(other.depositId, depositId) ||
@@ -439,6 +457,7 @@ class _$FarmLockClaimFormStateImpl extends _FarmLockClaimFormState {
       failure,
       finalAmount,
       farmAddress,
+      poolAddress,
       rewardToken,
       depositId,
       lpTokenAddress,
@@ -465,6 +484,7 @@ abstract class _FarmLockClaimFormState extends FarmLockClaimFormState {
       final Failure? failure,
       final double? finalAmount,
       final String? farmAddress,
+      final String? poolAddress,
       final DexToken? rewardToken,
       final String? depositId,
       final String? lpTokenAddress,
@@ -492,6 +512,8 @@ abstract class _FarmLockClaimFormState extends FarmLockClaimFormState {
   double? get finalAmount;
   @override
   String? get farmAddress;
+  @override
+  String? get poolAddress;
   @override
   DexToken? get rewardToken;
   @override

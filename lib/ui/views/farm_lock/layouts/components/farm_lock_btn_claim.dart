@@ -136,6 +136,7 @@ class FarmLockBtnClaim extends ConsumerWidget {
           path: FarmLockClaimSheet.routerPage,
           queryParameters: {
             'farmAddress': farmLockForm.farmLock!.farmAddress.encodeParam(),
+            'poolAddress': farmLockForm.farmLock!.poolAddress.encodeParam(),
             'rewardToken': farmLockForm.farmLock!.rewardToken.encodeParam(),
             'lpTokenAddress': farmLockForm.pool!.lpToken.address.encodeParam(),
             'rewardAmount': rewardAmount.encodeParam(),

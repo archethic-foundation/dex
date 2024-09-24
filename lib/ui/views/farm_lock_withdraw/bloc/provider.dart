@@ -3,14 +3,12 @@ import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/state.dart';
-import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -34,7 +32,7 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
   }
 
   void setAmount(
-    BuildContext context,
+    AppLocalizations localizations,
     double amount,
   ) {
     state = state.copyWith(
@@ -45,8 +43,8 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     if (state.amount > state.depositedAmount!) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .farmLockWithdrawControlLPTokenAmountExceedDeposited,
+          cause:
+              localizations.farmLockWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
     }
@@ -60,8 +58,8 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     state = state.copyWith(rewardAmount: rewardAmount);
   }
 
-  void setAmountMax(BuildContext context) {
-    setAmount(context, state.depositedAmount!);
+  void setAmountMax(AppLocalizations appLocalizations) {
+    setAmount(appLocalizations, state.depositedAmount!);
   }
 
   void setPoolAddress(String poolAddress) {
@@ -72,11 +70,9 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     state = state.copyWith(endDate: endDate);
   }
 
-  void setAmountHalf(
-    BuildContext context,
-  ) {
+  void setAmountHalf(AppLocalizations appLocalizations) {
     setAmount(
-      context,
+      appLocalizations,
       (Decimal.parse(state.depositedAmount.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
@@ -152,8 +148,8 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    if (control(appLocalizations) == false) {
       return;
     }
 
@@ -168,7 +164,7 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     );
   }
 
-  bool control(BuildContext context) {
+  bool control(AppLocalizations appLocalizations) {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -182,8 +178,7 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause:
-              AppLocalizations.of(context)!.farmLockWithdrawControlAmountEmpty,
+          cause: appLocalizations.farmLockWithdrawControlAmountEmpty,
         ),
       );
       return false;
@@ -192,7 +187,7 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     if (state.amount > state.depositedAmount!) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
+          cause: appLocalizations
               .farmLockWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
@@ -202,33 +197,30 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     return true;
   }
 
-  Future<void> withdraw(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> withdraw(AppLocalizations localizations) async {
     setFarmLockWithdrawOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control(localizations) == false) {
       setProcessInProgress(false);
       return;
     }
 
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-    if (context.mounted) {
-      final finalAmounts = await ref.read(withdrawFarmLockCaseProvider).run(
-            localizations,
-            ref.read(farmWithdrawFormNotifierProvider),
-            state.farmAddress!,
-            state.lpToken!.address!,
-            state.amount,
-            state.depositId,
-            state.rewardToken!,
-          );
+    final finalAmounts = await ref.read(withdrawFarmLockCaseProvider).run(
+          localizations,
+          ref.read(farmLockWithdrawFormNotifierProvider),
+          state.farmAddress!,
+          state.lpToken!.address!,
+          state.amount,
+          state.depositId,
+          state.rewardToken!,
+        );
 
-      state = state.copyWith(
-        finalAmountReward: finalAmounts.finalAmountReward,
-        finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
-      );
-    }
+    state = state.copyWith(
+      finalAmountReward: finalAmounts.finalAmountReward,
+      finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
+    );
   }
 }

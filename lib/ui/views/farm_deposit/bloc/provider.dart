@@ -1,16 +1,16 @@
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/state.dart';
-import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -106,8 +106,8 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm(AppLocalizations localizations) async {
+    if (control(localizations) == false) {
       return;
     }
 
@@ -122,7 +122,7 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
     );
   }
 
-  bool control(BuildContext context) {
+  bool control(AppLocalizations localizations) {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -136,7 +136,7 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmDepositControlAmountEmpty,
+          cause: localizations.farmDepositControlAmountEmpty,
         ),
       );
       return false;
@@ -145,8 +145,7 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
     if (state.amount > state.lpTokenBalance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .farmDepositControlLPTokenAmountExceedBalance,
+          cause: localizations.farmDepositControlLPTokenAmountExceedBalance,
         ),
       );
       return false;
@@ -155,12 +154,11 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
     return true;
   }
 
-  Future<void> deposit(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> deposit(AppLocalizations localizations) async {
     setFarmDepositOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control(localizations) == false) {
       setProcessInProgress(false);
       return;
     }
@@ -168,23 +166,26 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    if (context.mounted) {
-      final finalAmount = await ref.read(depositFarmCaseProvider).run(
-            localizations,
-            state.dexFarmInfo!.farmAddress,
-            state.dexFarmInfo!.lpToken!.address!,
-            state.amount,
-            state.dexFarmInfo!.farmAddress,
-            false,
-          );
+    final finalAmount = await ref.read(depositFarmCaseProvider).run(
+          localizations,
+          state.dexFarmInfo!.farmAddress,
+          state.dexFarmInfo!.lpToken!.address!,
+          state.amount,
+          state.dexFarmInfo!.farmAddress,
+          false,
+        );
 
-      state = state.copyWith(finalAmount: finalAmount);
+    state = state.copyWith(finalAmount: finalAmount);
 
-      if (context.mounted) {
-        final farmListItemState =
-            context.findAncestorStateOfType<FarmListItemState>();
-        await farmListItemState?.reload();
-      }
-    }
+    ref
+      ..invalidate(
+        FarmListFormProvider.balance(state.dexFarmInfo!.lpToken!.address),
+      )
+      ..invalidate(
+        DexFarmProviders.getFarmInfos(
+          state.dexFarmInfo!.farmAddress,
+          state.dexFarmInfo!.poolAddress,
+        ),
+      );
   }
 }
