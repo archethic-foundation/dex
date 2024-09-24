@@ -4,4 +4,5 @@ enum NavigationIndex { swap, pool, earn, bridge, getWallet, welcome }
 
 final navigationIndexMainScreenProvider =
     StateProvider.autoDispose<NavigationIndex>(
-        (ref) => NavigationIndex.welcome);
+  (ref) => NavigationIndex.welcome,
+);
