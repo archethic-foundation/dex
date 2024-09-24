@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
+import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/util/service_locator.dart';
@@ -41,7 +42,8 @@ class ProvidersInitialization extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref
       ..watch(DexPoolProviders.getPoolList)
-      ..watch(DexTokensProviders.tokensCommonBases);
+      ..watch(DexTokensProviders.tokensCommonBases)
+      ..watch(verifiedTokensProvider);
 
     return child;
   }

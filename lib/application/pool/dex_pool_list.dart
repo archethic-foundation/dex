@@ -11,9 +11,7 @@ Future<List<DexPool>> _getPoolList(
   final dexConf = await ref.watch(DexConfigProviders.dexConfig.future);
 
   final tokenVerifiedList = await ref.watch(
-    aedappfm.VerifiedTokensProviders.verifiedTokensByNetwork(
-      environment,
-    ).future,
+    verifiedTokensProvider.future,
   );
 
   final resultPoolList = await ref

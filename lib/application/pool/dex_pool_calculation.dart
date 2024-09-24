@@ -26,7 +26,7 @@ Future<double> _getRatio(
   return ratio;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<double> _estimatePoolTVLInFiat(
   _EstimatePoolTVLInFiatRef ref,
   DexPool? pool,
@@ -56,7 +56,7 @@ Future<double> _estimatePoolTVLInFiat(
   return tvl;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<DexPool> _estimateStats(
   _EstimateStatsRef ref,
   DexPool pool,

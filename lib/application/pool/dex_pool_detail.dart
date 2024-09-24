@@ -6,19 +6,15 @@ Future<DexPool?> _getPool(
   _GetPoolRef ref,
   String genesisAddress,
 ) async {
-  final environment = ref
-      .watch(sessionNotifierProvider.select((session) => session.environment));
   final dexPoolRepository = ref.watch(_dexPoolRepositoryProvider);
   final tokenVerifiedList = await ref.watch(
-    aedappfm.VerifiedTokensProviders.verifiedTokensByNetwork(
-      environment,
-    ).future,
+    verifiedTokensProvider.future,
   );
 
   return dexPoolRepository.getPool(genesisAddress, tokenVerifiedList);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<DexPool> _loadPoolCard(
   _LoadPoolCardRef ref,
   DexPool poolInput, {

@@ -14,3 +14,27 @@ aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository(
     aedappfm.VerifiedTokensProviders.verifiedTokensRepository(environment),
   );
 }
+
+@Riverpod(keepAlive: true)
+Future<bool> isVerifiedToken(IsVerifiedTokenRef ref, String address) async {
+  final environment = ref.watch(environmentProvider);
+  return ref.watch(
+    aedappfm.VerifiedTokensProviders.isVerifiedToken(
+      environment,
+      address,
+    ).future,
+  );
+}
+
+@Riverpod(keepAlive: true)
+Future<List<String>> verifiedTokens(
+  VerifiedTokensRef ref,
+) async {
+  final environment = ref.watch(environmentProvider);
+
+  return ref.watch(
+    aedappfm.VerifiedTokensProviders.verifiedTokensByNetwork(
+      environment,
+    ).future,
+  );
+}

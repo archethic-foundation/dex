@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/verified_tokens.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -32,11 +32,9 @@ class VerifiedTokenIcon extends ConsumerWidget {
       );
     }
 
-    final environment = ref.watch(environmentProvider);
     final isVerifiedToken = ref
         .watch(
-          aedappfm.VerifiedTokensProviders.isVerifiedToken(
-            environment,
+          isVerifiedTokenProvider(
             address,
           ),
         )

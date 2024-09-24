@@ -8,8 +8,6 @@ part 'api_service.g.dart';
 
 @Riverpod(keepAlive: true)
 ApiService apiService(ApiServiceRef ref) {
-  final environment = ref.watch(
-    sessionNotifierProvider.select((session) => session.environment),
-  );
+  final environment = ref.watch(environmentProvider);
   return ref.watch(aedappfm.apiServiceProvider(environment));
 }
