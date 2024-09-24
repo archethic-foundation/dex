@@ -21,7 +21,6 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
   LevelUpFarmLockCase({
     required this.apiService,
     required this.notificationService,
-    required this.farmLevelUpNotifier,
     required this.verifiedTokensRepository,
     required this.dappClient,
   });
@@ -30,11 +29,11 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
   final archethic.ApiService apiService;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
-  final FarmLockLevelUpFormNotifier farmLevelUpNotifier;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   Future<double> run(
     AppLocalizations localizations,
+    FarmLockLevelUpFormNotifier farmLevelUpNotifier,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,

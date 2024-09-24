@@ -241,6 +241,7 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     if (context.mounted) {
       final finalAmount = await ref.read(depositFarmLockCaseProvider).run(
             localizations,
+            this,
             state.farmLock!.farmAddress,
             state.farmLock!.lpToken!.address!,
             state.amount,

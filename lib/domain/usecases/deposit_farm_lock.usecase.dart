@@ -21,7 +21,6 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
   DepositFarmLockCase({
     required this.apiService,
     required this.notificationService,
-    required this.farmLockDepositNotifier,
     required this.verifiedTokensRepository,
     required this.dappClient,
   });
@@ -30,11 +29,11 @@ class DepositFarmLockCase with aedappfm.TransactionMixin {
   final archethic.ApiService apiService;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
-  final FarmLockDepositFormNotifier farmLockDepositNotifier;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   Future<double> run(
     AppLocalizations localizations,
+    FarmLockDepositFormNotifier farmLockDepositNotifier,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,

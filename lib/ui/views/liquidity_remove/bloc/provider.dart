@@ -336,6 +336,7 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     if (context.mounted) {
       final finalAmounts = await ref.read(removeLiquidityCaseProvider).run(
             localizations,
+            this,
             state.pool!.poolAddress,
             state.lpToken!.address!,
             state.lpTokenAmount,

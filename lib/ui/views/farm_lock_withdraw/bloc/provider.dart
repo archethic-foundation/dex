@@ -210,6 +210,7 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
     final finalAmounts = await ref.read(withdrawFarmLockCaseProvider).run(
           localizations,
+          this,
           ref.read(farmLockWithdrawFormNotifierProvider),
           state.farmAddress!,
           state.lpToken!.address!,

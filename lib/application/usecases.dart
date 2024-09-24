@@ -13,16 +13,6 @@ import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
 import 'package:aedex/domain/usecases/withdraw_farm_lock.usecase.dart';
-import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock_claim/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
-import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'usecases.g.dart';
@@ -34,9 +24,6 @@ AddLiquidityCase addLiquidityCase(
     AddLiquidityCase(
       apiService: ref.watch(apiServiceProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      liquidityAddNotifier: ref.watch(
-        liquidityAddFormNotifierProvider.notifier,
-      ),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       dappClient: ref.watch(dappClientProvider),
     );
@@ -47,7 +34,6 @@ AddPoolCase addPoolCase(
 ) =>
     AddPoolCase(
       apiService: ref.watch(apiServiceProvider),
-      poolAddNotifier: ref.watch(poolAddFormNotifierProvider.notifier),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       dappClient: ref.watch(dappClientProvider),
     );
@@ -59,9 +45,6 @@ ClaimFarmLockCase claimFarmLockCase(
     ClaimFarmLockCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
-      farmClaimLockNotifier: ref.watch(
-        farmLockClaimFormNotifierProvider.notifier,
-      ),
       notificationService: ref.watch(NotificationProviders.notificationService),
       dappClient: ref.watch(dappClientProvider),
     );
@@ -74,7 +57,6 @@ ClaimFarmCase claimFarmCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      farmClaimNotifier: ref.watch(farmClaimFormNotifierProvider.notifier),
       dappClient: ref.watch(dappClientProvider),
     );
 
@@ -86,9 +68,6 @@ DepositFarmLockCase depositFarmLockCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      farmLockDepositNotifier: ref.watch(
-        farmLockDepositFormNotifierProvider.notifier,
-      ),
       dappClient: ref.watch(dappClientProvider),
     );
 
@@ -100,7 +79,6 @@ DepositFarmCase depositFarmCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      farmDepositNotifier: ref.watch(farmDepositFormNotifierProvider.notifier),
       dappClient: ref.watch(dappClientProvider),
     );
 
@@ -112,8 +90,6 @@ LevelUpFarmLockCase levelUpFarmLockCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      farmLevelUpNotifier:
-          ref.watch(farmLockLevelUpFormNotifierProvider.notifier),
       dappClient: ref.watch(dappClientProvider),
     );
 
@@ -125,9 +101,6 @@ RemoveLiquidityCase removeLiquidityCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      liquidityRemoveNotifier: ref.watch(
-        liquidityRemoveFormNotifierProvider.notifier,
-      ),
       dappClient: ref.watch(dappClientProvider),
     );
 
@@ -150,9 +123,6 @@ WithdrawFarmLockCase withdrawFarmLockCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      farmLockWithdrawNotifier: ref.watch(
-        farmLockWithdrawFormNotifierProvider.notifier,
-      ),
       dappClient: ref.watch(dappClientProvider),
     );
 
@@ -164,8 +134,5 @@ WithdrawFarmCase withdrawFarmCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      farmWithdrawNotifier: ref.watch(
-        farmWithdrawFormNotifierProvider.notifier,
-      ),
       dappClient: ref.watch(dappClientProvider),
     );

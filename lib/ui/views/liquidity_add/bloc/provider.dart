@@ -485,6 +485,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     if (state.token1 != null && state.token1!.isUCO) {
       state = state.copyWith(calculationInProgress: true);
       feesEstimatedUCO = await ref.read(addLiquidityCaseProvider).estimateFees(
+            this,
             state.pool!.poolAddress,
             state.token1!,
             state.token1Amount,
@@ -514,6 +515,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     if (state.token2 != null && state.token2!.isUCO) {
       state = state.copyWith(calculationInProgress: true);
       feesEstimatedUCO = await ref.read(addLiquidityCaseProvider).estimateFees(
+            this,
             state.pool!.poolAddress,
             state.token1!,
             state.token1Amount,
@@ -557,6 +559,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     if (context.mounted) {
       final finalAmount = await ref.read(addLiquidityCaseProvider).run(
             localizations,
+            this,
             state.pool!.poolAddress,
             state.token1!,
             state.token1Amount,

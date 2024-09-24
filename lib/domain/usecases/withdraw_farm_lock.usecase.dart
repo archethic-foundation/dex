@@ -21,7 +21,6 @@ const logName = 'WithdrawFarmLockCase';
 class WithdrawFarmLockCase with aedappfm.TransactionMixin {
   WithdrawFarmLockCase({
     required this.apiService,
-    required this.farmLockWithdrawNotifier,
     required this.notificationService,
     required this.verifiedTokensRepository,
     required this.dappClient,
@@ -29,13 +28,13 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
 
   final awc.ArchethicDAppClient dappClient;
   final archethic.ApiService apiService;
-  final FarmLockWithdrawFormNotifier farmLockWithdrawNotifier;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   Future<({double finalAmountReward, double finalAmountWithdraw})> run(
     AppLocalizations localizations,
+    FarmLockWithdrawFormNotifier farmLockWithdrawNotifier,
     FarmLockWithdrawFormState farmWithdraw,
     String farmGenesisAddress,
     String lpTokenAddress,

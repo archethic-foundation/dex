@@ -16,18 +16,17 @@ const logName = 'AddPoolCase';
 class AddPoolCase with aedappfm.TransactionMixin {
   AddPoolCase({
     required this.apiService,
-    required this.poolAddNotifier,
     required this.verifiedTokensRepository,
     required this.dappClient,
   });
 
   final awc.ArchethicDAppClient dappClient;
   final archethic.ApiService apiService;
-  final PoolAddFormNotifier poolAddNotifier;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   Future<void> run(
     AppLocalizations localizations,
+    PoolAddFormNotifier poolAddNotifier,
     DexToken token1,
     double token1Amount,
     DexToken token2,

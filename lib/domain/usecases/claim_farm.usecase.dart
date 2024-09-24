@@ -21,7 +21,6 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
   ClaimFarmCase({
     required this.apiService,
     required this.notificationService,
-    required this.farmClaimNotifier,
     required this.verifiedTokensRepository,
     required this.dappClient,
   });
@@ -30,11 +29,11 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
   final archethic.ApiService apiService;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
-  final FarmClaimFormNotifier farmClaimNotifier;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   Future<double> run(
     AppLocalizations localizations,
+    FarmClaimFormNotifier farmClaimNotifier,
     String farmGenesisAddress,
     DexToken rewardToken, {
     int recoveryStep = 0,

@@ -138,6 +138,7 @@ class FarmClaimFormNotifier extends _$FarmClaimFormNotifier {
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
     final finalAmount = await ref.read(claimFarmCaseProvider).run(
           localizations,
+          this,
           state.farmAddress!,
           state.rewardToken!,
         );

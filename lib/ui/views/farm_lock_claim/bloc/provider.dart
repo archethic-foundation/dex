@@ -141,9 +141,11 @@ class FarmLockClaimFormNotifier extends _$FarmLockClaimFormNotifier {
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    final finalAmount = await ref.read(claimFarmCaseProvider).run(
+    final finalAmount = await ref.read(claimFarmLockCaseProvider).run(
           localizations,
+          this,
           state.farmAddress!,
+          state.depositId!,
           state.rewardToken!,
         );
     state = state.copyWith(finalAmount: finalAmount);

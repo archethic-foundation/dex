@@ -503,6 +503,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (context.mounted) {
       await ref.read(addPoolCaseProvider).run(
             localizations,
+            this,
             state.token1!,
             state.token1Amount,
             state.token2!,

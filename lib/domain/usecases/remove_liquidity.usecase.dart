@@ -20,7 +20,6 @@ const logName = 'RemoveLiquidityCase';
 class RemoveLiquidityCase with aedappfm.TransactionMixin {
   RemoveLiquidityCase({
     required this.apiService,
-    required this.liquidityRemoveNotifier,
     required this.notificationService,
     required this.verifiedTokensRepository,
     required this.dappClient,
@@ -28,7 +27,6 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
 
   final awc.ArchethicDAppClient dappClient;
   final archethic.ApiService apiService;
-  final LiquidityRemoveFormNotifier liquidityRemoveNotifier;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
@@ -36,6 +34,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
   Future<({double amountToken1, double amountToken2, double amountLPToken})>
       run(
     AppLocalizations localizations,
+    LiquidityRemoveFormNotifier liquidityRemoveNotifier,
     String poolGenesisAddress,
     String lpTokenAddress,
     double lpTokenAmount,

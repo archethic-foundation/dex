@@ -201,6 +201,7 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
 
     final finalAmounts = await ref.read(withdrawFarmCaseProvider).run(
           localizations,
+          this,
           ref.read(farmWithdrawFormNotifierProvider),
           state.farmAddress!,
           state.lpTokenAddress!,

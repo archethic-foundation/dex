@@ -20,7 +20,6 @@ class DepositFarmCase with aedappfm.TransactionMixin {
   DepositFarmCase({
     required this.apiService,
     required this.notificationService,
-    required this.farmDepositNotifier,
     required this.verifiedTokensRepository,
     required this.dappClient,
   });
@@ -29,11 +28,11 @@ class DepositFarmCase with aedappfm.TransactionMixin {
   final archethic.ApiService apiService;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
-  final FarmDepositFormNotifier farmDepositNotifier;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   Future<double> run(
     AppLocalizations localizations,
+    FarmDepositFormNotifier farmDepositNotifier,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,

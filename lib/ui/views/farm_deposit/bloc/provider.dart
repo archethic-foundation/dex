@@ -168,6 +168,7 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
 
     final finalAmount = await ref.read(depositFarmCaseProvider).run(
           localizations,
+          this,
           state.dexFarmInfo!.farmAddress,
           state.dexFarmInfo!.lpToken!.address!,
           state.amount,

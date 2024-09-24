@@ -217,6 +217,7 @@ class FarmLockLevelUpFormNotifier extends _$FarmLockLevelUpFormNotifier {
     if (context.mounted) {
       final finalAmount = await ref.read(levelUpFarmLockCaseProvider).run(
             localizations,
+            this,
             state.farmLock!.farmAddress,
             state.farmLock!.lpToken!.address!,
             state.amount,

@@ -21,7 +21,6 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
   ClaimFarmLockCase({
     required this.apiService,
     required this.notificationService,
-    required this.farmClaimLockNotifier,
     required this.verifiedTokensRepository,
     required this.dappClient,
   });
@@ -30,11 +29,11 @@ class ClaimFarmLockCase with aedappfm.TransactionMixin {
   final archethic.ApiService apiService;
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
-  final FarmLockClaimFormNotifier farmClaimLockNotifier;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
 
   Future<double> run(
     AppLocalizations localizations,
+    FarmLockClaimFormNotifier farmClaimLockNotifier,
     String farmGenesisAddress,
     String depositId,
     DexToken rewardToken, {

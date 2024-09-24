@@ -21,7 +21,6 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
   AddLiquidityCase({
     required this.apiService,
     required this.notificationService,
-    required this.liquidityAddNotifier,
     required this.verifiedTokensRepository,
     required this.dappClient,
   });
@@ -31,11 +30,11 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
 
   final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
       notificationService;
-  final LiquidityAddFormNotifier liquidityAddNotifier;
   final awc.ArchethicDAppClient dappClient;
 
   Future<double> run(
     AppLocalizations localizations,
+    LiquidityAddFormNotifier liquidityAddNotifier,
     String poolGenesisAddress,
     DexToken token1,
     double token1Amount,
@@ -190,6 +189,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
   }
 
   Future<double> estimateFees(
+    LiquidityAddFormNotifier liquidityAddNotifier,
     String poolGenesisAddress,
     DexToken token1,
     double token1Amount,
