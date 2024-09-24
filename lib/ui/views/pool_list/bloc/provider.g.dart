@@ -6,11 +6,12 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$poolsToDisplayHash() => r'de4e5af715892f8c38c0d16dc075348416343000';
+String _$poolsToDisplayHash() => r'd287eeac41dc05210210fc6c956bf2b45e576771';
 
 /// See also [poolsToDisplay].
 @ProviderFor(poolsToDisplay)
-final poolsToDisplayProvider = FutureProvider<List<DexPool>>.internal(
+final poolsToDisplayProvider =
+    AutoDisposeFutureProvider<List<DexPool>>.internal(
   poolsToDisplay,
   name: r'poolsToDisplayProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,7 +21,7 @@ final poolsToDisplayProvider = FutureProvider<List<DexPool>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef PoolsToDisplayRef = FutureProviderRef<List<DexPool>>;
+typedef PoolsToDisplayRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$poolListFormNotifierHash() =>
     r'4e0a501aad162899b02207e9fd75cb667b7fcc3a';
 

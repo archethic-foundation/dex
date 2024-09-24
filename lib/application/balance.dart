@@ -1,19 +1,14 @@
 import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/repositories/balance.repository.dart';
 import 'package:aedex/infrastructure/balance.repository.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'balance.g.dart';
 
-@Riverpod(keepAlive: true)
-BalanceRepository _balanceRepository(_BalanceRepositoryRef ref) =>
-    BalanceRepositoryImpl(
-      apiService: ref.watch(apiServiceProvider),
-    );
-
-@Riverpod(keepAlive: true)
+@riverpod
 Future<Balance> userBalance(UserBalanceRef ref) async {
   final apiService = ref.watch(apiServiceProvider);
   final genesisAddress = ref.watch(
@@ -30,14 +25,23 @@ Future<Balance> userBalance(UserBalanceRef ref) async {
       const Balance();
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<double> getBalance(
   GetBalanceRef ref,
   String tokenAddress,
 ) async {
-  final address = ref.watch(sessionNotifierProvider).genesisAddress;
-  return ref.watch(_balanceRepositoryProvider).getBalance(
-        address,
-        tokenAddress,
-      );
+  final userBalance = await ref.watch(userBalanceProvider.future);
+  if (tokenAddress == 'UCO') {
+    return archethic.fromBigInt(userBalance.uco).toDouble();
+  }
+
+  final tokenAmount = userBalance.token
+          .firstWhereOrNull(
+            (token) =>
+                token.address!.toUpperCase() == tokenAddress.toUpperCase(),
+          )
+          ?.amount ??
+      0;
+
+  return archethic.fromBigInt(tokenAmount).toDouble();
 }

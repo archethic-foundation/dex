@@ -571,7 +571,7 @@ class _GetPoolProviderElement extends FutureProviderElement<DexPool?>
   String get genesisAddress => (origin as _GetPoolProvider).genesisAddress;
 }
 
-String _$loadPoolCardHash() => r'77a3dbb8d56f941743d4307146668ff1aa4942ad';
+String _$loadPoolCardHash() => r'ffb74b55dec99072e029bd6f296513f6f0bf642b';
 
 /// See also [_loadPoolCard].
 @ProviderFor(_loadPoolCard)
@@ -619,7 +619,7 @@ class _LoadPoolCardFamily extends Family<AsyncValue<DexPool>> {
 }
 
 /// See also [_loadPoolCard].
-class _LoadPoolCardProvider extends FutureProvider<DexPool> {
+class _LoadPoolCardProvider extends AutoDisposeFutureProvider<DexPool> {
   /// See also [_loadPoolCard].
   _LoadPoolCardProvider(
     DexPool poolInput, {
@@ -677,7 +677,7 @@ class _LoadPoolCardProvider extends FutureProvider<DexPool> {
   }
 
   @override
-  FutureProviderElement<DexPool> createElement() {
+  AutoDisposeFutureProviderElement<DexPool> createElement() {
     return _LoadPoolCardProviderElement(this);
   }
 
@@ -698,7 +698,7 @@ class _LoadPoolCardProvider extends FutureProvider<DexPool> {
   }
 }
 
-mixin _LoadPoolCardRef on FutureProviderRef<DexPool> {
+mixin _LoadPoolCardRef on AutoDisposeFutureProviderRef<DexPool> {
   /// The parameter `poolInput` of this provider.
   DexPool get poolInput;
 
@@ -706,8 +706,8 @@ mixin _LoadPoolCardRef on FutureProviderRef<DexPool> {
   bool get forceLoadFromBC;
 }
 
-class _LoadPoolCardProviderElement extends FutureProviderElement<DexPool>
-    with _LoadPoolCardRef {
+class _LoadPoolCardProviderElement
+    extends AutoDisposeFutureProviderElement<DexPool> with _LoadPoolCardRef {
   _LoadPoolCardProviderElement(super.provider);
 
   @override

@@ -14,7 +14,7 @@ Future<DexPool?> _getPool(
   return dexPoolRepository.getPool(genesisAddress, tokenVerifiedList);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<DexPool> _loadPoolCard(
   _LoadPoolCardRef ref,
   DexPool poolInput, {

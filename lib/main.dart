@@ -5,6 +5,8 @@ import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/infrastructure/hive/db_helper.hive.dart';
 import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -34,6 +36,7 @@ Future<void> main() async {
 /// Eagerly initializes providers (https://riverpod.dev/docs/essentials/eager_initialization).
 ///
 /// Add Watch here for any provider you want to init when app is displayed.
+/// Those providers will be kept alive during application lifetime.
 class ProvidersInitialization extends ConsumerWidget {
   const ProvidersInitialization({required this.child, super.key});
 
@@ -43,7 +46,10 @@ class ProvidersInitialization extends ConsumerWidget {
     ref
       ..watch(DexPoolProviders.getPoolList)
       ..watch(DexTokensProviders.tokensCommonBases)
-      ..watch(verifiedTokensProvider);
+      ..watch(verifiedTokensProvider)
+      ..watch(DexTokensProviders.tokensFromAccount)
+      ..watch(poolsToDisplayProvider)
+      ..watch(farmLockFormNotifierProvider);
 
     return child;
   }

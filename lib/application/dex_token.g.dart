@@ -24,7 +24,7 @@ final _dexTokenRepositoryProvider =
 
 typedef _DexTokenRepositoryRef = AutoDisposeProviderRef<DexTokenRepositoryImpl>;
 String _$getTokenFromAddressHash() =>
-    r'cf8e812a1e9ba63434814666d403198598251bc8';
+    r'b4317bf56f216e40ec6110efe41cf8d2f65ad3ef';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -175,139 +175,22 @@ class _GetTokenFromAddressProviderElement
   dynamic get address => (origin as _GetTokenFromAddressProvider).address;
 }
 
-String _$getTokenFromAccountHash() =>
-    r'adf8602761f3b03e95f3bb285434ff6b1b97f35f';
+String _$tokensFromAccountHash() => r'70d439730d66e224b8dee35fca92bb7a8bcd892c';
 
-/// See also [_getTokenFromAccount].
-@ProviderFor(_getTokenFromAccount)
-const _getTokenFromAccountProvider = _GetTokenFromAccountFamily();
+/// See also [_tokensFromAccount].
+@ProviderFor(_tokensFromAccount)
+final _tokensFromAccountProvider =
+    AutoDisposeFutureProvider<List<DexToken>>.internal(
+  _tokensFromAccount,
+  name: r'_tokensFromAccountProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$tokensFromAccountHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [_getTokenFromAccount].
-class _GetTokenFromAccountFamily extends Family<AsyncValue<List<DexToken>>> {
-  /// See also [_getTokenFromAccount].
-  const _GetTokenFromAccountFamily();
-
-  /// See also [_getTokenFromAccount].
-  _GetTokenFromAccountProvider call(
-    dynamic accountAddress,
-  ) {
-    return _GetTokenFromAccountProvider(
-      accountAddress,
-    );
-  }
-
-  @override
-  _GetTokenFromAccountProvider getProviderOverride(
-    covariant _GetTokenFromAccountProvider provider,
-  ) {
-    return call(
-      provider.accountAddress,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'_getTokenFromAccountProvider';
-}
-
-/// See also [_getTokenFromAccount].
-class _GetTokenFromAccountProvider
-    extends AutoDisposeFutureProvider<List<DexToken>> {
-  /// See also [_getTokenFromAccount].
-  _GetTokenFromAccountProvider(
-    dynamic accountAddress,
-  ) : this._internal(
-          (ref) => _getTokenFromAccount(
-            ref as _GetTokenFromAccountRef,
-            accountAddress,
-          ),
-          from: _getTokenFromAccountProvider,
-          name: r'_getTokenFromAccountProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getTokenFromAccountHash,
-          dependencies: _GetTokenFromAccountFamily._dependencies,
-          allTransitiveDependencies:
-              _GetTokenFromAccountFamily._allTransitiveDependencies,
-          accountAddress: accountAddress,
-        );
-
-  _GetTokenFromAccountProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.accountAddress,
-  }) : super.internal();
-
-  final dynamic accountAddress;
-
-  @override
-  Override overrideWith(
-    FutureOr<List<DexToken>> Function(_GetTokenFromAccountRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: _GetTokenFromAccountProvider._internal(
-        (ref) => create(ref as _GetTokenFromAccountRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        accountAddress: accountAddress,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<List<DexToken>> createElement() {
-    return _GetTokenFromAccountProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is _GetTokenFromAccountProvider &&
-        other.accountAddress == accountAddress;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, accountAddress.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin _GetTokenFromAccountRef on AutoDisposeFutureProviderRef<List<DexToken>> {
-  /// The parameter `accountAddress` of this provider.
-  dynamic get accountAddress;
-}
-
-class _GetTokenFromAccountProviderElement
-    extends AutoDisposeFutureProviderElement<List<DexToken>>
-    with _GetTokenFromAccountRef {
-  _GetTokenFromAccountProviderElement(super.provider);
-
-  @override
-  dynamic get accountAddress =>
-      (origin as _GetTokenFromAccountProvider).accountAddress;
-}
-
+typedef _TokensFromAccountRef = AutoDisposeFutureProviderRef<List<DexToken>>;
 String _$dexTokenBasesHash() => r'95b1983bea76eb73fa66d9b963a18c8074310184';
 
 /// See also [_dexTokenBases].

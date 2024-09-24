@@ -23,7 +23,7 @@ Map<String, bool> sortAscending = {
   'apr': true,
 };
 
-@Riverpod(keepAlive: true)
+@riverpod
 class FarmLockFormNotifier extends _$FarmLockFormNotifier {
   FarmLockFormNotifier();
 

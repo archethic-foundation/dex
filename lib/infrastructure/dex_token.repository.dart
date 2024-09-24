@@ -17,7 +17,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
   final archethic.ApiService apiService;
 
   @override
-  Future<DexToken?> getTokenFromAddress(
+  Future<DexToken?> getTokenFromCache(
     String address,
   ) async {
     final environment = aedappfm.Environment.byEndpoint(apiService.endpoint);
@@ -49,15 +49,10 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
   }
 
   @override
-  Future<List<DexToken>> getTokensFromAccount(
-    String accountAddress,
+  Future<List<DexToken>> getTokens(
+    archethic.Balance balance,
   ) async {
     final dexTokens = <DexToken>[];
-    final balanceMap = await apiService.fetchBalance([accountAddress]);
-    final balance = balanceMap[accountAddress];
-    if (balance == null) {
-      return [];
-    }
 
     final tokenAddressList = <String>[];
     for (final token in balance.token) {

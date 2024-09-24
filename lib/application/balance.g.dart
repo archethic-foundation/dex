@@ -6,26 +6,11 @@ part of 'balance.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$balanceRepositoryHash() => r'ab93ce786789247cd5210af150616b05acc35196';
-
-/// See also [_balanceRepository].
-@ProviderFor(_balanceRepository)
-final _balanceRepositoryProvider = Provider<BalanceRepository>.internal(
-  _balanceRepository,
-  name: r'_balanceRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$balanceRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _BalanceRepositoryRef = ProviderRef<BalanceRepository>;
-String _$userBalanceHash() => r'90a0b6d1ff40b9117ae1688cbd4b7557b4c3c0c6';
+String _$userBalanceHash() => r'929711d7cadd83034de0d9d796725ec5b2cc2cc6';
 
 /// See also [userBalance].
 @ProviderFor(userBalance)
-final userBalanceProvider = FutureProvider<Balance>.internal(
+final userBalanceProvider = AutoDisposeFutureProvider<Balance>.internal(
   userBalance,
   name: r'userBalanceProvider',
   debugGetCreateSourceHash:
@@ -34,8 +19,8 @@ final userBalanceProvider = FutureProvider<Balance>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef UserBalanceRef = FutureProviderRef<Balance>;
-String _$getBalanceHash() => r'eb9a74dd48b6a444f3e1f1004faf8ce02f371cad';
+typedef UserBalanceRef = AutoDisposeFutureProviderRef<Balance>;
+String _$getBalanceHash() => r'a9dba55086a70b97d4e6395376335f5fc95b6cfd';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -101,7 +86,7 @@ class GetBalanceFamily extends Family<AsyncValue<double>> {
 }
 
 /// See also [getBalance].
-class GetBalanceProvider extends FutureProvider<double> {
+class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   /// See also [getBalance].
   GetBalanceProvider(
     String tokenAddress,
@@ -153,7 +138,7 @@ class GetBalanceProvider extends FutureProvider<double> {
   }
 
   @override
-  FutureProviderElement<double> createElement() {
+  AutoDisposeFutureProviderElement<double> createElement() {
     return _GetBalanceProviderElement(this);
   }
 
@@ -171,13 +156,13 @@ class GetBalanceProvider extends FutureProvider<double> {
   }
 }
 
-mixin GetBalanceRef on FutureProviderRef<double> {
+mixin GetBalanceRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `tokenAddress` of this provider.
   String get tokenAddress;
 }
 
-class _GetBalanceProviderElement extends FutureProviderElement<double>
-    with GetBalanceRef {
+class _GetBalanceProviderElement
+    extends AutoDisposeFutureProviderElement<double> with GetBalanceRef {
   _GetBalanceProviderElement(super.provider);
 
   @override

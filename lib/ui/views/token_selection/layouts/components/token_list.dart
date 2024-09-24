@@ -1,5 +1,4 @@
 import 'package:aedex/application/dex_token.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/token_selection/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/layouts/components/token_single.dart';
@@ -15,11 +14,10 @@ class TokenList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tokenSelectionForm =
         ref.watch(TokenSelectionFormProvider.tokenSelectionForm);
-    final session = ref.watch(sessionNotifierProvider);
 
     if (tokenSelectionForm.isAddress == false) {
       final tokens = ref.watch(
-        DexTokensProviders.getTokenFromAccount(session.genesisAddress),
+        DexTokensProviders.tokensFromAccount,
       );
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

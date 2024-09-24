@@ -1,4 +1,5 @@
 import 'package:aedex/application/api_service.dart';
+import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_token.repository.dart';
@@ -19,17 +20,16 @@ Future<DexToken?> _getTokenFromAddress(
   _GetTokenFromAddressRef ref,
   address,
 ) async {
-  return ref.watch(_dexTokenRepositoryProvider).getTokenFromAddress(address);
+  return ref.watch(_dexTokenRepositoryProvider).getTokenFromCache(address);
 }
 
 @riverpod
-Future<List<DexToken>> _getTokenFromAccount(
-  _GetTokenFromAccountRef ref,
-  accountAddress,
+Future<List<DexToken>> _tokensFromAccount(
+  _TokensFromAccountRef ref,
 ) async {
-  return ref
-      .watch(_dexTokenRepositoryProvider)
-      .getTokensFromAccount(accountAddress);
+  final userBalance = await ref.watch(userBalanceProvider.future);
+
+  return ref.watch(_dexTokenRepositoryProvider).getTokens(userBalance);
 }
 
 @riverpod
@@ -141,7 +141,7 @@ Future<double> _estimateLPTokenInFiat(
 abstract class DexTokensProviders {
   static final tokensCommonBases = _dexTokenBasesProvider;
   static const getTokenFromAddress = _getTokenFromAddressProvider;
-  static const getTokenFromAccount = _getTokenFromAccountProvider;
+  static final tokensFromAccount = _tokensFromAccountProvider;
   static const getTokenIcon = _getTokenIconProvider;
   static const estimateTokenInFiat = _estimateTokenInFiatProvider;
   static const estimateLPTokenInFiat = _estimateLPTokenInFiatProvider;
