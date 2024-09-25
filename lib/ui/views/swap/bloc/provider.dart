@@ -816,7 +816,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
     if (context.mounted) {
       final finalAmount = await ref.read(swapCaseProvider).run(
             ref,
-            ref.read(swapFormNotifierProvider.notifier),
+            this,
             localizations,
             state.poolGenesisAddress,
             state.tokenToSwap!,

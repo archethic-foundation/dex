@@ -65,9 +65,7 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     setAmount(context, state.depositedAmount!);
   }
 
-  void setAmountHalf(
-    BuildContext context,
-  ) {
+  void setAmountHalf(BuildContext context) {
     setAmount(
       context,
       (Decimal.parse(state.depositedAmount.toString()) / Decimal.fromInt(2))
@@ -202,7 +200,7 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     final finalAmounts = await ref.read(withdrawFarmCaseProvider).run(
           localizations,
           this,
-          ref.read(farmWithdrawFormNotifierProvider),
+          state.isFarmClose,
           state.farmAddress!,
           state.lpTokenAddress!,
           state.amount,

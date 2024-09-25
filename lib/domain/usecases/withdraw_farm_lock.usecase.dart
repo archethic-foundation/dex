@@ -5,7 +5,6 @@ import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock_withdraw/bloc/state.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
 import 'package:aedex/util/string_util.dart';
@@ -35,7 +34,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
   Future<({double finalAmountReward, double finalAmountWithdraw})> run(
     AppLocalizations localizations,
     FarmLockWithdrawFormNotifier farmLockWithdrawNotifier,
-    FarmLockWithdrawFormState farmWithdraw,
+    bool isFarmClose,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -145,7 +144,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         DexNotification.withdrawFarmLock(
           txAddress: transactionWithdraw!.address!.address,
           rewardToken: rewardToken,
-          isFarmClose: farmWithdraw.isFarmClose,
+          isFarmClose: isFarmClose,
         ),
       );
 
@@ -191,7 +190,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
           amountReward: amountReward,
           amountWithdraw: amountWithdraw,
           rewardToken: rewardToken,
-          isFarmClose: farmWithdraw.isFarmClose,
+          isFarmClose: isFarmClose,
         ),
       );
 

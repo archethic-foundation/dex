@@ -211,7 +211,7 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
     final finalAmounts = await ref.read(withdrawFarmLockCaseProvider).run(
           localizations,
           this,
-          ref.read(farmLockWithdrawFormNotifierProvider),
+          state.isFarmClose,
           state.farmAddress!,
           state.lpToken!.address!,
           state.amount,

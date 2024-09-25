@@ -210,18 +210,16 @@ class SwapCase with aedappfm.TransactionMixin {
       unawaited(() async {
         await refreshCurrentAccountInfoWallet(dappClient);
 
-        final swap = ref.read(swapFormNotifierProvider);
-
         final balanceSwapped = await ref.read(
           getBalanceProvider(
-            swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
+            tokenSwapped.isUCO ? 'UCO' : tokenSwapped.address!,
           ).future,
         );
         swapNotifier.setTokenSwappedBalance(balanceSwapped);
 
         final balanceToSwap = await ref.read(
           getBalanceProvider(
-            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+            tokenToSwap.isUCO ? 'UCO' : tokenToSwap.address!,
           ).future,
         );
         swapNotifier.setTokenToSwapBalance(balanceToSwap);
