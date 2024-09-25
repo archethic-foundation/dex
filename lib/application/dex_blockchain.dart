@@ -24,7 +24,8 @@ DexBlockchainsRepository _dexBlockchainsRepository(
 Future<List<DexBlockchain>> _getBlockchainsList(
   _GetBlockchainsListRef ref,
 ) async {
-  final blockchainsList = await ref.watch(_getBlockchainsListProvider.future);
+  final blockchainsList =
+      await ref.watch(_getBlockchainsListConfProvider.future);
   return ref
       .watch(_dexBlockchainsRepositoryProvider)
       .getBlockchainsList(blockchainsList);
