@@ -91,7 +91,7 @@ class FarmListItemState extends ConsumerState<FarmListItem> {
             children: [
               FarmRefreshIcon(
                 farm: widget.farm,
-                lpTokenAddress: widget.farm.lpToken!.address ?? '',
+                lpTokenAddress: widget.farm.lpToken!.address,
               ),
               SizedBox(
                 height: 40,

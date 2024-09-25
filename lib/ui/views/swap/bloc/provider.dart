@@ -63,7 +63,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
 
     final balance = await ref.read(
       getBalanceProvider(
-        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address,
       ).future,
     );
     state = state.copyWith(tokenToSwapBalance: balance);
@@ -89,8 +89,8 @@ class SwapFormNotifier extends _$SwapFormNotifier
           ),
         );
         final poolInfosResult = await routerFactory.getPoolAddresses(
-          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-          state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address,
+          state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address,
         );
         await poolInfosResult.map(
           success: (success) async {
@@ -314,7 +314,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
         calculationInProgress: true,
       );
       swapInfos = await calculateSwapInfos(
-        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+        state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address,
         state.tokenToSwapAmount,
         true,
       );
@@ -341,7 +341,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
         calculationInProgress: true,
       );
       swapInfos = await calculateSwapInfos(
-        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address,
         state.tokenSwappedAmount,
         false,
       );
@@ -362,7 +362,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
       );
       if (state.tokenToSwap != null) {
         swapInfos = await calculateSwapInfos(
-          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address,
           state.tokenToSwapAmount,
           true,
         );
@@ -466,7 +466,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
 
     final balance = await ref.read(
       getBalanceProvider(
-        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+        state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address,
       ).future,
     );
     state = state.copyWith(tokenSwappedBalance: balance);
@@ -492,8 +492,8 @@ class SwapFormNotifier extends _$SwapFormNotifier
           ),
         );
         final poolInfosResult = await routerFactory.getPoolAddresses(
-          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
-          state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address!,
+          state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address,
+          state.tokenSwapped!.isUCO ? 'UCO' : state.tokenSwapped!.address,
         );
         await poolInfosResult.map(
           success: (success) async {
@@ -580,7 +580,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
       return;
     }
     final swapInfos = await calculateSwapInfos(
-      state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address!,
+      state.tokenToSwap!.isUCO ? 'UCO' : state.tokenToSwap!.address,
       state.tokenToSwapAmount,
       true,
     );

@@ -98,8 +98,8 @@ mixin ModelParser {
     required List<String> tokenVerifiedList,
     required String tokenAddress,
   }) async {
-    if (tokenAddress == 'UCO') {
-      return ucoToken;
+    if (tokenAddress.isUCO) {
+      return DexToken.uco();
     }
 
     final tokensListDatasource = await HiveTokensListDatasource.getInstance();
@@ -185,7 +185,7 @@ mixin ModelParser {
     DexPool pool,
   ) async {
     final adressesToSearch = <String>[getFarmListResponse.lpTokenAddress];
-    if (getFarmListResponse.rewardTokenAddress != 'UCO') {
+    if (getFarmListResponse.rewardTokenAddress.isNotUCO) {
       adressesToSearch.add(getFarmListResponse.rewardTokenAddress);
     }
 
@@ -208,8 +208,8 @@ mixin ModelParser {
         symbol: tokenResultMap[getFarmListResponse.rewardTokenAddress]!.symbol!,
       );
     } else {
-      if (getFarmListResponse.rewardTokenAddress == 'UCO') {
-        rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
+      if (getFarmListResponse.rewardTokenAddress.isUCO) {
+        rewardToken = DexToken.uco();
       }
     }
     return DexFarm(
@@ -245,9 +245,9 @@ mixin ModelParser {
 
         for (final txInput in tx.inputs) {
           if (txInput.from != tx.address!.address &&
-              (txInput.type == 'UCO' &&
-                      getFarmInfosResponse.rewardToken == 'UCO' ||
-                  txInput.type != 'UCO' &&
+              (txInput.type?.isUCO == true &&
+                      getFarmInfosResponse.rewardToken.isUCO ||
+                  txInput.type?.isNotUCO == true &&
                       getFarmInfosResponse.rewardToken ==
                           txInput.tokenAddress)) {
             remainingReward = archethic.fromBigInt(txInput.amount).toDouble();
@@ -310,8 +310,8 @@ mixin ModelParser {
 
     DexToken? rewardToken;
 
-    if (getFarmInfosResponse.rewardToken == 'UCO') {
-      rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
+    if (getFarmInfosResponse.rewardToken.isUCO) {
+      rewardToken = DexToken.uco();
       dexFarm = dexFarm.copyWith(rewardToken: rewardToken);
     } else {
       final adressesToSearch = <String>[getFarmInfosResponse.rewardToken];
@@ -426,8 +426,8 @@ mixin ModelParser {
 
     DexToken? rewardToken;
 
-    if (getFarmLockInfosResponse.rewardToken == 'UCO') {
-      rewardToken = const DexToken(name: 'UCO', symbol: 'UCO');
+    if (getFarmLockInfosResponse.rewardToken.isUCO) {
+      rewardToken = DexToken.uco();
       dexFarmLock = dexFarmLock.copyWith(rewardToken: rewardToken);
     } else {
       final adressesToSearch = <String>[getFarmLockInfosResponse.rewardToken];

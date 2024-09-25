@@ -42,7 +42,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
 
     final balance = await ref.read(
       getBalanceProvider(
-        token.isUCO ? 'UCO' : token.address!,
+        token.isUCO ? 'UCO' : token.address,
       ).future,
     );
     state = state.copyWith(token1Balance: balance);
@@ -87,7 +87,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
 
     final balance = await ref.read(
       getBalanceProvider(
-        token.isUCO ? 'UCO' : token.address!,
+        token.isUCO ? 'UCO' : token.address,
       ).future,
     );
     state = state.copyWith(token2Balance: balance);
@@ -421,8 +421,8 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
       ),
     );
     final poolInfosResult = await routerFactory.getPoolAddresses(
-      state.token1!.isUCO ? 'UCO' : state.token1!.address!,
-      state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+      state.token1!.isUCO ? 'UCO' : state.token1!.address,
+      state.token2!.isUCO ? 'UCO' : state.token2!.address,
     );
     poolInfosResult.map(
       success: (success) {

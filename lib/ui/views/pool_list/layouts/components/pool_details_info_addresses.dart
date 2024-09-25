@@ -2,7 +2,6 @@ import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -40,7 +39,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
               FormatAddressLinkCopy(
                 header: AppLocalizations.of(context)!
                     .poolDetailsInfoAddressesLPAddress,
-                address: pool!.lpToken.address!.toUpperCase(),
+                address: pool!.lpToken.address.toUpperCase(),
                 typeAddress: TypeAddressLinkCopy.transaction,
                 reduceAddress: true,
                 fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize!,
@@ -59,7 +58,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
                           '%1',
                           pool!.pair.token1.symbol.reduceSymbol(),
                         ),
-                    address: pool!.pair.token1.address!.toUpperCase(),
+                    address: pool!.pair.token1.address.toUpperCase(),
                     typeAddress: TypeAddressLinkCopy.transaction,
                     reduceAddress: true,
                     fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize!,
@@ -69,7 +68,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
                   width: 5,
                 ),
                 VerifiedTokenIcon(
-                  address: pool!.pair.token1.address!,
+                  address: pool!.pair.token1.address,
                 ),
               ],
             )
@@ -87,7 +86,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
                           '%1',
                           pool!.pair.token2.symbol.reduceSymbol(),
                         ),
-                    address: pool!.pair.token2.address!.toUpperCase(),
+                    address: pool!.pair.token2.address.toUpperCase(),
                     typeAddress: TypeAddressLinkCopy.transaction,
                     reduceAddress: true,
                     fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize!,
@@ -97,7 +96,7 @@ class PoolDetailsInfoAddresses extends ConsumerWidget {
                   width: 5,
                 ),
                 VerifiedTokenIcon(
-                  address: pool!.pair.token2.address!,
+                  address: pool!.pair.token2.address,
                 ),
               ],
             )

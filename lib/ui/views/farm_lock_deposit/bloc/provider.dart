@@ -250,7 +250,7 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
             localizations,
             this,
             state.farmLock!.farmAddress,
-            state.farmLock!.lpToken!.address!,
+            state.farmLock!.lpToken!.address,
             state.amount,
             state.farmLock!.farmAddress,
             false,

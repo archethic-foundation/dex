@@ -62,9 +62,7 @@ class PoolAddToken2Selection extends ConsumerWidget {
                       child: Row(
                         children: [
                           DexTokenIcon(
-                            tokenAddress: poolAdd.token2!.address == null
-                                ? 'UCO'
-                                : poolAdd.token2!.address!,
+                            tokenAddress: poolAdd.token2!.address,
                           ),
                           const SizedBox(
                             width: 10,

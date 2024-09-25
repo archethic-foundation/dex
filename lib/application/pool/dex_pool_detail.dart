@@ -57,7 +57,7 @@ Future<DexPool> _loadPoolCard(
   final userBalance = await ref.watch(userBalanceProvider.future);
   var lpTokenInUserBalance = false;
   for (final userTokensBalance in userBalance.token) {
-    if (poolOutput.lpToken.address!.toUpperCase() ==
+    if (poolOutput.lpToken.address.toUpperCase() ==
         userTokensBalance.address!.toUpperCase()) {
       lpTokenInUserBalance = true;
     }

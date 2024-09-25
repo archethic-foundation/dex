@@ -1,3 +1,4 @@
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/repositories/balance.repository.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 
@@ -17,7 +18,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
     }
     final balanceGetResponse = balanceGetResponseMap[address];
 
-    if (tokenAddress == 'UCO') {
+    if (tokenAddress.isUCO) {
       return archethic.fromBigInt(balanceGetResponse!.uco).toDouble();
     }
     for (final balanceToken in balanceGetResponse!.token) {

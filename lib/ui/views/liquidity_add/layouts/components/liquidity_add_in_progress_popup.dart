@@ -48,14 +48,12 @@ class LiquidityAddInProgressPopup {
       ),
       const LiquidityAddInProgressTxAddresses(),
       if (liquidityAdd.pool != null &&
-          liquidityAdd.pool!.lpToken.address != null &&
           liquidityAdd.transactionAddLiquidity != null &&
           liquidityAdd.transactionAddLiquidity!.address != null &&
           liquidityAdd.transactionAddLiquidity!.address!.address != null)
         const LiquidityAddFinalAmount(),
       const Spacer(),
       if (liquidityAdd.pool == null ||
-          liquidityAdd.pool!.lpToken.address == null ||
           liquidityAdd.transactionAddLiquidity == null ||
           liquidityAdd.transactionAddLiquidity!.address == null ||
           liquidityAdd.transactionAddLiquidity!.address!.address == null)

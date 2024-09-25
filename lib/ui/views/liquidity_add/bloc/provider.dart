@@ -45,21 +45,21 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
   Future<void> initBalances() async {
     final token1Balance = await ref.read(
       getBalanceProvider(
-        state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+        state.token1!.isUCO ? 'UCO' : state.token1!.address,
       ).future,
     );
     state = state.copyWith(token1Balance: token1Balance);
 
     final token2Balance = await ref.read(
       getBalanceProvider(
-        state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+        state.token2!.isUCO ? 'UCO' : state.token2!.address,
       ).future,
     );
     state = state.copyWith(token2Balance: token2Balance);
 
     final lpTokenBalance = await ref.read(
       getBalanceProvider(
-        state.pool!.lpToken.address!,
+        state.pool!.lpToken.address,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
@@ -70,7 +70,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     final equivalentAmounResult =
         await PoolFactoryRepositoryImpl(state.pool!.poolAddress, apiService)
             .getEquivalentAmount(
-      state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+      state.token1!.isUCO ? 'UCO' : state.token1!.address,
       1,
     );
     var ratio = 0.0;
@@ -217,7 +217,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
         calculationInProgress: true,
       );
       final equivalentAmount = await _calculateEquivalentAmount(
-        state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+        state.token1!.isUCO ? 'UCO' : state.token1!.address,
         state.token1Amount,
       );
       state = state.copyWith(
@@ -230,7 +230,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
         calculationInProgress: true,
       );
       final equivalentAmount = await _calculateEquivalentAmount(
-        state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+        state.token2!.isUCO ? 'UCO' : state.token2!.address,
         state.token2Amount,
       );
       state = state.copyWith(

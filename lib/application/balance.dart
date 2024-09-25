@@ -1,5 +1,6 @@
 import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/balance.repository.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:collection/collection.dart';
@@ -30,7 +31,7 @@ Future<double> getBalance(
   String tokenAddress,
 ) async {
   final userBalance = await ref.watch(userBalanceProvider.future);
-  if (tokenAddress == 'UCO') {
+  if (tokenAddress.isUCO) {
     return archethic.fromBigInt(userBalance.uco).toDouble();
   }
 

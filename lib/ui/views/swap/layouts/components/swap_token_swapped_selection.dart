@@ -59,9 +59,7 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
                         child: Row(
                           children: [
                             DexTokenIcon(
-                              tokenAddress: swap.tokenSwapped!.address == null
-                                  ? 'UCO'
-                                  : swap.tokenSwapped!.address!,
+                              tokenAddress: swap.tokenSwapped!.address,
                             ),
                             const SizedBox(
                               width: 10,

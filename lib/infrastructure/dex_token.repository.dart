@@ -59,9 +59,8 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
       if (token.tokenId == 0) tokenAddressList.add(token.address!);
     }
 
-    final dexTokenUCO = ucoToken.copyWith(
+    final dexTokenUCO = DexToken.uco(
       balance: archethic.fromBigInt(balance.uco).toDouble(),
-      icon: 'Archethic.svg',
     );
     dexTokens.add(dexTokenUCO);
 
@@ -91,10 +90,10 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
       if (value.properties.isNotEmpty &&
           value.properties['token1_address'] != null &&
           value.properties['token2_address'] != null) {
-        if (value.properties['token1_address'] != 'UCO') {
+        if (value.properties['token1_address'] != kUCOAddress) {
           tokenSymbolSearch.add(value.properties['token1_address']);
         }
-        if (value.properties['token2_address'] != 'UCO') {
+        if (value.properties['token2_address'] != kUCOAddress) {
           tokenSymbolSearch.add(value.properties['token2_address']);
         }
         final tokensSymbolMap = await apiService.getToken(
@@ -105,7 +104,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
         dexToken = dexToken.copyWith(
           isLpToken: true,
           lpTokenPair: DexPair(
-            token1: value.properties['token1_address'] != 'UCO'
+            token1: value.properties['token1_address'] != kUCOAddress
                 ? DexToken(
                     address: value.properties['token1_address'],
                     name: tokensSymbolMap[value.properties['token1_address']] !=
@@ -120,8 +119,8 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
                             .symbol!
                         : '',
                   )
-                : ucoToken,
-            token2: value.properties['token2_address'] != 'UCO'
+                : DexToken.uco(),
+            token2: value.properties['token2_address'] != kUCOAddress
                 ? DexToken(
                     address: value.properties['token2_address'],
                     name: tokensSymbolMap[value.properties['token2_address']] !=
@@ -136,7 +135,7 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
                             .symbol!
                         : '',
                   )
-                : ucoToken,
+                : DexToken.uco(),
           ),
         );
       }

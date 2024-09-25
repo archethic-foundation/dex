@@ -87,7 +87,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                       FutureBuilder<double>(
                         future: ref.watch(
                           getBalanceProvider(
-                            pool!.lpToken.address!,
+                            pool!.lpToken.address,
                           ).future,
                         ),
                         builder: (context, snapshotBalance) {

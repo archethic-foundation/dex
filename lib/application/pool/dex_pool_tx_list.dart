@@ -74,8 +74,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
                 .validationStamp!.ledgerOperations!.transactionMovements) {
               if ((transactionMovement.tokenAddress != null &&
                       transactionMovement.tokenAddress!.toUpperCase() ==
-                          pool.pair.token1.address!.toUpperCase()) ||
-                  (transactionMovement.type!.toUpperCase() == 'UCO' &&
+                          pool.pair.token1.address.toUpperCase()) ||
+                  (transactionMovement.type!.toUpperCase().isUCO &&
                       pool.pair.token1.isUCO)) {
                 token1Amount = fromBigInt(
                   transactionMovement.amount,
@@ -88,8 +88,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
 
               if ((transactionMovement.tokenAddress != null &&
                       transactionMovement.tokenAddress!.toUpperCase() ==
-                          pool.pair.token2.address!.toUpperCase()) ||
-                  (transactionMovement.type!.toUpperCase() == 'UCO' &&
+                          pool.pair.token2.address.toUpperCase()) ||
+                  (transactionMovement.type!.toUpperCase().isUCO &&
                       pool.pair.token2.isUCO)) {
                 token1Amount = fromBigInt(
                   transactionMovement.amount,
@@ -107,8 +107,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
                   kProtocolFeeAddress) {
                 if ((transactionMovement.tokenAddress != null &&
                         transactionMovement.tokenAddress!.toUpperCase() ==
-                            pool.pair.token1.address!.toUpperCase()) ||
-                    (transactionMovement.type!.toUpperCase() == 'UCO' &&
+                            pool.pair.token1.address.toUpperCase()) ||
+                    (transactionMovement.type!.toUpperCase().isUCO &&
                         pool.pair.token1.isUCO)) {
                   token2Amount = fromBigInt(
                     transactionMovement.amount,
@@ -121,8 +121,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
 
                 if ((transactionMovement.tokenAddress != null &&
                         transactionMovement.tokenAddress!.toUpperCase() ==
-                            pool.pair.token2.address!.toUpperCase()) ||
-                    (transactionMovement.type!.toUpperCase() == 'UCO' &&
+                            pool.pair.token2.address.toUpperCase()) ||
+                    (transactionMovement.type!.toUpperCase().isUCO &&
                         pool.pair.token2.isUCO)) {
                   token2Amount = fromBigInt(
                     transactionMovement.amount,
@@ -141,8 +141,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
                 .validationStamp!.ledgerOperations!.transactionMovements) {
               if ((transactionMovement.tokenAddress != null &&
                       transactionMovement.tokenAddress!.toUpperCase() ==
-                          pool.pair.token1.address!.toUpperCase()) ||
-                  (transactionMovement.type!.toUpperCase() == 'UCO' &&
+                          pool.pair.token1.address.toUpperCase()) ||
+                  (transactionMovement.type!.toUpperCase().isUCO &&
                       pool.pair.token1.isUCO)) {
                 token1Amount = fromBigInt(
                   transactionMovement.amount,
@@ -155,8 +155,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
 
               if ((transactionMovement.tokenAddress != null &&
                       transactionMovement.tokenAddress!.toUpperCase() ==
-                          pool.pair.token2.address!.toUpperCase()) ||
-                  (transactionMovement.type!.toUpperCase() == 'UCO' &&
+                          pool.pair.token2.address.toUpperCase()) ||
+                  (transactionMovement.type!.toUpperCase().isUCO &&
                       pool.pair.token2.isUCO)) {
                 token2Amount = fromBigInt(
                   transactionMovement.amount,
@@ -175,8 +175,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
                 .validationStamp!.ledgerOperations!.transactionMovements) {
               if ((transactionMovement.tokenAddress != null &&
                       transactionMovement.tokenAddress!.toUpperCase() ==
-                          pool.pair.token1.address!.toUpperCase()) ||
-                  (transactionMovement.type!.toUpperCase() == 'UCO' &&
+                          pool.pair.token1.address.toUpperCase()) ||
+                  (transactionMovement.type!.toUpperCase().isUCO &&
                       pool.pair.token1.isUCO)) {
                 token1Amount = fromBigInt(
                   transactionMovement.amount,
@@ -189,8 +189,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
 
               if ((transactionMovement.tokenAddress != null &&
                       transactionMovement.tokenAddress!.toUpperCase() ==
-                          pool.pair.token2.address!.toUpperCase()) ||
-                  (transactionMovement.type!.toUpperCase() == 'UCO' &&
+                          pool.pair.token2.address.toUpperCase()) ||
+                  (transactionMovement.type!.toUpperCase().isUCO &&
                       pool.pair.token2.isUCO)) {
                 token2Amount = fromBigInt(
                   transactionMovement.amount,

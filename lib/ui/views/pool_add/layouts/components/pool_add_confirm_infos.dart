@@ -88,7 +88,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             FormatAddressLink(
                               address: poolAdd.token1!.isUCO
                                   ? 'UCO'
-                                  : poolAdd.token1!.address!,
+                                  : poolAdd.token1!.address,
                             ),
                           const SizedBox(
                             width: 5,
@@ -98,7 +98,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             child: VerifiedTokenIcon(
                               address: poolAdd.token1!.isUCO
                                   ? 'UCO'
-                                  : poolAdd.token1!.address!,
+                                  : poolAdd.token1!.address,
                             ),
                           ),
                         ],
@@ -131,7 +131,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             FormatAddressLink(
                               address: poolAdd.token2!.isUCO
                                   ? 'UCO'
-                                  : poolAdd.token2!.address!,
+                                  : poolAdd.token2!.address,
                             ),
                           const SizedBox(
                             width: 5,
@@ -141,7 +141,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             child: VerifiedTokenIcon(
                               address: poolAdd.token2!.isUCO
                                   ? 'UCO'
-                                  : poolAdd.token2!.address!,
+                                  : poolAdd.token2!.address,
                             ),
                           ),
                         ],

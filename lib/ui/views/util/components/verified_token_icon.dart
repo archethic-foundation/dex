@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/verified_tokens.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class VerifiedTokenIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (address == 'UCO') {
+    if (address.isUCO) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 3),
         child: Tooltip(

@@ -109,7 +109,7 @@ class FarmLockClaimConfirmInfos extends ConsumerWidget {
                   getBalanceProvider(
                     farmLockClaim.rewardToken!.isUCO
                         ? 'UCO'
-                        : farmLockClaim.rewardToken!.address!,
+                        : farmLockClaim.rewardToken!.address,
                   ).future,
                 ),
                 builder: (

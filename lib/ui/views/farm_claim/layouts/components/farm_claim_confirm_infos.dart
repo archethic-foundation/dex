@@ -107,9 +107,7 @@ class FarmClaimConfirmInfos extends ConsumerWidget {
               FutureBuilder<double>(
                 future: ref.watch(
                   getBalanceProvider(
-                    farmClaim.rewardToken!.isUCO
-                        ? 'UCO'
-                        : farmClaim.rewardToken!.address!,
+                    farmClaim.rewardToken!.address,
                   ).future,
                 ),
                 builder: (

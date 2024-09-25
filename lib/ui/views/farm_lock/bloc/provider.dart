@@ -156,23 +156,19 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
 
     final token1BalanceFuture = ref.watch(
       getBalanceProvider(
-        state.pool!.pair.token1.isUCO
-            ? 'UCO'
-            : state.pool!.pair.token1.address!,
+        state.pool!.pair.token1.address,
       ).future,
     );
 
     final token2BalanceFuture = ref.watch(
       getBalanceProvider(
-        state.pool!.pair.token2.isUCO
-            ? 'UCO'
-            : state.pool!.pair.token2.address!,
+        state.pool!.pair.token2.address,
       ).future,
     );
 
     final lpTokenBalanceFuture = ref.watch(
       getBalanceProvider(
-        state.pool!.lpToken.address!,
+        state.pool!.lpToken.address,
       ).future,
     );
 

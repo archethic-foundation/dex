@@ -78,9 +78,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                           PoolInfoCard(
                             poolGenesisAddress: liquidityAdd.pool!.poolAddress,
                             tokenAddressRatioPrimary:
-                                liquidityAdd.token1!.address == null
-                                    ? 'UCO'
-                                    : liquidityAdd.token1!.address!,
+                                liquidityAdd.token1!.address,
                           ),
                         const SizedBox(
                           height: 10,

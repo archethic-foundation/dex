@@ -44,7 +44,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
         if (swap.tokenToSwap != null) {
           final balanceToSwap = await ref.read(
             getBalanceProvider(
-              swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+              swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address,
             ).future,
           );
           swapNotifier.setTokenToSwapBalance(balanceToSwap);
@@ -53,7 +53,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
         if (swap.tokenSwapped != null) {
           final balanceSwapped = await ref.read(
             getBalanceProvider(
-              swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
+              swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address,
             ).future,
           );
           swapNotifier.setTokenSwappedBalance(balanceSwapped);
@@ -61,7 +61,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
 
         if (swap.tokenToSwap != null && swap.tokenSwapped != null) {
           await swapNotifier.calculateSwapInfos(
-            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address,
             swap.tokenToSwapAmount,
             true,
           );

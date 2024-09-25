@@ -207,7 +207,7 @@ final _dexTokenBasesProvider =
 );
 
 typedef _DexTokenBasesRef = AutoDisposeFutureProviderRef<List<DexToken>>;
-String _$dexTokenBaseHash() => r'a39b9faa0af6745399ba870831980a7258a921f9';
+String _$dexTokenBaseHash() => r'3bb48d518509076fb42528b294df81e32290f7d5';
 
 /// See also [_dexTokenBase].
 @ProviderFor(_dexTokenBase)
@@ -464,7 +464,7 @@ class _GetTokenIconProviderElement
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'4da060e8331e874aade07955209404b1444a3947';
+    r'111c469ac6f333cee36b9376c434eb4084229526';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)

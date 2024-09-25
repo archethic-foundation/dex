@@ -21,7 +21,7 @@ final userBalanceProvider =
 );
 
 typedef UserBalanceRef = AutoDisposeFutureProviderRef<archethic.Balance>;
-String _$getBalanceHash() => r'a9dba55086a70b97d4e6395376335f5fc95b6cfd';
+String _$getBalanceHash() => r'434260970828b87135c5630cca11ea79edadc8aa';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -104,7 +104,7 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
   Future<void> initBalance() async {
     final lpTokenBalance = await ref.read(
       getBalanceProvider(
-        state.lpToken!.address!,
+        state.lpToken!.address,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
@@ -182,13 +182,13 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     );
     final balanceToken1 = await ref.read(
       getBalanceProvider(
-        state.token1!.isUCO ? 'UCO' : state.token1!.address!,
+        state.token1!.isUCO ? 'UCO' : state.token1!.address,
       ).future,
     );
     state = state.copyWith(token1Balance: balanceToken1);
     final balanceToken2 = await ref.read(
       getBalanceProvider(
-        state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+        state.token2!.isUCO ? 'UCO' : state.token2!.address,
       ).future,
     );
     state = state.copyWith(
@@ -338,7 +338,7 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
             localizations,
             this,
             state.pool!.poolAddress,
-            state.lpToken!.address!,
+            state.lpToken!.address,
             state.lpTokenAmount,
             state.token1!,
             state.token2!,

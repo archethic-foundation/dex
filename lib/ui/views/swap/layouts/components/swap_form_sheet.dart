@@ -51,12 +51,12 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
 
         if (widget.from != null) {
           DexToken? _tokenToSwap;
-          if (widget.from != 'UCO') {
+          if (widget.from?.isUCO == false) {
             _tokenToSwap = await ref.read(
               DexTokensProviders.getTokenFromAddress(widget.from).future,
             );
           } else {
-            _tokenToSwap = ucoToken;
+            _tokenToSwap = DexToken.uco();
           }
           if (_tokenToSwap != null) {
             await ref
@@ -73,12 +73,12 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
 
         if (widget.to != null) {
           DexToken? _tokenSwapped;
-          if (widget.to != 'UCO') {
+          if (widget.to?.isUCO == false) {
             _tokenSwapped = await ref.read(
               DexTokensProviders.getTokenFromAddress(widget.to).future,
             );
           } else {
-            _tokenSwapped = ucoToken;
+            _tokenSwapped = DexToken.uco();
           }
           if (_tokenSwapped != null) {
             await ref

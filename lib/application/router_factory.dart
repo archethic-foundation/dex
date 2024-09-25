@@ -5,6 +5,7 @@ import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/verified_tokens.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/domain/models/util/get_farm_list_response.dart';
 import 'package:aedex/domain/models/util/get_pool_list_response.dart';
 import 'package:aedex/domain/models/util/model_parser.dart';
@@ -103,7 +104,7 @@ class RouterFactory with ModelParser {
 
         final tokensMissingFromCache = getPoolListResponse
             .expand((poolListResponse) => poolListResponse.tokens)
-            .whereNot((tokenAddress) => tokenAddress == 'UCO')
+            .where((tokenAddress) => tokenAddress.isNotUCO)
             .whereNot(
               (tokenAddress) => localTokensDatasource.containsToken(
                 environment,
@@ -174,7 +175,7 @@ class RouterFactory with ModelParser {
           }
           final dexpool = poolList.singleWhere(
             (pool) =>
-                pool.lpToken.address!.toUpperCase() ==
+                pool.lpToken.address.toUpperCase() ==
                 getFarmListResponse.lpTokenAddress.toUpperCase(),
           );
 

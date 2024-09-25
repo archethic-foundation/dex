@@ -102,8 +102,8 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 2),
                 child: DexPairIcons(
-                  token1Address: farmLockForm.pool!.pair.token1.address!,
-                  token2Address: farmLockForm.pool!.pair.token2.address!,
+                  token1Address: farmLockForm.pool!.pair.token1.address,
+                  token2Address: farmLockForm.pool!.pair.token2.address,
                   iconSize: 26,
                 ),
               ),

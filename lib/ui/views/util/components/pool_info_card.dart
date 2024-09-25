@@ -116,7 +116,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                     message: pool!.pair.token1.symbol,
                                     child: FormatAddressLinkCopy(
                                       header: pool!.pair.token1.symbol,
-                                      address: pool!.pair.token1.address!
+                                      address: pool!.pair.token1.address
                                           .toUpperCase(),
                                       typeAddress:
                                           TypeAddressLinkCopy.transaction,
@@ -131,7 +131,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                     width: 5,
                                   ),
                                   VerifiedTokenIcon(
-                                    address: pool!.pair.token1.address!,
+                                    address: pool!.pair.token1.address,
                                   ),
                                   const SizedBox(
                                     width: 10,
@@ -148,7 +148,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                     message: pool!.pair.token2.symbol,
                                     child: FormatAddressLinkCopy(
                                       header: pool!.pair.token2.symbol,
-                                      address: pool!.pair.token2.address!
+                                      address: pool!.pair.token2.address
                                           .toUpperCase(),
                                       typeAddress:
                                           TypeAddressLinkCopy.transaction,
@@ -163,7 +163,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                     width: 5,
                                   ),
                                   VerifiedTokenIcon(
-                                    address: pool!.pair.token2.address!,
+                                    address: pool!.pair.token2.address,
                                   ),
                                 ],
                               ),
@@ -244,7 +244,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                         message: pool!.pair.token1.symbol,
                                         child: FormatAddressLinkCopy(
                                           header: pool!.pair.token1.symbol,
-                                          address: pool!.pair.token1.address!
+                                          address: pool!.pair.token1.address
                                               .toUpperCase(),
                                           typeAddress:
                                               TypeAddressLinkCopy.transaction,
@@ -259,7 +259,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                         width: 5,
                                       ),
                                       VerifiedTokenIcon(
-                                        address: pool!.pair.token1.address!,
+                                        address: pool!.pair.token1.address,
                                       ),
                                       const SizedBox(
                                         width: 10,
@@ -276,7 +276,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                         message: pool!.pair.token2.symbol,
                                         child: FormatAddressLinkCopy(
                                           header: pool!.pair.token2.symbol,
-                                          address: pool!.pair.token2.address!
+                                          address: pool!.pair.token2.address
                                               .toUpperCase(),
                                           typeAddress:
                                               TypeAddressLinkCopy.transaction,
@@ -291,7 +291,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
                                         width: 5,
                                       ),
                                       VerifiedTokenIcon(
-                                        address: pool!.pair.token2.address!,
+                                        address: pool!.pair.token2.address,
                                       ),
                                     ],
                                   ),
@@ -320,9 +320,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         DexTokenIcon(
-          tokenAddress: pool.pair.token1.address == null
-              ? 'UCO'
-              : pool.pair.token1.address!,
+          tokenAddress: pool.pair.token1.address,
         ),
         const SizedBox(
           width: 10,
@@ -339,9 +337,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
           child: SelectableText('/'),
         ),
         DexTokenIcon(
-          tokenAddress: pool.pair.token2.address == null
-              ? 'UCO'
-              : pool.pair.token2.address!,
+          tokenAddress: pool.pair.token2.address,
         ),
         const SizedBox(
           width: 10,

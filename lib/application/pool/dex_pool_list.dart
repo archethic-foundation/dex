@@ -48,18 +48,18 @@ List<DexPool> _getPoolListForSearch(
 ) {
   bool _poolMatchesSearch(DexPool pool) {
     return (pool.poolAddress.toUpperCase() == searchText.toUpperCase() ||
-            pool.pair.token1.address!.toUpperCase() ==
+            pool.pair.token1.address.toUpperCase() ==
                 searchText.toUpperCase() ||
-            pool.pair.token2.address!.toUpperCase() ==
+            pool.pair.token2.address.toUpperCase() ==
                 searchText.toUpperCase() ||
-            pool.lpToken.address!.toUpperCase() == searchText.toUpperCase()) ||
-        (searchText.toUpperCase() == 'UCO' &&
+            pool.lpToken.address.toUpperCase() == searchText.toUpperCase()) ||
+        (searchText.toUpperCase().isUCO &&
             (pool.pair.token1.isUCO || pool.pair.token2.isUCO));
   }
 
   final dexPools = <DexPool>[];
   if (searchText.isEmpty ||
-      (searchText.length != 68 && searchText.toUpperCase() != 'UCO')) {
+      (searchText.length != 68 && searchText.toUpperCase().isNotUCO)) {
     return dexPools;
   }
 

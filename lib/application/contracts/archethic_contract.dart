@@ -37,8 +37,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
         verifiedTokensRepository,
       );
       final poolInfosResult = await routerFactory.getPoolAddresses(
-        token1.isUCO ? 'UCO' : token1.address!,
-        token2.isUCO ? 'UCO' : token2.address!,
+        token1.address,
+        token2.address,
       );
       poolInfosResult.map(
         success: (success) {
@@ -54,8 +54,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
       String? poolCode;
       final factory = Factory(factoryAddress, apiService);
       final resultPoolCode = await factory.getPoolCode(
-        token1.isUCO ? 'UCO' : token1.address!,
-        token2.isUCO ? 'UCO' : token2.address!,
+        token1.address,
+        token2.address,
         poolGenesisAddress,
         lpTokenAddress,
       );
@@ -75,8 +75,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       String? tokenDefinition;
       final resultLPTokenDefinition = await factory.getLPTokenDefinition(
-        token1.isUCO ? 'UCO' : token1.address!,
-        token2.isUCO ? 'UCO' : token2.address!,
+        token1.address,
+        token2.address,
       );
       resultLPTokenDefinition.map(
         success: (success) {
@@ -171,7 +171,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
       var token2AmountSorted = 0.0;
       DexToken? token1Sorted;
       DexToken? token2Sorted;
-      if (token1.address!.toUpperCase() ==
+      if (token1.address.toUpperCase() ==
           poolInfos['token1']['address'].toString().toUpperCase()) {
         token1AmountSorted = token1Amount;
         token2AmountSorted = token2Amount;
@@ -211,8 +211,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
         routerAddress,
         action: 'add_pool',
         args: [
-          if (token1Sorted.isUCO) 'UCO' else token1Sorted.address!,
-          if (token2Sorted.isUCO) 'UCO' else token2Sorted.address!,
+          token1Sorted.address,
+          token2Sorted.address,
           transactionPoolAddress.toUpperCase(),
         ],
       );
@@ -226,7 +226,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
         transactionAdd.addTokenTransfer(
           poolGenesisAddress,
           archethic.toBigInt(token1AmountSorted),
-          token1Sorted.address!,
+          token1Sorted.address,
         );
       }
 
@@ -239,7 +239,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
         transactionAdd.addTokenTransfer(
           poolGenesisAddress,
           archethic.toBigInt(token2AmountSorted),
-          token2Sorted.address!,
+          token2Sorted.address,
         );
       }
       return transactionAdd;
@@ -287,7 +287,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
       var token2AmountSorted = 0.0;
       DexToken? token1Sorted;
       DexToken? token2Sorted;
-      if (token1.address!.toUpperCase() ==
+      if (token1.address.toUpperCase() ==
           poolInfos['token1']['address'].toString().toUpperCase()) {
         token1AmountSorted = token1Amount;
         token2AmountSorted = token2Amount;
@@ -334,7 +334,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
         transactionLiquidity.addTokenTransfer(
           poolGenesisAddress,
           archethic.toBigInt(token1AmountSorted),
-          token1Sorted.address!,
+          token1Sorted.address,
         );
       }
 
@@ -347,7 +347,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
         transactionLiquidity.addTokenTransfer(
           poolGenesisAddress,
           archethic.toBigInt(token2AmountSorted),
-          token2Sorted.address!,
+          token2Sorted.address,
         );
       }
       return transactionLiquidity;
@@ -396,7 +396,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
       final getSwapInfosResult = await PoolFactoryRepositoryImpl(
         poolGenesisAddress,
         apiService,
-      ).getSwapInfosOutput(tokenToSwap.address!, tokenToSwapAmount);
+      ).getSwapInfosOutput(tokenToSwap.address, tokenToSwapAmount);
       getSwapInfosResult.map(
         success: (success) {
           if (success != null) {
@@ -453,7 +453,7 @@ class ArchethicContract with aedappfm.TransactionMixin {
         transactionSwap.addTokenTransfer(
           poolGenesisAddress,
           archethic.toBigInt(tokenToSwapAmount),
-          tokenToSwap.address!,
+          tokenToSwap.address,
         );
       }
 

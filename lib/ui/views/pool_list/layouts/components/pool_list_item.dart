@@ -63,7 +63,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
     if (mounted) {
       ref.invalidate(
         getBalanceProvider(
-          widget.pool.lpToken.address!,
+          widget.pool.lpToken.address,
         ),
       );
     }

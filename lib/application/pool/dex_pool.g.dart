@@ -21,7 +21,7 @@ final _dexPoolRepositoryProvider = Provider<DexPoolRepository>.internal(
 );
 
 typedef _DexPoolRepositoryRef = ProviderRef<DexPoolRepository>;
-String _$getRatioHash() => r'6ecfbb5b119346790822a4621c265611b2bd94d2';
+String _$getRatioHash() => r'd58a8b6ad9d56df2125af48f9b448293869c9726';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -316,7 +316,7 @@ class _EstimatePoolTVLInFiatProviderElement
   DexPool? get pool => (origin as _EstimatePoolTVLInFiatProvider).pool;
 }
 
-String _$estimateStatsHash() => r'd71d9b267f85d6179cbb239286b9709c37ab854c';
+String _$estimateStatsHash() => r'8e2afde077f912380c3feaca66c460ff74015139';
 
 /// See also [_estimateStats].
 @ProviderFor(_estimateStats)
@@ -995,7 +995,7 @@ final _getPoolListProvider = FutureProvider<List<DexPool>>.internal(
 
 typedef _GetPoolListRef = FutureProviderRef<List<DexPool>>;
 String _$getPoolListForSearchHash() =>
-    r'97a05577a87ca0b808612809ba8ed684bfdae08d';
+    r'9657cff22b514e3b82e9b47b26db13a16f94f791';
 
 /// See also [_getPoolListForSearch].
 @ProviderFor(_getPoolListForSearch)
@@ -1142,7 +1142,7 @@ class _GetPoolListForSearchProviderElement
       (origin as _GetPoolListForSearchProvider).poolList;
 }
 
-String _$getPoolTxListHash() => r'436a4e6ecbb4bb663463114bf2a9590444e84c1c';
+String _$getPoolTxListHash() => r'9027b48f195f8dc8b6d5f40d940d7e1a6feb540c';
 
 /// See also [_getPoolTxList].
 @ProviderFor(_getPoolTxList)

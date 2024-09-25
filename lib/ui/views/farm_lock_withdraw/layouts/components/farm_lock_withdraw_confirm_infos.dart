@@ -100,7 +100,7 @@ class FarmLockWithdrawConfirmInfos extends ConsumerWidget {
                   getBalanceProvider(
                     farmLockWithdraw.lpToken!.isUCO
                         ? 'UCO'
-                        : farmLockWithdraw.lpToken!.address!,
+                        : farmLockWithdraw.lpToken!.address,
                   ).future,
                 ),
                 builder: (

@@ -213,7 +213,7 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
           this,
           state.isFarmClose,
           state.farmAddress!,
-          state.lpToken!.address!,
+          state.lpToken!.address,
           state.amount,
           state.depositId,
           state.rewardToken!,

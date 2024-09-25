@@ -82,7 +82,7 @@ Future<List<DexPool>> poolsToDisplay(PoolsToDisplayRef ref) async {
         var lpTokenInUserBalance = false;
 
         for (final userTokensBalance in userBalance.token) {
-          if (pool.lpToken.address!.toUpperCase() ==
+          if (pool.lpToken.address.toUpperCase() ==
               userTokensBalance.address!.toUpperCase()) {
             lpTokenInUserBalance = true;
           }

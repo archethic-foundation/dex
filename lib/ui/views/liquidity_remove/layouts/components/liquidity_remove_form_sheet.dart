@@ -71,9 +71,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                             poolGenesisAddress:
                                 liquidityRemove.pool!.poolAddress,
                             tokenAddressRatioPrimary:
-                                liquidityRemove.token1!.address == null
-                                    ? 'UCO'
-                                    : liquidityRemove.token1!.address!,
+                                liquidityRemove.token1!.address,
                           ),
                         const SizedBox(
                           height: 20,

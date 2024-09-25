@@ -103,7 +103,7 @@ class FarmWithdrawConfirmInfos extends ConsumerWidget {
                   getBalanceProvider(
                     farmWithdraw.dexFarmInfo!.lpToken!.isUCO
                         ? 'UCO'
-                        : farmWithdraw.dexFarmInfo!.lpToken!.address!,
+                        : farmWithdraw.dexFarmInfo!.lpToken!.address,
                   ).future,
                 ),
                 builder: (

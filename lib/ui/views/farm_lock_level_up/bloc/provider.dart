@@ -27,7 +27,7 @@ class FarmLockLevelUpFormNotifier extends _$FarmLockLevelUpFormNotifier {
   Future<void> initBalances() async {
     final lpTokenBalance = await ref.read(
       getBalanceProvider(
-        state.pool!.lpToken.isUCO ? 'UCO' : state.pool!.lpToken.address!,
+        state.pool!.lpToken.isUCO ? 'UCO' : state.pool!.lpToken.address,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
@@ -219,7 +219,7 @@ class FarmLockLevelUpFormNotifier extends _$FarmLockLevelUpFormNotifier {
             localizations,
             this,
             state.farmLock!.farmAddress,
-            state.farmLock!.lpToken!.address!,
+            state.farmLock!.lpToken!.address,
             state.amount,
             state.depositId!,
             state.farmLock!.farmAddress,

@@ -26,9 +26,7 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
   Future<void> initBalances() async {
     final lpTokenBalance = await ref.read(
       getBalanceProvider(
-        state.dexFarmInfo!.lpToken!.isUCO
-            ? 'UCO'
-            : state.dexFarmInfo!.lpToken!.address!,
+        state.dexFarmInfo!.lpToken!.address,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
@@ -170,7 +168,7 @@ class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
           localizations,
           this,
           state.dexFarmInfo!.farmAddress,
-          state.dexFarmInfo!.lpToken!.address!,
+          state.dexFarmInfo!.lpToken!.address,
           state.amount,
           state.dexFarmInfo!.farmAddress,
           false,

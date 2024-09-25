@@ -47,7 +47,7 @@ Future<DexToken?> _dexTokenBase(
 ) async {
   final dexTokens = await ref.watch(_dexTokenBasesProvider.future);
   return dexTokens.firstWhereOrNull(
-    (token) => token.address?.toUpperCase() == address.toUpperCase(),
+    (token) => token.address.toUpperCase() == address.toUpperCase(),
   );
 }
 
@@ -68,7 +68,7 @@ Future<double> _estimateTokenInFiat(
   DexToken token,
 ) async {
   var fiatValue = 0.0;
-  if (token.symbol == 'UCO') {
+  if (token.isUCO) {
     final archethicOracleUCO =
         ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
@@ -77,7 +77,7 @@ Future<double> _estimateTokenInFiat(
     final session = ref.watch(sessionNotifierProvider);
     final price = await ref.watch(
       aedappfm.CoinPriceProviders.coinPrice(
-        address: token.address!,
+        address: token.address,
         environment: session.environment,
       ).future,
     );

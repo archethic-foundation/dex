@@ -12,7 +12,7 @@ Future<double> _getRatio(
     poolGenesisAddress,
     apiService,
   ).getPoolRatio(
-    token.isUCO ? 'UCO' : token.address!,
+    token.address,
   );
   var ratio = 0.0;
   poolRatioResult.map(
@@ -246,23 +246,23 @@ Future<DexPool> _estimateStats(
   final archethicOracleUCO =
       ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
-  if (pool.pair.token1.symbol == 'UCO') {
+  if (pool.pair.token1.isUCO) {
     priceToken1 = archethicOracleUCO.usd;
   } else {
     priceToken1 = await ref.watch(
       aedappfm.CoinPriceProviders.coinPrice(
-        address: pool.pair.token1.address!,
+        address: pool.pair.token1.address,
         environment: session.environment,
       ).future,
     );
   }
 
-  if (pool.pair.token2.symbol == 'UCO') {
+  if (pool.pair.token2.isUCO) {
     priceToken2 = archethicOracleUCO.usd;
   } else {
     priceToken2 = await ref.watch(
       aedappfm.CoinPriceProviders.coinPrice(
-        address: pool.pair.token2.address!,
+        address: pool.pair.token2.address,
         environment: session.environment,
       ).future,
     );

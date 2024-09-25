@@ -212,14 +212,14 @@ class SwapCase with aedappfm.TransactionMixin {
 
         final balanceSwapped = await ref.read(
           getBalanceProvider(
-            tokenSwapped.isUCO ? 'UCO' : tokenSwapped.address!,
+            tokenSwapped.address,
           ).future,
         );
         swapNotifier.setTokenSwappedBalance(balanceSwapped);
 
         final balanceToSwap = await ref.read(
           getBalanceProvider(
-            tokenToSwap.isUCO ? 'UCO' : tokenToSwap.address!,
+            tokenToSwap.address,
           ).future,
         );
         swapNotifier.setTokenToSwapBalance(balanceToSwap);
