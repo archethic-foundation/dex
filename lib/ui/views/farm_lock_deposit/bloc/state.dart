@@ -37,4 +37,7 @@ class FarmLockDepositFormState with _$FarmLockDepositFormState {
   const FarmLockDepositFormState._();
 
   bool get isControlsOk => failure == null && amount > 0;
+
+  String? get lpTokenAddress =>
+      pool?.lpToken.isUCO == true ? 'UCO' : pool?.lpToken.address;
 }

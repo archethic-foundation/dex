@@ -40,15 +40,8 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
           ..setDexPool(widget.pool)
           ..setDexFarmLock(widget.farmLock)
           ..setLevel(widget.farmLock.availableLevels.entries.last.key)
-          ..setAPREstimation(widget.farmLock.apr3years * 100);
-
-        await ref
-            .read(farmLockDepositFormNotifierProvider.notifier)
-            .initBalances();
-
-        ref
-            .read(farmLockDepositFormNotifierProvider.notifier)
-            .filterAvailableLevels();
+          ..setAPREstimation(widget.farmLock.apr3years * 100)
+          ..filterAvailableLevels();
       } catch (e) {
         if (mounted) {
           context.pop();

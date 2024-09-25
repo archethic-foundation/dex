@@ -43,7 +43,7 @@ final _dexBlockchainsRepositoryProvider =
 typedef _DexBlockchainsRepositoryRef
     = AutoDisposeProviderRef<DexBlockchainsRepository>;
 String _$getBlockchainsListHash() =>
-    r'38ffb87d4f836c6a8b692b444c29e0d853808bc0';
+    r'19e2e03e74ca1ee8474c18e432ab54bd33a7e57b';
 
 /// See also [_getBlockchainsList].
 @ProviderFor(_getBlockchainsList)

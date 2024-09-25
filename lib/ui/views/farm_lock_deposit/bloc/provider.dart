@@ -8,6 +8,7 @@ import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
+import 'package:aedex/util/riverpod.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -18,25 +19,31 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
   FarmLockDepositFormNotifier();
 
   @override
-  FarmLockDepositFormState build() => const FarmLockDepositFormState();
+  FarmLockDepositFormState build() {
+    final lpTokenBalance = _watchLPTokenBalance();
 
-  Future<void> initBalances() async {
-    final session = ref.read(sessionNotifierProvider);
-    if (session.isConnected == false) {
-      state = state.copyWith(lpTokenBalance: 0);
-      return;
-    }
-    final lpTokenBalance = await ref.read(
-      getBalanceProvider(
-        state.pool!.lpToken.isUCO ? 'UCO' : state.pool!.lpToken.address!,
-      ).future,
+    // Reuse previous state values.
+    // If this is a first build, uses a default state.
+    return (stateOrNull ?? const FarmLockDepositFormState()).copyWith(
+      lpTokenBalance: lpTokenBalance,
     );
-    state = state.copyWith(lpTokenBalance: lpTokenBalance);
+  }
+
+  double _watchLPTokenBalance() {
+    /// Rebuilds this provider when lpTokenAddress changes
+    /// That way, it will watch the appropriate lpBalanceProvider.
+    ref.invalidateSelfOnPropertyChange(
+      (state) => state?.lpTokenAddress,
+    );
+
+    final lpTokenAddress = stateOrNull?.lpTokenAddress;
+    if (lpTokenAddress == null) return 0;
+    return ref.watch(getBalanceProvider(lpTokenAddress)).valueOrNull ?? 0.0;
   }
 
   void setPoolsListTab(PoolsListTab poolsListTab) {
