@@ -14,7 +14,7 @@ class FiatValue {
     int precision = 2,
   }) async {
     final priceAsyncValue =
-        ref.watch(DexTokensProviders.estimateTokenInFiat(token));
+        ref.watch(DexTokensProviders.estimateTokenInFiat(token.address));
 
     return priceAsyncValue.when(
       data: (price) {

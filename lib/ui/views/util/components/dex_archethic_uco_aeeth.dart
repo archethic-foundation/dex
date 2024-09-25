@@ -20,9 +20,9 @@ class ArchethicOraclePair extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final valueToken1 =
-        ref.watch(DexTokensProviders.estimateTokenInFiat(token1));
+        ref.watch(DexTokensProviders.estimateTokenInFiat(token1.address));
     final valueToken2 =
-        ref.watch(DexTokensProviders.estimateTokenInFiat(token2));
+        ref.watch(DexTokensProviders.estimateTokenInFiat(token2.address));
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,

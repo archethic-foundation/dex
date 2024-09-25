@@ -464,7 +464,7 @@ class _GetTokenIconProviderElement
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'111c469ac6f333cee36b9376c434eb4084229526';
+    r'2e5fc01bd6bd1f2fb4fd6c5e8c62bd7efbe303fd';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)
@@ -477,10 +477,10 @@ class _EstimateTokenInFiatFamily extends Family<AsyncValue<double>> {
 
   /// See also [_estimateTokenInFiat].
   _EstimateTokenInFiatProvider call(
-    DexToken token,
+    String tokenAddress,
   ) {
     return _EstimateTokenInFiatProvider(
-      token,
+      tokenAddress,
     );
   }
 
@@ -489,7 +489,7 @@ class _EstimateTokenInFiatFamily extends Family<AsyncValue<double>> {
     covariant _EstimateTokenInFiatProvider provider,
   ) {
     return call(
-      provider.token,
+      provider.tokenAddress,
     );
   }
 
@@ -512,11 +512,11 @@ class _EstimateTokenInFiatFamily extends Family<AsyncValue<double>> {
 class _EstimateTokenInFiatProvider extends FutureProvider<double> {
   /// See also [_estimateTokenInFiat].
   _EstimateTokenInFiatProvider(
-    DexToken token,
+    String tokenAddress,
   ) : this._internal(
           (ref) => _estimateTokenInFiat(
             ref as _EstimateTokenInFiatRef,
-            token,
+            tokenAddress,
           ),
           from: _estimateTokenInFiatProvider,
           name: r'_estimateTokenInFiatProvider',
@@ -527,7 +527,7 @@ class _EstimateTokenInFiatProvider extends FutureProvider<double> {
           dependencies: _EstimateTokenInFiatFamily._dependencies,
           allTransitiveDependencies:
               _EstimateTokenInFiatFamily._allTransitiveDependencies,
-          token: token,
+          tokenAddress: tokenAddress,
         );
 
   _EstimateTokenInFiatProvider._internal(
@@ -537,10 +537,10 @@ class _EstimateTokenInFiatProvider extends FutureProvider<double> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.token,
+    required this.tokenAddress,
   }) : super.internal();
 
-  final DexToken token;
+  final String tokenAddress;
 
   @override
   Override overrideWith(
@@ -555,7 +555,7 @@ class _EstimateTokenInFiatProvider extends FutureProvider<double> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        token: token,
+        tokenAddress: tokenAddress,
       ),
     );
   }
@@ -567,21 +567,22 @@ class _EstimateTokenInFiatProvider extends FutureProvider<double> {
 
   @override
   bool operator ==(Object other) {
-    return other is _EstimateTokenInFiatProvider && other.token == token;
+    return other is _EstimateTokenInFiatProvider &&
+        other.tokenAddress == tokenAddress;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, token.hashCode);
+    hash = _SystemHash.combine(hash, tokenAddress.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin _EstimateTokenInFiatRef on FutureProviderRef<double> {
-  /// The parameter `token` of this provider.
-  DexToken get token;
+  /// The parameter `tokenAddress` of this provider.
+  String get tokenAddress;
 }
 
 class _EstimateTokenInFiatProviderElement extends FutureProviderElement<double>
@@ -589,11 +590,12 @@ class _EstimateTokenInFiatProviderElement extends FutureProviderElement<double>
   _EstimateTokenInFiatProviderElement(super.provider);
 
   @override
-  DexToken get token => (origin as _EstimateTokenInFiatProvider).token;
+  String get tokenAddress =>
+      (origin as _EstimateTokenInFiatProvider).tokenAddress;
 }
 
 String _$estimateLPTokenInFiatHash() =>
-    r'2246df0af9c65196a7b71371c7bc2da3cbaf246f';
+    r'c57bd4ed2dc3dcb30b13c32b5df61225c8ff0453';
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)
@@ -606,14 +608,14 @@ class _EstimateLPTokenInFiatFamily extends Family<AsyncValue<double>> {
 
   /// See also [_estimateLPTokenInFiat].
   _EstimateLPTokenInFiatProvider call(
-    DexToken token1,
-    DexToken token2,
+    String token1Address,
+    String token2Address,
     double lpTokenAmount,
     String poolAddress,
   ) {
     return _EstimateLPTokenInFiatProvider(
-      token1,
-      token2,
+      token1Address,
+      token2Address,
       lpTokenAmount,
       poolAddress,
     );
@@ -624,8 +626,8 @@ class _EstimateLPTokenInFiatFamily extends Family<AsyncValue<double>> {
     covariant _EstimateLPTokenInFiatProvider provider,
   ) {
     return call(
-      provider.token1,
-      provider.token2,
+      provider.token1Address,
+      provider.token2Address,
       provider.lpTokenAmount,
       provider.poolAddress,
     );
@@ -650,15 +652,15 @@ class _EstimateLPTokenInFiatFamily extends Family<AsyncValue<double>> {
 class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
   /// See also [_estimateLPTokenInFiat].
   _EstimateLPTokenInFiatProvider(
-    DexToken token1,
-    DexToken token2,
+    String token1Address,
+    String token2Address,
     double lpTokenAmount,
     String poolAddress,
   ) : this._internal(
           (ref) => _estimateLPTokenInFiat(
             ref as _EstimateLPTokenInFiatRef,
-            token1,
-            token2,
+            token1Address,
+            token2Address,
             lpTokenAmount,
             poolAddress,
           ),
@@ -671,8 +673,8 @@ class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
           dependencies: _EstimateLPTokenInFiatFamily._dependencies,
           allTransitiveDependencies:
               _EstimateLPTokenInFiatFamily._allTransitiveDependencies,
-          token1: token1,
-          token2: token2,
+          token1Address: token1Address,
+          token2Address: token2Address,
           lpTokenAmount: lpTokenAmount,
           poolAddress: poolAddress,
         );
@@ -684,14 +686,14 @@ class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.token1,
-    required this.token2,
+    required this.token1Address,
+    required this.token2Address,
     required this.lpTokenAmount,
     required this.poolAddress,
   }) : super.internal();
 
-  final DexToken token1;
-  final DexToken token2;
+  final String token1Address;
+  final String token2Address;
   final double lpTokenAmount;
   final String poolAddress;
 
@@ -708,8 +710,8 @@ class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        token1: token1,
-        token2: token2,
+        token1Address: token1Address,
+        token2Address: token2Address,
         lpTokenAmount: lpTokenAmount,
         poolAddress: poolAddress,
       ),
@@ -724,8 +726,8 @@ class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
   @override
   bool operator ==(Object other) {
     return other is _EstimateLPTokenInFiatProvider &&
-        other.token1 == token1 &&
-        other.token2 == token2 &&
+        other.token1Address == token1Address &&
+        other.token2Address == token2Address &&
         other.lpTokenAmount == lpTokenAmount &&
         other.poolAddress == poolAddress;
   }
@@ -733,8 +735,8 @@ class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, token1.hashCode);
-    hash = _SystemHash.combine(hash, token2.hashCode);
+    hash = _SystemHash.combine(hash, token1Address.hashCode);
+    hash = _SystemHash.combine(hash, token2Address.hashCode);
     hash = _SystemHash.combine(hash, lpTokenAmount.hashCode);
     hash = _SystemHash.combine(hash, poolAddress.hashCode);
 
@@ -743,11 +745,11 @@ class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
 }
 
 mixin _EstimateLPTokenInFiatRef on FutureProviderRef<double> {
-  /// The parameter `token1` of this provider.
-  DexToken get token1;
+  /// The parameter `token1Address` of this provider.
+  String get token1Address;
 
-  /// The parameter `token2` of this provider.
-  DexToken get token2;
+  /// The parameter `token2Address` of this provider.
+  String get token2Address;
 
   /// The parameter `lpTokenAmount` of this provider.
   double get lpTokenAmount;
@@ -761,9 +763,11 @@ class _EstimateLPTokenInFiatProviderElement
   _EstimateLPTokenInFiatProviderElement(super.provider);
 
   @override
-  DexToken get token1 => (origin as _EstimateLPTokenInFiatProvider).token1;
+  String get token1Address =>
+      (origin as _EstimateLPTokenInFiatProvider).token1Address;
   @override
-  DexToken get token2 => (origin as _EstimateLPTokenInFiatProvider).token2;
+  String get token2Address =>
+      (origin as _EstimateLPTokenInFiatProvider).token2Address;
   @override
   double get lpTokenAmount =>
       (origin as _EstimateLPTokenInFiatProvider).lpTokenAmount;

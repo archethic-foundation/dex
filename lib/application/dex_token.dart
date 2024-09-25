@@ -65,10 +65,10 @@ Future<String?> _getTokenIcon(
 @Riverpod(keepAlive: true)
 Future<double> _estimateTokenInFiat(
   _EstimateTokenInFiatRef ref,
-  DexToken token,
+  String tokenAddress,
 ) async {
   var fiatValue = 0.0;
-  if (token.isUCO) {
+  if (tokenAddress.isUCO) {
     final archethicOracleUCO =
         ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
@@ -77,7 +77,7 @@ Future<double> _estimateTokenInFiat(
     final session = ref.watch(sessionNotifierProvider);
     final price = await ref.watch(
       aedappfm.CoinPriceProviders.coinPrice(
-        address: token.address,
+        address: tokenAddress,
         environment: session.environment,
       ).future,
     );
@@ -90,8 +90,8 @@ Future<double> _estimateTokenInFiat(
 @Riverpod(keepAlive: true)
 Future<double> _estimateLPTokenInFiat(
   _EstimateLPTokenInFiatRef ref,
-  DexToken token1,
-  DexToken token2,
+  String token1Address,
+  String token2Address,
   double lpTokenAmount,
   String poolAddress,
 ) async {
@@ -102,10 +102,10 @@ Future<double> _estimateLPTokenInFiat(
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
 
-  fiatValueToken1 =
-      await ref.watch(DexTokensProviders.estimateTokenInFiat(token1).future);
-  fiatValueToken2 =
-      await ref.watch(DexTokensProviders.estimateTokenInFiat(token2).future);
+  fiatValueToken1 = await ref
+      .watch(DexTokensProviders.estimateTokenInFiat(token1Address).future);
+  fiatValueToken2 = await ref
+      .watch(DexTokensProviders.estimateTokenInFiat(token2Address).future);
 
   if (fiatValueToken1 == 0 && fiatValueToken2 == 0) {
     throw Exception();

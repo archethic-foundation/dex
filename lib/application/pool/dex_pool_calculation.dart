@@ -36,10 +36,12 @@ Future<double> _estimatePoolTVLInFiat(
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
   var tvl = 0.0;
-  fiatValueToken1 = await ref
-      .watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token1).future);
-  fiatValueToken2 = await ref
-      .watch(DexTokensProviders.estimateTokenInFiat(pool.pair.token2).future);
+  fiatValueToken1 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token1.address).future,
+  );
+  fiatValueToken2 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token2.address).future,
+  );
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
     tvl = pool.pair.token1.reserve * fiatValueToken1 +

@@ -11,10 +11,10 @@ Future<List<DexPoolTx>> _getPoolTxList(
       '0000CC1FADBD31B043947C016E09CCD59BC3C81E55AB8A4932A046236D5E0FEE9E45';
 
   final fiatValueToken1 = await ref.watch(
-    DexTokensProviders.estimateTokenInFiat(pool.pair.token1).future,
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token1.address).future,
   );
   final fiatValueToken2 = await ref.watch(
-    DexTokensProviders.estimateTokenInFiat(pool.pair.token2).future,
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token2.address).future,
   );
 
   final apiService = ref.watch(apiServiceProvider);

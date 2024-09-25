@@ -25,8 +25,8 @@ String dexLPTokenFiatValue(
 
   final estimateLPTokenInFiat = ref.watch(
     DexTokensProviders.estimateLPTokenInFiat(
-      token1,
-      token2,
+      token1.address,
+      token2.address,
       lpTokenAmount,
       poolAddress,
     ),

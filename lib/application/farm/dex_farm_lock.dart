@@ -50,13 +50,14 @@ Future<DexFarmLock?> _getFarmLockInfos(
             );
 
     final rewardTokenPriceInFiat = await ref.watch(
-      DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!).future,
+      DexTokensProviders.estimateTokenInFiat(farmLockInfos.rewardToken!.address)
+          .future,
     );
 
     final estimateLPTokenInFiat = await ref.watch(
       DexTokensProviders.estimateLPTokenInFiat(
-        farmLockInfos.lpTokenPair!.token1,
-        farmLockInfos.lpTokenPair!.token2,
+        farmLockInfos.lpTokenPair!.token1.address,
+        farmLockInfos.lpTokenPair!.token2.address,
         farmLockInfos.lpTokensDeposited,
         farmLockInfos.poolAddress,
       ).future,
@@ -92,8 +93,8 @@ Future<DexFarmLock?> _getFarmLockInfos(
 
       final lpDepositedPerLevelInFiat = await ref.watch(
         DexTokensProviders.estimateLPTokenInFiat(
-          farmLockInfos.lpTokenPair!.token1,
-          farmLockInfos.lpTokenPair!.token2,
+          farmLockInfos.lpTokenPair!.token1.address,
+          farmLockInfos.lpTokenPair!.token2.address,
           stats.lpTokensDeposited,
           dexFarmLockInput.poolAddress,
         ).future,
