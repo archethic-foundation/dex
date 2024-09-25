@@ -9,6 +9,7 @@ import 'package:aedex/infrastructure/hive/tokens_list.hive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 
 class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
@@ -69,9 +70,33 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
       request: 'name, symbol, properties',
     );
 
+    // Fetch all token of pairs from API
+    final tokensAddresses = tokenMap.entries
+        .expand<String>((entry) {
+          final token1Address = entry.value.properties['token1_address'];
+          final token2Address = entry.value.properties['token2_address'];
+          if (token1Address == null || token2Address == null) return [];
+
+          return [
+            token1Address,
+            token1Address,
+          ];
+        })
+        .whereNot((address) => address == kUCOAddress)
+        .toList();
+
+    final tokensSymbolMap = await apiService.getToken(
+      tokensAddresses,
+      request: 'name, symbol',
+    );
+
+    // Build [DexToken]s with previously fetched data
     for (final entry in tokenMap.entries) {
       final key = entry.key;
       final value = entry.value;
+
+      final token1Address = value.properties['token1_address'];
+      final token2Address = value.properties['token2_address'];
 
       final _token = value.copyWith(address: key);
 
@@ -86,59 +111,33 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
 
       var dexToken = tokenSDKToModel(_token, balanceAmount);
 
-      final tokenSymbolSearch = <String>[];
-      if (value.properties.isNotEmpty &&
-          value.properties['token1_address'] != null &&
-          value.properties['token2_address'] != null) {
-        if (value.properties['token1_address'] != kUCOAddress) {
-          tokenSymbolSearch.add(value.properties['token1_address']);
-        }
-        if (value.properties['token2_address'] != kUCOAddress) {
-          tokenSymbolSearch.add(value.properties['token2_address']);
-        }
-        final tokensSymbolMap = await apiService.getToken(
-          tokenSymbolSearch,
-          request: 'name, symbol',
-        );
-
-        dexToken = dexToken.copyWith(
-          isLpToken: true,
-          lpTokenPair: DexPair(
-            token1: value.properties['token1_address'] != kUCOAddress
-                ? DexToken(
-                    address: value.properties['token1_address'],
-                    name: tokensSymbolMap[value.properties['token1_address']] !=
-                            null
-                        ? tokensSymbolMap[value.properties['token1_address']]!
-                            .name!
-                        : '',
-                    symbol: tokensSymbolMap[
-                                value.properties['token1_address']] !=
-                            null
-                        ? tokensSymbolMap[value.properties['token1_address']]!
-                            .symbol!
-                        : '',
-                  )
-                : DexToken.uco(),
-            token2: value.properties['token2_address'] != kUCOAddress
-                ? DexToken(
-                    address: value.properties['token2_address'],
-                    name: tokensSymbolMap[value.properties['token2_address']] !=
-                            null
-                        ? tokensSymbolMap[value.properties['token2_address']]!
-                            .name!
-                        : '',
-                    symbol: tokensSymbolMap[
-                                value.properties['token2_address']] !=
-                            null
-                        ? tokensSymbolMap[value.properties['token2_address']]!
-                            .symbol!
-                        : '',
-                  )
-                : DexToken.uco(),
-          ),
-        );
-      }
+      dexToken = dexToken.copyWith(
+        isLpToken: true,
+        lpTokenPair: DexPair(
+          token1: token1Address == kUCOAddress
+              ? DexToken.uco()
+              : DexToken(
+                  address: token1Address,
+                  name: tokensSymbolMap[token1Address] != null
+                      ? tokensSymbolMap[token1Address]!.name!
+                      : '',
+                  symbol: tokensSymbolMap[token1Address] != null
+                      ? tokensSymbolMap[token1Address]!.symbol!
+                      : '',
+                ),
+          token2: token2Address != kUCOAddress
+              ? DexToken(
+                  address: token2Address,
+                  name: tokensSymbolMap[token2Address] != null
+                      ? tokensSymbolMap[token2Address]!.name!
+                      : '',
+                  symbol: tokensSymbolMap[token2Address] != null
+                      ? tokensSymbolMap[token2Address]!.symbol!
+                      : '',
+                )
+              : DexToken.uco(),
+        ),
+      );
       dexTokens.add(
         dexToken,
       );
