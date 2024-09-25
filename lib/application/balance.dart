@@ -2,27 +2,26 @@ import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/infrastructure/balance.repository.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'balance.g.dart';
 
 @riverpod
-Future<Balance> userBalance(UserBalanceRef ref) async {
+Future<archethic.Balance> userBalance(UserBalanceRef ref) async {
   final apiService = ref.watch(apiServiceProvider);
   final genesisAddress = ref.watch(
     sessionNotifierProvider.select((session) => session.genesisAddress),
   );
 
-  if (genesisAddress.isEmpty) return const Balance();
+  if (genesisAddress.isEmpty) return const archethic.Balance();
 
   return await BalanceRepositoryImpl(
         apiService: apiService,
       ).getUserTokensBalance(
         genesisAddress,
       ) ??
-      const Balance();
+      const archethic.Balance();
 }
 
 @riverpod

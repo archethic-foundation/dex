@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$poolAddFormNotifierHash() =>
-    r'b59beed9196db75ffa6c91cd4ee237bc74c1cafb';
+    r'58b431d46163757532994bf4529f9cc58fdabd8c';
 
 /// See also [PoolAddFormNotifier].
 @ProviderFor(PoolAddFormNotifier)

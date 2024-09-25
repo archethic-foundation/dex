@@ -53,7 +53,7 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
       ).future,
     );
 
-    final farmLock = await ref.read(
+    final farmLock = await ref.watch(
       DexFarmLockProviders.getFarmLockInfos(
         environment.aeETHUCOFarmLockAddress,
         environment.aeETHUCOPoolAddress,

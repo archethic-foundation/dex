@@ -27,7 +27,7 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final aeETHUCOPoolAddress =
-        ref.read(environmentProvider).aeETHUCOPoolAddress;
+        ref.watch(environmentProvider).aeETHUCOPoolAddress;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

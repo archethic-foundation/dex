@@ -6,11 +6,12 @@ part of 'balance.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userBalanceHash() => r'929711d7cadd83034de0d9d796725ec5b2cc2cc6';
+String _$userBalanceHash() => r'988a845165267bfe11e776c125feae77d16d93a9';
 
 /// See also [userBalance].
 @ProviderFor(userBalance)
-final userBalanceProvider = AutoDisposeFutureProvider<Balance>.internal(
+final userBalanceProvider =
+    AutoDisposeFutureProvider<archethic.Balance>.internal(
   userBalance,
   name: r'userBalanceProvider',
   debugGetCreateSourceHash:
@@ -19,7 +20,7 @@ final userBalanceProvider = AutoDisposeFutureProvider<Balance>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef UserBalanceRef = AutoDisposeFutureProviderRef<Balance>;
+typedef UserBalanceRef = AutoDisposeFutureProviderRef<archethic.Balance>;
 String _$getBalanceHash() => r'a9dba55086a70b97d4e6395376335f5fc95b6cfd';
 
 /// Copied from Dart SDK
