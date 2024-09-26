@@ -192,12 +192,9 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
 
   List<DexFarmLockUserInfos> sortData(
     String sortBy,
-    bool invertSort,
     List<DexFarmLockUserInfos> sortedUserInfos,
   ) {
-    if (invertSort) {
-      sortAscending[sortBy] = !sortAscending[sortBy]!;
-    }
+    sortAscending[sortBy] = !sortAscending[sortBy]!;
     final ascending = sortAscending[sortBy]!;
     sortedUserInfos.sort((a, b) {
       int compare;

@@ -45,25 +45,50 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.earn;
+
+      currentSortedColumn = 'level';
+      if (mounted) {
+        final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
+            const FarmLockFormState();
+        if (farmLockForm.farmLock != null) {
+          setState(() {
+            sortedUserInfos = farmLockForm.farmLock!.userInfos.entries
+                .map((entry) => entry.value)
+                .toList();
+
+            _onSort(
+              currentSortedColumn,
+              sortAscending[currentSortedColumn]!,
+              sortedUserInfos,
+            );
+          });
+        }
+      }
     });
-    currentSortedColumn = 'level';
 
     super.initState();
+  }
+
+  void _onSort(String column, bool ascending, List<DexFarmLockUserInfos> data) {
+    setState(() {
+      if (currentSortedColumn != column) {
+        sortAscending[column] = true;
+      } else {
+        sortAscending[column] = !sortAscending[column]!;
+      }
+
+      currentSortedColumn = column;
+
+      sortedUserInfos = ref
+          .read(farmLockFormNotifierProvider.notifier)
+          .sortData(column, data);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
         const FarmLockFormState();
-    if (farmLockForm.farmLock != null) {
-      sortedUserInfos = farmLockForm.farmLock!.userInfos.entries
-          .map((entry) => entry.value)
-          .toList();
-
-      sortedUserInfos = ref
-          .watch(farmLockFormNotifierProvider.notifier)
-          .sortData(currentSortedColumn, false, sortedUserInfos);
-    }
 
     return MainScreenList(
       body: _body(context, ref, farmLockForm.pool),
@@ -98,8 +123,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
             ),
             if (session.isConnected)
               FarmLockBlockListHeader(
-                onSort:
-                    ref.read(farmLockFormNotifierProvider.notifier).sortData,
+                onSort: _onSort,
                 sortAscending: sortAscending,
                 currentSortedColumn: currentSortedColumn,
                 sortedUserInfos: sortedUserInfos,

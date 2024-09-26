@@ -18,7 +18,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
     super.key,
   });
 
-  final List<DexFarmLockUserInfos> Function(
+  final void Function(
     String,
     bool,
     List<DexFarmLockUserInfos>,
@@ -149,11 +149,13 @@ class FarmLockBlockListHeader extends ConsumerWidget {
     double width,
   ) {
     return InkWell(
-      onTap: () => onSort(
-        sortBy,
-        true,
-        sortedUserInfos,
-      ),
+      onTap: () {
+        onSort(
+          sortBy,
+          sortAscending[sortBy]!,
+          sortedUserInfos,
+        );
+      },
       child: Container(
         padding: const EdgeInsets.only(left: 16),
         width: width,
