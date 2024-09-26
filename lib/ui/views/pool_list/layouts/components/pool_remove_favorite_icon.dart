@@ -10,12 +10,10 @@ import 'package:go_router/go_router.dart';
 class PoolRemoveFavoriteIcon extends ConsumerWidget {
   const PoolRemoveFavoriteIcon({
     required this.poolAddress,
-    required this.onRemoved,
     super.key,
   });
 
   final String poolAddress;
-  final VoidCallback onRemoved;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,14 +119,20 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                           )!
                                               .yes,
                                           onPressed: () async {
-                                            ref.read(
-                                              DexPoolProviders
-                                                  .removePoolFromFavorite(
-                                                poolAddress,
-                                              ),
-                                            );
+                                            ref
+                                              ..read(
+                                                DexPoolProviders
+                                                    .removePoolFromFavorite(
+                                                  poolAddress,
+                                                ),
+                                              )
+                                              ..invalidate(
+                                                DexPoolProviders.getPool(
+                                                  poolAddress,
+                                                ),
+                                              );
+
                                             context.pop();
-                                            onRemoved();
                                           },
                                         ),
                                       ),

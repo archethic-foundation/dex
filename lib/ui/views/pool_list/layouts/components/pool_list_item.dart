@@ -109,21 +109,6 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   padding: const EdgeInsets.only(right: 5),
                   child: PoolRemoveFavoriteIcon(
                     poolAddress: widget.pool.poolAddress,
-                    onRemoved: () async {
-                      context.go(
-                        Uri(
-                          path: PoolListSheet.routerPage,
-                          queryParameters: {
-                            'tab': Uri.encodeComponent(
-                              PoolsListTab.favoritePools.name,
-                            ),
-                          },
-                        ).toString(),
-                      );
-                      ref.read(poolListFormNotifierProvider.notifier).selectTab(
-                            PoolsListTab.favoritePools,
-                          );
-                    },
                   ),
                 )
               else
