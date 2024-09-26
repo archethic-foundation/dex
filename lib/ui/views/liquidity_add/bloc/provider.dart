@@ -14,7 +14,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -247,7 +246,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
   }
 
   Future<void> setToken1Amount(
-    BuildContext context,
+    AppLocalizations appLocalizations,
     double amount,
   ) async {
     state = state.copyWith(
@@ -263,8 +262,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
 
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken1AmountExceedBalance,
+          cause: appLocalizations.liquidityAddControlToken1AmountExceedBalance,
         ),
       );
       return;
@@ -273,19 +271,16 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     await calculateTokenInfos();
 
     if (state.token2Amount > state.token2Balance) {
-      if (context.mounted) {
-        setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!
-                .liquidityAddControlToken2AmountExceedBalance,
-          ),
-        );
-      }
+      setFailure(
+        aedappfm.Failure.other(
+          cause: appLocalizations.liquidityAddControlToken2AmountExceedBalance,
+        ),
+      );
     }
   }
 
   Future<void> setToken2Amount(
-    BuildContext context,
+    AppLocalizations appLocalizations,
     double amount,
   ) async {
     state = state.copyWith(
@@ -301,8 +296,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
 
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken2AmountExceedBalance,
+          cause: appLocalizations.liquidityAddControlToken2AmountExceedBalance,
         ),
       );
       return;
@@ -311,14 +305,11 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     await calculateTokenInfos();
 
     if (state.token1Amount > state.token1Balance) {
-      if (context.mounted) {
-        setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!
-                .liquidityAddControlToken1AmountExceedBalance,
-          ),
-        );
-      }
+      setFailure(
+        aedappfm.Failure.other(
+          cause: appLocalizations.liquidityAddControlToken1AmountExceedBalance,
+        ),
+      );
     }
   }
 
@@ -403,8 +394,8 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (await control(context) == false) {
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    if (await control(appLocalizations) == false) {
       return;
     }
 
@@ -427,9 +418,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     );
   }
 
-  Future<bool> control(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
-
+  Future<bool> control(AppLocalizations appLocalizations) async {
     setFailure(null);
     setMessageMaxHalfUCO(false);
 
@@ -444,8 +433,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     if (state.token1Amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken1AmountEmpty,
+          cause: appLocalizations.liquidityAddControlToken1AmountEmpty,
         ),
       );
       return false;
@@ -454,8 +442,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     if (state.token2Amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken2AmountEmpty,
+          cause: appLocalizations.liquidityAddControlToken2AmountEmpty,
         ),
       );
       return false;
@@ -464,8 +451,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     if (state.token1Amount > state.token1Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .liquidityAddControlToken1AmountExceedBalance,
+          cause: appLocalizations.liquidityAddControlToken1AmountExceedBalance,
         ),
       );
       return false;
@@ -474,7 +460,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     if (state.token2Amount > state.token2Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: localizations.liquidityAddControlToken2AmountExceedBalance,
+          cause: appLocalizations.liquidityAddControlToken2AmountExceedBalance,
         ),
       );
       return false;
@@ -505,7 +491,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
           setFailure(const aedappfm.Failure.insufficientFunds());
           return false;
         } else {
-          if (context.mounted) await setToken1Amount(context, adjustedAmount);
+          await setToken1Amount(appLocalizations, adjustedAmount);
           state = state.copyWith(messageMaxHalfUCO: true);
         }
       }
@@ -533,7 +519,7 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
           setFailure(const aedappfm.Failure.insufficientFunds());
           return false;
         } else {
-          if (context.mounted) await setToken2Amount(context, adjustedAmount);
+          await setToken2Amount(appLocalizations, adjustedAmount);
           state = state.copyWith(messageMaxHalfUCO: true);
         }
       }
@@ -542,37 +528,34 @@ class LiquidityAddFormNotifier extends _$LiquidityAddFormNotifier {
     return true;
   }
 
-  Future<void> add(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
-
+  Future<void> add(AppLocalizations appLocalizations) async {
     setLiquidityAddOk(false);
     setProcessInProgress(true);
 
-    if (await control(context) == false) {
+    if (await control(appLocalizations) == false) {
       setProcessInProgress(false);
       return;
     }
 
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-    if (context.mounted) {
-      final finalAmount = await ref.read(addLiquidityCaseProvider).run(
-            localizations,
-            this,
-            state.pool!.poolAddress,
-            state.token1!,
-            state.token1Amount,
-            state.token2!,
-            state.token2Amount,
-            state.slippageTolerance,
-            state.pool!.lpToken,
-            recoveryStep: state.currentStep,
-          );
-      state = state.copyWith(finalAmount: finalAmount);
 
-      ref
-        ..invalidate(userBalanceProvider)
-        ..invalidate(DexPoolProviders.getPool(state.pool!.poolAddress));
-    }
+    final finalAmount = await ref.read(addLiquidityCaseProvider).run(
+          appLocalizations,
+          this,
+          state.pool!.poolAddress,
+          state.token1!,
+          state.token1Amount,
+          state.token2!,
+          state.token2Amount,
+          state.slippageTolerance,
+          state.pool!.lpToken,
+          recoveryStep: state.currentStep,
+        );
+    state = state.copyWith(finalAmount: finalAmount);
+
+    ref
+      ..invalidate(userBalanceProvider)
+      ..invalidate(DexPoolProviders.getPool(state.pool!.poolAddress));
   }
 }

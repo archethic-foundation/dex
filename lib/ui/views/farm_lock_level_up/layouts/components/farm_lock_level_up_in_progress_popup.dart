@@ -72,7 +72,7 @@ class FarmLockLevelUpInProgressPopup {
                 .read(
                   farmLockLevelUpFormNotifierProvider.notifier,
                 )
-                .lock(context);
+                .lock(AppLocalizations.of(context)!);
           },
           failure: farmLockLevelUp.failure,
         ),

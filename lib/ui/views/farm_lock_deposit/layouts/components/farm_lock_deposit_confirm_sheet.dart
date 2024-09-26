@@ -147,7 +147,11 @@ class FarmLockDepositConfirmSheetState
               final farmLockDepositNotifier = ref.read(
                 farmLockDepositFormNotifierProvider.notifier,
               );
-              unawaited(farmLockDepositNotifier.lock(context));
+              unawaited(
+                farmLockDepositNotifier.lock(
+                  AppLocalizations.of(context)!,
+                ),
+              );
               await FarmLockDepositInProgressPopup.getDialog(
                 context,
                 ref,

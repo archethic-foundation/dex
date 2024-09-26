@@ -72,7 +72,7 @@ class LiquidityAddInProgressPopup {
                 .read(
                   liquidityAddFormNotifierProvider.notifier,
                 )
-                .add(context);
+                .add(AppLocalizations.of(context)!);
           },
           failure: liquidityAdd.failure,
         ),

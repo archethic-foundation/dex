@@ -8,6 +8,7 @@ import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,13 +47,13 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
             await ref
                 .read(poolAddFormNotifierProvider.notifier)
                 // ignore: use_build_context_synchronously
-                .setToken1(widget.token1!, context);
+                .setToken1(widget.token1!, AppLocalizations.of(context)!);
           }
           if (context.mounted) {
             await ref
                 .read(poolAddFormNotifierProvider.notifier)
                 // ignore: use_build_context_synchronously
-                .setToken2(widget.token2!, context);
+                .setToken2(widget.token2!, AppLocalizations.of(context)!);
           }
         } catch (e) {
           if (mounted) {

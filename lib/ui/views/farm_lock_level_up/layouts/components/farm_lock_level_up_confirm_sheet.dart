@@ -147,7 +147,9 @@ class FarmLockLevelUpConfirmSheetState
               final farmLockLevelUpNotifier = ref.read(
                 farmLockLevelUpFormNotifierProvider.notifier,
               );
-              unawaited(farmLockLevelUpNotifier.lock(context));
+              unawaited(
+                farmLockLevelUpNotifier.lock(AppLocalizations.of(context)!),
+              );
               await FarmLockLevelUpInProgressPopup.getDialog(
                 context,
                 ref,

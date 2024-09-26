@@ -14,7 +14,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -273,8 +272,8 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    if (control(appLocalizations) == false) {
       return;
     }
 
@@ -289,7 +288,7 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     );
   }
 
-  bool control(BuildContext context) {
+  bool control(AppLocalizations appLocalizations) {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -303,8 +302,7 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     if (state.lpTokenAmount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .liquidityRemoveControlLPTokenAmountEmpty,
+          cause: appLocalizations.liquidityRemoveControlLPTokenAmountEmpty,
         ),
       );
       return false;
@@ -320,12 +318,11 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     return true;
   }
 
-  Future<void> remove(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> remove(AppLocalizations appLocalizations) async {
     setLiquidityRemoveOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control(appLocalizations) == false) {
       setProcessInProgress(false);
       return;
     }
@@ -333,7 +330,7 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
     final finalAmounts = await ref.read(removeLiquidityCaseProvider).run(
-          localizations,
+          appLocalizations,
           this,
           state.pool!.poolAddress,
           state.lpToken!.address,

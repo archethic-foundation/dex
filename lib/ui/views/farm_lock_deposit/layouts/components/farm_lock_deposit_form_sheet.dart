@@ -203,7 +203,7 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                                     farmLockDepositFormNotifierProvider
                                         .notifier,
                                   )
-                                  .validateForm(context),
+                                  .validateForm(AppLocalizations.of(context)!),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
                                 if (session.error.isNotEmpty) {

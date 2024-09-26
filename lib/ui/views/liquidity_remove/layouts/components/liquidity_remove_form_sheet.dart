@@ -109,7 +109,9 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                                       liquidityRemoveFormNotifierProvider
                                           .notifier,
                                     )
-                                    .validateForm(context),
+                                    .validateForm(
+                                      AppLocalizations.of(context)!,
+                                    ),
                                 isConnected: ref
                                     .watch(sessionNotifierProvider)
                                     .isConnected,

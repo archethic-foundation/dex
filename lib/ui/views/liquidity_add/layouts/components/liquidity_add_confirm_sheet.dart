@@ -77,7 +77,9 @@ class LiquidityAddConfirmSheetState
             onPressed: () async {
               final liquidityAddNotifier =
                   ref.read(liquidityAddFormNotifierProvider.notifier);
-              unawaited(liquidityAddNotifier.add(context));
+              unawaited(
+                liquidityAddNotifier.add(AppLocalizations.of(context)!),
+              );
               await LiquidityAddInProgressPopup.getDialog(
                 context,
                 ref,

@@ -72,7 +72,7 @@ class FarmLockDepositInProgressPopup {
                 .read(
                   farmLockDepositFormNotifierProvider.notifier,
                 )
-                .lock(context);
+                .lock(AppLocalizations.of(context)!);
           },
           failure: farmLockDeposit.failure,
         ),

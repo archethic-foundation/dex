@@ -183,7 +183,7 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
                   labelBtn: AppLocalizations.of(context)!.btn_swap,
                   onPressed: () => ref
                       .read(swapFormNotifierProvider.notifier)
-                      .validateForm(context),
+                      .validateForm(AppLocalizations.of(context)!),
                   displayWalletConnect: true,
                   isConnected: ref.watch(sessionNotifierProvider).isConnected,
                   displayWalletConnectOnPressed: () async {

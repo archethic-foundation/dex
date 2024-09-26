@@ -16,7 +16,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -694,8 +693,8 @@ class SwapFormNotifier extends _$SwapFormNotifier
     await calculateOutputAmount();
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (await control(context) == false) {
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    if (await control(appLocalizations) == false) {
       return;
     }
 
@@ -710,7 +709,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
     );
   }
 
-  Future<bool> control(BuildContext context) async {
+  Future<bool> control(AppLocalizations appLocalizations) async {
     setMessageMaxHalfUCO(false);
     setFailure(null);
     if (kIsWeb &&
@@ -725,7 +724,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
     if (state.tokenToSwap == null) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
+          cause: appLocalizations.swapControlTokenToSwapEmpty,
         ),
       );
       return false;
@@ -734,7 +733,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
     if (state.tokenSwapped == null) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
+          cause: appLocalizations.swapControlTokenSwappedEmpty,
         ),
       );
       return false;
@@ -743,7 +742,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
     if (state.tokenToSwapAmount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.swapControlTokenToSwapEmpty,
+          cause: appLocalizations.swapControlTokenToSwapEmpty,
         ),
       );
       return false;
@@ -752,7 +751,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
     if (state.tokenSwappedAmount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.swapControlTokenSwappedEmpty,
+          cause: appLocalizations.swapControlTokenSwappedEmpty,
         ),
       );
       return false;
@@ -761,8 +760,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
     if (state.tokenToSwapAmount > state.tokenToSwapBalance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .swapControlTokenToSwapAmountExceedBalance,
+          cause: appLocalizations.swapControlTokenToSwapAmountExceedBalance,
         ),
       );
       return false;
@@ -800,12 +798,11 @@ class SwapFormNotifier extends _$SwapFormNotifier
     return true;
   }
 
-  Future<void> swap(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> swap(AppLocalizations appLocalizations) async {
     setSwapOk(false);
     setProcessInProgress(true);
 
-    if (await control(context) == false) {
+    if (await control(appLocalizations) == false) {
       setProcessInProgress(false);
       return;
     }
@@ -813,20 +810,18 @@ class SwapFormNotifier extends _$SwapFormNotifier
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    if (context.mounted) {
-      final finalAmount = await ref.read(swapCaseProvider).run(
-            ref,
-            this,
-            localizations,
-            state.poolGenesisAddress,
-            state.tokenToSwap!,
-            state.tokenSwapped!,
-            state.tokenToSwapAmount,
-            state.slippageTolerance,
-          );
-      state = state.copyWith(finalAmount: finalAmount);
+    final finalAmount = await ref.read(swapCaseProvider).run(
+          ref,
+          this,
+          appLocalizations,
+          state.poolGenesisAddress,
+          state.tokenToSwap!,
+          state.tokenSwapped!,
+          state.tokenToSwapAmount,
+          state.slippageTolerance,
+        );
+    state = state.copyWith(finalAmount: finalAmount);
 
-      ref.invalidate(userBalanceProvider);
-    }
+    ref.invalidate(userBalanceProvider);
   }
 }

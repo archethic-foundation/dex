@@ -80,7 +80,11 @@ class LiquidityRemoveConfirmSheetState
               final liquidityRemoveNotifier = ref.read(
                 liquidityRemoveFormNotifierProvider.notifier,
               );
-              unawaited(liquidityRemoveNotifier.remove(context));
+              unawaited(
+                liquidityRemoveNotifier.remove(
+                  AppLocalizations.of(context)!,
+                ),
+              );
               await LiquidityRemoveInProgressPopup.getDialog(
                 context,
                 ref,

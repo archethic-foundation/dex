@@ -6,6 +6,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmWithdrawAmount extends ConsumerStatefulWidget {
@@ -124,7 +125,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                             controller: tokenAmountController,
                             onChanged: (text) async {
                               farmWithdrawNotifier.setAmount(
-                                context,
+                                AppLocalizations.of(context)!,
                                 double.tryParse(text.replaceAll(',', '')) ?? 0,
                               );
                             },
@@ -195,7 +196,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                           farmWithdrawFormNotifierProvider.notifier,
                         )
                         .setAmountHalf(
-                          context,
+                          AppLocalizations.of(context)!,
                         );
                     _updateAmountTextController();
                   },
@@ -211,7 +212,7 @@ class _FarmWithdrawToken1AmountState extends ConsumerState<FarmWithdrawAmount> {
                           farmWithdrawFormNotifierProvider.notifier,
                         )
                         .setAmountMax(
-                          context,
+                          AppLocalizations.of(context)!,
                         );
                     _updateAmountTextController();
                   },

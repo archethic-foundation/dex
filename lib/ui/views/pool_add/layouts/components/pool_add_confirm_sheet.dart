@@ -74,7 +74,7 @@ class PoolAddConfirmSheetState extends ConsumerState<PoolAddConfirmSheet> {
             onPressed: () async {
               final poolAddNotifier =
                   ref.read(poolAddFormNotifierProvider.notifier);
-              unawaited(poolAddNotifier.add(context));
+              unawaited(poolAddNotifier.add(AppLocalizations.of(context)!));
               await PoolAddInProgressPopup.getDialog(
                 context,
                 ref,

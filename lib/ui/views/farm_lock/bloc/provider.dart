@@ -128,8 +128,8 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
 
       price = await ref.watch(
         DexTokensProviders.estimateTokenInFiat(
-                state.farmLock!.rewardToken!.address)
-            .future,
+          state.farmLock!.rewardToken!.address,
+        ).future,
       );
     }
 

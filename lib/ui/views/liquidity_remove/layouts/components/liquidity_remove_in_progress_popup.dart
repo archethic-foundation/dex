@@ -73,7 +73,7 @@ class LiquidityRemoveInProgressPopup {
                 .read(
                   liquidityRemoveFormNotifierProvider.notifier,
                 )
-                .remove(context);
+                .remove(AppLocalizations.of(context)!);
           },
           failure: liquidityRemove.failure,
         ),

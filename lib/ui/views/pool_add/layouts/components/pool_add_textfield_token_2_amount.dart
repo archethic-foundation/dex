@@ -6,6 +6,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddToken2Amount extends ConsumerStatefulWidget {
@@ -130,7 +131,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                                         )
                                         .setTokenFormSelected(2);
                                     poolAddNotifier.setToken2Amount(
-                                      context,
+                                      AppLocalizations.of(context)!,
                                       double.tryParse(
                                             text.replaceAll(',', ''),
                                           ) ??
@@ -200,7 +201,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                           .setTokenFormSelected(2);
                       ref
                           .read(poolAddFormNotifierProvider.notifier)
-                          .setToken2AmountHalf(context);
+                          .setToken2AmountHalf(AppLocalizations.of(context)!);
                       _updateAmountTextController();
                     },
                   ),
@@ -217,7 +218,7 @@ class _PoolAddToken2AmountState extends ConsumerState<PoolAddToken2Amount> {
                           .setTokenFormSelected(2);
                       ref
                           .read(poolAddFormNotifierProvider.notifier)
-                          .setToken2AmountMax(context);
+                          .setToken2AmountMax(AppLocalizations.of(context)!);
                       _updateAmountTextController();
                     },
                   ),

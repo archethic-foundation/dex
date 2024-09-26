@@ -11,7 +11,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -163,8 +162,8 @@ class FarmLockLevelUpFormNotifier extends _$FarmLockLevelUpFormNotifier {
     state = state.copyWith(filterAvailableLevels: availableLevelsFiltered);
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    if (control(appLocalizations) == false) {
       return;
     }
 
@@ -179,7 +178,7 @@ class FarmLockLevelUpFormNotifier extends _$FarmLockLevelUpFormNotifier {
     );
   }
 
-  bool control(BuildContext context) {
+  bool control(AppLocalizations appLocalizations) {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -193,7 +192,7 @@ class FarmLockLevelUpFormNotifier extends _$FarmLockLevelUpFormNotifier {
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmDepositControlAmountEmpty,
+          cause: appLocalizations.farmDepositControlAmountEmpty,
         ),
       );
       return false;
@@ -202,33 +201,31 @@ class FarmLockLevelUpFormNotifier extends _$FarmLockLevelUpFormNotifier {
     return true;
   }
 
-  Future<void> lock(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> lock(AppLocalizations appLocalizations) async {
     setFarmLockLevelUpOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control(appLocalizations) == false) {
       setProcessInProgress(false);
       return;
     }
 
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-    if (context.mounted) {
-      final finalAmount = await ref.read(levelUpFarmLockCaseProvider).run(
-            localizations,
-            this,
-            state.farmLock!.farmAddress,
-            state.farmLock!.lpToken!.address,
-            state.amount,
-            state.depositId!,
-            state.farmLock!.farmAddress,
-            false,
-            state.farmLockLevelUpDuration,
-            state.level,
-          );
 
-      state = state.copyWith(finalAmount: finalAmount);
-    }
+    final finalAmount = await ref.read(levelUpFarmLockCaseProvider).run(
+          appLocalizations,
+          this,
+          state.farmLock!.farmAddress,
+          state.farmLock!.lpToken!.address,
+          state.amount,
+          state.depositId!,
+          state.farmLock!.farmAddress,
+          false,
+          state.farmLockLevelUpDuration,
+          state.level,
+        );
+
+    state = state.copyWith(finalAmount: finalAmount);
   }
 }

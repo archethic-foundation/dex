@@ -266,7 +266,9 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                     .read(
                                       liquidityAddFormNotifierProvider.notifier,
                                     )
-                                    .validateForm(context),
+                                    .validateForm(
+                                      AppLocalizations.of(context)!,
+                                    ),
                                 isConnected: isConnected,
                                 displayWalletConnectOnPressed: () async {
                                   final session =

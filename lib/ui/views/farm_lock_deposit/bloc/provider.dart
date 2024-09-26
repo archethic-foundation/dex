@@ -13,7 +13,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -174,8 +173,8 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     state = state.copyWith(filterAvailableLevels: availableLevelsFiltered);
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    if (control(appLocalizations) == false) {
       return;
     }
 
@@ -190,7 +189,7 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     );
   }
 
-  bool control(BuildContext context) {
+  bool control(AppLocalizations appLocalizations) {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -204,7 +203,7 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmDepositControlAmountEmpty,
+          cause: appLocalizations.farmDepositControlAmountEmpty,
         ),
       );
       return false;
@@ -213,8 +212,7 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     if (state.amount > state.lpTokenBalance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .farmDepositControlLPTokenAmountExceedBalance,
+          cause: appLocalizations.farmDepositControlLPTokenAmountExceedBalance,
         ),
       );
       return false;
@@ -223,7 +221,7 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     if (state.amount < 0.00000143) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmDepositControlAmountMin,
+          cause: appLocalizations.farmDepositControlAmountMin,
         ),
       );
       return false;
@@ -232,12 +230,11 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     return true;
   }
 
-  Future<void> lock(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> lock(AppLocalizations appLocalizations) async {
     setFarmLockDepositOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control(appLocalizations) == false) {
       setProcessInProgress(false);
       return;
     }
@@ -245,20 +242,18 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    if (context.mounted) {
-      final finalAmount = await ref.read(depositFarmLockCaseProvider).run(
-            localizations,
-            this,
-            state.farmLock!.farmAddress,
-            state.farmLock!.lpToken!.address,
-            state.amount,
-            state.farmLock!.farmAddress,
-            false,
-            state.farmLockDepositDuration,
-            state.level,
-          );
+    final finalAmount = await ref.read(depositFarmLockCaseProvider).run(
+          appLocalizations,
+          this,
+          state.farmLock!.farmAddress,
+          state.farmLock!.lpToken!.address,
+          state.amount,
+          state.farmLock!.farmAddress,
+          false,
+          state.farmLockDepositDuration,
+          state.level,
+        );
 
-      state = state.copyWith(finalAmount: finalAmount);
-    }
+    state = state.copyWith(finalAmount: finalAmount);
   }
 }

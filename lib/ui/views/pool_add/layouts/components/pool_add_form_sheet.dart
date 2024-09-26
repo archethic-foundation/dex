@@ -95,7 +95,7 @@ class PoolAddFormSheet extends ConsumerWidget {
                         labelBtn: AppLocalizations.of(context)!.btn_pool_add,
                         onPressed: () => ref
                             .read(poolAddFormNotifierProvider.notifier)
-                            .validateForm(context),
+                            .validateForm(AppLocalizations.of(context)!),
                         isConnected:
                             ref.watch(sessionNotifierProvider).isConnected,
                         displayWalletConnectOnPressed: () async {

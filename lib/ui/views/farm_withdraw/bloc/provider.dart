@@ -11,7 +11,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -35,7 +34,7 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
   }
 
   void setAmount(
-    BuildContext context,
+    AppLocalizations appLocalizations,
     double amount,
   ) {
     state = state.copyWith(
@@ -46,8 +45,8 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     if (state.amount > state.depositedAmount!) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .farmWithdrawControlLPTokenAmountExceedDeposited,
+          cause:
+              appLocalizations.farmWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
     }
@@ -61,13 +60,13 @@ class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
     state = state.copyWith(rewardAmount: rewardAmount);
   }
 
-  void setAmountMax(BuildContext context) {
-    setAmount(context, state.depositedAmount!);
+  void setAmountMax(AppLocalizations appLocalizations) {
+    setAmount(appLocalizations, state.depositedAmount!);
   }
 
-  void setAmountHalf(BuildContext context) {
+  void setAmountHalf(AppLocalizations appLocalizations) {
     setAmount(
-      context,
+      appLocalizations,
       (Decimal.parse(state.depositedAmount.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );

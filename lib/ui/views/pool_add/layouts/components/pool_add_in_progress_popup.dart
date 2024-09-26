@@ -63,7 +63,7 @@ class PoolAddInProgressPopup {
               .read(
                 poolAddFormNotifierProvider.notifier,
               )
-              .add(context);
+              .add(AppLocalizations.of(context)!);
         },
         failure: poolAdd.failure,
       ),

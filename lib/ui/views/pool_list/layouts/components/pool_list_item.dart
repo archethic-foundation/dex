@@ -8,7 +8,6 @@ import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_back.da
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_front.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_refresh_icon.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_remove_favorite_icon.dart';
-import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/pool_tx_list/layouts/pool_tx_list_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -17,7 +16,6 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class PoolListItem extends ConsumerStatefulWidget {
   const PoolListItem({

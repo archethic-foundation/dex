@@ -74,7 +74,7 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
             disabled: !consentChecked && swap.consentDateTime == null,
             onPressed: () async {
               final swapNotifier = ref.read(swapFormNotifierProvider.notifier);
-              unawaited(swapNotifier.swap(context));
+              unawaited(swapNotifier.swap(AppLocalizations.of(context)!));
               await SwapInProgressPopup.getDialog(
                 context,
                 ref,

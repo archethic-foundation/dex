@@ -66,7 +66,7 @@ class SwapInProgressPopup {
                 .read(
                   swapFormNotifierProvider.notifier,
                 )
-                .swap(context);
+                .swap(AppLocalizations.of(context)!);
           },
           failure: swap.failure,
         ),

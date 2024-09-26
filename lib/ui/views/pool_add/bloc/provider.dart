@@ -13,7 +13,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -32,7 +31,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
 
   Future<void> setToken1(
     DexToken token,
-    BuildContext context,
+    AppLocalizations appLocalizations,
   ) async {
     state = state.copyWith(
       failure: null,
@@ -51,33 +50,26 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
         state.token1!.address == state.token2!.address) {
       setFailure(
         aedappfm.Failure.other(
-          cause: context.mounted
-              ? AppLocalizations.of(context)!.poolAddControlSameTokens
-              : '',
+          cause: appLocalizations.poolAddControlSameTokens,
         ),
       );
       return;
     }
 
     if (state.token1 != null && state.token1Amount > state.token1Balance) {
-      if (context.mounted) {
-        setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!
-                .poolAddControlToken1AmountExceedBalance,
-          ),
-        );
-      }
+      setFailure(
+        aedappfm.Failure.other(
+          cause: appLocalizations.poolAddControlToken1AmountExceedBalance,
+        ),
+      );
     }
 
-    if (context.mounted) {
-      _controlBalances(context);
-    }
+    _controlBalances(appLocalizations);
   }
 
   Future<void> setToken2(
     DexToken token,
-    BuildContext context,
+    AppLocalizations appLocalizations,
   ) async {
     state = state.copyWith(
       failure: null,
@@ -97,78 +89,67 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
         state.token1!.address == state.token2!.address) {
       setFailure(
         aedappfm.Failure.other(
-          cause: context.mounted
-              ? AppLocalizations.of(context)!.poolAddControlSameTokens
-              : '',
+          cause: appLocalizations.poolAddControlSameTokens,
         ),
       );
       return;
     }
 
-    if (context.mounted) {
-      _controlBalances(context);
-    }
+    _controlBalances(appLocalizations);
   }
 
-  void _controlBalances(BuildContext context) {
+  void _controlBalances(AppLocalizations appLocalizations) {
     if (state.token1 != null &&
         state.token1Amount > state.token1Balance &&
         state.token2 != null &&
-        state.token2Amount > state.token2Balance &&
-        context.mounted) {
+        state.token2Amount > state.token2Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControl2TokensAmountExceedBalance,
+          cause: appLocalizations.poolAddControl2TokensAmountExceedBalance,
         ),
       );
       return;
     }
 
     if (state.token1 != null && state.token1Amount > state.token1Balance) {
-      if (context.mounted) {
-        setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!
-                .poolAddControlToken1AmountExceedBalance,
-          ),
-        );
-      }
+      setFailure(
+        aedappfm.Failure.other(
+          cause: appLocalizations.poolAddControlToken1AmountExceedBalance,
+        ),
+      );
+
       return;
     }
 
-    if (state.token2 != null &&
-        state.token2Amount > state.token2Balance &&
-        context.mounted) {
+    if (state.token2 != null && state.token2Amount > state.token2Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken2AmountExceedBalance,
+          cause: appLocalizations.poolAddControlToken2AmountExceedBalance,
         ),
       );
       return;
     }
   }
 
-  void setToken1AmountMax(BuildContext context) {
-    setToken1Amount(context, state.token1Balance);
+  void setToken1AmountMax(AppLocalizations appLocalizations) {
+    setToken1Amount(appLocalizations, state.token1Balance);
   }
 
-  void setToken2AmountMax(BuildContext context) {
-    setToken2Amount(context, state.token2Balance);
+  void setToken2AmountMax(AppLocalizations appLocalizations) {
+    setToken2Amount(appLocalizations, state.token2Balance);
   }
 
-  void setToken1AmountHalf(BuildContext context) {
+  void setToken1AmountHalf(AppLocalizations appLocalizations) {
     setToken1Amount(
-      context,
+      appLocalizations,
       (Decimal.parse(state.token1Balance.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
   }
 
-  void setToken2AmountHalf(BuildContext context) {
+  void setToken2AmountHalf(AppLocalizations appLocalizations) {
     setToken2Amount(
-      context,
+      appLocalizations,
       (Decimal.parse(state.token2Balance.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
@@ -191,7 +172,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
   }
 
   void setToken1Amount(
-    BuildContext context,
+    AppLocalizations appLocalizations,
     double amount,
   ) {
     state = state.copyWith(
@@ -203,19 +184,16 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (state.token1 != null && state.token1Amount > state.token1Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken1AmountExceedBalance,
+          cause: appLocalizations.poolAddControlToken1AmountExceedBalance,
         ),
       );
     }
 
-    if (context.mounted) {
-      _controlBalances(context);
-    }
+    _controlBalances(appLocalizations);
   }
 
   void setToken2Amount(
-    BuildContext context,
+    AppLocalizations appLocalizations,
     double amount,
   ) {
     state = state.copyWith(
@@ -224,9 +202,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
       token2Amount: amount,
     );
 
-    if (context.mounted) {
-      _controlBalances(context);
-    }
+    _controlBalances(appLocalizations);
   }
 
   void estimateNetworkFees() {
@@ -318,8 +294,8 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    final _control = await control(context);
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    final _control = await control(appLocalizations);
     if (_control == false) {
       return;
     }
@@ -335,7 +311,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     );
   }
 
-  Future<bool> control(BuildContext context) async {
+  Future<bool> control(AppLocalizations appLocalizations) async {
     setMessageMaxHalfUCO(false);
     setFailure(null);
 
@@ -351,7 +327,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (state.token1 == null) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
+          cause: appLocalizations.poolAddControlToken1Empty,
         ),
       );
       return false;
@@ -360,7 +336,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (state.token2 == null) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
+          cause: appLocalizations.poolAddControlToken2Empty,
         ),
       );
       return false;
@@ -369,7 +345,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (state.token1!.address == state.token2!.address) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlSameTokens,
+          cause: appLocalizations.poolAddControlSameTokens,
         ),
       );
       return false;
@@ -378,7 +354,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (state.token1Amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
+          cause: appLocalizations.poolAddControlToken1Empty,
         ),
       );
       return false;
@@ -387,7 +363,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (state.token2Amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
+          cause: appLocalizations.poolAddControlToken2Empty,
         ),
       );
       return false;
@@ -396,8 +372,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (state.token1Amount > state.token1Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken1AmountExceedBalance,
+          cause: appLocalizations.poolAddControlToken1AmountExceedBalance,
         ),
       );
       return false;
@@ -406,8 +381,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     if (state.token2Amount > state.token2Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken2AmountExceedBalance,
+          cause: appLocalizations.poolAddControlToken2AmountExceedBalance,
         ),
       );
       return false;
@@ -452,9 +426,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
             setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
-            if (context.mounted) {
-              setToken1Amount(context, adjustedAmount);
-            }
+            setToken1Amount(appLocalizations, adjustedAmount);
             state = state.copyWith(messageMaxHalfUCO: true);
           }
         }
@@ -474,9 +446,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
             setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
-            if (context.mounted) {
-              setToken2Amount(context, adjustedAmount);
-            }
+            setToken2Amount(appLocalizations, adjustedAmount);
             state = state.copyWith(messageMaxHalfUCO: true);
           }
         }
@@ -486,11 +456,10 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     return true;
   }
 
-  Future<void> add(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+  Future<void> add(AppLocalizations appLocalizations) async {
     setProcessInProgress(true);
     setPoolAddOk(false);
-    final _control = await control(context);
+    final _control = await control(appLocalizations);
     if (_control == false) {
       setProcessInProgress(false);
       return;
@@ -500,26 +469,25 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
 
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-    if (context.mounted) {
-      await ref.read(addPoolCaseProvider).run(
-            localizations,
-            this,
-            state.token1!,
-            state.token1Amount,
-            state.token2!,
-            state.token2Amount,
-            dexConfig.routerGenesisAddress,
-            dexConfig.factoryGenesisAddress,
-            state.slippage,
-            recoveryStep: state.currentStep,
-            recoveryTransactionAddPool: state.recoveryTransactionAddPool,
-            recoveryTransactionAddPoolTransfer:
-                state.recoveryTransactionAddPoolTransfer,
-            recoveryTransactionAddPoolLiquidity:
-                state.recoveryTransactionAddPoolLiquidity,
-          );
 
-      ref.invalidate(userBalanceProvider);
-    }
+    await ref.read(addPoolCaseProvider).run(
+          appLocalizations,
+          this,
+          state.token1!,
+          state.token1Amount,
+          state.token2!,
+          state.token2Amount,
+          dexConfig.routerGenesisAddress,
+          dexConfig.factoryGenesisAddress,
+          state.slippage,
+          recoveryStep: state.currentStep,
+          recoveryTransactionAddPool: state.recoveryTransactionAddPool,
+          recoveryTransactionAddPoolTransfer:
+              state.recoveryTransactionAddPoolTransfer,
+          recoveryTransactionAddPoolLiquidity:
+              state.recoveryTransactionAddPoolLiquidity,
+        );
+
+    ref.invalidate(userBalanceProvider);
   }
 }
