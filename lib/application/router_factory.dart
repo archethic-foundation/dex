@@ -103,7 +103,12 @@ class RouterFactory with ModelParser {
         });
 
         final tokensMissingFromCache = getPoolListResponse
-            .expand((poolListResponse) => poolListResponse.tokens)
+            .expand(
+              (poolListResponse) => [
+                ...poolListResponse.tokens,
+                poolListResponse.lpTokenAddress,
+              ],
+            )
             .where((tokenAddress) => tokenAddress.isNotUCO)
             .whereNot(
               (tokenAddress) => localTokensDatasource.containsToken(
