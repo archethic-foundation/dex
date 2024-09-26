@@ -464,7 +464,7 @@ class _GetTokenIconProviderElement
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'683af81e6c8b9ceef6e784715ba9a2712e069811';
+    r'a1f60d18712d338948010c72f51731a038a545fd';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)
@@ -509,7 +509,7 @@ class _EstimateTokenInFiatFamily extends Family<AsyncValue<double>> {
 }
 
 /// See also [_estimateTokenInFiat].
-class _EstimateTokenInFiatProvider extends FutureProvider<double> {
+class _EstimateTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   /// See also [_estimateTokenInFiat].
   _EstimateTokenInFiatProvider(
     String tokenAddress,
@@ -561,7 +561,7 @@ class _EstimateTokenInFiatProvider extends FutureProvider<double> {
   }
 
   @override
-  FutureProviderElement<double> createElement() {
+  AutoDisposeFutureProviderElement<double> createElement() {
     return _EstimateTokenInFiatProviderElement(this);
   }
 
@@ -580,12 +580,13 @@ class _EstimateTokenInFiatProvider extends FutureProvider<double> {
   }
 }
 
-mixin _EstimateTokenInFiatRef on FutureProviderRef<double> {
+mixin _EstimateTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `tokenAddress` of this provider.
   String get tokenAddress;
 }
 
-class _EstimateTokenInFiatProviderElement extends FutureProviderElement<double>
+class _EstimateTokenInFiatProviderElement
+    extends AutoDisposeFutureProviderElement<double>
     with _EstimateTokenInFiatRef {
   _EstimateTokenInFiatProviderElement(super.provider);
 
@@ -595,7 +596,7 @@ class _EstimateTokenInFiatProviderElement extends FutureProviderElement<double>
 }
 
 String _$estimateLPTokenInFiatHash() =>
-    r'c57bd4ed2dc3dcb30b13c32b5df61225c8ff0453';
+    r'6f2089b51cc0530df2b0a78fd60debebaca4c222';
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)
@@ -649,7 +650,7 @@ class _EstimateLPTokenInFiatFamily extends Family<AsyncValue<double>> {
 }
 
 /// See also [_estimateLPTokenInFiat].
-class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
+class _EstimateLPTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   /// See also [_estimateLPTokenInFiat].
   _EstimateLPTokenInFiatProvider(
     String token1Address,
@@ -719,7 +720,7 @@ class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
   }
 
   @override
-  FutureProviderElement<double> createElement() {
+  AutoDisposeFutureProviderElement<double> createElement() {
     return _EstimateLPTokenInFiatProviderElement(this);
   }
 
@@ -744,7 +745,7 @@ class _EstimateLPTokenInFiatProvider extends FutureProvider<double> {
   }
 }
 
-mixin _EstimateLPTokenInFiatRef on FutureProviderRef<double> {
+mixin _EstimateLPTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `token1Address` of this provider.
   String get token1Address;
 
@@ -759,7 +760,8 @@ mixin _EstimateLPTokenInFiatRef on FutureProviderRef<double> {
 }
 
 class _EstimateLPTokenInFiatProviderElement
-    extends FutureProviderElement<double> with _EstimateLPTokenInFiatRef {
+    extends AutoDisposeFutureProviderElement<double>
+    with _EstimateLPTokenInFiatRef {
   _EstimateLPTokenInFiatProviderElement(super.provider);
 
   @override

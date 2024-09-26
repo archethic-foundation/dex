@@ -6,11 +6,11 @@ part of 'usecases.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$addLiquidityCaseHash() => r'204d2d2859879f3943dcf53311b33ad77156ad11';
+String _$addLiquidityCaseHash() => r'fd7086ece3da3eefe1596010198271722604441e';
 
 /// See also [addLiquidityCase].
 @ProviderFor(addLiquidityCase)
-final addLiquidityCaseProvider = Provider<AddLiquidityCase>.internal(
+final addLiquidityCaseProvider = AutoDisposeProvider<AddLiquidityCase>.internal(
   addLiquidityCase,
   name: r'addLiquidityCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,12 +20,12 @@ final addLiquidityCaseProvider = Provider<AddLiquidityCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef AddLiquidityCaseRef = ProviderRef<AddLiquidityCase>;
-String _$addPoolCaseHash() => r'5b5d7fb2cd99cf8a185645572002ce1b61199cb5';
+typedef AddLiquidityCaseRef = AutoDisposeProviderRef<AddLiquidityCase>;
+String _$addPoolCaseHash() => r'4bd09512ba1d1457a7931c2c31bfab07e8d009b6';
 
 /// See also [addPoolCase].
 @ProviderFor(addPoolCase)
-final addPoolCaseProvider = Provider<AddPoolCase>.internal(
+final addPoolCaseProvider = AutoDisposeProvider<AddPoolCase>.internal(
   addPoolCase,
   name: r'addPoolCaseProvider',
   debugGetCreateSourceHash:
@@ -34,12 +34,13 @@ final addPoolCaseProvider = Provider<AddPoolCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef AddPoolCaseRef = ProviderRef<AddPoolCase>;
-String _$claimFarmLockCaseHash() => r'bcd61fbaf16861a1513fe878e9c7d64a6d09f52b';
+typedef AddPoolCaseRef = AutoDisposeProviderRef<AddPoolCase>;
+String _$claimFarmLockCaseHash() => r'd124a4424cb3610fb26d5ba4c295462e8368dad7';
 
 /// See also [claimFarmLockCase].
 @ProviderFor(claimFarmLockCase)
-final claimFarmLockCaseProvider = Provider<ClaimFarmLockCase>.internal(
+final claimFarmLockCaseProvider =
+    AutoDisposeProvider<ClaimFarmLockCase>.internal(
   claimFarmLockCase,
   name: r'claimFarmLockCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -49,12 +50,12 @@ final claimFarmLockCaseProvider = Provider<ClaimFarmLockCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ClaimFarmLockCaseRef = ProviderRef<ClaimFarmLockCase>;
-String _$claimFarmCaseHash() => r'238f71b4041e665d1f50d4760508720ba2a93cc7';
+typedef ClaimFarmLockCaseRef = AutoDisposeProviderRef<ClaimFarmLockCase>;
+String _$claimFarmCaseHash() => r'4bd13bd79ce52edffed615d93a7637c122ecccd3';
 
 /// See also [claimFarmCase].
 @ProviderFor(claimFarmCase)
-final claimFarmCaseProvider = Provider<ClaimFarmCase>.internal(
+final claimFarmCaseProvider = AutoDisposeProvider<ClaimFarmCase>.internal(
   claimFarmCase,
   name: r'claimFarmCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -64,13 +65,14 @@ final claimFarmCaseProvider = Provider<ClaimFarmCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ClaimFarmCaseRef = ProviderRef<ClaimFarmCase>;
+typedef ClaimFarmCaseRef = AutoDisposeProviderRef<ClaimFarmCase>;
 String _$depositFarmLockCaseHash() =>
-    r'961982ce4adaf16755d057afbaa02e43f62e7405';
+    r'14678369055e1027b4677d526f5eace3dca2b81b';
 
 /// See also [depositFarmLockCase].
 @ProviderFor(depositFarmLockCase)
-final depositFarmLockCaseProvider = Provider<DepositFarmLockCase>.internal(
+final depositFarmLockCaseProvider =
+    AutoDisposeProvider<DepositFarmLockCase>.internal(
   depositFarmLockCase,
   name: r'depositFarmLockCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -80,12 +82,12 @@ final depositFarmLockCaseProvider = Provider<DepositFarmLockCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DepositFarmLockCaseRef = ProviderRef<DepositFarmLockCase>;
-String _$depositFarmCaseHash() => r'a23512d20bcee8597f8f82d968c9c7d10695455a';
+typedef DepositFarmLockCaseRef = AutoDisposeProviderRef<DepositFarmLockCase>;
+String _$depositFarmCaseHash() => r'9bac6f4ce70802aa9c9f07e961227b9ccf78c97c';
 
 /// See also [depositFarmCase].
 @ProviderFor(depositFarmCase)
-final depositFarmCaseProvider = Provider<DepositFarmCase>.internal(
+final depositFarmCaseProvider = AutoDisposeProvider<DepositFarmCase>.internal(
   depositFarmCase,
   name: r'depositFarmCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -95,13 +97,14 @@ final depositFarmCaseProvider = Provider<DepositFarmCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DepositFarmCaseRef = ProviderRef<DepositFarmCase>;
+typedef DepositFarmCaseRef = AutoDisposeProviderRef<DepositFarmCase>;
 String _$levelUpFarmLockCaseHash() =>
-    r'6104602d2d283140926c61e1d7cb2fc879890587';
+    r'a8d44852ba7e91171edf637d6f2bdc790b583b3f';
 
 /// See also [levelUpFarmLockCase].
 @ProviderFor(levelUpFarmLockCase)
-final levelUpFarmLockCaseProvider = Provider<LevelUpFarmLockCase>.internal(
+final levelUpFarmLockCaseProvider =
+    AutoDisposeProvider<LevelUpFarmLockCase>.internal(
   levelUpFarmLockCase,
   name: r'levelUpFarmLockCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -111,13 +114,14 @@ final levelUpFarmLockCaseProvider = Provider<LevelUpFarmLockCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef LevelUpFarmLockCaseRef = ProviderRef<LevelUpFarmLockCase>;
+typedef LevelUpFarmLockCaseRef = AutoDisposeProviderRef<LevelUpFarmLockCase>;
 String _$removeLiquidityCaseHash() =>
-    r'790d6b604ccb00f484ecd127c7ea55a38fbf8b15';
+    r'973c11f4e68e09ac8be9908e196db12f79091eaf';
 
 /// See also [removeLiquidityCase].
 @ProviderFor(removeLiquidityCase)
-final removeLiquidityCaseProvider = Provider<RemoveLiquidityCase>.internal(
+final removeLiquidityCaseProvider =
+    AutoDisposeProvider<RemoveLiquidityCase>.internal(
   removeLiquidityCase,
   name: r'removeLiquidityCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -127,12 +131,12 @@ final removeLiquidityCaseProvider = Provider<RemoveLiquidityCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef RemoveLiquidityCaseRef = ProviderRef<RemoveLiquidityCase>;
-String _$swapCaseHash() => r'493e4536b2ffc45d21521d96cca56d08a36fb7bc';
+typedef RemoveLiquidityCaseRef = AutoDisposeProviderRef<RemoveLiquidityCase>;
+String _$swapCaseHash() => r'8c46dc0e614db2f9b28866923babdb9abc98c094';
 
 /// See also [swapCase].
 @ProviderFor(swapCase)
-final swapCaseProvider = Provider<SwapCase>.internal(
+final swapCaseProvider = AutoDisposeProvider<SwapCase>.internal(
   swapCase,
   name: r'swapCaseProvider',
   debugGetCreateSourceHash:
@@ -141,13 +145,14 @@ final swapCaseProvider = Provider<SwapCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef SwapCaseRef = ProviderRef<SwapCase>;
+typedef SwapCaseRef = AutoDisposeProviderRef<SwapCase>;
 String _$withdrawFarmLockCaseHash() =>
-    r'65ac52f624382475f3d75a136e6f8bee54eaab6b';
+    r'a66ea096ccee65d89ac0d0053dca9e8b08fd1bc5';
 
 /// See also [withdrawFarmLockCase].
 @ProviderFor(withdrawFarmLockCase)
-final withdrawFarmLockCaseProvider = Provider<WithdrawFarmLockCase>.internal(
+final withdrawFarmLockCaseProvider =
+    AutoDisposeProvider<WithdrawFarmLockCase>.internal(
   withdrawFarmLockCase,
   name: r'withdrawFarmLockCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -157,12 +162,12 @@ final withdrawFarmLockCaseProvider = Provider<WithdrawFarmLockCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef WithdrawFarmLockCaseRef = ProviderRef<WithdrawFarmLockCase>;
-String _$withdrawFarmCaseHash() => r'2fce4734dc7d47ef4943d0064efd27433c3440d3';
+typedef WithdrawFarmLockCaseRef = AutoDisposeProviderRef<WithdrawFarmLockCase>;
+String _$withdrawFarmCaseHash() => r'f4b8842741899fc211d027c53c31d1a1439194b2';
 
 /// See also [withdrawFarmCase].
 @ProviderFor(withdrawFarmCase)
-final withdrawFarmCaseProvider = Provider<WithdrawFarmCase>.internal(
+final withdrawFarmCaseProvider = AutoDisposeProvider<WithdrawFarmCase>.internal(
   withdrawFarmCase,
   name: r'withdrawFarmCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -172,6 +177,6 @@ final withdrawFarmCaseProvider = Provider<WithdrawFarmCase>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef WithdrawFarmCaseRef = ProviderRef<WithdrawFarmCase>;
+typedef WithdrawFarmCaseRef = AutoDisposeProviderRef<WithdrawFarmCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

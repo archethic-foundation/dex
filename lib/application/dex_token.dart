@@ -66,28 +66,28 @@ Future<String?> _getTokenIcon(
   return tokenDescription?.icon;
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<double> _estimateTokenInFiat(
   _EstimateTokenInFiatRef ref,
   String tokenAddress,
 ) async {
   if (tokenAddress.isUCO) {
-    final archethicOracleUCO =
-        ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
-
-    return archethicOracleUCO.usd;
+    return ref.watch(
+      aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO
+          .select((value) => value.usd),
+    );
   } else {
-    final session = ref.watch(sessionNotifierProvider);
+    final environment = ref.watch(environmentProvider);
     return await ref.watch(
       aedappfm.CoinPriceProviders.coinPrice(
         address: tokenAddress,
-        environment: session.environment,
+        environment: environment,
       ).future,
     );
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<double> _estimateLPTokenInFiat(
   _EstimateLPTokenInFiatRef ref,
   String token1Address,

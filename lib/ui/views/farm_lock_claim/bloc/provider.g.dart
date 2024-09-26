@@ -7,11 +7,11 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$farmLockClaimFormNotifierHash() =>
-    r'105a8c7e863a45bd8024cf444b56cd5b7e208fb1';
+    r'0ddd1a6bbcd9e3827e6b98f647d12c422d70b115';
 
 /// See also [FarmLockClaimFormNotifier].
 @ProviderFor(FarmLockClaimFormNotifier)
-final farmLockClaimFormNotifierProvider = NotifierProvider<
+final farmLockClaimFormNotifierProvider = AutoDisposeNotifierProvider<
     FarmLockClaimFormNotifier, FarmLockClaimFormState>.internal(
   FarmLockClaimFormNotifier.new,
   name: r'farmLockClaimFormNotifierProvider',
@@ -22,6 +22,7 @@ final farmLockClaimFormNotifierProvider = NotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$FarmLockClaimFormNotifier = Notifier<FarmLockClaimFormState>;
+typedef _$FarmLockClaimFormNotifier
+    = AutoDisposeNotifier<FarmLockClaimFormState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

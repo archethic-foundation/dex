@@ -7,13 +7,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_config.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 DexConfigRepository _dexConfigRepository(
   _DexConfigRepositoryRef ref,
 ) =>
     DexConfigRepositoryImpl();
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<DexConfig> _dexConfig(_DexConfigRef ref) {
   final environment = ref.watch(environmentProvider);
   return ref.watch(_dexConfigRepositoryProvider).getDexConfig(environment);

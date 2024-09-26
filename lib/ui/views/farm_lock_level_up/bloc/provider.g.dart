@@ -7,11 +7,11 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$farmLockLevelUpFormNotifierHash() =>
-    r'27e92d725281fbe30c8074b83df5a45e3b12f1ca';
+    r'01580a2d08802616ba81fe84303b2cd646539bf3';
 
 /// See also [FarmLockLevelUpFormNotifier].
 @ProviderFor(FarmLockLevelUpFormNotifier)
-final farmLockLevelUpFormNotifierProvider = NotifierProvider<
+final farmLockLevelUpFormNotifierProvider = AutoDisposeNotifierProvider<
     FarmLockLevelUpFormNotifier, FarmLockLevelUpFormState>.internal(
   FarmLockLevelUpFormNotifier.new,
   name: r'farmLockLevelUpFormNotifierProvider',
@@ -22,6 +22,7 @@ final farmLockLevelUpFormNotifierProvider = NotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$FarmLockLevelUpFormNotifier = Notifier<FarmLockLevelUpFormState>;
+typedef _$FarmLockLevelUpFormNotifier
+    = AutoDisposeNotifier<FarmLockLevelUpFormState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

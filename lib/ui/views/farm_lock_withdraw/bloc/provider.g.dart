@@ -7,11 +7,11 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$farmLockWithdrawFormNotifierHash() =>
-    r'eb03d5a7d30c860aa8f0d359cd36f45c1a863686';
+    r'e46d8c7deab69beb155b541eccd79dbfda900bd7';
 
 /// See also [FarmLockWithdrawFormNotifier].
 @ProviderFor(FarmLockWithdrawFormNotifier)
-final farmLockWithdrawFormNotifierProvider = NotifierProvider<
+final farmLockWithdrawFormNotifierProvider = AutoDisposeNotifierProvider<
     FarmLockWithdrawFormNotifier, FarmLockWithdrawFormState>.internal(
   FarmLockWithdrawFormNotifier.new,
   name: r'farmLockWithdrawFormNotifierProvider',
@@ -22,6 +22,7 @@ final farmLockWithdrawFormNotifierProvider = NotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$FarmLockWithdrawFormNotifier = Notifier<FarmLockWithdrawFormState>;
+typedef _$FarmLockWithdrawFormNotifier
+    = AutoDisposeNotifier<FarmLockWithdrawFormState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

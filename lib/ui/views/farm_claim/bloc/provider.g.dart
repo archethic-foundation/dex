@@ -7,12 +7,12 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$farmClaimFormNotifierHash() =>
-    r'354e4b4b081bcfdd286e712950c93968ae508ead';
+    r'99cff1ee375e6b83a6ecb35b3a48fe067b940d44';
 
 /// See also [FarmClaimFormNotifier].
 @ProviderFor(FarmClaimFormNotifier)
-final farmClaimFormNotifierProvider =
-    NotifierProvider<FarmClaimFormNotifier, FarmClaimFormState>.internal(
+final farmClaimFormNotifierProvider = AutoDisposeNotifierProvider<
+    FarmClaimFormNotifier, FarmClaimFormState>.internal(
   FarmClaimFormNotifier.new,
   name: r'farmClaimFormNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final farmClaimFormNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$FarmClaimFormNotifier = Notifier<FarmClaimFormState>;
+typedef _$FarmClaimFormNotifier = AutoDisposeNotifier<FarmClaimFormState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

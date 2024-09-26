@@ -7,12 +7,12 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$liquidityAddFormNotifierHash() =>
-    r'e9e72ffad3d8346cc4949729824162463db38c65';
+    r'b3e59d9faa1f92608633370cbf797b08694e7da7';
 
 /// See also [LiquidityAddFormNotifier].
 @ProviderFor(LiquidityAddFormNotifier)
-final liquidityAddFormNotifierProvider =
-    NotifierProvider<LiquidityAddFormNotifier, LiquidityAddFormState>.internal(
+final liquidityAddFormNotifierProvider = AutoDisposeNotifierProvider<
+    LiquidityAddFormNotifier, LiquidityAddFormState>.internal(
   LiquidityAddFormNotifier.new,
   name: r'liquidityAddFormNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final liquidityAddFormNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$LiquidityAddFormNotifier = Notifier<LiquidityAddFormState>;
+typedef _$LiquidityAddFormNotifier = AutoDisposeNotifier<LiquidityAddFormState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

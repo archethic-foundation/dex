@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 part of 'dex_pool.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<double> _getRatio(
   _GetRatioRef ref,
   String poolGenesisAddress,
@@ -26,7 +26,7 @@ Future<double> _getRatio(
   return ratio;
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<double> _estimatePoolTVLInFiat(
   _EstimatePoolTVLInFiatRef ref,
   DexPool? pool,

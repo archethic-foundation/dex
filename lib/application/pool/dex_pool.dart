@@ -26,7 +26,7 @@ part 'dex_pool_favorite.dart';
 part 'dex_pool_list.dart';
 part 'dex_pool_tx_list.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 DexPoolRepository _dexPoolRepository(
   _DexPoolRepositoryRef ref,
 ) =>

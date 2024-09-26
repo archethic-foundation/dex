@@ -16,7 +16,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class FarmDepositFormNotifier extends _$FarmDepositFormNotifier {
   FarmDepositFormNotifier();
 

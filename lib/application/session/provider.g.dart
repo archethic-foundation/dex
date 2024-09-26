@@ -6,11 +6,11 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$environmentHash() => r'f1ead46a1d72e806b4700b7d0172b9c0f505a5d8';
+String _$environmentHash() => r'f34c016a6abe9568da747b375457943ff011096f';
 
 /// See also [environment].
 @ProviderFor(environment)
-final environmentProvider = Provider<Environment>.internal(
+final environmentProvider = AutoDisposeProvider<Environment>.internal(
   environment,
   name: r'environmentProvider',
   debugGetCreateSourceHash:
@@ -19,13 +19,13 @@ final environmentProvider = Provider<Environment>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef EnvironmentRef = ProviderRef<Environment>;
-String _$sessionNotifierHash() => r'ad609c4a7dafa6eba52ac35cb3f11800a3aaf3bb';
+typedef EnvironmentRef = AutoDisposeProviderRef<Environment>;
+String _$sessionNotifierHash() => r'4200075ee3796087d83dde7687298966ca920f70';
 
 /// See also [SessionNotifier].
 @ProviderFor(SessionNotifier)
 final sessionNotifierProvider =
-    NotifierProvider<SessionNotifier, Session>.internal(
+    AutoDisposeNotifierProvider<SessionNotifier, Session>.internal(
   SessionNotifier.new,
   name: r'sessionNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -35,6 +35,6 @@ final sessionNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SessionNotifier = Notifier<Session>;
+typedef _$SessionNotifier = AutoDisposeNotifier<Session>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

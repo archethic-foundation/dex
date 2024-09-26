@@ -13,7 +13,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_farm_lock.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 DexFarmLockRepositoryImpl _dexFarmLockRepository(
   _DexFarmLockRepositoryRef ref,
 ) =>
@@ -22,7 +22,7 @@ DexFarmLockRepositoryImpl _dexFarmLockRepository(
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<DexFarmLock?> _getFarmLockInfos(
   _GetFarmLockInfosRef ref,
   String farmGenesisAddress,

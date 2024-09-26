@@ -22,7 +22,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class SwapFormNotifier extends _$SwapFormNotifier
     with aedappfm.TransactionMixin {
   SwapFormNotifier();

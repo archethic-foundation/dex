@@ -34,7 +34,7 @@ PoolsListTab poolsListTabFromJson(String json) {
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class PoolListFormNotifier extends _$PoolListFormNotifier {
   PoolListFormNotifier();
 

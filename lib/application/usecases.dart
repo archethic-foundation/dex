@@ -17,7 +17,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'usecases.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 AddLiquidityCase addLiquidityCase(
   AddLiquidityCaseRef ref,
 ) =>
@@ -28,7 +28,7 @@ AddLiquidityCase addLiquidityCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 AddPoolCase addPoolCase(
   AddPoolCaseRef ref,
 ) =>
@@ -38,7 +38,7 @@ AddPoolCase addPoolCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 ClaimFarmLockCase claimFarmLockCase(
   ClaimFarmLockCaseRef ref,
 ) =>
@@ -49,7 +49,7 @@ ClaimFarmLockCase claimFarmLockCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 ClaimFarmCase claimFarmCase(
   ClaimFarmCaseRef ref,
 ) =>
@@ -60,7 +60,7 @@ ClaimFarmCase claimFarmCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 DepositFarmLockCase depositFarmLockCase(
   DepositFarmLockCaseRef ref,
 ) =>
@@ -71,7 +71,7 @@ DepositFarmLockCase depositFarmLockCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 DepositFarmCase depositFarmCase(
   DepositFarmCaseRef ref,
 ) =>
@@ -82,7 +82,7 @@ DepositFarmCase depositFarmCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 LevelUpFarmLockCase levelUpFarmLockCase(
   LevelUpFarmLockCaseRef ref,
 ) =>
@@ -93,7 +93,7 @@ LevelUpFarmLockCase levelUpFarmLockCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 RemoveLiquidityCase removeLiquidityCase(
   RemoveLiquidityCaseRef ref,
 ) =>
@@ -104,7 +104,7 @@ RemoveLiquidityCase removeLiquidityCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 SwapCase swapCase(
   SwapCaseRef ref,
 ) =>
@@ -115,7 +115,7 @@ SwapCase swapCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 WithdrawFarmLockCase withdrawFarmLockCase(
   WithdrawFarmLockCaseRef ref,
 ) =>
@@ -126,7 +126,7 @@ WithdrawFarmLockCase withdrawFarmLockCase(
       dappClient: ref.watch(dappClientProvider),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 WithdrawFarmCase withdrawFarmCase(
   WithdrawFarmCaseRef ref,
 ) =>

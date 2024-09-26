@@ -14,14 +14,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 Environment environment(EnvironmentRef ref) => ref.watch(
       sessionNotifierProvider.select(
         (session) => session.environment,
       ),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 class SessionNotifier extends _$SessionNotifier {
   SessionNotifier();
 

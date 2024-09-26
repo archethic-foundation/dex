@@ -7,12 +7,12 @@ part of 'dex_farm_lock.dart';
 // **************************************************************************
 
 String _$dexFarmLockRepositoryHash() =>
-    r'94e6e9a203616b35e84ebad29a2beb489b3af26c';
+    r'083507069f84dbdc8a4c5fd5b6fb9d5a5838f94e';
 
 /// See also [_dexFarmLockRepository].
 @ProviderFor(_dexFarmLockRepository)
 final _dexFarmLockRepositoryProvider =
-    Provider<DexFarmLockRepositoryImpl>.internal(
+    AutoDisposeProvider<DexFarmLockRepositoryImpl>.internal(
   _dexFarmLockRepository,
   name: r'_dexFarmLockRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,8 +22,9 @@ final _dexFarmLockRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _DexFarmLockRepositoryRef = ProviderRef<DexFarmLockRepositoryImpl>;
-String _$getFarmLockInfosHash() => r'96a9d75916a396cdbbef57bda439120195b0f488';
+typedef _DexFarmLockRepositoryRef
+    = AutoDisposeProviderRef<DexFarmLockRepositoryImpl>;
+String _$getFarmLockInfosHash() => r'707c18d05824bedce2272a7bd78ac4e1304d2248';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -95,7 +96,8 @@ class _GetFarmLockInfosFamily extends Family<AsyncValue<DexFarmLock?>> {
 }
 
 /// See also [_getFarmLockInfos].
-class _GetFarmLockInfosProvider extends FutureProvider<DexFarmLock?> {
+class _GetFarmLockInfosProvider
+    extends AutoDisposeFutureProvider<DexFarmLock?> {
   /// See also [_getFarmLockInfos].
   _GetFarmLockInfosProvider(
     String farmGenesisAddress,
@@ -159,7 +161,7 @@ class _GetFarmLockInfosProvider extends FutureProvider<DexFarmLock?> {
   }
 
   @override
-  FutureProviderElement<DexFarmLock?> createElement() {
+  AutoDisposeFutureProviderElement<DexFarmLock?> createElement() {
     return _GetFarmLockInfosProviderElement(this);
   }
 
@@ -182,7 +184,7 @@ class _GetFarmLockInfosProvider extends FutureProvider<DexFarmLock?> {
   }
 }
 
-mixin _GetFarmLockInfosRef on FutureProviderRef<DexFarmLock?> {
+mixin _GetFarmLockInfosRef on AutoDisposeFutureProviderRef<DexFarmLock?> {
   /// The parameter `farmGenesisAddress` of this provider.
   String get farmGenesisAddress;
 
@@ -194,7 +196,8 @@ mixin _GetFarmLockInfosRef on FutureProviderRef<DexFarmLock?> {
 }
 
 class _GetFarmLockInfosProviderElement
-    extends FutureProviderElement<DexFarmLock?> with _GetFarmLockInfosRef {
+    extends AutoDisposeFutureProviderElement<DexFarmLock?>
+    with _GetFarmLockInfosRef {
   _GetFarmLockInfosProviderElement(super.provider);
 
   @override

@@ -6,11 +6,12 @@ part of 'dex_farm.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dexFarmRepositoryHash() => r'66081b9a53d57a36ad27c40d50a0906088440f7b';
+String _$dexFarmRepositoryHash() => r'cb6f41fd164a062827be80fc63f8bff475a11bbc';
 
 /// See also [_dexFarmRepository].
 @ProviderFor(_dexFarmRepository)
-final _dexFarmRepositoryProvider = Provider<DexFarmRepositoryImpl>.internal(
+final _dexFarmRepositoryProvider =
+    AutoDisposeProvider<DexFarmRepositoryImpl>.internal(
   _dexFarmRepository,
   name: r'_dexFarmRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,8 +21,8 @@ final _dexFarmRepositoryProvider = Provider<DexFarmRepositoryImpl>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _DexFarmRepositoryRef = ProviderRef<DexFarmRepositoryImpl>;
-String _$getFarmInfosHash() => r'a47a4035120999fbf9238141775d7d58799126f3';
+typedef _DexFarmRepositoryRef = AutoDisposeProviderRef<DexFarmRepositoryImpl>;
+String _$getFarmInfosHash() => r'17a4e922bfc9ee140de1de346f6aa2b2831f25b9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -93,7 +94,7 @@ class _GetFarmInfosFamily extends Family<AsyncValue<DexFarm?>> {
 }
 
 /// See also [_getFarmInfos].
-class _GetFarmInfosProvider extends FutureProvider<DexFarm?> {
+class _GetFarmInfosProvider extends AutoDisposeFutureProvider<DexFarm?> {
   /// See also [_getFarmInfos].
   _GetFarmInfosProvider(
     String farmGenesisAddress,
@@ -157,7 +158,7 @@ class _GetFarmInfosProvider extends FutureProvider<DexFarm?> {
   }
 
   @override
-  FutureProviderElement<DexFarm?> createElement() {
+  AutoDisposeFutureProviderElement<DexFarm?> createElement() {
     return _GetFarmInfosProviderElement(this);
   }
 
@@ -180,7 +181,7 @@ class _GetFarmInfosProvider extends FutureProvider<DexFarm?> {
   }
 }
 
-mixin _GetFarmInfosRef on FutureProviderRef<DexFarm?> {
+mixin _GetFarmInfosRef on AutoDisposeFutureProviderRef<DexFarm?> {
   /// The parameter `farmGenesisAddress` of this provider.
   String get farmGenesisAddress;
 
@@ -191,8 +192,8 @@ mixin _GetFarmInfosRef on FutureProviderRef<DexFarm?> {
   DexFarm? get dexFarmInput;
 }
 
-class _GetFarmInfosProviderElement extends FutureProviderElement<DexFarm?>
-    with _GetFarmInfosRef {
+class _GetFarmInfosProviderElement
+    extends AutoDisposeFutureProviderElement<DexFarm?> with _GetFarmInfosRef {
   _GetFarmInfosProviderElement(super.provider);
 
   @override

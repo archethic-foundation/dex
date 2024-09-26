@@ -6,11 +6,12 @@ part of 'dapp_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dappClientHash() => r'e7ae907482874a2f46820189283ae2870b83f512';
+String _$dappClientHash() => r'3ee145f82d205cd553f2cec7ea4d7f344137c1a5';
 
 /// See also [dappClient].
 @ProviderFor(dappClient)
-final dappClientProvider = Provider<awc.ArchethicDAppClient>.internal(
+final dappClientProvider =
+    AutoDisposeProvider<awc.ArchethicDAppClient>.internal(
   dappClient,
   name: r'dappClientProvider',
   debugGetCreateSourceHash:
@@ -19,6 +20,6 @@ final dappClientProvider = Provider<awc.ArchethicDAppClient>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DappClientRef = ProviderRef<awc.ArchethicDAppClient>;
+typedef DappClientRef = AutoDisposeProviderRef<awc.ArchethicDAppClient>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

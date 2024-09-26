@@ -14,7 +14,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'dex_farm.g.dart';
 part 'dex_farm_list.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 DexFarmRepositoryImpl _dexFarmRepository(_DexFarmRepositoryRef ref) =>
     DexFarmRepositoryImpl(
       apiService: ref.watch(apiServiceProvider),
@@ -23,7 +23,7 @@ DexFarmRepositoryImpl _dexFarmRepository(_DexFarmRepositoryRef ref) =>
       ),
     );
 
-@Riverpod(keepAlive: true)
+@riverpod
 Future<DexFarm?> _getFarmInfos(
   _GetFarmInfosRef ref,
   String farmGenesisAddress,
