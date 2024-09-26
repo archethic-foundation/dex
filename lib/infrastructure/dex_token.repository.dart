@@ -84,10 +84,11 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
 
           return [
             token1Address,
-            token1Address,
+            token2Address,
           ];
         })
         .whereNot((address) => address == kUCOAddress)
+        .toSet()
         .toList();
 
     final tokensSymbolMap = await apiService.getToken(
@@ -116,33 +117,35 @@ class DexTokenRepositoryImpl with ModelParser implements DexTokenRepository {
 
       var dexToken = tokenSDKToModel(_token, balanceAmount);
 
-      dexToken = dexToken.copyWith(
-        isLpToken: true,
-        lpTokenPair: DexPair(
-          token1: token1Address == kUCOAddress
-              ? DexToken.uco()
-              : DexToken(
-                  address: token1Address,
-                  name: tokensSymbolMap[token1Address] != null
-                      ? tokensSymbolMap[token1Address]!.name!
-                      : '',
-                  symbol: tokensSymbolMap[token1Address] != null
-                      ? tokensSymbolMap[token1Address]!.symbol!
-                      : '',
-                ),
-          token2: token2Address != kUCOAddress
-              ? DexToken(
-                  address: token2Address,
-                  name: tokensSymbolMap[token2Address] != null
-                      ? tokensSymbolMap[token2Address]!.name!
-                      : '',
-                  symbol: tokensSymbolMap[token2Address] != null
-                      ? tokensSymbolMap[token2Address]!.symbol!
-                      : '',
-                )
-              : DexToken.uco(),
-        ),
-      );
+      if (token1Address != null && token2Address != null) {
+        dexToken = dexToken.copyWith(
+          isLpToken: true,
+          lpTokenPair: DexPair(
+            token1: token1Address == kUCOAddress
+                ? DexToken.uco()
+                : DexToken(
+                    address: token1Address,
+                    name: tokensSymbolMap[token1Address] != null
+                        ? tokensSymbolMap[token1Address]!.name!
+                        : '',
+                    symbol: tokensSymbolMap[token1Address] != null
+                        ? tokensSymbolMap[token1Address]!.symbol!
+                        : '',
+                  ),
+            token2: token2Address == kUCOAddress
+                ? DexToken.uco()
+                : DexToken(
+                    address: token2Address,
+                    name: tokensSymbolMap[token2Address] != null
+                        ? tokensSymbolMap[token2Address]!.name!
+                        : '',
+                    symbol: tokensSymbolMap[token2Address] != null
+                        ? tokensSymbolMap[token2Address]!.symbol!
+                        : '',
+                  ),
+          ),
+        );
+      }
       dexTokens.add(
         dexToken,
       );
