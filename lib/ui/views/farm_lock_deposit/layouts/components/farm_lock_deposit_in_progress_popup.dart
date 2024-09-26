@@ -105,12 +105,14 @@ class FarmLockDepositInProgressPopup {
           );
         if (!context.mounted) return;
         Navigator.of(context).pop();
+        Navigator.of(context).pop();
       },
       closeFunction: () {
         ref.invalidate(
           farmLockDepositFormNotifierProvider,
         );
         if (!context.mounted) return;
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
     );
