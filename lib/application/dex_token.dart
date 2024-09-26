@@ -1,5 +1,4 @@
 import 'package:aedex/application/api_service.dart';
-import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/dex_token.repository.dart';
@@ -20,16 +19,21 @@ Future<DexToken?> _getTokenFromAddress(
   _GetTokenFromAddressRef ref,
   address,
 ) async {
-  return ref.watch(_dexTokenRepositoryProvider).getTokenFromCache(address);
+  return ref.watch(_dexTokenRepositoryProvider).getToken(address);
 }
 
 @riverpod
 Future<List<DexToken>> _tokensFromAccount(
   _TokensFromAccountRef ref,
 ) async {
-  final userBalance = await ref.watch(userBalanceProvider.future);
+  final genesisAddress = ref.watch(
+    sessionNotifierProvider.select((session) => session.genesisAddress),
+  );
+  if (genesisAddress.isEmpty) return const [];
 
-  return ref.watch(_dexTokenRepositoryProvider).getTokens(userBalance);
+  return ref
+      .watch(_dexTokenRepositoryProvider)
+      .getTokensFromAccount(genesisAddress);
 }
 
 @riverpod
