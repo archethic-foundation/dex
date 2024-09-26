@@ -16,20 +16,30 @@ class DexPoolInfos with _$DexPoolInfos {
     required double token1TotalVolume,
     required double token2TotalFee,
     required double token2TotalVolume,
-    double? token1TotalVolume24h,
-    double? token2TotalVolume24h,
-    double? token1TotalVolume7d,
-    double? token2TotalVolume7d,
-    double? token1TotalFee24h,
-    double? token2TotalFee24h,
-    double? fee24h,
-    double? feeAllTime,
-    double? volume24h,
-    double? volume7d,
-    double? volumeAllTime,
   }) = _DexPoolInfos;
   const DexPoolInfos._();
 
   factory DexPoolInfos.fromJson(Map<String, dynamic> json) =>
       _$DexPoolInfosFromJson(json);
+}
+
+@freezed
+class DexPoolStats with _$DexPoolStats {
+  const factory DexPoolStats({
+    required double token1TotalVolume24h,
+    required double token2TotalVolume24h,
+    required double token1TotalVolume7d,
+    required double token2TotalVolume7d,
+    required double token1TotalFee24h,
+    required double token2TotalFee24h,
+    required double fee24h,
+    required double feeAllTime,
+    required double volume24h,
+    required double volume7d,
+    required double volumeAllTime,
+  }) = _DexPoolStats;
+  const DexPoolStats._();
+
+  factory DexPoolStats.fromJson(Map<String, dynamic> json) =>
+      _$DexPoolStatsFromJson(json);
 }

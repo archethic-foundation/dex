@@ -24,7 +24,7 @@ final _dexTokenRepositoryProvider =
 
 typedef _DexTokenRepositoryRef = AutoDisposeProviderRef<DexTokenRepositoryImpl>;
 String _$getTokenFromAddressHash() =>
-    r'b4317bf56f216e40ec6110efe41cf8d2f65ad3ef';
+    r'a38f1bb2b33e4487c57bd5a71b45716eb0b7d34f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -175,7 +175,7 @@ class _GetTokenFromAddressProviderElement
   dynamic get address => (origin as _GetTokenFromAddressProvider).address;
 }
 
-String _$tokensFromAccountHash() => r'70d439730d66e224b8dee35fca92bb7a8bcd892c';
+String _$tokensFromAccountHash() => r'e749716b7764162d35123b5ff5401883bf2950e0';
 
 /// See also [_tokensFromAccount].
 @ProviderFor(_tokensFromAccount)
@@ -464,7 +464,7 @@ class _GetTokenIconProviderElement
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'2e5fc01bd6bd1f2fb4fd6c5e8c62bd7efbe303fd';
+    r'683af81e6c8b9ceef6e784715ba9a2712e069811';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)

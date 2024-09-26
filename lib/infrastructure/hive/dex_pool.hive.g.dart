@@ -75,24 +75,13 @@ class DexPoolInfosHiveAdapter extends TypeAdapter<DexPoolInfosHive> {
       token1TotalVolume: fields[5] as double?,
       token2TotalFee: fields[6] as double?,
       token2TotalVolume: fields[7] as double?,
-      token1TotalVolume24h: fields[10] as double?,
-      token2TotalVolume24h: fields[11] as double?,
-      token1TotalVolume7d: fields[19] as double?,
-      token2TotalVolume7d: fields[20] as double?,
-      token1TotalFee24h: fields[12] as double?,
-      token2TotalFee24h: fields[13] as double?,
-      fee24h: fields[15] as double?,
-      feeAllTime: fields[16] as double?,
-      volume24h: fields[17] as double?,
-      volume7d: fields[21] as double?,
-      volumeAllTime: fields[18] as double?,
     );
   }
 
   @override
   void write(BinaryWriter writer, DexPoolInfosHive obj) {
     writer
-      ..writeByte(20)
+      ..writeByte(9)
       ..writeByte(1)
       ..write(obj.fees)
       ..writeByte(2)
@@ -109,30 +98,8 @@ class DexPoolInfosHiveAdapter extends TypeAdapter<DexPoolInfosHive> {
       ..write(obj.token2TotalVolume)
       ..writeByte(9)
       ..write(obj.protocolFees)
-      ..writeByte(10)
-      ..write(obj.token1TotalVolume24h)
-      ..writeByte(11)
-      ..write(obj.token2TotalVolume24h)
-      ..writeByte(12)
-      ..write(obj.token1TotalFee24h)
-      ..writeByte(13)
-      ..write(obj.token2TotalFee24h)
       ..writeByte(14)
-      ..write(obj.tvl)
-      ..writeByte(15)
-      ..write(obj.fee24h)
-      ..writeByte(16)
-      ..write(obj.feeAllTime)
-      ..writeByte(17)
-      ..write(obj.volume24h)
-      ..writeByte(18)
-      ..write(obj.volumeAllTime)
-      ..writeByte(19)
-      ..write(obj.token1TotalVolume7d)
-      ..writeByte(20)
-      ..write(obj.token2TotalVolume7d)
-      ..writeByte(21)
-      ..write(obj.volume7d);
+      ..write(obj.tvl);
   }
 
   @override

@@ -23,7 +23,7 @@ final _dexFarmLockRepositoryProvider =
 );
 
 typedef _DexFarmLockRepositoryRef = ProviderRef<DexFarmLockRepositoryImpl>;
-String _$getFarmLockInfosHash() => r'47deba48dbdd5e9321ca886f3b993c954e6c2c9d';
+String _$getFarmLockInfosHash() => r'96a9d75916a396cdbbef57bda439120195b0f488';
 
 /// Copied from Dart SDK
 class _SystemHash {

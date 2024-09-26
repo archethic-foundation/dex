@@ -21,7 +21,7 @@ final _dexFarmRepositoryProvider = Provider<DexFarmRepositoryImpl>.internal(
 );
 
 typedef _DexFarmRepositoryRef = ProviderRef<DexFarmRepositoryImpl>;
-String _$getFarmInfosHash() => r'b3aea430e3a3018147dc3433575a8fd1a32fee25';
+String _$getFarmInfosHash() => r'a47a4035120999fbf9238141775d7d58799126f3';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -43,7 +43,7 @@ class _PoolInfoCardState extends ConsumerState<PoolInfoCard> {
   Future<void> loadInfo({bool forceLoadFromBC = false}) async {
     pool = await ref
         .read(DexPoolProviders.getPool(widget.poolGenesisAddress).future);
-    pool = await ref.read(DexPoolProviders.loadPoolCard(pool!).future);
+    pool = await ref.read(DexPoolProviders.getPool(pool!.poolAddress).future);
     tvl = await ref.read(
       DexPoolProviders.estimatePoolTVLInFiat(pool).future,
     );

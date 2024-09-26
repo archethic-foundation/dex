@@ -40,8 +40,8 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
         PoolDetailsInfoSwapFees(poolInfos: widget.pool.infos),
         PoolDetailsInfoProtocolFees(poolInfos: widget.pool.infos),
         PoolDetailsInfoFees(
-          fees24h: widget.pool.infos?.fee24h,
-          feesAllTime: widget.pool.infos?.feeAllTime,
+          fees24h: widget.pool.stats?.fee24h,
+          feesAllTime: widget.pool.stats?.feeAllTime,
           poolWithFarm: widget.poolWithFarm,
         ),
         const SizedBox(height: 10),

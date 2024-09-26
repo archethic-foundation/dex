@@ -7,7 +7,7 @@ part of 'dex_lp_token_fiat_value.dart';
 // **************************************************************************
 
 String _$dexLPTokenFiatValueHash() =>
-    r'e1c936d5e5dfd69f79b5a9373fa97622f7774e9b';
+    r'c557267e4bfd7def7897e977db8a2644e7252d70';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -16,6 +16,7 @@ class DexPool with _$DexPool {
     required bool lpTokenInUserBalance,
     required bool isFavorite,
     DexPoolInfos? infos,
+    DexPoolStats? stats,
   }) = _DexPool;
   const DexPool._();
 

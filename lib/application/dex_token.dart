@@ -71,24 +71,20 @@ Future<double> _estimateTokenInFiat(
   _EstimateTokenInFiatRef ref,
   String tokenAddress,
 ) async {
-  var fiatValue = 0.0;
   if (tokenAddress.isUCO) {
     final archethicOracleUCO =
         ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
-    fiatValue = archethicOracleUCO.usd;
+    return archethicOracleUCO.usd;
   } else {
     final session = ref.watch(sessionNotifierProvider);
-    final price = await ref.watch(
+    return await ref.watch(
       aedappfm.CoinPriceProviders.coinPrice(
         address: tokenAddress,
         environment: session.environment,
       ).future,
     );
-
-    fiatValue = price;
   }
-  return fiatValue;
 }
 
 @Riverpod(keepAlive: true)

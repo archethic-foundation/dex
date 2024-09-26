@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_item.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -19,16 +18,13 @@ class PoolAddFavoriteIcon extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async {
-        ref.read(
-          DexPoolProviders.addPoolFromFavorite(
-            poolAddress,
-          ),
-        );
-        if (context.mounted) {
-          final poolListItemState =
-              context.findAncestorStateOfType<PoolListItemState>();
-          await poolListItemState?.reload();
-        }
+        ref
+          ..read(
+            DexPoolProviders.addPoolFromFavorite(
+              poolAddress,
+            ),
+          )
+          ..invalidate(DexPoolProviders.getPool(poolAddress));
       },
       child: Tooltip(
         message: AppLocalizations.of(context)!.poolAddFavoriteIconTooltip,

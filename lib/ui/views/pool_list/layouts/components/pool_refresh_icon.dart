@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_item.dart';
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class _PoolRefreshIconState extends ConsumerState<PoolRefreshIcon> {
           },
         );
 
-        await context.findAncestorStateOfType<PoolListItemState>()?.reload();
+        ref.invalidate(DexPoolProviders.getPool(widget.poolAddress));
 
         await Future.delayed(const Duration(seconds: 3));
         if (mounted) {

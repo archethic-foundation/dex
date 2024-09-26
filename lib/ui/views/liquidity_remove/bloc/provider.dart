@@ -8,7 +8,6 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_item.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -34,7 +33,7 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     state = state.copyWith(pool: pool);
 
     final poolPopulated =
-        await ref.read(DexPoolProviders.loadPoolCard(pool).future);
+        await ref.read(DexPoolProviders.getPool(pool.poolAddress).future);
     state = state.copyWith(pool: poolPopulated);
   }
 
@@ -333,30 +332,25 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
 
     final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-    if (context.mounted) {
-      final finalAmounts = await ref.read(removeLiquidityCaseProvider).run(
-            localizations,
-            this,
-            state.pool!.poolAddress,
-            state.lpToken!.address,
-            state.lpTokenAmount,
-            state.token1!,
-            state.token2!,
-            state.lpToken!,
-            recoveryStep: state.currentStep,
-          );
-      state = state.copyWith(
-        finalAmountToken1: finalAmounts.amountToken1,
-        finalAmountToken2: finalAmounts.amountToken2,
-        finalAmountLPToken: finalAmounts.amountLPToken,
-      );
+    final finalAmounts = await ref.read(removeLiquidityCaseProvider).run(
+          localizations,
+          this,
+          state.pool!.poolAddress,
+          state.lpToken!.address,
+          state.lpTokenAmount,
+          state.token1!,
+          state.token2!,
+          state.lpToken!,
+          recoveryStep: state.currentStep,
+        );
+    state = state.copyWith(
+      finalAmountToken1: finalAmounts.amountToken1,
+      finalAmountToken2: finalAmounts.amountToken2,
+      finalAmountLPToken: finalAmounts.amountLPToken,
+    );
 
-      ref.invalidate(userBalanceProvider);
-      if (context.mounted) {
-        final poolListItemState =
-            context.findAncestorStateOfType<PoolListItemState>();
-        await poolListItemState?.reload();
-      }
-    }
+    ref
+      ..invalidate(userBalanceProvider)
+      ..invalidate(DexPoolProviders.getPool(state.pool!.poolAddress));
   }
 }

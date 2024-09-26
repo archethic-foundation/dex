@@ -24,8 +24,8 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
     List<String> tokenVerifiedList,
   ) async {
     final environment = aedappfm.Environment.byEndpoint(apiService.endpoint);
-    final poolsListDatasource = await HivePoolsListDatasource.getInstance();
-    final poolHive = poolsListDatasource.getPool(
+    final poolsLocalDatasource = await HivePoolsListDatasource.getInstance();
+    final poolHive = poolsLocalDatasource.getPool(
       environment.name,
       poolAddress,
     );
@@ -42,8 +42,8 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
           for (final poolInput in poolList) {
             if (poolInput.poolAddress.toUpperCase() ==
                 poolAddress.toUpperCase()) {
-              final pool = await populatePoolInfos(poolInput);
-              await poolsListDatasource.setPool(
+              final pool = await _populatePoolInfos(poolInput);
+              await poolsLocalDatasource.setPool(
                 environment.name,
                 pool.toHive(),
               );
@@ -58,13 +58,12 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
       );
     }
 
-    return poolsListDatasource
+    return poolsLocalDatasource
         .getPool(environment.name, poolAddress)
         ?.toDexPool();
   }
 
-  @override
-  Future<DexPool> populatePoolInfos(
+  Future<DexPool> _populatePoolInfos(
     DexPool poolInput,
   ) async {
     final poolFactory = PoolFactoryRepositoryImpl(

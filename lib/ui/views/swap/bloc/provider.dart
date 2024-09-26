@@ -42,7 +42,7 @@ class SwapFormNotifier extends _$SwapFormNotifier
   Future<void> getPool() async {
     var pool = await ref
         .read(DexPoolProviders.getPool(state.poolGenesisAddress).future);
-    pool = await ref.read(DexPoolProviders.loadPoolCard(pool!).future);
+    pool = await ref.read(DexPoolProviders.getPool(pool!.poolAddress).future);
 
     setPool(pool);
   }

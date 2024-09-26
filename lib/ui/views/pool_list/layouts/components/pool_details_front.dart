@@ -51,7 +51,7 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
                 if (widget.poolWithFarm == false)
                   PoolDetailsInfoAPR(
                     tvl: widget.pool.infos?.tvl ?? 0,
-                    fee24h: widget.pool.infos?.fee24h ?? 0,
+                    fee24h: widget.pool.stats?.fee24h ?? 0,
                   )
                 else
                   PoolDetailsInfoAPRFarm(poolAddress: widget.pool.poolAddress),
@@ -62,9 +62,9 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PoolDetailsInfoVolume(
-                  volume24h: widget.pool.infos?.volume24h,
-                  volumeAllTime: widget.pool.infos?.volumeAllTime,
-                  volume7d: widget.pool.infos?.volume7d,
+                  volume24h: widget.pool.stats?.volume24h,
+                  volumeAllTime: widget.pool.stats?.volumeAllTime,
+                  volume7d: widget.pool.stats?.volume7d,
                 ),
               ],
             ),

@@ -58,13 +58,12 @@ Future<double> _estimatePoolTVLInFiat(
   return tvl;
 }
 
-@Riverpod(keepAlive: true)
-Future<DexPool> _estimateStats(
+@riverpod
+Future<DexPoolStats> _estimateStats(
   _EstimateStatsRef ref,
   DexPool pool,
 ) async {
   final apiService = ref.watch(apiServiceProvider);
-  final session = ref.watch(sessionNotifierProvider);
 
   var volume24h = 0.0;
   var volume7d = 0.0;
@@ -245,30 +244,13 @@ Future<DexPool> _estimateStats(
     }
   }
 
-  final archethicOracleUCO =
-      ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
+  priceToken1 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token1.address).future,
+  );
 
-  if (pool.pair.token1.isUCO) {
-    priceToken1 = archethicOracleUCO.usd;
-  } else {
-    priceToken1 = await ref.watch(
-      aedappfm.CoinPriceProviders.coinPrice(
-        address: pool.pair.token1.address,
-        environment: session.environment,
-      ).future,
-    );
-  }
-
-  if (pool.pair.token2.isUCO) {
-    priceToken2 = archethicOracleUCO.usd;
-  } else {
-    priceToken2 = await ref.watch(
-      aedappfm.CoinPriceProviders.coinPrice(
-        address: pool.pair.token2.address,
-        environment: session.environment,
-      ).future,
-    );
-  }
+  priceToken2 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token2.address).future,
+  );
 
   if (priceToken1 == 0 && priceToken2 > 0) {
     priceToken1 = (Decimal.parse('${pool.infos!.ratioToken1Token2}') *
@@ -331,8 +313,9 @@ Future<DexPool> _estimateStats(
     }
   }
 
-  var poolInfos = pool.infos!;
-  poolInfos = poolInfos.copyWith(
+  return DexPoolStats(
+    token1TotalVolume7d: token1TotalVolume7d,
+    token2TotalVolume7d: token2TotalVolume7d,
     token1TotalVolume24h: token1TotalVolume24h,
     token2TotalVolume24h: token2TotalVolume24h,
     token1TotalFee24h: token1TotalFee24h,
@@ -343,5 +326,4 @@ Future<DexPool> _estimateStats(
     volume7d: volume7d,
     volumeAllTime: volumeAllTime,
   );
-  return pool.copyWith(infos: poolInfos);
 }

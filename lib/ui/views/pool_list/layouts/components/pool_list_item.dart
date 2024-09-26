@@ -1,4 +1,3 @@
-import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/session/state.dart';
@@ -40,52 +39,18 @@ class PoolListItem extends ConsumerStatefulWidget {
 
 class PoolListItemState extends ConsumerState<PoolListItem> {
   final flipCardController = FlipCardController();
-  DexPool? poolInfos;
-
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      if (mounted) {
-        await loadInfo();
-      }
-    });
-    super.initState();
-  }
-
-// TODO(Chralu): pourquoi ne pas juste ecouter les bons providers dans le main ?
-  Future<void> loadInfo({bool forceLoadFromBC = false}) async {
-    poolInfos = await ref.read(
-      DexPoolProviders.loadPoolCard(
-        widget.pool,
-        forceLoadFromBC: forceLoadFromBC,
-      ).future,
-    );
-    if (mounted) {
-      ref.invalidate(
-        getBalanceProvider(
-          widget.pool.lpToken.address,
-        ),
-      );
-    }
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  Future<void> reload() async {
-    poolInfos = null;
-    if (mounted) {
-      setState(() {});
-    }
-    if (mounted) {
-      await loadInfo(
-        forceLoadFromBC: true,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final pool = ref
+            .watch(
+              DexPoolProviders.getPool(
+                widget.pool.poolAddress,
+              ),
+            )
+            .value ??
+        widget.pool;
+
     final aeETHUCOPoolAddress =
         ref.watch(environmentProvider).aeETHUCOPoolAddress;
 
@@ -113,13 +78,13 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   flipOnTouch: false,
                   fill: Fill.fillBack,
                   front: PoolDetailsFront(
-                    pool: poolInfos ?? widget.pool,
+                    pool: pool,
                     tab: widget.tab,
                     poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
                         widget.pool.poolAddress.toUpperCase(),
                   ),
                   back: PoolDetailsBack(
-                    pool: poolInfos ?? widget.pool,
+                    pool: pool,
                     poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
                         widget.pool.poolAddress.toUpperCase(),
                   ),
@@ -139,7 +104,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   poolAddress: widget.pool.poolAddress,
                 ),
               ),
-              if (poolInfos != null && poolInfos!.isFavorite)
+              if (pool.isFavorite)
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: PoolRemoveFavoriteIcon(
@@ -170,12 +135,10 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                 ),
               InkWell(
                 onTap: () async {
-                  if (poolInfos != null) {
-                    await PoolTxListPopup.getDialog(
-                      context,
-                      poolInfos!,
-                    );
-                  }
+                  await PoolTxListPopup.getDialog(
+                    context,
+                    pool,
+                  );
                 },
                 child: SizedBox(
                   height: 40,
