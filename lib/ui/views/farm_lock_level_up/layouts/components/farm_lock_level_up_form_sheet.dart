@@ -1,4 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_lock_duration_btn.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -348,7 +350,9 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.pop();
+                                context.popOrGo(
+                                  FarmLockSheet.routerPage2,
+                                );
                               },
                             ),
                           ),

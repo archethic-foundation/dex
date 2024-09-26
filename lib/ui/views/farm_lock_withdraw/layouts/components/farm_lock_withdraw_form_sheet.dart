@@ -1,4 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_textfield_amount.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -226,7 +228,9 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.pop();
+                                context.popOrGo(
+                                  FarmLockSheet.routerPage2,
+                                );
                               },
                             ),
                           ),

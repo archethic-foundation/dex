@@ -1,4 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
@@ -213,7 +215,9 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.pop();
+                                context.popOrGo(
+                                  FarmLockSheet.routerPage2,
+                                );
                               },
                             ),
                           ),

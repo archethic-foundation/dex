@@ -1,4 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_lock_duration_btn.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_textfield_amount.dart';
@@ -232,7 +234,9 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.pop();
+                                context.popOrGo(
+                                  FarmLockSheet.routerPage2,
+                                );
                               },
                             ),
                           ),

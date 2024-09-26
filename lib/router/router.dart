@@ -545,3 +545,13 @@ extension UriExtensions on Map<String, String> {
     return null;
   }
 }
+
+extension ContextRouteExtension on BuildContext {
+  void popOrGo(String routerPage) {
+    if (canPop()) {
+      pop();
+    } else {
+      go(routerPage);
+    }
+  }
+}
