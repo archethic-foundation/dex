@@ -26,13 +26,11 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
   const FarmLockBlockEarnRewards({
     required this.width,
     required this.height,
-    required this.sortCriteria,
     super.key,
   });
 
   final double width;
   final double height;
-  final String sortCriteria;
 
   @override
   Widget build(

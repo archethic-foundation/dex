@@ -18,7 +18,6 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
     required this.rewardAmount,
     required this.depositedAmount,
     required this.depositId,
-    required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
@@ -27,7 +26,6 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
   final double depositedAmount;
   final String depositId;
   final bool enabled;
-  final String currentSortedColumn;
 
   @override
   Widget build(

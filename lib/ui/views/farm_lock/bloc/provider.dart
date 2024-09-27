@@ -15,14 +15,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
-Map<String, bool> sortAscending = {
-  'amount': true,
-  'rewards': true,
-  'unlocks_in': true,
-  'level': false,
-  'apr': true,
-};
-
 @riverpod
 class FarmLockFormNotifier extends _$FarmLockFormNotifier {
   FarmLockFormNotifier();
@@ -189,45 +181,55 @@ class FarmLockFormNotifier extends _$FarmLockFormNotifier {
       lpTokenBalance: lpTokenBalance ?? 0,
     );
   }
+}
 
-  List<DexFarmLockUserInfos> sortData(
-    String sortBy,
-    List<DexFarmLockUserInfos> sortedUserInfos,
-  ) {
-    sortAscending[sortBy] = !sortAscending[sortBy]!;
-    final ascending = sortAscending[sortBy]!;
-    sortedUserInfos.sort((a, b) {
-      int compare;
-      switch (sortBy) {
-        case 'amount':
-          compare = a.amount.compareTo(b.amount);
-          break;
-        case 'rewards':
-          compare = a.rewardAmount.compareTo(b.rewardAmount);
-          break;
-        case 'unlocks_in':
-          if (a.end == null && b.end == null) {
-            compare = 0;
-          } else if (a.end == null) {
-            compare = 1;
-          } else if (b.end == null) {
-            compare = -1;
-          } else {
-            compare = a.end!.compareTo(b.end!);
-          }
-          break;
-        case 'level':
-          compare = a.level.compareTo(b.level);
-          break;
-        case 'apr':
-          compare = a.apr.compareTo(b.apr);
-          break;
-        default:
-          compare = 0;
-      }
-      return ascending ? compare : -compare;
-    });
+@riverpod
+List<DexFarmLockUserInfos> sortedUserFarmLocks(
+  SortedUserFarmLocksRef ref,
+  String? sortBy,
+  bool? ascending,
+) {
+  final farmLockForm = ref.watch(farmLockFormNotifierProvider).value;
 
-    return sortedUserInfos;
+  if (farmLockForm == null) return [];
+
+  final userFarmLocks = farmLockForm.farmLock!.userInfos.entries
+      .map((entry) => entry.value)
+      .toList();
+
+  if (sortBy == null) {
+    return userFarmLocks;
   }
+  userFarmLocks.sort((a, b) {
+    int compare;
+    switch (sortBy) {
+      case 'amount':
+        compare = a.amount.compareTo(b.amount);
+        break;
+      case 'rewards':
+        compare = a.rewardAmount.compareTo(b.rewardAmount);
+        break;
+      case 'unlocks_in':
+        if (a.end == null && b.end == null) {
+          compare = 0;
+        } else if (a.end == null) {
+          compare = 1;
+        } else if (b.end == null) {
+          compare = -1;
+        } else {
+          compare = a.end!.compareTo(b.end!);
+        }
+        break;
+      case 'level':
+        compare = a.level.compareTo(b.level);
+        break;
+      case 'apr':
+        compare = a.apr.compareTo(b.apr);
+        break;
+      default:
+        compare = 0;
+    }
+    return ascending == true ? compare : -compare;
+  });
+  return userFarmLocks;
 }

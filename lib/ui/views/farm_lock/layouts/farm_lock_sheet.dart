@@ -7,7 +7,6 @@ import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_head
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_list_header.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_list_single_line_legacy.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_list_single_line_lock.dart';
-import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco_aeeth.dart';
@@ -29,7 +28,6 @@ class FarmLockSheet extends ConsumerStatefulWidget {
 }
 
 class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
-  List<DexFarmLockUserInfos> sortedUserInfos = [];
   Map<String, bool> sortAscending = {
     'amount': true,
     'rewards': true,
@@ -38,36 +36,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     'apr': true,
   };
 
-  String currentSortedColumn = '';
-
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      ref.read(navigationIndexMainScreenProvider.notifier).state =
-          NavigationIndex.earn;
-
-      currentSortedColumn = 'level';
-      if (mounted) {
-        final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-            const FarmLockFormState();
-        if (farmLockForm.farmLock != null) {
-          setState(() {
-            sortedUserInfos = farmLockForm.farmLock!.userInfos.entries
-                .map((entry) => entry.value)
-                .toList();
-
-            _onSort(
-              currentSortedColumn,
-              sortAscending[currentSortedColumn]!,
-              sortedUserInfos,
-            );
-          });
-        }
-      }
-    });
-
-    super.initState();
-  }
+  String currentSortedColumn = 'level';
 
   void _onSort(String column, bool ascending, List<DexFarmLockUserInfos> data) {
     setState(() {
@@ -76,12 +45,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
       } else {
         sortAscending[column] = !sortAscending[column]!;
       }
-
       currentSortedColumn = column;
-
-      sortedUserInfos = ref
-          .read(farmLockFormNotifierProvider.notifier)
-          .sortData(column, data);
     });
   }
 
@@ -100,7 +64,12 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
         const FarmLockFormState();
     final session = ref.watch(sessionNotifierProvider);
-
+    final sortedUserInfos = ref.watch(
+      sortedUserFarmLocksProvider(
+        currentSortedColumn,
+        sortAscending[currentSortedColumn],
+      ),
+    );
     return Padding(
       padding: EdgeInsets.only(
         top: aedappfm.Responsive.isDesktop(context) ||
@@ -115,9 +84,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            FarmLockBlockHeader(
-              sortCriteria: currentSortedColumn,
-            ),
+            const FarmLockBlockHeader(),
             const SizedBox(
               height: 5,
             ),
@@ -138,9 +105,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                 child: Column(
                   children: [
                     if (farmLockForm.farm != null)
-                      FarmLockBlockListSingleLineLegacy(
-                        currentSortedColumn: currentSortedColumn,
-                      ),
+                      const FarmLockBlockListSingleLineLegacy(),
                     const SizedBox(
                       height: 6,
                     ),
@@ -150,7 +115,6 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                       ...sortedUserInfos.map((userInfo) {
                         return FarmLockBlockListSingleLineLock(
                           farmLockUserInfos: userInfo,
-                          currentSortedColumn: currentSortedColumn,
                         );
                       }).toList(),
                     const SizedBox(

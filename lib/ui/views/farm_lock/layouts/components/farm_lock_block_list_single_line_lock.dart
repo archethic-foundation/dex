@@ -22,11 +22,9 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
   const FarmLockBlockListSingleLineLock({
     super.key,
     required this.farmLockUserInfos,
-    required this.currentSortedColumn,
   });
 
   final DexFarmLockUserInfos farmLockUserInfos;
-  final String currentSortedColumn;
 
   @override
   Widget build(
@@ -281,8 +279,6 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     )!,
                                         rewardAmount:
                                             farmLockUserInfos.rewardAmount,
-                                        currentSortedColumn:
-                                            currentSortedColumn,
                                       ),
                                     ),
                                     SizedBox(
@@ -301,8 +297,6 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                 ).isBefore(
                                                   DateTime.now().toUtc(),
                                                 )),
-                                        currentSortedColumn:
-                                            currentSortedColumn,
                                       ),
                                     ),
                                     SizedBox(
@@ -323,8 +317,6 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     ).isBefore(
                                                       DateTime.now().toUtc(),
                                                     ))),
-                                        currentSortedColumn:
-                                            currentSortedColumn,
                                       ),
                                     ),
                                   ],
@@ -574,8 +566,6 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                       rewardAmount:
                                                           farmLockUserInfos
                                                               .rewardAmount,
-                                                      currentSortedColumn:
-                                                          currentSortedColumn,
                                                     ),
                                                   ),
                                                   Expanded(
@@ -599,8 +589,6 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                                 DateTime.now()
                                                                     .toUtc(),
                                                               )),
-                                                      currentSortedColumn:
-                                                          currentSortedColumn,
                                                     ),
                                                   ),
                                                   if (isFlexDuration)
@@ -626,8 +614,6 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                                       DateTime.now()
                                                                           .toUtc(),
                                                                     ))),
-                                                        currentSortedColumn:
-                                                            currentSortedColumn,
                                                       ),
                                                     ),
                                                 ],

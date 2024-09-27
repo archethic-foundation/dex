@@ -17,7 +17,6 @@ class FarmLockBtnClaim extends ConsumerWidget {
   const FarmLockBtnClaim({
     required this.rewardAmount,
     required this.depositId,
-    required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
@@ -25,7 +24,6 @@ class FarmLockBtnClaim extends ConsumerWidget {
   final double rewardAmount;
   final String depositId;
   final bool enabled;
-  final String currentSortedColumn;
 
   @override
   Widget build(

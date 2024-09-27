@@ -10,11 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FarmLockBlockHeader extends ConsumerWidget {
   const FarmLockBlockHeader({
-    required this.sortCriteria,
     super.key,
   });
-
-  final String sortCriteria;
 
   @override
   Widget build(
@@ -42,7 +39,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     FarmLockBlockAddLiquidity(
                       width: constraints.maxWidth * 0.32,
                       height: 300,
-                      sortCriteria: sortCriteria,
                     ),
                     SizedBox(
                       width: constraints.maxWidth * 0.02,
@@ -50,7 +46,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     FarmLockBlockEarnRewards(
                       width: constraints.maxWidth * 0.32,
                       height: 300,
-                      sortCriteria: sortCriteria,
                     ),
                     SizedBox(
                       width: constraints.maxWidth * 0.02,
@@ -83,7 +78,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                         FarmLockBlockAddLiquidity(
                           width: constraints.maxWidth * 0.49,
                           height: 300,
-                          sortCriteria: sortCriteria,
                         ),
                         SizedBox(
                           width: constraints.maxWidth * 0.02,
@@ -91,7 +85,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                         FarmLockBlockEarnRewards(
                           width: constraints.maxWidth * 0.49,
                           height: 300,
-                          sortCriteria: sortCriteria,
                         ),
                       ],
                     ),
@@ -120,7 +113,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     FarmLockBlockAddLiquidity(
                       width: constraints.maxWidth,
                       height: 290,
-                      sortCriteria: sortCriteria,
                     ),
                     const SizedBox(
                       height: 10,
@@ -128,7 +120,6 @@ class FarmLockBlockHeader extends ConsumerWidget {
                     FarmLockBlockEarnRewards(
                       width: constraints.maxWidth,
                       height: 320,
-                      sortCriteria: sortCriteria,
                     ),
                     const SizedBox(
                       height: 10,

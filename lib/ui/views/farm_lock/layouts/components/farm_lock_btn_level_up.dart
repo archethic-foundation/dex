@@ -19,7 +19,6 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     required this.depositId,
     required this.currentLevel,
     required this.rewardAmount,
-    required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
@@ -29,7 +28,6 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
   final String currentLevel;
   final bool enabled;
   final double rewardAmount;
-  final String currentSortedColumn;
 
   @override
   Widget build(

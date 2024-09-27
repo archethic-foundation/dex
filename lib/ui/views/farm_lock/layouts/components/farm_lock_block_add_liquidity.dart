@@ -24,13 +24,11 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
   const FarmLockBlockAddLiquidity({
     required this.width,
     required this.height,
-    required this.sortCriteria,
     super.key,
   });
 
   final double width;
   final double height;
-  final String sortCriteria;
 
   @override
   Widget build(

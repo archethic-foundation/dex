@@ -15,13 +15,11 @@ import 'package:go_router/go_router.dart';
 
 class FarmLegacyBtnClaim extends ConsumerWidget {
   const FarmLegacyBtnClaim({
-    required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
 
   final bool enabled;
-  final String currentSortedColumn;
 
   @override
   Widget build(

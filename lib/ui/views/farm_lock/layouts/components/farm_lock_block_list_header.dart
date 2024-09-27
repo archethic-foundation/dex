@@ -24,7 +24,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
     List<DexFarmLockUserInfos>,
   ) onSort;
   final Map<String, bool> sortAscending;
-  final String currentSortedColumn;
+  final String? currentSortedColumn;
   final List<DexFarmLockUserInfos> sortedUserInfos;
 
   @override
