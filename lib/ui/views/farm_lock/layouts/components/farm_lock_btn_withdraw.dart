@@ -142,7 +142,7 @@ class FarmLockBtnWithdraw extends ConsumerWidget {
             'poolAddress': farmLockForm.pool!.poolAddress.encodeParam(),
             'rewardToken': farmLockForm.farmLock!.rewardToken.encodeParam(),
             'lpToken': farmLockForm.pool!.lpToken.encodeParam(),
-            'lpTokenPair': farmLockForm.pool!.lpToken.lpTokenPair.encodeParam(),
+            'lpTokenPair': farmLockForm.farmLock!.lpTokenPair.encodeParam(),
             'rewardAmount': rewardAmount.encodeParam(),
             'depositedAmount': depositedAmount.encodeParam(),
             'depositId': depositId.encodeParam(),
