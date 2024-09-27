@@ -1,11 +1,10 @@
-import 'package:aedex/application/api_service.dart';
 import 'package:aedex/application/balance.dart';
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/state.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
@@ -26,7 +25,12 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
   @override
   LiquidityRemoveFormState build() => const LiquidityRemoveFormState();
 
-  aedappfm.CancelableTask<Map<String, dynamic>>? _calculateRemoveAmountsTask;
+  aedappfm.CancelableTask<
+      ({
+        double removeAmountToken1,
+        double removeAmountToken2,
+        bool cancel
+      })>? _calculateRemoveAmountsTask;
 
   Future<void> setPool(DexPool pool) async {
     state = state.copyWith(pool: pool);
@@ -45,58 +49,37 @@ class LiquidityRemoveFormNotifier extends _$LiquidityRemoveFormNotifier {
     double lpTokenAmount, {
     Duration delay = const Duration(milliseconds: 800),
   }) async {
-    final apiService = ref.read(apiServiceProvider);
-    late final Map<String, dynamic> removeAmounts;
     try {
-      removeAmounts = await Future<Map<String, dynamic>>(
-        () async {
-          if (lpTokenAmount <= 0) {
-            return {};
-          }
+      if (lpTokenAmount <= 0) {
+        return (
+          removeAmountToken1: 0.0,
+          removeAmountToken2: 0.0,
+          cancel: false,
+        );
+      }
 
-          _calculateRemoveAmountsTask?.cancel();
-          _calculateRemoveAmountsTask =
-              aedappfm.CancelableTask<Map<String, dynamic>>(
-            task: () async {
-              var _removeAmounts = <String, dynamic>{};
-              final amounts = await PoolFactoryRepositoryImpl(
+      _calculateRemoveAmountsTask?.cancel();
+      _calculateRemoveAmountsTask = aedappfm.CancelableTask(
+        task: () => ref
+            .read(
+              DexTokensProviders.getRemoveAmounts(
                 state.pool!.poolAddress,
-                apiService,
-              ).getRemoveAmounts(lpTokenAmount);
-
-              if (amounts != null) {
-                _removeAmounts = amounts;
-              } else {
-                setFailure(
-                  const aedappfm.Failure.other(
-                    cause: 'getRemoveAmounts null value',
-                  ),
-                );
-              }
-
-              return _removeAmounts;
-            },
-          );
-
-          final _removeAmounts =
-              await _calculateRemoveAmountsTask?.schedule(delay);
-
-          return _removeAmounts ?? {};
-        },
+                lpTokenAmount,
+              ).future,
+            )
+            .then(
+              (amounts) => (
+                removeAmountToken1: amounts.token1,
+                removeAmountToken2: amounts.token2,
+                cancel: false
+              ),
+            ),
       );
+
+      return _calculateRemoveAmountsTask!.schedule(delay);
     } on aedappfm.CanceledTask {
       return (removeAmountToken1: 0.0, removeAmountToken2: 0.0, cancel: true);
     }
-
-    return (
-      removeAmountToken1: removeAmounts['token1'] == null
-          ? 0.0
-          : removeAmounts['token1'] as double,
-      removeAmountToken2: removeAmounts['token2'] == null
-          ? 0.0
-          : removeAmounts['token2'] as double,
-      cancel: false,
-    );
   }
 
   Future<void> initBalance() async {

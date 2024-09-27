@@ -25,12 +25,6 @@ Future<DexPool?> _pool(
         token.address!.toUpperCase() == pool.lpToken.address.toUpperCase(),
   );
 
-  final tvl =
-      await ref.watch(DexPoolProviders.estimatePoolTVLInFiat(pool).future);
-
-  final poolStats =
-      await ref.watch(DexPoolProviders.estimateStats(pool).future);
-
   // Favorite
   final favoritePoolsDatasource =
       await HiveFavoritePoolsDatasource.getInstance();
@@ -41,10 +35,20 @@ Future<DexPool?> _pool(
 
   return pool.copyWith(
     isFavorite: isFavorite,
-    infos: pool.infos!.copyWith(
-      tvl: tvl,
-    ),
-    stats: poolStats,
     lpTokenInUserBalance: lpTokenInUserBalance,
   );
+}
+
+@riverpod
+Future<DexPoolInfos> _poolInfos(
+  _PoolInfosRef ref,
+  String poolAddress,
+) async {
+  final apiService = ref.watch(apiServiceProvider);
+  final dexPoolRepository = PoolFactoryRepositoryImpl(
+    poolAddress,
+    apiService,
+  );
+
+  return dexPoolRepository.getPoolInfos().valueOrThrow;
 }

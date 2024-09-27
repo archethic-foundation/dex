@@ -87,7 +87,11 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
         ratioMobile: -8,
       ),
       height: 30,
-      isConnected: ref.watch(sessionNotifierProvider).isConnected,
+      isConnected: ref.watch(
+        sessionNotifierProvider.select(
+          (value) => value.isConnected,
+        ),
+      ),
       displayWalletConnectOnPressed: () async {
         final session = ref.read(sessionNotifierProvider);
         if (session.error.isNotEmpty) {
@@ -128,8 +132,11 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
         ],
         borderRadius: 20,
         height: 30,
-        selectedIndex:
-            ref.watch(poolListFormNotifierProvider).selectedTab.index,
+        selectedIndex: ref.watch(
+          poolListFormNotifierProvider.select(
+            (notifier) => notifier.selectedTab.index,
+          ),
+        ),
         selectedBackgroundColors: [
           aedappfm.ArchethicThemeBase.purple500,
           aedappfm.ArchethicThemeBase.purple500,

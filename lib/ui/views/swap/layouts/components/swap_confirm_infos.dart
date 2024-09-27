@@ -296,11 +296,11 @@ class SwapConfirmInfos extends ConsumerWidget {
                         width: 5,
                       ),
                       if (swap.pool != null &&
-                          swap.pool!.infos != null &&
+                          swap.poolInfos != null &&
                           swap.tokenToSwap != null)
                         Tooltip(
                           message:
-                              '${AppLocalizations.of(context)!.swapConfirmInfosFeesLP} (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \n${AppLocalizations.of(context)!.swapConfirmInfosFeesProtocol} (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
+                              '${AppLocalizations.of(context)!.swapConfirmInfosFeesLP} (${swap.poolInfos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()} \n${AppLocalizations.of(context)!.swapConfirmInfosFeesProtocol} (${swap.poolInfos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol.reduceSymbol()}',
                           child: const Padding(
                             padding: EdgeInsets.only(bottom: 2),
                             child: Icon(

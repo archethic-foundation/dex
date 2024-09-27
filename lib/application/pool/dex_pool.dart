@@ -15,6 +15,8 @@ import 'package:aedex/domain/repositories/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/hive/favorite_pools.hive.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -44,6 +46,7 @@ abstract class DexPoolProviders {
   static const getPoolTxList = _getPoolTxListProvider;
 
   // Pool Detail
+  static const poolInfos = _poolInfosProvider;
   static const getPool = _poolProvider;
 
   // Calculation

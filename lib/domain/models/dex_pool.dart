@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/domain/models/dex_pair.dart';
-import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,8 +14,6 @@ class DexPool with _$DexPool {
     required DexPair pair,
     required bool lpTokenInUserBalance,
     required bool isFavorite,
-    DexPoolInfos? infos,
-    DexPoolStats? stats,
   }) = _DexPool;
   const DexPool._();
 

@@ -25,8 +25,6 @@ mixin _$DexToken {
   String? get icon => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
   double get balance => throw _privateConstructorUsedError;
-  double get reserve => throw _privateConstructorUsedError;
-  double get supply => throw _privateConstructorUsedError;
   bool get isVerified => throw _privateConstructorUsedError;
   bool get isLpToken => throw _privateConstructorUsedError;
   DexPair? get lpTokenPair => throw _privateConstructorUsedError;
@@ -48,8 +46,6 @@ abstract class $DexTokenCopyWith<$Res> {
       String? icon,
       String symbol,
       double balance,
-      double reserve,
-      double supply,
       bool isVerified,
       bool isLpToken,
       DexPair? lpTokenPair});
@@ -75,8 +71,6 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
     Object? icon = freezed,
     Object? symbol = null,
     Object? balance = null,
-    Object? reserve = null,
-    Object? supply = null,
     Object? isVerified = null,
     Object? isLpToken = null,
     Object? lpTokenPair = freezed,
@@ -101,14 +95,6 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
       balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
-              as double,
-      reserve: null == reserve
-          ? _value.reserve
-          : reserve // ignore: cast_nullable_to_non_nullable
-              as double,
-      supply: null == supply
-          ? _value.supply
-          : supply // ignore: cast_nullable_to_non_nullable
               as double,
       isVerified: null == isVerified
           ? _value.isVerified
@@ -152,8 +138,6 @@ abstract class _$$DexTokenImplCopyWith<$Res>
       String? icon,
       String symbol,
       double balance,
-      double reserve,
-      double supply,
       bool isVerified,
       bool isLpToken,
       DexPair? lpTokenPair});
@@ -178,8 +162,6 @@ class __$$DexTokenImplCopyWithImpl<$Res>
     Object? icon = freezed,
     Object? symbol = null,
     Object? balance = null,
-    Object? reserve = null,
-    Object? supply = null,
     Object? isVerified = null,
     Object? isLpToken = null,
     Object? lpTokenPair = freezed,
@@ -204,14 +186,6 @@ class __$$DexTokenImplCopyWithImpl<$Res>
       balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
-              as double,
-      reserve: null == reserve
-          ? _value.reserve
-          : reserve // ignore: cast_nullable_to_non_nullable
-              as double,
-      supply: null == supply
-          ? _value.supply
-          : supply // ignore: cast_nullable_to_non_nullable
               as double,
       isVerified: null == isVerified
           ? _value.isVerified
@@ -238,8 +212,6 @@ class _$DexTokenImpl extends _DexToken {
       this.icon,
       this.symbol = '',
       this.balance = 0.0,
-      this.reserve = 0.0,
-      this.supply = 0.0,
       this.isVerified = false,
       this.isLpToken = false,
       this.lpTokenPair})
@@ -263,12 +235,6 @@ class _$DexTokenImpl extends _DexToken {
   final double balance;
   @override
   @JsonKey()
-  final double reserve;
-  @override
-  @JsonKey()
-  final double supply;
-  @override
-  @JsonKey()
   final bool isVerified;
   @override
   @JsonKey()
@@ -278,7 +244,7 @@ class _$DexTokenImpl extends _DexToken {
 
   @override
   String toString() {
-    return 'DexToken(address: $address, name: $name, icon: $icon, symbol: $symbol, balance: $balance, reserve: $reserve, supply: $supply, isVerified: $isVerified, isLpToken: $isLpToken, lpTokenPair: $lpTokenPair)';
+    return 'DexToken(address: $address, name: $name, icon: $icon, symbol: $symbol, balance: $balance, isVerified: $isVerified, isLpToken: $isLpToken, lpTokenPair: $lpTokenPair)';
   }
 
   @override
@@ -291,8 +257,6 @@ class _$DexTokenImpl extends _DexToken {
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.balance, balance) || other.balance == balance) &&
-            (identical(other.reserve, reserve) || other.reserve == reserve) &&
-            (identical(other.supply, supply) || other.supply == supply) &&
             (identical(other.isVerified, isVerified) ||
                 other.isVerified == isVerified) &&
             (identical(other.isLpToken, isLpToken) ||
@@ -304,7 +268,7 @@ class _$DexTokenImpl extends _DexToken {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, address, name, icon, symbol,
-      balance, reserve, supply, isVerified, isLpToken, lpTokenPair);
+      balance, isVerified, isLpToken, lpTokenPair);
 
   @JsonKey(ignore: true)
   @override
@@ -327,8 +291,6 @@ abstract class _DexToken extends DexToken {
       final String? icon,
       final String symbol,
       final double balance,
-      final double reserve,
-      final double supply,
       final bool isVerified,
       final bool isLpToken,
       final DexPair? lpTokenPair}) = _$DexTokenImpl;
@@ -347,10 +309,6 @@ abstract class _DexToken extends DexToken {
   String get symbol;
   @override
   double get balance;
-  @override
-  double get reserve;
-  @override
-  double get supply;
   @override
   bool get isVerified;
   @override

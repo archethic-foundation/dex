@@ -595,8 +595,185 @@ class _EstimateTokenInFiatProviderElement
       (origin as _EstimateTokenInFiatProvider).tokenAddress;
 }
 
+String _$getRemoveAmountsHash() => r'473b7d90b2335e31388ac737b2a687bca342409d';
+
+/// This provider is used to cache request result
+/// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request
+/// if `lpTokenAmount` hasn't changed.
+///
+/// Copied from [_getRemoveAmounts].
+@ProviderFor(_getRemoveAmounts)
+const _getRemoveAmountsProvider = _GetRemoveAmountsFamily();
+
+/// This provider is used to cache request result
+/// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request
+/// if `lpTokenAmount` hasn't changed.
+///
+/// Copied from [_getRemoveAmounts].
+class _GetRemoveAmountsFamily
+    extends Family<AsyncValue<({double token1, double token2})>> {
+  /// This provider is used to cache request result
+  /// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request
+  /// if `lpTokenAmount` hasn't changed.
+  ///
+  /// Copied from [_getRemoveAmounts].
+  const _GetRemoveAmountsFamily();
+
+  /// This provider is used to cache request result
+  /// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request
+  /// if `lpTokenAmount` hasn't changed.
+  ///
+  /// Copied from [_getRemoveAmounts].
+  _GetRemoveAmountsProvider call(
+    String poolAddress,
+    double lpTokenAmount,
+  ) {
+    return _GetRemoveAmountsProvider(
+      poolAddress,
+      lpTokenAmount,
+    );
+  }
+
+  @override
+  _GetRemoveAmountsProvider getProviderOverride(
+    covariant _GetRemoveAmountsProvider provider,
+  ) {
+    return call(
+      provider.poolAddress,
+      provider.lpTokenAmount,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getRemoveAmountsProvider';
+}
+
+/// This provider is used to cache request result
+/// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request
+/// if `lpTokenAmount` hasn't changed.
+///
+/// Copied from [_getRemoveAmounts].
+class _GetRemoveAmountsProvider
+    extends AutoDisposeFutureProvider<({double token1, double token2})> {
+  /// This provider is used to cache request result
+  /// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request
+  /// if `lpTokenAmount` hasn't changed.
+  ///
+  /// Copied from [_getRemoveAmounts].
+  _GetRemoveAmountsProvider(
+    String poolAddress,
+    double lpTokenAmount,
+  ) : this._internal(
+          (ref) => _getRemoveAmounts(
+            ref as _GetRemoveAmountsRef,
+            poolAddress,
+            lpTokenAmount,
+          ),
+          from: _getRemoveAmountsProvider,
+          name: r'_getRemoveAmountsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getRemoveAmountsHash,
+          dependencies: _GetRemoveAmountsFamily._dependencies,
+          allTransitiveDependencies:
+              _GetRemoveAmountsFamily._allTransitiveDependencies,
+          poolAddress: poolAddress,
+          lpTokenAmount: lpTokenAmount,
+        );
+
+  _GetRemoveAmountsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.poolAddress,
+    required this.lpTokenAmount,
+  }) : super.internal();
+
+  final String poolAddress;
+  final double lpTokenAmount;
+
+  @override
+  Override overrideWith(
+    FutureOr<({double token1, double token2})> Function(
+            _GetRemoveAmountsRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetRemoveAmountsProvider._internal(
+        (ref) => create(ref as _GetRemoveAmountsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        poolAddress: poolAddress,
+        lpTokenAmount: lpTokenAmount,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<({double token1, double token2})>
+      createElement() {
+    return _GetRemoveAmountsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetRemoveAmountsProvider &&
+        other.poolAddress == poolAddress &&
+        other.lpTokenAmount == lpTokenAmount;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, poolAddress.hashCode);
+    hash = _SystemHash.combine(hash, lpTokenAmount.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _GetRemoveAmountsRef
+    on AutoDisposeFutureProviderRef<({double token1, double token2})> {
+  /// The parameter `poolAddress` of this provider.
+  String get poolAddress;
+
+  /// The parameter `lpTokenAmount` of this provider.
+  double get lpTokenAmount;
+}
+
+class _GetRemoveAmountsProviderElement
+    extends AutoDisposeFutureProviderElement<({double token1, double token2})>
+    with _GetRemoveAmountsRef {
+  _GetRemoveAmountsProviderElement(super.provider);
+
+  @override
+  String get poolAddress => (origin as _GetRemoveAmountsProvider).poolAddress;
+  @override
+  double get lpTokenAmount =>
+      (origin as _GetRemoveAmountsProvider).lpTokenAmount;
+}
+
 String _$estimateLPTokenInFiatHash() =>
-    r'6f2089b51cc0530df2b0a78fd60debebaca4c222';
+    r'446f5d6435ccae998ec397f46aa7d22c85f46dc0';
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)

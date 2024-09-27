@@ -13,8 +13,6 @@ class DexToken with _$DexToken {
     String? icon,
     @Default('') String symbol,
     @Default(0.0) double balance,
-    @Default(0.0) double reserve,
-    @Default(0.0) double supply,
     @Default(false) bool isVerified,
     @Default(false) bool isLpToken,
     DexPair? lpTokenPair,
@@ -22,8 +20,6 @@ class DexToken with _$DexToken {
 
   factory DexToken.uco({
     double? balance,
-    double? reserve,
-    double? supply,
   }) =>
       DexToken(
         name: 'Universal Coin',
@@ -32,8 +28,6 @@ class DexToken with _$DexToken {
         icon: 'Archethic.svg',
         isVerified: true,
         balance: balance ?? 0,
-        reserve: reserve ?? 0,
-        supply: supply ?? 0,
       );
   const DexToken._();
 

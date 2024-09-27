@@ -25,8 +25,6 @@ mixin _$DexPool {
   DexPair get pair => throw _privateConstructorUsedError;
   bool get lpTokenInUserBalance => throw _privateConstructorUsedError;
   bool get isFavorite => throw _privateConstructorUsedError;
-  DexPoolInfos? get infos => throw _privateConstructorUsedError;
-  DexPoolStats? get stats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,14 +41,10 @@ abstract class $DexPoolCopyWith<$Res> {
       DexToken lpToken,
       DexPair pair,
       bool lpTokenInUserBalance,
-      bool isFavorite,
-      DexPoolInfos? infos,
-      DexPoolStats? stats});
+      bool isFavorite});
 
   $DexTokenCopyWith<$Res> get lpToken;
   $DexPairCopyWith<$Res> get pair;
-  $DexPoolInfosCopyWith<$Res>? get infos;
-  $DexPoolStatsCopyWith<$Res>? get stats;
 }
 
 /// @nodoc
@@ -71,8 +65,6 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
     Object? pair = null,
     Object? lpTokenInUserBalance = null,
     Object? isFavorite = null,
-    Object? infos = freezed,
-    Object? stats = freezed,
   }) {
     return _then(_value.copyWith(
       poolAddress: null == poolAddress
@@ -95,14 +87,6 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
               as bool,
-      infos: freezed == infos
-          ? _value.infos
-          : infos // ignore: cast_nullable_to_non_nullable
-              as DexPoolInfos?,
-      stats: freezed == stats
-          ? _value.stats
-          : stats // ignore: cast_nullable_to_non_nullable
-              as DexPoolStats?,
     ) as $Val);
   }
 
@@ -121,30 +105,6 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
       return _then(_value.copyWith(pair: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DexPoolInfosCopyWith<$Res>? get infos {
-    if (_value.infos == null) {
-      return null;
-    }
-
-    return $DexPoolInfosCopyWith<$Res>(_value.infos!, (value) {
-      return _then(_value.copyWith(infos: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DexPoolStatsCopyWith<$Res>? get stats {
-    if (_value.stats == null) {
-      return null;
-    }
-
-    return $DexPoolStatsCopyWith<$Res>(_value.stats!, (value) {
-      return _then(_value.copyWith(stats: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -159,18 +119,12 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
       DexToken lpToken,
       DexPair pair,
       bool lpTokenInUserBalance,
-      bool isFavorite,
-      DexPoolInfos? infos,
-      DexPoolStats? stats});
+      bool isFavorite});
 
   @override
   $DexTokenCopyWith<$Res> get lpToken;
   @override
   $DexPairCopyWith<$Res> get pair;
-  @override
-  $DexPoolInfosCopyWith<$Res>? get infos;
-  @override
-  $DexPoolStatsCopyWith<$Res>? get stats;
 }
 
 /// @nodoc
@@ -189,8 +143,6 @@ class __$$DexPoolImplCopyWithImpl<$Res>
     Object? pair = null,
     Object? lpTokenInUserBalance = null,
     Object? isFavorite = null,
-    Object? infos = freezed,
-    Object? stats = freezed,
   }) {
     return _then(_$DexPoolImpl(
       poolAddress: null == poolAddress
@@ -213,14 +165,6 @@ class __$$DexPoolImplCopyWithImpl<$Res>
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
               as bool,
-      infos: freezed == infos
-          ? _value.infos
-          : infos // ignore: cast_nullable_to_non_nullable
-              as DexPoolInfos?,
-      stats: freezed == stats
-          ? _value.stats
-          : stats // ignore: cast_nullable_to_non_nullable
-              as DexPoolStats?,
     ));
   }
 }
@@ -233,9 +177,7 @@ class _$DexPoolImpl extends _DexPool {
       required this.lpToken,
       required this.pair,
       required this.lpTokenInUserBalance,
-      required this.isFavorite,
-      this.infos,
-      this.stats})
+      required this.isFavorite})
       : super._();
 
   factory _$DexPoolImpl.fromJson(Map<String, dynamic> json) =>
@@ -251,14 +193,10 @@ class _$DexPoolImpl extends _DexPool {
   final bool lpTokenInUserBalance;
   @override
   final bool isFavorite;
-  @override
-  final DexPoolInfos? infos;
-  @override
-  final DexPoolStats? stats;
 
   @override
   String toString() {
-    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, pair: $pair, lpTokenInUserBalance: $lpTokenInUserBalance, isFavorite: $isFavorite, infos: $infos, stats: $stats)';
+    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, pair: $pair, lpTokenInUserBalance: $lpTokenInUserBalance, isFavorite: $isFavorite)';
   }
 
   @override
@@ -273,15 +211,13 @@ class _$DexPoolImpl extends _DexPool {
             (identical(other.lpTokenInUserBalance, lpTokenInUserBalance) ||
                 other.lpTokenInUserBalance == lpTokenInUserBalance) &&
             (identical(other.isFavorite, isFavorite) ||
-                other.isFavorite == isFavorite) &&
-            (identical(other.infos, infos) || other.infos == infos) &&
-            (identical(other.stats, stats) || other.stats == stats));
+                other.isFavorite == isFavorite));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, poolAddress, lpToken, pair,
-      lpTokenInUserBalance, isFavorite, infos, stats);
+      lpTokenInUserBalance, isFavorite);
 
   @JsonKey(ignore: true)
   @override
@@ -303,9 +239,7 @@ abstract class _DexPool extends DexPool {
       required final DexToken lpToken,
       required final DexPair pair,
       required final bool lpTokenInUserBalance,
-      required final bool isFavorite,
-      final DexPoolInfos? infos,
-      final DexPoolStats? stats}) = _$DexPoolImpl;
+      required final bool isFavorite}) = _$DexPoolImpl;
   const _DexPool._() : super._();
 
   factory _DexPool.fromJson(Map<String, dynamic> json) = _$DexPoolImpl.fromJson;
@@ -320,10 +254,6 @@ abstract class _DexPool extends DexPool {
   bool get lpTokenInUserBalance;
   @override
   bool get isFavorite;
-  @override
-  DexPoolInfos? get infos;
-  @override
-  DexPoolStats? get stats;
   @override
   @JsonKey(ignore: true)
   _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>

@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$farmWithdrawFormNotifierHash() =>
-    r'c16e57d329e85088f36730dec18f98d0452d9312';
+    r'2a03e45c64d366fc29738023a577b4726ee99aca';
 
 /// See also [FarmWithdrawFormNotifier].
 @ProviderFor(FarmWithdrawFormNotifier)

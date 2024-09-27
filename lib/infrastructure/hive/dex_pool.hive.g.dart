@@ -22,14 +22,13 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
       pair: fields[2] as DexPairHive,
       lpTokenInUserBalance: fields[3] as bool,
       isFavorite: fields[5] as bool?,
-      details: fields[4] as DexPoolInfosHive?,
     );
   }
 
   @override
   void write(BinaryWriter writer, DexPoolHive obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.poolAddress)
       ..writeByte(1)
@@ -38,8 +37,6 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
       ..write(obj.pair)
       ..writeByte(3)
       ..write(obj.lpTokenInUserBalance)
-      ..writeByte(4)
-      ..write(obj.details)
       ..writeByte(5)
       ..write(obj.isFavorite);
   }
@@ -51,64 +48,6 @@ class DexPoolHiveAdapter extends TypeAdapter<DexPoolHive> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is DexPoolHiveAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class DexPoolInfosHiveAdapter extends TypeAdapter<DexPoolInfosHive> {
-  @override
-  final int typeId = 6;
-
-  @override
-  DexPoolInfosHive read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return DexPoolInfosHive(
-      fees: fields[1] as double,
-      tvl: fields[14] as double?,
-      protocolFees: fields[9] as double,
-      ratioToken1Token2: fields[2] as double,
-      ratioToken2Token1: fields[3] as double,
-      token1TotalFee: fields[4] as double?,
-      token1TotalVolume: fields[5] as double?,
-      token2TotalFee: fields[6] as double?,
-      token2TotalVolume: fields[7] as double?,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, DexPoolInfosHive obj) {
-    writer
-      ..writeByte(9)
-      ..writeByte(1)
-      ..write(obj.fees)
-      ..writeByte(2)
-      ..write(obj.ratioToken1Token2)
-      ..writeByte(3)
-      ..write(obj.ratioToken2Token1)
-      ..writeByte(4)
-      ..write(obj.token1TotalFee)
-      ..writeByte(5)
-      ..write(obj.token1TotalVolume)
-      ..writeByte(6)
-      ..write(obj.token2TotalFee)
-      ..writeByte(7)
-      ..write(obj.token2TotalVolume)
-      ..writeByte(9)
-      ..write(obj.protocolFees)
-      ..writeByte(14)
-      ..write(obj.tvl);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DexPoolInfosHiveAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

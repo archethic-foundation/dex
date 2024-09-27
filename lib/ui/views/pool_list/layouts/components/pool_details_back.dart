@@ -1,4 +1,5 @@
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_addresses.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_deposited.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_fees.dart';
@@ -13,9 +14,13 @@ class PoolDetailsBack extends ConsumerStatefulWidget {
   const PoolDetailsBack({
     super.key,
     required this.pool,
+    required this.poolInfos,
+    required this.poolStats,
     this.poolWithFarm = false,
   });
   final DexPool pool;
+  final DexPoolInfos poolInfos;
+  final DexPoolStats poolStats;
   final bool poolWithFarm;
 
   @override
@@ -28,24 +33,28 @@ class PoolDetailsBackState extends ConsumerState<PoolDetailsBack>
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     super.build(context);
     return Column(
       children: [
         PoolDetailsInfoHeader(pool: widget.pool),
         PoolDetailsInfoAddresses(pool: widget.pool),
-        PoolDetailsInfoDeposited(pool: widget.pool),
-        PoolDetailsInfoSwapFees(poolInfos: widget.pool.infos),
-        PoolDetailsInfoProtocolFees(poolInfos: widget.pool.infos),
+        PoolDetailsInfoDeposited(
+          pool: widget.pool,
+          poolInfos: widget.poolInfos,
+        ),
+        PoolDetailsInfoSwapFees(poolInfos: widget.poolInfos),
+        PoolDetailsInfoProtocolFees(poolInfos: widget.poolInfos),
         PoolDetailsInfoFees(
-          fees24h: widget.pool.stats?.fee24h,
-          feesAllTime: widget.pool.stats?.feeAllTime,
+          fees24h: widget.poolStats.fee24h,
+          feesAllTime: widget.poolStats.feeAllTime,
           poolWithFarm: widget.poolWithFarm,
         ),
         const SizedBox(height: 10),
-        PoolDetailsInfoRatio(pool: widget.pool),
+        PoolDetailsInfoRatio(
+          pool: widget.pool,
+          poolInfos: widget.poolInfos,
+        ),
       ],
     );
   }

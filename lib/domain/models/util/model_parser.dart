@@ -44,8 +44,8 @@ mixin ModelParser {
     );
   }
 
-  Future<DexPool> poolInfoToModel(
-    DexPool poolInput,
+  Future<DexPoolInfos> poolInfoToModel(
+    String poolAddress,
     GetPoolInfosResponse getPoolInfosResponse,
   ) async {
     var ratioToken1Token2 = 0.0;
@@ -58,36 +58,21 @@ mixin ModelParser {
           getPoolInfosResponse.token2.reserve;
     }
 
-    final token1 = poolInput.pair.token1.copyWith(
-      reserve: getPoolInfosResponse.token1.reserve,
-    );
-
-    final token2 = poolInput.pair.token2.copyWith(
-      reserve: getPoolInfosResponse.token2.reserve,
-    );
-
-    final dexPair = poolInput.pair.copyWith(
-      token1: token1,
-      token2: token2,
-    );
-
-    final lpToken = poolInput.lpToken.copyWith(
-      supply: getPoolInfosResponse.lpToken.supply,
-    );
-
-    return poolInput.copyWith(
-      pair: dexPair,
-      lpToken: lpToken,
-      infos: DexPoolInfos(
-        fees: getPoolInfosResponse.fee,
-        protocolFees: getPoolInfosResponse.protocolFee,
-        ratioToken1Token2: ratioToken1Token2,
-        ratioToken2Token1: ratioToken2Token1,
-        token1TotalFee: getPoolInfosResponse.stats.token1TotalFee,
-        token1TotalVolume: getPoolInfosResponse.stats.token1TotalVolume,
-        token2TotalFee: getPoolInfosResponse.stats.token2TotalFee,
-        token2TotalVolume: getPoolInfosResponse.stats.token2TotalVolume,
-      ),
+    return DexPoolInfos(
+      poolAddress: poolAddress,
+      token1Address: getPoolInfosResponse.token1.address,
+      token2Address: getPoolInfosResponse.token2.address,
+      token1Reserve: getPoolInfosResponse.token1.reserve,
+      token2Reserve: getPoolInfosResponse.token2.reserve,
+      lpTokenSupply: getPoolInfosResponse.lpToken.supply,
+      fees: getPoolInfosResponse.fee,
+      protocolFees: getPoolInfosResponse.protocolFee,
+      ratioToken1Token2: ratioToken1Token2,
+      ratioToken2Token1: ratioToken2Token1,
+      token1TotalFee: getPoolInfosResponse.stats.token1TotalFee,
+      token1TotalVolume: getPoolInfosResponse.stats.token1TotalVolume,
+      token2TotalFee: getPoolInfosResponse.stats.token2TotalFee,
+      token2TotalVolume: getPoolInfosResponse.stats.token2TotalVolume,
     );
   }
 

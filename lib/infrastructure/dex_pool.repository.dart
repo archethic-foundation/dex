@@ -1,15 +1,15 @@
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/util/model_parser.dart';
 import 'package:aedex/domain/repositories/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/dex_config.repository.dart';
 import 'package:aedex/infrastructure/hive/dex_pool.hive.dart';
 import 'package:aedex/infrastructure/hive/pools_list.hive.dart';
-import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-class DexPoolRepositoryImpl implements DexPoolRepository {
+class DexPoolRepositoryImpl with ModelParser implements DexPoolRepository {
   DexPoolRepositoryImpl({
     required this.apiService,
     required this.verifiedTokensRepository,
@@ -39,10 +39,8 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
 
       return await resultPoolList.map(
         success: (poolList) async {
-          for (final poolInput in poolList) {
-            if (poolInput.poolAddress.toUpperCase() ==
-                poolAddress.toUpperCase()) {
-              final pool = await _populatePoolInfos(poolInput);
+          for (final pool in poolList) {
+            if (pool.poolAddress.toUpperCase() == poolAddress.toUpperCase()) {
               await poolsLocalDatasource.setPool(
                 environment.name,
                 pool.toHive(),
@@ -61,16 +59,5 @@ class DexPoolRepositoryImpl implements DexPoolRepository {
     return poolsLocalDatasource
         .getPool(environment.name, poolAddress)
         ?.toDexPool();
-  }
-
-  Future<DexPool> _populatePoolInfos(
-    DexPool poolInput,
-  ) async {
-    final poolFactory = PoolFactoryRepositoryImpl(
-      poolInput.poolAddress,
-      apiService,
-    );
-
-    return poolFactory.populatePoolInfos(poolInput).valueOrThrow;
   }
 }

@@ -2,6 +2,7 @@ import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_add_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_back.dart';
@@ -37,18 +38,33 @@ class PoolListItem extends ConsumerStatefulWidget {
 
 class PoolListItemState extends ConsumerState<PoolListItem> {
   final flipCardController = FlipCardController();
+  late DexPoolStats poolStats;
+  late DexPoolInfos poolInfos;
+
+  @override
+  void initState() {
+    poolStats = DexPoolStats.empty();
+    poolInfos = DexPoolInfos.empty(pool: widget.pool);
+
+    Future(() async {
+      final newPoolInfos = await ref.read(
+        DexPoolProviders.poolInfos(widget.pool.poolAddress).future,
+      );
+      final newPoolStats = await ref.read(
+        DexPoolProviders.estimateStats(widget.pool.poolAddress).future,
+      );
+      if (mounted) {
+        setState(() {
+          poolStats = newPoolStats;
+          poolInfos = newPoolInfos;
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final pool = ref
-            .watch(
-              DexPoolProviders.getPool(
-                widget.pool.poolAddress,
-              ),
-            )
-            .value ??
-        widget.pool;
-
     final aeETHUCOPoolAddress =
         ref.watch(environmentProvider).aeETHUCOPoolAddress;
 
@@ -76,13 +92,16 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   flipOnTouch: false,
                   fill: Fill.fillBack,
                   front: PoolDetailsFront(
-                    pool: pool,
+                    pool: widget.pool,
+                    poolStats: poolStats,
                     tab: widget.tab,
                     poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
                         widget.pool.poolAddress.toUpperCase(),
                   ),
                   back: PoolDetailsBack(
-                    pool: pool,
+                    pool: widget.pool,
+                    poolInfos: poolInfos,
+                    poolStats: poolStats,
                     poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
                         widget.pool.poolAddress.toUpperCase(),
                   ),
@@ -102,7 +121,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   poolAddress: widget.pool.poolAddress,
                 ),
               ),
-              if (pool.isFavorite)
+              if (widget.pool.isFavorite)
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: PoolRemoveFavoriteIcon(
@@ -120,7 +139,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                 onTap: () async {
                   await PoolTxListPopup.getDialog(
                     context,
-                    pool,
+                    widget.pool,
                   );
                 },
                 child: SizedBox(

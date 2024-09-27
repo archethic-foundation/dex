@@ -1,7 +1,6 @@
-import 'package:aedex/application/api_service.dart';
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_stats.dart';
-import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -36,7 +35,17 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
         ratioTablet: 1,
       ),
     );
-    final apiService = ref.watch(apiServiceProvider);
+    final amounts = farmLockStats.lpTokensDeposited <= 0
+        ? null
+        : ref
+            .watch(
+              DexTokensProviders.getRemoveAmounts(
+                farmLock.poolAddress,
+                farmLockStats.lpTokensDeposited,
+              ),
+            )
+            .value;
+
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -116,36 +125,12 @@ class FarmLockDetailsLevelSingle extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  if (farmLockStats.lpTokensDeposited > 0)
-                    FutureBuilder<Map<String, dynamic>?>(
-                      future: PoolFactoryRepositoryImpl(
-                        farmLock.poolAddress,
-                        apiService,
-                      ).getRemoveAmounts(
-                        farmLockStats.lpTokensDeposited,
-                      ),
-                      builder: (
-                        context,
-                        snapshotAmounts,
-                      ) {
-                        if (snapshotAmounts.hasData &&
-                            snapshotAmounts.data != null) {
-                          final amountToken1 =
-                              snapshotAmounts.data!['token1'] == null
-                                  ? 0.0
-                                  : snapshotAmounts.data!['token1'] as double;
-                          final amountToken2 =
-                              snapshotAmounts.data!['token2'] == null
-                                  ? 0.0
-                                  : snapshotAmounts.data!['token2'] as double;
-
-                          return SelectableText(
-                            '= ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token2.symbol.reduceSymbol()}',
-                            style: style,
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
+                  if (amounts == null)
+                    const SizedBox.shrink()
+                  else
+                    SelectableText(
+                      '= ${amounts.token1.formatNumber(precision: amounts.token1 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amounts.token2.formatNumber(precision: amounts.token2 > 1 ? 2 : 8)} ${farmLock.lpTokenPair!.token2.symbol.reduceSymbol()}',
+                      style: style,
                     ),
                 ],
               ),

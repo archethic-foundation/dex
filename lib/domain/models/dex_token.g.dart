@@ -13,8 +13,6 @@ _$DexTokenImpl _$$DexTokenImplFromJson(Map<String, dynamic> json) =>
       icon: json['icon'] as String?,
       symbol: json['symbol'] as String? ?? '',
       balance: (json['balance'] as num?)?.toDouble() ?? 0.0,
-      reserve: (json['reserve'] as num?)?.toDouble() ?? 0.0,
-      supply: (json['supply'] as num?)?.toDouble() ?? 0.0,
       isVerified: json['isVerified'] as bool? ?? false,
       isLpToken: json['isLpToken'] as bool? ?? false,
       lpTokenPair: json['lpTokenPair'] == null
@@ -29,8 +27,6 @@ Map<String, dynamic> _$$DexTokenImplToJson(_$DexTokenImpl instance) =>
       'icon': instance.icon,
       'symbol': instance.symbol,
       'balance': instance.balance,
-      'reserve': instance.reserve,
-      'supply': instance.supply,
       'isVerified': instance.isVerified,
       'isLpToken': instance.isLpToken,
       'lpTokenPair': instance.lpTokenPair,

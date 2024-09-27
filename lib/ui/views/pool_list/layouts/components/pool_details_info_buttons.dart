@@ -106,7 +106,8 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
           ).toString(),
         );
       },
-      isConnected: ref.watch(sessionNotifierProvider).isConnected,
+      isConnected: ref.watch(
+          sessionNotifierProvider.select((session) => session.isConnected)),
       displayWalletConnectOnPressed: () async {
         final session = ref.read(sessionNotifierProvider);
         if (session.error.isNotEmpty) {
@@ -154,7 +155,9 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
           ).toString(),
         );
       },
-      isConnected: ref.watch(sessionNotifierProvider).isConnected,
+      isConnected: ref.watch(
+        sessionNotifierProvider.select((session) => session.isConnected),
+      ),
       displayWalletConnectOnPressed: () async {
         final session = ref.read(sessionNotifierProvider);
         if (session.error.isNotEmpty) {

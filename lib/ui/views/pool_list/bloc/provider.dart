@@ -53,8 +53,12 @@ class PoolListFormNotifier extends _$PoolListFormNotifier {
 @riverpod
 Future<List<DexPool>> poolsToDisplay(PoolsToDisplayRef ref) async {
   var poolListFiltered = <DexPool>[];
-  final selectedTab = ref.watch(poolListFormNotifierProvider).selectedTab;
-  final searchText = ref.watch(poolListFormNotifierProvider).searchText;
+  final selectedTab = ref.watch(
+    poolListFormNotifierProvider.select((notifier) => notifier.selectedTab),
+  );
+  final searchText = ref.watch(
+    poolListFormNotifierProvider.select((notifier) => notifier.searchText),
+  );
   final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
 
   switch (selectedTab) {

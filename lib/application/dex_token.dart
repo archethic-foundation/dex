@@ -87,6 +87,26 @@ Future<double> _estimateTokenInFiat(
   }
 }
 
+/// This provider is used to cache request result
+/// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request
+/// if `lpTokenAmount` hasn't changed.
+@riverpod
+Future<({double token1, double token2})> _getRemoveAmounts(
+  _GetRemoveAmountsRef ref,
+  String poolAddress,
+  double lpTokenAmount,
+) async {
+  final apiService = ref.watch(apiServiceProvider);
+  final amounts = await PoolFactoryRepositoryImpl(poolAddress, apiService)
+      .getRemoveAmounts(lpTokenAmount);
+  if (amounts == null) return (token1: 0.0, token2: 0.0);
+
+  return (
+    token1: amounts['token1'] as double? ?? 0.0,
+    token2: amounts['token2'] as double? ?? 0.0,
+  );
+}
+
 @riverpod
 Future<double> _estimateLPTokenInFiat(
   _EstimateLPTokenInFiatRef ref,
@@ -111,28 +131,19 @@ Future<double> _estimateLPTokenInFiat(
     throw Exception();
   }
 
-  final apiService = ref.watch(apiServiceProvider);
-  final amounts = await PoolFactoryRepositoryImpl(poolAddress, apiService)
-      .getRemoveAmounts(lpTokenAmount);
-  var amountToken1 = 0.0;
-  var amountToken2 = 0.0;
-  if (amounts != null) {
-    amountToken1 =
-        amounts['token1'] == null ? 0.0 : amounts['token1'] as double;
-    amountToken2 =
-        amounts['token2'] == null ? 0.0 : amounts['token2'] as double;
-  }
-
+  final amounts = await ref.watch(
+    DexTokensProviders.getRemoveAmounts(poolAddress, lpTokenAmount).future,
+  );
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
-    return amountToken1 * fiatValueToken1 + amountToken2 * fiatValueToken2;
+    return amounts.token1 * fiatValueToken1 + amounts.token2 * fiatValueToken2;
   }
 
   if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
-    return (amountToken1 + amountToken2) * fiatValueToken1;
+    return (amounts.token1 + amounts.token2) * fiatValueToken1;
   }
 
   if (fiatValueToken1 == 0 && fiatValueToken2 > 0) {
-    return (amountToken1 + amountToken2) * fiatValueToken2;
+    return (amounts.token1 + amounts.token2) * fiatValueToken2;
   }
 
   return 0;
@@ -145,4 +156,5 @@ abstract class DexTokensProviders {
   static const getTokenIcon = _getTokenIconProvider;
   static const estimateTokenInFiat = _estimateTokenInFiatProvider;
   static const estimateLPTokenInFiat = _estimateLPTokenInFiatProvider;
+  static const getRemoveAmounts = _getRemoveAmountsProvider;
 }

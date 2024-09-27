@@ -1,6 +1,5 @@
-import 'package:aedex/application/api_service.dart';
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
-import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -22,7 +21,17 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final apiService = ref.watch(apiServiceProvider);
+    final amounts = (farm.depositedAmount == null || farm.depositedAmount! <= 0)
+        ? null
+        : ref
+            .watch(
+              DexTokensProviders.getRemoveAmounts(
+                farm.poolAddress,
+                farm.depositedAmount!,
+              ),
+            )
+            .value;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -64,40 +73,14 @@ class FarmDetailsInfoYourDepositedAmount extends ConsumerWidget {
                 ),
           style: AppTextStyles.bodyMedium(context),
         ),
-        if (farm.depositedAmount != null && farm.depositedAmount! > 0)
-          FutureBuilder<Map<String, dynamic>?>(
-            future: PoolFactoryRepositoryImpl(
-              farm.poolAddress,
-              apiService,
-            ).getRemoveAmounts(
-              farm.depositedAmount!,
-            ),
-            builder: (
-              context,
-              snapshotAmounts,
-            ) {
-              if (snapshotAmounts.hasData && snapshotAmounts.data != null) {
-                final amountToken1 = snapshotAmounts.data!['token1'] == null
-                    ? 0.0
-                    : snapshotAmounts.data!['token1'] as double;
-                final amountToken2 = snapshotAmounts.data!['token2'] == null
-                    ? 0.0
-                    : snapshotAmounts.data!['token2'] as double;
-
-                return SelectableText(
-                  '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token2.symbol.reduceSymbol()}',
-                  style: AppTextStyles.bodyMedium(context),
-                );
-              }
-              return SelectableText(
-                ' ',
-                style: AppTextStyles.bodyMedium(context),
-              );
-            },
+        if (amounts == null)
+          SelectableText(
+            ' ',
+            style: AppTextStyles.bodyMedium(context),
           )
         else
           SelectableText(
-            ' ',
+            '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amounts.token1.formatNumber(precision: amounts.token1 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token1.symbol.reduceSymbol()} / ${amounts.token2.formatNumber(precision: amounts.token2 > 1 ? 2 : 8)} ${farm.lpTokenPair!.token2.symbol.reduceSymbol()}',
             style: AppTextStyles.bodyMedium(context),
           ),
       ],

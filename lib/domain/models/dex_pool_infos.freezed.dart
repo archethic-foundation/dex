@@ -20,7 +20,12 @@ DexPoolInfos _$DexPoolInfosFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DexPoolInfos {
-  double? get tvl => throw _privateConstructorUsedError;
+  String get poolAddress => throw _privateConstructorUsedError;
+  String get token1Address => throw _privateConstructorUsedError;
+  String get token2Address => throw _privateConstructorUsedError;
+  double get token1Reserve => throw _privateConstructorUsedError;
+  double get token2Reserve => throw _privateConstructorUsedError;
+  double get lpTokenSupply => throw _privateConstructorUsedError;
   double get fees => throw _privateConstructorUsedError;
   double get protocolFees => throw _privateConstructorUsedError;
   double get ratioToken1Token2 => throw _privateConstructorUsedError;
@@ -43,7 +48,12 @@ abstract class $DexPoolInfosCopyWith<$Res> {
       _$DexPoolInfosCopyWithImpl<$Res, DexPoolInfos>;
   @useResult
   $Res call(
-      {double? tvl,
+      {String poolAddress,
+      String token1Address,
+      String token2Address,
+      double token1Reserve,
+      double token2Reserve,
+      double lpTokenSupply,
       double fees,
       double protocolFees,
       double ratioToken1Token2,
@@ -67,7 +77,12 @@ class _$DexPoolInfosCopyWithImpl<$Res, $Val extends DexPoolInfos>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tvl = freezed,
+    Object? poolAddress = null,
+    Object? token1Address = null,
+    Object? token2Address = null,
+    Object? token1Reserve = null,
+    Object? token2Reserve = null,
+    Object? lpTokenSupply = null,
     Object? fees = null,
     Object? protocolFees = null,
     Object? ratioToken1Token2 = null,
@@ -78,10 +93,30 @@ class _$DexPoolInfosCopyWithImpl<$Res, $Val extends DexPoolInfos>
     Object? token2TotalVolume = null,
   }) {
     return _then(_value.copyWith(
-      tvl: freezed == tvl
-          ? _value.tvl
-          : tvl // ignore: cast_nullable_to_non_nullable
-              as double?,
+      poolAddress: null == poolAddress
+          ? _value.poolAddress
+          : poolAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      token1Address: null == token1Address
+          ? _value.token1Address
+          : token1Address // ignore: cast_nullable_to_non_nullable
+              as String,
+      token2Address: null == token2Address
+          ? _value.token2Address
+          : token2Address // ignore: cast_nullable_to_non_nullable
+              as String,
+      token1Reserve: null == token1Reserve
+          ? _value.token1Reserve
+          : token1Reserve // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2Reserve: null == token2Reserve
+          ? _value.token2Reserve
+          : token2Reserve // ignore: cast_nullable_to_non_nullable
+              as double,
+      lpTokenSupply: null == lpTokenSupply
+          ? _value.lpTokenSupply
+          : lpTokenSupply // ignore: cast_nullable_to_non_nullable
+              as double,
       fees: null == fees
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
@@ -127,7 +162,12 @@ abstract class _$$DexPoolInfosImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {double? tvl,
+      {String poolAddress,
+      String token1Address,
+      String token2Address,
+      double token1Reserve,
+      double token2Reserve,
+      double lpTokenSupply,
       double fees,
       double protocolFees,
       double ratioToken1Token2,
@@ -149,7 +189,12 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tvl = freezed,
+    Object? poolAddress = null,
+    Object? token1Address = null,
+    Object? token2Address = null,
+    Object? token1Reserve = null,
+    Object? token2Reserve = null,
+    Object? lpTokenSupply = null,
     Object? fees = null,
     Object? protocolFees = null,
     Object? ratioToken1Token2 = null,
@@ -160,10 +205,30 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
     Object? token2TotalVolume = null,
   }) {
     return _then(_$DexPoolInfosImpl(
-      tvl: freezed == tvl
-          ? _value.tvl
-          : tvl // ignore: cast_nullable_to_non_nullable
-              as double?,
+      poolAddress: null == poolAddress
+          ? _value.poolAddress
+          : poolAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      token1Address: null == token1Address
+          ? _value.token1Address
+          : token1Address // ignore: cast_nullable_to_non_nullable
+              as String,
+      token2Address: null == token2Address
+          ? _value.token2Address
+          : token2Address // ignore: cast_nullable_to_non_nullable
+              as String,
+      token1Reserve: null == token1Reserve
+          ? _value.token1Reserve
+          : token1Reserve // ignore: cast_nullable_to_non_nullable
+              as double,
+      token2Reserve: null == token2Reserve
+          ? _value.token2Reserve
+          : token2Reserve // ignore: cast_nullable_to_non_nullable
+              as double,
+      lpTokenSupply: null == lpTokenSupply
+          ? _value.lpTokenSupply
+          : lpTokenSupply // ignore: cast_nullable_to_non_nullable
+              as double,
       fees: null == fees
           ? _value.fees
           : fees // ignore: cast_nullable_to_non_nullable
@@ -204,7 +269,12 @@ class __$$DexPoolInfosImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DexPoolInfosImpl extends _DexPoolInfos {
   const _$DexPoolInfosImpl(
-      {this.tvl,
+      {required this.poolAddress,
+      required this.token1Address,
+      required this.token2Address,
+      required this.token1Reserve,
+      required this.token2Reserve,
+      required this.lpTokenSupply,
       required this.fees,
       required this.protocolFees,
       required this.ratioToken1Token2,
@@ -219,7 +289,17 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
       _$$DexPoolInfosImplFromJson(json);
 
   @override
-  final double? tvl;
+  final String poolAddress;
+  @override
+  final String token1Address;
+  @override
+  final String token2Address;
+  @override
+  final double token1Reserve;
+  @override
+  final double token2Reserve;
+  @override
+  final double lpTokenSupply;
   @override
   final double fees;
   @override
@@ -239,7 +319,7 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
 
   @override
   String toString() {
-    return 'DexPoolInfos(tvl: $tvl, fees: $fees, protocolFees: $protocolFees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
+    return 'DexPoolInfos(poolAddress: $poolAddress, token1Address: $token1Address, token2Address: $token2Address, token1Reserve: $token1Reserve, token2Reserve: $token2Reserve, lpTokenSupply: $lpTokenSupply, fees: $fees, protocolFees: $protocolFees, ratioToken1Token2: $ratioToken1Token2, ratioToken2Token1: $ratioToken2Token1, token1TotalFee: $token1TotalFee, token1TotalVolume: $token1TotalVolume, token2TotalFee: $token2TotalFee, token2TotalVolume: $token2TotalVolume)';
   }
 
   @override
@@ -247,7 +327,18 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DexPoolInfosImpl &&
-            (identical(other.tvl, tvl) || other.tvl == tvl) &&
+            (identical(other.poolAddress, poolAddress) ||
+                other.poolAddress == poolAddress) &&
+            (identical(other.token1Address, token1Address) ||
+                other.token1Address == token1Address) &&
+            (identical(other.token2Address, token2Address) ||
+                other.token2Address == token2Address) &&
+            (identical(other.token1Reserve, token1Reserve) ||
+                other.token1Reserve == token1Reserve) &&
+            (identical(other.token2Reserve, token2Reserve) ||
+                other.token2Reserve == token2Reserve) &&
+            (identical(other.lpTokenSupply, lpTokenSupply) ||
+                other.lpTokenSupply == lpTokenSupply) &&
             (identical(other.fees, fees) || other.fees == fees) &&
             (identical(other.protocolFees, protocolFees) ||
                 other.protocolFees == protocolFees) &&
@@ -269,7 +360,12 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      tvl,
+      poolAddress,
+      token1Address,
+      token2Address,
+      token1Reserve,
+      token2Reserve,
+      lpTokenSupply,
       fees,
       protocolFees,
       ratioToken1Token2,
@@ -295,7 +391,12 @@ class _$DexPoolInfosImpl extends _DexPoolInfos {
 
 abstract class _DexPoolInfos extends DexPoolInfos {
   const factory _DexPoolInfos(
-      {final double? tvl,
+      {required final String poolAddress,
+      required final String token1Address,
+      required final String token2Address,
+      required final double token1Reserve,
+      required final double token2Reserve,
+      required final double lpTokenSupply,
       required final double fees,
       required final double protocolFees,
       required final double ratioToken1Token2,
@@ -310,7 +411,17 @@ abstract class _DexPoolInfos extends DexPoolInfos {
       _$DexPoolInfosImpl.fromJson;
 
   @override
-  double? get tvl;
+  String get poolAddress;
+  @override
+  String get token1Address;
+  @override
+  String get token2Address;
+  @override
+  double get token1Reserve;
+  @override
+  double get token2Reserve;
+  @override
+  double get lpTokenSupply;
   @override
   double get fees;
   @override

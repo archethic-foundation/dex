@@ -6,6 +6,7 @@ import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
 import 'package:aedex/ui/views/swap/bloc/state.dart';
@@ -43,11 +44,18 @@ class SwapFormNotifier extends _$SwapFormNotifier
         .read(DexPoolProviders.getPool(state.poolGenesisAddress).future);
     pool = await ref.read(DexPoolProviders.getPool(pool!.poolAddress).future);
 
-    setPool(pool);
+    final poolInfos = await ref.read(
+      DexPoolProviders.poolInfos(pool!.poolAddress).future,
+    );
+
+    setPool(pool, poolInfos);
   }
 
-  void setPool(DexPool? pool) {
-    state = state.copyWith(pool: pool);
+  void setPool(DexPool? pool, DexPoolInfos poolInfos) {
+    state = state.copyWith(
+      pool: pool,
+      poolInfos: poolInfos,
+    );
   }
 
   Future<void> setTokenToSwap(
