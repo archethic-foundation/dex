@@ -8,7 +8,7 @@ import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,7 +21,7 @@ class FarmClaimFormNotifier extends _$FarmClaimFormNotifier {
   @override
   FarmClaimFormState build() => const FarmClaimFormState();
 
-  void setTransactionClaimFarm(Transaction transactionClaimFarm) {
+  void setTransactionClaimFarm(archethic.Transaction transactionClaimFarm) {
     state = state.copyWith(transactionClaimFarm: transactionClaimFarm);
   }
 

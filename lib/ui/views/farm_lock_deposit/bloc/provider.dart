@@ -11,7 +11,7 @@ import 'package:aedex/util/browser_util_desktop.dart'
 import 'package:aedex/util/riverpod.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -49,7 +49,9 @@ class FarmLockDepositFormNotifier extends _$FarmLockDepositFormNotifier {
     state = state.copyWith(poolsListTab: poolsListTab);
   }
 
-  void setTransactionFarmLockDeposit(Transaction transactionFarmLockDeposit) {
+  void setTransactionFarmLockDeposit(
+    archethic.Transaction transactionFarmLockDeposit,
+  ) {
     state =
         state.copyWith(transactionFarmLockDeposit: transactionFarmLockDeposit);
   }

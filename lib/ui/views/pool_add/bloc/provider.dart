@@ -10,7 +10,7 @@ import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -259,13 +259,15 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
     );
   }
 
-  void setRecoveryTransactionAddPool(Transaction? recoveryTransactionAddPool) {
+  void setRecoveryTransactionAddPool(
+    archethic.Transaction? recoveryTransactionAddPool,
+  ) {
     state =
         state.copyWith(recoveryTransactionAddPool: recoveryTransactionAddPool);
   }
 
   void setRecoveryTransactionAddPoolTransfer(
-    Transaction? recoveryTransactionAddPoolTransfer,
+    archethic.Transaction? recoveryTransactionAddPoolTransfer,
   ) {
     state = state.copyWith(
       recoveryTransactionAddPoolTransfer: recoveryTransactionAddPoolTransfer,
@@ -273,7 +275,7 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
   }
 
   void setRecoveryTransactionAddPoolLiquidity(
-    Transaction? recoveryTransactionAddPoolLiquidity,
+    archethic.Transaction? recoveryTransactionAddPoolLiquidity,
   ) {
     state = state.copyWith(
       recoveryTransactionAddPoolLiquidity: recoveryTransactionAddPoolLiquidity,

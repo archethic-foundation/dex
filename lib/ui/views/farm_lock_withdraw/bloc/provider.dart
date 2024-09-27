@@ -7,7 +7,7 @@ import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,7 +21,9 @@ class FarmLockWithdrawFormNotifier extends _$FarmLockWithdrawFormNotifier {
   @override
   FarmLockWithdrawFormState build() => const FarmLockWithdrawFormState();
 
-  void setTransactionWithdrawFarmLock(Transaction transactionWithdrawFarmLock) {
+  void setTransactionWithdrawFarmLock(
+    archethic.Transaction transactionWithdrawFarmLock,
+  ) {
     state = state.copyWith(
       transactionWithdrawFarmLock: transactionWithdrawFarmLock,
     );
