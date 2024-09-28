@@ -28,6 +28,8 @@ class _ConnectionToWalletStatusState
     final session = ref.watch(sessionNotifierProvider);
 
     ref.listen(sessionNotifierProvider, (previous, next) {
+      if (!mounted) return;
+
       if (previous?.error != next.error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
