@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/farm/dex_farm_lock.dart';
 import 'package:aedex/application/usecases.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_final_amount.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_in_progress_tx_addresses.dart';
@@ -92,9 +94,15 @@ class FarmLockWithdrawInProgressPopup {
               .farmLockWithdrawProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        ref.invalidate(
-          farmLockWithdrawFormNotifierProvider,
-        );
+        ref
+          ..invalidate(
+            DexFarmLockProviders.getFarmLockInfos,
+          )
+          ..invalidate(farmLockFormBalancesProvider)
+          ..invalidate(farmLockFormFarmLockProvider)
+          ..invalidate(
+            farmLockWithdrawFormNotifierProvider,
+          );
         if (!context.mounted) return;
         context
           ..pop()

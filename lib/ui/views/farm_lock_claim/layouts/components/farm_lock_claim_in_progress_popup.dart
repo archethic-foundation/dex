@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/farm/dex_farm.dart';
+import 'package:aedex/application/farm/dex_farm_lock.dart';
 import 'package:aedex/application/usecases.dart';
-import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
+import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_claim/layouts/components/farm_lock_claim_final_amount.dart';
 import 'package:aedex/ui/views/farm_lock_claim/layouts/components/farm_lock_claim_in_progress_tx_addresses.dart';
@@ -92,16 +92,12 @@ class FarmLockClaimInProgressPopup {
               .farmLockClaimProcessInterruptionWarning
           : '',
       warningCloseFunction: () {
-        final _farmLockClaim = ref.read(farmLockClaimFormNotifierProvider);
         ref
           ..invalidate(
-            DexFarmProviders.getFarmList,
+            DexFarmLockProviders.getFarmLockInfos,
           )
-          ..invalidate(
-            FarmListFormProvider.balance(
-              _farmLockClaim.lpTokenAddress,
-            ),
-          )
+          ..invalidate(farmLockFormBalancesProvider)
+          ..invalidate(farmLockFormFarmLockProvider)
           ..invalidate(
             farmLockClaimFormNotifierProvider,
           );
