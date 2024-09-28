@@ -88,179 +88,40 @@ final farmLockFormFarmLockProvider =
 
 typedef FarmLockFormFarmLockRef = AutoDisposeFutureProviderRef<DexFarmLock?>;
 String _$farmLockFormSortedUserFarmLocksHash() =>
-    r'20e83b7a3077b346536440ed6c3efd257706db55';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
+    r'a7867fc19da217b80c26f2055192c567750e2c16';
 
 /// See also [farmLockFormSortedUserFarmLocks].
 @ProviderFor(farmLockFormSortedUserFarmLocks)
-const farmLockFormSortedUserFarmLocksProvider =
-    FarmLockFormSortedUserFarmLocksFamily();
+final farmLockFormSortedUserFarmLocksProvider =
+    AutoDisposeFutureProvider<List<DexFarmLockUserInfos>>.internal(
+  farmLockFormSortedUserFarmLocks,
+  name: r'farmLockFormSortedUserFarmLocksProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$farmLockFormSortedUserFarmLocksHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-/// See also [farmLockFormSortedUserFarmLocks].
-class FarmLockFormSortedUserFarmLocksFamily
-    extends Family<AsyncValue<List<DexFarmLockUserInfos>>> {
-  /// See also [farmLockFormSortedUserFarmLocks].
-  const FarmLockFormSortedUserFarmLocksFamily();
+typedef FarmLockFormSortedUserFarmLocksRef
+    = AutoDisposeFutureProviderRef<List<DexFarmLockUserInfos>>;
+String _$farmLockFormSortNotifierHash() =>
+    r'99fb2591396b40469e40de16c955920332aeaa68';
 
-  /// See also [farmLockFormSortedUserFarmLocks].
-  FarmLockFormSortedUserFarmLocksProvider call(
-    String? sortBy,
-    bool? ascending,
-  ) {
-    return FarmLockFormSortedUserFarmLocksProvider(
-      sortBy,
-      ascending,
-    );
-  }
+/// See also [FarmLockFormSortNotifier].
+@ProviderFor(FarmLockFormSortNotifier)
+final farmLockFormSortNotifierProvider = AutoDisposeNotifierProvider<
+    FarmLockFormSortNotifier, ({String column, bool ascending})>.internal(
+  FarmLockFormSortNotifier.new,
+  name: r'farmLockFormSortNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$farmLockFormSortNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-  @override
-  FarmLockFormSortedUserFarmLocksProvider getProviderOverride(
-    covariant FarmLockFormSortedUserFarmLocksProvider provider,
-  ) {
-    return call(
-      provider.sortBy,
-      provider.ascending,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'farmLockFormSortedUserFarmLocksProvider';
-}
-
-/// See also [farmLockFormSortedUserFarmLocks].
-class FarmLockFormSortedUserFarmLocksProvider
-    extends AutoDisposeFutureProvider<List<DexFarmLockUserInfos>> {
-  /// See also [farmLockFormSortedUserFarmLocks].
-  FarmLockFormSortedUserFarmLocksProvider(
-    String? sortBy,
-    bool? ascending,
-  ) : this._internal(
-          (ref) => farmLockFormSortedUserFarmLocks(
-            ref as FarmLockFormSortedUserFarmLocksRef,
-            sortBy,
-            ascending,
-          ),
-          from: farmLockFormSortedUserFarmLocksProvider,
-          name: r'farmLockFormSortedUserFarmLocksProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$farmLockFormSortedUserFarmLocksHash,
-          dependencies: FarmLockFormSortedUserFarmLocksFamily._dependencies,
-          allTransitiveDependencies:
-              FarmLockFormSortedUserFarmLocksFamily._allTransitiveDependencies,
-          sortBy: sortBy,
-          ascending: ascending,
-        );
-
-  FarmLockFormSortedUserFarmLocksProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.sortBy,
-    required this.ascending,
-  }) : super.internal();
-
-  final String? sortBy;
-  final bool? ascending;
-
-  @override
-  Override overrideWith(
-    FutureOr<List<DexFarmLockUserInfos>> Function(
-            FarmLockFormSortedUserFarmLocksRef provider)
-        create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: FarmLockFormSortedUserFarmLocksProvider._internal(
-        (ref) => create(ref as FarmLockFormSortedUserFarmLocksRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        sortBy: sortBy,
-        ascending: ascending,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<List<DexFarmLockUserInfos>> createElement() {
-    return _FarmLockFormSortedUserFarmLocksProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is FarmLockFormSortedUserFarmLocksProvider &&
-        other.sortBy == sortBy &&
-        other.ascending == ascending;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, sortBy.hashCode);
-    hash = _SystemHash.combine(hash, ascending.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-mixin FarmLockFormSortedUserFarmLocksRef
-    on AutoDisposeFutureProviderRef<List<DexFarmLockUserInfos>> {
-  /// The parameter `sortBy` of this provider.
-  String? get sortBy;
-
-  /// The parameter `ascending` of this provider.
-  bool? get ascending;
-}
-
-class _FarmLockFormSortedUserFarmLocksProviderElement
-    extends AutoDisposeFutureProviderElement<List<DexFarmLockUserInfos>>
-    with FarmLockFormSortedUserFarmLocksRef {
-  _FarmLockFormSortedUserFarmLocksProviderElement(super.provider);
-
-  @override
-  String? get sortBy =>
-      (origin as FarmLockFormSortedUserFarmLocksProvider).sortBy;
-  @override
-  bool? get ascending =>
-      (origin as FarmLockFormSortedUserFarmLocksProvider).ascending;
-}
+typedef _$FarmLockFormSortNotifier
+    = AutoDisposeNotifier<({String column, bool ascending})>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

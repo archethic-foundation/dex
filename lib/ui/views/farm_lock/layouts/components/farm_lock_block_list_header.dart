@@ -18,9 +18,8 @@ class FarmLockBlockListHeader extends ConsumerWidget {
 
   final void Function(
     String,
-    bool,
   ) onSort;
-  final Map<String, bool> sortAscending;
+  final bool sortAscending;
   final String? currentSortedColumn;
 
   @override
@@ -148,7 +147,6 @@ class FarmLockBlockListHeader extends ConsumerWidget {
       onTap: () {
         onSort(
           sortBy,
-          sortAscending[sortBy]!,
         );
       },
       child: Container(
@@ -166,9 +164,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Icon(
-                  sortAscending[sortBy]!
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward,
+                  sortAscending ? Icons.arrow_upward : Icons.arrow_downward,
                   size: 16,
                   color: aedappfm.AppThemeBase.secondaryColor,
                 ),

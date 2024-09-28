@@ -147,11 +147,37 @@ Future<DexFarmLock?> farmLockFormFarmLock(
 }
 
 @riverpod
+class FarmLockFormSortNotifier extends _$FarmLockFormSortNotifier {
+  final Map<String, bool> _defaultSort = {
+    'amount': true,
+    'rewards': true,
+    'unlocks_in': true,
+    'level': false,
+    'apr': true,
+  };
+
+  @override
+  ({String column, bool ascending}) build() =>
+      (column: 'level', ascending: false);
+
+  bool _newSortOrder(String column) {
+    if (state.column == column) return !state.ascending;
+    return _defaultSort[column] ?? true;
+  }
+
+  void sortBy(String column) {
+    state = (
+      column: column,
+      ascending: _newSortOrder(column),
+    );
+  }
+}
+
+@riverpod
 Future<List<DexFarmLockUserInfos>> farmLockFormSortedUserFarmLocks(
   FarmLockFormSortedUserFarmLocksRef ref,
-  String? sortBy,
-  bool? ascending,
 ) async {
+  final sort = ref.watch(farmLockFormSortNotifierProvider);
   final farmLock = await ref.watch(
     farmLockFormFarmLockProvider.future,
   );
@@ -160,41 +186,37 @@ Future<List<DexFarmLockUserInfos>> farmLockFormSortedUserFarmLocks(
 
   if (userInfoEntries == null) return [];
 
-  final userFarmLocks = userInfoEntries.map((entry) => entry.value).toList();
-
-  if (sortBy == null) {
-    return userFarmLocks;
-  }
-  userFarmLocks.sort((a, b) {
-    int compare;
-    switch (sortBy) {
-      case 'amount':
-        compare = a.amount.compareTo(b.amount);
-        break;
-      case 'rewards':
-        compare = a.rewardAmount.compareTo(b.rewardAmount);
-        break;
-      case 'unlocks_in':
-        if (a.end == null && b.end == null) {
+  final userFarmLocks = userInfoEntries.map((entry) => entry.value).toList()
+    ..sort((a, b) {
+      int compare;
+      switch (sort.column) {
+        case 'amount':
+          compare = a.amount.compareTo(b.amount);
+          break;
+        case 'rewards':
+          compare = a.rewardAmount.compareTo(b.rewardAmount);
+          break;
+        case 'unlocks_in':
+          if (a.end == null && b.end == null) {
+            compare = 0;
+          } else if (a.end == null) {
+            compare = 1;
+          } else if (b.end == null) {
+            compare = -1;
+          } else {
+            compare = a.end!.compareTo(b.end!);
+          }
+          break;
+        case 'level':
+          compare = a.level.compareTo(b.level);
+          break;
+        case 'apr':
+          compare = a.apr.compareTo(b.apr);
+          break;
+        default:
           compare = 0;
-        } else if (a.end == null) {
-          compare = 1;
-        } else if (b.end == null) {
-          compare = -1;
-        } else {
-          compare = a.end!.compareTo(b.end!);
-        }
-        break;
-      case 'level':
-        compare = a.level.compareTo(b.level);
-        break;
-      case 'apr':
-        compare = a.apr.compareTo(b.apr);
-        break;
-      default:
-        compare = 0;
-    }
-    return ascending == true ? compare : -compare;
-  });
+      }
+      return sort.ascending == true ? compare : -compare;
+    });
   return userFarmLocks;
 }

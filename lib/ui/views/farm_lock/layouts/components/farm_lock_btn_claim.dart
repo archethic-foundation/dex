@@ -127,8 +127,8 @@ class FarmLockBtnClaim extends ConsumerWidget {
 
   Future<void> _validate(BuildContext context, WidgetRef ref) async {
     if (!context.mounted) return;
-    final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
-    final pool = ref.watch(farmLockFormPoolProvider).value;
+    final farmLock = ref.read(farmLockFormFarmLockProvider).value;
+    final pool = ref.read(farmLockFormPoolProvider).value;
 
     await context.push(
       Uri(
