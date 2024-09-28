@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 extension RefListenSelectExtension<State extends Object?, T> on Ref<State> {
@@ -11,5 +13,16 @@ extension RefListenSelectExtension<State extends Object?, T> on Ref<State> {
       if (previousValue == nextValue) return;
       invalidateSelf();
     });
+  }
+}
+
+extension PeriodicReloadExtension on AutoDisposeRef<Object?> {
+  /// Updates periodically the provider.
+  void periodicReload(Duration duration) {
+    final timer = Timer(
+      duration,
+      invalidateSelf,
+    );
+    onDispose(timer.cancel);
   }
 }
