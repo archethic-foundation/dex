@@ -54,6 +54,8 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
   /// reload for each displayed pool.
   /// Refreshes are manually triggered by user.
   Future<void> _loadPoolDetails() async {
+    if (!mounted) return;
+
     final poolInfosProvider =
         DexPoolProviders.poolInfos(widget.pool.poolAddress);
     ref.invalidate(poolInfosProvider);
