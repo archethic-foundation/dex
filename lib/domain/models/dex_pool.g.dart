@@ -12,7 +12,6 @@ _$DexPoolImpl _$$DexPoolImplFromJson(Map<String, dynamic> json) =>
       lpToken: DexToken.fromJson(json['lpToken'] as Map<String, dynamic>),
       pair: DexPair.fromJson(json['pair'] as Map<String, dynamic>),
       lpTokenInUserBalance: json['lpTokenInUserBalance'] as bool,
-      isFavorite: json['isFavorite'] as bool,
     );
 
 Map<String, dynamic> _$$DexPoolImplToJson(_$DexPoolImpl instance) =>
@@ -21,5 +20,4 @@ Map<String, dynamic> _$$DexPoolImplToJson(_$DexPoolImpl instance) =>
       'lpToken': instance.lpToken,
       'pair': instance.pair,
       'lpTokenInUserBalance': instance.lpTokenInUserBalance,
-      'isFavorite': instance.isFavorite,
     };

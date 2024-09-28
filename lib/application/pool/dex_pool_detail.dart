@@ -6,7 +6,6 @@ Future<DexPool?> _pool(
   _PoolRef ref,
   String poolAddress,
 ) async {
-  final environment = ref.watch(environmentProvider);
   final dexPoolRepository = ref.watch(_dexPoolRepositoryProvider);
   final tokenVerifiedList = await ref.watch(
     verifiedTokensProvider.future,
@@ -25,16 +24,7 @@ Future<DexPool?> _pool(
         token.address!.toUpperCase() == pool.lpToken.address.toUpperCase(),
   );
 
-  // Favorite
-  final favoritePoolsDatasource =
-      await HiveFavoritePoolsDatasource.getInstance();
-  final isFavorite = favoritePoolsDatasource.isFavoritePool(
-    environment.name,
-    poolAddress,
-  );
-
   return pool.copyWith(
-    isFavorite: isFavorite,
     lpTokenInUserBalance: lpTokenInUserBalance,
   );
 }

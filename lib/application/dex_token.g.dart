@@ -595,7 +595,7 @@ class _EstimateTokenInFiatProviderElement
       (origin as _EstimateTokenInFiatProvider).tokenAddress;
 }
 
-String _$getRemoveAmountsHash() => r'9eaf324004cdd014a082486703ca41d01e0cafad';
+String _$getRemoveAmountsHash() => r'15015b4cebd52c2e39955493365f9125097587ba';
 
 /// This provider is used to cache request result
 /// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request

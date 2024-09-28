@@ -55,6 +55,5 @@ abstract class DexPoolProviders {
   static const estimateStats = _estimateStatsProvider;
 
   // Favorite
-  static const addPoolFromFavorite = _addPoolFromFavoriteProvider;
-  static const removePoolFromFavorite = _removePoolFromFavoriteProvider;
+  static const poolFavorite = _poolFavoriteNotifierProvider;
 }

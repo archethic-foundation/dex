@@ -24,7 +24,6 @@ mixin _$DexPool {
   DexToken get lpToken => throw _privateConstructorUsedError;
   DexPair get pair => throw _privateConstructorUsedError;
   bool get lpTokenInUserBalance => throw _privateConstructorUsedError;
-  bool get isFavorite => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,8 +39,7 @@ abstract class $DexPoolCopyWith<$Res> {
       {String poolAddress,
       DexToken lpToken,
       DexPair pair,
-      bool lpTokenInUserBalance,
-      bool isFavorite});
+      bool lpTokenInUserBalance});
 
   $DexTokenCopyWith<$Res> get lpToken;
   $DexPairCopyWith<$Res> get pair;
@@ -64,7 +62,6 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
     Object? lpToken = null,
     Object? pair = null,
     Object? lpTokenInUserBalance = null,
-    Object? isFavorite = null,
   }) {
     return _then(_value.copyWith(
       poolAddress: null == poolAddress
@@ -82,10 +79,6 @@ class _$DexPoolCopyWithImpl<$Res, $Val extends DexPool>
       lpTokenInUserBalance: null == lpTokenInUserBalance
           ? _value.lpTokenInUserBalance
           : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFavorite: null == isFavorite
-          ? _value.isFavorite
-          : isFavorite // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -118,8 +111,7 @@ abstract class _$$DexPoolImplCopyWith<$Res> implements $DexPoolCopyWith<$Res> {
       {String poolAddress,
       DexToken lpToken,
       DexPair pair,
-      bool lpTokenInUserBalance,
-      bool isFavorite});
+      bool lpTokenInUserBalance});
 
   @override
   $DexTokenCopyWith<$Res> get lpToken;
@@ -142,7 +134,6 @@ class __$$DexPoolImplCopyWithImpl<$Res>
     Object? lpToken = null,
     Object? pair = null,
     Object? lpTokenInUserBalance = null,
-    Object? isFavorite = null,
   }) {
     return _then(_$DexPoolImpl(
       poolAddress: null == poolAddress
@@ -161,10 +152,6 @@ class __$$DexPoolImplCopyWithImpl<$Res>
           ? _value.lpTokenInUserBalance
           : lpTokenInUserBalance // ignore: cast_nullable_to_non_nullable
               as bool,
-      isFavorite: null == isFavorite
-          ? _value.isFavorite
-          : isFavorite // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -176,8 +163,7 @@ class _$DexPoolImpl extends _DexPool {
       {required this.poolAddress,
       required this.lpToken,
       required this.pair,
-      required this.lpTokenInUserBalance,
-      required this.isFavorite})
+      required this.lpTokenInUserBalance})
       : super._();
 
   factory _$DexPoolImpl.fromJson(Map<String, dynamic> json) =>
@@ -191,12 +177,10 @@ class _$DexPoolImpl extends _DexPool {
   final DexPair pair;
   @override
   final bool lpTokenInUserBalance;
-  @override
-  final bool isFavorite;
 
   @override
   String toString() {
-    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, pair: $pair, lpTokenInUserBalance: $lpTokenInUserBalance, isFavorite: $isFavorite)';
+    return 'DexPool(poolAddress: $poolAddress, lpToken: $lpToken, pair: $pair, lpTokenInUserBalance: $lpTokenInUserBalance)';
   }
 
   @override
@@ -209,15 +193,13 @@ class _$DexPoolImpl extends _DexPool {
             (identical(other.lpToken, lpToken) || other.lpToken == lpToken) &&
             (identical(other.pair, pair) || other.pair == pair) &&
             (identical(other.lpTokenInUserBalance, lpTokenInUserBalance) ||
-                other.lpTokenInUserBalance == lpTokenInUserBalance) &&
-            (identical(other.isFavorite, isFavorite) ||
-                other.isFavorite == isFavorite));
+                other.lpTokenInUserBalance == lpTokenInUserBalance));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, poolAddress, lpToken, pair,
-      lpTokenInUserBalance, isFavorite);
+  int get hashCode => Object.hash(
+      runtimeType, poolAddress, lpToken, pair, lpTokenInUserBalance);
 
   @JsonKey(ignore: true)
   @override
@@ -238,8 +220,7 @@ abstract class _DexPool extends DexPool {
       {required final String poolAddress,
       required final DexToken lpToken,
       required final DexPair pair,
-      required final bool lpTokenInUserBalance,
-      required final bool isFavorite}) = _$DexPoolImpl;
+      required final bool lpTokenInUserBalance}) = _$DexPoolImpl;
   const _DexPool._() : super._();
 
   factory _DexPool.fromJson(Map<String, dynamic> json) = _$DexPoolImpl.fromJson;
@@ -252,8 +233,6 @@ abstract class _DexPool extends DexPool {
   DexPair get pair;
   @override
   bool get lpTokenInUserBalance;
-  @override
-  bool get isFavorite;
   @override
   @JsonKey(ignore: true)
   _$$DexPoolImplCopyWith<_$DexPoolImpl> get copyWith =>

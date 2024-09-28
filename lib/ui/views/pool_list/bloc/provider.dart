@@ -1,9 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/infrastructure/hive/favorite_pools.hive.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -63,17 +61,12 @@ Future<List<DexPool>> poolsToDisplay(PoolsToDisplayRef ref) async {
 
   switch (selectedTab) {
     case PoolsListTab.favoritePools:
-      final environment = ref.watch(environmentProvider);
-      final favoritePoolsDatasource =
-          await HiveFavoritePoolsDatasource.getInstance();
-      return poolList
-          .where(
-            (element) => favoritePoolsDatasource.isFavoritePool(
-              environment.name,
-              element.poolAddress,
-            ),
-          )
-          .toList();
+      return [
+        for (final pool in poolList)
+          if (await ref
+              .watch(DexPoolProviders.poolFavorite(pool.poolAddress).future))
+            pool,
+      ];
     case PoolsListTab.verified:
       return poolList
           .where(

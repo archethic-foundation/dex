@@ -13,7 +13,6 @@ class DexPoolHive extends HiveObject {
     required this.lpToken,
     required this.pair,
     required this.lpTokenInUserBalance,
-    required this.isFavorite,
   });
 
   @HiveField(0)
@@ -31,13 +30,12 @@ class DexPoolHive extends HiveObject {
   // @HiveField(4)
   // DexPoolInfosHive? details;
 
-  @HiveField(5)
-  bool? isFavorite;
+  // @HiveField(5)
+  // bool? isFavorite;
 
   DexPool toDexPool() {
     return DexPool(
       lpTokenInUserBalance: lpTokenInUserBalance,
-      isFavorite: isFavorite ?? false,
       poolAddress: poolAddress,
       lpToken: lpToken.toModel(),
       pair: pair.toModel(),
@@ -51,6 +49,5 @@ extension DexPoolHiveConversionExt on DexPool {
         poolAddress: poolAddress,
         lpToken: DexTokenHive.fromModel(lpToken),
         pair: DexPairHive.fromModel(pair),
-        isFavorite: isFavorite,
       );
 }

@@ -1,4 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -6,6 +5,81 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+class PoolFavoriteIcon extends ConsumerWidget {
+  const PoolFavoriteIcon({
+    super.key,
+    required this.poolAddress,
+  });
+
+  final String poolAddress;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFavorite =
+        ref.watch(DexPoolProviders.poolFavorite(poolAddress)).value ?? false;
+    if (isFavorite) {
+      return PoolRemoveFavoriteIcon(
+        poolAddress: poolAddress,
+      );
+    }
+
+    return PoolAddFavoriteIcon(poolAddress: poolAddress);
+  }
+}
+
+class PoolAddFavoriteIcon extends ConsumerWidget {
+  const PoolAddFavoriteIcon({
+    required this.poolAddress,
+    super.key,
+  });
+
+  final String poolAddress;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return InkWell(
+      onTap: ref
+          .read(
+            DexPoolProviders.poolFavorite(
+              poolAddress,
+            ).notifier,
+          )
+          .addToFavorite,
+      child: Tooltip(
+        message: AppLocalizations.of(context)!.poolAddFavoriteIconTooltip,
+        child: SizedBox(
+          height: 40,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
+                    .withOpacity(1),
+                width: 0.5,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            elevation: 0,
+            color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
+                .withOpacity(1),
+            child: const Padding(
+              padding: EdgeInsets.only(
+                top: 5,
+                bottom: 5,
+                left: 10,
+                right: 10,
+              ),
+              child: Icon(
+                aedappfm.Iconsax.star,
+                size: 16,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class PoolRemoveFavoriteIcon extends ConsumerWidget {
   const PoolRemoveFavoriteIcon({
@@ -119,18 +193,13 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
                                           )!
                                               .yes,
                                           onPressed: () async {
-                                            ref
-                                              ..read(
-                                                DexPoolProviders
-                                                    .removePoolFromFavorite(
-                                                  poolAddress,
-                                                ),
-                                              )
-                                              ..invalidate(
-                                                DexPoolProviders.getPool(
-                                                  poolAddress,
-                                                ),
-                                              );
+                                            await ref
+                                                .read(
+                                                  DexPoolProviders.poolFavorite(
+                                                    poolAddress,
+                                                  ).notifier,
+                                                )
+                                                .removeFromFavorite();
 
                                             context.pop();
                                           },

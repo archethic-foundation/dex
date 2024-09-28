@@ -4,11 +4,10 @@ import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_add_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_front.dart';
+import 'package:aedex/ui/views/pool_list/layouts/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_refresh_icon.dart';
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_remove_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_tx_list/layouts/pool_tx_list_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -121,20 +120,12 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   poolAddress: widget.pool.poolAddress,
                 ),
               ),
-              if (widget.pool.isFavorite)
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: PoolRemoveFavoriteIcon(
-                    poolAddress: widget.pool.poolAddress,
-                  ),
-                )
-              else
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: PoolAddFavoriteIcon(
-                    poolAddress: widget.pool.poolAddress,
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: PoolFavoriteIcon(
+                  poolAddress: widget.pool.poolAddress,
                 ),
+              ),
               InkWell(
                 onTap: () async {
                   await PoolTxListPopup.getDialog(
