@@ -373,6 +373,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
           );
           return;
         }
+        final sessionNotifier = ref.watch(sessionNotifierProvider.notifier);
+        await sessionNotifier.connectWallet();
+
         if (ref.read(sessionNotifierProvider).error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
