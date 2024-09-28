@@ -5,6 +5,7 @@ import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart'
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_apr_banner.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_details/farm_lock_list_item.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/farm_lock_deposit_sheet.dart';
 import 'package:aedex/ui/views/mobile_info/layouts/mobile_info.dart';
@@ -147,83 +148,59 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                 children: [
                   SizedBox(
                     width: constraints.maxWidth * 0.30,
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap: farmLockForm.farm == null
-                              ? null
-                              : () async {
-                                  return showDialog<void>(
-                                    context: context,
-                                    builder: (context) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          context.pop();
-                                        },
-                                        child: Scaffold(
-                                          extendBodyBehindAppBar: true,
-                                          extendBody: true,
-                                          backgroundColor:
-                                              Colors.transparent.withAlpha(120),
-                                          body: Align(
-                                            child: SizedBox(
-                                              width: 550,
-                                              height: 550,
-                                              child: FarmListItem(
-                                                key: ValueKey(
-                                                  farmLockForm
-                                                      .pool!.poolAddress,
-                                                ),
-                                                farm: farmLockForm.farm!,
-                                                heightCard: 490,
-                                                isInPopup: true,
-                                              )
-                                                  .animate()
-                                                  .fade(
-                                                    duration: const Duration(
-                                                      milliseconds: 300,
-                                                    ),
-                                                  )
-                                                  .scale(
-                                                    duration: const Duration(
-                                                      milliseconds: 300,
-                                                    ),
-                                                  ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
+                    child: FarmLockHeaderButton(
+                      icon: const Icon(
+                        aedappfm.Iconsax.search_status,
+                        size: 18,
+                      ),
+                      size: FarmLockHeaderButton.sizeSmall,
+                      text: AppLocalizations.of(context)!
+                          .farmLockBlockEarnRewardsBtnInfosFarmLegacy,
+                      onTap: farmLockForm.farm == null
+                          ? null
+                          : () async {
+                              return showDialog<void>(
+                                context: context,
+                                builder: (context) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      context.pop();
                                     },
+                                    child: Scaffold(
+                                      extendBodyBehindAppBar: true,
+                                      extendBody: true,
+                                      backgroundColor:
+                                          Colors.transparent.withAlpha(120),
+                                      body: Align(
+                                        child: SizedBox(
+                                          width: 550,
+                                          height: 550,
+                                          child: FarmListItem(
+                                            key: ValueKey(
+                                              farmLockForm.pool!.poolAddress,
+                                            ),
+                                            farm: farmLockForm.farm!,
+                                            heightCard: 490,
+                                            isInPopup: true,
+                                          )
+                                              .animate()
+                                              .fade(
+                                                duration: const Duration(
+                                                  milliseconds: 300,
+                                                ),
+                                              )
+                                              .scale(
+                                                duration: const Duration(
+                                                  milliseconds: 300,
+                                                ),
+                                              ),
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 },
-                          child: Container(
-                            height: 36,
-                            width: 36,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              gradient: farmLockForm.farm == null
-                                  ? aedappfm.AppThemeBase.gradient
-                                  : aedappfm.AppThemeBase.gradientBtn,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              aedappfm.Iconsax.search_status,
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Opacity(
-                          opacity: 0.8,
-                          child: Text(
-                            AppLocalizations.of(context)!
-                                .farmLockBlockEarnRewardsBtnInfosFarmLegacy,
-                            style: const TextStyle(fontSize: 10),
-                          ),
-                        ),
-                      ],
+                              );
+                            },
                     ),
                   ),
                   SizedBox(
@@ -232,37 +209,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                         ? session.isConnected
                             ? _btnConnected(context, ref)
                             : _btnNotConnected(context, ref)
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      gradient: aedappfm.AppThemeBase.gradient,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const SizedBox(
-                                      height: 30,
-                                      width: 30,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 0.5,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  const Text(
-                                    ' ',
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                ],
-                              ),
-                            ],
+                        : const FarmLockHeaderLoadingButton(
+                            size: FarmLockHeaderButton.sizeBig,
+                            text: '',
                           ),
                   ),
                   SizedBox(
@@ -365,137 +314,79 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
     final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
         const FarmLockFormState();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        InkWell(
-          onTap: farmLockForm.farmLock == null ||
-                  farmLockForm.farmLock!.isOpen == false
-              ? null
-              : () async {
-                  final poolJson = jsonEncode(farmLockForm.pool!.toJson());
-                  final poolEncoded = Uri.encodeComponent(poolJson);
-                  final farmLockJson =
-                      jsonEncode(farmLockForm.farmLock!.toJson());
-                  final farmLockEncoded = Uri.encodeComponent(farmLockJson);
-                  await context.push(
-                    Uri(
-                      path: FarmLockDepositSheet.routerPage,
-                      queryParameters: {
-                        'pool': poolEncoded,
-                        'farmLock': farmLockEncoded,
-                      },
-                    ).toString(),
-                  );
-                },
-          child: Column(
-            children: [
-              Container(
-                height: 50,
-                width: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  gradient: farmLockForm.farmLock == null ||
-                          farmLockForm.farmLock!.isOpen == false
-                      ? aedappfm.AppThemeBase.gradient
-                      : aedappfm.AppThemeBase.gradientBtn,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  aedappfm.Iconsax.import4,
-                  size: 25,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Opacity(
-                opacity: 0.8,
-                child: Text(
-                  farmLockForm.farmLock == null ||
-                          farmLockForm.farmLock!.isOpen == false
-                      ? AppLocalizations.of(context)!
-                          .farmLockBlockEarnRewardsBtnNotAvailable
-                      : AppLocalizations.of(context)!
-                          .farmLockBlockEarnRewardsBtnAdd,
-                  style: const TextStyle(fontSize: 10),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+    return FarmLockHeaderButton(
+      text: farmLockForm.farmLock == null ||
+              farmLockForm.farmLock!.isOpen == false
+          ? AppLocalizations.of(context)!
+              .farmLockBlockEarnRewardsBtnNotAvailable
+          : AppLocalizations.of(context)!.farmLockBlockEarnRewardsBtnAdd,
+      icon: const Icon(
+        aedappfm.Iconsax.import4,
+        size: 25,
+      ),
+      size: FarmLockHeaderButton.sizeBig,
+      onTap: farmLockForm.farmLock == null ||
+              farmLockForm.farmLock!.isOpen == false
+          ? null
+          : () async {
+              final poolJson = jsonEncode(farmLockForm.pool!.toJson());
+              final poolEncoded = Uri.encodeComponent(poolJson);
+              final farmLockJson = jsonEncode(farmLockForm.farmLock!.toJson());
+              final farmLockEncoded = Uri.encodeComponent(farmLockJson);
+              await context.push(
+                Uri(
+                  path: FarmLockDepositSheet.routerPage,
+                  queryParameters: {
+                    'pool': poolEncoded,
+                    'farmLock': farmLockEncoded,
+                  },
+                ).toString(),
+              );
+            },
     );
   }
 
   Widget _btnNotConnected(BuildContext context, WidgetRef ref) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: [
-            InkWell(
-              child: Container(
-                height: 50,
-                width: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  gradient: aedappfm.AppThemeBase.gradientBtn,
-                  shape: BoxShape.circle,
+    return FarmLockHeaderButton(
+      text: AppLocalizations.of(context)!.btn_connect_wallet,
+      icon: const Icon(
+        aedappfm.Iconsax.wallet_3,
+        size: 25,
+      ),
+      size: FarmLockHeaderButton.sizeBig,
+      onTap: () async {
+        if (ref.read(sessionNotifierProvider).isConnected == false &&
+            context.mounted &&
+            aedappfm.Responsive.isMobile(context)) {
+          await showDialog(
+            context: context,
+            builder: (context) {
+              return Scaffold(
+                extendBodyBehindAppBar: true,
+                extendBody: true,
+                backgroundColor: Colors.transparent.withAlpha(120),
+                body: const Align(
+                  child: MobileInfoScreen(),
                 ),
-                child: const Icon(
-                  aedappfm.Iconsax.wallet_3,
-                  size: 25,
-                ),
+              );
+            },
+          );
+          return;
+        }
+        if (ref.read(sessionNotifierProvider).error.isNotEmpty) {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
+              content: SelectableText(
+                ref.read(sessionNotifierProvider).error,
+                style: Theme.of(context).snackBarTheme.contentTextStyle,
               ),
-              onTap: () async {
-                if (ref.read(sessionNotifierProvider).isConnected == false &&
-                    context.mounted &&
-                    aedappfm.Responsive.isMobile(context)) {
-                  await showDialog(
-                    context: context,
-                    builder: (context) {
-                      return Scaffold(
-                        extendBodyBehindAppBar: true,
-                        extendBody: true,
-                        backgroundColor: Colors.transparent.withAlpha(120),
-                        body: const Align(
-                          child: MobileInfoScreen(),
-                        ),
-                      );
-                    },
-                  );
-                  return;
-                }
-                if (ref.read(sessionNotifierProvider).error.isNotEmpty) {
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor:
-                          Theme.of(context).snackBarTheme.backgroundColor,
-                      content: SelectableText(
-                        ref.read(sessionNotifierProvider).error,
-                        style: Theme.of(context).snackBarTheme.contentTextStyle,
-                      ),
-                      duration: const Duration(seconds: 2),
-                    ),
-                  );
-                }
-              },
+              duration: const Duration(seconds: 2),
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            Opacity(
-              opacity: 0.8,
-              child: Text(
-                AppLocalizations.of(context)!.btn_connect_wallet,
-                style: const TextStyle(fontSize: 10),
-              ),
-            ),
-          ],
-        ),
-      ],
+          );
+        }
+      },
     );
   }
 }
