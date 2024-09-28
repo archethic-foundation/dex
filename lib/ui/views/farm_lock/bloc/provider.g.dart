@@ -6,8 +6,89 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sortedUserFarmLocksHash() =>
-    r'5e5c25927ddfcf3201ea09172f0ce6894ff76632';
+String _$farmLockFormBalancesHash() =>
+    r'4a4e9a531ddb7dd26b5550fbe92de058ef74052a';
+
+/// See also [farmLockFormBalances].
+@ProviderFor(farmLockFormBalances)
+final farmLockFormBalancesProvider =
+    AutoDisposeProvider<FarmLockFormBalances>.internal(
+  farmLockFormBalances,
+  name: r'farmLockFormBalancesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$farmLockFormBalancesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FarmLockFormBalancesRef = AutoDisposeProviderRef<FarmLockFormBalances>;
+String _$farmLockFormSummaryHash() =>
+    r'7821a41ece661e9493e3e3f9e94b44f1ce3a0f47';
+
+/// See also [farmLockFormSummary].
+@ProviderFor(farmLockFormSummary)
+final farmLockFormSummaryProvider =
+    AutoDisposeProvider<FarmLockFormSummary>.internal(
+  farmLockFormSummary,
+  name: r'farmLockFormSummaryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$farmLockFormSummaryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FarmLockFormSummaryRef = AutoDisposeProviderRef<FarmLockFormSummary>;
+String _$farmLockFormPoolHash() => r'e0919af5d7966190d4c933f1d614626df7282290';
+
+/// See also [farmLockFormPool].
+@ProviderFor(farmLockFormPool)
+final farmLockFormPoolProvider = AutoDisposeFutureProvider<DexPool?>.internal(
+  farmLockFormPool,
+  name: r'farmLockFormPoolProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$farmLockFormPoolHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FarmLockFormPoolRef = AutoDisposeFutureProviderRef<DexPool?>;
+String _$farmLockFormFarmHash() => r'dffbc2a22080f79d4a620ae8e20e525d80803bf5';
+
+/// See also [farmLockFormFarm].
+@ProviderFor(farmLockFormFarm)
+final farmLockFormFarmProvider = AutoDisposeFutureProvider<DexFarm?>.internal(
+  farmLockFormFarm,
+  name: r'farmLockFormFarmProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$farmLockFormFarmHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FarmLockFormFarmRef = AutoDisposeFutureProviderRef<DexFarm?>;
+String _$farmLockFormFarmLockHash() =>
+    r'5818f7b1cb6eb2f5632cd5abe9167524fccefec4';
+
+/// See also [farmLockFormFarmLock].
+@ProviderFor(farmLockFormFarmLock)
+final farmLockFormFarmLockProvider =
+    AutoDisposeFutureProvider<DexFarmLock?>.internal(
+  farmLockFormFarmLock,
+  name: r'farmLockFormFarmLockProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$farmLockFormFarmLockHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FarmLockFormFarmLockRef = AutoDisposeFutureProviderRef<DexFarmLock?>;
+String _$farmLockFormSortedUserFarmLocksHash() =>
+    r'20e83b7a3077b346536440ed6c3efd257706db55';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,29 +111,31 @@ class _SystemHash {
   }
 }
 
-/// See also [sortedUserFarmLocks].
-@ProviderFor(sortedUserFarmLocks)
-const sortedUserFarmLocksProvider = SortedUserFarmLocksFamily();
+/// See also [farmLockFormSortedUserFarmLocks].
+@ProviderFor(farmLockFormSortedUserFarmLocks)
+const farmLockFormSortedUserFarmLocksProvider =
+    FarmLockFormSortedUserFarmLocksFamily();
 
-/// See also [sortedUserFarmLocks].
-class SortedUserFarmLocksFamily extends Family<List<DexFarmLockUserInfos>> {
-  /// See also [sortedUserFarmLocks].
-  const SortedUserFarmLocksFamily();
+/// See also [farmLockFormSortedUserFarmLocks].
+class FarmLockFormSortedUserFarmLocksFamily
+    extends Family<AsyncValue<List<DexFarmLockUserInfos>>> {
+  /// See also [farmLockFormSortedUserFarmLocks].
+  const FarmLockFormSortedUserFarmLocksFamily();
 
-  /// See also [sortedUserFarmLocks].
-  SortedUserFarmLocksProvider call(
+  /// See also [farmLockFormSortedUserFarmLocks].
+  FarmLockFormSortedUserFarmLocksProvider call(
     String? sortBy,
     bool? ascending,
   ) {
-    return SortedUserFarmLocksProvider(
+    return FarmLockFormSortedUserFarmLocksProvider(
       sortBy,
       ascending,
     );
   }
 
   @override
-  SortedUserFarmLocksProvider getProviderOverride(
-    covariant SortedUserFarmLocksProvider provider,
+  FarmLockFormSortedUserFarmLocksProvider getProviderOverride(
+    covariant FarmLockFormSortedUserFarmLocksProvider provider,
   ) {
     return call(
       provider.sortBy,
@@ -72,36 +155,36 @@ class SortedUserFarmLocksFamily extends Family<List<DexFarmLockUserInfos>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'sortedUserFarmLocksProvider';
+  String? get name => r'farmLockFormSortedUserFarmLocksProvider';
 }
 
-/// See also [sortedUserFarmLocks].
-class SortedUserFarmLocksProvider
-    extends AutoDisposeProvider<List<DexFarmLockUserInfos>> {
-  /// See also [sortedUserFarmLocks].
-  SortedUserFarmLocksProvider(
+/// See also [farmLockFormSortedUserFarmLocks].
+class FarmLockFormSortedUserFarmLocksProvider
+    extends AutoDisposeFutureProvider<List<DexFarmLockUserInfos>> {
+  /// See also [farmLockFormSortedUserFarmLocks].
+  FarmLockFormSortedUserFarmLocksProvider(
     String? sortBy,
     bool? ascending,
   ) : this._internal(
-          (ref) => sortedUserFarmLocks(
-            ref as SortedUserFarmLocksRef,
+          (ref) => farmLockFormSortedUserFarmLocks(
+            ref as FarmLockFormSortedUserFarmLocksRef,
             sortBy,
             ascending,
           ),
-          from: sortedUserFarmLocksProvider,
-          name: r'sortedUserFarmLocksProvider',
+          from: farmLockFormSortedUserFarmLocksProvider,
+          name: r'farmLockFormSortedUserFarmLocksProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$sortedUserFarmLocksHash,
-          dependencies: SortedUserFarmLocksFamily._dependencies,
+                  : _$farmLockFormSortedUserFarmLocksHash,
+          dependencies: FarmLockFormSortedUserFarmLocksFamily._dependencies,
           allTransitiveDependencies:
-              SortedUserFarmLocksFamily._allTransitiveDependencies,
+              FarmLockFormSortedUserFarmLocksFamily._allTransitiveDependencies,
           sortBy: sortBy,
           ascending: ascending,
         );
 
-  SortedUserFarmLocksProvider._internal(
+  FarmLockFormSortedUserFarmLocksProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -117,12 +200,14 @@ class SortedUserFarmLocksProvider
 
   @override
   Override overrideWith(
-    List<DexFarmLockUserInfos> Function(SortedUserFarmLocksRef provider) create,
+    FutureOr<List<DexFarmLockUserInfos>> Function(
+            FarmLockFormSortedUserFarmLocksRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: SortedUserFarmLocksProvider._internal(
-        (ref) => create(ref as SortedUserFarmLocksRef),
+      override: FarmLockFormSortedUserFarmLocksProvider._internal(
+        (ref) => create(ref as FarmLockFormSortedUserFarmLocksRef),
         from: from,
         name: null,
         dependencies: null,
@@ -135,13 +220,13 @@ class SortedUserFarmLocksProvider
   }
 
   @override
-  AutoDisposeProviderElement<List<DexFarmLockUserInfos>> createElement() {
-    return _SortedUserFarmLocksProviderElement(this);
+  AutoDisposeFutureProviderElement<List<DexFarmLockUserInfos>> createElement() {
+    return _FarmLockFormSortedUserFarmLocksProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SortedUserFarmLocksProvider &&
+    return other is FarmLockFormSortedUserFarmLocksProvider &&
         other.sortBy == sortBy &&
         other.ascending == ascending;
   }
@@ -156,8 +241,8 @@ class SortedUserFarmLocksProvider
   }
 }
 
-mixin SortedUserFarmLocksRef
-    on AutoDisposeProviderRef<List<DexFarmLockUserInfos>> {
+mixin FarmLockFormSortedUserFarmLocksRef
+    on AutoDisposeFutureProviderRef<List<DexFarmLockUserInfos>> {
   /// The parameter `sortBy` of this provider.
   String? get sortBy;
 
@@ -165,33 +250,17 @@ mixin SortedUserFarmLocksRef
   bool? get ascending;
 }
 
-class _SortedUserFarmLocksProviderElement
-    extends AutoDisposeProviderElement<List<DexFarmLockUserInfos>>
-    with SortedUserFarmLocksRef {
-  _SortedUserFarmLocksProviderElement(super.provider);
+class _FarmLockFormSortedUserFarmLocksProviderElement
+    extends AutoDisposeFutureProviderElement<List<DexFarmLockUserInfos>>
+    with FarmLockFormSortedUserFarmLocksRef {
+  _FarmLockFormSortedUserFarmLocksProviderElement(super.provider);
 
   @override
-  String? get sortBy => (origin as SortedUserFarmLocksProvider).sortBy;
+  String? get sortBy =>
+      (origin as FarmLockFormSortedUserFarmLocksProvider).sortBy;
   @override
-  bool? get ascending => (origin as SortedUserFarmLocksProvider).ascending;
+  bool? get ascending =>
+      (origin as FarmLockFormSortedUserFarmLocksProvider).ascending;
 }
-
-String _$farmLockFormNotifierHash() =>
-    r'ac319823982097a2cd303199dcfd955add94bcd1';
-
-/// See also [FarmLockFormNotifier].
-@ProviderFor(FarmLockFormNotifier)
-final farmLockFormNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    FarmLockFormNotifier, FarmLockFormState>.internal(
-  FarmLockFormNotifier.new,
-  name: r'farmLockFormNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$farmLockFormNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$FarmLockFormNotifier = AutoDisposeAsyncNotifier<FarmLockFormState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

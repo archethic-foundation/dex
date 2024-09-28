@@ -1,6 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -26,12 +25,12 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
   ) {
     final session = ref.watch(sessionNotifierProvider);
 
+    final summary = ref.watch(farmLockFormSummaryProvider);
+
     var opacity = AppTextStyles.kOpacityText;
     if (session.isConnected == false) {
       opacity = 0.5;
     }
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
     return BlockInfo(
       info: Column(
         children: [
@@ -59,7 +58,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
               Opacity(
                 opacity: opacity,
                 child: SelectableText(
-                  '\$${farmLockForm.farmedTokensInFiat.formatNumber(precision: 2)}',
+                  '\$${summary.farmedTokensInFiat.formatNumber(precision: 2)}',
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ),
@@ -86,7 +85,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
                   Opacity(
                     opacity: opacity,
                     child: SelectableText(
-                      '\$${farmLockForm.farmedTokensCapitalInFiat.formatNumber(precision: 2)}',
+                      '\$${summary.farmedTokensCapitalInFiat.formatNumber(precision: 2)}',
                       style: session.isConnected
                           ? Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 color: aedappfm.AppThemeBase.secondaryColor,
@@ -119,7 +118,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
                   Opacity(
                     opacity: opacity,
                     child: SelectableText(
-                      '\$${farmLockForm.farmedTokensRewardsInFiat.formatNumber(precision: 2)}',
+                      '\$${summary.farmedTokensRewardsInFiat.formatNumber(precision: 2)}',
                       style: session.isConnected
                           ? Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 color: session.isConnected

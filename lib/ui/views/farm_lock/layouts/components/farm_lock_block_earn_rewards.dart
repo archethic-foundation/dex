@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_apr_banner.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_details/farm_lock_list_item.dart';
@@ -40,8 +39,10 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
   ) {
     final session = ref.watch(sessionNotifierProvider);
 
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+    final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
+    final pool = ref.watch(farmLockFormPoolProvider).value;
+    final farm = ref.watch(farmLockFormFarmProvider).value;
+    final isLoading = farmLock == null || pool == null || farm == null;
 
     return BlockInfo(
       info: Column(
@@ -80,10 +81,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          if (farmLockForm.farmLock != null &&
-              farmLockForm.farmLock!.startDate != null &&
-              farmLockForm.farmLock!.startDate!
-                  .isBefore(DateTime.now().toUtc()))
+          if (farmLock != null &&
+              farmLock.startDate != null &&
+              farmLock.startDate!.isBefore(DateTime.now().toUtc()))
             Opacity(
               opacity: AppTextStyles.kOpacityText,
               child: Text(
@@ -93,15 +93,14 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                     ),
               ),
             )
-          else if (farmLockForm.farmLock != null &&
-              farmLockForm.farmLock!.startDate != null)
+          else if (farmLock != null && farmLock.startDate != null)
             Opacity(
               opacity: AppTextStyles.kOpacityText,
               child: Text(
                 '${AppLocalizations.of(context)!.farmLockBlockEarnRewardsStartFarm} ${DateFormat.yMd(
                   Localizations.localeOf(context).languageCode,
                 ).add_Hm().format(
-                      farmLockForm.farmLock!.startDate!.toLocal(),
+                      farmLock.startDate!.toLocal(),
                     )}',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: aedappfm.ArchethicThemeBase.systemWarning500,
@@ -156,7 +155,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                       size: FarmLockHeaderButton.sizeSmall,
                       text: AppLocalizations.of(context)!
                           .farmLockBlockEarnRewardsBtnInfosFarmLegacy,
-                      onTap: farmLockForm.farm == null
+                      onTap: farm == null
                           ? null
                           : () async {
                               return showDialog<void>(
@@ -177,9 +176,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                                           height: 550,
                                           child: FarmListItem(
                                             key: ValueKey(
-                                              farmLockForm.pool!.poolAddress,
+                                              pool!.poolAddress,
                                             ),
-                                            farm: farmLockForm.farm!,
+                                            farm: farm,
                                             heightCard: 490,
                                             isInPopup: true,
                                           )
@@ -205,7 +204,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                   ),
                   SizedBox(
                     width: constraints.maxWidth * 0.40,
-                    child: farmLockForm.mainInfoloadingInProgress == false
+                    child: !isLoading
                         ? session.isConnected
                             ? _btnConnected(context, ref)
                             : _btnNotConnected(context, ref)
@@ -219,7 +218,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                     child: Column(
                       children: [
                         InkWell(
-                          onTap: farmLockForm.farmLock == null
+                          onTap: farmLock == null
                               ? null
                               : () async {
                                   return showDialog<void>(
@@ -240,11 +239,9 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                                               height: 500,
                                               child: FarmLockListItem(
                                                 key: ValueKey(
-                                                  farmLockForm
-                                                      .pool!.poolAddress,
+                                                  pool!.poolAddress,
                                                 ),
-                                                farmLock:
-                                                    farmLockForm.farmLock!,
+                                                farmLock: farmLock,
                                                 heightCard: 440,
                                                 isInPopup: true,
                                               )
@@ -271,7 +268,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
                             width: 36,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              gradient: farmLockForm.farmLock == null
+                              gradient: farmLock == null
                                   ? aedappfm.AppThemeBase.gradient
                                   : aedappfm.AppThemeBase.gradientBtn,
                               shape: BoxShape.circle,
@@ -311,12 +308,11 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
   }
 
   Widget _btnConnected(BuildContext context, WidgetRef ref) {
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+    final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
+    final pool = ref.watch(farmLockFormPoolProvider).value;
 
     return FarmLockHeaderButton(
-      text: farmLockForm.farmLock == null ||
-              farmLockForm.farmLock!.isOpen == false
+      text: farmLock == null || farmLock.isOpen == false
           ? AppLocalizations.of(context)!
               .farmLockBlockEarnRewardsBtnNotAvailable
           : AppLocalizations.of(context)!.farmLockBlockEarnRewardsBtnAdd,
@@ -325,13 +321,12 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
         size: 25,
       ),
       size: FarmLockHeaderButton.sizeBig,
-      onTap: farmLockForm.farmLock == null ||
-              farmLockForm.farmLock!.isOpen == false
+      onTap: farmLock == null || farmLock.isOpen == false
           ? null
           : () async {
-              final poolJson = jsonEncode(farmLockForm.pool!.toJson());
+              final poolJson = jsonEncode(pool!.toJson());
               final poolEncoded = Uri.encodeComponent(poolJson);
-              final farmLockJson = jsonEncode(farmLockForm.farmLock!.toJson());
+              final farmLockJson = jsonEncode(farmLock.toJson());
               final farmLockEncoded = Uri.encodeComponent(farmLockJson);
               await context.push(
                 Uri(

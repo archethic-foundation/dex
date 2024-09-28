@@ -8,194 +8,159 @@ import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:decimal/decimal.dart';
-import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
 @riverpod
-class FarmLockFormNotifier extends _$FarmLockFormNotifier {
-  FarmLockFormNotifier();
+FarmLockFormBalances farmLockFormBalances(
+  FarmLockFormBalancesRef ref,
+) {
+  final pool = ref.watch(farmLockFormPoolProvider).value;
 
-  static final _logger = Logger('FarmLockFormNotifier');
+  if (pool == null) return const FarmLockFormBalances();
 
-  @override
-  Future<FarmLockFormState> build() async {
-    final isConnected = ref.watch(
-      sessionNotifierProvider.select((session) => session.isConnected),
-    );
-    final environment = ref.watch(environmentProvider);
-
-    final pool = await ref.watch(
-      DexPoolProviders.getPool(
-        environment.aeETHUCOPoolAddress,
-      ).future,
-    );
-
-    final farm = await ref.watch(
-      DexFarmProviders.getFarmInfos(
-        environment.aeETHUCOFarmLegacyAddress,
-        environment.aeETHUCOPoolAddress,
-        dexFarmInput: DexFarm(
-          poolAddress: environment.aeETHUCOPoolAddress,
-          farmAddress: environment.aeETHUCOFarmLegacyAddress,
-        ),
-      ).future,
-    );
-
-    final farmLock = await ref.watch(
-      DexFarmLockProviders.getFarmLockInfos(
-        environment.aeETHUCOFarmLockAddress,
-        environment.aeETHUCOPoolAddress,
-        dexFarmLockInput: DexFarmLock(
-          poolAddress: environment.aeETHUCOPoolAddress,
-          farmAddress: environment.aeETHUCOFarmLockAddress,
-        ),
-      ).future,
-    );
-
-    var _tempState = const FarmLockFormState();
-    try {
-      // TODO(Chralu): [mainInfoloadingInProgress] is useless : provider state alredy indicates if it is loading.
-      _tempState = _tempState.copyWith(mainInfoloadingInProgress: true);
-
-      _tempState = _tempState.copyWith(
-        pool: pool,
-        farm: farm,
-        farmLock: farmLock,
-      );
-
-      if (farmLock != null) {
-        _tempState = await _calculateSummary(_tempState, isConnected);
-        _tempState = await _initBalances(_tempState, isConnected);
-      }
-      return _tempState.copyWith(mainInfoloadingInProgress: false);
-    } catch (e) {
-      _logger.warning(
-        '$e',
-      );
-      return _tempState.copyWith(mainInfoloadingInProgress: false);
-    }
-  }
-
-  Future<FarmLockFormState> _calculateSummary(
-    FarmLockFormState state,
-    bool isConnected,
-  ) async {
-    var capitalInvested = 0.0;
-    var rewardsEarned = 0.0;
-    var farmedTokensCapitalInFiat = 0.0;
-    var price = 0.0;
-
-    if (isConnected == false) {
-      return state.copyWith(
-        farmedTokensCapital: 0,
-        farmedTokensRewards: 0,
-        farmedTokensCapitalInFiat: 0,
-        farmedTokensRewardsInFiat: 0,
-      );
-    }
-
-    if (state.farmLock != null) {
-      state.farmLock!.userInfos.forEach((depositId, userInfos) {
-        capitalInvested = capitalInvested + userInfos.amount;
-        rewardsEarned = rewardsEarned + userInfos.rewardAmount;
-      });
-
-      if (state.farm != null) {
-        capitalInvested = capitalInvested + (state.farm!.depositedAmount ?? 0);
-        rewardsEarned = rewardsEarned + (state.farm!.rewardAmount ?? 0);
-      }
-
-      farmedTokensCapitalInFiat = await ref.watch(
-        DexTokensProviders.estimateLPTokenInFiat(
-          state.farmLock!.lpTokenPair!.token1.address,
-          state.farmLock!.lpTokenPair!.token2.address,
-          capitalInvested,
-          state.farmLock!.poolAddress,
-        ).future,
-      );
-
-      price = await ref.watch(
-        DexTokensProviders.estimateTokenInFiat(
-          state.farmLock!.rewardToken!.address,
-        ).future,
-      );
-    }
-
-    return state.copyWith(
-      farmedTokensCapital: capitalInvested,
-      farmedTokensRewards: rewardsEarned,
-      farmedTokensCapitalInFiat: farmedTokensCapitalInFiat,
-      farmedTokensRewardsInFiat:
-          (Decimal.parse('$price') * Decimal.parse('$rewardsEarned'))
-              .toDouble(),
-    );
-  }
-
-  Future<FarmLockFormState> _initBalances(
-    FarmLockFormState state,
-    bool isConnected,
-  ) async {
-    if (isConnected == false) {
-      return state.copyWith(
-        token1Balance: 0,
-        token2Balance: 0,
-        lpTokenBalance: 0,
-      );
-    }
-
-    final token1BalanceFuture = ref.watch(
-      getBalanceProvider(
-        state.pool!.pair.token1.address,
-      ).future,
-    );
-
-    final token2BalanceFuture = ref.watch(
-      getBalanceProvider(
-        state.pool!.pair.token2.address,
-      ).future,
-    );
-
-    final lpTokenBalanceFuture = ref.watch(
-      getBalanceProvider(
-        state.pool!.lpToken.address,
-      ).future,
-    );
-
-    final results = await Future.wait([
-      token1BalanceFuture,
-      token2BalanceFuture,
-      lpTokenBalanceFuture,
-    ]);
-
-    final token1Balance = results[0] as double?;
-    final token2Balance = results[1] as double?;
-    final lpTokenBalance = results[2] as double?;
-
-    return state.copyWith(
-      token1Balance: token1Balance ?? 0,
-      token2Balance: token2Balance ?? 0,
-      lpTokenBalance: lpTokenBalance ?? 0,
-    );
-  }
+  return FarmLockFormBalances(
+    token1Balance: ref
+            .watch(
+              getBalanceProvider(
+                pool.pair.token1.address,
+              ),
+            )
+            .value ??
+        0,
+    token2Balance: ref
+            .watch(
+              getBalanceProvider(
+                pool.pair.token2.address,
+              ),
+            )
+            .value ??
+        0,
+    lpTokenBalance: ref
+            .watch(
+              getBalanceProvider(
+                pool.lpToken.address,
+              ),
+            )
+            .value ??
+        0,
+  );
 }
 
 @riverpod
-List<DexFarmLockUserInfos> sortedUserFarmLocks(
-  SortedUserFarmLocksRef ref,
+FarmLockFormSummary farmLockFormSummary(
+  FarmLockFormSummaryRef ref,
+) {
+  final farm = ref.watch(farmLockFormFarmProvider).value;
+  final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
+
+  if (farm == null || farmLock == null) return const FarmLockFormSummary();
+
+  var capitalInvested = 0.0;
+  var rewardsEarned = 0.0;
+  var farmedTokensCapitalInFiat = 0.0;
+  var price = 0.0;
+
+  farmLock.userInfos.forEach((depositId, userInfos) {
+    capitalInvested = capitalInvested + userInfos.amount;
+    rewardsEarned = rewardsEarned + userInfos.rewardAmount;
+  });
+
+  capitalInvested = capitalInvested + (farm.depositedAmount ?? 0);
+  rewardsEarned = rewardsEarned + (farm.rewardAmount ?? 0);
+
+  farmedTokensCapitalInFiat = ref
+          .watch(
+            DexTokensProviders.estimateLPTokenInFiat(
+              farmLock.lpTokenPair!.token1.address,
+              farmLock.lpTokenPair!.token2.address,
+              capitalInvested,
+              farmLock.poolAddress,
+            ),
+          )
+          .value ??
+      0;
+
+  price = ref
+          .watch(
+            DexTokensProviders.estimateTokenInFiat(
+              farmLock.rewardToken!.address,
+            ),
+          )
+          .value ??
+      0;
+
+  return FarmLockFormSummary(
+    farmedTokensCapital: capitalInvested,
+    farmedTokensRewards: rewardsEarned,
+    farmedTokensCapitalInFiat: farmedTokensCapitalInFiat,
+    farmedTokensRewardsInFiat:
+        (Decimal.parse('$price') * Decimal.parse('$rewardsEarned')).toDouble(),
+  );
+}
+
+@riverpod
+Future<DexPool?> farmLockFormPool(FarmLockFormPoolRef ref) {
+  final environment = ref.watch(environmentProvider);
+  return ref.watch(
+    DexPoolProviders.getPool(
+      environment.aeETHUCOPoolAddress,
+    ).future,
+  );
+}
+
+@riverpod
+Future<DexFarm?> farmLockFormFarm(FarmLockFormFarmRef ref) {
+  final environment = ref.watch(environmentProvider);
+  return ref.watch(
+    DexFarmProviders.getFarmInfos(
+      environment.aeETHUCOFarmLegacyAddress,
+      environment.aeETHUCOPoolAddress,
+      dexFarmInput: DexFarm(
+        poolAddress: environment.aeETHUCOPoolAddress,
+        farmAddress: environment.aeETHUCOFarmLegacyAddress,
+      ),
+    ).future,
+  );
+}
+
+@riverpod
+Future<DexFarmLock?> farmLockFormFarmLock(
+  FarmLockFormFarmLockRef ref,
+) {
+  final environment = ref.watch(environmentProvider);
+
+  return ref.watch(
+    DexFarmLockProviders.getFarmLockInfos(
+      environment.aeETHUCOFarmLockAddress,
+      environment.aeETHUCOPoolAddress,
+      dexFarmLockInput: DexFarmLock(
+        poolAddress: environment.aeETHUCOPoolAddress,
+        farmAddress: environment.aeETHUCOFarmLockAddress,
+      ),
+    ).future,
+  );
+}
+
+@riverpod
+Future<List<DexFarmLockUserInfos>> farmLockFormSortedUserFarmLocks(
+  FarmLockFormSortedUserFarmLocksRef ref,
   String? sortBy,
   bool? ascending,
-) {
-  final farmLockForm = ref.watch(farmLockFormNotifierProvider).value;
+) async {
+  final farmLock = await ref.watch(
+    farmLockFormFarmLockProvider.future,
+  );
 
-  if (farmLockForm == null) return [];
+  final userInfoEntries = farmLock?.userInfos.entries;
 
-  final userFarmLocks = farmLockForm.farmLock!.userInfos.entries
-      .map((entry) => entry.value)
-      .toList();
+  if (userInfoEntries == null) return [];
+
+  final userFarmLocks = userInfoEntries.map((entry) => entry.value).toList();
 
   if (sortBy == null) {
     return userFarmLocks;

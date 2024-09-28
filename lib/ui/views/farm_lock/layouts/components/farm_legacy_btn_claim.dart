@@ -1,8 +1,9 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -27,16 +28,15 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(sessionNotifierProvider);
+    final farm = ref.watch(farmLockFormFarmProvider).value;
+    final pool = ref.watch(farmLockFormPoolProvider).value;
+    final isLoading = farm == null || pool == null;
 
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
-            onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
+            onTap: enabled == false || isLoading
                 ? null
-                : () async {
-                    await _validate(context, ref);
-                  },
+                : () => _validate(context, farm, pool),
             child: Column(
               children: [
                 Container(
@@ -49,7 +49,7 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
                         : aedappfm.AppThemeBase.gradient,
                     shape: BoxShape.circle,
                   ),
-                  child: farmLockForm.mainInfoloadingInProgress
+                  child: isLoading
                       ? const SizedBox(
                           width: 16,
                           height: 16,
@@ -87,8 +87,9 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
         : ButtonValidateMobile(
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmDetailsButtonClaim,
-            onPressed: () async {
-              await _validate(context, ref);
+            onPressed: () {
+              if (isLoading) return;
+              _validate(context, farm, pool);
             },
             displayWalletConnect: true,
             isConnected: session.isConnected,
@@ -120,23 +121,23 @@ class FarmLegacyBtnClaim extends ConsumerWidget {
             .scale(duration: const Duration(milliseconds: 400));
   }
 
-  Future<void> _validate(BuildContext context, WidgetRef ref) async {
-    final farmLockForm = ref.read(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
-
-    if (context.mounted) {
-      await context.push(
-        Uri(
-          path: FarmClaimSheet.routerPage,
-          queryParameters: {
-            'farmAddress': farmLockForm.farm!.farmAddress.encodeParam(),
-            'rewardToken': farmLockForm.farm!.rewardToken.encodeParam(),
-            'poolAddress': farmLockForm.farm!.poolAddress.encodeParam(),
-            'lpTokenAddress': farmLockForm.pool!.lpToken.address.encodeParam(),
-            'rewardAmount': farmLockForm.farm!.rewardAmount.encodeParam(),
-          },
-        ).toString(),
-      );
-    }
+  Future<void> _validate(
+    BuildContext context,
+    DexFarm farm,
+    DexPool pool,
+  ) async {
+    if (!context.mounted) return;
+    await context.push(
+      Uri(
+        path: FarmClaimSheet.routerPage,
+        queryParameters: {
+          'farmAddress': farm.farmAddress.encodeParam(),
+          'rewardToken': farm.rewardToken.encodeParam(),
+          'poolAddress': farm.poolAddress.encodeParam(),
+          'lpTokenAddress': pool.lpToken.address.encodeParam(),
+          'rewardAmount': farm.rewardAmount.encodeParam(),
+        },
+      ).toString(),
+    );
   }
 }

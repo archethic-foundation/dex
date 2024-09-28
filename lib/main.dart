@@ -49,7 +49,7 @@ class ProvidersInitialization extends ConsumerWidget {
       ..watch(verifiedTokensProvider)
       ..watch(DexTokensProviders.tokensFromAccount)
       ..watch(poolsToDisplayProvider)
-      ..watch(farmLockFormNotifierProvider);
+      ..watch(farmLockFormFarmLockProvider);
 
     return child;
   }

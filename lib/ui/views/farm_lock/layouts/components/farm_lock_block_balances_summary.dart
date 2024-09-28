@@ -1,5 +1,4 @@
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/util/components/block_info.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -23,64 +22,64 @@ class FarmLockBlockBalanceSummary extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+    final balances = ref.watch(farmLockFormBalancesProvider);
+    final pool = ref.watch(farmLockFormPoolProvider).value;
 
     return BlockInfo(
-      info: Column(
-        children: [
-          Row(
-            children: [
-              SelectableText(
-                AppLocalizations.of(context)!.farmLockBlockBalanceSummaryHeader,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: aedappfm.AppThemeBase.secondaryColor,
-                      fontWeight: FontWeight.w500,
+      info: (pool == null)
+          ? const SizedBox.shrink()
+          : Column(
+              children: [
+                Row(
+                  children: [
+                    SelectableText(
+                      AppLocalizations.of(context)!
+                          .farmLockBlockBalanceSummaryHeader,
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: aedappfm.AppThemeBase.secondaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
-              ),
-            ],
-          ),
-          if (farmLockForm.pool != null)
-            Row(
-              children: [
-                DexTokenBalance(
-                  tokenBalance: farmLockForm.token1Balance,
-                  token: farmLockForm.pool!.pair.token1,
-                  digits: farmLockForm.token1Balance < 1 ? 8 : 2,
-                  pool: farmLockForm.pool,
-                  fiatTextStyleMedium: true,
-                  styleResponsive: false,
+                  ],
+                ),
+                Row(
+                  children: [
+                    DexTokenBalance(
+                      tokenBalance: balances.token1Balance,
+                      token: pool.pair.token1,
+                      digits: balances.token1Balance < 1 ? 8 : 2,
+                      pool: pool,
+                      fiatTextStyleMedium: true,
+                      styleResponsive: false,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    DexTokenBalance(
+                      tokenBalance: balances.token2Balance,
+                      token: pool.pair.token2,
+                      digits: balances.token2Balance < 1 ? 8 : 2,
+                      pool: pool,
+                      fiatTextStyleMedium: true,
+                      styleResponsive: false,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    DexTokenBalance(
+                      tokenBalance: balances.lpTokenBalance,
+                      token: pool.lpToken,
+                      digits: balances.lpTokenBalance < 1 ? 8 : 2,
+                      pool: pool,
+                      fiatTextStyleMedium: true,
+                      styleResponsive: false,
+                    ),
+                  ],
                 ),
               ],
             ),
-          if (farmLockForm.pool != null)
-            Row(
-              children: [
-                DexTokenBalance(
-                  tokenBalance: farmLockForm.token2Balance,
-                  token: farmLockForm.pool!.pair.token2,
-                  digits: farmLockForm.token2Balance < 1 ? 8 : 2,
-                  pool: farmLockForm.pool,
-                  fiatTextStyleMedium: true,
-                  styleResponsive: false,
-                ),
-              ],
-            ),
-          if (farmLockForm.pool != null)
-            Row(
-              children: [
-                DexTokenBalance(
-                  tokenBalance: farmLockForm.lpTokenBalance,
-                  token: farmLockForm.pool!.lpToken,
-                  digits: farmLockForm.lpTokenBalance < 1 ? 8 : 2,
-                  pool: farmLockForm.pool,
-                  fiatTextStyleMedium: true,
-                  styleResponsive: false,
-                ),
-              ],
-            ),
-        ],
-      ),
       height: height,
       width: width,
     );

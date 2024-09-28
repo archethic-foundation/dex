@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn_claim.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn_level_up.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn_withdraw.dart';
@@ -31,8 +30,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+    final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
 
     var isFlexDuration = false;
     var progressPercentage = 0.0;
@@ -111,13 +109,12 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                               SelectableText(
                                                 ref.watch(
                                                   dexLPTokenFiatValueProvider(
-                                                    farmLockForm.farmLock!
+                                                    farmLock!
                                                         .lpTokenPair!.token1,
-                                                    farmLockForm.farmLock!
+                                                    farmLock
                                                         .lpTokenPair!.token2,
                                                     farmLockUserInfos.amount,
-                                                    farmLockForm
-                                                        .farmLock!.poolAddress,
+                                                    farmLock.poolAddress,
                                                   ),
                                                 ),
                                                 style: AppTextStyles.bodySmall(
@@ -137,14 +134,13 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                           child: Column(
                                             children: [
                                               SelectableText(
-                                                '${farmLockUserInfos.rewardAmount.formatNumber(precision: farmLockUserInfos.rewardAmount < 1 ? 8 : 3)} ${farmLockForm.farmLock!.rewardToken!.symbol}',
+                                                '${farmLockUserInfos.rewardAmount.formatNumber(precision: farmLockUserInfos.rewardAmount < 1 ? 8 : 3)} ${farmLock.rewardToken!.symbol}',
                                                 style: style,
                                               ),
                                               FutureBuilder<String>(
                                                 future: FiatValue().display(
                                                   ref,
-                                                  farmLockForm
-                                                      .farmLock!.rewardToken!,
+                                                  farmLock.rewardToken!,
                                                   farmLockUserInfos
                                                       .rewardAmount,
                                                 ),
@@ -233,9 +229,8 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         width: constraints.maxWidth * 0.15,
                                         child: Center(
                                           child: Text(
-                                            farmLockForm.farmLock!
-                                                    .availableLevels.isNotEmpty
-                                                ? '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLockForm.farmLock!.availableLevels.entries.last.key}'
+                                            farmLock.availableLevels.isNotEmpty
+                                                ? '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}'
                                                 : 'N/A',
                                             style: style,
                                           ),
@@ -264,19 +259,14 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                         lpTokenAmount: farmLockUserInfos.amount,
                                         depositId: farmLockUserInfos.id,
                                         currentLevel: farmLockUserInfos.level,
-                                        enabled:
-                                            farmLockForm.farmLock!.isOpen &&
+                                        enabled: farmLock.isOpen &&
+                                            int.tryParse(
+                                                  farmLockUserInfos.level,
+                                                )! <
                                                 int.tryParse(
-                                                      farmLockUserInfos.level,
-                                                    )! <
-                                                    int.tryParse(
-                                                      farmLockForm
-                                                          .farmLock!
-                                                          .availableLevels
-                                                          .entries
-                                                          .last
-                                                          .key,
-                                                    )!,
+                                                  farmLock.availableLevels
+                                                      .entries.last.key,
+                                                )!,
                                         rewardAmount:
                                             farmLockUserInfos.rewardAmount,
                                       ),
@@ -351,13 +341,12 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                               SelectableText(
                                                 ref.watch(
                                                   dexLPTokenFiatValueProvider(
-                                                    farmLockForm.farmLock!
+                                                    farmLock!
                                                         .lpTokenPair!.token1,
-                                                    farmLockForm.farmLock!
+                                                    farmLock
                                                         .lpTokenPair!.token2,
                                                     farmLockUserInfos.amount,
-                                                    farmLockForm
-                                                        .farmLock!.poolAddress,
+                                                    farmLock.poolAddress,
                                                   ),
                                                 ),
                                                 style: Theme.of(context)
@@ -384,7 +373,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    '${farmLockUserInfos.rewardAmount.formatNumber(precision: farmLockUserInfos.rewardAmount < 1 ? 8 : 3)} ${farmLockForm.farmLock!.rewardToken!.symbol}',
+                                                    '${farmLockUserInfos.rewardAmount.formatNumber(precision: farmLockUserInfos.rewardAmount < 1 ? 8 : 3)} ${farmLock.rewardToken!.symbol}',
                                                     style: style,
                                                   ),
                                                 ],
@@ -392,8 +381,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                               FutureBuilder<String>(
                                                 future: FiatValue().display(
                                                   ref,
-                                                  farmLockForm
-                                                      .farmLock!.rewardToken!,
+                                                  farmLock.rewardToken!,
                                                   farmLockUserInfos
                                                       .rewardAmount,
                                                 ),
@@ -494,11 +482,9 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                     style: styleHeader,
                                                   ),
                                                   SelectableText(
-                                                    farmLockForm
-                                                            .farmLock!
-                                                            .availableLevels
+                                                    farmLock.availableLevels
                                                             .isNotEmpty
-                                                        ? '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLockForm.farmLock!.availableLevels.entries.last.key}'
+                                                        ? '${AppLocalizations.of(context)!.lvl} ${farmLockUserInfos.level}/${farmLock.availableLevels.entries.last.key}'
                                                         : 'N/A',
                                                     style: style,
                                                   ),
@@ -556,8 +542,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                                                                 .level,
                                                           )! <
                                                           int.tryParse(
-                                                            farmLockForm
-                                                                .farmLock!
+                                                            farmLock
                                                                 .availableLevels
                                                                 .entries
                                                                 .last

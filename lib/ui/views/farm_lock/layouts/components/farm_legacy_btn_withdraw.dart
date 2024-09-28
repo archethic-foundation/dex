@@ -1,7 +1,8 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/domain/models/dex_farm.dart';
+import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
@@ -27,16 +28,16 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(sessionNotifierProvider);
-
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+    final farm = ref.watch(farmLockFormFarmProvider).value;
+    final pool = ref.watch(farmLockFormPoolProvider).value;
+    final isLoading = farm == null || pool == null;
 
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
-            onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
+            onTap: enabled == false || isLoading
                 ? null
                 : () async {
-                    await _validate(context, ref);
+                    await _validate(context, farm, pool);
                   },
             child: Column(
               children: [
@@ -50,7 +51,7 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
                         : aedappfm.AppThemeBase.gradient,
                     shape: BoxShape.circle,
                   ),
-                  child: farmLockForm.mainInfoloadingInProgress
+                  child: isLoading
                       ? const SizedBox(
                           width: 16,
                           height: 16,
@@ -89,7 +90,8 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
             onPressed: () async {
-              await _validate(context, ref);
+              if (isLoading) return;
+              await _validate(context, farm, pool);
             },
             displayWalletConnect: true,
             isConnected: session.isConnected,
@@ -121,22 +123,23 @@ class FarmLegacyBtnWithdraw extends ConsumerWidget {
             .scale(duration: const Duration(milliseconds: 300));
   }
 
-  Future<void> _validate(BuildContext context, WidgetRef ref) async {
-    final farmLockForm = ref.read(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+  Future<void> _validate(
+    BuildContext context,
+    DexFarm farm,
+    DexPool pool,
+  ) async {
+    if (!context.mounted) return;
 
-    if (context.mounted) {
-      await context.push(
-        Uri(
-          path: FarmWithdrawSheet.routerPage,
-          queryParameters: {
-            'farmAddress': farmLockForm.farm!.farmAddress.encodeParam(),
-            'rewardToken': farmLockForm.farm!.rewardToken.encodeParam(),
-            'lpTokenAddress': farmLockForm.pool!.lpToken.address.encodeParam(),
-            'poolAddress': farmLockForm.pool!.poolAddress.encodeParam(),
-          },
-        ).toString(),
-      );
-    }
+    await context.push(
+      Uri(
+        path: FarmWithdrawSheet.routerPage,
+        queryParameters: {
+          'farmAddress': farm.farmAddress.encodeParam(),
+          'rewardToken': farm.rewardToken.encodeParam(),
+          'lpTokenAddress': pool.lpToken.address.encodeParam(),
+          'poolAddress': pool.poolAddress.encodeParam(),
+        },
+      ).toString(),
+    );
   }
 }

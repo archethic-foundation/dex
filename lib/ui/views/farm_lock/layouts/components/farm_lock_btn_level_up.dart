@@ -1,7 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/farm_lock_level_up_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
@@ -35,12 +34,14 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final session = ref.watch(sessionNotifierProvider);
+    final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
+    final pool = ref.watch(farmLockFormPoolProvider).value;
+    final farm = ref.watch(farmLockFormFarmProvider).value;
+    final isLoading = farmLock == null || pool == null || farm == null;
 
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
-            onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
+            onTap: enabled == false || isLoading
                 ? null
                 : () async {
                     await _validate(context, ref);
@@ -57,7 +58,7 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
                         : aedappfm.AppThemeBase.gradient,
                     shape: BoxShape.circle,
                   ),
-                  child: farmLockForm.mainInfoloadingInProgress
+                  child: isLoading
                       ? const SizedBox(
                           width: 16,
                           height: 16,
@@ -129,22 +130,22 @@ class FarmLockBtnLevelUp extends ConsumerWidget {
   }
 
   Future<void> _validate(BuildContext context, WidgetRef ref) async {
-    final farmLockForm = ref.read(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
-    if (context.mounted) {
-      await context.push(
-        Uri(
-          path: FarmLockLevelUpSheet.routerPage,
-          queryParameters: {
-            'pool': farmLockForm.pool!.toJson().encodeParam(),
-            'farmLock': farmLockForm.farmLock!.toJson().encodeParam(),
-            'depositId': depositId.encodeParam(),
-            'currentLevel': currentLevel.encodeParam(),
-            'lpAmount': lpTokenAmount.encodeParam(),
-            'rewardAmount': rewardAmount.encodeParam(),
-          },
-        ).toString(),
-      );
-    }
+    if (!context.mounted) return;
+
+    final farmLock = ref.read(farmLockFormFarmLockProvider).value;
+    final pool = ref.read(farmLockFormPoolProvider).value;
+    await context.push(
+      Uri(
+        path: FarmLockLevelUpSheet.routerPage,
+        queryParameters: {
+          'pool': pool!.toJson().encodeParam(),
+          'farmLock': farmLock!.toJson().encodeParam(),
+          'depositId': depositId.encodeParam(),
+          'currentLevel': currentLevel.encodeParam(),
+          'lpAmount': lpTokenAmount.encodeParam(),
+          'rewardAmount': rewardAmount.encodeParam(),
+        },
+      ).toString(),
+    );
   }
 }

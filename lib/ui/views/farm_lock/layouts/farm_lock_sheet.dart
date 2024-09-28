@@ -1,8 +1,5 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
-import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_header.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_list_header.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_list_single_line_legacy.dart';
@@ -48,7 +45,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
     super.initState();
   }
 
-  void _onSort(String column, bool ascending, List<DexFarmLockUserInfos> data) {
+  void _onSort(String column, bool ascending) {
     setState(() {
       if (currentSortedColumn != column) {
         sortAscending[column] = true;
@@ -61,25 +58,27 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
-
     return MainScreenList(
-      body: _body(context, ref, farmLockForm.pool),
+      body: _body(context, ref),
       bodyVerticalAlignment: Alignment.topCenter,
     );
   }
 
-  Widget _body(BuildContext context, WidgetRef ref, DexPool? pool) {
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+  Widget _body(BuildContext context, WidgetRef ref) {
+    final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
+    final pool = ref.watch(farmLockFormPoolProvider).value;
+    final farm = ref.watch(farmLockFormFarmProvider).value;
+
     final session = ref.watch(sessionNotifierProvider);
-    final sortedUserInfos = ref.watch(
-      sortedUserFarmLocksProvider(
-        currentSortedColumn,
-        sortAscending[currentSortedColumn],
-      ),
-    );
+    final sortedUserInfos = ref
+            .watch(
+              farmLockFormSortedUserFarmLocksProvider(
+                currentSortedColumn,
+                sortAscending[currentSortedColumn],
+              ),
+            )
+            .value ??
+        [];
     return Padding(
       padding: EdgeInsets.only(
         top: aedappfm.Responsive.isDesktop(context) ||
@@ -103,7 +102,6 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                 onSort: _onSort,
                 sortAscending: sortAscending,
                 currentSortedColumn: currentSortedColumn,
-                sortedUserInfos: sortedUserInfos,
               ),
             if (session.isConnected)
               const SizedBox(
@@ -114,13 +112,12 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                 thumbVisibility: false,
                 child: Column(
                   children: [
-                    if (farmLockForm.farm != null)
-                      const FarmLockBlockListSingleLineLegacy(),
+                    if (farm != null) const FarmLockBlockListSingleLineLegacy(),
                     const SizedBox(
                       height: 6,
                     ),
                     if (session.isConnected &&
-                        farmLockForm.farmLock != null &&
+                        farmLock != null &&
                         sortedUserInfos.isNotEmpty)
                       ...sortedUserInfos.map((userInfo) {
                         return FarmLockBlockListSingleLineLock(
@@ -130,7 +127,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                     const SizedBox(
                       height: 6,
                     ),
-                    if (farmLockForm.pool != null)
+                    if (pool != null)
                       Opacity(
                         opacity: AppTextStyles.kOpacityText,
                         child: Padding(
@@ -142,8 +139,8 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   ArchethicOraclePair(
-                                    token1: farmLockForm.pool!.pair.token1,
-                                    token2: farmLockForm.pool!.pair.token2,
+                                    token1: pool.pair.token1,
+                                    token2: pool.pair.token2,
                                   ),
                                 ],
                               ),

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
@@ -38,10 +37,8 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
   ) {
     final session = ref.watch(sessionNotifierProvider);
 
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
+    final pool = ref.watch(farmLockFormPoolProvider).value;
 
-    final pool = farmLockForm.pool;
     return BlockInfo(
       info: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,10 +154,9 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
   }
 
   Widget _btnConnected(BuildContext context, WidgetRef ref) {
-    final farmLockForm = ref.watch(farmLockFormNotifierProvider).value ??
-        const FarmLockFormState();
-
-    final isLoading = farmLockForm.pool == null;
+    final farm = ref.watch(farmLockFormFarmProvider).value;
+    final pool = ref.watch(farmLockFormPoolProvider).value;
+    final isLoading = farm == null || pool == null;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -198,9 +194,9 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                                     height: 500,
                                     child: PoolListItem(
                                       key: ValueKey(
-                                        farmLockForm.pool!.poolAddress,
+                                        pool.poolAddress,
                                       ),
-                                      pool: farmLockForm.pool!,
+                                      pool: pool,
                                       heightCard: 440,
                                     )
                                         .animate()
@@ -236,8 +232,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 onTap: isLoading
                     ? null
                     : () async {
-                        final poolJson =
-                            jsonEncode(farmLockForm.pool!.toJson());
+                        final poolJson = jsonEncode(pool.toJson());
                         final poolEncoded = Uri.encodeComponent(poolJson);
                         await context.push(
                           Uri(
@@ -263,12 +258,9 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
                 onTap: isLoading
                     ? null
                     : () async {
-                        final poolJson =
-                            jsonEncode(farmLockForm.pool!.toJson());
-                        final pairJson =
-                            jsonEncode(farmLockForm.pool!.pair.toJson());
-                        final lpTokenJson =
-                            jsonEncode(farmLockForm.pool!.lpToken.toJson());
+                        final poolJson = jsonEncode(pool.toJson());
+                        final pairJson = jsonEncode(pool.pair.toJson());
+                        final lpTokenJson = jsonEncode(pool.lpToken.toJson());
                         final poolEncoded = Uri.encodeComponent(poolJson);
                         final pairEncoded = Uri.encodeComponent(pairJson);
                         final lpTokenEncoded = Uri.encodeComponent(lpTokenJson);
