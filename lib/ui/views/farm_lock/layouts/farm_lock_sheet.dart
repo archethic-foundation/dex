@@ -7,6 +7,7 @@ import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_head
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_list_header.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_list_single_line_legacy.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_block_list_single_line_lock.dart';
+import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco_aeeth.dart';
@@ -37,6 +38,15 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
   };
 
   String currentSortedColumn = 'level';
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.earn;
+    });
+    super.initState();
+  }
 
   void _onSort(String column, bool ascending, List<DexFarmLockUserInfos> data) {
     setState(() {
