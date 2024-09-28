@@ -39,7 +39,9 @@ class _PoolRefreshIconState extends ConsumerState<PoolRefreshIcon> {
           },
         );
 
-        ref.invalidate(DexPoolProviders.getPool(widget.poolAddress));
+        ref
+          ..invalidate(DexPoolProviders.poolInfos(widget.poolAddress))
+          ..invalidate(DexPoolProviders.estimateStats(widget.poolAddress));
 
         await Future.delayed(const Duration(seconds: 3));
         if (mounted) {
