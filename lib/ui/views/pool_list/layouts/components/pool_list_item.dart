@@ -45,21 +45,34 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
     poolStats = DexPoolStats.empty();
     poolInfos = DexPoolInfos.empty(pool: widget.pool);
 
-    Future(() async {
-      final newPoolInfos = await ref.read(
-        DexPoolProviders.poolInfos(widget.pool.poolAddress).future,
-      );
-      final newPoolStats = await ref.read(
-        DexPoolProviders.estimateStats(widget.pool.poolAddress).future,
-      );
-      if (mounted) {
-        setState(() {
-          poolStats = newPoolStats;
-          poolInfos = newPoolInfos;
-        });
-      }
-    });
+    Future(_loadPoolDetails);
     super.initState();
+  }
+
+  /// We don't watch providers here on purpose.
+  /// We do not want oracle updates to trigger a bunch of
+  /// reload for each displayed pool.
+  /// Refreshes are manually triggered by user.
+  Future<void> _loadPoolDetails() async {
+    final poolInfosProvider =
+        DexPoolProviders.poolInfos(widget.pool.poolAddress);
+    ref.invalidate(poolInfosProvider);
+    final newPoolInfos = await ref.read(
+      poolInfosProvider.future,
+    );
+
+    final poolStatsProvider =
+        DexPoolProviders.estimateStats(widget.pool.poolAddress);
+    ref.invalidate(poolStatsProvider);
+    final newPoolStats = await ref.read(
+      poolStatsProvider.future,
+    );
+    if (mounted) {
+      setState(() {
+        poolStats = newPoolStats;
+        poolInfos = newPoolInfos;
+      });
+    }
   }
 
   @override
@@ -118,6 +131,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                 padding: const EdgeInsets.only(right: 5),
                 child: PoolRefreshIcon(
                   poolAddress: widget.pool.poolAddress,
+                  onRefresh: _loadPoolDetails,
                 ),
               ),
               Padding(
