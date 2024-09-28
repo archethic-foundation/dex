@@ -30,7 +30,7 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         ref.read(liquidityAddFormNotifierProvider.notifier)
           ..setPoolsListTab(widget.poolsListTab)

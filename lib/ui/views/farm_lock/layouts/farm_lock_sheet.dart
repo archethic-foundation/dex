@@ -41,7 +41,7 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.earn;
     });

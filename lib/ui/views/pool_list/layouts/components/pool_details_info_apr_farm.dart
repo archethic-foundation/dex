@@ -28,7 +28,7 @@ class PoolDetailsInfoAPRFarmState
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       if (!mounted) return;
       final farmLockAddress =
           ref.read(environmentProvider).aeETHUCOFarmLockAddress;

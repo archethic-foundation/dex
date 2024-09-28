@@ -36,7 +36,7 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         ref.read(farmClaimFormNotifierProvider.notifier)
           ..setFarmAddress(widget.farmAddress)

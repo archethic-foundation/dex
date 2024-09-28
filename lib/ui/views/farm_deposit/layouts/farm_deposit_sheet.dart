@@ -31,7 +31,7 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         final farmInfo = await ref.read(
           DexFarmProviders.getFarmInfos(

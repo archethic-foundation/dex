@@ -33,7 +33,7 @@ class SwapSheet extends ConsumerStatefulWidget {
 class _SwapSheetState extends ConsumerState<SwapSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.swap;
     });

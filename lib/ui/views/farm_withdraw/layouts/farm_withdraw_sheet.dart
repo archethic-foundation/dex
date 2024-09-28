@@ -37,7 +37,7 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         ref.read(farmWithdrawFormNotifierProvider.notifier)
           ..setFarmAddress(widget.farmAddress)

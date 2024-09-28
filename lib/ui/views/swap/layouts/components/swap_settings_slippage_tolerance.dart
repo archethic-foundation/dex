@@ -34,7 +34,7 @@ class SwapSettingsSlippageToleranceState
     slippageToleranceFocusNode = FocusNode();
     slippageToleranceController =
         TextEditingController(text: swap.slippageTolerance.toString());
-    Future.delayed(Duration.zero, () {
+    Future(() {
       ref.read(swapFormNotifierProvider.notifier).setTokenFormSelected(0);
     });
   }

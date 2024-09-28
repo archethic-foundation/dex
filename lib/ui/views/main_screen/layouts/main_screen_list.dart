@@ -35,7 +35,7 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
 
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
-      Future.delayed(Duration.zero, () {
+      Future(() {
         showDialog(
           context: context,
           builder: (BuildContext context) {

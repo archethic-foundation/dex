@@ -33,7 +33,7 @@ class PoolAddSheet extends ConsumerStatefulWidget {
 class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       ref
           .read(poolAddFormNotifierProvider.notifier)
           .setPoolsListTab(widget.poolsListTab);

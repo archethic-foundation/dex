@@ -41,7 +41,7 @@ class SwapFormSheet extends ConsumerStatefulWidget {
 class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         if (widget.value != null) {
           ref.read(swapFormNotifierProvider.notifier)

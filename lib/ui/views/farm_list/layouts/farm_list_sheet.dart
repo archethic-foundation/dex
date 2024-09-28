@@ -2,7 +2,6 @@ import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ class FarmListSheet extends ConsumerStatefulWidget {
 class _FarmListSheetState extends ConsumerState<FarmListSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       await ref.read(FarmListFormProvider.farmListForm.notifier).getFarmsList(
             cancelToken: UniqueKey().toString(),
           );
