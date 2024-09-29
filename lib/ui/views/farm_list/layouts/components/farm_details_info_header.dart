@@ -39,12 +39,8 @@ class FarmDetailsInfoHeader extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 3),
                   child: DexPairIcons(
-                    token1Address: farm.lpTokenPair!.token1.address == null
-                        ? 'UCO'
-                        : farm.lpTokenPair!.token1.address!,
-                    token2Address: farm.lpTokenPair!.token2.address == null
-                        ? 'UCO'
-                        : farm.lpTokenPair!.token2.address!,
+                    token1Address: farm.lpTokenPair!.token1.address,
+                    token2Address: farm.lpTokenPair!.token2.address,
                     iconSize: 22,
                   ),
                 ),

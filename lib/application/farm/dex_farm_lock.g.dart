@@ -7,7 +7,7 @@ part of 'dex_farm_lock.dart';
 // **************************************************************************
 
 String _$dexFarmLockRepositoryHash() =>
-    r'06c81e91f5c7e027005bdb0fffa7fc6444beeec3';
+    r'083507069f84dbdc8a4c5fd5b6fb9d5a5838f94e';
 
 /// See also [_dexFarmLockRepository].
 @ProviderFor(_dexFarmLockRepository)
@@ -24,7 +24,7 @@ final _dexFarmLockRepositoryProvider =
 
 typedef _DexFarmLockRepositoryRef
     = AutoDisposeProviderRef<DexFarmLockRepositoryImpl>;
-String _$getFarmLockInfosHash() => r'2a3d1cbaee4f25b265e00c9c505d09eeb09424c8';
+String _$getFarmLockInfosHash() => r'707c18d05824bedce2272a7bd78ac4e1304d2248';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -1,10 +1,10 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -19,8 +19,7 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmLockClaim =
-        ref.watch(FarmLockClaimFormProvider.farmLockClaimForm);
+    final farmLockClaim = ref.watch(farmLockClaimFormNotifierProvider);
     if (farmLockClaim.rewardAmount == null) {
       return const Padding(
         padding: EdgeInsets.only(top: 60, bottom: 60),
@@ -32,6 +31,7 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
       );
     }
 
+    final session = ref.watch(sessionNotifierProvider);
     return Expanded(
       child: Column(
         children: [
@@ -175,25 +175,18 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmLockClaim.isControlsOk &&
-                                  ref
-                                      .watch(SessionProviders.session)
-                                      .isConnected,
+                                  session.isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_lock_claim,
                               onPressed: () => ref
                                   .read(
-                                    FarmLockClaimFormProvider
-                                        .farmLockClaimForm.notifier,
+                                    farmLockClaimFormNotifierProvider.notifier,
                                   )
-                                  .validateForm(context),
+                                  .validateForm(),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
                                 final session =
-                                    ref.read(SessionProviders.session);
+                                    ref.read(sessionNotifierProvider);
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -222,7 +215,9 @@ class FarmLockClaimFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.pop();
+                                context.popOrGo(
+                                  FarmLockSheet.routerPage2,
+                                );
                               },
                             ),
                           ),

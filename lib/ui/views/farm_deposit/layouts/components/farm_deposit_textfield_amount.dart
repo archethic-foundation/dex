@@ -2,7 +2,6 @@ import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
   }
 
   void _updateAmountTextController() {
-    final farmDeposit = ref.read(FarmDepositFormProvider.farmDepositForm);
+    final farmDeposit = ref.read(farmDepositFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value = aedappfm.AmountTextInputFormatter(
       precision: 8,
@@ -59,9 +58,9 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
     BuildContext context,
   ) {
     final farmDepositNotifier =
-        ref.watch(FarmDepositFormProvider.farmDepositForm.notifier);
+        ref.watch(farmDepositFormNotifierProvider.notifier);
 
-    final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
+    final farmDeposit = ref.watch(farmDepositFormNotifierProvider);
     final textNum = double.tryParse(tokenAmountController.text);
     if (!(farmDeposit.amount != 0.0 ||
         tokenAmountController.text == '' ||
@@ -176,12 +175,13 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                   width: 5,
                 ),
                 SelectableText(
-                  DEXLPTokenFiatValue().display(
-                    ref,
-                    farmDeposit.dexFarmInfo!.lpTokenPair!.token1,
-                    farmDeposit.dexFarmInfo!.lpTokenPair!.token2,
-                    farmDeposit.lpTokenBalance,
-                    farmDeposit.dexFarmInfo!.poolAddress,
+                  ref.watch(
+                    dexLPTokenFiatValueProvider(
+                      farmDeposit.dexFarmInfo!.lpTokenPair!.token1,
+                      farmDeposit.dexFarmInfo!.lpTokenPair!.token2,
+                      farmDeposit.lpTokenBalance,
+                      farmDeposit.dexFarmInfo!.poolAddress,
+                    ),
                   ),
                   style: AppTextStyles.bodyLarge(context),
                 ),
@@ -197,7 +197,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                   onTap: () {
                     ref
                         .read(
-                          FarmDepositFormProvider.farmDepositForm.notifier,
+                          farmDepositFormNotifierProvider.notifier,
                         )
                         .setAmountHalf();
                     _updateAmountTextController();
@@ -211,7 +211,7 @@ class _FarmDepositToken1AmountState extends ConsumerState<FarmDepositAmount> {
                   onTap: () {
                     ref
                         .read(
-                          FarmDepositFormProvider.farmDepositForm.notifier,
+                          farmDepositFormNotifierProvider.notifier,
                         )
                         .setAmountMax();
                     _updateAmountTextController();

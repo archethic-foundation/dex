@@ -1,5 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
@@ -41,16 +39,12 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.earn;
 
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
-        ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
+        ref.read(farmLockLevelUpFormNotifierProvider.notifier)
           ..setDexPool(widget.pool)
           ..setDexFarmLock(widget.farmLock)
           ..setDepositId(widget.depositId)
@@ -60,11 +54,11 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
           ..setAPREstimation(widget.farmLock.apr3years * 100);
 
         await ref
-            .read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
+            .read(farmLockLevelUpFormNotifierProvider.notifier)
             .initBalances();
 
         ref
-            .read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier)
+            .read(farmLockLevelUpFormNotifierProvider.notifier)
             .filterAvailableLevels();
       } catch (e) {
         if (mounted) {
@@ -77,9 +71,7 @@ class _FarmLockLevelUpSheetState extends ConsumerState<FarmLockLevelUpSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref
-          .watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm)
-          .processStep,
+      currentStep: ref.watch(farmLockLevelUpFormNotifierProvider).processStep,
       formSheet: FarmLockLevelUpFormSheet(
         rewardAmount: widget.rewardAmount,
       ),

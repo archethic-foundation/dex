@@ -1,32 +1,29 @@
-import 'package:aedex/application/notification.dart';
+import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/usecases/claim_farm_lock.usecase.dart';
-import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_claim/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _farmLockClaimFormProvider = NotifierProvider.autoDispose<
-    FarmLockClaimFormNotifier, FarmLockClaimFormState>(
-  () {
-    return FarmLockClaimFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class FarmLockClaimFormNotifier
-    extends AutoDisposeNotifier<FarmLockClaimFormState> {
+@riverpod
+class FarmLockClaimFormNotifier extends _$FarmLockClaimFormNotifier {
   FarmLockClaimFormNotifier();
 
   @override
   FarmLockClaimFormState build() => const FarmLockClaimFormState();
 
-  void setTransactionClaimFarmLock(Transaction transactionClaimFarmLock) {
+  void setTransactionClaimFarmLock(
+    archethic.Transaction transactionClaimFarmLock,
+  ) {
     state = state.copyWith(transactionClaimFarmLock: transactionClaimFarmLock);
   }
 
@@ -37,6 +34,12 @@ class FarmLockClaimFormNotifier
   void setFarmAddress(String farmAddress) {
     state = state.copyWith(
       farmAddress: farmAddress,
+    );
+  }
+
+  void setPoolAddress(String poolAddress) {
+    state = state.copyWith(
+      poolAddress: poolAddress,
     );
   }
 
@@ -98,12 +101,12 @@ class FarmLockClaimFormNotifier
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm() async {
+    if (control() == false) {
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -114,7 +117,7 @@ class FarmLockClaimFormNotifier
     );
   }
 
-  bool control(BuildContext context) {
+  bool control() {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -128,38 +131,34 @@ class FarmLockClaimFormNotifier
     return true;
   }
 
-  Future<void> claim(BuildContext context, WidgetRef ref) async {
+  Future<void> claim(AppLocalizations localizations) async {
     setFarmLockClaimOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control() == false) {
       setProcessInProgress(false);
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    if (context.mounted) {
-      final finalAmount = await ClaimFarmLockCase().run(
-        ref,
-        context,
-        ref.watch(NotificationProviders.notificationService),
-        state.farmAddress!,
-        state.depositId!,
-        state.rewardToken!,
+    final finalAmount = await ref.read(claimFarmLockCaseProvider).run(
+          localizations,
+          this,
+          state.farmAddress!,
+          state.depositId!,
+          state.rewardToken!,
+        );
+    state = state.copyWith(finalAmount: finalAmount);
+
+    ref
+      ..invalidate(FarmListFormProvider.balance(state.lpTokenAddress))
+      ..invalidate(
+        DexFarmProviders.getFarmInfos(
+          state.farmAddress!,
+          state.poolAddress!,
+        ),
       );
-      state = state.copyWith(finalAmount: finalAmount);
-
-      if (context.mounted) {
-        final farmListItemState =
-            context.findAncestorStateOfType<FarmListItemState>();
-        await farmListItemState?.reload();
-      }
-    }
   }
-}
-
-abstract class FarmLockClaimFormProvider {
-  static final farmLockClaimForm = _farmLockClaimFormProvider;
 }

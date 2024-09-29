@@ -23,7 +23,7 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
     if (swap.tokenToSwap == null || swap.tokenSwapped == null) {
       return const SizedBox.shrink();
     }
@@ -38,7 +38,7 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
                 ? null
                 : () {
                     ref.read(
-                      SwapFormProvider.swapForm.notifier,
+                      swapFormNotifierProvider.notifier,
                     )
                       ..setSwapProcessStep(
                         aedappfm.ProcessStep.form,
@@ -73,8 +73,8 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
             labelBtn: AppLocalizations.of(context)!.btn_confirm_swap,
             disabled: !consentChecked && swap.consentDateTime == null,
             onPressed: () async {
-              final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
-              unawaited(swapNotifier.swap(context, ref));
+              final swapNotifier = ref.read(swapFormNotifierProvider.notifier);
+              unawaited(swapNotifier.swap(AppLocalizations.of(context)!));
               await SwapInProgressPopup.getDialog(
                 context,
                 ref,

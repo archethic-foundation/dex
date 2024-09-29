@@ -38,7 +38,8 @@ class FarmDetailsFrontState extends ConsumerState<FarmDetailsFront>
   ) {
     super.build(context);
 
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
+
     return Column(
       children: [
         FarmDetailsInfoHeader(farm: widget.farm),

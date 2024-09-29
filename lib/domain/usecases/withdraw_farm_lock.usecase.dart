@@ -5,26 +5,36 @@ import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_notification.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_withdraw/bloc/provider.dart';
 import 'package:aedex/util/notification_service/task_notification_service.dart'
     as ns;
 import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'WithdrawFarmLockCase';
 
 class WithdrawFarmLockCase with aedappfm.TransactionMixin {
+  WithdrawFarmLockCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.verifiedTokensRepository,
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<({double finalAmountReward, double finalAmountWithdraw})> run(
-    WidgetRef ref,
-    BuildContext context,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
+    AppLocalizations localizations,
+    FarmLockWithdrawFormNotifier farmLockWithdrawNotifier,
+    bool isFarmClose,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -33,13 +43,12 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionWithdraw,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmLockWithdrawNotifier =
-        ref.read(FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier);
-    final farmWithdraw = ref.read(FarmWithdrawFormProvider.farmWithdrawForm);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionWithdraw;
     if (recoveryTransactionWithdraw != null) {
@@ -82,20 +91,17 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
       farmLockWithdrawNotifier.setCurrentStep(2);
     }
     try {
-      final currentNameAccount = await getCurrentAccount();
+      final currentNameAccount = await getCurrentAccount(dappClient);
       farmLockWithdrawNotifier.setWalletConfirmation(true);
 
       transactionWithdraw = (await signTx(
+        dappClient,
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionWithdraw!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmLockSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.withdrawFarmLockSignTxDesc_fr
-              : '',
+          'en': localizations.withdrawFarmLockSignTxDesc_en,
+          'fr': localizations.withdrawFarmLockSignTxDesc_fr,
         },
       ))
           .first;
@@ -124,7 +130,7 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionWithdraw!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmLockWithdrawNotifier
@@ -138,12 +144,13 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         DexNotification.withdrawFarmLock(
           txAddress: transactionWithdraw!.address!.address,
           rewardToken: rewardToken,
-          isFarmClose: farmWithdraw.isFarmClose,
+          isFarmClose: isFarmClose,
         ),
       );
 
       await aedappfm.PeriodicFuture.periodic<bool>(
         () => isSCCallExecuted(
+          apiService,
           farmGenesisAddress,
           transactionWithdraw!.address!.address!,
         ),
@@ -152,7 +159,6 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
         timeout: const Duration(minutes: 1),
       );
 
-      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(
@@ -184,11 +190,11 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
           amountReward: amountReward,
           amountWithdraw: amountWithdraw,
           rewardToken: rewardToken,
-          isFarmClose: farmWithdraw.isFarmClose,
+          isFarmClose: isFarmClose,
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet(dappClient));
 
       return (
         finalAmountReward: amountReward,
@@ -221,18 +227,18 @@ class WithdrawFarmLockCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep1;
+        return localizations.withdrawFarmLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep2;
+        return localizations.withdrawFarmLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep3;
+        return localizations.withdrawFarmLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.withdrawFarmLockProcessStep0;
+        return localizations.withdrawFarmLockProcessStep0;
     }
   }
 }

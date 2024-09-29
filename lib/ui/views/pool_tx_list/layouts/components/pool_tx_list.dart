@@ -173,10 +173,10 @@ class PoolTxListState extends ConsumerState<PoolTxList> {
 
   Widget _buildRatioTokens(BuildContext context, WidgetRef ref) {
     final fiatValueToken1 = ref.watch(
-      DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token1),
+      DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token1.address),
     );
     final fiatValueToken2 = ref.watch(
-      DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token2),
+      DexTokensProviders.estimateTokenInFiat(widget.pool.pair.token2.address),
     );
 
     return Padding(

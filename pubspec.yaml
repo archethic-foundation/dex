@@ -8,11 +8,11 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  archethic_dapp_framework_flutter: ^1.3.1
-  #archethic_dapp_framework_flutter:
-  #  git:
-  #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
-  #    ref: web_extension_support
+  # archethic_dapp_framework_flutter: ^1.3.1
+  archethic_dapp_framework_flutter:
+    git:
+      url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+      ref: introduce_environment_type
   #archethic_dapp_framework_flutter:
   #  path: ../archethic-dapp-framework-flutter
 
@@ -39,9 +39,6 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-
-  # Customize Flutter's default white native splash screen with background color and splash image. Supports dark mode, full screen, and more.
-  flutter_native_splash: ^2.4.0
 
   # State management
   flutter_riverpod: ^2.5.1
@@ -98,6 +95,7 @@ dependencies:
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.4.6
+  custom_lint: ^0.6.4
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features.
   dependency_validator: ^3.2.3
   freezed: ^2.4.7
@@ -107,6 +105,7 @@ dev_dependencies:
   json_serializable: ^6.7.1
   # A code generator for Riverpod. This both simplifies the syntax empowers it, such as allowing stateful hot-reload.
   riverpod_generator: ^2.4.0
+  riverpod_lint: ^2.3.10
   # A full featured library for writing and running Dart tests across platforms.
   test: ^1.25.2
 

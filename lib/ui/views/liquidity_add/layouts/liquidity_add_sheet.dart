@@ -1,5 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_confirm_sheet.dart';
@@ -32,26 +30,20 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
-        ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+        ref.read(liquidityAddFormNotifierProvider.notifier)
           ..setPoolsListTab(widget.poolsListTab)
           ..setToken1(widget.pool.pair.token1)
           ..setToken2(widget.pool.pair.token2);
 
         await ref
-            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+            .read(liquidityAddFormNotifierProvider.notifier)
             .setPool(widget.pool);
         await ref
-            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
+            .read(liquidityAddFormNotifierProvider.notifier)
             .initBalances();
-        await ref
-            .read(LiquidityAddFormProvider.liquidityAddForm.notifier)
-            .initRatio();
+        await ref.read(liquidityAddFormNotifierProvider.notifier).initRatio();
       } catch (e) {
         if (mounted) {
           context.go(
@@ -70,8 +62,7 @@ class _LiquidityAddSheetState extends ConsumerState<LiquidityAddSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep:
-          ref.watch(LiquidityAddFormProvider.liquidityAddForm).processStep,
+      currentStep: ref.watch(liquidityAddFormNotifierProvider).processStep,
       formSheet: const LiquidityAddFormSheet(),
       confirmSheet: const LiquidityAddConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

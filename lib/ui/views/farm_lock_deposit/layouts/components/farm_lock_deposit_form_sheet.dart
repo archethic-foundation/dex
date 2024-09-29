@@ -1,4 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_lock_duration_btn.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/layouts/components/farm_lock_deposit_textfield_amount.dart';
@@ -8,7 +10,6 @@ import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/config/config.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -27,8 +28,7 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockDeposit =
-        ref.watch(FarmLockDepositFormProvider.farmLockDepositForm);
+    final farmLockDeposit = ref.watch(farmLockDepositFormNotifierProvider);
 
     if (farmLockDeposit.pool == null) {
       return const Padding(
@@ -41,6 +41,7 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
       );
     }
 
+    final session = ref.watch(sessionNotifierProvider);
     return Expanded(
       child: Column(
         children: [
@@ -194,25 +195,17 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmLockDeposit.isControlsOk &&
-                                  ref
-                                      .watch(SessionProviders.session)
-                                      .isConnected,
+                                  session.isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farmLockDeposit,
                               onPressed: () => ref
                                   .read(
-                                    FarmLockDepositFormProvider
-                                        .farmLockDepositForm.notifier,
+                                    farmLockDepositFormNotifierProvider
+                                        .notifier,
                                   )
-                                  .validateForm(context),
+                                  .validateForm(AppLocalizations.of(context)!),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
-                                final session =
-                                    ref.read(SessionProviders.session);
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -241,7 +234,9 @@ class FarmLockDepositFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.pop();
+                                context.popOrGo(
+                                  FarmLockSheet.routerPage2,
+                                );
                               },
                             ),
                           ),

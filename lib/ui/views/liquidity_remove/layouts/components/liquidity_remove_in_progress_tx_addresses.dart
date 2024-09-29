@@ -11,8 +11,7 @@ class LiquidityRemoveInProgressTxAddresses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final liquidityRemove =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final liquidityRemove = ref.watch(liquidityRemoveFormNotifierProvider);
     if (liquidityRemove.liquidityRemoveOk == false) {
       return const SizedBox.shrink();
     }

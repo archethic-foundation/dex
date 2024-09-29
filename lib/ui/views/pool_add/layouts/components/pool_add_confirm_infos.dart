@@ -3,10 +3,8 @@ import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_ratio.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
@@ -25,7 +23,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
     if (poolAdd.token1 == null) {
       return const SizedBox.shrink();
     }
@@ -90,7 +88,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             FormatAddressLink(
                               address: poolAdd.token1!.isUCO
                                   ? 'UCO'
-                                  : poolAdd.token1!.address!,
+                                  : poolAdd.token1!.address,
                             ),
                           const SizedBox(
                             width: 5,
@@ -100,7 +98,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             child: VerifiedTokenIcon(
                               address: poolAdd.token1!.isUCO
                                   ? 'UCO'
-                                  : poolAdd.token1!.address!,
+                                  : poolAdd.token1!.address,
                             ),
                           ),
                         ],
@@ -133,7 +131,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             FormatAddressLink(
                               address: poolAdd.token2!.isUCO
                                   ? 'UCO'
-                                  : poolAdd.token2!.address!,
+                                  : poolAdd.token2!.address,
                             ),
                           const SizedBox(
                             width: 5,
@@ -143,7 +141,7 @@ class PoolAddConfirmInfos extends ConsumerWidget {
                             child: VerifiedTokenIcon(
                               address: poolAdd.token2!.isUCO
                                   ? 'UCO'
-                                  : poolAdd.token2!.address!,
+                                  : poolAdd.token2!.address,
                             ),
                           ),
                         ],

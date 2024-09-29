@@ -4,7 +4,6 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_lp_token_fiat_value.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -24,6 +23,7 @@ class DexTokenBalance extends ConsumerWidget {
     this.pool,
     this.digits = 8,
     this.styleResponsive = true,
+    this.withOpacity,
     super.key,
   });
 
@@ -37,6 +37,7 @@ class DexTokenBalance extends ConsumerWidget {
   final bool fiatAlignLeft;
   final bool fiatTextStyleMedium;
   final bool styleResponsive;
+  final bool? withOpacity;
 
   @override
   Widget build(
@@ -48,7 +49,9 @@ class DexTokenBalance extends ConsumerWidget {
         height: height,
       );
     }
-    var opacity = AppTextStyles.kOpacityText;
+    var opacity = withOpacity != null && withOpacity == false
+        ? 1.0
+        : AppTextStyles.kOpacityText;
     if (tokenBalance <= 0) {
       opacity = 0.5;
     }
@@ -96,12 +99,13 @@ class DexTokenBalance extends ConsumerWidget {
                             left: 5,
                           ),
                           child: SelectableText(
-                            DEXLPTokenFiatValue().display(
-                              ref,
-                              pool!.pair.token1,
-                              pool!.pair.token2,
-                              tokenBalance,
-                              pool!.poolAddress,
+                            ref.watch(
+                              dexLPTokenFiatValueProvider(
+                                pool!.pair.token1,
+                                pool!.pair.token2,
+                                tokenBalance,
+                                pool!.poolAddress,
+                              ),
                             ),
                             style: fiatTextStyleMedium
                                 ? styleResponsive
@@ -188,12 +192,13 @@ class DexTokenBalance extends ConsumerWidget {
                           left: 5,
                         ),
                         child: SelectableText(
-                          DEXLPTokenFiatValue().display(
-                            ref,
-                            pool!.pair.token1,
-                            pool!.pair.token2,
-                            tokenBalance,
-                            pool!.poolAddress,
+                          ref.watch(
+                            dexLPTokenFiatValueProvider(
+                              pool!.pair.token1,
+                              pool!.pair.token2,
+                              tokenBalance,
+                              pool!.poolAddress,
+                            ),
                           ),
                           style: fiatTextStyleMedium
                               ? styleResponsive

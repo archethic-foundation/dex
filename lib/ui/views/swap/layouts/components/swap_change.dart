@@ -11,7 +11,7 @@ class SwapChange extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
 
     if (swap.tokenSwapped == null || swap.tokenToSwap == null) {
       return Row(
@@ -26,12 +26,14 @@ class SwapChange extends ConsumerWidget {
       );
     }
 
-    final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
+    final swapNotifier = ref.watch(swapFormNotifierProvider.notifier);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
-          onTap: swapNotifier.swapDirections,
+          onTap: () async {
+            await swapNotifier.swapDirections();
+          },
           child: Icon(
             aedappfm.Iconsax.arrange_square_2,
             size: aedappfm.Responsive.fontSizeFromValue(

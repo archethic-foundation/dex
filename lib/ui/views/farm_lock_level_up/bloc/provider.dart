@@ -1,44 +1,32 @@
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/domain/usecases/level_up_farm_lock.usecase.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/state.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _farmLockLevelUpFormProvider = NotifierProvider.autoDispose<
-    FarmLockLevelUpFormNotifier, FarmLockLevelUpFormState>(
-  () {
-    return FarmLockLevelUpFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class FarmLockLevelUpFormNotifier
-    extends AutoDisposeNotifier<FarmLockLevelUpFormState> {
+@riverpod
+class FarmLockLevelUpFormNotifier extends _$FarmLockLevelUpFormNotifier {
   FarmLockLevelUpFormNotifier();
 
   @override
   FarmLockLevelUpFormState build() => const FarmLockLevelUpFormState();
 
   Future<void> initBalances() async {
-    final session = ref.read(SessionProviders.session);
-    final apiService = aedappfm.sl.get<ApiService>();
-
     final lpTokenBalance = await ref.read(
-      BalanceProviders.getBalance(
-        session.genesisAddress,
-        state.pool!.lpToken.isUCO ? 'UCO' : state.pool!.lpToken.address!,
-        apiService,
+      getBalanceProvider(
+        state.pool!.lpToken.isUCO ? 'UCO' : state.pool!.lpToken.address,
       ).future,
     );
     state = state.copyWith(lpTokenBalance: lpTokenBalance);
@@ -48,7 +36,9 @@ class FarmLockLevelUpFormNotifier
     state = state.copyWith(depositId: depositId);
   }
 
-  void setTransactionFarmLockLevelUp(Transaction transactionFarmLockLevelUp) {
+  void setTransactionFarmLockLevelUp(
+    archethic.Transaction transactionFarmLockLevelUp,
+  ) {
     state =
         state.copyWith(transactionFarmLockLevelUp: transactionFarmLockLevelUp);
   }
@@ -174,12 +164,12 @@ class FarmLockLevelUpFormNotifier
     state = state.copyWith(filterAvailableLevels: availableLevelsFiltered);
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    if (control(appLocalizations) == false) {
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -190,7 +180,7 @@ class FarmLockLevelUpFormNotifier
     );
   }
 
-  bool control(BuildContext context) {
+  bool control(AppLocalizations appLocalizations) {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -204,7 +194,7 @@ class FarmLockLevelUpFormNotifier
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmDepositControlAmountEmpty,
+          cause: appLocalizations.farmDepositControlAmountEmpty,
         ),
       );
       return false;
@@ -213,37 +203,31 @@ class FarmLockLevelUpFormNotifier
     return true;
   }
 
-  Future<void> lock(BuildContext context, WidgetRef ref) async {
+  Future<void> lock(AppLocalizations appLocalizations) async {
     setFarmLockLevelUpOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control(appLocalizations) == false) {
       setProcessInProgress(false);
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-    if (context.mounted) {
-      final finalAmount = await LevelUpFarmLockCase().run(
-        ref,
-        context,
-        ref.watch(NotificationProviders.notificationService),
-        state.farmLock!.farmAddress,
-        state.farmLock!.lpToken!.address!,
-        state.amount,
-        state.depositId!,
-        state.farmLock!.farmAddress,
-        false,
-        state.farmLockLevelUpDuration,
-        state.level,
-      );
 
-      state = state.copyWith(finalAmount: finalAmount);
-    }
+    final finalAmount = await ref.read(levelUpFarmLockCaseProvider).run(
+          appLocalizations,
+          this,
+          state.farmLock!.farmAddress,
+          state.farmLock!.lpToken!.address,
+          state.amount,
+          state.depositId!,
+          state.farmLock!.farmAddress,
+          false,
+          state.farmLockLevelUpDuration,
+          state.level,
+        );
+
+    state = state.copyWith(finalAmount: finalAmount);
   }
-}
-
-abstract class FarmLockLevelUpFormProvider {
-  static final farmLockLevelUpForm = _farmLockLevelUpFormProvider;
 }

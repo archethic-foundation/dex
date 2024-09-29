@@ -2,29 +2,24 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/dex_config.dart';
 import 'package:aedex/application/router_factory.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/usecases/add_pool.usecase.dart';
 import 'package:aedex/ui/views/pool_add/bloc/state.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _poolAddFormProvider =
-    NotifierProvider.autoDispose<PoolAddFormNotifier, PoolAddFormState>(
-  () {
-    return PoolAddFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
+@riverpod
+class PoolAddFormNotifier extends _$PoolAddFormNotifier {
   PoolAddFormNotifier();
 
   @override
@@ -36,7 +31,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
 
   Future<void> setToken1(
     DexToken token,
-    BuildContext context,
+    AppLocalizations appLocalizations,
   ) async {
     state = state.copyWith(
       failure: null,
@@ -44,13 +39,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       token1: token,
     );
 
-    final session = ref.read(SessionProviders.session);
-    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
-      BalanceProviders.getBalance(
-        session.genesisAddress,
-        token.isUCO ? 'UCO' : token.address!,
-        apiService,
+      getBalanceProvider(
+        token.isUCO ? 'UCO' : token.address,
       ).future,
     );
     state = state.copyWith(token1Balance: balance);
@@ -59,33 +50,26 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         state.token1!.address == state.token2!.address) {
       setFailure(
         aedappfm.Failure.other(
-          cause: context.mounted
-              ? AppLocalizations.of(context)!.poolAddControlSameTokens
-              : '',
+          cause: appLocalizations.poolAddControlSameTokens,
         ),
       );
       return;
     }
 
     if (state.token1 != null && state.token1Amount > state.token1Balance) {
-      if (context.mounted) {
-        setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!
-                .poolAddControlToken1AmountExceedBalance,
-          ),
-        );
-      }
+      setFailure(
+        aedappfm.Failure.other(
+          cause: appLocalizations.poolAddControlToken1AmountExceedBalance,
+        ),
+      );
     }
 
-    if (context.mounted) {
-      _controlBalances(context);
-    }
+    _controlBalances(appLocalizations);
   }
 
   Future<void> setToken2(
     DexToken token,
-    BuildContext context,
+    AppLocalizations appLocalizations,
   ) async {
     state = state.copyWith(
       failure: null,
@@ -93,13 +77,9 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       token2: token,
     );
 
-    final session = ref.read(SessionProviders.session);
-    final apiService = aedappfm.sl.get<ApiService>();
     final balance = await ref.read(
-      BalanceProviders.getBalance(
-        session.genesisAddress,
-        token.isUCO ? 'UCO' : token.address!,
-        apiService,
+      getBalanceProvider(
+        token.isUCO ? 'UCO' : token.address,
       ).future,
     );
     state = state.copyWith(token2Balance: balance);
@@ -109,78 +89,67 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
         state.token1!.address == state.token2!.address) {
       setFailure(
         aedappfm.Failure.other(
-          cause: context.mounted
-              ? AppLocalizations.of(context)!.poolAddControlSameTokens
-              : '',
+          cause: appLocalizations.poolAddControlSameTokens,
         ),
       );
       return;
     }
 
-    if (context.mounted) {
-      _controlBalances(context);
-    }
+    _controlBalances(appLocalizations);
   }
 
-  void _controlBalances(BuildContext context) {
+  void _controlBalances(AppLocalizations appLocalizations) {
     if (state.token1 != null &&
         state.token1Amount > state.token1Balance &&
         state.token2 != null &&
-        state.token2Amount > state.token2Balance &&
-        context.mounted) {
+        state.token2Amount > state.token2Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControl2TokensAmountExceedBalance,
+          cause: appLocalizations.poolAddControl2TokensAmountExceedBalance,
         ),
       );
       return;
     }
 
     if (state.token1 != null && state.token1Amount > state.token1Balance) {
-      if (context.mounted) {
-        setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!
-                .poolAddControlToken1AmountExceedBalance,
-          ),
-        );
-      }
+      setFailure(
+        aedappfm.Failure.other(
+          cause: appLocalizations.poolAddControlToken1AmountExceedBalance,
+        ),
+      );
+
       return;
     }
 
-    if (state.token2 != null &&
-        state.token2Amount > state.token2Balance &&
-        context.mounted) {
+    if (state.token2 != null && state.token2Amount > state.token2Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken2AmountExceedBalance,
+          cause: appLocalizations.poolAddControlToken2AmountExceedBalance,
         ),
       );
       return;
     }
   }
 
-  void setToken1AmountMax(BuildContext context) {
-    setToken1Amount(context, state.token1Balance);
+  void setToken1AmountMax(AppLocalizations appLocalizations) {
+    setToken1Amount(appLocalizations, state.token1Balance);
   }
 
-  void setToken2AmountMax(BuildContext context) {
-    setToken2Amount(context, state.token2Balance);
+  void setToken2AmountMax(AppLocalizations appLocalizations) {
+    setToken2Amount(appLocalizations, state.token2Balance);
   }
 
-  void setToken1AmountHalf(BuildContext context) {
+  void setToken1AmountHalf(AppLocalizations appLocalizations) {
     setToken1Amount(
-      context,
+      appLocalizations,
       (Decimal.parse(state.token1Balance.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
   }
 
-  void setToken2AmountHalf(BuildContext context) {
+  void setToken2AmountHalf(AppLocalizations appLocalizations) {
     setToken2Amount(
-      context,
+      appLocalizations,
       (Decimal.parse(state.token2Balance.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
@@ -203,7 +172,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   void setToken1Amount(
-    BuildContext context,
+    AppLocalizations appLocalizations,
     double amount,
   ) {
     state = state.copyWith(
@@ -215,19 +184,16 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     if (state.token1 != null && state.token1Amount > state.token1Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken1AmountExceedBalance,
+          cause: appLocalizations.poolAddControlToken1AmountExceedBalance,
         ),
       );
     }
 
-    if (context.mounted) {
-      _controlBalances(context);
-    }
+    _controlBalances(appLocalizations);
   }
 
   void setToken2Amount(
-    BuildContext context,
+    AppLocalizations appLocalizations,
     double amount,
   ) {
     state = state.copyWith(
@@ -236,9 +202,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
       token2Amount: amount,
     );
 
-    if (context.mounted) {
-      _controlBalances(context);
-    }
+    _controlBalances(appLocalizations);
   }
 
   void estimateNetworkFees() {
@@ -295,13 +259,15 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  void setRecoveryTransactionAddPool(Transaction? recoveryTransactionAddPool) {
+  void setRecoveryTransactionAddPool(
+    archethic.Transaction? recoveryTransactionAddPool,
+  ) {
     state =
         state.copyWith(recoveryTransactionAddPool: recoveryTransactionAddPool);
   }
 
   void setRecoveryTransactionAddPoolTransfer(
-    Transaction? recoveryTransactionAddPoolTransfer,
+    archethic.Transaction? recoveryTransactionAddPoolTransfer,
   ) {
     state = state.copyWith(
       recoveryTransactionAddPoolTransfer: recoveryTransactionAddPoolTransfer,
@@ -309,7 +275,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
   }
 
   void setRecoveryTransactionAddPoolLiquidity(
-    Transaction? recoveryTransactionAddPoolLiquidity,
+    archethic.Transaction? recoveryTransactionAddPoolLiquidity,
   ) {
     state = state.copyWith(
       recoveryTransactionAddPoolLiquidity: recoveryTransactionAddPoolLiquidity,
@@ -330,13 +296,13 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    final _control = await control(context);
+  Future<void> validateForm(AppLocalizations appLocalizations) async {
+    final _control = await control(appLocalizations);
     if (_control == false) {
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -347,7 +313,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     );
   }
 
-  Future<bool> control(BuildContext context) async {
+  Future<bool> control(AppLocalizations appLocalizations) async {
     setMessageMaxHalfUCO(false);
     setFailure(null);
 
@@ -363,7 +329,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     if (state.token1 == null) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
+          cause: appLocalizations.poolAddControlToken1Empty,
         ),
       );
       return false;
@@ -372,7 +338,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     if (state.token2 == null) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
+          cause: appLocalizations.poolAddControlToken2Empty,
         ),
       );
       return false;
@@ -381,7 +347,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     if (state.token1!.address == state.token2!.address) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlSameTokens,
+          cause: appLocalizations.poolAddControlSameTokens,
         ),
       );
       return false;
@@ -390,7 +356,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     if (state.token1Amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlToken1Empty,
+          cause: appLocalizations.poolAddControlToken1Empty,
         ),
       );
       return false;
@@ -399,7 +365,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     if (state.token2Amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.poolAddControlToken2Empty,
+          cause: appLocalizations.poolAddControlToken2Empty,
         ),
       );
       return false;
@@ -408,8 +374,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     if (state.token1Amount > state.token1Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken1AmountExceedBalance,
+          cause: appLocalizations.poolAddControlToken1AmountExceedBalance,
         ),
       );
       return false;
@@ -418,22 +383,22 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     if (state.token2Amount > state.token2Balance) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .poolAddControlToken2AmountExceedBalance,
+          cause: appLocalizations.poolAddControlToken2AmountExceedBalance,
         ),
       );
       return false;
     }
 
-    final dexConfig =
-        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+    final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
 
-    final apiService = aedappfm.sl.get<ApiService>();
-    final routerFactory =
-        RouterFactory(dexConfig.routerGenesisAddress, apiService);
+    final routerFactory = ref.read(
+      routerFactoryProvider(
+        dexConfig.routerGenesisAddress,
+      ),
+    );
     final poolInfosResult = await routerFactory.getPoolAddresses(
-      state.token1!.isUCO ? 'UCO' : state.token1!.address!,
-      state.token2!.isUCO ? 'UCO' : state.token2!.address!,
+      state.token1!.isUCO ? 'UCO' : state.token1!.address,
+      state.token2!.isUCO ? 'UCO' : state.token2!.address,
     );
     poolInfosResult.map(
       success: (success) {
@@ -463,9 +428,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
             setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
-            if (context.mounted) {
-              setToken1Amount(context, adjustedAmount);
-            }
+            setToken1Amount(appLocalizations, adjustedAmount);
             state = state.copyWith(messageMaxHalfUCO: true);
           }
         }
@@ -485,9 +448,7 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
             setFailure(const aedappfm.Failure.insufficientFunds());
             return false;
           } else {
-            if (context.mounted) {
-              setToken2Amount(context, adjustedAmount);
-            }
+            setToken2Amount(appLocalizations, adjustedAmount);
             state = state.copyWith(messageMaxHalfUCO: true);
           }
         }
@@ -497,44 +458,38 @@ class PoolAddFormNotifier extends AutoDisposeNotifier<PoolAddFormState> {
     return true;
   }
 
-  Future<void> add(BuildContext context, WidgetRef ref) async {
+  Future<void> add(AppLocalizations appLocalizations) async {
     setProcessInProgress(true);
     setPoolAddOk(false);
-    final _control = await control(context);
+    final _control = await control(appLocalizations);
     if (_control == false) {
       setProcessInProgress(false);
       return;
     }
 
-    final dexConfig =
-        await ref.read(DexConfigProviders.dexConfigRepository).getDexConfig();
+    final dexConfig = await ref.read(DexConfigProviders.dexConfig.future);
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
-    if (context.mounted) {
-      await AddPoolCase().run(
-        ref,
-        context,
-        state.token1!,
-        state.token1Amount,
-        state.token2!,
-        state.token2Amount,
-        dexConfig.routerGenesisAddress,
-        dexConfig.factoryGenesisAddress,
-        state.slippage,
-        recoveryStep: state.currentStep,
-        recoveryTransactionAddPool: state.recoveryTransactionAddPool,
-        recoveryTransactionAddPoolTransfer:
-            state.recoveryTransactionAddPoolTransfer,
-        recoveryTransactionAddPoolLiquidity:
-            state.recoveryTransactionAddPoolLiquidity,
-      );
 
-      await ref.read(SessionProviders.session.notifier).refreshUserBalance();
-    }
+    await ref.read(addPoolCaseProvider).run(
+          appLocalizations,
+          this,
+          state.token1!,
+          state.token1Amount,
+          state.token2!,
+          state.token2Amount,
+          dexConfig.routerGenesisAddress,
+          dexConfig.factoryGenesisAddress,
+          state.slippage,
+          recoveryStep: state.currentStep,
+          recoveryTransactionAddPool: state.recoveryTransactionAddPool,
+          recoveryTransactionAddPoolTransfer:
+              state.recoveryTransactionAddPoolTransfer,
+          recoveryTransactionAddPoolLiquidity:
+              state.recoveryTransactionAddPoolLiquidity,
+        );
+
+    ref.invalidate(userBalanceProvider);
   }
-}
-
-abstract class PoolAddFormProvider {
-  static final poolAddForm = _poolAddFormProvider;
 }

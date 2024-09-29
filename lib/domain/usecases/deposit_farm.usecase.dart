@@ -10,19 +10,29 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'DepositFarmCase';
 
 class DepositFarmCase with aedappfm.TransactionMixin {
+  DepositFarmCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.verifiedTokensRepository,
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
-    BuildContext context,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
+    AppLocalizations localizations,
+    FarmDepositFormNotifier farmDepositNotifier,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -31,12 +41,12 @@ class DepositFarmCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionDeposit,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmDepositNotifier =
-        ref.read(FarmDepositFormProvider.farmDepositForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionDeposit;
     if (recoveryTransactionDeposit != null) {
@@ -77,20 +87,17 @@ class DepositFarmCase with aedappfm.TransactionMixin {
       farmDepositNotifier.setCurrentStep(2);
     }
     try {
-      final currentNameAccount = await getCurrentAccount();
+      final currentNameAccount = await getCurrentAccount(dappClient);
       farmDepositNotifier.setWalletConfirmation(true);
 
       transactionDeposit = (await signTx(
+        dappClient,
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionDeposit!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.depositFarmSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.depositFarmSignTxDesc_fr
-              : '',
+          'en': localizations.depositFarmSignTxDesc_en,
+          'fr': localizations.depositFarmSignTxDesc_fr,
         },
       ))
           .first;
@@ -118,7 +125,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionDeposit!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmDepositNotifier
@@ -138,7 +145,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
 
       final amount = await aedappfm.PeriodicFuture.periodic<double>(
         () => getAmountFromTx(
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
           transactionDeposit!.address!.address!,
           isUCO,
           farmAddress,
@@ -158,7 +165,7 @@ class DepositFarmCase with aedappfm.TransactionMixin {
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet(dappClient));
 
       return amount;
     } catch (e) {
@@ -188,18 +195,18 @@ class DepositFarmCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.depositProcessStep1;
+        return localizations.depositProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.depositProcessStep2;
+        return localizations.depositProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.depositProcessStep3;
+        return localizations.depositProcessStep3;
       default:
-        return AppLocalizations.of(context)!.depositProcessStep0;
+        return localizations.depositProcessStep0;
     }
   }
 }

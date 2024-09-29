@@ -39,7 +39,7 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
 
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
-      Future.delayed(Duration.zero, () {
+      Future(() {
         showDialog(
           context: context,
           builder: (BuildContext context) {

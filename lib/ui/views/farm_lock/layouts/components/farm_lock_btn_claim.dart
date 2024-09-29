@@ -1,8 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
-import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
-import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_claim/layouts/farm_lock_claim_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
@@ -16,37 +14,33 @@ import 'package:go_router/go_router.dart';
 
 class FarmLockBtnClaim extends ConsumerWidget {
   const FarmLockBtnClaim({
-    required this.farmAddress,
-    required this.rewardToken,
-    required this.lpTokenAddress,
     required this.rewardAmount,
     required this.depositId,
-    required this.currentSortedColumn,
     this.enabled = true,
     super.key,
   });
 
-  final String farmAddress;
-  final DexToken rewardToken;
-  final String lpTokenAddress;
   final double rewardAmount;
   final String depositId;
   final bool enabled;
-  final String currentSortedColumn;
 
   @override
   Widget build(
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
+    final session = ref.watch(sessionNotifierProvider);
+    final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
+    final pool = ref.watch(farmLockFormPoolProvider).value;
+    final farm = ref.watch(farmLockFormFarmProvider).value;
+    final isLoading = farmLock == null || pool == null || farm == null;
+
     return aedappfm.Responsive.isDesktop(context)
         ? InkWell(
-            onTap: enabled == false || farmLockForm.mainInfoloadingInProgress
+            onTap: enabled == false || isLoading
                 ? null
                 : () async {
-                    await _validate(context);
+                    await _validate(context, ref);
                   },
             child: Column(
               children: [
@@ -60,7 +54,7 @@ class FarmLockBtnClaim extends ConsumerWidget {
                         : aedappfm.AppThemeBase.gradient,
                     shape: BoxShape.circle,
                   ),
-                  child: farmLockForm.mainInfoloadingInProgress
+                  child: isLoading
                       ? const SizedBox(
                           width: 16,
                           height: 16,
@@ -99,16 +93,12 @@ class FarmLockBtnClaim extends ConsumerWidget {
             controlOk: enabled,
             labelBtn: AppLocalizations.of(context)!.farmLockBtnClaim,
             onPressed: () async {
-              await _validate(context);
+              await _validate(context, ref);
             },
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {
-              final sessionNotifier =
-                  ref.read(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-
-              final session = ref.read(SessionProviders.session);
+              final session = ref.read(sessionNotifierProvider);
               if (session.error.isNotEmpty) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -135,27 +125,23 @@ class FarmLockBtnClaim extends ConsumerWidget {
             .scale(duration: const Duration(milliseconds: 400));
   }
 
-  Future<void> _validate(BuildContext context) async {
-    if (context.mounted) {
-      await context.push(
-        Uri(
-          path: FarmLockClaimSheet.routerPage,
-          queryParameters: {
-            'farmAddress': farmAddress.encodeParam(),
-            'rewardToken': rewardToken.encodeParam(),
-            'lpTokenAddress': lpTokenAddress.encodeParam(),
-            'rewardAmount': rewardAmount.encodeParam(),
-            'depositId': depositId.encodeParam(),
-          },
-        ).toString(),
-      );
-      if (context.mounted) {
-        {
-          await context
-              .findAncestorStateOfType<FarmLockSheetState>()
-              ?.loadInfo(sortCriteria: currentSortedColumn);
-        }
-      }
-    }
+  Future<void> _validate(BuildContext context, WidgetRef ref) async {
+    if (!context.mounted) return;
+    final farmLock = ref.read(farmLockFormFarmLockProvider).value;
+    final pool = ref.read(farmLockFormPoolProvider).value;
+
+    await context.push(
+      Uri(
+        path: FarmLockClaimSheet.routerPage,
+        queryParameters: {
+          'farmAddress': farmLock!.farmAddress.encodeParam(),
+          'poolAddress': farmLock.poolAddress.encodeParam(),
+          'rewardToken': farmLock.rewardToken.encodeParam(),
+          'lpTokenAddress': pool!.lpToken.address.encodeParam(),
+          'rewardAmount': rewardAmount.encodeParam(),
+          'depositId': depositId.encodeParam(),
+        },
+      ).toString(),
+    );
   }
 }

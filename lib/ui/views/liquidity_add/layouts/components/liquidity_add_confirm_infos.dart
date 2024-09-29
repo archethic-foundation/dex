@@ -1,7 +1,6 @@
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
@@ -20,7 +19,7 @@ class LiquidityAddConfirmInfos extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
     if (liquidityAdd.token1 == null) {
       return const SizedBox.shrink();
     }

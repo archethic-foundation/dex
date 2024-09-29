@@ -5,20 +5,28 @@ import 'package:aedex/application/contracts/archethic_contract.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/util/string_util.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/widgets.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const logName = 'AddPoolCase';
 
 class AddPoolCase with aedappfm.TransactionMixin {
+  AddPoolCase({
+    required this.apiService,
+    required this.verifiedTokensRepository,
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
+  final archethic.ApiService apiService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<void> run(
-    WidgetRef ref,
-    BuildContext context,
+    AppLocalizations localizations,
+    PoolAddFormNotifier poolAddNotifier,
     DexToken token1,
     double token1Amount,
     DexToken token2,
@@ -32,9 +40,10 @@ class AddPoolCase with aedappfm.TransactionMixin {
     archethic.Transaction? recoveryTransactionAddPoolLiquidity,
     String? recoveryPoolGenesisAddress,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
-    final archethicContract = ArchethicContract();
-    final poolAddNotifier = ref.read(PoolAddFormProvider.poolAddForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionAddPool;
     archethic.Transaction? transactionAddPoolTransfer;
@@ -119,32 +128,26 @@ class AddPoolCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 3) {
       poolAddNotifier.setCurrentStep(3);
       try {
-        final currentNameAccount = await getCurrentAccount();
-        ref
-            .read(PoolAddFormProvider.poolAddForm.notifier)
-            .setWalletConfirmation(true);
+        final currentNameAccount = await getCurrentAccount(dappClient);
+        poolAddNotifier.setWalletConfirmation(true);
 
         transactionAddPoolTransfer = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddPoolTransfer!],
           description: {
-            'en': context.mounted
-                ? AppLocalizations.of(context)!.addPoolSignTxDesc1_en
-                : '',
-            'fr': context.mounted
-                ? AppLocalizations.of(context)!.addPoolSignTxDesc1_fr
-                : '',
+            'en': localizations.addPoolSignTxDesc1_en,
+            'fr': localizations.addPoolSignTxDesc1_fr,
           },
         ))
             .first;
 
-        ref
-            .read(PoolAddFormProvider.poolAddForm.notifier)
-            .setWalletConfirmation(false);
-        poolAddNotifier.setRecoveryTransactionAddPoolTransfer(
-          transactionAddPoolTransfer,
-        );
+        poolAddNotifier
+          ..setWalletConfirmation(false)
+          ..setRecoveryTransactionAddPoolTransfer(
+            transactionAddPoolTransfer,
+          );
       } catch (e) {
         if (e is aedappfm.Failure) {
           poolAddNotifier
@@ -165,7 +168,7 @@ class AddPoolCase with aedappfm.TransactionMixin {
           transactionAddPoolTransfer!,
           transactionAddPool!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
     }
 
@@ -206,20 +209,17 @@ class AddPoolCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 5) {
       poolAddNotifier.setCurrentStep(5);
       try {
-        final currentNameAccount = await getCurrentAccount();
+        final currentNameAccount = await getCurrentAccount(dappClient);
         poolAddNotifier.setWalletConfirmation(true);
 
         transactionAddPoolLiquidity = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddPoolLiquidity!],
           description: {
-            'en': context.mounted
-                ? AppLocalizations.of(context)!.addPoolSignTxDesc2_en
-                : '',
-            'fr': context.mounted
-                ? AppLocalizations.of(context)!.addPoolSignTxDesc2_fr
-                : '',
+            'en': localizations.addPoolSignTxDesc2_en,
+            'fr': localizations.addPoolSignTxDesc2_fr,
           },
         ))
             .first;
@@ -257,14 +257,14 @@ class AddPoolCase with aedappfm.TransactionMixin {
           <archethic.Transaction>[
             transactionAddPoolLiquidity!,
           ],
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
         );
         poolAddNotifier
           ..setCurrentStep(6)
           ..setResumeProcess(false)
           ..setProcessInProgress(false)
           ..setPoolAddOk(true);
-        unawaited(refreshCurrentAccountInfoWallet());
+        unawaited(refreshCurrentAccountInfoWallet(dappClient));
       } catch (e) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
               'TransactionAddPoolLiquidity sendTx failed $e',
@@ -285,24 +285,24 @@ class AddPoolCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.addPoolProcessStep1;
+        return localizations.addPoolProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.addPoolProcessStep2;
+        return localizations.addPoolProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.addPoolProcessStep3;
+        return localizations.addPoolProcessStep3;
       case 4:
-        return AppLocalizations.of(context)!.addPoolProcessStep4;
+        return localizations.addPoolProcessStep4;
       case 5:
-        return AppLocalizations.of(context)!.addPoolProcessStep5;
+        return localizations.addPoolProcessStep5;
       case 6:
-        return AppLocalizations.of(context)!.addPoolProcessStep6;
+        return localizations.addPoolProcessStep6;
       default:
-        return AppLocalizations.of(context)!.addPoolProcessStep0;
+        return localizations.addPoolProcessStep0;
     }
   }
 }

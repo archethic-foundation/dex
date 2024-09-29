@@ -106,12 +106,10 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
           ).toString(),
         );
       },
-      isConnected: ref.watch(SessionProviders.session).isConnected,
+      isConnected: ref.watch(
+          sessionNotifierProvider.select((session) => session.isConnected)),
       displayWalletConnectOnPressed: () async {
-        final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        await sessionNotifier.connectToWallet();
-
-        final session = ref.read(SessionProviders.session);
+        final session = ref.read(sessionNotifierProvider);
         if (session.error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
@@ -157,12 +155,11 @@ class PoolDetailsInfoButtons extends ConsumerWidget {
           ).toString(),
         );
       },
-      isConnected: ref.watch(SessionProviders.session).isConnected,
+      isConnected: ref.watch(
+        sessionNotifierProvider.select((session) => session.isConnected),
+      ),
       displayWalletConnectOnPressed: () async {
-        final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        await sessionNotifier.connectToWallet();
-
-        final session = ref.read(SessionProviders.session);
+        final session = ref.read(sessionNotifierProvider);
         if (session.error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(

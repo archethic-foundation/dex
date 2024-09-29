@@ -35,7 +35,7 @@ class ButtonValidateMobile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     VoidCallback _displayWalletConnectOnPressed;
-    if (ref.read(SessionProviders.session).isConnected == false &&
+    if (ref.read(sessionNotifierProvider).isConnected == false &&
         context.mounted &&
         aedappfm.Responsive.isMobile(context)) {
       _displayWalletConnectOnPressed = () {

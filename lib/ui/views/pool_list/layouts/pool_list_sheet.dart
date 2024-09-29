@@ -29,15 +29,12 @@ class PoolListSheet extends ConsumerStatefulWidget {
 class _PoolListSheetState extends ConsumerState<PoolListSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.pool;
 
-      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
-
-      await ref.read(PoolListFormProvider.poolListForm.notifier).getPoolsList(
-            tabIndexSelected: widget.tab,
-            cancelToken: UniqueKey().toString(),
+      ref.read(poolListFormNotifierProvider.notifier).selectTab(
+            widget.tab,
           );
     });
     super.initState();
@@ -52,12 +49,13 @@ class _PoolListSheetState extends ConsumerState<PoolListSheet> {
 }
 
 Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
-  final selectedTab =
-      ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
-  final asyncPools =
-      ref.watch(PoolListFormProvider.poolListForm).poolsToDisplay;
-  final poolListForm = ref.watch(PoolListFormProvider.poolListForm);
-  final session = ref.watch(SessionProviders.session);
+  final poolListForm = ref.watch(poolListFormNotifierProvider);
+  final selectedTab = poolListForm.selectedTab;
+  final asyncPools = ref.watch(poolsToDisplayProvider);
+  final isConnected = ref.watch(
+    sessionNotifierProvider.select((session) => session.isConnected),
+  );
+
   return Stack(
     children: [
       Center(
@@ -73,6 +71,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                 : 0,
           ),
           child: asyncPools.when(
+            skipLoadingOnReload: selectedTab.skipLoadingOnReload,
             loading: () {
               return Stack(
                 alignment: Alignment.centerLeft,
@@ -110,8 +109,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
               ).getMessage(),
             ),
             data: (pools) {
-              if (session.isConnected == false &&
-                  poolListForm.tabIndexSelected == PoolsListTab.myPools) {
+              if (isConnected == false && selectedTab == PoolsListTab.myPools) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -123,8 +121,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                   ],
                 );
               }
-              if (pools.isEmpty &&
-                  poolListForm.tabIndexSelected == PoolsListTab.searchPool) {
+              if (pools.isEmpty && selectedTab == PoolsListTab.searchPool) {
                 if (poolListForm.searchText.isEmpty) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -148,8 +145,7 @@ Widget _body(BuildContext context, WidgetRef ref, PoolsListTab tab) {
                   );
                 }
               }
-              if (pools.isEmpty &&
-                  poolListForm.tabIndexSelected == PoolsListTab.favoritePools) {
+              if (pools.isEmpty && selectedTab == PoolsListTab.favoritePools) {
                 return Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [

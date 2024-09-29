@@ -1,5 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
@@ -39,13 +37,9 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
-        ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
+        ref.read(liquidityRemoveFormNotifierProvider.notifier)
           ..setPoolsListTab(widget.poolsListTab)
           ..setToken1(widget.pair.token1)
           ..setToken2(widget.pair.token2)
@@ -53,10 +47,10 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
 
         // ignore: cascade_invocations
         await ref
-            .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
+            .read(liquidityRemoveFormNotifierProvider.notifier)
             .setPool(widget.pool);
         await ref
-            .read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier)
+            .read(liquidityRemoveFormNotifierProvider.notifier)
             .initBalance();
       } catch (e) {
         if (mounted) {
@@ -76,9 +70,7 @@ class _LiquidityRemoveSheetState extends ConsumerState<LiquidityRemoveSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref
-          .watch(LiquidityRemoveFormProvider.liquidityRemoveForm)
-          .processStep,
+      currentStep: ref.watch(liquidityRemoveFormNotifierProvider).processStep,
       formSheet: const LiquidityRemoveFormSheet(),
       confirmSheet: const LiquidityRemoveConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

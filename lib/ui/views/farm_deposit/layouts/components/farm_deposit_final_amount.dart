@@ -12,13 +12,12 @@ class FarmDepositFinalAmount extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
+    final farmDeposit = ref.watch(farmDepositFormNotifierProvider);
     if (farmDeposit.farmDepositOk == false) return const SizedBox.shrink();
 
     final finalAmount = farmDeposit.finalAmount;
     final timeout = ref.watch(
-      FarmDepositFormProvider.farmDepositForm
-          .select((value) => value.failure != null),
+      farmDepositFormNotifierProvider.select((value) => value.failure != null),
     );
 
     return finalAmount != null

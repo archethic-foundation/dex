@@ -21,9 +21,8 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
-    if (farmLockForm.farmLock == null ||
-        farmLockForm.farmLock!.isOpen == false) {
+    final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
+    if (farmLock == null || farmLock.isOpen == false) {
       return const SizedBox.shrink();
     }
 
@@ -42,9 +41,9 @@ class FarmLockBlockAprBanner extends ConsumerWidget {
               '${AppLocalizations.of(context)!.farmLockBlockAprLbl}: ',
               style: styleBannerText,
             ),
-            if (farmLockForm.farmLock!.apr3years > 0)
+            if (farmLock.apr3years > 0)
               Text(
-                '${(farmLockForm.farmLock!.apr3years * 100).formatNumber(precision: 2)}%',
+                '${(farmLock.apr3years * 100).formatNumber(precision: 2)}%',
                 style: styleBannerText,
               )
             else

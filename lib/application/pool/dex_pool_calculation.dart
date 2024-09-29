@@ -7,12 +7,12 @@ Future<double> _getRatio(
   String poolGenesisAddress,
   DexToken token,
 ) async {
-  final apiService = aedappfm.sl.get<ApiService>();
+  final apiService = ref.watch(apiServiceProvider);
   final poolRatioResult = await PoolFactoryRepositoryImpl(
     poolGenesisAddress,
     apiService,
   ).getPoolRatio(
-    token.isUCO ? 'UCO' : token.address!,
+    token.address,
   );
   var ratio = 0.0;
   poolRatioResult.map(
@@ -33,34 +33,43 @@ Future<double> _estimatePoolTVLInFiat(
 ) async {
   if (pool == null) return 0;
 
+  final infos = await ref.watch(_poolInfosProvider(pool.poolAddress).future);
+
   var fiatValueToken1 = 0.0;
   var fiatValueToken2 = 0.0;
   var tvl = 0.0;
-  fiatValueToken1 = await ref
-      .read(DexTokensProviders.estimateTokenInFiat(pool.pair.token1).future);
-  fiatValueToken2 = await ref
-      .read(DexTokensProviders.estimateTokenInFiat(pool.pair.token2).future);
+  fiatValueToken1 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token1.address).future,
+  );
+  fiatValueToken2 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(pool.pair.token2.address).future,
+  );
 
   if (fiatValueToken1 > 0 && fiatValueToken2 > 0) {
-    tvl = pool.pair.token1.reserve * fiatValueToken1 +
-        pool.pair.token2.reserve * fiatValueToken2;
+    tvl = infos.token1Reserve * fiatValueToken1 +
+        infos.token2Reserve * fiatValueToken2;
   }
 
   if (fiatValueToken1 > 0 && fiatValueToken2 == 0) {
-    tvl = pool.pair.token1.reserve * fiatValueToken1 * 2;
+    tvl = infos.token1Reserve * fiatValueToken1 * 2;
   }
 
   if (fiatValueToken1 == 0 && fiatValueToken2 > 0) {
-    tvl = pool.pair.token2.reserve * fiatValueToken2 * 2;
+    tvl = infos.token2Reserve * fiatValueToken2 * 2;
   }
   return tvl;
 }
 
 @riverpod
-Future<DexPool> _estimateStats(
+Future<DexPoolStats> _estimateStats(
   _EstimateStatsRef ref,
-  DexPool pool,
+  String dexPoolAddress,
 ) async {
+  final apiService = ref.watch(apiServiceProvider);
+  final infos = await ref.watch(
+    DexPoolProviders.poolInfos(dexPoolAddress).future,
+  );
+
   var volume24h = 0.0;
   var volume7d = 0.0;
   var fee24h = 0.0;
@@ -89,6 +98,8 @@ Future<DexPool> _estimateStats(
   var token1TotalFee24h = 0.0;
   var token2TotalFee24h = 0.0;
 
+  // TODO(Chralu): separate api calls in a private provider.
+  // This would prevent re-requesting api every time the Oracle gets updated.
   final fromCriteria24h =
       (DateTime.now().subtract(const Duration(days: 1)).millisecondsSinceEpoch /
               1000)
@@ -98,16 +109,15 @@ Future<DexPool> _estimateStats(
               1000)
           .round();
 
-  final transactionFuture24h =
-      aedappfm.sl.get<ApiService>().getTransactionChain(
-    {pool.poolAddress: ''},
+  final transactionFuture24h = apiService.getTransactionChain(
+    {infos.poolAddress: ''},
     request:
         ' address, previousAddress, validationStamp { ledgerOperations { unspentOutputs { state } } }',
     fromCriteria: fromCriteria24h,
   );
 
-  final transactionFuture7d = aedappfm.sl.get<ApiService>().getTransactionChain(
-    {pool.poolAddress: ''},
+  final transactionFuture7d = apiService.getTransactionChain(
+    {infos.poolAddress: ''},
     request:
         ' address, previousAddress, validationStamp { ledgerOperations { unspentOutputs { state } } }',
     fromCriteria: fromCriteria7d,
@@ -123,10 +133,10 @@ Future<DexPool> _estimateStats(
   String? previousAddressSearchCriteria7d;
   final previousAddressSearchCriteria = <String>[];
 
-  if (transactionChainResult24h[pool.poolAddress] != null &&
-      transactionChainResult24h[pool.poolAddress]!.isNotEmpty) {
+  if (transactionChainResult24h[infos.poolAddress] != null &&
+      transactionChainResult24h[infos.poolAddress]!.isNotEmpty) {
     previousAddressSearchCriteria24h =
-        transactionChainResult24h[pool.poolAddress]!
+        transactionChainResult24h[infos.poolAddress]!
             .first
             .previousAddress!
             .address;
@@ -134,10 +144,10 @@ Future<DexPool> _estimateStats(
     previousAddressSearchCriteria.add(previousAddressSearchCriteria24h!);
   }
 
-  if (transactionChainResult7d[pool.poolAddress] != null &&
-      transactionChainResult7d[pool.poolAddress]!.isNotEmpty) {
+  if (transactionChainResult7d[infos.poolAddress] != null &&
+      transactionChainResult7d[infos.poolAddress]!.isNotEmpty) {
     previousAddressSearchCriteria7d =
-        transactionChainResult7d[pool.poolAddress]!
+        transactionChainResult7d[infos.poolAddress]!
             .first
             .previousAddress!
             .address;
@@ -149,27 +159,27 @@ Future<DexPool> _estimateStats(
   Map<String, Transaction>? transactionsPrevious;
 
   if (previousAddressSearchCriteria.isNotEmpty) {
-    transactionsPrevious = await aedappfm.sl.get<ApiService>().getTransaction(
-          previousAddressSearchCriteria,
-          request:
-              ' address, previousAddress, validationStamp { ledgerOperations { unspentOutputs { state } } }',
-        );
+    transactionsPrevious = await apiService.getTransaction(
+      previousAddressSearchCriteria,
+      request:
+          ' address, previousAddress, validationStamp { ledgerOperations { unspentOutputs { state } } }',
+    );
   }
 
   if (previousAddressSearchCriteria24h != null &&
       transactionsPrevious != null) {
     transaction24h = transactionsPrevious[previousAddressSearchCriteria24h];
   } else {
-    if (transactionChainResult24h[pool.poolAddress]!.isNotEmpty) {
-      transaction24h = transactionChainResult24h[pool.poolAddress]!.first;
+    if (transactionChainResult24h[infos.poolAddress]!.isNotEmpty) {
+      transaction24h = transactionChainResult24h[infos.poolAddress]!.first;
     }
   }
 
   if (previousAddressSearchCriteria7d != null && transactionsPrevious != null) {
     transaction7d = transactionsPrevious[previousAddressSearchCriteria7d];
   } else {
-    if (transactionChainResult7d[pool.poolAddress]!.isNotEmpty) {
-      transaction7d = transactionChainResult7d[pool.poolAddress]!.first;
+    if (transactionChainResult7d[infos.poolAddress]!.isNotEmpty) {
+      transaction7d = transactionChainResult7d[infos.poolAddress]!.first;
     }
   }
 
@@ -241,61 +251,40 @@ Future<DexPool> _estimateStats(
     }
   }
 
-  final archethicOracleUCO =
-      ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
+  priceToken1 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(infos.token1Address).future,
+  );
 
-  final session = ref.watch(SessionProviders.session);
-  if (pool.pair.token1.symbol == 'UCO') {
-    priceToken1 = archethicOracleUCO.usd;
-  } else {
-    priceToken1 = await ref.read(
-      aedappfm.CoinPriceProviders.coinPrice(
-        address: pool.pair.token1.address!,
-        network: session.envSelected,
-      ).future,
-    );
-  }
-
-  if (pool.pair.token2.symbol == 'UCO') {
-    priceToken2 = archethicOracleUCO.usd;
-  } else {
-    priceToken2 = await ref.read(
-      aedappfm.CoinPriceProviders.coinPrice(
-        address: pool.pair.token2.address!,
-        network: session.envSelected,
-      ).future,
-    );
-  }
+  priceToken2 = await ref.watch(
+    DexTokensProviders.estimateTokenInFiat(infos.token2Address).future,
+  );
 
   if (priceToken1 == 0 && priceToken2 > 0) {
-    priceToken1 = (Decimal.parse('${pool.infos!.ratioToken1Token2}') *
+    priceToken1 = (Decimal.parse('${infos.ratioToken1Token2}') *
             Decimal.parse('$priceToken2'))
         .toDouble();
   }
 
   if (priceToken2 == 0 && priceToken1 > 0) {
-    priceToken2 = (Decimal.parse('${pool.infos!.ratioToken2Token1}') *
+    priceToken2 = (Decimal.parse('${infos.ratioToken2Token1}') *
             Decimal.parse('$priceToken1'))
         .toDouble();
   }
 
-  final poolDetails = pool.infos;
-  if (poolDetails != null) {
-    token1TotalVolumeCurrentFiat = priceToken1 * poolDetails.token1TotalVolume;
-    token2TotalVolumeCurrentFiat = priceToken2 * poolDetails.token2TotalVolume;
+  token1TotalVolumeCurrentFiat = priceToken1 * infos.token1TotalVolume;
+  token2TotalVolumeCurrentFiat = priceToken2 * infos.token2TotalVolume;
 
-    token1TotalFeeCurrentFiat = priceToken1 * poolDetails.token1TotalFee;
-    token2TotalFeeCurrentFiat = priceToken2 * poolDetails.token2TotalFee;
+  token1TotalFeeCurrentFiat = priceToken1 * infos.token1TotalFee;
+  token2TotalFeeCurrentFiat = priceToken2 * infos.token2TotalFee;
 
-    token1TotalVolume24hFiat = priceToken1 * token1TotalVolume24h;
-    token2TotalVolume24hFiat = priceToken2 * token2TotalVolume24h;
+  token1TotalVolume24hFiat = priceToken1 * token1TotalVolume24h;
+  token2TotalVolume24hFiat = priceToken2 * token2TotalVolume24h;
 
-    token1TotalVolume7dFiat = priceToken1 * token1TotalVolume7d;
-    token2TotalVolume7dFiat = priceToken2 * token2TotalVolume7d;
+  token1TotalVolume7dFiat = priceToken1 * token1TotalVolume7d;
+  token2TotalVolume7dFiat = priceToken2 * token2TotalVolume7d;
 
-    token1TotalFee24hFiat = priceToken1 * token1TotalFee24h;
-    token2TotalFee24hFiat = priceToken2 * token2TotalFee24h;
-  }
+  token1TotalFee24hFiat = priceToken1 * token1TotalFee24h;
+  token2TotalFee24hFiat = priceToken2 * token2TotalFee24h;
 
   volumeAllTime = token1TotalVolumeCurrentFiat + token2TotalVolumeCurrentFiat;
 
@@ -328,8 +317,9 @@ Future<DexPool> _estimateStats(
     }
   }
 
-  var poolInfos = pool.infos!;
-  poolInfos = poolInfos.copyWith(
+  return DexPoolStats(
+    token1TotalVolume7d: token1TotalVolume7d,
+    token2TotalVolume7d: token2TotalVolume7d,
     token1TotalVolume24h: token1TotalVolume24h,
     token2TotalVolume24h: token2TotalVolume24h,
     token1TotalFee24h: token1TotalFee24h,
@@ -340,5 +330,4 @@ Future<DexPool> _estimateStats(
     volume7d: volume7d,
     volumeAllTime: volumeAllTime,
   );
-  return pool.copyWith(infos: poolInfos);
 }

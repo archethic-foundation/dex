@@ -1,4 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_withdraw/layouts/components/farm_lock_withdraw_textfield_amount.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -19,8 +21,8 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmLockWithdraw =
-        ref.watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm);
+    final localizations = AppLocalizations.of(context)!;
+    final farmLockWithdraw = ref.watch(farmLockWithdrawFormNotifierProvider);
     if (farmLockWithdraw.rewardToken == null ||
         farmLockWithdraw.depositedAmount == null) {
       return const Padding(
@@ -32,6 +34,7 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
         ),
       );
     }
+    final session = ref.watch(sessionNotifierProvider);
     return Expanded(
       child: Column(
         children: [
@@ -186,25 +189,17 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmLockWithdraw.isControlsOk &&
-                                  ref
-                                      .watch(SessionProviders.session)
-                                      .isConnected,
+                                  session.isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farm_withdraw,
                               onPressed: () => ref
                                   .read(
-                                    FarmLockWithdrawFormProvider
-                                        .farmLockWithdrawForm.notifier,
+                                    farmLockWithdrawFormNotifierProvider
+                                        .notifier,
                                   )
-                                  .validateForm(context),
+                                  .validateForm(localizations),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
-                                final session =
-                                    ref.read(SessionProviders.session);
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -233,7 +228,9 @@ class FarmLockWithdrawFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.pop();
+                                context.popOrGo(
+                                  FarmLockSheet.routerPage2,
+                                );
                               },
                             ),
                           ),

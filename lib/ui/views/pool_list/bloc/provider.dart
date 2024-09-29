@@ -1,12 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/infrastructure/hive/favorite_pools.hive.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'provider.g.dart';
 
 enum PoolsListTab {
   verified(true),
@@ -33,91 +32,70 @@ PoolsListTab poolsListTabFromJson(String json) {
   }
 }
 
-final _poolListFormProvider =
-    AutoDisposeNotifierProvider<PoolListFormNotifier, PoolListFormState>(
-  PoolListFormNotifier.new,
-);
-
-class PoolListFormNotifier extends AutoDisposeNotifier<PoolListFormState> {
+@riverpod
+class PoolListFormNotifier extends _$PoolListFormNotifier {
   PoolListFormNotifier();
 
   @override
-  PoolListFormState build() {
-    return const PoolListFormState(
-      poolsToDisplay: AsyncValue.loading(),
-    );
-  }
+  PoolListFormState build() => const PoolListFormState();
 
   void setSearchText(String searchText) {
     state = state.copyWith(searchText: searchText);
   }
 
-  Future<void> getPoolsList({
-    required PoolsListTab tabIndexSelected,
-    required String cancelToken,
-  }) async {
-    state = state.copyWith(
-      tabIndexSelected: tabIndexSelected,
-      poolsToDisplay: const AsyncValue.loading(),
-      cancelToken: cancelToken,
-    );
-
-    var poolListFiltered = <DexPool>[];
-    final poolList = await ref.read(DexPoolProviders.getPoolList.future);
-
-    switch (tabIndexSelected) {
-      case PoolsListTab.favoritePools:
-        final favoritePoolsDatasource =
-            await HiveFavoritePoolsDatasource.getInstance();
-        poolListFiltered = poolList.where((element) {
-          return favoritePoolsDatasource.isFavoritePool(
-            aedappfm.EndpointUtil.getEnvironnement(),
-            element.poolAddress,
-          );
-        }).toList();
-        break;
-      case PoolsListTab.verified:
-        poolListFiltered = poolList
-            .where(
-              (element) => element.isVerified,
-            )
-            .toList();
-        break;
-      case PoolsListTab.myPools:
-        final userBalance = ref.read(SessionProviders.session).userBalance;
-        if (userBalance != null) {
-          for (final pool in poolList) {
-            var lpTokenInUserBalance = false;
-            for (final userTokensBalance in userBalance.token) {
-              if (pool.lpToken.address!.toUpperCase() ==
-                  userTokensBalance.address!.toUpperCase()) {
-                lpTokenInUserBalance = true;
-              }
-            }
-            if (lpTokenInUserBalance) {
-              poolListFiltered.add(pool.copyWith(lpTokenInUserBalance: true));
-            }
-          }
-        }
-        break;
-      case PoolsListTab.searchPool:
-        poolListFiltered = ref.read(
-          DexPoolProviders.getPoolListForSearch(
-            state.searchText,
-            poolList,
-          ),
-        );
-        break;
-    }
-
-    if (state.cancelToken == cancelToken) {
-      state = state.copyWith(
-        poolsToDisplay: AsyncValue.data(poolListFiltered),
-      );
-    }
+  void selectTab(PoolsListTab tab) {
+    state = state.copyWith(selectedTab: tab);
   }
 }
 
-abstract class PoolListFormProvider {
-  static final poolListForm = _poolListFormProvider;
+@riverpod
+Future<List<DexPool>> poolsToDisplay(PoolsToDisplayRef ref) async {
+  var poolListFiltered = <DexPool>[];
+  final selectedTab = ref.watch(
+    poolListFormNotifierProvider.select((notifier) => notifier.selectedTab),
+  );
+  final searchText = ref.watch(
+    poolListFormNotifierProvider.select((notifier) => notifier.searchText),
+  );
+  final poolList = await ref.watch(DexPoolProviders.getPoolList.future);
+
+  switch (selectedTab) {
+    case PoolsListTab.favoritePools:
+      return [
+        for (final pool in poolList)
+          if (await ref
+              .watch(DexPoolProviders.poolFavorite(pool.poolAddress).future))
+            pool,
+      ];
+    case PoolsListTab.verified:
+      return poolList
+          .where(
+            (element) => element.isVerified,
+          )
+          .toList();
+    case PoolsListTab.myPools:
+      final userBalance = await ref.watch(userBalanceProvider.future);
+      for (final pool in poolList) {
+        var lpTokenInUserBalance = false;
+
+        for (final userTokensBalance in userBalance.token) {
+          if (pool.lpToken.address.toUpperCase() ==
+              userTokensBalance.address!.toUpperCase()) {
+            lpTokenInUserBalance = true;
+          }
+        }
+        if (lpTokenInUserBalance) {
+          poolListFiltered.add(pool.copyWith(lpTokenInUserBalance: true));
+        }
+      }
+      return poolListFiltered;
+    case PoolsListTab.searchPool:
+      poolListFiltered = ref.read(
+        DexPoolProviders.getPoolListForSearch(
+          searchText,
+          poolList,
+        ),
+      );
+      return poolListFiltered;
+  }
 }

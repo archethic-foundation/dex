@@ -13,7 +13,6 @@ import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,66 +41,60 @@ class SwapFormSheet extends ConsumerStatefulWidget {
 class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         if (widget.value != null) {
-          ref.read(SwapFormProvider.swapForm.notifier)
+          ref.read(swapFormNotifierProvider.notifier)
             ..setTokenFormSelected(1)
             ..setTokenToSwapAmountWithoutCalculation(widget.value!);
         }
 
-        if (aedappfm.sl.isRegistered<ApiService>() == false) {
-          await ref
-              .read(SessionProviders.session.notifier)
-              .connectEndpointWithoutWallet('mainnet');
-        }
-
         if (widget.from != null) {
           DexToken? _tokenToSwap;
-          if (widget.from != 'UCO') {
+          if (widget.from?.isUCO == false) {
             _tokenToSwap = await ref.read(
               DexTokensProviders.getTokenFromAddress(widget.from).future,
             );
           } else {
-            _tokenToSwap = ucoToken;
+            _tokenToSwap = DexToken.uco();
           }
           if (_tokenToSwap != null) {
             await ref
-                .read(SwapFormProvider.swapForm.notifier)
+                .read(swapFormNotifierProvider.notifier)
                 .setTokenToSwap(_tokenToSwap);
           }
         } else {
           if (widget.tokenToSwap != null) {
             await ref
-                .read(SwapFormProvider.swapForm.notifier)
+                .read(swapFormNotifierProvider.notifier)
                 .setTokenToSwap(widget.tokenToSwap!);
           }
         }
 
         if (widget.to != null) {
           DexToken? _tokenSwapped;
-          if (widget.to != 'UCO') {
+          if (widget.to?.isUCO == false) {
             _tokenSwapped = await ref.read(
               DexTokensProviders.getTokenFromAddress(widget.to).future,
             );
           } else {
-            _tokenSwapped = ucoToken;
+            _tokenSwapped = DexToken.uco();
           }
           if (_tokenSwapped != null) {
             await ref
-                .read(SwapFormProvider.swapForm.notifier)
+                .read(swapFormNotifierProvider.notifier)
                 .setTokenSwapped(_tokenSwapped);
           }
         } else {
           if (widget.tokenSwapped != null) {
             await ref
-                .read(SwapFormProvider.swapForm.notifier)
+                .read(swapFormNotifierProvider.notifier)
                 .setTokenSwapped(widget.tokenSwapped!);
           }
         }
 
         if (widget.value != null) {
-          ref.read(SwapFormProvider.swapForm.notifier).setTokenFormSelected(2);
+          ref.read(swapFormNotifierProvider.notifier).setTokenFormSelected(2);
         }
       } catch (e) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -120,7 +113,7 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
 
   @override
   Widget build(BuildContext contextf) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
 
     return Expanded(
       child: Padding(
@@ -189,16 +182,12 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
                   controlOk: swap.isControlsOk,
                   labelBtn: AppLocalizations.of(context)!.btn_swap,
                   onPressed: () => ref
-                      .read(SwapFormProvider.swapForm.notifier)
-                      .validateForm(context),
+                      .read(swapFormNotifierProvider.notifier)
+                      .validateForm(AppLocalizations.of(context)!),
                   displayWalletConnect: true,
-                  isConnected: ref.watch(SessionProviders.session).isConnected,
+                  isConnected: ref.watch(sessionNotifierProvider).isConnected,
                   displayWalletConnectOnPressed: () async {
-                    final sessionNotifier =
-                        ref.read(SessionProviders.session.notifier);
-                    await sessionNotifier.connectToWallet();
-
-                    final session = ref.read(SessionProviders.session);
+                    final session = ref.read(sessionNotifierProvider);
                     if (session.error.isNotEmpty) {
                       if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(

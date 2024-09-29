@@ -1,5 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
@@ -33,28 +31,17 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.earn;
 
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
-        ref.read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
+        ref.read(farmLockDepositFormNotifierProvider.notifier)
           ..setDexPool(widget.pool)
           ..setDexFarmLock(widget.farmLock)
           ..setLevel(widget.farmLock.availableLevels.entries.last.key)
-          ..setAPREstimation(widget.farmLock.apr3years * 100);
-
-        await ref
-            .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
-            .initBalances();
-
-        ref
-            .read(FarmLockDepositFormProvider.farmLockDepositForm.notifier)
-            .filterAvailableLevels();
+          ..setAPREstimation(widget.farmLock.apr3years * 100)
+          ..filterAvailableLevels();
       } catch (e) {
         if (mounted) {
           context.pop();
@@ -66,9 +53,7 @@ class _FarmLockDepositSheetState extends ConsumerState<FarmLockDepositSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref
-          .watch(FarmLockDepositFormProvider.farmLockDepositForm)
-          .processStep,
+      currentStep: ref.watch(farmLockDepositFormNotifierProvider).processStep,
       formSheet: const FarmLockDepositFormSheet(),
       confirmSheet: const FarmLockDepositConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

@@ -11,30 +11,40 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'ClaimFarmCase';
 
 class ClaimFarmCase with aedappfm.TransactionMixin {
+  ClaimFarmCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.verifiedTokensRepository,
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
-    BuildContext context,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
+    AppLocalizations localizations,
+    FarmClaimFormNotifier farmClaimNotifier,
     String farmGenesisAddress,
     DexToken rewardToken, {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionClaim,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmClaimNotifier =
-        ref.read(FarmClaimFormProvider.farmClaimForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionClaim;
     if (recoveryTransactionClaim != null) {
@@ -73,20 +83,17 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
       farmClaimNotifier.setCurrentStep(2);
     }
     try {
-      final currentNameAccount = await getCurrentAccount();
+      final currentNameAccount = await getCurrentAccount(dappClient);
       farmClaimNotifier.setWalletConfirmation(true);
 
       transactionClaim = (await signTx(
+        dappClient,
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionClaim!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.claimFarmSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.claimFarmSignTxDesc_fr
-              : '',
+          'en': localizations.claimFarmSignTxDesc_en,
+          'fr': localizations.claimFarmSignTxDesc_fr,
         },
       ))
           .first;
@@ -115,7 +122,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionClaim!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmClaimNotifier
@@ -136,7 +143,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionClaim!.address!.address!,
           rewardToken.address,
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,
@@ -152,7 +159,7 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet(dappClient));
 
       return amount;
     } catch (e) {
@@ -182,18 +189,18 @@ class ClaimFarmCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.claimProcessStep1;
+        return localizations.claimProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.claimProcessStep2;
+        return localizations.claimProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.claimProcessStep3;
+        return localizations.claimProcessStep3;
       default:
-        return AppLocalizations.of(context)!.claimProcessStep0;
+        return localizations.claimProcessStep0;
     }
   }
 }

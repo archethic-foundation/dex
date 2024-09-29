@@ -1,11 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,31 +38,30 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
           },
         );
 
-        final swapNotifier = ref.read(SwapFormProvider.swapForm.notifier);
-        final swap = ref.read(SwapFormProvider.swapForm);
+        final swapNotifier = ref.read(swapFormNotifierProvider.notifier);
+        final swap = ref.read(swapFormNotifierProvider);
 
-        final session = ref.read(SessionProviders.session);
-        final apiService = aedappfm.sl.get<ApiService>();
-        final balanceToSwap = await ref.read(
-          BalanceProviders.getBalance(
-            session.genesisAddress,
-            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
-            apiService,
-          ).future,
-        );
-        swapNotifier.setTokenToSwapBalance(balanceToSwap);
-        final balanceSwapped = await ref.read(
-          BalanceProviders.getBalance(
-            session.genesisAddress,
-            swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address!,
-            apiService,
-          ).future,
-        );
-        swapNotifier.setTokenSwappedBalance(balanceSwapped);
+        if (swap.tokenToSwap != null) {
+          final balanceToSwap = await ref.read(
+            getBalanceProvider(
+              swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address,
+            ).future,
+          );
+          swapNotifier.setTokenToSwapBalance(balanceToSwap);
+        }
+
+        if (swap.tokenSwapped != null) {
+          final balanceSwapped = await ref.read(
+            getBalanceProvider(
+              swap.tokenSwapped!.isUCO ? 'UCO' : swap.tokenSwapped!.address,
+            ).future,
+          );
+          swapNotifier.setTokenSwappedBalance(balanceSwapped);
+        }
 
         if (swap.tokenToSwap != null && swap.tokenSwapped != null) {
           await swapNotifier.calculateSwapInfos(
-            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address!,
+            swap.tokenToSwap!.isUCO ? 'UCO' : swap.tokenToSwap!.address,
             swap.tokenToSwapAmount,
             true,
           );

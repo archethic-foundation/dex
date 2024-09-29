@@ -1,27 +1,16 @@
-import 'dart:convert';
-
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/token_selection/layouts/components/token_list.dart';
 import 'package:aedex/ui/views/token_selection/layouts/components/token_selection_common_bases.dart';
 import 'package:aedex/ui/views/token_selection/layouts/components/token_selection_search_bar.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class TokenSelectionPopup {
   static Future<DexToken?> getDialog(
     BuildContext context,
+    aedappfm.Environment environment,
   ) async {
-    final jsonContent = await rootBundle
-        .loadString('lib/domain/repositories/common_bases.json');
-
-    final jsonData = jsonDecode(jsonContent);
-
-    final currentEnvironment = aedappfm.EndpointUtil.getEnvironnement();
-    final tokens = jsonData['tokens'][currentEnvironment] as List<dynamic>;
-    if (!context.mounted) return null;
     return showDialog<DexToken>(
       context: context,
       builder: (context) {
@@ -37,7 +26,7 @@ class TokenSelectionPopup {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         const TokenSelectionSearchBar(),
-                        TokenSelectionCommonBases(tokens: tokens),
+                        const TokenSelectionCommonBases(),
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: SizedBox(

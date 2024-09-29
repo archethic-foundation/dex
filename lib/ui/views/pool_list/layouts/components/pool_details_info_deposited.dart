@@ -1,12 +1,11 @@
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/dex_token.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
-import 'package:aedex/infrastructure/pool_factory.repository.dart';
+import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/format_address_link.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -16,17 +15,24 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
   const PoolDetailsInfoDeposited({
     super.key,
     required this.pool,
+    required this.poolInfos,
   });
 
-  final DexPool? pool;
+  final DexPool pool;
+  final DexPoolInfos poolInfos;
 
   @override
   Widget build(
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
-    final apiService = aedappfm.sl.get<ApiService>();
+    final balance = ref
+        .watch(
+          getBalanceProvider(
+            pool.lpToken.address,
+          ),
+        )
+        .value;
 
     return Opacity(
       opacity: AppTextStyles.kOpacityText,
@@ -44,7 +50,7 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                 width: 5,
               ),
               FormatAddressLink(
-                address: pool!.poolAddress,
+                address: pool.poolAddress,
                 typeAddress: TypeAddressLink.chain,
                 tooltipLink: AppLocalizations.of(
                   context,
@@ -63,9 +69,9 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Tooltip(
-                        message: pool!.pair.token1.symbol,
+                        message: pool.pair.token1.symbol,
                         child: SelectableText(
-                          '${pool!.pair.token1.reserve.formatNumber()} ${pool!.pair.token1.symbol}',
+                          '${poolInfos.token1Reserve.formatNumber()} ${pool.pair.token1.symbol}',
                           style: AppTextStyles.bodyLarge(context),
                         ),
                       ),
@@ -75,9 +81,9 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Tooltip(
-                        message: pool!.pair.token2.symbol,
+                        message: pool.pair.token2.symbol,
                         child: SelectableText(
-                          '${pool!.pair.token2.reserve.formatNumber()} ${pool!.pair.token2.symbol}',
+                          '${poolInfos.token2Reserve.formatNumber()} ${pool.pair.token2.symbol}',
                           style: AppTextStyles.bodyLarge(context),
                         ),
                       ),
@@ -86,106 +92,14 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      FutureBuilder<double>(
-                        future: ref.watch(
-                          BalanceProviders.getBalance(
-                            session.genesisAddress,
-                            pool!.lpToken.address!,
-                            apiService,
-                          ).future,
+                      if (balance == null)
+                        const SizedBox.shrink()
+                      else
+                        _PoolDetailsInfoDepositedBody(
+                          pool: pool,
+                          poolInfos: poolInfos,
+                          balance: balance,
                         ),
-                        builder: (context, snapshotBalance) {
-                          if (snapshotBalance.hasData) {
-                            var percentage = 0.0;
-                            if (pool!.lpToken.supply > 0) {
-                              percentage = (Decimal.parse('100') *
-                                      Decimal.parse(
-                                        '${snapshotBalance.data!}',
-                                      ) /
-                                      Decimal.parse(
-                                        '${pool!.lpToken.supply}',
-                                      ))
-                                  .toDouble();
-                            }
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  children: [
-                                    SelectableText(
-                                      pool!.lpToken.supply == 0
-                                          ? ''
-                                          : snapshotBalance.data!
-                                              .formatNumber(),
-                                      style: AppTextStyles.bodyLarge(context),
-                                    ),
-                                    if (pool!.lpToken.supply > 0)
-                                      SelectableText(
-                                        ' / ${pool!.lpToken.supply.formatNumber()} ${pool!.lpToken.supply > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
-                                        style: AppTextStyles.bodyLarge(context),
-                                      )
-                                    else
-                                      SelectableText(
-                                        pool!.lpToken.supply > 1
-                                            ? AppLocalizations.of(context)!
-                                                .lpTokens
-                                            : AppLocalizations.of(context)!
-                                                .lpToken,
-                                        style: AppTextStyles.bodyLarge(context),
-                                      ),
-                                  ],
-                                ),
-                                SelectableText(
-                                  '(${percentage.formatNumber(precision: 8)}%)',
-                                  style: AppTextStyles.bodyMedium(context),
-                                ),
-                                if (snapshotBalance.data! > 0)
-                                  FutureBuilder<Map<String, dynamic>?>(
-                                    future: PoolFactoryRepositoryImpl(
-                                      pool!.poolAddress,
-                                      aedappfm.sl.get<ApiService>(),
-                                    ).getRemoveAmounts(
-                                      snapshotBalance.data!,
-                                    ),
-                                    builder: (
-                                      context,
-                                      snapshotAmounts,
-                                    ) {
-                                      if (snapshotAmounts.hasData &&
-                                          snapshotAmounts.data != null) {
-                                        final amountToken1 = snapshotAmounts
-                                                    .data!['token1'] ==
-                                                null
-                                            ? 0.0
-                                            : snapshotAmounts.data!['token1']
-                                                as double;
-                                        final amountToken2 = snapshotAmounts
-                                                    .data!['token2'] ==
-                                                null
-                                            ? 0.0
-                                            : snapshotAmounts.data!['token2']
-                                                as double;
-
-                                        return SelectableText(
-                                          '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amountToken1.formatNumber(precision: amountToken1 > 1 ? 2 : 8)} ${pool!.pair.token1.symbol.reduceSymbol()} / ${amountToken2.formatNumber(precision: amountToken2 > 1 ? 2 : 8)} ${pool!.pair.token2.symbol.reduceSymbol()}',
-                                          style:
-                                              AppTextStyles.bodyMedium(context),
-                                        );
-                                      }
-                                      return const SizedBox.shrink();
-                                    },
-                                  )
-                                else
-                                  SelectableText(
-                                    ' ',
-                                    style: AppTextStyles.bodyMedium(context),
-                                  ),
-                              ],
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
-                      ),
                     ],
                   ),
                 ],
@@ -194,6 +108,76 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _PoolDetailsInfoDepositedBody extends ConsumerWidget {
+  const _PoolDetailsInfoDepositedBody({
+    super.key,
+    required this.pool,
+    required this.balance,
+    required this.poolInfos,
+  });
+  final DexPool pool;
+  final double balance;
+  final DexPoolInfos poolInfos;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final amounts = balance <= 0
+        ? null
+        : ref
+            .watch(
+              DexTokensProviders.getRemoveAmounts(pool.poolAddress, balance),
+            )
+            .value;
+
+    var percentage = 0.0;
+    if (poolInfos.lpTokenSupply > 0) {
+      percentage = (Decimal.parse('100') *
+              Decimal.parse(
+                '$balance',
+              ) /
+              Decimal.parse(
+                '${poolInfos.lpTokenSupply}',
+              ))
+          .toDouble();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Row(
+          children: [
+            SelectableText(
+              poolInfos.lpTokenSupply == 0 ? '' : balance.formatNumber(),
+              style: AppTextStyles.bodyLarge(context),
+            ),
+            if (poolInfos.lpTokenSupply > 0)
+              SelectableText(
+                ' / ${poolInfos.lpTokenSupply.formatNumber()} ${poolInfos.lpTokenSupply > 1 ? AppLocalizations.of(context)!.lpTokens : AppLocalizations.of(context)!.lpToken}',
+                style: AppTextStyles.bodyLarge(context),
+              )
+            else
+              SelectableText(
+                poolInfos.lpTokenSupply > 1
+                    ? AppLocalizations.of(context)!.lpTokens
+                    : AppLocalizations.of(context)!.lpToken,
+                style: AppTextStyles.bodyLarge(context),
+              ),
+          ],
+        ),
+        SelectableText(
+          '(${percentage.formatNumber(precision: 8)}%)',
+          style: AppTextStyles.bodyMedium(context),
+        ),
+        if (amounts == null)
+          const SizedBox.shrink()
+        else
+          SelectableText(
+            '${AppLocalizations.of(context)!.poolDetailsInfoDepositedEquivalent} ${amounts.token1.formatNumber(precision: amounts.token1 > 1 ? 2 : 8)} ${pool.pair.token1.symbol.reduceSymbol()} / ${amounts.token2.formatNumber(precision: amounts.token2 > 1 ? 2 : 8)} ${pool.pair.token2.symbol.reduceSymbol()}',
+            style: AppTextStyles.bodyMedium(context),
+          ),
+      ],
     );
   }
 }

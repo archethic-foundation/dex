@@ -7,6 +7,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PoolAddToken1Amount extends ConsumerStatefulWidget {
@@ -29,7 +30,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
   }
 
   void _updateAmountTextController() {
-    final poolAdd = ref.read(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.read(poolAddFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value = aedappfm.AmountTextInputFormatter(
       precision: 8,
@@ -57,9 +58,9 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
   Widget build(
     BuildContext context,
   ) {
-    final poolAddNotifier = ref.watch(PoolAddFormProvider.poolAddForm.notifier);
+    final poolAddNotifier = ref.watch(poolAddFormNotifierProvider.notifier);
 
-    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
 
     return Column(
       children: [
@@ -126,12 +127,11 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                   onChanged: (text) {
                                     ref
                                         .read(
-                                          PoolAddFormProvider
-                                              .poolAddForm.notifier,
+                                          poolAddFormNotifierProvider.notifier,
                                         )
                                         .setTokenFormSelected(1);
                                     poolAddNotifier.setToken1Amount(
-                                      context,
+                                      AppLocalizations.of(context)!,
                                       double.tryParse(
                                             text.replaceAll(',', ''),
                                           ) ??
@@ -141,8 +141,7 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                                   onTap: () {
                                     ref
                                         .read(
-                                          PoolAddFormProvider
-                                              .poolAddForm.notifier,
+                                          poolAddFormNotifierProvider.notifier,
                                         )
                                         .setTokenFormSelected(1);
                                   },
@@ -197,12 +196,12 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                     onTap: () {
                       ref
                           .read(
-                            PoolAddFormProvider.poolAddForm.notifier,
+                            poolAddFormNotifierProvider.notifier,
                           )
                           .setTokenFormSelected(1);
                       ref
-                          .read(PoolAddFormProvider.poolAddForm.notifier)
-                          .setToken1AmountHalf(context);
+                          .read(poolAddFormNotifierProvider.notifier)
+                          .setToken1AmountHalf(AppLocalizations.of(context)!);
                       _updateAmountTextController();
                     },
                   ),
@@ -214,12 +213,12 @@ class _PoolAddToken1AmountState extends ConsumerState<PoolAddToken1Amount> {
                     onTap: () {
                       ref
                           .read(
-                            PoolAddFormProvider.poolAddForm.notifier,
+                            poolAddFormNotifierProvider.notifier,
                           )
                           .setTokenFormSelected(1);
                       ref
-                          .read(PoolAddFormProvider.poolAddForm.notifier)
-                          .setToken1AmountMax(context);
+                          .read(poolAddFormNotifierProvider.notifier)
+                          .setToken1AmountMax(AppLocalizations.of(context)!);
                       _updateAmountTextController();
                     },
                   ),

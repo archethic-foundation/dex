@@ -1,7 +1,6 @@
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
-
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aedex/ui/views/util/components/verified_token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -52,7 +51,10 @@ class SingleTokenState extends State<SingleToken>
       ),
       child: InkWell(
         onTap: () {
-          Navigator.pop(context, widget.token);
+          Navigator.pop(
+            context,
+            widget.token,
+          );
         },
         child: Row(
           children: [
@@ -60,8 +62,7 @@ class SingleTokenState extends State<SingleToken>
               width: 10,
             ),
             DexTokenIcon(
-              tokenAddress:
-                  widget.token.address == null ? 'UCO' : widget.token.address!,
+              tokenAddress: widget.token.address,
             ),
             const SizedBox(
               width: 10,
@@ -73,9 +74,9 @@ class SingleTokenState extends State<SingleToken>
                 ..._getContent(
                   context,
                 ),
-                if (widget.token.address != null)
+                if (widget.token.address.isNotUCO)
                   FormatAddressLinkCopy(
-                    address: widget.token.address!,
+                    address: widget.token.address,
                     reduceAddress: true,
                     fontSize:
                         Theme.of(context).textTheme.titleMedium!.fontSize!,
@@ -113,7 +114,7 @@ class SingleTokenState extends State<SingleToken>
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: VerifiedTokenIcon(
-                address: widget.token.isUCO ? 'UCO' : widget.token.address!,
+                address: widget.token.isUCO ? 'UCO' : widget.token.address,
                 iconSize: 12,
               ),
             ),

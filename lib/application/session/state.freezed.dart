@@ -16,15 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Session {
-  String get envSelected => throw _privateConstructorUsedError;
-  String get endpoint => throw _privateConstructorUsedError;
+  Environment get environment => throw _privateConstructorUsedError;
   String get nameAccount => throw _privateConstructorUsedError;
-  String get oldNameAccount => throw _privateConstructorUsedError;
   String get genesisAddress => throw _privateConstructorUsedError;
   String get error => throw _privateConstructorUsedError;
-  bool get isConnected => throw _privateConstructorUsedError;
-  Balance? get userBalance => throw _privateConstructorUsedError;
-  Subscription<Account>? get accountSub => throw _privateConstructorUsedError;
+  awc.ArchethicDappConnectionState get walletConnectionState =>
+      throw _privateConstructorUsedError;
+  awc.Subscription<Account>? get accountSub =>
+      throw _privateConstructorUsedError;
   StreamSubscription<Account>? get accountStreamSub =>
       throw _privateConstructorUsedError;
 
@@ -38,18 +37,15 @@ abstract class $SessionCopyWith<$Res> {
       _$SessionCopyWithImpl<$Res, Session>;
   @useResult
   $Res call(
-      {String envSelected,
-      String endpoint,
+      {Environment environment,
       String nameAccount,
-      String oldNameAccount,
       String genesisAddress,
       String error,
-      bool isConnected,
-      Balance? userBalance,
-      Subscription<Account>? accountSub,
+      awc.ArchethicDappConnectionState walletConnectionState,
+      awc.Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
 
-  $BalanceCopyWith<$Res>? get userBalance;
+  $ArchethicDappConnectionStateCopyWith<$Res> get walletConnectionState;
   $SubscriptionCopyWith<Account, $Res>? get accountSub;
 }
 
@@ -66,33 +62,22 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? envSelected = null,
-    Object? endpoint = null,
+    Object? environment = null,
     Object? nameAccount = null,
-    Object? oldNameAccount = null,
     Object? genesisAddress = null,
     Object? error = null,
-    Object? isConnected = null,
-    Object? userBalance = freezed,
+    Object? walletConnectionState = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
   }) {
     return _then(_value.copyWith(
-      envSelected: null == envSelected
-          ? _value.envSelected
-          : envSelected // ignore: cast_nullable_to_non_nullable
-              as String,
-      endpoint: null == endpoint
-          ? _value.endpoint
-          : endpoint // ignore: cast_nullable_to_non_nullable
-              as String,
+      environment: null == environment
+          ? _value.environment
+          : environment // ignore: cast_nullable_to_non_nullable
+              as Environment,
       nameAccount: null == nameAccount
           ? _value.nameAccount
           : nameAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      oldNameAccount: null == oldNameAccount
-          ? _value.oldNameAccount
-          : oldNameAccount // ignore: cast_nullable_to_non_nullable
               as String,
       genesisAddress: null == genesisAddress
           ? _value.genesisAddress
@@ -102,18 +87,14 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String,
-      isConnected: null == isConnected
-          ? _value.isConnected
-          : isConnected // ignore: cast_nullable_to_non_nullable
-              as bool,
-      userBalance: freezed == userBalance
-          ? _value.userBalance
-          : userBalance // ignore: cast_nullable_to_non_nullable
-              as Balance?,
+      walletConnectionState: null == walletConnectionState
+          ? _value.walletConnectionState
+          : walletConnectionState // ignore: cast_nullable_to_non_nullable
+              as awc.ArchethicDappConnectionState,
       accountSub: freezed == accountSub
           ? _value.accountSub
           : accountSub // ignore: cast_nullable_to_non_nullable
-              as Subscription<Account>?,
+              as awc.Subscription<Account>?,
       accountStreamSub: freezed == accountStreamSub
           ? _value.accountStreamSub
           : accountStreamSub // ignore: cast_nullable_to_non_nullable
@@ -123,13 +104,10 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
 
   @override
   @pragma('vm:prefer-inline')
-  $BalanceCopyWith<$Res>? get userBalance {
-    if (_value.userBalance == null) {
-      return null;
-    }
-
-    return $BalanceCopyWith<$Res>(_value.userBalance!, (value) {
-      return _then(_value.copyWith(userBalance: value) as $Val);
+  $ArchethicDappConnectionStateCopyWith<$Res> get walletConnectionState {
+    return $ArchethicDappConnectionStateCopyWith<$Res>(
+        _value.walletConnectionState, (value) {
+      return _then(_value.copyWith(walletConnectionState: value) as $Val);
     });
   }
 
@@ -154,19 +132,16 @@ abstract class _$$SessionImplCopyWith<$Res> implements $SessionCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String envSelected,
-      String endpoint,
+      {Environment environment,
       String nameAccount,
-      String oldNameAccount,
       String genesisAddress,
       String error,
-      bool isConnected,
-      Balance? userBalance,
-      Subscription<Account>? accountSub,
+      awc.ArchethicDappConnectionState walletConnectionState,
+      awc.Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
 
   @override
-  $BalanceCopyWith<$Res>? get userBalance;
+  $ArchethicDappConnectionStateCopyWith<$Res> get walletConnectionState;
   @override
   $SubscriptionCopyWith<Account, $Res>? get accountSub;
 }
@@ -182,33 +157,22 @@ class __$$SessionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? envSelected = null,
-    Object? endpoint = null,
+    Object? environment = null,
     Object? nameAccount = null,
-    Object? oldNameAccount = null,
     Object? genesisAddress = null,
     Object? error = null,
-    Object? isConnected = null,
-    Object? userBalance = freezed,
+    Object? walletConnectionState = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
   }) {
     return _then(_$SessionImpl(
-      envSelected: null == envSelected
-          ? _value.envSelected
-          : envSelected // ignore: cast_nullable_to_non_nullable
-              as String,
-      endpoint: null == endpoint
-          ? _value.endpoint
-          : endpoint // ignore: cast_nullable_to_non_nullable
-              as String,
+      environment: null == environment
+          ? _value.environment
+          : environment // ignore: cast_nullable_to_non_nullable
+              as Environment,
       nameAccount: null == nameAccount
           ? _value.nameAccount
           : nameAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      oldNameAccount: null == oldNameAccount
-          ? _value.oldNameAccount
-          : oldNameAccount // ignore: cast_nullable_to_non_nullable
               as String,
       genesisAddress: null == genesisAddress
           ? _value.genesisAddress
@@ -218,18 +182,14 @@ class __$$SessionImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String,
-      isConnected: null == isConnected
-          ? _value.isConnected
-          : isConnected // ignore: cast_nullable_to_non_nullable
-              as bool,
-      userBalance: freezed == userBalance
-          ? _value.userBalance
-          : userBalance // ignore: cast_nullable_to_non_nullable
-              as Balance?,
+      walletConnectionState: null == walletConnectionState
+          ? _value.walletConnectionState
+          : walletConnectionState // ignore: cast_nullable_to_non_nullable
+              as awc.ArchethicDappConnectionState,
       accountSub: freezed == accountSub
           ? _value.accountSub
           : accountSub // ignore: cast_nullable_to_non_nullable
-              as Subscription<Account>?,
+              as awc.Subscription<Account>?,
       accountStreamSub: freezed == accountStreamSub
           ? _value.accountStreamSub
           : accountStreamSub // ignore: cast_nullable_to_non_nullable
@@ -242,30 +202,20 @@ class __$$SessionImplCopyWithImpl<$Res>
 
 class _$SessionImpl extends _Session {
   const _$SessionImpl(
-      {this.envSelected = 'mainnet',
-      this.endpoint = '',
+      {required this.environment,
       this.nameAccount = '',
-      this.oldNameAccount = '',
       this.genesisAddress = '',
       this.error = '',
-      this.isConnected = false,
-      this.userBalance,
+      required this.walletConnectionState,
       this.accountSub,
       this.accountStreamSub})
       : super._();
 
   @override
-  @JsonKey()
-  final String envSelected;
-  @override
-  @JsonKey()
-  final String endpoint;
+  final Environment environment;
   @override
   @JsonKey()
   final String nameAccount;
-  @override
-  @JsonKey()
-  final String oldNameAccount;
   @override
   @JsonKey()
   final String genesisAddress;
@@ -273,18 +223,15 @@ class _$SessionImpl extends _Session {
   @JsonKey()
   final String error;
   @override
-  @JsonKey()
-  final bool isConnected;
+  final awc.ArchethicDappConnectionState walletConnectionState;
   @override
-  final Balance? userBalance;
-  @override
-  final Subscription<Account>? accountSub;
+  final awc.Subscription<Account>? accountSub;
   @override
   final StreamSubscription<Account>? accountStreamSub;
 
   @override
   String toString() {
-    return 'Session(envSelected: $envSelected, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, userBalance: $userBalance, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
+    return 'Session(environment: $environment, nameAccount: $nameAccount, genesisAddress: $genesisAddress, error: $error, walletConnectionState: $walletConnectionState, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
   }
 
   @override
@@ -292,21 +239,15 @@ class _$SessionImpl extends _Session {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SessionImpl &&
-            (identical(other.envSelected, envSelected) ||
-                other.envSelected == envSelected) &&
-            (identical(other.endpoint, endpoint) ||
-                other.endpoint == endpoint) &&
+            (identical(other.environment, environment) ||
+                other.environment == environment) &&
             (identical(other.nameAccount, nameAccount) ||
                 other.nameAccount == nameAccount) &&
-            (identical(other.oldNameAccount, oldNameAccount) ||
-                other.oldNameAccount == oldNameAccount) &&
             (identical(other.genesisAddress, genesisAddress) ||
                 other.genesisAddress == genesisAddress) &&
             (identical(other.error, error) || other.error == error) &&
-            (identical(other.isConnected, isConnected) ||
-                other.isConnected == isConnected) &&
-            (identical(other.userBalance, userBalance) ||
-                other.userBalance == userBalance) &&
+            (identical(other.walletConnectionState, walletConnectionState) ||
+                other.walletConnectionState == walletConnectionState) &&
             (identical(other.accountSub, accountSub) ||
                 other.accountSub == accountSub) &&
             (identical(other.accountStreamSub, accountStreamSub) ||
@@ -316,14 +257,11 @@ class _$SessionImpl extends _Session {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      envSelected,
-      endpoint,
+      environment,
       nameAccount,
-      oldNameAccount,
       genesisAddress,
       error,
-      isConnected,
-      userBalance,
+      walletConnectionState,
       accountSub,
       accountStreamSub);
 
@@ -336,36 +274,27 @@ class _$SessionImpl extends _Session {
 
 abstract class _Session extends Session {
   const factory _Session(
-      {final String envSelected,
-      final String endpoint,
+      {required final Environment environment,
       final String nameAccount,
-      final String oldNameAccount,
       final String genesisAddress,
       final String error,
-      final bool isConnected,
-      final Balance? userBalance,
-      final Subscription<Account>? accountSub,
+      required final awc.ArchethicDappConnectionState walletConnectionState,
+      final awc.Subscription<Account>? accountSub,
       final StreamSubscription<Account>? accountStreamSub}) = _$SessionImpl;
   const _Session._() : super._();
 
   @override
-  String get envSelected;
-  @override
-  String get endpoint;
+  Environment get environment;
   @override
   String get nameAccount;
-  @override
-  String get oldNameAccount;
   @override
   String get genesisAddress;
   @override
   String get error;
   @override
-  bool get isConnected;
+  awc.ArchethicDappConnectionState get walletConnectionState;
   @override
-  Balance? get userBalance;
-  @override
-  Subscription<Account>? get accountSub;
+  awc.Subscription<Account>? get accountSub;
   @override
   StreamSubscription<Account>? get accountStreamSub;
   @override

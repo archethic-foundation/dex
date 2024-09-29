@@ -1,35 +1,31 @@
-import 'package:aedex/application/notification.dart';
+import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/usecases.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/domain/models/dex_token.dart';
-import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
-import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
+import 'package:aedex/ui/views/farm_list/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_withdraw/bloc/state.dart';
 import 'package:aedex/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aedex/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _farmWithdrawFormProvider = NotifierProvider.autoDispose<
-    FarmWithdrawFormNotifier, FarmWithdrawFormState>(
-  () {
-    return FarmWithdrawFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class FarmWithdrawFormNotifier
-    extends AutoDisposeNotifier<FarmWithdrawFormState> {
+@riverpod
+class FarmWithdrawFormNotifier extends _$FarmWithdrawFormNotifier {
   FarmWithdrawFormNotifier();
 
   @override
   FarmWithdrawFormState build() => const FarmWithdrawFormState();
 
-  void setTransactionWithdrawFarm(Transaction transactionWithdrawFarm) {
+  void setTransactionWithdrawFarm(
+    archethic.Transaction transactionWithdrawFarm,
+  ) {
     state = state.copyWith(transactionWithdrawFarm: transactionWithdrawFarm);
   }
 
@@ -40,7 +36,7 @@ class FarmWithdrawFormNotifier
   }
 
   void setAmount(
-    BuildContext context,
+    AppLocalizations appLocalizations,
     double amount,
   ) {
     state = state.copyWith(
@@ -51,8 +47,8 @@ class FarmWithdrawFormNotifier
     if (state.amount > state.depositedAmount!) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .farmWithdrawControlLPTokenAmountExceedDeposited,
+          cause:
+              appLocalizations.farmWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
     }
@@ -66,15 +62,13 @@ class FarmWithdrawFormNotifier
     state = state.copyWith(rewardAmount: rewardAmount);
   }
 
-  void setAmountMax(BuildContext context) {
-    setAmount(context, state.depositedAmount!);
+  void setAmountMax(AppLocalizations appLocalizations) {
+    setAmount(appLocalizations, state.depositedAmount!);
   }
 
-  void setAmountHalf(
-    BuildContext context,
-  ) {
+  void setAmountHalf(AppLocalizations appLocalizations) {
     setAmount(
-      context,
+      appLocalizations,
       (Decimal.parse(state.depositedAmount.toString()) / Decimal.fromInt(2))
           .toDouble(),
     );
@@ -144,12 +138,12 @@ class FarmWithdrawFormNotifier
     );
   }
 
-  Future<void> validateForm(BuildContext context) async {
-    if (control(context) == false) {
+  Future<void> validateForm(AppLocalizations localizations) async {
+    if (control(localizations) == false) {
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     consentDateTime = await aedappfm.ConsentRepositoryImpl()
         .getConsentTime(session.genesisAddress);
@@ -160,7 +154,7 @@ class FarmWithdrawFormNotifier
     );
   }
 
-  bool control(BuildContext context) {
+  bool control(AppLocalizations localizations) {
     setFailure(null);
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -174,7 +168,7 @@ class FarmWithdrawFormNotifier
     if (state.amount <= 0) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!.farmWithdrawControlAmountEmpty,
+          cause: localizations.farmWithdrawControlAmountEmpty,
         ),
       );
       return false;
@@ -183,8 +177,7 @@ class FarmWithdrawFormNotifier
     if (state.amount > state.depositedAmount!) {
       setFailure(
         aedappfm.Failure.other(
-          cause: AppLocalizations.of(context)!
-              .farmWithdrawControlLPTokenAmountExceedDeposited,
+          cause: localizations.farmWithdrawControlLPTokenAmountExceedDeposited,
         ),
       );
       return false;
@@ -193,43 +186,42 @@ class FarmWithdrawFormNotifier
     return true;
   }
 
-  Future<void> withdraw(BuildContext context, WidgetRef ref) async {
+  Future<void> withdraw(AppLocalizations localizations) async {
     setFarmWithdrawOk(false);
     setProcessInProgress(true);
 
-    if (control(context) == false) {
+    if (control(localizations) == false) {
       setProcessInProgress(false);
       return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     await aedappfm.ConsentRepositoryImpl().addAddress(session.genesisAddress);
 
-    if (context.mounted) {
-      final finalAmounts = await WithdrawFarmCase().run(
-        ref,
-        context,
-        ref.watch(NotificationProviders.notificationService),
-        state.farmAddress!,
-        state.lpTokenAddress!,
-        state.amount,
-        state.rewardToken!,
-      );
+    final finalAmounts = await ref.read(withdrawFarmCaseProvider).run(
+          localizations,
+          this,
+          state.isFarmClose,
+          state.farmAddress!,
+          state.lpTokenAddress!,
+          state.amount,
+          state.rewardToken!,
+        );
 
-      state = state.copyWith(
-        finalAmountReward: finalAmounts.finalAmountReward,
-        finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
-      );
+    state = state.copyWith(
+      finalAmountReward: finalAmounts.finalAmountReward,
+      finalAmountWithdraw: finalAmounts.finalAmountWithdraw,
+    );
 
-      if (context.mounted) {
-        final farmListItemState =
-            context.findAncestorStateOfType<FarmListItemState>();
-        await farmListItemState?.reload();
-      }
-    }
+    ref
+      ..invalidate(
+        FarmListFormProvider.balance(state.dexFarmInfo!.lpToken!.address),
+      )
+      ..invalidate(
+        DexFarmProviders.getFarmInfos(
+          state.dexFarmInfo!.farmAddress,
+          state.dexFarmInfo!.poolAddress,
+        ),
+      );
   }
-}
-
-abstract class FarmWithdrawFormProvider {
-  static final farmWithdrawForm = _farmWithdrawFormProvider;
 }

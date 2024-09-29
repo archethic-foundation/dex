@@ -19,7 +19,8 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmWithdraw = ref.watch(FarmWithdrawFormProvider.farmWithdrawForm);
+    final localizations = AppLocalizations.of(context)!;
+    final farmWithdraw = ref.watch(farmWithdrawFormNotifierProvider);
     if (farmWithdraw.dexFarmInfo == null ||
         farmWithdraw.rewardToken == null ||
         farmWithdraw.depositedAmount == null) {
@@ -32,6 +33,7 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
         ),
       );
     }
+    final session = ref.watch(sessionNotifierProvider);
     return Expanded(
       child: Column(
         children: [
@@ -189,20 +191,11 @@ class FarmWithdrawFormSheet extends ConsumerWidget {
                                   .btn_farm_withdraw,
                               onPressed: () => ref
                                   .read(
-                                    FarmWithdrawFormProvider
-                                        .farmWithdrawForm.notifier,
+                                    farmWithdrawFormNotifierProvider.notifier,
                                   )
-                                  .validateForm(context),
-                              isConnected: ref
-                                  .watch(SessionProviders.session)
-                                  .isConnected,
+                                  .validateForm(localizations),
+                              isConnected: session.isConnected,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
-                                final session =
-                                    ref.read(SessionProviders.session);
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(

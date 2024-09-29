@@ -1,7 +1,6 @@
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -20,8 +19,7 @@ class FarmLockLevelUpConfirmInfos extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockLevelUp =
-        ref.watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
+    final farmLockLevelUp = ref.watch(farmLockLevelUpFormNotifierProvider);
     if (farmLockLevelUp.pool == null) {
       return const SizedBox.shrink();
     }

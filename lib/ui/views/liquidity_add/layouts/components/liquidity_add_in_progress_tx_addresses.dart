@@ -11,7 +11,7 @@ class LiquidityAddInProgressTxAddresses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
     if (liquidityAdd.liquidityAddOk == false) {
       return const SizedBox.shrink();
     }

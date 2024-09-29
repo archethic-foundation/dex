@@ -8,24 +8,38 @@ part 'dex_token.g.dart';
 @freezed
 class DexToken with _$DexToken {
   const factory DexToken({
+    required String address,
     @Default('') String name,
-    String? address,
     String? icon,
     @Default('') String symbol,
     @Default(0.0) double balance,
-    @Default(0.0) double reserve,
-    @Default(0.0) double supply,
     @Default(false) bool isVerified,
     @Default(false) bool isLpToken,
     DexPair? lpTokenPair,
   }) = _DexToken;
+
+  factory DexToken.uco({
+    double? balance,
+  }) =>
+      DexToken(
+        name: 'Universal Coin',
+        symbol: 'UCO',
+        address: 'UCO',
+        icon: 'Archethic.svg',
+        isVerified: true,
+        balance: balance ?? 0,
+      );
   const DexToken._();
 
   factory DexToken.fromJson(Map<String, dynamic> json) =>
       _$DexTokenFromJson(json);
 
-  bool get isUCO => symbol == 'UCO' && (address == null || address! == 'UCO');
+  bool get isUCO => symbol == kUCOAddress && (address == kUCOAddress);
 }
 
-DexToken get ucoToken =>
-    const DexToken(name: 'Universal Coin', symbol: 'UCO', address: 'UCO');
+const kUCOAddress = 'UCO';
+
+extension DexTokenAddressExtension on String {
+  bool get isUCO => this == kUCOAddress;
+  bool get isNotUCO => !isUCO;
+}

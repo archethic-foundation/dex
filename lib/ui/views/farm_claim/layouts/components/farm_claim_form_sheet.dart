@@ -2,9 +2,7 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -19,7 +17,8 @@ class FarmClaimFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
+    final localizations = AppLocalizations.of(context)!;
+    final farmClaim = ref.watch(farmClaimFormNotifierProvider);
     if (farmClaim.rewardAmount == null) {
       return const Padding(
         padding: EdgeInsets.only(top: 60, bottom: 60),
@@ -176,21 +175,15 @@ class FarmClaimFormSheet extends ConsumerWidget {
                               labelBtn:
                                   AppLocalizations.of(context)!.btn_farm_claim,
                               onPressed: () => ref
-                                  .read(
-                                    FarmClaimFormProvider
-                                        .farmClaimForm.notifier,
-                                  )
-                                  .validateForm(context),
+                                  .read(farmClaimFormNotifierProvider.notifier)
+                                  .validateForm(localizations),
                               isConnected: ref
-                                  .watch(SessionProviders.session)
+                                  .watch(sessionNotifierProvider)
                                   .isConnected,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
                                 final session =
-                                    ref.read(SessionProviders.session);
+                                    ref.read(sessionNotifierProvider);
+
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(

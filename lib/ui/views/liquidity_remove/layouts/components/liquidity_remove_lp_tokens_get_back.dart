@@ -2,7 +2,6 @@
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -16,8 +15,7 @@ class LiquidityRemoveTokensGetBack extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final liquidityRemove =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final liquidityRemove = ref.watch(liquidityRemoveFormNotifierProvider);
 
     if (liquidityRemove.calculationInProgress) {
       return Opacity(

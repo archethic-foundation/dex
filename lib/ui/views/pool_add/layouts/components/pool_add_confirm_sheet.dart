@@ -24,7 +24,7 @@ class PoolAddConfirmSheetState extends ConsumerState<PoolAddConfirmSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
     if (poolAdd.token1 == null) {
       return const SizedBox.shrink();
     }
@@ -38,7 +38,7 @@ class PoolAddConfirmSheetState extends ConsumerState<PoolAddConfirmSheet> {
             onPressed: poolAdd.token1 == null
                 ? null
                 : () {
-                    ref.read(PoolAddFormProvider.poolAddForm.notifier)
+                    ref.read(poolAddFormNotifierProvider.notifier)
                       ..setPoolAddProcessStep(
                         aedappfm.ProcessStep.form,
                       )
@@ -73,8 +73,8 @@ class PoolAddConfirmSheetState extends ConsumerState<PoolAddConfirmSheet> {
             disabled: !consentChecked && poolAdd.consentDateTime == null,
             onPressed: () async {
               final poolAddNotifier =
-                  ref.read(PoolAddFormProvider.poolAddForm.notifier);
-              unawaited(poolAddNotifier.add(context, ref));
+                  ref.read(poolAddFormNotifierProvider.notifier);
+              unawaited(poolAddNotifier.add(AppLocalizations.of(context)!));
               await PoolAddInProgressPopup.getDialog(
                 context,
                 ref,

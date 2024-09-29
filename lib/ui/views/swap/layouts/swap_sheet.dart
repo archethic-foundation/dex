@@ -1,4 +1,3 @@
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
@@ -34,11 +33,9 @@ class SwapSheet extends ConsumerStatefulWidget {
 class _SwapSheetState extends ConsumerState<SwapSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.swap;
-
-      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
     });
 
     super.initState();
@@ -47,7 +44,7 @@ class _SwapSheetState extends ConsumerState<SwapSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref.watch(SwapFormProvider.swapForm).processStep,
+      currentStep: ref.watch(swapFormNotifierProvider).processStep,
       formSheet: SwapFormSheet(
         tokenToSwap: widget.tokenToSwap,
         tokenSwapped: widget.tokenSwapped,

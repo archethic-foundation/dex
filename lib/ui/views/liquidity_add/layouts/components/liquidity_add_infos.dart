@@ -1,6 +1,5 @@
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class LiquidityAddInfos extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
     if (liquidityAdd.token1 == null ||
         liquidityAdd.token2 == null ||
         (liquidityAdd.token1minAmount == 0 &&

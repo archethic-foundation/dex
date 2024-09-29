@@ -3,7 +3,6 @@ import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
 import 'package:aedex/ui/views/swap/layouts/swap_sheet.dart';
-import 'package:aedex/ui/views/util/components/dex_env.dart';
 import 'package:aedex/ui/views/util/components/format_address_link_copy.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -26,11 +25,27 @@ class _ConnectionToWalletStatusState
     extends ConsumerState<ConnectionToWalletStatus> {
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
 
-    if (session.oldNameAccount.isNotEmpty &&
-        session.oldNameAccount != session.nameAccount) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+    ref.listen(sessionNotifierProvider, (previous, next) {
+      if (!mounted) return;
+
+      if (previous?.error != next.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
+            content: SelectableText(
+              next.error,
+              style: Theme.of(context).snackBarTheme.contentTextStyle,
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+
+      if (previous != null &&
+          previous.nameAccount.isNotEmpty &&
+          next.nameAccount != previous.nameAccount) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
@@ -41,55 +56,26 @@ class _ConnectionToWalletStatusState
             duration: const Duration(seconds: 3),
           ),
         );
-        ref.read(SessionProviders.session.notifier).setOldNameAccount();
         context.go(SwapSheet.routerPage);
-      });
-    }
+      }
+    });
 
     if (session.isConnected == false) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
-            onTap: () async {
-              final sessionNotifier =
-                  ref.watch(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-              if (ref.read(SessionProviders.session).error.isNotEmpty) {
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor:
-                        Theme.of(context).snackBarTheme.backgroundColor,
-                    content: SelectableText(
-                      ref.read(SessionProviders.session).error,
-                      style: Theme.of(context).snackBarTheme.contentTextStyle,
-                    ),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-              if (context.mounted) {
-                await sessionNotifier.updateCtxInfo(context);
-              }
-            },
-            child: ShaderMask(
-              blendMode: BlendMode.srcIn,
-              shaderCallback: (bounds) =>
-                  aedappfm.AppThemeBase.gradientWelcomeTxt.createShader(
-                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.btn_connect_wallet,
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
+      return InkWell(
+        onTap: ref.read(sessionNotifierProvider.notifier).connectWallet,
+        child: ShaderMask(
+          blendMode: BlendMode.srcIn,
+          shaderCallback: (bounds) =>
+              aedappfm.AppThemeBase.gradientWelcomeTxt.createShader(
+            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+          ),
+          child: Text(
+            AppLocalizations.of(context)!.btn_connect_wallet,
+            style: const TextStyle(
+              fontSize: 16,
             ),
           ),
-          const DexEnv(),
-        ],
+        ),
       );
     }
 
@@ -143,7 +129,6 @@ class _ConnectionToWalletStatusState
                   fontSize: 12,
                 ),
               ),
-              const DexEnv(),
             ],
           ),
           const SizedBox(
@@ -154,7 +139,7 @@ class _ConnectionToWalletStatusState
             iconSize: 18,
             onPressed: () async {
               await ref
-                  .read(SessionProviders.session.notifier)
+                  .read(sessionNotifierProvider.notifier)
                   .cancelConnection();
             },
           ),

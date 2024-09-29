@@ -11,19 +11,29 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'LevelUpFarmLockCase';
 
 class LevelUpFarmLockCase with aedappfm.TransactionMixin {
+  LevelUpFarmLockCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.verifiedTokensRepository,
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<double> run(
-    WidgetRef ref,
-    BuildContext context,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
+    AppLocalizations localizations,
+    FarmLockLevelUpFormNotifier farmLevelUpNotifier,
     String farmGenesisAddress,
     String lpTokenAddress,
     double amount,
@@ -35,12 +45,12 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
     int recoveryStep = 0,
     archethic.Transaction? recoveryTransactionLevelUp,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final farmLevelUpNotifier =
-        ref.read(FarmLockLevelUpFormProvider.farmLockLevelUpForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionLevelUp;
     if (recoveryTransactionLevelUp != null) {
@@ -85,20 +95,17 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
       farmLevelUpNotifier.setCurrentStep(2);
     }
     try {
-      final currentNameAccount = await getCurrentAccount();
+      final currentNameAccount = await getCurrentAccount(dappClient);
       farmLevelUpNotifier.setWalletConfirmation(true);
 
       transactionLevelUp = (await signTx(
+        dappClient,
         Uri.encodeFull('archethic-wallet-$currentNameAccount'),
         '',
         [transactionLevelUp!],
         description: {
-          'en': context.mounted
-              ? AppLocalizations.of(context)!.levelUpFarmLockSignTxDesc_en
-              : '',
-          'fr': context.mounted
-              ? AppLocalizations.of(context)!.levelUpFarmLockSignTxDesc_fr
-              : '',
+          'en': localizations.levelUpFarmLockSignTxDesc_en,
+          'fr': localizations.levelUpFarmLockSignTxDesc_fr,
         },
       ))
           .first;
@@ -126,7 +133,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionLevelUp!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       farmLevelUpNotifier
@@ -146,6 +153,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
 
       await aedappfm.PeriodicFuture.periodic<bool>(
         () => isSCCallExecuted(
+          apiService,
           farmAddress,
           transactionLevelUp!.address!.address!,
         ),
@@ -164,7 +172,7 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet(dappClient));
 
       return amount;
     } catch (e) {
@@ -194,18 +202,18 @@ class LevelUpFarmLockCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep1;
+        return localizations.levelUpFarmLockProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep2;
+        return localizations.levelUpFarmLockProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep3;
+        return localizations.levelUpFarmLockProcessStep3;
       default:
-        return AppLocalizations.of(context)!.levelUpFarmLockProcessStep0;
+        return localizations.levelUpFarmLockProcessStep0;
     }
   }
 }

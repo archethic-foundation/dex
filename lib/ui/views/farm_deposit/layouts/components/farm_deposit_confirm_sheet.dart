@@ -25,23 +25,25 @@ class FarmDepositConfirmSheetState
 
   @override
   Widget build(BuildContext context) {
-    final farmDeposit = ref.watch(FarmDepositFormProvider.farmDepositForm);
+    final farmDeposit = ref.watch(farmDepositFormNotifierProvider);
     if (farmDeposit.dexFarmInfo == null) {
       return const SizedBox.shrink();
     }
+
+    final localizations = AppLocalizations.of(context)!;
 
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmDepositConfirmTitle,
+            title: localizations.farmDepositConfirmTitle,
             onPressed: farmDeposit.dexFarmInfo == null
                 ? null
                 : () {
                     ref
                         .read(
-                          FarmDepositFormProvider.farmDepositForm.notifier,
+                          farmDepositFormNotifierProvider.notifier,
                         )
                         .setFarmDepositProcessStep(
                           aedappfm.ProcessStep.form,
@@ -72,12 +74,12 @@ class FarmDepositConfirmSheetState
               uriTermsOfUse: kURITermsOfUse,
             ),
           aedappfm.ButtonConfirm(
-            labelBtn: AppLocalizations.of(context)!.btn_confirm_farm_deposit,
+            labelBtn: localizations.btn_confirm_farm_deposit,
             disabled: !consentChecked && farmDeposit.consentDateTime == null,
             onPressed: () async {
               final farmDepositNotifier =
-                  ref.read(FarmDepositFormProvider.farmDepositForm.notifier);
-              unawaited(farmDepositNotifier.deposit(context, ref));
+                  ref.read(farmDepositFormNotifierProvider.notifier);
+              unawaited(farmDepositNotifier.deposit(localizations));
               await FarmDepositInProgressPopup.getDialog(
                 context,
                 ref,

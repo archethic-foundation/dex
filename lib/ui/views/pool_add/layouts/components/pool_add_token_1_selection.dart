@@ -1,9 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/pool_add/bloc/provider.dart';
 import 'package:aedex/ui/views/token_selection/layouts/token_selection_popup.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_icon.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class PoolAddToken1Selection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final poolAdd = ref.watch(PoolAddFormProvider.poolAddForm);
+    final poolAdd = ref.watch(poolAddFormNotifierProvider);
 
     return Container(
       width: 150,
@@ -29,16 +29,17 @@ class PoolAddToken1Selection extends ConsumerWidget {
       child: InkWell(
         onTap: () async {
           ref
-              .read(PoolAddFormProvider.poolAddForm.notifier)
+              .read(poolAddFormNotifierProvider.notifier)
               .setTokenFormSelected(1);
           final token = await TokenSelectionPopup.getDialog(
             context,
+            ref.read(environmentProvider),
           );
           if (token == null) return;
           if (context.mounted) {
             await ref
-                .read(PoolAddFormProvider.poolAddForm.notifier)
-                .setToken1(token, context);
+                .read(poolAddFormNotifierProvider.notifier)
+                .setToken1(token, AppLocalizations.of(context)!);
           }
         },
         child: Row(
@@ -61,9 +62,7 @@ class PoolAddToken1Selection extends ConsumerWidget {
                       child: Row(
                         children: [
                           DexTokenIcon(
-                            tokenAddress: poolAdd.token1!.address == null
-                                ? 'UCO'
-                                : poolAdd.token1!.address!,
+                            tokenAddress: poolAdd.token1!.address,
                           ),
                           const SizedBox(
                             width: 10,

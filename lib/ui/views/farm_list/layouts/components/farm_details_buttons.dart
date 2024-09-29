@@ -85,7 +85,8 @@ class FarmDetailsButtons extends ConsumerWidget {
     WidgetRef ref,
     double? userBalance,
   ) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
+
     return farm.endDate != null && farm.endDate!.isBefore(DateTime.now())
         ? ButtonValidateMobile(
             labelBtn: AppLocalizations.of(context)!
@@ -95,11 +96,7 @@ class FarmDetailsButtons extends ConsumerWidget {
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {
-              final sessionNotifier =
-                  ref.read(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-
-              final session = ref.read(SessionProviders.session);
+              final session = ref.read(sessionNotifierProvider);
               if (session.error.isNotEmpty) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -149,36 +146,26 @@ class FarmDetailsButtons extends ConsumerWidget {
             displayWalletConnect: true,
             isConnected: session.isConnected,
             displayWalletConnectOnPressed: () async {
-              final sessionNotifier =
-                  ref.read(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-
-              final session = ref.read(SessionProviders.session);
-              if (session.error.isNotEmpty) {
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor:
-                        Theme.of(context).snackBarTheme.backgroundColor,
-                    content: SelectableText(
-                      session.error,
-                      style: Theme.of(context).snackBarTheme.contentTextStyle,
-                    ),
-                    duration: const Duration(seconds: 2),
+              final session = ref.read(sessionNotifierProvider);
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor:
+                      Theme.of(context).snackBarTheme.backgroundColor,
+                  content: SelectableText(
+                    session.error,
+                    style: Theme.of(context).snackBarTheme.contentTextStyle,
                   ),
-                );
-              } else {
-                if (!context.mounted) return;
-                context.go(
-                  '/',
-                );
-              }
+                  duration: const Duration(seconds: 2),
+                ),
+              );
             },
           );
   }
 
   Widget _widthdrawButton(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
+
     return ButtonValidateMobile(
       controlOk: depositedAmount != null && depositedAmount! > 0,
       labelBtn: AppLocalizations.of(context)!.farmDetailsButtonWithdraw,
@@ -209,10 +196,7 @@ class FarmDetailsButtons extends ConsumerWidget {
       },
       isConnected: session.isConnected,
       displayWalletConnectOnPressed: () async {
-        final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        await sessionNotifier.connectToWallet();
-
-        final session = ref.read(SessionProviders.session);
+        final session = ref.read(sessionNotifierProvider);
         if (session.error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
@@ -236,7 +220,7 @@ class FarmDetailsButtons extends ConsumerWidget {
   }
 
   Widget _claimButton(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
 
     return ButtonValidateMobile(
       controlOk: rewardAmount != null && rewardAmount! > 0,
@@ -249,6 +233,7 @@ class FarmDetailsButtons extends ConsumerWidget {
               queryParameters: {
                 'farmAddress': farm.farmAddress.encodeParam(),
                 'rewardToken': farm.rewardToken.encodeParam(),
+                'poolAddress': farm.poolAddress.encodeParam(),
                 'lpTokenAddress': farm.lpToken!.address.encodeParam(),
                 'rewardAmount': farm.rewardAmount.encodeParam(),
               },
@@ -258,10 +243,7 @@ class FarmDetailsButtons extends ConsumerWidget {
       },
       isConnected: session.isConnected,
       displayWalletConnectOnPressed: () async {
-        final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        await sessionNotifier.connectToWallet();
-
-        final session = ref.read(SessionProviders.session);
+        final session = ref.read(sessionNotifierProvider);
         if (session.error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(

@@ -1,4 +1,6 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
+import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock_level_up/layouts/components/farm_lock_level_up_lock_duration_btn.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
@@ -7,7 +9,6 @@ import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
 import 'package:aedex/util/config/config.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -25,8 +26,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmLockLevelUp =
-        ref.watch(FarmLockLevelUpFormProvider.farmLockLevelUpForm);
+    final farmLockLevelUp = ref.watch(farmLockLevelUpFormNotifierProvider);
 
     if (farmLockLevelUp.pool == null) {
       return const Padding(
@@ -39,6 +39,7 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
       );
     }
 
+    final session = ref.watch(sessionNotifierProvider);
     return Expanded(
       child: Column(
         children: [
@@ -310,25 +311,17 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                           Expanded(
                             child: ButtonValidateMobile(
                               controlOk: farmLockLevelUp.isControlsOk &&
-                                  ref
-                                      .watch(SessionProviders.session)
-                                      .isConnected,
+                                  session.isConnected,
                               labelBtn: AppLocalizations.of(context)!
                                   .btn_farmLockLevelUp,
                               onPressed: () => ref
                                   .read(
-                                    FarmLockLevelUpFormProvider
-                                        .farmLockLevelUpForm.notifier,
+                                    farmLockLevelUpFormNotifierProvider
+                                        .notifier,
                                   )
-                                  .validateForm(context),
+                                  .validateForm(AppLocalizations.of(context)!),
                               isConnected: true,
                               displayWalletConnectOnPressed: () async {
-                                final sessionNotifier =
-                                    ref.read(SessionProviders.session.notifier);
-                                await sessionNotifier.connectToWallet();
-
-                                final session =
-                                    ref.read(SessionProviders.session);
                                 if (session.error.isNotEmpty) {
                                   if (!context.mounted) return;
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -357,7 +350,9 @@ class FarmLockLevelUpFormSheet extends ConsumerWidget {
                           Expanded(
                             child: aedappfm.ButtonClose(
                               onPressed: () {
-                                context.pop();
+                                context.popOrGo(
+                                  FarmLockSheet.routerPage2,
+                                );
                               },
                             ),
                           ),

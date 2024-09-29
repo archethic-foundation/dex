@@ -25,7 +25,7 @@ class TokenSelectionFormNotifier
     );
 
     if (state.isAddress) {
-      final token = await ref.read(
+      final token = await ref.watch(
         DexTokensProviders.getTokenFromAddress(
           searchText,
         ).future,

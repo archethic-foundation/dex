@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aedex/application/farm/dex_farm.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_farm.dart';
 import 'package:aedex/ui/views/farm_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/components/farm_deposit_confirm_sheet.dart';
@@ -32,12 +31,8 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
         final farmInfo = await ref.read(
           DexFarmProviders.getFarmInfos(
             widget.farmAddress,
@@ -55,13 +50,11 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
           }
         } else {
           ref
-              .read(FarmDepositFormProvider.farmDepositForm.notifier)
+              .read(farmDepositFormNotifierProvider.notifier)
               .setDexFarmInfo(farmInfo);
         }
 
-        await ref
-            .read(FarmDepositFormProvider.farmDepositForm.notifier)
-            .initBalances();
+        await ref.read(farmDepositFormNotifierProvider.notifier).initBalances();
       } catch (e) {
         if (mounted) {
           context.go(FarmListSheet.routerPage);
@@ -73,8 +66,7 @@ class _FarmDepositSheetState extends ConsumerState<FarmDepositSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep:
-          ref.watch(FarmDepositFormProvider.farmDepositForm).processStep,
+      currentStep: ref.watch(farmDepositFormNotifierProvider).processStep,
       formSheet: const FarmDepositFormSheet(),
       confirmSheet: const FarmDepositConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

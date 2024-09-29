@@ -11,7 +11,7 @@ class SwapInProgressTxAddresses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
     if (swap.swapOk == false) {
       return const SizedBox.shrink();
     }

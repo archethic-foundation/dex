@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/util/consent_uri.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -32,8 +31,9 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
   );
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(SessionProviders.session);
-    final sessionNotifier = ref.watch(SessionProviders.session.notifier);
+    final session = ref.watch(sessionNotifierProvider);
+
+    final sessionNotifier = ref.watch(sessionNotifierProvider.notifier);
 
     return MenuAnchor(
       style: MenuStyle(

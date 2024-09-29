@@ -1,4 +1,6 @@
+import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_apr.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_info_apr_farm.dart';
@@ -13,10 +15,12 @@ class PoolDetailsFront extends ConsumerStatefulWidget {
   const PoolDetailsFront({
     super.key,
     required this.pool,
+    required this.poolStats,
     this.tab,
     this.poolWithFarm = false,
   });
   final DexPool pool;
+  final DexPoolStats poolStats;
   final PoolsListTab? tab;
   final bool poolWithFarm;
 
@@ -34,6 +38,13 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
     BuildContext context,
   ) {
     super.build(context);
+
+    final tvl = ref
+        .watch(
+          DexPoolProviders.estimatePoolTVLInFiat(widget.pool),
+        )
+        .value;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -47,14 +58,16 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PoolDetailsInfoTVL(tvl: widget.pool.infos?.tvl ?? 0),
+                PoolDetailsInfoTVL(tvl: tvl ?? 0),
                 if (widget.poolWithFarm == false)
                   PoolDetailsInfoAPR(
-                    tvl: widget.pool.infos?.tvl ?? 0,
-                    fee24h: widget.pool.infos?.fee24h ?? 0,
+                    tvl: tvl ?? 0,
+                    fee24h: widget.poolStats.fee24h,
                   )
                 else
-                  PoolDetailsInfoAPRFarm(poolAddress: widget.pool.poolAddress),
+                  PoolDetailsInfoAPRFarm(
+                    poolAddress: widget.pool.poolAddress,
+                  ),
               ],
             ),
             const SizedBox(height: 30),
@@ -62,9 +75,9 @@ class PoolDetailsFrontState extends ConsumerState<PoolDetailsFront>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PoolDetailsInfoVolume(
-                  volume24h: widget.pool.infos?.volume24h,
-                  volumeAllTime: widget.pool.infos?.volumeAllTime,
-                  volume7d: widget.pool.infos?.volume7d,
+                  volume24h: widget.poolStats.volume24h,
+                  volumeAllTime: widget.poolStats.volumeAllTime,
+                  volume7d: widget.poolStats.volume7d,
                 ),
               ],
             ),

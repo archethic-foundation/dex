@@ -19,7 +19,7 @@ class SwapInfos extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
 
     if (swap.tokenToSwap == null ||
         swap.tokenSwapped == null ||
@@ -28,8 +28,7 @@ class SwapInfos extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final tokenAddressRatioPrimary =
-        swap.tokenToSwap!.address == null ? 'UCO' : swap.tokenToSwap!.address!;
+    final tokenAddressRatioPrimary = swap.tokenToSwap!.address;
 
     final tvlAsyncValue =
         ref.watch(DexPoolProviders.estimatePoolTVLInFiat(swap.pool));
@@ -177,8 +176,8 @@ class SwapInfos extends ConsumerWidget {
   Widget _buildFeesTooltip(BuildContext context, SwapFormState swap) {
     return Tooltip(
       message:
-          '${AppLocalizations.of(context)!.swapInfosLiquidityProviderFees} (${swap.pool!.infos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \n'
-          '${AppLocalizations.of(context)!.swapInfosProtocolFees} (${swap.pool!.infos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
+          '${AppLocalizations.of(context)!.swapInfosLiquidityProviderFees} (${swap.poolInfos!.fees}%): ${swap.swapFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol} \n'
+          '${AppLocalizations.of(context)!.swapInfosProtocolFees} (${swap.poolInfos!.protocolFees}%): ${swap.swapProtocolFees.formatNumber(precision: 8)} ${swap.tokenToSwap!.symbol}',
       child: const Padding(
         padding: EdgeInsets.only(bottom: 2),
         child: Icon(aedappfm.Iconsax.info_circle, size: 13),
@@ -279,18 +278,18 @@ class SwapInfos extends ConsumerWidget {
           AppLocalizations.of(context)!.swapInfosRatio,
           style: AppTextStyles.bodyMedium(context),
         ),
-        if (swap.pool != null && swap.pool!.infos != null)
+        if (swap.pool != null && swap.poolInfos != null)
           DexRatio(
             ratio: tokenAddressRatioPrimary.toUpperCase() ==
-                    swap.pool?.pair.token1.address!.toUpperCase()
-                ? swap.pool!.infos!.ratioToken1Token2
-                : swap.pool!.infos!.ratioToken2Token1,
+                    swap.pool?.pair.token1.address.toUpperCase()
+                ? swap.poolInfos!.ratioToken1Token2
+                : swap.poolInfos!.ratioToken2Token1,
             token1Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                    swap.pool!.pair.token1.address!.toUpperCase()
+                    swap.pool!.pair.token1.address.toUpperCase()
                 ? swap.pool!.pair.token1.symbol
                 : swap.pool!.pair.token2.symbol,
             token2Symbol: tokenAddressRatioPrimary.toUpperCase() ==
-                    swap.pool!.pair.token1.address!.toUpperCase()
+                    swap.pool!.pair.token1.address.toUpperCase()
                 ? swap.pool!.pair.token2.symbol
                 : swap.pool!.pair.token1.symbol,
             textStyle: AppTextStyles.bodyMedium(context),

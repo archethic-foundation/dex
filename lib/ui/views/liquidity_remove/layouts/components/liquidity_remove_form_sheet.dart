@@ -1,10 +1,12 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/liquidity_remove/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_lp_tokens_get_back.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/components/liquidity_remove_textfield_lp_token_amount.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -20,8 +22,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final liquidityRemove =
-        ref.watch(LiquidityRemoveFormProvider.liquidityRemoveForm);
+    final liquidityRemove = ref.watch(liquidityRemoveFormNotifierProvider);
 
     return Expanded(
       child: Column(
@@ -73,9 +74,7 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                             poolGenesisAddress:
                                 liquidityRemove.pool!.poolAddress,
                             tokenAddressRatioPrimary:
-                                liquidityRemove.token1!.address == null
-                                    ? 'UCO'
-                                    : liquidityRemove.token1!.address!,
+                                liquidityRemove.token1!.address,
                           ),
                         const SizedBox(
                           height: 20,
@@ -107,20 +106,18 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                                     .btn_liquidity_remove,
                                 onPressed: () => ref
                                     .read(
-                                      LiquidityRemoveFormProvider
-                                          .liquidityRemoveForm.notifier,
+                                      liquidityRemoveFormNotifierProvider
+                                          .notifier,
                                     )
-                                    .validateForm(context),
+                                    .validateForm(
+                                      AppLocalizations.of(context)!,
+                                    ),
                                 isConnected: ref
-                                    .watch(SessionProviders.session)
+                                    .watch(sessionNotifierProvider)
                                     .isConnected,
                                 displayWalletConnectOnPressed: () async {
-                                  final sessionNotifier = ref
-                                      .read(SessionProviders.session.notifier);
-                                  await sessionNotifier.connectToWallet();
-
                                   final session =
-                                      ref.read(SessionProviders.session);
+                                      ref.read(sessionNotifierProvider);
                                   if (session.error.isNotEmpty) {
                                     if (!context.mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -149,7 +146,16 @@ class LiquidityRemoveFormSheet extends ConsumerWidget {
                             Expanded(
                               child: aedappfm.ButtonClose(
                                 onPressed: () {
-                                  context.pop();
+                                  context.popOrGo(
+                                    Uri(
+                                      path: PoolListSheet.routerPage,
+                                      queryParameters: {
+                                        'tab': Uri.encodeComponent(
+                                          PoolsListTab.verified.name,
+                                        ),
+                                      },
+                                    ).toString(),
+                                  );
                                 },
                               ),
                             ),

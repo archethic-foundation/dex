@@ -1,16 +1,17 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/router/router.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_icon_settings.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_infos.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_1_amount.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_textfield_token_2_amount.dart';
+import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
+import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
-
 import 'package:aedex/ui/views/util/components/dex_token_infos.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
-
 import 'package:aedex/ui/views/util/components/pool_info_card.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -26,7 +27,10 @@ class LiquidityAddFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
+    final isConnected = ref.watch(
+      sessionNotifierProvider.select((session) => session.isConnected),
+    );
 
     return Expanded(
       child: Column(
@@ -77,9 +81,7 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                           PoolInfoCard(
                             poolGenesisAddress: liquidityAdd.pool!.poolAddress,
                             tokenAddressRatioPrimary:
-                                liquidityAdd.token1!.address == null
-                                    ? 'UCO'
-                                    : liquidityAdd.token1!.address!,
+                                liquidityAdd.token1!.address,
                           ),
                         const SizedBox(
                           height: 10,
@@ -262,20 +264,15 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                                     .btn_liquidity_add,
                                 onPressed: () => ref
                                     .read(
-                                      LiquidityAddFormProvider
-                                          .liquidityAddForm.notifier,
+                                      liquidityAddFormNotifierProvider.notifier,
                                     )
-                                    .validateForm(context),
-                                isConnected: ref
-                                    .watch(SessionProviders.session)
-                                    .isConnected,
+                                    .validateForm(
+                                      AppLocalizations.of(context)!,
+                                    ),
+                                isConnected: isConnected,
                                 displayWalletConnectOnPressed: () async {
-                                  final sessionNotifier = ref
-                                      .read(SessionProviders.session.notifier);
-                                  await sessionNotifier.connectToWallet();
-
                                   final session =
-                                      ref.read(SessionProviders.session);
+                                      ref.read(sessionNotifierProvider);
                                   if (session.error.isNotEmpty) {
                                     if (!context.mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -304,7 +301,16 @@ class LiquidityAddFormSheet extends ConsumerWidget {
                             Expanded(
                               child: aedappfm.ButtonClose(
                                 onPressed: () {
-                                  context.pop();
+                                  context.popOrGo(
+                                    Uri(
+                                      path: PoolListSheet.routerPage,
+                                      queryParameters: {
+                                        'tab': Uri.encodeComponent(
+                                          PoolsListTab.verified.name,
+                                        ),
+                                      },
+                                    ).toString(),
+                                  );
                                 },
                               ),
                             ),

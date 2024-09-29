@@ -1,11 +1,11 @@
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/util/components/dex_pair_icons.dart';
 import 'package:aedex/ui/views/util/components/liquidity_positions_icon.dart';
 import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:aedex/ui/views/util/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/util/components/verified_pool_icon.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -26,8 +26,8 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final env = ref.watch(SessionProviders.session).envSelected;
-    final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
+    final aeETHUCOPoolAddress =
+        ref.watch(environmentProvider).aeETHUCOPoolAddress;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,19 +67,15 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: DexPairIcons(
-                    token1Address: pool!.pair.token1.address == null
-                        ? 'UCO'
-                        : pool!.pair.token1.address!,
-                    token2Address: pool!.pair.token2.address == null
-                        ? 'UCO'
-                        : pool!.pair.token2.address!,
+                    token1Address: pool!.pair.token1.address,
+                    token2Address: pool!.pair.token2.address,
                     iconSize: 22,
                   ),
                 ),
               ],
             ),
             if (displayPoolFarmAvailable &&
-                contextAddresses.aeETHUCOPoolAddress.toUpperCase() ==
+                aeETHUCOPoolAddress.toUpperCase() ==
                     pool!.poolAddress.toUpperCase())
               const PoolFarmAvailable(),
           ],
@@ -93,7 +89,7 @@ class PoolDetailsInfoHeader extends ConsumerWidget {
               lpTokenInUserBalance: pool!.lpTokenInUserBalance,
             ),
             LiquidityFavoriteIcon(
-              isFavorite: pool!.isFavorite,
+              poolAddress: pool!.poolAddress,
             ),
           ],
         ),

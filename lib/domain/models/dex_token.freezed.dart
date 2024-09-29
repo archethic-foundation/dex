@@ -20,13 +20,11 @@ DexToken _$DexTokenFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DexToken {
+  String get address => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String? get address => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
   double get balance => throw _privateConstructorUsedError;
-  double get reserve => throw _privateConstructorUsedError;
-  double get supply => throw _privateConstructorUsedError;
   bool get isVerified => throw _privateConstructorUsedError;
   bool get isLpToken => throw _privateConstructorUsedError;
   DexPair? get lpTokenPair => throw _privateConstructorUsedError;
@@ -43,13 +41,11 @@ abstract class $DexTokenCopyWith<$Res> {
       _$DexTokenCopyWithImpl<$Res, DexToken>;
   @useResult
   $Res call(
-      {String name,
-      String? address,
+      {String address,
+      String name,
       String? icon,
       String symbol,
       double balance,
-      double reserve,
-      double supply,
       bool isVerified,
       bool isLpToken,
       DexPair? lpTokenPair});
@@ -70,26 +66,24 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? address = null,
     Object? name = null,
-    Object? address = freezed,
     Object? icon = freezed,
     Object? symbol = null,
     Object? balance = null,
-    Object? reserve = null,
-    Object? supply = null,
     Object? isVerified = null,
     Object? isLpToken = null,
     Object? lpTokenPair = freezed,
   }) {
     return _then(_value.copyWith(
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -101,14 +95,6 @@ class _$DexTokenCopyWithImpl<$Res, $Val extends DexToken>
       balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
-              as double,
-      reserve: null == reserve
-          ? _value.reserve
-          : reserve // ignore: cast_nullable_to_non_nullable
-              as double,
-      supply: null == supply
-          ? _value.supply
-          : supply // ignore: cast_nullable_to_non_nullable
               as double,
       isVerified: null == isVerified
           ? _value.isVerified
@@ -147,13 +133,11 @@ abstract class _$$DexTokenImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name,
-      String? address,
+      {String address,
+      String name,
       String? icon,
       String symbol,
       double balance,
-      double reserve,
-      double supply,
       bool isVerified,
       bool isLpToken,
       DexPair? lpTokenPair});
@@ -173,26 +157,24 @@ class __$$DexTokenImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? address = null,
     Object? name = null,
-    Object? address = freezed,
     Object? icon = freezed,
     Object? symbol = null,
     Object? balance = null,
-    Object? reserve = null,
-    Object? supply = null,
     Object? isVerified = null,
     Object? isLpToken = null,
     Object? lpTokenPair = freezed,
   }) {
     return _then(_$DexTokenImpl(
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -204,14 +186,6 @@ class __$$DexTokenImplCopyWithImpl<$Res>
       balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
-              as double,
-      reserve: null == reserve
-          ? _value.reserve
-          : reserve // ignore: cast_nullable_to_non_nullable
-              as double,
-      supply: null == supply
-          ? _value.supply
-          : supply // ignore: cast_nullable_to_non_nullable
               as double,
       isVerified: null == isVerified
           ? _value.isVerified
@@ -233,13 +207,11 @@ class __$$DexTokenImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DexTokenImpl extends _DexToken {
   const _$DexTokenImpl(
-      {this.name = '',
-      this.address,
+      {required this.address,
+      this.name = '',
       this.icon,
       this.symbol = '',
       this.balance = 0.0,
-      this.reserve = 0.0,
-      this.supply = 0.0,
       this.isVerified = false,
       this.isLpToken = false,
       this.lpTokenPair})
@@ -249,10 +221,10 @@ class _$DexTokenImpl extends _DexToken {
       _$$DexTokenImplFromJson(json);
 
   @override
+  final String address;
+  @override
   @JsonKey()
   final String name;
-  @override
-  final String? address;
   @override
   final String? icon;
   @override
@@ -261,12 +233,6 @@ class _$DexTokenImpl extends _DexToken {
   @override
   @JsonKey()
   final double balance;
-  @override
-  @JsonKey()
-  final double reserve;
-  @override
-  @JsonKey()
-  final double supply;
   @override
   @JsonKey()
   final bool isVerified;
@@ -278,7 +244,7 @@ class _$DexTokenImpl extends _DexToken {
 
   @override
   String toString() {
-    return 'DexToken(name: $name, address: $address, icon: $icon, symbol: $symbol, balance: $balance, reserve: $reserve, supply: $supply, isVerified: $isVerified, isLpToken: $isLpToken, lpTokenPair: $lpTokenPair)';
+    return 'DexToken(address: $address, name: $name, icon: $icon, symbol: $symbol, balance: $balance, isVerified: $isVerified, isLpToken: $isLpToken, lpTokenPair: $lpTokenPair)';
   }
 
   @override
@@ -286,13 +252,11 @@ class _$DexTokenImpl extends _DexToken {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DexTokenImpl &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.balance, balance) || other.balance == balance) &&
-            (identical(other.reserve, reserve) || other.reserve == reserve) &&
-            (identical(other.supply, supply) || other.supply == supply) &&
             (identical(other.isVerified, isVerified) ||
                 other.isVerified == isVerified) &&
             (identical(other.isLpToken, isLpToken) ||
@@ -303,8 +267,8 @@ class _$DexTokenImpl extends _DexToken {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, address, icon, symbol,
-      balance, reserve, supply, isVerified, isLpToken, lpTokenPair);
+  int get hashCode => Object.hash(runtimeType, address, name, icon, symbol,
+      balance, isVerified, isLpToken, lpTokenPair);
 
   @JsonKey(ignore: true)
   @override
@@ -322,13 +286,11 @@ class _$DexTokenImpl extends _DexToken {
 
 abstract class _DexToken extends DexToken {
   const factory _DexToken(
-      {final String name,
-      final String? address,
+      {required final String address,
+      final String name,
       final String? icon,
       final String symbol,
       final double balance,
-      final double reserve,
-      final double supply,
       final bool isVerified,
       final bool isLpToken,
       final DexPair? lpTokenPair}) = _$DexTokenImpl;
@@ -338,19 +300,15 @@ abstract class _DexToken extends DexToken {
       _$DexTokenImpl.fromJson;
 
   @override
-  String get name;
+  String get address;
   @override
-  String? get address;
+  String get name;
   @override
   String? get icon;
   @override
   String get symbol;
   @override
   double get balance;
-  @override
-  double get reserve;
-  @override
-  double get supply;
   @override
   bool get isVerified;
   @override

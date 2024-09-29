@@ -1,12 +1,10 @@
 import 'package:aedex/application/balance.dart';
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock_claim/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/components/fiat_value.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -23,13 +21,11 @@ class FarmLockClaimConfirmInfos extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockClaim =
-        ref.watch(FarmLockClaimFormProvider.farmLockClaimForm);
+    final farmLockClaim = ref.watch(farmLockClaimFormNotifierProvider);
     if (farmLockClaim.rewardAmount == null) {
       return const SizedBox.shrink();
     }
-    final session = ref.watch(SessionProviders.session);
-    final apiService = aedappfm.sl.get<archethic.ApiService>();
+
     return SizedBox(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -110,12 +106,10 @@ class FarmLockClaimConfirmInfos extends ConsumerWidget {
               ),
               FutureBuilder<double>(
                 future: ref.watch(
-                  BalanceProviders.getBalance(
-                    session.genesisAddress,
+                  getBalanceProvider(
                     farmLockClaim.rewardToken!.isUCO
                         ? 'UCO'
-                        : farmLockClaim.rewardToken!.address!,
-                    apiService,
+                        : farmLockClaim.rewardToken!.address,
                   ).future,
                 ),
                 builder: (

@@ -28,8 +28,7 @@ class FarmLockDepositConfirmSheetState
 
   @override
   void initState() {
-    final farmLockDeposit =
-        ref.read(FarmLockDepositFormProvider.farmLockDepositForm);
+    final farmLockDeposit = ref.read(farmLockDepositFormNotifierProvider);
     if (farmLockDeposit.farmLockDepositDuration ==
         FarmLockDepositDurationType.flexible) {
       warningChecked = true;
@@ -39,8 +38,7 @@ class FarmLockDepositConfirmSheetState
 
   @override
   Widget build(BuildContext context) {
-    final farmLockDeposit =
-        ref.watch(FarmLockDepositFormProvider.farmLockDepositForm);
+    final farmLockDeposit = ref.watch(farmLockDepositFormNotifierProvider);
     if (farmLockDeposit.pool == null) {
       return const SizedBox.shrink();
     }
@@ -56,8 +54,7 @@ class FarmLockDepositConfirmSheetState
                 : () {
                     ref
                         .read(
-                          FarmLockDepositFormProvider
-                              .farmLockDepositForm.notifier,
+                          farmLockDepositFormNotifierProvider.notifier,
                         )
                         .setFarmLockDepositProcessStep(
                           aedappfm.ProcessStep.form,
@@ -148,9 +145,13 @@ class FarmLockDepositConfirmSheetState
                 (!consentChecked && farmLockDeposit.consentDateTime == null),
             onPressed: () async {
               final farmLockDepositNotifier = ref.read(
-                FarmLockDepositFormProvider.farmLockDepositForm.notifier,
+                farmLockDepositFormNotifierProvider.notifier,
               );
-              unawaited(farmLockDepositNotifier.lock(context, ref));
+              unawaited(
+                farmLockDepositNotifier.lock(
+                  AppLocalizations.of(context)!,
+                ),
+              );
               await FarmLockDepositInProgressPopup.getDialog(
                 context,
                 ref,

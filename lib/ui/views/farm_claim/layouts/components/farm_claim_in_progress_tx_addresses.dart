@@ -11,7 +11,7 @@ class FarmClaimInProgressTxAddresses extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
+    final farmClaim = ref.watch(farmClaimFormNotifierProvider);
     if (farmClaim.farmClaimOk == false) {
       return const SizedBox.shrink();
     }

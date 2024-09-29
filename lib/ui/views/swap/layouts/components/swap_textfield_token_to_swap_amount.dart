@@ -36,7 +36,7 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
   }
 
   void _updateAmountTextController() {
-    final swap = ref.read(SwapFormProvider.swapForm);
+    final swap = ref.read(swapFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value = aedappfm.AmountTextInputFormatter(
       precision: 8,
@@ -64,9 +64,9 @@ class _SwapTokenToSwapAmountState extends ConsumerState<SwapTokenToSwapAmount> {
   Widget build(
     BuildContext context,
   ) {
-    final swapNotifier = ref.watch(SwapFormProvider.swapForm.notifier);
+    final swapNotifier = ref.watch(swapFormNotifierProvider.notifier);
 
-    final swap = ref.watch(SwapFormProvider.swapForm);
+    final swap = ref.watch(swapFormNotifierProvider);
     if (swap.tokenFormSelected != 1) {
       _updateAmountTextController();
     }

@@ -11,21 +11,31 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'RemoveLiquidityCase';
 
 class RemoveLiquidityCase with aedappfm.TransactionMixin {
+  RemoveLiquidityCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.verifiedTokensRepository,
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
+  final archethic.ApiService apiService;
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
   Future<({double amountToken1, double amountToken2, double amountLPToken})>
       run(
+    AppLocalizations localizations,
+    LiquidityRemoveFormNotifier liquidityRemoveNotifier,
     String poolGenesisAddress,
-    WidgetRef ref,
-    BuildContext context,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
     String lpTokenAddress,
     double lpTokenAmount,
     DexToken token1,
@@ -33,12 +43,12 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
     DexToken lpToken, {
     int recoveryStep = 0,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final liquidityRemoveNotifier =
-        ref.read(LiquidityRemoveFormProvider.liquidityRemoveForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionRemoveLiquidity;
 
@@ -76,19 +86,16 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 1) {
       liquidityRemoveNotifier.setCurrentStep(2);
       try {
-        final currentNameAccount = await getCurrentAccount();
+        final currentNameAccount = await getCurrentAccount(dappClient);
         liquidityRemoveNotifier.setWalletConfirmation(true);
         transactionRemoveLiquidity = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionRemoveLiquidity!],
           description: {
-            'en': context.mounted
-                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_en
-                : '',
-            'fr': context.mounted
-                ? AppLocalizations.of(context)!.removeLiquiditySignTxDesc_fr
-                : '',
+            'en': localizations.removeLiquiditySignTxDesc_en,
+            'fr': localizations.removeLiquiditySignTxDesc_fr,
           },
         ))
             .first;
@@ -115,7 +122,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionRemoveLiquidity!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       liquidityRemoveNotifier
@@ -131,7 +138,6 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         ),
       );
 
-      final apiService = aedappfm.sl.get<archethic.ApiService>();
       final amounts = await aedappfm.PeriodicFuture.periodic<List<double>>(
         () => Future.wait([
           getAmountFromTxInput(
@@ -178,7 +184,7 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet(dappClient));
 
       return (
         amountToken1: amountToken1,
@@ -212,18 +218,18 @@ class RemoveLiquidityCase with aedappfm.TransactionMixin {
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep1;
+        return localizations.removeLiquidityProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep2;
+        return localizations.removeLiquidityProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep3;
+        return localizations.removeLiquidityProcessStep3;
       default:
-        return AppLocalizations.of(context)!.removeLiquidityProcessStep0;
+        return localizations.removeLiquidityProcessStep0;
     }
   }
 }

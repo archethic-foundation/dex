@@ -6,6 +6,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FiatValue {
+  // TODO(CHralu): This should not be a future
   Future<String> display(
     WidgetRef ref,
     DexToken token,
@@ -14,7 +15,7 @@ class FiatValue {
     int precision = 2,
   }) async {
     final priceAsyncValue =
-        ref.watch(DexTokensProviders.estimateTokenInFiat(token));
+        ref.watch(DexTokensProviders.estimateTokenInFiat(token.address));
 
     return priceAsyncValue.when(
       data: (price) {

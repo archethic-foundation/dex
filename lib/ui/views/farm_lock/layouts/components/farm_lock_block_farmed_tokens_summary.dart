@@ -23,12 +23,14 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
+
+    final summary = ref.watch(farmLockFormSummaryProvider);
+
     var opacity = AppTextStyles.kOpacityText;
     if (session.isConnected == false) {
       opacity = 0.5;
     }
-    final farmLockForm = ref.watch(FarmLockFormProvider.farmLockForm);
     return BlockInfo(
       info: Column(
         children: [
@@ -56,7 +58,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
               Opacity(
                 opacity: opacity,
                 child: SelectableText(
-                  '\$${farmLockForm.farmedTokensInFiat.formatNumber(precision: 2)}',
+                  '\$${summary.farmedTokensInFiat.formatNumber(precision: 2)}',
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ),
@@ -83,7 +85,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
                   Opacity(
                     opacity: opacity,
                     child: SelectableText(
-                      '\$${farmLockForm.farmedTokensCapitalInFiat.formatNumber(precision: 2)}',
+                      '\$${summary.farmedTokensCapitalInFiat.formatNumber(precision: 2)}',
                       style: session.isConnected
                           ? Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 color: aedappfm.AppThemeBase.secondaryColor,
@@ -116,7 +118,7 @@ class FarmLockBlockFarmedTokensSummary extends ConsumerWidget {
                   Opacity(
                     opacity: opacity,
                     child: SelectableText(
-                      '\$${farmLockForm.farmedTokensRewardsInFiat.formatNumber(precision: 2)}',
+                      '\$${summary.farmedTokensRewardsInFiat.formatNumber(precision: 2)}',
                       style: session.isConnected
                           ? Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 color: session.isConnected

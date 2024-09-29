@@ -36,7 +36,7 @@ class FarmLockDetailsInfoAddresses extends ConsumerWidget {
               width: 10,
             ),
             FormatAddressLinkCopy(
-              address: farmLock.lpToken!.address!.toUpperCase(),
+              address: farmLock.lpToken!.address.toUpperCase(),
               header: AppLocalizations.of(context)!
                   .farmDetailsInfoAddressesLPAddress,
               typeAddress: TypeAddressLinkCopy.chain,

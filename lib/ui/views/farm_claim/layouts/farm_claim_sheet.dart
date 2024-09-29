@@ -13,6 +13,7 @@ import 'package:go_router/go_router.dart';
 class FarmClaimSheet extends ConsumerStatefulWidget {
   const FarmClaimSheet({
     required this.farmAddress,
+    required this.poolAddress,
     required this.rewardToken,
     required this.lpTokenAddress,
     required this.rewardAmount,
@@ -20,6 +21,7 @@ class FarmClaimSheet extends ConsumerStatefulWidget {
   });
 
   final String farmAddress;
+  final String poolAddress;
   final DexToken rewardToken;
   final String lpTokenAddress;
   final double rewardAmount;
@@ -34,18 +36,14 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
-        ref.read(FarmClaimFormProvider.farmClaimForm.notifier)
+        ref.read(farmClaimFormNotifierProvider.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
           ..setLpTokenAddress(widget.lpTokenAddress)
           ..setRewardAmount(widget.rewardAmount);
-        final session = ref.read(SessionProviders.session);
+        final session = ref.read(sessionNotifierProvider);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.pop();
@@ -62,7 +60,7 @@ class _FarmClaimSheetState extends ConsumerState<FarmClaimSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref.watch(FarmClaimFormProvider.farmClaimForm).processStep,
+      currentStep: ref.watch(farmClaimFormNotifierProvider).processStep,
       formSheet: const FarmClaimFormSheet(),
       confirmSheet: const FarmClaimConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

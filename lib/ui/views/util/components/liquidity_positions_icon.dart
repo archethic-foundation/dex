@@ -20,7 +20,8 @@ class LiquidityPositionsIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
+
     if (lpTokenInUserBalance == false || session.isConnected == false) {
       return const SizedBox(
         height: 16,

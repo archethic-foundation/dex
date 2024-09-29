@@ -1,25 +1,21 @@
-import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/application/session/provider.dart';
+import 'package:aedex/application/session/state.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
+import 'package:aedex/domain/models/dex_pool_infos.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_add_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_back.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_details_front.dart';
+import 'package:aedex/ui/views/pool_list/layouts/components/pool_favorite_icon.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_refresh_icon.dart';
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_remove_favorite_icon.dart';
-import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/pool_tx_list/layouts/pool_tx_list_popup.dart';
-import 'package:aedex/ui/views/util/components/pool_farm_available.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class PoolListItem extends ConsumerStatefulWidget {
   const PoolListItem({
@@ -41,58 +37,50 @@ class PoolListItem extends ConsumerStatefulWidget {
 
 class PoolListItemState extends ConsumerState<PoolListItem> {
   final flipCardController = FlipCardController();
-  DexPool? poolInfos;
+  late DexPoolStats poolStats;
+  late DexPoolInfos poolInfos;
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
-      if (mounted) {
-        await loadInfo();
-      }
-    });
+    poolStats = DexPoolStats.empty();
+    poolInfos = DexPoolInfos.empty(pool: widget.pool);
+
+    Future(_loadPoolDetails);
     super.initState();
   }
 
-  Future<void> loadInfo({bool forceLoadFromBC = false}) async {
-    poolInfos = await ref.read(
-      DexPoolProviders.loadPoolCard(
-        widget.pool,
-        forceLoadFromBC: forceLoadFromBC,
-      ).future,
+  /// We don't watch providers here on purpose.
+  /// We do not want oracle updates to trigger a bunch of
+  /// reload for each displayed pool.
+  /// Refreshes are manually triggered by user.
+  Future<void> _loadPoolDetails() async {
+    if (!mounted) return;
+
+    final poolInfosProvider =
+        DexPoolProviders.poolInfos(widget.pool.poolAddress);
+    ref.invalidate(poolInfosProvider);
+    final newPoolInfos = await ref.read(
+      poolInfosProvider.future,
+    );
+
+    final poolStatsProvider =
+        DexPoolProviders.estimateStats(widget.pool.poolAddress);
+    ref.invalidate(poolStatsProvider);
+    final newPoolStats = await ref.read(
+      poolStatsProvider.future,
     );
     if (mounted) {
-      final session = ref.watch(SessionProviders.session);
-      final apiService = aedappfm.sl.get<ApiService>();
-      ref.invalidate(
-        BalanceProviders.getBalance(
-          session.genesisAddress,
-          widget.pool.lpToken.address!,
-          apiService,
-        ),
-      );
-    }
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  Future<void> reload() async {
-    poolInfos = null;
-    if (mounted) {
-      setState(() {});
-    }
-    if (mounted) {
-      await loadInfo(
-        forceLoadFromBC: true,
-      );
+      setState(() {
+        poolStats = newPoolStats;
+        poolInfos = newPoolInfos;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final env = ref.watch(SessionProviders.session).envSelected;
-    final contextAddresses = PoolFarmAvailableState().getContextAddresses(env);
-    final aeETHUCOPoolAddress = contextAddresses.aeETHUCOPoolAddress;
+    final aeETHUCOPoolAddress =
+        ref.watch(environmentProvider).aeETHUCOPoolAddress;
 
     return Stack(
       children: [
@@ -118,13 +106,16 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   flipOnTouch: false,
                   fill: Fill.fillBack,
                   front: PoolDetailsFront(
-                    pool: poolInfos ?? widget.pool,
+                    pool: widget.pool,
+                    poolStats: poolStats,
                     tab: widget.tab,
                     poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
                         widget.pool.poolAddress.toUpperCase(),
                   ),
                   back: PoolDetailsBack(
-                    pool: poolInfos ?? widget.pool,
+                    pool: widget.pool,
+                    poolInfos: poolInfos,
+                    poolStats: poolStats,
                     poolWithFarm: aeETHUCOPoolAddress.toUpperCase() ==
                         widget.pool.poolAddress.toUpperCase(),
                   ),
@@ -142,48 +133,21 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                 padding: const EdgeInsets.only(right: 5),
                 child: PoolRefreshIcon(
                   poolAddress: widget.pool.poolAddress,
+                  onRefresh: _loadPoolDetails,
                 ),
               ),
-              if (poolInfos != null && poolInfos!.isFavorite)
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: PoolRemoveFavoriteIcon(
-                    poolAddress: widget.pool.poolAddress,
-                    onRemoved: () async {
-                      context.go(
-                        Uri(
-                          path: PoolListSheet.routerPage,
-                          queryParameters: {
-                            'tab': Uri.encodeComponent(
-                              PoolsListTab.favoritePools.name,
-                            ),
-                          },
-                        ).toString(),
-                      );
-                      await ref
-                          .read(PoolListFormProvider.poolListForm.notifier)
-                          .getPoolsList(
-                            tabIndexSelected: PoolsListTab.favoritePools,
-                            cancelToken: UniqueKey().toString(),
-                          );
-                    },
-                  ),
-                )
-              else
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: PoolAddFavoriteIcon(
-                    poolAddress: widget.pool.poolAddress,
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: PoolFavoriteIcon(
+                  poolAddress: widget.pool.poolAddress,
                 ),
+              ),
               InkWell(
                 onTap: () async {
-                  if (poolInfos != null) {
-                    await PoolTxListPopup.getDialog(
-                      context,
-                      poolInfos!,
-                    );
-                  }
+                  await PoolTxListPopup.getDialog(
+                    context,
+                    widget.pool,
+                  );
                 },
                 child: SizedBox(
                   height: 40,

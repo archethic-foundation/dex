@@ -4,7 +4,6 @@ import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
 import 'package:aedex/ui/views/util/components/failure_message.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class LiquiditySettingsSlippageToleranceState
   @override
   void initState() {
     super.initState();
-    final liquidityAdd = ref.read(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.read(liquidityAddFormNotifierProvider);
     slippageToleranceFocusNode = FocusNode();
     slippageToleranceController =
         TextEditingController(text: liquidityAdd.slippageTolerance.toString());
@@ -47,7 +46,7 @@ class LiquiditySettingsSlippageToleranceState
   @override
   Widget build(BuildContext context) {
     final liquidityAddNotifier =
-        ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier);
+        ref.watch(liquidityAddFormNotifierProvider.notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,12 +160,9 @@ class LiquiditySettingsSlippageToleranceState
             if (!context.mounted) return;
             Navigator.of(context).pop();
           },
-          isConnected: ref.watch(SessionProviders.session).isConnected,
+          isConnected: ref.watch(sessionNotifierProvider).isConnected,
           displayWalletConnectOnPressed: () async {
-            final sessionNotifier = ref.read(SessionProviders.session.notifier);
-            await sessionNotifier.connectToWallet();
-
-            final session = ref.read(SessionProviders.session);
+            final session = ref.read(sessionNotifierProvider);
             if (session.error.isNotEmpty) {
               if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(

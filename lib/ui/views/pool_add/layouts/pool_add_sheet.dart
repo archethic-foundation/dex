@@ -1,5 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_sheet.dart';
@@ -10,6 +8,7 @@ import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/dex_archethic_uco.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,12 +33,10 @@ class PoolAddSheet extends ConsumerStatefulWidget {
 class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       ref
-          .read(PoolAddFormProvider.poolAddForm.notifier)
+          .read(poolAddFormNotifierProvider.notifier)
           .setPoolsListTab(widget.poolsListTab);
-
-      await ref.read(SessionProviders.session.notifier).updateCtxInfo(context);
 
       if (widget.token1 != null && widget.token2 != null) {
         try {
@@ -48,15 +45,15 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
 
           if (context.mounted) {
             await ref
-                .read(PoolAddFormProvider.poolAddForm.notifier)
+                .read(poolAddFormNotifierProvider.notifier)
                 // ignore: use_build_context_synchronously
-                .setToken1(widget.token1!, context);
+                .setToken1(widget.token1!, AppLocalizations.of(context)!);
           }
           if (context.mounted) {
             await ref
-                .read(PoolAddFormProvider.poolAddForm.notifier)
+                .read(poolAddFormNotifierProvider.notifier)
                 // ignore: use_build_context_synchronously
-                .setToken2(widget.token2!, context);
+                .setToken2(widget.token2!, AppLocalizations.of(context)!);
           }
         } catch (e) {
           if (mounted) {
@@ -79,7 +76,7 @@ class _PoolAddSheetState extends ConsumerState<PoolAddSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref.watch(PoolAddFormProvider.poolAddForm).processStep,
+      currentStep: ref.watch(poolAddFormNotifierProvider).processStep,
       formSheet: const PoolAddFormSheet(),
       confirmSheet: const PoolAddConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

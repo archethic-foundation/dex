@@ -37,13 +37,9 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
-        ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+        ref.read(farmWithdrawFormNotifierProvider.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
           ..setLpTokenAddress(widget.lpTokenAddress);
@@ -64,13 +60,13 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
             context.go(FarmListSheet.routerPage);
           }
         } else {
-          ref.read(FarmWithdrawFormProvider.farmWithdrawForm.notifier)
+          ref.read(farmWithdrawFormNotifierProvider.notifier)
             ..setDexFarmInfo(farmInfo)
             ..setRewardAmount(farmInfo.rewardAmount)
             ..setDepositedAmount(farmInfo.depositedAmount);
         }
 
-        final session = ref.read(SessionProviders.session);
+        final session = ref.read(sessionNotifierProvider);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.pop();
@@ -87,8 +83,7 @@ class _FarmWithdrawSheetState extends ConsumerState<FarmWithdrawSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep:
-          ref.watch(FarmWithdrawFormProvider.farmWithdrawForm).processStep,
+      currentStep: ref.watch(farmWithdrawFormNotifierProvider).processStep,
       formSheet: const FarmWithdrawFormSheet(),
       confirmSheet: const FarmWithdrawConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

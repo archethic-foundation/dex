@@ -2,7 +2,6 @@ import 'package:aedex/ui/views/farm_lock_deposit/bloc/provider.dart';
 import 'package:aedex/ui/views/util/app_styles.dart';
 import 'package:aedex/ui/views/util/components/dex_token_balance.dart';
 import 'package:aedex/ui/views/util/farm_lock_duration_type.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
@@ -22,8 +21,7 @@ class FarmLockDepositConfirmInfos extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final farmLockDeposit =
-        ref.watch(FarmLockDepositFormProvider.farmLockDepositForm);
+    final farmLockDeposit = ref.watch(farmLockDepositFormNotifierProvider);
     if (farmLockDeposit.pool == null) {
       return const SizedBox.shrink();
     }

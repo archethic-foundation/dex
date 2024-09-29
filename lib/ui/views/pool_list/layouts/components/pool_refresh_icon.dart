@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_item.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -10,10 +9,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class PoolRefreshIcon extends ConsumerStatefulWidget {
   const PoolRefreshIcon({
     required this.poolAddress,
+    required this.onRefresh,
     super.key,
   });
 
   final String poolAddress;
+  final VoidCallback onRefresh;
 
   @override
   ConsumerState<PoolRefreshIcon> createState() => _PoolRefreshIconState();
@@ -39,8 +40,7 @@ class _PoolRefreshIconState extends ConsumerState<PoolRefreshIcon> {
           },
         );
 
-        await context.findAncestorStateOfType<PoolListItemState>()?.reload();
-
+        widget.onRefresh();
         await Future.delayed(const Duration(seconds: 3));
         if (mounted) {
           setState(

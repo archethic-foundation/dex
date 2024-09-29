@@ -24,23 +24,25 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final farmClaim = ref.watch(FarmClaimFormProvider.farmClaimForm);
+    final farmClaim = ref.watch(farmClaimFormNotifierProvider);
     if (farmClaim.rewardAmount == null) {
       return const SizedBox.shrink();
     }
+
+    final localizations = AppLocalizations.of(context)!;
 
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           aedappfm.ButtonConfirmBack(
-            title: AppLocalizations.of(context)!.farmClaimConfirmTitle,
+            title: localizations.farmClaimConfirmTitle,
             onPressed: farmClaim.rewardAmount == null
                 ? null
                 : () {
                     ref
                         .read(
-                          FarmClaimFormProvider.farmClaimForm.notifier,
+                          farmClaimFormNotifierProvider.notifier,
                         )
                         .setFarmClaimProcessStep(
                           aedappfm.ProcessStep.form,
@@ -75,8 +77,8 @@ class FarmClaimConfirmSheetState extends ConsumerState<FarmClaimConfirmSheet> {
             disabled: !consentChecked && farmClaim.consentDateTime == null,
             onPressed: () async {
               final farmClaimNotifier =
-                  ref.read(FarmClaimFormProvider.farmClaimForm.notifier);
-              unawaited(farmClaimNotifier.claim(context, ref));
+                  ref.read(farmClaimFormNotifierProvider.notifier);
+              unawaited(farmClaimNotifier.claim(localizations));
               await FarmClaimInProgressPopup.getDialog(
                 context,
                 ref,

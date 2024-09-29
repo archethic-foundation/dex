@@ -17,19 +17,6 @@ class HivePoolsListDatasource {
     return HivePoolsListDatasource._(box);
   }
 
-  Future<void> setPoolInfos(
-    String env,
-    String poolAddress,
-    DexPoolInfosHive poolInfos,
-  ) async {
-    final pool = _box.get('${env.toUpperCase()}-${poolAddress.toUpperCase()}');
-    if (pool == null) return;
-    await _box.put(
-      '${env.toUpperCase()}-${poolAddress.toUpperCase()}',
-      pool.copyWith(details: poolInfos),
-    );
-  }
-
   Future<void> setPoolsList(
     String env,
     List<DexPoolHive> v,
@@ -47,8 +34,12 @@ class HivePoolsListDatasource {
     await _box.put('${env.toUpperCase()}-${v.poolAddress.toUpperCase()}', v);
   }
 
-  DexPoolHive? getPool(String env, String key) {
-    return _box.get('${env.toUpperCase()}-${key.toUpperCase()}');
+  DexPoolHive? getPool(String env, String address) {
+    return _box.get('${env.toUpperCase()}-${address.toUpperCase()}');
+  }
+
+  bool containsPool(String env, String address) {
+    return _box.containsKey('${env.toUpperCase()}-${address.toUpperCase()}');
   }
 
   Future<void> removePool(String env, String poolAddress) async {

@@ -46,16 +46,11 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    Future(() async {
       try {
         ref.read(navigationIndexMainScreenProvider.notifier).state =
             NavigationIndex.earn;
-
-        await ref
-            .read(SessionProviders.session.notifier)
-            .updateCtxInfo(context);
-
-        ref.read(FarmLockWithdrawFormProvider.farmLockWithdrawForm.notifier)
+        ref.read(farmLockWithdrawFormNotifierProvider.notifier)
           ..setFarmAddress(widget.farmAddress)
           ..setRewardToken(widget.rewardToken)
           ..setDepositId(widget.depositId)
@@ -66,7 +61,7 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
           ..setLPTokenPair(widget.lpTokenPair)
           ..setLpToken(widget.lpToken);
 
-        final session = ref.read(SessionProviders.session);
+        final session = ref.read(sessionNotifierProvider);
         if (session.genesisAddress.isEmpty) {
           if (mounted) {
             context.pop();
@@ -83,9 +78,7 @@ class _FarmLockWithdrawSheetState extends ConsumerState<FarmLockWithdrawSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref
-          .watch(FarmLockWithdrawFormProvider.farmLockWithdrawForm)
-          .processStep,
+      currentStep: ref.watch(farmLockWithdrawFormNotifierProvider).processStep,
       formSheet: const FarmLockWithdrawFormSheet(),
       confirmSheet: const FarmLockWithdrawConfirmSheet(),
       bottomWidget: const DexArchethicOracleUco(),

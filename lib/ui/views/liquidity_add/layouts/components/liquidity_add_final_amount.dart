@@ -12,13 +12,12 @@ class LiquidityAddFinalAmount extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final liquidityAdd = ref.watch(LiquidityAddFormProvider.liquidityAddForm);
+    final liquidityAdd = ref.watch(liquidityAddFormNotifierProvider);
     if (liquidityAdd.liquidityAddOk == false) return const SizedBox.shrink();
 
     final finalAmount = liquidityAdd.finalAmount;
     final timeout = ref.watch(
-      LiquidityAddFormProvider.liquidityAddForm
-          .select((value) => value.failure != null),
+      liquidityAddFormNotifierProvider.select((value) => value.failure != null),
     );
 
     return finalAmount != null

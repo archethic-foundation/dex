@@ -7,11 +7,12 @@ part of 'dex_config.dart';
 // **************************************************************************
 
 String _$dexConfigRepositoryHash() =>
-    r'7ef5122267e82dcc5ef7f9474d2184be24e3dfb9';
+    r'af0987a74aa7fa5a1f7c1febb0da296e475eee37';
 
 /// See also [_dexConfigRepository].
 @ProviderFor(_dexConfigRepository)
-final _dexConfigRepositoryProvider = Provider<DexConfigRepository>.internal(
+final _dexConfigRepositoryProvider =
+    AutoDisposeProvider<DexConfigRepository>.internal(
   _dexConfigRepository,
   name: r'_dexConfigRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +22,20 @@ final _dexConfigRepositoryProvider = Provider<DexConfigRepository>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _DexConfigRepositoryRef = ProviderRef<DexConfigRepository>;
+typedef _DexConfigRepositoryRef = AutoDisposeProviderRef<DexConfigRepository>;
+String _$dexConfigHash() => r'e2c27e47ebf7aa0d46b2dfd220d1cff58198fed0';
+
+/// See also [_dexConfig].
+@ProviderFor(_dexConfig)
+final _dexConfigProvider = AutoDisposeFutureProvider<DexConfig>.internal(
+  _dexConfig,
+  name: r'_dexConfigProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$dexConfigHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _DexConfigRef = AutoDisposeFutureProviderRef<DexConfig>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

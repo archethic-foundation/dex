@@ -11,19 +11,30 @@ import 'package:aedex/util/string_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 const logName = 'AddLiquidityCase';
 
 class AddLiquidityCase with aedappfm.TransactionMixin {
+  AddLiquidityCase({
+    required this.apiService,
+    required this.notificationService,
+    required this.verifiedTokensRepository,
+    required this.dappClient,
+  });
+
+  final archethic.ApiService apiService;
+  final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
+
+  final ns.TaskNotificationService<DexNotification, aedappfm.Failure>
+      notificationService;
+  final awc.ArchethicDAppClient dappClient;
+
   Future<double> run(
-    WidgetRef ref,
-    BuildContext context,
-    ns.TaskNotificationService<DexNotification, aedappfm.Failure>
-        notificationService,
+    AppLocalizations localizations,
+    LiquidityAddFormNotifier liquidityAddNotifier,
     String poolGenesisAddress,
     DexToken token1,
     double token1Amount,
@@ -33,12 +44,12 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
     DexToken lpToken, {
     int recoveryStep = 0,
   }) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
     final operationId = const Uuid().v4();
 
-    final archethicContract = ArchethicContract();
-    final liquidityAddNotifier =
-        ref.read(LiquidityAddFormProvider.liquidityAddForm.notifier);
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
 
     archethic.Transaction? transactionAddLiquidity;
 
@@ -76,19 +87,16 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
     if (recoveryStep <= 1) {
       liquidityAddNotifier.setCurrentStep(2);
       try {
-        final currentNameAccount = await getCurrentAccount();
+        final currentNameAccount = await getCurrentAccount(dappClient);
         liquidityAddNotifier.setWalletConfirmation(true);
         transactionAddLiquidity = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionAddLiquidity!],
           description: {
-            'en': context.mounted
-                ? AppLocalizations.of(context)!.addLiquiditySignTxDesc_en
-                : '',
-            'fr': context.mounted
-                ? AppLocalizations.of(context)!.addLiquiditySignTxDesc_fr
-                : '',
+            'en': localizations.addLiquiditySignTxDesc_en,
+            'fr': localizations.addLiquiditySignTxDesc_fr,
           },
         ))
             .first;
@@ -115,7 +123,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         <archethic.Transaction>[
           transactionAddLiquidity!,
         ],
-        aedappfm.sl.get<archethic.ApiService>(),
+        apiService,
       );
 
       liquidityAddNotifier
@@ -135,7 +143,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         () => getAmountFromTxInput(
           transactionAddLiquidity!.address!.address!,
           lpToken.address,
-          aedappfm.sl.get<archethic.ApiService>(),
+          apiService,
         ),
         sleepDuration: const Duration(seconds: 3),
         until: (amount) => amount > 0,
@@ -151,7 +159,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
         ),
       );
 
-      unawaited(refreshCurrentAccountInfoWallet());
+      unawaited(refreshCurrentAccountInfoWallet(dappClient));
 
       return amount;
     } catch (e) {
@@ -181,6 +189,7 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
   }
 
   Future<double> estimateFees(
+    LiquidityAddFormNotifier liquidityAddNotifier,
     String poolGenesisAddress,
     DexToken token1,
     double token1Amount,
@@ -188,8 +197,10 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
     double token2Amount,
     double slippage,
   ) async {
-    //final apiService = aedappfm.sl.get<archethic.ApiService>();
-    final archethicContract = ArchethicContract();
+    final archethicContract = ArchethicContract(
+      apiService: apiService,
+      verifiedTokensRepository: verifiedTokensRepository,
+    );
     archethic.Transaction? transactionAddLiquidity;
 
     try {
@@ -226,24 +237,24 @@ class AddLiquidityCase with aedappfm.TransactionMixin {
 
     final fees = await calculateFees(
       transactionAddLiquidity!,
-      aedappfm.sl.get<archethic.ApiService>(),
+      apiService,
     );
     return fees;
   }
 
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.addLiquidityProcessStep1;
+        return localizations.addLiquidityProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.addLiquidityProcessStep2;
+        return localizations.addLiquidityProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.addLiquidityProcessStep3;
+        return localizations.addLiquidityProcessStep3;
       default:
-        return AppLocalizations.of(context)!.addLiquidityProcessStep0;
+        return localizations.addLiquidityProcessStep0;
     }
   }
 }

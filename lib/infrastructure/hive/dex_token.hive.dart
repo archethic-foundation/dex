@@ -12,8 +12,6 @@ class DexTokenHive extends HiveObject {
     required this.icon,
     required this.symbol,
     required this.balance,
-    required this.reserve,
-    required this.supply,
     required this.verified,
     required this.isLpToken,
   });
@@ -25,8 +23,6 @@ class DexTokenHive extends HiveObject {
       icon: dexToken.icon,
       symbol: dexToken.symbol,
       balance: dexToken.balance,
-      reserve: dexToken.reserve,
-      supply: dexToken.supply,
       verified: dexToken.isVerified,
       isLpToken: dexToken.isLpToken,
     );
@@ -46,11 +42,11 @@ class DexTokenHive extends HiveObject {
   @HiveField(4)
   double balance;
 
-  @HiveField(5)
-  double reserve;
+  // @HiveField(5)
+  // double reserve;
 
-  @HiveField(6)
-  double supply;
+  // @HiveField(6)
+  // double supply;
 
   @HiveField(7)
   bool verified;
@@ -61,12 +57,11 @@ class DexTokenHive extends HiveObject {
   DexToken toModel() {
     return DexToken(
       name: name,
-      address: address,
+      address: address ??
+          kUCOAddress, // Migration workaround to ensure we always have an address for a token
       icon: icon,
       symbol: symbol,
       balance: balance,
-      reserve: reserve,
-      supply: supply,
       isVerified: verified,
       isLpToken: isLpToken ?? false,
     );
@@ -79,8 +74,6 @@ extension DexTokenHiveConversionExt on DexToken {
         balance: balance,
         icon: icon,
         name: name,
-        reserve: reserve,
-        supply: supply,
         symbol: symbol,
         verified: isVerified,
         isLpToken: isLpToken,

@@ -33,49 +33,21 @@ class FarmListItem extends ConsumerStatefulWidget {
 
 class FarmListItemState extends ConsumerState<FarmListItem> {
   final flipCardController = FlipCardController();
-  DexFarm? farmInfos;
-  double? userBalance;
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      if (mounted) {
-        await loadInfo();
-      }
-    });
-    super.initState();
-  }
-
-  Future<void> loadInfo() async {
-    if (!mounted) return;
-
-    try {
-      farmInfos = await ref.read(
-        DexFarmProviders.getFarmInfos(
-          widget.farm.farmAddress,
-          widget.farm.poolAddress,
-          dexFarmInput: widget.farm,
-        ).future,
-      );
-
-      userBalance = await ref.read(
-        FarmListFormProvider.balance(widget.farm.lpToken!.address).future,
-      );
-
-      if (mounted) {
-        setState(() {});
-      }
-      // ignore: empty_catches
-    } catch (e) {}
-  }
-
-  Future<void> reload() async {
-    farmInfos = null;
-    userBalance = null;
-    await loadInfo();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final farmInfos = ref.watch(
+      DexFarmProviders.getFarmInfos(
+        widget.farm.farmAddress,
+        widget.farm.poolAddress,
+        dexFarmInput: widget.farm,
+      ),
+    );
+
+    final userBalance = ref.watch(
+      FarmListFormProvider.balance(widget.farm.lpToken!.address),
+    );
+
     return Stack(
       children: [
         Padding(
@@ -94,12 +66,12 @@ class FarmListItemState extends ConsumerState<FarmListItem> {
                       flipOnTouch: false,
                       fill: Fill.fillBack,
                       front: FarmDetailsFront(
-                        farm: farmInfos ?? widget.farm,
-                        userBalance: userBalance,
+                        farm: farmInfos.valueOrNull ?? widget.farm,
+                        userBalance: userBalance.valueOrNull,
                         isInPopup: widget.isInPopup,
                       ),
                       back: FarmDetailsBack(
-                        farm: farmInfos ?? widget.farm,
+                        farm: farmInfos.valueOrNull ?? widget.farm,
                       ),
                     ),
                   ),
@@ -118,8 +90,8 @@ class FarmListItemState extends ConsumerState<FarmListItem> {
           child: Row(
             children: [
               FarmRefreshIcon(
-                farmAddress: widget.farm.farmAddress,
-                lpTokenAddress: widget.farm.lpToken!.address ?? '',
+                farm: widget.farm,
+                lpTokenAddress: widget.farm.lpToken!.address,
               ),
               SizedBox(
                 height: 40,

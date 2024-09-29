@@ -4,7 +4,6 @@ import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/components/pool_list_search_bar.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
 import 'package:aedex/ui/views/util/components/btn_validate_mobile.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -69,8 +68,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           ? AppLocalizations.of(context)!.poolCreatePoolButton
           : '+',
       onPressed: () {
-        final selectedTab =
-            ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected;
+        final selectedTab = ref.read(poolListFormNotifierProvider).selectedTab;
 
         final poolsListTabEncoded = Uri.encodeComponent(selectedTab.name);
         context.go(
@@ -89,12 +87,13 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
         ratioMobile: -8,
       ),
       height: 30,
-      isConnected: ref.watch(SessionProviders.session).isConnected,
+      isConnected: ref.watch(
+        sessionNotifierProvider.select(
+          (value) => value.isConnected,
+        ),
+      ),
       displayWalletConnectOnPressed: () async {
-        final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        await sessionNotifier.connectToWallet();
-
-        final session = ref.read(SessionProviders.session);
+        final session = ref.read(sessionNotifierProvider);
         if (session.error.isNotEmpty) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
@@ -133,8 +132,11 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
         ],
         borderRadius: 20,
         height: 30,
-        selectedIndex:
-            ref.watch(PoolListFormProvider.poolListForm).tabIndexSelected.index,
+        selectedIndex: ref.watch(
+          poolListFormNotifierProvider.select(
+            (notifier) => notifier.selectedTab.index,
+          ),
+        ),
         selectedBackgroundColors: [
           aedappfm.ArchethicThemeBase.purple500,
           aedappfm.ArchethicThemeBase.purple500,
@@ -181,16 +183,11 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
               },
             ).toString(),
           );
-          await ref
-              .read(PoolListFormProvider.poolListForm.notifier)
-              .getPoolsList(
-                tabIndexSelected: PoolsListTab.values[index],
-                cancelToken: UniqueKey().toString(),
+          ref.read(poolListFormNotifierProvider.notifier).selectTab(
+                PoolsListTab.values[index],
               );
           if (mounted) {
-            ref
-                .read(PoolListFormProvider.poolListForm.notifier)
-                .setSearchText('');
+            ref.read(poolListFormNotifierProvider.notifier).setSearchText('');
           }
         },
         isScroll: false,
