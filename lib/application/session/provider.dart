@@ -38,14 +38,18 @@ class SessionNotifier extends _$SessionNotifier {
       _connectionStateSubscription?.cancel();
     });
 
-    final _archethicDAppClient = ref.watch(dappClientProvider);
+    ref.watch(dappClientProvider).when(
+          data: (dappClient) {
+            _listenConnectionState(dappClient);
 
-    _listenConnectionState(_archethicDAppClient);
-
-    Future.delayed(
-      const Duration(milliseconds: 50),
-      connectWallet,
-    );
+            Future.delayed(
+              const Duration(milliseconds: 50),
+              connectWallet,
+            );
+          },
+          loading: () {},
+          error: (error, stack) {},
+        );
     return const Session(
       environment: Environment.mainnet,
       walletConnectionState: awc.ArchethicDappConnectionState.disconnected(),
@@ -57,7 +61,13 @@ class SessionNotifier extends _$SessionNotifier {
   Future<void> connectWallet() async {
     if (_connectionCompleter != null) return _connectionCompleter!.future;
 
-    final dappClient = ref.read(dappClientProvider);
+    final dappClientAsync = ref.read(dappClientProvider);
+
+    if (dappClientAsync is! AsyncData || dappClientAsync.value == null) {
+      return Future.error('Dapp client not ready or null');
+    }
+
+    final dappClient = dappClientAsync.value!;
 
     _connectionCompleter = Completer();
     _connectionTaskStateSubscription =
@@ -154,7 +164,7 @@ class SessionNotifier extends _$SessionNotifier {
         },
       );
     } catch (e) {
-      log('Error wallet connection $e');
+      log('Error Wallet connection $e');
       _handleConnectionFailure();
     }
   }
@@ -177,7 +187,14 @@ class SessionNotifier extends _$SessionNotifier {
       walletConnectionState:
           const awc.ArchethicDappConnectionState.disconnected(),
     );
-    await ref.read(dappClientProvider).close();
+
+    final dappClientAsync = ref.read(dappClientProvider);
+
+    if (dappClientAsync is! AsyncData || dappClientAsync.value == null) {
+      return Future.error('Wallet connection not ready or null');
+    }
+
+    await dappClientAsync.value!.close();
   }
 
   Future<void> update(FutureOr<Session> Function(Session previous) func) async {

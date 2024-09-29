@@ -1,5 +1,6 @@
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/main_screen/layouts/main_screen_list.dart';
+import 'package:aedex/util/uri.util.dart';
 import 'package:easy_web_view/easy_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,12 +32,12 @@ class _WelcomeSheetState extends ConsumerState<WelcomeSheet> {
     if (mounted == false) {
       return const SizedBox.shrink();
     }
-    return const MainScreenList(
+    return MainScreenList(
       withBackground: false,
       body: Padding(
-        padding: EdgeInsets.only(top: 70),
+        padding: const EdgeInsets.only(top: 70),
         child: EasyWebView(
-          src: 'https://swap.archethic.net/dex.html',
+          src: '${UriUtil.getBaseUrl()}/dex.html',
         ),
       ),
     );

@@ -702,7 +702,7 @@ class _PoolInfosProviderElement
   String get poolAddress => (origin as _PoolInfosProvider).poolAddress;
 }
 
-String _$getPoolListHash() => r'b3df051d72a5b04a971fbfe556a9419dc3aa5f27';
+String _$getPoolListHash() => r'3cff778347a2e6b503b29ddc916fdc7da247a690';
 
 /// See also [_getPoolList].
 @ProviderFor(_getPoolList)
