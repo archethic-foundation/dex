@@ -61,6 +61,12 @@ class SessionNotifier extends _$SessionNotifier {
   Future<void> connectWallet() async {
     if (_connectionCompleter != null) return _connectionCompleter!.future;
 
+    /// In case there was no transport available on previous connection attempt,
+    /// We force a new client creation from scratch.
+    if (ref.exists(dappClientProvider) &&
+        ref.read(dappClientProvider).hasError) {
+      ref.invalidate(dappClientProvider);
+    }
     final dappClientAsync = ref.read(dappClientProvider);
 
     if (dappClientAsync is! AsyncData || dappClientAsync.value == null) {
