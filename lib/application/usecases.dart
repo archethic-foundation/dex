@@ -20,119 +20,207 @@ part 'usecases.g.dart';
 @riverpod
 AddLiquidityCase addLiquidityCase(
   AddLiquidityCaseRef ref,
-) =>
-    AddLiquidityCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => AddLiquidityCase(
       apiService: ref.watch(apiServiceProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 AddPoolCase addPoolCase(
   AddPoolCaseRef ref,
-) =>
-    AddPoolCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => AddPoolCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 ClaimFarmLockCase claimFarmLockCase(
   ClaimFarmLockCaseRef ref,
-) =>
-    ClaimFarmLockCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => ClaimFarmLockCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 ClaimFarmCase claimFarmCase(
   ClaimFarmCaseRef ref,
-) =>
-    ClaimFarmCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => ClaimFarmCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 DepositFarmLockCase depositFarmLockCase(
   DepositFarmLockCaseRef ref,
-) =>
-    DepositFarmLockCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => DepositFarmLockCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 DepositFarmCase depositFarmCase(
   DepositFarmCaseRef ref,
-) =>
-    DepositFarmCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => DepositFarmCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 LevelUpFarmLockCase levelUpFarmLockCase(
   LevelUpFarmLockCaseRef ref,
-) =>
-    LevelUpFarmLockCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => LevelUpFarmLockCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 RemoveLiquidityCase removeLiquidityCase(
   RemoveLiquidityCaseRef ref,
-) =>
-    RemoveLiquidityCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => RemoveLiquidityCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 SwapCase swapCase(
   SwapCaseRef ref,
-) =>
-    SwapCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => SwapCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 WithdrawFarmLockCase withdrawFarmLockCase(
   WithdrawFarmLockCaseRef ref,
-) =>
-    WithdrawFarmLockCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => WithdrawFarmLockCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}
 
 @riverpod
 WithdrawFarmCase withdrawFarmCase(
   WithdrawFarmCaseRef ref,
-) =>
-    WithdrawFarmCase(
+) {
+  final dappClientAsync = ref.watch(dappClientProvider);
+
+  return dappClientAsync.when(
+    data: (dappClient) => WithdrawFarmCase(
       apiService: ref.watch(apiServiceProvider),
       verifiedTokensRepository: ref.watch(verifiedTokensRepositoryProvider),
       notificationService: ref.watch(NotificationProviders.notificationService),
-      dappClient: ref.watch(dappClientProvider),
-    );
+      dappClient: dappClient,
+    ),
+    loading: () => throw UnimplementedError('Dapp client is loading'),
+    error: (error, stack) =>
+        throw UnimplementedError('Failed to load dapp client'),
+  );
+}

@@ -6,7 +6,7 @@ part of 'usecases.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$addLiquidityCaseHash() => r'fd7086ece3da3eefe1596010198271722604441e';
+String _$addLiquidityCaseHash() => r'3ecb672de87d28f8929ddda33fffc5ea6914e18c';
 
 /// See also [addLiquidityCase].
 @ProviderFor(addLiquidityCase)
@@ -21,7 +21,7 @@ final addLiquidityCaseProvider = AutoDisposeProvider<AddLiquidityCase>.internal(
 );
 
 typedef AddLiquidityCaseRef = AutoDisposeProviderRef<AddLiquidityCase>;
-String _$addPoolCaseHash() => r'4bd09512ba1d1457a7931c2c31bfab07e8d009b6';
+String _$addPoolCaseHash() => r'b5a74be1272ccfe442d75f860668e20ba776a7b4';
 
 /// See also [addPoolCase].
 @ProviderFor(addPoolCase)
@@ -35,7 +35,7 @@ final addPoolCaseProvider = AutoDisposeProvider<AddPoolCase>.internal(
 );
 
 typedef AddPoolCaseRef = AutoDisposeProviderRef<AddPoolCase>;
-String _$claimFarmLockCaseHash() => r'd124a4424cb3610fb26d5ba4c295462e8368dad7';
+String _$claimFarmLockCaseHash() => r'b0df5b60c1a136be829f97f355c400ddbb4ff0a3';
 
 /// See also [claimFarmLockCase].
 @ProviderFor(claimFarmLockCase)
@@ -51,7 +51,7 @@ final claimFarmLockCaseProvider =
 );
 
 typedef ClaimFarmLockCaseRef = AutoDisposeProviderRef<ClaimFarmLockCase>;
-String _$claimFarmCaseHash() => r'4bd13bd79ce52edffed615d93a7637c122ecccd3';
+String _$claimFarmCaseHash() => r'ae0096ce5a9ffa401f18724cd37eb94c99cfb1e6';
 
 /// See also [claimFarmCase].
 @ProviderFor(claimFarmCase)
@@ -67,7 +67,7 @@ final claimFarmCaseProvider = AutoDisposeProvider<ClaimFarmCase>.internal(
 
 typedef ClaimFarmCaseRef = AutoDisposeProviderRef<ClaimFarmCase>;
 String _$depositFarmLockCaseHash() =>
-    r'14678369055e1027b4677d526f5eace3dca2b81b';
+    r'73cc293bd70c4697620f7039f6726b330984452f';
 
 /// See also [depositFarmLockCase].
 @ProviderFor(depositFarmLockCase)
@@ -83,7 +83,7 @@ final depositFarmLockCaseProvider =
 );
 
 typedef DepositFarmLockCaseRef = AutoDisposeProviderRef<DepositFarmLockCase>;
-String _$depositFarmCaseHash() => r'9bac6f4ce70802aa9c9f07e961227b9ccf78c97c';
+String _$depositFarmCaseHash() => r'60164bb1951009134b2dc7b2e371c2a0db15ef6f';
 
 /// See also [depositFarmCase].
 @ProviderFor(depositFarmCase)
@@ -99,7 +99,7 @@ final depositFarmCaseProvider = AutoDisposeProvider<DepositFarmCase>.internal(
 
 typedef DepositFarmCaseRef = AutoDisposeProviderRef<DepositFarmCase>;
 String _$levelUpFarmLockCaseHash() =>
-    r'a8d44852ba7e91171edf637d6f2bdc790b583b3f';
+    r'd090889d0473ef2506962953529af3f179f3e776';
 
 /// See also [levelUpFarmLockCase].
 @ProviderFor(levelUpFarmLockCase)
@@ -116,7 +116,7 @@ final levelUpFarmLockCaseProvider =
 
 typedef LevelUpFarmLockCaseRef = AutoDisposeProviderRef<LevelUpFarmLockCase>;
 String _$removeLiquidityCaseHash() =>
-    r'973c11f4e68e09ac8be9908e196db12f79091eaf';
+    r'411c6a5fa9746b186fbc28be0479eaf1f4be7f10';
 
 /// See also [removeLiquidityCase].
 @ProviderFor(removeLiquidityCase)
@@ -132,7 +132,7 @@ final removeLiquidityCaseProvider =
 );
 
 typedef RemoveLiquidityCaseRef = AutoDisposeProviderRef<RemoveLiquidityCase>;
-String _$swapCaseHash() => r'8c46dc0e614db2f9b28866923babdb9abc98c094';
+String _$swapCaseHash() => r'07ecedcb08209b02c68f510383adea626a9edc2b';
 
 /// See also [swapCase].
 @ProviderFor(swapCase)
@@ -147,7 +147,7 @@ final swapCaseProvider = AutoDisposeProvider<SwapCase>.internal(
 
 typedef SwapCaseRef = AutoDisposeProviderRef<SwapCase>;
 String _$withdrawFarmLockCaseHash() =>
-    r'a66ea096ccee65d89ac0d0053dca9e8b08fd1bc5';
+    r'6a31d004588df295bd25ac86965ddd36d763d383';
 
 /// See also [withdrawFarmLockCase].
 @ProviderFor(withdrawFarmLockCase)
@@ -163,7 +163,7 @@ final withdrawFarmLockCaseProvider =
 );
 
 typedef WithdrawFarmLockCaseRef = AutoDisposeProviderRef<WithdrawFarmLockCase>;
-String _$withdrawFarmCaseHash() => r'f4b8842741899fc211d027c53c31d1a1439194b2';
+String _$withdrawFarmCaseHash() => r'b186792a1e67bf2bdccc56816c177eb905b970ff';
 
 /// See also [withdrawFarmCase].
 @ProviderFor(withdrawFarmCase)

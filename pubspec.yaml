@@ -8,19 +8,22 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  # archethic_dapp_framework_flutter: ^1.3.1
-  archethic_dapp_framework_flutter:
-    git:
-      url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
-      ref: introduce_environment_type
-  #archethic_dapp_framework_flutter:
-  #  path: ../archethic-dapp-framework-flutter
+  archethic_dapp_framework_flutter: ^2.1.1
+  #  archethic_dapp_framework_flutter:
+  #  git:
+  #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+  #    ref: introduce_environment_type
+  # archethic_dapp_framework_flutter:
+  #   path: ../../packages/archethic-dapp-framework-flutter
 
   # Collections and utilities functions and classes related to collections.
   collection: ^1.18.0
 
   # The decimal package allows you to deal with decimal numbers without losing precision
   decimal: ^3.0.2
+
+  # A Flutter plugin that provides a WebView widget on web
+  easy_web_view: ^2.0.2
 
   # A new flutter package to display notifications on top of the screen, full customizable with built-in themes
   elegant_notification: ^2.1.0

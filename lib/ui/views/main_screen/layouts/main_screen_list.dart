@@ -17,11 +17,13 @@ class MainScreenList extends ConsumerStatefulWidget {
   const MainScreenList({
     required this.body,
     this.bodyVerticalAlignment = Alignment.center,
+    this.withBackground = true,
     super.key,
   });
 
   final Widget body;
   final Alignment bodyVerticalAlignment;
+  final bool withBackground;
   @override
   ConsumerState<MainScreenList> createState() => MainScreenListState();
 }
@@ -84,9 +86,10 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
         body: Stack(
           alignment: widget.bodyVerticalAlignment,
           children: [
-            const aedappfm.AppBackground(
-              backgroundImage: 'assets/images/background-welcome.png',
-            ),
+            if (widget.withBackground)
+              const aedappfm.AppBackground(
+                backgroundImage: 'assets/images/background-welcome.png',
+              ),
             widget.body,
           ],
         ),
