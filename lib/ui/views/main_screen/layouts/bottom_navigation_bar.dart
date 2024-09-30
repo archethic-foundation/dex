@@ -31,6 +31,10 @@ class _BottomNavigationBarMainScreenState
     extends ConsumerState<BottomNavigationBarMainScreen> {
   @override
   Widget build(BuildContext context) {
+    if (widget.navDrawerIndex == NavigationIndex.welcome) {
+      return const SizedBox();
+    }
+
     widget.listNavigationLabelIcon.removeWhere(
       (element) => element.$1 == AppLocalizations.of(context)!.menu_bridge,
     );
@@ -117,7 +121,8 @@ class _BottomNavigationBarMainScreenState
               ),
             );
           }).toList(),
-          currentIndex: widget.navDrawerIndex.index,
+          currentIndex:
+              widget.navDrawerIndex.index > 3 ? 0 : widget.navDrawerIndex.index,
           onTap: (int selectedIndex) async {
             switch (selectedIndex) {
               case 0:
