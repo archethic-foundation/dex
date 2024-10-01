@@ -124,6 +124,9 @@ class FarmLockSheetState extends ConsumerState<FarmLockSheet> {
                             ),
                           ),
                         ),
+                      const SizedBox(
+                        height: 40,
+                      ),
                     ],
                   ),
                 ),
