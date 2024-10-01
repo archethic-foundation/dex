@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - rollback
+      - rollback-no
 
 jobs:
   deploy_to_aeweb:
