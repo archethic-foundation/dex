@@ -8,6 +8,11 @@ Future<awc.ArchethicDAppClient> dappClient(DappClientRef ref) async {
   final client = await awc.ArchethicDAppClient.auto(
     origin: const awc.RequestOrigin(name: 'aeSwap'),
     replyBaseUrl: '',
+    authorizedMethods: [
+      awc.ArchethicDAppTransportMethods.webBrowserExtension,
+      awc.ArchethicDAppTransportMethods.websocket,
+      awc.ArchethicDAppTransportMethods.messageChannel,
+    ],
   );
   ref.onDispose(client.close);
 
