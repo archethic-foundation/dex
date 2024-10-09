@@ -4,6 +4,7 @@ import 'package:aedex/domain/models/dex_farm_lock.dart';
 import 'package:aedex/domain/models/dex_pair.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/domain/models/dex_token.dart';
+import 'package:aedex/domain/repositories/features_flags.dart';
 import 'package:aedex/ui/views/error/layouts/error_screen.dart';
 import 'package:aedex/ui/views/farm_claim/layouts/farm_claim_sheet.dart';
 import 'package:aedex/ui/views/farm_deposit/layouts/farm_deposit_sheet.dart';
@@ -16,6 +17,7 @@ import 'package:aedex/ui/views/farm_lock_withdraw/layouts/farm_lock_withdraw_she
 import 'package:aedex/ui/views/farm_withdraw/layouts/farm_withdraw_sheet.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/liquidity_add_sheet.dart';
 import 'package:aedex/ui/views/liquidity_remove/layouts/liquidity_remove_sheet.dart';
+import 'package:aedex/ui/views/maintenance/maintenance_screen.dart';
 import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
 import 'package:aedex/ui/views/pool_add/layouts/pool_add_sheet.dart';
 import 'package:aedex/ui/views/pool_list/bloc/provider.dart';
@@ -84,6 +86,14 @@ final routerProvider = Provider<GoRouter>(
               },
             ),
             GoRoute(
+              path: MaintenanceScreen.routerPage,
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return const NoTransitionPage(
+                  child: MaintenanceScreen(),
+                );
+              },
+            ),
+            GoRoute(
               path: PoolListSheet.routerPage,
               pageBuilder: (context, state) {
                 var tab = PoolsListTab.verified;
@@ -119,7 +129,9 @@ final routerProvider = Provider<GoRouter>(
               path: FarmLockSheet.routerPage2,
               pageBuilder: (context, state) {
                 return const NoTransitionPage(
-                  child: FarmLockSheet(),
+                  child: FeatureFlags.inMaintenanceFarmLock
+                      ? MaintenanceScreen()
+                      : FarmLockSheet(),
                 );
               },
             ),
@@ -127,7 +139,9 @@ final routerProvider = Provider<GoRouter>(
               path: FarmLockSheet.routerPage,
               pageBuilder: (context, state) {
                 return const NoTransitionPage(
-                  child: FarmLockSheet(),
+                  child: FeatureFlags.inMaintenanceFarmLock
+                      ? MaintenanceScreen()
+                      : FarmLockSheet(),
                 );
               },
             ),
@@ -240,10 +254,12 @@ final routerProvider = Provider<GoRouter>(
                 }
 
                 return NoTransitionPage(
-                  child: FarmLockDepositSheet(
-                    pool: pool,
-                    farmLock: farmLock,
-                  ),
+                  child: FeatureFlags.inMaintenanceFarmLock
+                      ? const MaintenanceScreen()
+                      : FarmLockDepositSheet(
+                          pool: pool,
+                          farmLock: farmLock,
+                        ),
                 );
               },
             ),
@@ -289,14 +305,16 @@ final routerProvider = Provider<GoRouter>(
                 }
 
                 return NoTransitionPage(
-                  child: FarmLockLevelUpSheet(
-                    pool: pool,
-                    farmLock: farmLock,
-                    depositId: depositId,
-                    currentLevel: currentLevel,
-                    lpAmount: lpAmount,
-                    rewardAmount: rewardAmount,
-                  ),
+                  child: FeatureFlags.inMaintenanceFarmLock
+                      ? const MaintenanceScreen()
+                      : FarmLockLevelUpSheet(
+                          pool: pool,
+                          farmLock: farmLock,
+                          depositId: depositId,
+                          currentLevel: currentLevel,
+                          lpAmount: lpAmount,
+                          rewardAmount: rewardAmount,
+                        ),
                 );
               },
             ),
@@ -448,19 +466,23 @@ final routerProvider = Provider<GoRouter>(
                     rewardAmount == null ||
                     depositId == null) {
                   return const NoTransitionPage(
-                    child: FarmLockSheet(),
+                    child: FeatureFlags.inMaintenanceFarmLock
+                        ? MaintenanceScreen()
+                        : FarmLockSheet(),
                   );
                 }
 
                 return NoTransitionPage(
-                  child: FarmLockClaimSheet(
-                    farmAddress: farmAddress,
-                    poolAddress: poolAddress,
-                    rewardToken: rewardToken,
-                    lpTokenAddress: lpTokenAddress,
-                    rewardAmount: rewardAmount,
-                    depositId: depositId,
-                  ),
+                  child: FeatureFlags.inMaintenanceFarmLock
+                      ? const MaintenanceScreen()
+                      : FarmLockClaimSheet(
+                          farmAddress: farmAddress,
+                          poolAddress: poolAddress,
+                          rewardToken: rewardToken,
+                          lpTokenAddress: lpTokenAddress,
+                          rewardAmount: rewardAmount,
+                          depositId: depositId,
+                        ),
                 );
               },
             ),
@@ -503,30 +525,41 @@ final routerProvider = Provider<GoRouter>(
                     depositId == null ||
                     endDate == null) {
                   return const NoTransitionPage(
-                    child: FarmLockSheet(),
+                    child: FeatureFlags.inMaintenanceFarmLock
+                        ? MaintenanceScreen()
+                        : FarmLockSheet(),
                   );
                 }
 
                 return NoTransitionPage(
-                  child: FarmLockWithdrawSheet(
-                    farmAddress: farmAddress,
-                    poolAddress: poolAddress,
-                    rewardToken: rewardToken,
-                    lpToken: lpToken,
-                    lpTokenPair: lpTokenPair,
-                    endDate: DateTime.fromMillisecondsSinceEpoch(
-                      endDate * 1000,
-                    ),
-                    rewardAmount: rewardAmount,
-                    depositId: depositId,
-                    depositedAmount: depositedAmount,
-                  ),
+                  child: FeatureFlags.inMaintenanceFarmLock
+                      ? const MaintenanceScreen()
+                      : FarmLockWithdrawSheet(
+                          farmAddress: farmAddress,
+                          poolAddress: poolAddress,
+                          rewardToken: rewardToken,
+                          lpToken: lpToken,
+                          lpTokenPair: lpTokenPair,
+                          endDate: DateTime.fromMillisecondsSinceEpoch(
+                            endDate * 1000,
+                          ),
+                          rewardAmount: rewardAmount,
+                          depositId: depositId,
+                          depositedAmount: depositedAmount,
+                        ),
                 );
               },
             ),
           ],
         ),
       ],
+      redirect: (context, state) async {
+        if (FeatureFlags.inMaintenanceGlobal) {
+          if (context.mounted) return MaintenanceScreen.routerPage;
+        }
+
+        return null;
+      },
       errorBuilder: (context, state) => const ErrorScreen(),
     );
   },
