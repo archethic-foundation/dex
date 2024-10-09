@@ -478,5 +478,7 @@
     "mobileInfoTxt2": "1. Use our application on a desktop computer.",
     "mobileInfoTxt3": "2. Use our application within your Archethic wallet on iOS, DApps tab.",
     "mobileInfoTxt4": "Please note that updates for mobile compatibility are coming soon.",
-    "mobileInfoTxt5": "Thank you for your understanding."
+    "mobileInfoTxt5": "Thank you for your understanding.",
+    "maintenanceInfoGlobal": "aeSwap is currently undergoing maintenance to improve your experience.\nWe apologize for the inconvenience.\nPlease try again later.\nThank you for your understanding.",
+    "maintenanceInfoFarmLock": "Earn features are currently undergoing maintenance to improve your experience.\nWe apologize for the inconvenience.\nPlease try again later.\nThank you for your understanding."
 }
