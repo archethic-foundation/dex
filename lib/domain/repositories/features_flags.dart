@@ -2,5 +2,5 @@
 /// Simply activate/deactivate features.
 class FeatureFlags {
   static const inMaintenanceGlobal = false;
-  static const inMaintenanceFarmLock = true;
+  static const inMaintenanceFarmLock = false;
 }
