@@ -11,8 +11,7 @@ Future<void> setupServiceLocator() async {
   aedappfm.sl
     ..registerLazySingleton<DBHelper>(DBHelper.new)
     ..registerLazySingleton<OracleService>(
-      () =>
-          OracleService('https://mainnet.archethic.net', logsActivation: false),
+      () => OracleService('https://mainnet.archethic.net'),
     )
     ..registerLazySingleton<aedappfm.LogManager>(() {
       if (Uri.base.toString().toLowerCase().contains('dex.archethic') ||

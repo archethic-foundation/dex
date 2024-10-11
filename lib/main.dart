@@ -18,6 +18,7 @@ import 'package:go_router/go_router.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 Future<void> main() async {
+  aedappfm.LoggerOutput.setup();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   await DBHelper.setupDatabase();
   await setupServiceLocator();
