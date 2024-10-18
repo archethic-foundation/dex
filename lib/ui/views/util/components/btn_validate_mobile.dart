@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/app_embedded.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/mobile_info/layouts/mobile_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -34,8 +35,11 @@ class ButtonValidateMobile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     VoidCallback _displayWalletConnectOnPressed;
     if (ref.watch(sessionNotifierProvider).isConnected == false &&
+        isAppEmbedded == false &&
         context.mounted &&
         aedappfm.Responsive.isMobile(context)) {
       _displayWalletConnectOnPressed = () {

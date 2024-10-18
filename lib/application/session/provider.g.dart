@@ -20,7 +20,7 @@ final environmentProvider = AutoDisposeProvider<Environment>.internal(
 );
 
 typedef EnvironmentRef = AutoDisposeProviderRef<Environment>;
-String _$sessionNotifierHash() => r'966a0782eeb65e553bafcd6b75efebd9b80bf6ef';
+String _$sessionNotifierHash() => r'79db3caf4a4e2a2d6184ec4711ffa40cfa8386ff';
 
 /// See also [SessionNotifier].
 @ProviderFor(SessionNotifier)
