@@ -8,9 +8,9 @@ import 'package:aedex/ui/views/util/icon_size.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BottomNavigationBarMainScreen extends ConsumerStatefulWidget {
   const BottomNavigationBarMainScreen({
@@ -35,15 +35,13 @@ class _BottomNavigationBarMainScreenState
       return const SizedBox();
     }
 
-    widget.listNavigationLabelIcon.removeWhere(
-      (element) => element.$1 == AppLocalizations.of(context)!.menu_bridge,
-    );
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: BottomNavigationBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
+          elevation: 1,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.black.withOpacity(0.3),
           selectedFontSize: 10,
           unselectedFontSize: 10,
           selectedLabelStyle: const TextStyle(
@@ -78,6 +76,12 @@ class _BottomNavigationBarMainScreenState
               case aedappfm.Iconsax.wallet_add:
                 if (tabSelected == NavigationIndex.earn) {
                   widthContainer = 30;
+                  selected = true;
+                }
+                break;
+              case aedappfm.Iconsax.recovery_convert:
+                if (tabSelected == NavigationIndex.bridge) {
+                  widthContainer = 40;
                   selected = true;
                 }
                 break;
@@ -121,8 +125,7 @@ class _BottomNavigationBarMainScreenState
               ),
             );
           }).toList(),
-          currentIndex:
-              widget.navDrawerIndex.index > 3 ? 0 : widget.navDrawerIndex.index,
+          currentIndex: widget.navDrawerIndex.index,
           onTap: (int selectedIndex) async {
             switch (selectedIndex) {
               case 0:
@@ -155,6 +158,30 @@ class _BottomNavigationBarMainScreenState
                 });
                 context.go(FarmLockSheet.routerPage2);
                 break;
+
+              case 3:
+                setState(() {
+                  ref
+                      .read(
+                        navigationIndexMainScreenProvider.notifier,
+                      )
+                      .state = NavigationIndex.bridge;
+                });
+                await launchUrl(
+                  Uri.parse(
+                    (Uri.base
+                                .toString()
+                                .toLowerCase()
+                                .contains('dex.archethic') ||
+                            Uri.base
+                                .toString()
+                                .toLowerCase()
+                                .contains('swap.archethic'))
+                        ? 'https://bridge.archethic.net'
+                        : 'https://bridge.testnet.archethic.net',
+                  ),
+                  webOnlyWindowName: '_self',
+                );
 
               default:
                 break;
