@@ -1,8 +1,7 @@
+import 'package:aedex/application/app_embedded.dart';
 import 'package:aedex/ui/views/main_screen/layouts/app_bar_menu_info.dart';
 import 'package:aedex/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aedex/ui/views/main_screen/layouts/header.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,15 +29,15 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
   );
   @override
   Widget build(BuildContext context) {
-    if (aedappfm.Responsive.isMobile(context)) return const SizedBox.shrink();
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Header(),
-        leadingWidth: MediaQuery.of(context).size.width,
+        leading: isAppEmbedded ? const SizedBox() : const Header(),
+        leadingWidth: isAppEmbedded ? null : MediaQuery.of(context).size.width,
         actions: const [
           ConnectionToWalletStatus(),
           SizedBox(

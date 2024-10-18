@@ -94,7 +94,10 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
               const aedappfm.AppBackground(
                 backgroundImage: 'assets/images/background-welcome.png',
               ),
-            widget.body,
+            Padding(
+              padding: const EdgeInsets.only(top: kToolbarHeight),
+              child: widget.body,
+            ),
           ],
         ),
         bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||

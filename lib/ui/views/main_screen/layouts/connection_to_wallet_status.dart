@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aedex/application/app_embedded.dart';
 import 'package:aedex/application/notification.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/notifications/layouts/tasks_notification_widget.dart';
@@ -26,6 +27,7 @@ class _ConnectionToWalletStatusState
   @override
   Widget build(BuildContext context) {
     final session = ref.watch(sessionNotifierProvider);
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     ref.listen(sessionNotifierProvider, (previous, next) {
       if (!mounted) return;
@@ -61,22 +63,26 @@ class _ConnectionToWalletStatusState
     });
 
     if (session.isConnected == false) {
-      return InkWell(
-        onTap: ref.read(sessionNotifierProvider.notifier).connectWallet,
-        child: ShaderMask(
-          blendMode: BlendMode.srcIn,
-          shaderCallback: (bounds) =>
-              aedappfm.AppThemeBase.gradientWelcomeTxt.createShader(
-            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-          ),
-          child: Text(
-            AppLocalizations.of(context)!.btn_connect_wallet,
-            style: const TextStyle(
-              fontSize: 16,
+      if (aedappfm.Responsive.isMobile(context) == false) {
+        return InkWell(
+          onTap: ref.read(sessionNotifierProvider.notifier).connectWallet,
+          child: ShaderMask(
+            blendMode: BlendMode.srcIn,
+            shaderCallback: (bounds) =>
+                aedappfm.AppThemeBase.gradientWelcomeTxt.createShader(
+              Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+            ),
+            child: Text(
+              AppLocalizations.of(context)!.btn_connect_wallet,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
             ),
           ),
-        ),
-      );
+        );
+      } else {
+        return const SizedBox.shrink();
+      }
     }
 
     final runningTasksCount = ref.watch(
@@ -131,21 +137,26 @@ class _ConnectionToWalletStatusState
               ),
             ],
           ),
-          const SizedBox(
-            width: 16,
-          ),
-          IconButton(
-            icon: const Icon(aedappfm.Iconsax.logout),
-            iconSize: 18,
-            onPressed: () async {
-              await ref
-                  .read(sessionNotifierProvider.notifier)
-                  .cancelConnection();
-            },
-          ),
-          const SizedBox(
-            width: 4,
-          ),
+          if (isAppEmbedded == false)
+            Row(
+              children: [
+                const SizedBox(
+                  width: 16,
+                ),
+                IconButton(
+                  icon: const Icon(aedappfm.Iconsax.logout),
+                  iconSize: 18,
+                  onPressed: () async {
+                    await ref
+                        .read(sessionNotifierProvider.notifier)
+                        .cancelConnection();
+                  },
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+              ],
+            )
         ],
       ),
     );

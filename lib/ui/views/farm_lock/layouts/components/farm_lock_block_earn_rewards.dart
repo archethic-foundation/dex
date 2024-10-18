@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aedex/application/app_embedded.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_list/layouts/components/farm_list_item.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
@@ -342,6 +343,8 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
   }
 
   Widget _btnNotConnected(BuildContext context, WidgetRef ref) {
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     return FarmLockHeaderButton(
       text: AppLocalizations.of(context)!.btn_connect_wallet,
       icon: const Icon(
@@ -351,6 +354,7 @@ class FarmLockBlockEarnRewards extends ConsumerWidget {
       size: FarmLockHeaderButton.sizeBig,
       onTap: () async {
         if (ref.read(sessionNotifierProvider).isConnected == false &&
+            isAppEmbedded == false &&
             context.mounted &&
             aedappfm.Responsive.isMobile(context)) {
           await showDialog(

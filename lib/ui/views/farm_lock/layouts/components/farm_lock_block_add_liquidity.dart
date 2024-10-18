@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aedex/application/app_embedded.dart';
 import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/provider.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/components/farm_lock_btn.dart';
@@ -284,6 +285,8 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
   }
 
   Widget _btnNotConnected(BuildContext context, WidgetRef ref) {
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -305,6 +308,7 @@ class FarmLockBlockAddLiquidity extends ConsumerWidget {
               ),
               onTap: () async {
                 if (ref.read(sessionNotifierProvider).isConnected == false &&
+                    isAppEmbedded == false &&
                     context.mounted &&
                     aedappfm.Responsive.isMobile(context)) {
                   await showDialog(
