@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aedex/application/app_embedded.dart';
 import 'package:aedex/ui/views/farm_lock/layouts/farm_lock_sheet.dart';
 import 'package:aedex/ui/views/main_screen/bloc/provider.dart';
 import 'package:aedex/ui/views/pool_list/layouts/pool_list_sheet.dart';
@@ -34,6 +35,7 @@ class _BottomNavigationBarMainScreenState
     if (widget.navDrawerIndex == NavigationIndex.welcome) {
       return const SizedBox();
     }
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     return ClipRRect(
       child: BackdropFilter(
@@ -177,8 +179,12 @@ class _BottomNavigationBarMainScreenState
                                 .toString()
                                 .toLowerCase()
                                 .contains('swap.archethic'))
-                        ? 'https://bridge.archethic.net'
-                        : 'https://bridge.testnet.archethic.net',
+                        ? isAppEmbedded
+                            ? 'https://bridge.archethic.net?isEmbedded=true'
+                            : 'https://bridge.archethic.net'
+                        : isAppEmbedded
+                            ? 'https://bridge.testnet.archethic.net?isEmbedded=true'
+                            : 'https://bridge.testnet.archethic.net',
                   ),
                   webOnlyWindowName: '_self',
                 );

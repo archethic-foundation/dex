@@ -199,8 +199,12 @@ class Header extends ConsumerWidget {
                                             .toString()
                                             .toLowerCase()
                                             .contains('swap.archethic'))
-                                    ? 'https://bridge.archethic.net'
-                                    : 'https://bridge.testnet.archethic.net',
+                                    ? isAppEmbedded
+                                        ? 'https://bridge.archethic.net?isEmbedded=true'
+                                        : 'https://bridge.archethic.net'
+                                    : isAppEmbedded
+                                        ? 'https://bridge.testnet.archethic.net?isEmbedded=true'
+                                        : 'https://bridge.testnet.archethic.net',
                               ),
                               webOnlyWindowName: '_self',
                             );
