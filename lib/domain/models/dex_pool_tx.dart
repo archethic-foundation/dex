@@ -13,7 +13,7 @@ class DexPoolTx with _$DexPoolTx {
     DexActionType? typeTx,
     DexToken? token1,
     DexToken? token2,
-    double? totalValue,
+    double? swapValue,
     double? token1Amount,
     double? token2Amount,
     String? addressAccount,

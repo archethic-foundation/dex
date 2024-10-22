@@ -24,7 +24,7 @@ mixin _$DexPoolTx {
   DexActionType? get typeTx => throw _privateConstructorUsedError;
   DexToken? get token1 => throw _privateConstructorUsedError;
   DexToken? get token2 => throw _privateConstructorUsedError;
-  double? get totalValue => throw _privateConstructorUsedError;
+  double? get swapValue => throw _privateConstructorUsedError;
   double? get token1Amount => throw _privateConstructorUsedError;
   double? get token2Amount => throw _privateConstructorUsedError;
   String? get addressAccount => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $DexPoolTxCopyWith<$Res> {
       DexActionType? typeTx,
       DexToken? token1,
       DexToken? token2,
-      double? totalValue,
+      double? swapValue,
       double? token1Amount,
       double? token2Amount,
       String? addressAccount,
@@ -73,7 +73,7 @@ class _$DexPoolTxCopyWithImpl<$Res, $Val extends DexPoolTx>
     Object? typeTx = freezed,
     Object? token1 = freezed,
     Object? token2 = freezed,
-    Object? totalValue = freezed,
+    Object? swapValue = freezed,
     Object? token1Amount = freezed,
     Object? token2Amount = freezed,
     Object? addressAccount = freezed,
@@ -96,9 +96,9 @@ class _$DexPoolTxCopyWithImpl<$Res, $Val extends DexPoolTx>
           ? _value.token2
           : token2 // ignore: cast_nullable_to_non_nullable
               as DexToken?,
-      totalValue: freezed == totalValue
-          ? _value.totalValue
-          : totalValue // ignore: cast_nullable_to_non_nullable
+      swapValue: freezed == swapValue
+          ? _value.swapValue
+          : swapValue // ignore: cast_nullable_to_non_nullable
               as double?,
       token1Amount: freezed == token1Amount
           ? _value.token1Amount
@@ -157,7 +157,7 @@ abstract class _$$DexPoolTxImplCopyWith<$Res>
       DexActionType? typeTx,
       DexToken? token1,
       DexToken? token2,
-      double? totalValue,
+      double? swapValue,
       double? token1Amount,
       double? token2Amount,
       String? addressAccount,
@@ -184,7 +184,7 @@ class __$$DexPoolTxImplCopyWithImpl<$Res>
     Object? typeTx = freezed,
     Object? token1 = freezed,
     Object? token2 = freezed,
-    Object? totalValue = freezed,
+    Object? swapValue = freezed,
     Object? token1Amount = freezed,
     Object? token2Amount = freezed,
     Object? addressAccount = freezed,
@@ -207,9 +207,9 @@ class __$$DexPoolTxImplCopyWithImpl<$Res>
           ? _value.token2
           : token2 // ignore: cast_nullable_to_non_nullable
               as DexToken?,
-      totalValue: freezed == totalValue
-          ? _value.totalValue
-          : totalValue // ignore: cast_nullable_to_non_nullable
+      swapValue: freezed == swapValue
+          ? _value.swapValue
+          : swapValue // ignore: cast_nullable_to_non_nullable
               as double?,
       token1Amount: freezed == token1Amount
           ? _value.token1Amount
@@ -239,7 +239,7 @@ class _$DexPoolTxImpl extends _DexPoolTx {
       this.typeTx,
       this.token1,
       this.token2,
-      this.totalValue,
+      this.swapValue,
       this.token1Amount,
       this.token2Amount,
       this.addressAccount,
@@ -258,7 +258,7 @@ class _$DexPoolTxImpl extends _DexPoolTx {
   @override
   final DexToken? token2;
   @override
-  final double? totalValue;
+  final double? swapValue;
   @override
   final double? token1Amount;
   @override
@@ -270,7 +270,7 @@ class _$DexPoolTxImpl extends _DexPoolTx {
 
   @override
   String toString() {
-    return 'DexPoolTx(addressTx: $addressTx, typeTx: $typeTx, token1: $token1, token2: $token2, totalValue: $totalValue, token1Amount: $token1Amount, token2Amount: $token2Amount, addressAccount: $addressAccount, time: $time)';
+    return 'DexPoolTx(addressTx: $addressTx, typeTx: $typeTx, token1: $token1, token2: $token2, swapValue: $swapValue, token1Amount: $token1Amount, token2Amount: $token2Amount, addressAccount: $addressAccount, time: $time)';
   }
 
   @override
@@ -283,8 +283,8 @@ class _$DexPoolTxImpl extends _DexPoolTx {
             (identical(other.typeTx, typeTx) || other.typeTx == typeTx) &&
             (identical(other.token1, token1) || other.token1 == token1) &&
             (identical(other.token2, token2) || other.token2 == token2) &&
-            (identical(other.totalValue, totalValue) ||
-                other.totalValue == totalValue) &&
+            (identical(other.swapValue, swapValue) ||
+                other.swapValue == swapValue) &&
             (identical(other.token1Amount, token1Amount) ||
                 other.token1Amount == token1Amount) &&
             (identical(other.token2Amount, token2Amount) ||
@@ -297,7 +297,7 @@ class _$DexPoolTxImpl extends _DexPoolTx {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, addressTx, typeTx, token1,
-      token2, totalValue, token1Amount, token2Amount, addressAccount, time);
+      token2, swapValue, token1Amount, token2Amount, addressAccount, time);
 
   @JsonKey(ignore: true)
   @override
@@ -319,7 +319,7 @@ abstract class _DexPoolTx extends DexPoolTx {
       final DexActionType? typeTx,
       final DexToken? token1,
       final DexToken? token2,
-      final double? totalValue,
+      final double? swapValue,
       final double? token1Amount,
       final double? token2Amount,
       final String? addressAccount,
@@ -338,7 +338,7 @@ abstract class _DexPoolTx extends DexPoolTx {
   @override
   DexToken? get token2;
   @override
-  double? get totalValue;
+  double? get swapValue;
   @override
   double? get token1Amount;
   @override

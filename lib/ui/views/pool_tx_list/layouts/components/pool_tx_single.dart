@@ -106,14 +106,14 @@ class PoolListSingle extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    if (dexPoolTx.totalValue == null)
+                    if (dexPoolTx.swapValue == null)
                       SelectableText(
                         '',
                         style: style,
                       )
                     else
                       SelectableText(
-                        '${AppLocalizations.of(context)!.poolTxTotalValue} ${dexPoolTx.totalValue! < 0.01 ? '<' : ''} ${dexPoolTx.totalValue == null ? r'$0' : '\$${dexPoolTx.totalValue!.formatNumber(precision: 2)}'}',
+                        '${AppLocalizations.of(context)!.poolTxSwapValue} ${dexPoolTx.swapValue! < 0.01 ? '<' : ''} ${dexPoolTx.swapValue == null ? r'$0' : '\$${dexPoolTx.swapValue!.formatNumber(precision: 2)}'}',
                         style: style,
                       ),
                     const SizedBox(

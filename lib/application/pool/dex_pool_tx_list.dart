@@ -62,9 +62,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
           transactionAction.data!.actionRecipients[0].action != null) {
         var token1Amount = 0.0;
         var token2Amount = 0.0;
-        double? totalValue;
+        double? swapValue;
         double? totalValueToken1;
-        double? totalValueToken2;
         DexToken? token1;
         DexToken? token2;
         DexActionType? typeTx;
@@ -114,9 +113,6 @@ Future<List<DexPoolTx>> _getPoolTxList(
                     transactionMovement.amount,
                   ).toDouble();
                   token2 = pool.pair.token1;
-                  if (fiatValueToken1 > 0) {
-                    totalValueToken2 = fiatValueToken1 * token2Amount;
-                  }
                 }
 
                 if ((transactionMovement.tokenAddress != null &&
@@ -128,9 +124,6 @@ Future<List<DexPoolTx>> _getPoolTxList(
                     transactionMovement.amount,
                   ).toDouble();
                   token2 = pool.pair.token2;
-                  if (fiatValueToken2 > 0) {
-                    totalValueToken2 = fiatValueToken2 * token2Amount;
-                  }
                 }
               }
             }
@@ -162,9 +155,6 @@ Future<List<DexPoolTx>> _getPoolTxList(
                   transactionMovement.amount,
                 ).toDouble();
                 token2 = pool.pair.token2;
-                if (fiatValueToken2 > 0) {
-                  totalValueToken2 = fiatValueToken2 * token2Amount;
-                }
               }
             }
 
@@ -196,9 +186,6 @@ Future<List<DexPoolTx>> _getPoolTxList(
                   transactionMovement.amount,
                 ).toDouble();
                 token2 = pool.pair.token2;
-                if (fiatValueToken2 > 0) {
-                  totalValueToken2 = fiatValueToken2 * token2Amount;
-                }
               }
             }
 
@@ -209,14 +196,7 @@ Future<List<DexPoolTx>> _getPoolTxList(
 
         if (typeTx != null) {
           if (totalValueToken1 != null) {
-            totalValue = totalValueToken1;
-          }
-          if (totalValueToken2 != null) {
-            if (totalValue != null) {
-              totalValue = totalValue + totalValueToken2;
-            } else {
-              totalValue = totalValueToken2;
-            }
+            swapValue = totalValueToken1;
           }
           dexPoolTxList.add(
             DexPoolTx(
@@ -231,7 +211,7 @@ Future<List<DexPoolTx>> _getPoolTxList(
               token2Amount: token2Amount,
               token1: token1,
               token2: token2,
-              totalValue: totalValue,
+              swapValue: swapValue,
             ),
           );
         }

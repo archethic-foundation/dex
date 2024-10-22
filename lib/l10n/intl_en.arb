@@ -469,7 +469,7 @@
     "farmLockDetailsLevelSingleWeight": "Weight",
     "poolTxTypeUnknown": "Unknown",
     "poolTxAccount": "Account",
-    "poolTxTotalValue": "Total value:",
+    "poolTxSwapValue": "Swap value:",
     "errorDesc1": "aeSwap",
     "errorDesc2": "Oops! Page not found.",
     "errorDesc3": "Return to Homepage",
