@@ -16,7 +16,7 @@ _$DexPoolTxImpl _$$DexPoolTxImplFromJson(Map<String, dynamic> json) =>
       token2: json['token2'] == null
           ? null
           : DexToken.fromJson(json['token2'] as Map<String, dynamic>),
-      totalValue: (json['totalValue'] as num?)?.toDouble(),
+      swapValue: (json['swapValue'] as num?)?.toDouble(),
       token1Amount: (json['token1Amount'] as num?)?.toDouble(),
       token2Amount: (json['token2Amount'] as num?)?.toDouble(),
       addressAccount: json['addressAccount'] as String?,
@@ -30,7 +30,7 @@ Map<String, dynamic> _$$DexPoolTxImplToJson(_$DexPoolTxImpl instance) =>
       'typeTx': _$DexActionTypeEnumMap[instance.typeTx],
       'token1': instance.token1,
       'token2': instance.token2,
-      'totalValue': instance.totalValue,
+      'swapValue': instance.swapValue,
       'token1Amount': instance.token1Amount,
       'token2Amount': instance.token2Amount,
       'addressAccount': instance.addressAccount,
