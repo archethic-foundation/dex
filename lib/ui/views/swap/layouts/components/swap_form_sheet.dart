@@ -43,6 +43,7 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
   void initState() {
     Future(() async {
       try {
+        final localizations = AppLocalizations.of(context)!;
         if (widget.value != null) {
           ref.read(swapFormNotifierProvider.notifier)
             ..setTokenFormSelected(1)
@@ -83,13 +84,13 @@ class _SwapFormSheetState extends ConsumerState<SwapFormSheet> {
           if (_tokenSwapped != null) {
             await ref
                 .read(swapFormNotifierProvider.notifier)
-                .setTokenSwapped(_tokenSwapped);
+                .setTokenSwapped(_tokenSwapped, localizations);
           }
         } else {
           if (widget.tokenSwapped != null) {
             await ref
                 .read(swapFormNotifierProvider.notifier)
-                .setTokenSwapped(widget.tokenSwapped!);
+                .setTokenSwapped(widget.tokenSwapped!, localizations);
           }
         }
 
