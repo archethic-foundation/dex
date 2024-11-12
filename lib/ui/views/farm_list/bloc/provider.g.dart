@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$balanceHash() => r'01ba7f35c7c3e14e9c95ec1013f70b1a6596705d';
+String _$balanceHash() => r'aecb8007cb58957fdb04b266e034186b52fc622f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -141,6 +141,8 @@ class _BalanceProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin _BalanceRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `lpTokenAddress` of this provider.
   String? get lpTokenAddress;
@@ -154,4 +156,4 @@ class _BalanceProviderElement extends AutoDisposeFutureProviderElement<double>
   String? get lpTokenAddress => (origin as _BalanceProvider).lpTokenAddress;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$farmLockFormBalancesHash() =>
-    r'4a4e9a531ddb7dd26b5550fbe92de058ef74052a';
+    r'052b69a9f5f99dcabdd41cea0c6c7ef7aded7b99';
 
 /// See also [farmLockFormBalances].
 @ProviderFor(farmLockFormBalances)
@@ -22,9 +22,11 @@ final farmLockFormBalancesProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FarmLockFormBalancesRef = AutoDisposeProviderRef<FarmLockFormBalances>;
 String _$farmLockFormSummaryHash() =>
-    r'7821a41ece661e9493e3e3f9e94b44f1ce3a0f47';
+    r'4b2abea6f96cdec153aa4ae04599b16f809f1791';
 
 /// See also [farmLockFormSummary].
 @ProviderFor(farmLockFormSummary)
@@ -39,8 +41,10 @@ final farmLockFormSummaryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FarmLockFormSummaryRef = AutoDisposeProviderRef<FarmLockFormSummary>;
-String _$farmLockFormPoolHash() => r'e0919af5d7966190d4c933f1d614626df7282290';
+String _$farmLockFormPoolHash() => r'2ec951d7bd5882ac9898c2949bb3d8c8b2a82a11';
 
 /// See also [farmLockFormPool].
 @ProviderFor(farmLockFormPool)
@@ -54,8 +58,10 @@ final farmLockFormPoolProvider = AutoDisposeFutureProvider<DexPool?>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FarmLockFormPoolRef = AutoDisposeFutureProviderRef<DexPool?>;
-String _$farmLockFormFarmHash() => r'dffbc2a22080f79d4a620ae8e20e525d80803bf5';
+String _$farmLockFormFarmHash() => r'4bcce07d14bf65417e819e27242b3edb9c96b0c6';
 
 /// See also [farmLockFormFarm].
 @ProviderFor(farmLockFormFarm)
@@ -69,9 +75,11 @@ final farmLockFormFarmProvider = AutoDisposeFutureProvider<DexFarm?>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FarmLockFormFarmRef = AutoDisposeFutureProviderRef<DexFarm?>;
 String _$farmLockFormFarmLockHash() =>
-    r'5818f7b1cb6eb2f5632cd5abe9167524fccefec4';
+    r'1050b0ef337df4d34d3f2bfdf50869a94f148c63';
 
 /// See also [farmLockFormFarmLock].
 @ProviderFor(farmLockFormFarmLock)
@@ -86,9 +94,11 @@ final farmLockFormFarmLockProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FarmLockFormFarmLockRef = AutoDisposeFutureProviderRef<DexFarmLock?>;
 String _$farmLockFormSortedUserFarmLocksHash() =>
-    r'a7867fc19da217b80c26f2055192c567750e2c16';
+    r'a9bd4121c04bf6aab660d32cf25977de3803f102';
 
 /// See also [farmLockFormSortedUserFarmLocks].
 @ProviderFor(farmLockFormSortedUserFarmLocks)
@@ -103,6 +113,8 @@ final farmLockFormSortedUserFarmLocksProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FarmLockFormSortedUserFarmLocksRef
     = AutoDisposeFutureProviderRef<List<DexFarmLockUserInfos>>;
 String _$farmLockFormSortNotifierHash() =>
@@ -124,4 +136,4 @@ final farmLockFormSortNotifierProvider = AutoDisposeNotifierProvider<
 typedef _$FarmLockFormSortNotifier
     = AutoDisposeNotifier<({String column, bool ascending})>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

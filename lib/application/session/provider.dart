@@ -10,12 +10,13 @@ import 'package:aedex/util/browser_util_desktop.dart'
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:archethic_wallet_client/archethic_wallet_client.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
 @riverpod
-Environment environment(EnvironmentRef ref) => ref.watch(
+Environment environment(Ref ref) => ref.watch(
       sessionNotifierProvider.select(
         (session) => session.environment,
       ),

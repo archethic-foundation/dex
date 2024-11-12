@@ -4,12 +4,13 @@ import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/infrastructure/balance.repository.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'balance.g.dart';
 
 @riverpod
-Future<archethic.Balance> userBalance(UserBalanceRef ref) async {
+Future<archethic.Balance> userBalance(Ref ref) async {
   final apiService = ref.watch(apiServiceProvider);
   final genesisAddress = ref.watch(
     sessionNotifierProvider.select((session) => session.genesisAddress),
@@ -27,7 +28,7 @@ Future<archethic.Balance> userBalance(UserBalanceRef ref) async {
 
 @riverpod
 Future<double> getBalance(
-  GetBalanceRef ref,
+  Ref ref,
   String tokenAddress,
 ) async {
   final userBalance = await ref.watch(userBalanceProvider.future);
