@@ -44,7 +44,7 @@ dependencies:
     sdk: flutter
 
   # State management
-  flutter_riverpod: ^2.5.1
+  flutter_riverpod: ^2.6.1
 
   # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
   flutter_svg: ^2.0.10+1
@@ -81,7 +81,7 @@ dependencies:
   path_provider: ^2.1.2
 
   # A package exposing annotations for riverpod_generator
-  riverpod_annotation: ^2.3.5
+  riverpod_annotation: ^2.6.1
 
   # timeago is a dart library that converts a date into a humanized text.
   timeago: ^3.6.1
@@ -107,8 +107,8 @@ dev_dependencies:
   # Automatically generate code for converting to and from JSON by annotating Dart classes.
   json_serializable: ^6.7.1
   # A code generator for Riverpod. This both simplifies the syntax empowers it, such as allowing stateful hot-reload.
-  riverpod_generator: ^2.4.0
-  riverpod_lint: ^2.3.10
+  riverpod_generator: ^2.6.1
+  riverpod_lint: ^2.4.0
   # A full featured library for writing and running Dart tests across platforms.
   test: ^1.25.2
 

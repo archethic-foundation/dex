@@ -7,7 +7,7 @@ part of 'dex_farm_lock.dart';
 // **************************************************************************
 
 String _$dexFarmLockRepositoryHash() =>
-    r'083507069f84dbdc8a4c5fd5b6fb9d5a5838f94e';
+    r'f9d56df10c2e63f45b4758c168944173c7118a6e';
 
 /// See also [_dexFarmLockRepository].
 @ProviderFor(_dexFarmLockRepository)
@@ -22,9 +22,11 @@ final _dexFarmLockRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef _DexFarmLockRepositoryRef
     = AutoDisposeProviderRef<DexFarmLockRepositoryImpl>;
-String _$getFarmLockInfosHash() => r'707c18d05824bedce2272a7bd78ac4e1304d2248';
+String _$getFarmLockInfosHash() => r'4a1aa00616dbcff990a1c91e55ee2e7f58d514ad';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -184,6 +186,8 @@ class _GetFarmLockInfosProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin _GetFarmLockInfosRef on AutoDisposeFutureProviderRef<DexFarmLock?> {
   /// The parameter `farmGenesisAddress` of this provider.
   String get farmGenesisAddress;
@@ -210,4 +214,4 @@ class _GetFarmLockInfosProviderElement
       (origin as _GetFarmLockInfosProvider).dexFarmLockInput;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

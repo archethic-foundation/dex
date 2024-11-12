@@ -7,7 +7,7 @@ part of 'dex_token.dart';
 // **************************************************************************
 
 String _$dexTokenRepositoryHash() =>
-    r'ade02ca17b75a909abb603d932b162020132aaaf';
+    r'b6199a276d5b46d767899f2d0d374bbaa5cc2e59';
 
 /// See also [_dexTokenRepository].
 @ProviderFor(_dexTokenRepository)
@@ -22,9 +22,11 @@ final _dexTokenRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef _DexTokenRepositoryRef = AutoDisposeProviderRef<DexTokenRepositoryImpl>;
 String _$getTokenFromAddressHash() =>
-    r'a38f1bb2b33e4487c57bd5a71b45716eb0b7d34f';
+    r'67940834a851f0ba269721c0cd37019e45f9b3b3';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -161,6 +163,8 @@ class _GetTokenFromAddressProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin _GetTokenFromAddressRef on AutoDisposeFutureProviderRef<DexToken?> {
   /// The parameter `address` of this provider.
   dynamic get address;
@@ -175,7 +179,7 @@ class _GetTokenFromAddressProviderElement
   dynamic get address => (origin as _GetTokenFromAddressProvider).address;
 }
 
-String _$tokensFromAccountHash() => r'e749716b7764162d35123b5ff5401883bf2950e0';
+String _$tokensFromAccountHash() => r'94a03096003b3f4b3bb0ade664c5eb5d3da43606';
 
 /// See also [_tokensFromAccount].
 @ProviderFor(_tokensFromAccount)
@@ -190,8 +194,10 @@ final _tokensFromAccountProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef _TokensFromAccountRef = AutoDisposeFutureProviderRef<List<DexToken>>;
-String _$dexTokenBasesHash() => r'95b1983bea76eb73fa66d9b963a18c8074310184';
+String _$dexTokenBasesHash() => r'0ab9b95acc0c9b4fe38b5b4ca608a0c4d73deb14';
 
 /// See also [_dexTokenBases].
 @ProviderFor(_dexTokenBases)
@@ -206,8 +212,10 @@ final _dexTokenBasesProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef _DexTokenBasesRef = AutoDisposeFutureProviderRef<List<DexToken>>;
-String _$dexTokenBaseHash() => r'3bb48d518509076fb42528b294df81e32290f7d5';
+String _$dexTokenBaseHash() => r'890d12040de2fbaefcb758cf3d38aa6f25e30176';
 
 /// See also [_dexTokenBase].
 @ProviderFor(_dexTokenBase)
@@ -322,6 +330,8 @@ class _DexTokenBaseProvider extends AutoDisposeFutureProvider<DexToken?> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin _DexTokenBaseRef on AutoDisposeFutureProviderRef<DexToken?> {
   /// The parameter `address` of this provider.
   String get address;
@@ -335,7 +345,7 @@ class _DexTokenBaseProviderElement
   String get address => (origin as _DexTokenBaseProvider).address;
 }
 
-String _$getTokenIconHash() => r'7f2c8ed5c91417720cc3872b943d95fb11c7e9a4';
+String _$getTokenIconHash() => r'fc3c2ba657b7424a189e4ed6981ef9d106b0d117';
 
 /// See also [_getTokenIcon].
 @ProviderFor(_getTokenIcon)
@@ -450,6 +460,8 @@ class _GetTokenIconProvider extends AutoDisposeFutureProvider<String?> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin _GetTokenIconRef on AutoDisposeFutureProviderRef<String?> {
   /// The parameter `address` of this provider.
   dynamic get address;
@@ -464,7 +476,7 @@ class _GetTokenIconProviderElement
 }
 
 String _$estimateTokenInFiatHash() =>
-    r'a1f60d18712d338948010c72f51731a038a545fd';
+    r'5db90f36ed2ee0e92c7ad158166d169c2cbe7c8b';
 
 /// See also [_estimateTokenInFiat].
 @ProviderFor(_estimateTokenInFiat)
@@ -580,6 +592,8 @@ class _EstimateTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin _EstimateTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `tokenAddress` of this provider.
   String get tokenAddress;
@@ -595,7 +609,7 @@ class _EstimateTokenInFiatProviderElement
       (origin as _EstimateTokenInFiatProvider).tokenAddress;
 }
 
-String _$getRemoveAmountsHash() => r'15015b4cebd52c2e39955493365f9125097587ba';
+String _$getRemoveAmountsHash() => r'31599bc720150304d94f1c918e49cd5fd33d4695';
 
 /// This provider is used to cache request result
 /// It ensures, for example, that an oracle update won't trigger a new `getRemoveAmounts` request
@@ -751,6 +765,8 @@ class _GetRemoveAmountsProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin _GetRemoveAmountsRef
     on AutoDisposeFutureProviderRef<({double token1, double token2})> {
   /// The parameter `poolAddress` of this provider.
@@ -773,7 +789,7 @@ class _GetRemoveAmountsProviderElement
 }
 
 String _$estimateLPTokenInFiatHash() =>
-    r'446f5d6435ccae998ec397f46aa7d22c85f46dc0';
+    r'1dcf0df0d88a5a367b41b187a8e6b1b10afb8ef1';
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)
@@ -922,6 +938,8 @@ class _EstimateLPTokenInFiatProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin _EstimateLPTokenInFiatRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `token1Address` of this provider.
   String get token1Address;
@@ -955,4 +973,4 @@ class _EstimateLPTokenInFiatProviderElement
       (origin as _EstimateLPTokenInFiatProvider).poolAddress;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

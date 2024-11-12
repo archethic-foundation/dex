@@ -13,13 +13,14 @@ import 'package:aedex/domain/usecases/remove_liquidity.usecase.dart';
 import 'package:aedex/domain/usecases/swap.usecase.dart';
 import 'package:aedex/domain/usecases/withdraw_farm.usecase.dart';
 import 'package:aedex/domain/usecases/withdraw_farm_lock.usecase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'usecases.g.dart';
 
 @riverpod
 AddLiquidityCase addLiquidityCase(
-  AddLiquidityCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -38,7 +39,7 @@ AddLiquidityCase addLiquidityCase(
 
 @riverpod
 AddPoolCase addPoolCase(
-  AddPoolCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -56,7 +57,7 @@ AddPoolCase addPoolCase(
 
 @riverpod
 ClaimFarmLockCase claimFarmLockCase(
-  ClaimFarmLockCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -75,7 +76,7 @@ ClaimFarmLockCase claimFarmLockCase(
 
 @riverpod
 ClaimFarmCase claimFarmCase(
-  ClaimFarmCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -94,7 +95,7 @@ ClaimFarmCase claimFarmCase(
 
 @riverpod
 DepositFarmLockCase depositFarmLockCase(
-  DepositFarmLockCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -113,7 +114,7 @@ DepositFarmLockCase depositFarmLockCase(
 
 @riverpod
 DepositFarmCase depositFarmCase(
-  DepositFarmCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -132,7 +133,7 @@ DepositFarmCase depositFarmCase(
 
 @riverpod
 LevelUpFarmLockCase levelUpFarmLockCase(
-  LevelUpFarmLockCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -151,7 +152,7 @@ LevelUpFarmLockCase levelUpFarmLockCase(
 
 @riverpod
 RemoveLiquidityCase removeLiquidityCase(
-  RemoveLiquidityCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -170,7 +171,7 @@ RemoveLiquidityCase removeLiquidityCase(
 
 @riverpod
 SwapCase swapCase(
-  SwapCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -189,7 +190,7 @@ SwapCase swapCase(
 
 @riverpod
 WithdrawFarmLockCase withdrawFarmLockCase(
-  WithdrawFarmLockCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 
@@ -208,7 +209,7 @@ WithdrawFarmLockCase withdrawFarmLockCase(
 
 @riverpod
 WithdrawFarmCase withdrawFarmCase(
-  WithdrawFarmCaseRef ref,
+  Ref ref,
 ) {
   final dappClientAsync = ref.watch(dappClientProvider);
 

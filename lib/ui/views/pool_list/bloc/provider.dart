@@ -3,6 +3,7 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/pool/dex_pool.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/pool_list/bloc/state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -49,7 +50,7 @@ class PoolListFormNotifier extends _$PoolListFormNotifier {
 }
 
 @riverpod
-Future<List<DexPool>> poolsToDisplay(PoolsToDisplayRef ref) async {
+Future<List<DexPool>> poolsToDisplay(Ref ref) async {
   var poolListFiltered = <DexPool>[];
   final selectedTab = ref.watch(
     poolListFormNotifierProvider.select((notifier) => notifier.selectedTab),

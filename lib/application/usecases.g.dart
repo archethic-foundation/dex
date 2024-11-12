@@ -6,7 +6,7 @@ part of 'usecases.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$addLiquidityCaseHash() => r'3ecb672de87d28f8929ddda33fffc5ea6914e18c';
+String _$addLiquidityCaseHash() => r'194674656cfe177582b94bf8d44cb2cf6f00fea2';
 
 /// See also [addLiquidityCase].
 @ProviderFor(addLiquidityCase)
@@ -20,8 +20,10 @@ final addLiquidityCaseProvider = AutoDisposeProvider<AddLiquidityCase>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AddLiquidityCaseRef = AutoDisposeProviderRef<AddLiquidityCase>;
-String _$addPoolCaseHash() => r'b5a74be1272ccfe442d75f860668e20ba776a7b4';
+String _$addPoolCaseHash() => r'628a3945958c0d7dbb72783c0b8ed2b547463869';
 
 /// See also [addPoolCase].
 @ProviderFor(addPoolCase)
@@ -34,8 +36,10 @@ final addPoolCaseProvider = AutoDisposeProvider<AddPoolCase>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AddPoolCaseRef = AutoDisposeProviderRef<AddPoolCase>;
-String _$claimFarmLockCaseHash() => r'b0df5b60c1a136be829f97f355c400ddbb4ff0a3';
+String _$claimFarmLockCaseHash() => r'227ead77a33638b14f543bfd326880210c077a00';
 
 /// See also [claimFarmLockCase].
 @ProviderFor(claimFarmLockCase)
@@ -50,8 +54,10 @@ final claimFarmLockCaseProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ClaimFarmLockCaseRef = AutoDisposeProviderRef<ClaimFarmLockCase>;
-String _$claimFarmCaseHash() => r'ae0096ce5a9ffa401f18724cd37eb94c99cfb1e6';
+String _$claimFarmCaseHash() => r'1b6170db0f234000bd9cf199d179fb8b5d6970c9';
 
 /// See also [claimFarmCase].
 @ProviderFor(claimFarmCase)
@@ -65,9 +71,11 @@ final claimFarmCaseProvider = AutoDisposeProvider<ClaimFarmCase>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ClaimFarmCaseRef = AutoDisposeProviderRef<ClaimFarmCase>;
 String _$depositFarmLockCaseHash() =>
-    r'73cc293bd70c4697620f7039f6726b330984452f';
+    r'cf4c7b7271ea5a4a4bd0f24a96df69a7df4fe416';
 
 /// See also [depositFarmLockCase].
 @ProviderFor(depositFarmLockCase)
@@ -82,8 +90,10 @@ final depositFarmLockCaseProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef DepositFarmLockCaseRef = AutoDisposeProviderRef<DepositFarmLockCase>;
-String _$depositFarmCaseHash() => r'60164bb1951009134b2dc7b2e371c2a0db15ef6f';
+String _$depositFarmCaseHash() => r'51d86d08cc17abc62a96f8947e00e75d2e6afec1';
 
 /// See also [depositFarmCase].
 @ProviderFor(depositFarmCase)
@@ -97,9 +107,11 @@ final depositFarmCaseProvider = AutoDisposeProvider<DepositFarmCase>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef DepositFarmCaseRef = AutoDisposeProviderRef<DepositFarmCase>;
 String _$levelUpFarmLockCaseHash() =>
-    r'd090889d0473ef2506962953529af3f179f3e776';
+    r'd1730eb821e9b20b504159130e94b32cb9c4365e';
 
 /// See also [levelUpFarmLockCase].
 @ProviderFor(levelUpFarmLockCase)
@@ -114,9 +126,11 @@ final levelUpFarmLockCaseProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef LevelUpFarmLockCaseRef = AutoDisposeProviderRef<LevelUpFarmLockCase>;
 String _$removeLiquidityCaseHash() =>
-    r'411c6a5fa9746b186fbc28be0479eaf1f4be7f10';
+    r'9260287c5e3b452c1102424887c21647fe620b79';
 
 /// See also [removeLiquidityCase].
 @ProviderFor(removeLiquidityCase)
@@ -131,8 +145,10 @@ final removeLiquidityCaseProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef RemoveLiquidityCaseRef = AutoDisposeProviderRef<RemoveLiquidityCase>;
-String _$swapCaseHash() => r'07ecedcb08209b02c68f510383adea626a9edc2b';
+String _$swapCaseHash() => r'b4620eaf821d3349523061949b9218277d4fc9bd';
 
 /// See also [swapCase].
 @ProviderFor(swapCase)
@@ -145,9 +161,11 @@ final swapCaseProvider = AutoDisposeProvider<SwapCase>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef SwapCaseRef = AutoDisposeProviderRef<SwapCase>;
 String _$withdrawFarmLockCaseHash() =>
-    r'6a31d004588df295bd25ac86965ddd36d763d383';
+    r'd14250685b6d6c51c32595e6cb08cb3dcb9cdbbb';
 
 /// See also [withdrawFarmLockCase].
 @ProviderFor(withdrawFarmLockCase)
@@ -162,8 +180,10 @@ final withdrawFarmLockCaseProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef WithdrawFarmLockCaseRef = AutoDisposeProviderRef<WithdrawFarmLockCase>;
-String _$withdrawFarmCaseHash() => r'b186792a1e67bf2bdccc56816c177eb905b970ff';
+String _$withdrawFarmCaseHash() => r'f0a0850439fd25a396c9d790fb0272a4050a6248';
 
 /// See also [withdrawFarmCase].
 @ProviderFor(withdrawFarmCase)
@@ -177,6 +197,8 @@ final withdrawFarmCaseProvider = AutoDisposeProvider<WithdrawFarmCase>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef WithdrawFarmCaseRef = AutoDisposeProviderRef<WithdrawFarmCase>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
