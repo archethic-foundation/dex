@@ -18,6 +18,7 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final swap = ref.watch(swapFormNotifierProvider);
+    final localizations = AppLocalizations.of(context)!;
 
     return Container(
       width: aedappfm.Responsive.isMobile(context) ? 100 : 150,
@@ -33,9 +34,10 @@ class SwapTokenSwappedSelection extends ConsumerWidget {
             ref.read(environmentProvider),
           );
           if (token == null) return;
-          await ref
-              .read(swapFormNotifierProvider.notifier)
-              .setTokenSwapped(token);
+          await ref.read(swapFormNotifierProvider.notifier).setTokenSwapped(
+                token,
+                localizations,
+              );
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

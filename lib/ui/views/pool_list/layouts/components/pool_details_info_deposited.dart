@@ -114,7 +114,6 @@ class PoolDetailsInfoDeposited extends ConsumerWidget {
 
 class _PoolDetailsInfoDepositedBody extends ConsumerWidget {
   const _PoolDetailsInfoDepositedBody({
-    super.key,
     required this.pool,
     required this.balance,
     required this.poolInfos,

@@ -156,7 +156,7 @@ class _ConnectionToWalletStatusState
                   width: 4,
                 ),
               ],
-            )
+            ),
         ],
       ),
     );
