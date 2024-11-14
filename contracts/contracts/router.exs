@@ -174,7 +174,27 @@ actions triggered_by: transaction, on: update_code(new_code) do
   Contract.set_code(new_code)
 end
 
-condition triggered_by: transaction, on: update_pools_code(), as: [
+condition triggered_by: transaction, on: update_pools_code(pool_addresses), as: [
+  content: (
+    if List.empty?(pool_addresses) do
+      throw code: 1, message: "pool_addresses is empty"
+    end
+
+    pools = State.get("pools", Map.new())
+    current_addresses = []
+
+    for pool_info in Map.values(pools) do
+      current_addresses = List.prepend(current_addresses, pool_info.address)
+    end
+
+    for pool_address in pool_addresses do
+      if !List.in?(current_addresses, String.to_hex(pool_address)) do
+        throw code: 2, message: "pool_address not in current pool", data: pool_address
+      end
+    end
+
+    true
+  ),
   previous_public_key: (
     # Pool code update can only be requested from the master chain of the dex
 
@@ -185,16 +205,15 @@ condition triggered_by: transaction, on: update_pools_code(), as: [
   )
 ]
 
-actions triggered_by: transaction, on: update_pools_code() do
+actions triggered_by: transaction, on: update_pools_code(pool_addresses) do
   pools = State.get("pools", Map.new())
 
-  if Map.size(pools) > 0 do
-    for pool_info in Map.values(pools) do
-      Contract.add_recipient address: pool_info.address, action: "update_code", args: []
-    end
-
-    Contract.set_type("transfer")
+  for pool_address in pool_addresses do
+    address = String.to_hex(pool_address)
+    Contract.add_recipient address: address, action: "update_code", args: []
   end
+
+  Contract.set_type("transfer")
 end
 
 condition triggered_by: transaction, on: update_farm_dates(_new_start_date, _new_end_date), as: [

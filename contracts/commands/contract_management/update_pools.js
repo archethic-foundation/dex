@@ -50,26 +50,41 @@ const handler = async function(argv) {
 
   const masterGenesisAddress = getServiceGenesisAddress(keychain, "Master")
   console.log("Master genesis address:", masterGenesisAddress)
-  const index = await archethic.transaction.getTransactionIndex(masterGenesisAddress)
 
-  let updateTx = archethic.transaction.new()
-    .setType("transfer")
-    .addRecipient(routerGenesisAddress, "update_pools_code")
+  const pools = await archethic.network.callFunction(routerGenesisAddress, "get_pool_list", [])
 
-  updateTx = keychain.buildTransaction(updateTx, "Master", index).originSign(Utils.originPrivateKey)
+  const chunkSize = 10;
+  for (let i = 0; i < pools.length; i += chunkSize) {
+    const chunk = pools.slice(i, i + chunkSize).map(poolInfo => poolInfo.address);
+    await sendUpdateTx(archethic, chunk, routerGenesisAddress, masterGenesisAddress, keychain)
+  }
 
-  updateTx.on("fullConfirmation", async (_confirmations) => {
-    const txAddress = Utils.uint8ArrayToHex(updateTx.address)
-    console.log("Transaction validated !")
-    console.log("Address:", txAddress)
-    console.log(env.endpoint + "/explorer/transaction/" + txAddress)
-    process.exit(0)
-  }).on("error", (context, reason) => {
-    console.log("Error while sending transaction")
-    console.log("Contest:", context)
-    console.log("Reason:", reason)
-    process.exit(1)
-  }).send()
+  process.exit(0)
+}
+
+async function sendUpdateTx(archethic, chunk, routerAddress, masterAddress, keychain) {
+  return new Promise(async (resolve, _reject) => {
+    let updateTx = archethic.transaction.new()
+      .setType("transfer")
+      .addRecipient(routerAddress, "update_pools_code", [chunk])
+
+    const index = await archethic.transaction.getTransactionIndex(masterAddress)
+
+    updateTx = keychain.buildTransaction(updateTx, "Master", index).originSign(Utils.originPrivateKey)
+
+    updateTx.on("requiredConfirmation", async (_confirmations) => {
+      const txAddress = Utils.uint8ArrayToHex(updateTx.address)
+      console.log("Transaction validated !")
+      console.log("Address:", txAddress)
+      await new Promise(r => setTimeout(r, 2000));
+      resolve()
+    }).on("error", (context, reason) => {
+      console.log("Error while sending transaction")
+      console.log("Contest:", context)
+      console.log("Reason:", reason)
+      process.exit(1)
+    }).send(60)
+  })
 }
 
 export default {

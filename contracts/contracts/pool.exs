@@ -250,7 +250,7 @@ actions triggered_by: transaction, on: update_code() do
 
   new_code = Contract.call_function(@FACTORY_ADDRESS, "get_pool_code", params)
 
-  if Code.is_valid?(new_code) && !Code.is_same?(new_code, contract.code) do
+  if Code.is_valid?(new_code) do
     Contract.set_type("contract")
     Contract.set_code(new_code)
   end
