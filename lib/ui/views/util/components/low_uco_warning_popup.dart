@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:go_router/go_router.dart';
 
-const kLowUCOWarningValue = 5;
-
 class LowUCOWarningPopup {
   static Future<bool?> getDialog(
     BuildContext context,
   ) async {
     return showDialog<bool?>(
       context: context,
+      barrierDismissible: false,
+      useRootNavigator: false,
       builder: (context) {
         return ScaffoldMessenger(
           child: Builder(
@@ -81,7 +81,7 @@ class LowUCOWarningPopup {
                             Expanded(
                               child: aedappfm.AppButton(
                                 labelBtn: AppLocalizations.of(context)!.no,
-                                onPressed: () async {
+                                onPressed: () {
                                   context.pop(false);
                                 },
                               ),
@@ -89,7 +89,7 @@ class LowUCOWarningPopup {
                             Expanded(
                               child: aedappfm.AppButton(
                                 labelBtn: AppLocalizations.of(context)!.yes,
-                                onPressed: () async {
+                                onPressed: () {
                                   context.pop(true);
                                 },
                               ),
