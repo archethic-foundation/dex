@@ -7,7 +7,7 @@ part of 'low_uco_in_dollars_warning_value.dart';
 // **************************************************************************
 
 String _$checkLowUCOInDollarsWarningValueHash() =>
-    r'd8b8a3ec3ff4641a493e38f6e9fb781a1d9c963d';
+    r'13e0ceb6733d5efa81d2553f7840cc9a60f38bec';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -157,6 +157,8 @@ class CheckLowUCOInDollarsWarningValueProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin CheckLowUCOInDollarsWarningValueRef on AutoDisposeProviderRef<bool> {
   /// The parameter `balance` of this provider.
   double get balance;
@@ -178,4 +180,4 @@ class _CheckLowUCOInDollarsWarningValueProviderElement
       (origin as CheckLowUCOInDollarsWarningValueProvider).amount;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
