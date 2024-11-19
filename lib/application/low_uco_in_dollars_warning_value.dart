@@ -1,13 +1,14 @@
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'low_uco_in_dollars_warning_value.g.dart';
 
 @riverpod
 bool checkLowUCOInDollarsWarningValue(
-  CheckLowUCOInDollarsWarningValueRef ref,
+  Ref ref,
   double balance,
   double amount,
 ) {

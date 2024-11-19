@@ -789,11 +789,7 @@ class _GetRemoveAmountsProviderElement
 }
 
 String _$estimateLPTokenInFiatHash() =>
-<<<<<<< HEAD
     r'1dcf0df0d88a5a367b41b187a8e6b1b10afb8ef1';
-=======
-    r'0125351134ef477104c07ef42ae930e957c670ba';
->>>>>>> b5eb5dc4 (feat: :sparkles: Add a control to check if UCO balance is not too low after action validation)
 
 /// See also [_estimateLPTokenInFiat].
 @ProviderFor(_estimateLPTokenInFiat)
