@@ -10,7 +10,6 @@ import 'package:aedex/ui/views/util/components/low_uco_warning_popup.dart';
 import 'package:aedex/ui/views/util/consent_uri.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,8 +32,6 @@ class LiquidityAddConfirmSheetState
     if (liquidityAdd.token1 == null) {
       return const SizedBox.shrink();
     }
-    final lowUCOInDollarsWarningValue =
-        ref.watch(lowUCOInDollarsWarningValueProvider);
 
     return Expanded(
       child: Column(
@@ -83,14 +80,13 @@ class LiquidityAddConfirmSheetState
             onPressed: () async {
               if (liquidityAdd.token1 != null &&
                   liquidityAdd.token1!.isUCO &&
-                  (Decimal.parse(
-                                liquidityAdd.token1Balance.toString(),
-                              ) -
-                              Decimal.parse(
-                                liquidityAdd.token1Amount.toString(),
-                              ))
-                          .toDouble() <
-                      lowUCOInDollarsWarningValue) {
+                  ref.read(
+                        checkLowUCOInDollarsWarningValueProvider(
+                          liquidityAdd.token1Balance,
+                          liquidityAdd.token1Amount,
+                        ),
+                      ) ==
+                      false) {
                 final result = await LowUCOWarningPopup.getDialog(context);
                 if (result != null && result == false) {
                   return;
@@ -98,14 +94,13 @@ class LiquidityAddConfirmSheetState
               }
               if (liquidityAdd.token2 != null &&
                   liquidityAdd.token2!.isUCO &&
-                  (Decimal.parse(
-                                liquidityAdd.token2Balance.toString(),
-                              ) -
-                              Decimal.parse(
-                                liquidityAdd.token2Amount.toString(),
-                              ))
-                          .toDouble() <
-                      lowUCOInDollarsWarningValue) {
+                  ref.read(
+                        checkLowUCOInDollarsWarningValueProvider(
+                          liquidityAdd.token2Balance,
+                          liquidityAdd.token2Amount,
+                        ),
+                      ) ==
+                      false) {
                 if (context.mounted) {
                   final result = await LowUCOWarningPopup.getDialog(context);
                   if (result != null && result == false) {
@@ -113,10 +108,9 @@ class LiquidityAddConfirmSheetState
                   }
                 }
               }
-
-              final liquidityAddNotifier =
-                  ref.read(liquidityAddFormNotifierProvider.notifier);
               if (context.mounted) {
+                final liquidityAddNotifier =
+                    ref.read(liquidityAddFormNotifierProvider.notifier);
                 unawaited(
                   liquidityAddNotifier.add(AppLocalizations.of(context)!),
                 );
