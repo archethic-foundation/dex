@@ -11,7 +11,6 @@ import 'package:aedex/ui/views/util/components/low_uco_warning_popup.dart';
 import 'package:aedex/ui/views/util/consent_uri.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,9 +31,6 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
     if (swap.tokenToSwap == null || swap.tokenSwapped == null) {
       return const SizedBox.shrink();
     }
-
-    final lowUCOInDollarsWarningValue =
-        ref.watch(lowUCOInDollarsWarningValueProvider);
 
     return Expanded(
       child: Column(
@@ -83,12 +79,13 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
             onPressed: () async {
               if (swap.tokenToSwap != null &&
                   swap.tokenToSwap!.isUCO &&
-                  (Decimal.parse(
-                                swap.tokenToSwapBalance.toString(),
-                              ) -
-                              Decimal.parse(swap.tokenToSwapAmount.toString()))
-                          .toDouble() <
-                      lowUCOInDollarsWarningValue) {
+                  ref.read(
+                        checkLowUCOInDollarsWarningValueProvider(
+                          swap.tokenToSwapBalance,
+                          swap.tokenToSwapAmount,
+                        ),
+                      ) ==
+                      false) {
                 final result = await LowUCOWarningPopup.getDialog(context);
                 if (result != null && result == false) {
                   return;

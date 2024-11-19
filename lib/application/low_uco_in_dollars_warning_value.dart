@@ -6,18 +6,27 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'low_uco_in_dollars_warning_value.g.dart';
 
 @riverpod
-double lowUCOInDollarsWarningValue(LowUCOInDollarsWarningValueRef ref) {
+bool checkLowUCOInDollarsWarningValue(
+  CheckLowUCOInDollarsWarningValueRef ref,
+  double balance,
+  double amount,
+) {
   const kLowUCOInDollarsWarningValue = 0.20;
+
+  final remainingBalanceInUCO =
+      (Decimal.parse(balance.toString()) - Decimal.parse(amount.toString()))
+          .toDouble();
 
   final archethicOracleUCO =
       ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
   if (archethicOracleUCO.usd == 0) {
     // 20 UCO by default if no Oracle
-    return 20;
+    return remainingBalanceInUCO > 20;
   }
 
-  return (Decimal.parse(kLowUCOInDollarsWarningValue.toString()) /
-          Decimal.parse(archethicOracleUCO.usd.toString()))
-      .toDouble();
+  return remainingBalanceInUCO >
+      (Decimal.parse(kLowUCOInDollarsWarningValue.toString()) /
+              Decimal.parse(archethicOracleUCO.usd.toString()))
+          .toDouble();
 }
