@@ -3,6 +3,7 @@
 
 import 'dart:async';
 
+import 'package:aedex/application/low_uco_in_dollars_warning_value.dart';
 import 'package:aedex/ui/views/swap/bloc/provider.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_confirm_infos.dart';
 import 'package:aedex/ui/views/swap/layouts/components/swap_in_progress_popup.dart';
@@ -31,6 +32,9 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
     if (swap.tokenToSwap == null || swap.tokenSwapped == null) {
       return const SizedBox.shrink();
     }
+
+    final lowUCOInDollarsWarningValue =
+        ref.watch(lowUCOInDollarsWarningValueProvider);
 
     return Expanded(
       child: Column(
@@ -84,7 +88,7 @@ class SwapConfirmSheetState extends ConsumerState<SwapConfirmSheet> {
                               ) -
                               Decimal.parse(swap.tokenToSwapAmount.toString()))
                           .toDouble() <
-                      kLowUCOWarningValue) {
+                      lowUCOInDollarsWarningValue) {
                 final result = await LowUCOWarningPopup.getDialog(context);
                 if (result != null && result == false) {
                   return;

@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:aedex/application/low_uco_in_dollars_warning_value.dart';
 import 'package:aedex/ui/views/liquidity_add/bloc/provider.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_confirm_infos.dart';
 import 'package:aedex/ui/views/liquidity_add/layouts/components/liquidity_add_in_progress_popup.dart';
@@ -32,6 +33,8 @@ class LiquidityAddConfirmSheetState
     if (liquidityAdd.token1 == null) {
       return const SizedBox.shrink();
     }
+    final lowUCOInDollarsWarningValue =
+        ref.watch(lowUCOInDollarsWarningValueProvider);
 
     return Expanded(
       child: Column(
@@ -87,7 +90,7 @@ class LiquidityAddConfirmSheetState
                                 liquidityAdd.token1Amount.toString(),
                               ))
                           .toDouble() <
-                      kLowUCOWarningValue) {
+                      lowUCOInDollarsWarningValue) {
                 final result = await LowUCOWarningPopup.getDialog(context);
                 if (result != null && result == false) {
                   return;
@@ -102,7 +105,7 @@ class LiquidityAddConfirmSheetState
                                 liquidityAdd.token2Amount.toString(),
                               ))
                           .toDouble() <
-                      kLowUCOWarningValue) {
+                      lowUCOInDollarsWarningValue) {
                 if (context.mounted) {
                   final result = await LowUCOWarningPopup.getDialog(context);
                   if (result != null && result == false) {
