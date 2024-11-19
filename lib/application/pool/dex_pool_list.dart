@@ -3,7 +3,7 @@ part of 'dex_pool.dart';
 
 @riverpod
 Future<List<DexPool>> _getPoolList(
-  _GetPoolListRef ref,
+  Ref ref,
 ) async {
   final environment = ref.watch(environmentProvider);
   final aeETHUCOPoolAddress = environment.aeETHUCOPoolAddress;
@@ -56,7 +56,7 @@ Future<List<DexPool>> _getPoolList(
 
 @riverpod
 List<DexPool> _getPoolListForSearch(
-  _GetPoolListForSearchRef ref,
+  Ref ref,
   String searchText,
   List<DexPool> poolList,
 ) {

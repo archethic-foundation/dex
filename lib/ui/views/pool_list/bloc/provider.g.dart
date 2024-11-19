@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$poolsToDisplayHash() => r'2b919d7dc77614cea47fe70630e7da4e6c0c6260';
+String _$poolsToDisplayHash() => r'ecb684e7e908dea8b3675babb8ef4ea0115184d4';
 
 /// See also [poolsToDisplay].
 @ProviderFor(poolsToDisplay)
@@ -21,6 +21,8 @@ final poolsToDisplayProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef PoolsToDisplayRef = AutoDisposeFutureProviderRef<List<DexPool>>;
 String _$poolListFormNotifierHash() =>
     r'51f15ec001d0599e13a5abfb7f8f92196f8780a4';
@@ -40,4 +42,4 @@ final poolListFormNotifierProvider = AutoDisposeNotifierProvider<
 
 typedef _$PoolListFormNotifier = AutoDisposeNotifier<PoolListFormState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

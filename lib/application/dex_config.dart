@@ -3,18 +3,19 @@ import 'package:aedex/application/session/provider.dart';
 import 'package:aedex/domain/models/dex_config.dart';
 import 'package:aedex/domain/repositories/dex_config.repository.dart';
 import 'package:aedex/infrastructure/dex_config.repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dex_config.g.dart';
 
 @riverpod
 DexConfigRepository _dexConfigRepository(
-  _DexConfigRepositoryRef ref,
+  Ref ref,
 ) =>
     DexConfigRepositoryImpl();
 
 @riverpod
-Future<DexConfig> _dexConfig(_DexConfigRef ref) {
+Future<DexConfig> _dexConfig(Ref ref) {
   final environment = ref.watch(environmentProvider);
   return ref.watch(_dexConfigRepositoryProvider).getDexConfig(environment);
 }

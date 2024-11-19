@@ -6,7 +6,7 @@ part of 'balance.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userBalanceHash() => r'988a845165267bfe11e776c125feae77d16d93a9';
+String _$userBalanceHash() => r'3f055f33df7fe3c7a911308e6e9156965b8569f8';
 
 /// See also [userBalance].
 @ProviderFor(userBalance)
@@ -20,8 +20,10 @@ final userBalanceProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef UserBalanceRef = AutoDisposeFutureProviderRef<archethic.Balance>;
-String _$getBalanceHash() => r'434260970828b87135c5630cca11ea79edadc8aa';
+String _$getBalanceHash() => r'0a21d8dfa9e95ef0de7ec53d0c7134675b3fce4e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -157,6 +159,8 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetBalanceRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `tokenAddress` of this provider.
   String get tokenAddress;
@@ -170,4 +174,4 @@ class _GetBalanceProviderElement
   String get tokenAddress => (origin as GetBalanceProvider).tokenAddress;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

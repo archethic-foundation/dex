@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$environmentHash() => r'f34c016a6abe9568da747b375457943ff011096f';
+String _$environmentHash() => r'20b916a3a938af48b560c208c485e958ada19ebb';
 
 /// See also [environment].
 @ProviderFor(environment)
@@ -19,6 +19,8 @@ final environmentProvider = AutoDisposeProvider<Environment>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef EnvironmentRef = AutoDisposeProviderRef<Environment>;
 String _$sessionNotifierHash() => r'79db3caf4a4e2a2d6184ec4711ffa40cfa8386ff';
 
@@ -37,4 +39,4 @@ final sessionNotifierProvider =
 
 typedef _$SessionNotifier = AutoDisposeNotifier<Session>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

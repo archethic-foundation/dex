@@ -2,6 +2,7 @@ import 'package:aedex/application/balance.dart';
 import 'package:aedex/application/farm/dex_farm.dart';
 import 'package:aedex/domain/models/dex_token.dart';
 import 'package:aedex/ui/views/farm_list/bloc/state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -12,7 +13,7 @@ final _farmListFormProvider =
 );
 
 @riverpod
-Future<double> _balance(_BalanceRef ref, String? lpTokenAddress) async {
+Future<double> _balance(Ref ref, String? lpTokenAddress) async {
   final balance = await ref.watch(
     getBalanceProvider(
       lpTokenAddress ?? kUCOAddress,

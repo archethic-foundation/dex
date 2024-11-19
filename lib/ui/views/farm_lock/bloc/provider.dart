@@ -11,13 +11,14 @@ import 'package:aedex/domain/models/dex_farm_lock_user_infos.dart';
 import 'package:aedex/domain/models/dex_pool.dart';
 import 'package:aedex/ui/views/farm_lock/bloc/state.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
 @riverpod
 FarmLockFormBalances farmLockFormBalances(
-  FarmLockFormBalancesRef ref,
+  Ref ref,
 ) {
   final pool = ref.watch(farmLockFormPoolProvider).value;
 
@@ -53,7 +54,7 @@ FarmLockFormBalances farmLockFormBalances(
 
 @riverpod
 FarmLockFormSummary farmLockFormSummary(
-  FarmLockFormSummaryRef ref,
+  Ref ref,
 ) {
   final farm = ref.watch(farmLockFormFarmProvider).value;
   final farmLock = ref.watch(farmLockFormFarmLockProvider).value;
@@ -104,7 +105,7 @@ FarmLockFormSummary farmLockFormSummary(
 }
 
 @riverpod
-Future<DexPool?> farmLockFormPool(FarmLockFormPoolRef ref) {
+Future<DexPool?> farmLockFormPool(Ref ref) {
   final environment = ref.watch(environmentProvider);
   return ref.watch(
     DexPoolProviders.getPool(
@@ -114,7 +115,7 @@ Future<DexPool?> farmLockFormPool(FarmLockFormPoolRef ref) {
 }
 
 @riverpod
-Future<DexFarm?> farmLockFormFarm(FarmLockFormFarmRef ref) {
+Future<DexFarm?> farmLockFormFarm(Ref ref) {
   final environment = ref.watch(environmentProvider);
   return ref.watch(
     DexFarmProviders.getFarmInfos(
@@ -130,7 +131,7 @@ Future<DexFarm?> farmLockFormFarm(FarmLockFormFarmRef ref) {
 
 @riverpod
 Future<DexFarmLock?> farmLockFormFarmLock(
-  FarmLockFormFarmLockRef ref,
+  Ref ref,
 ) {
   final environment = ref.watch(environmentProvider);
 
@@ -175,7 +176,7 @@ class FarmLockFormSortNotifier extends _$FarmLockFormSortNotifier {
 
 @riverpod
 Future<List<DexFarmLockUserInfos>> farmLockFormSortedUserFarmLocks(
-  FarmLockFormSortedUserFarmLocksRef ref,
+  Ref ref,
 ) async {
   final sort = ref.watch(farmLockFormSortNotifierProvider);
   final farmLock = await ref.watch(

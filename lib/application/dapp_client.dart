@@ -1,10 +1,11 @@
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dapp_client.g.dart';
 
 @riverpod
-Future<awc.ArchethicDAppClient> dappClient(DappClientRef ref) async {
+Future<awc.ArchethicDAppClient> dappClient(Ref ref) async {
   final client = await awc.ArchethicDAppClient.auto(
     origin: const awc.RequestOrigin(name: 'aeSwap'),
     replyBaseUrl: '',
