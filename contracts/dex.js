@@ -5,6 +5,7 @@ import { hideBin } from "yargs/helpers";
 
 import init_keychain from "./commands/contract_management/init_keychain.js";
 import deploy_factory from "./commands/contract_management/deploy_factory.js";
+import deploy_multisig from "./commands/contract_management/deploy_multisig.js";
 import deploy_farm_scheduler from "./commands/contract_management/deploy_farm_scheduler.js";
 import deploy_router from "./commands/contract_management/deploy_router.js";
 import update_router from "./commands/contract_management/update_router.js";
@@ -26,12 +27,15 @@ import deposit from "./commands/test/deposit.js";
 import claim from "./commands/test/claim.js";
 import withdraw from "./commands/test/withdraw.js";
 
+import get_router_address from "./commands/contract_management/get_router_address.js";
+
 const y = yargs(hideBin(process.argv));
 
 y.command(init_keychain).help();
 y.command(deploy_factory).help();
 y.command(deploy_farm_scheduler).help();
 y.command(deploy_router).help();
+y.command(deploy_multisig).help();
 y.command(update_router).help();
 y.command(update_pools).help();
 y.command(update_farms).help();
@@ -51,5 +55,7 @@ y.command(deploy_farm).help();
 y.command(deposit).help();
 y.command(claim).help();
 y.command(withdraw).help();
+
+y.command(get_router_address).help()
 
 y.parse();
