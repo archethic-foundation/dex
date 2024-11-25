@@ -1,6 +1,6 @@
 import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
-import { getRouterCode, getServiceGenesisAddress, sendTransactionWithFunding } from "../utils.js"
+import { getRouterCode, getServiceGenesisAddress, sendTransactionWithFunding, sendTransactionWithoutFunding } from "../utils.js"
 
 const command = "deploy_router"
 const describe = "Deploy the router"
@@ -14,6 +14,12 @@ const builder = {
     describe: "The environment config to use (default to local)",
     demandOption: false,
     type: "string"
+  },
+  without_funding: {
+    describe: "Determines if the funding must be disabled",
+    demandOption: false,
+    type: "boolean",
+    default: false
   }
 }
 
@@ -61,9 +67,16 @@ const handler = async function(argv) {
 
   routerTx = keychain.buildTransaction(routerTx, "Router", index).originSign(Utils.originPrivateKey)
 
-  sendTransactionWithFunding(routerTx, keychain, archethic)
-    .then(() => process.exit(0))
-    .catch(() => process.exit(1))
+  if (argv["without_funding"]) {
+    sendTransactionWithoutFunding(routerTx, archethic)
+      .then(() => process.exit(0))
+      .catch(() => process.exit(1))
+  }
+  else {
+    sendTransactionWithFunding(routerTx, keychain, archethic)
+      .then(() => process.exit(0))
+      .catch(() => process.exit(1))
+  }
 }
 
 export default {
