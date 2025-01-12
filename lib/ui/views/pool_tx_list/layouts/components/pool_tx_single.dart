@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PoolListSingle extends ConsumerWidget {
@@ -75,9 +76,16 @@ class PoolListSingle extends ConsumerWidget {
                       : '${dexPoolTx.typeTx!.getLabel(context)}  ',
                   style: style,
                 ),
-                SelectableText(
-                  timeago.format(dexPoolTx.time!),
-                  style: style,
+                Tooltip(
+                  message: DateFormat(
+                    'yyyy-MM-dd HH:mm:ss',
+                  ).format(
+                    dexPoolTx.time!,
+                  ),
+                  child: SelectableText(
+                    timeago.format(dexPoolTx.time!),
+                    style: style,
+                  ),
                 ),
               ],
             ),
