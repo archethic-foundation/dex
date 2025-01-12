@@ -67,6 +67,7 @@ Future<List<DexPoolTx>> _getPoolTxList(
         DexToken? token1;
         DexToken? token2;
         DexActionType? typeTx;
+        String? addressAccount;
         switch (transactionAction.data!.actionRecipients[0].action) {
           case 'swap':
             for (final transactionMovement in transactionAction
@@ -113,6 +114,7 @@ Future<List<DexPoolTx>> _getPoolTxList(
                     transactionMovement.amount,
                   ).toDouble();
                   token2 = pool.pair.token1;
+                  addressAccount = transactionMovement.to;
                 }
 
                 if ((transactionMovement.tokenAddress != null &&
@@ -124,6 +126,7 @@ Future<List<DexPoolTx>> _getPoolTxList(
                     transactionMovement.amount,
                   ).toDouble();
                   token2 = pool.pair.token2;
+                  addressAccount = transactionMovement.to;
                 }
               }
             }
@@ -157,7 +160,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
                 token2 = pool.pair.token2;
               }
             }
-
+            addressAccount = transaction
+                .validationStamp!.ledgerOperations!.transactionMovements[0].to;
             typeTx = DexActionType.removeLiquidity;
             break;
           case 'add_liquidity':
@@ -188,7 +192,8 @@ Future<List<DexPoolTx>> _getPoolTxList(
                 token2 = pool.pair.token2;
               }
             }
-
+            addressAccount = transaction
+                .validationStamp!.ledgerOperations!.transactionMovements[0].to;
             typeTx = DexActionType.addLiquidity;
             break;
           default:
@@ -198,6 +203,7 @@ Future<List<DexPoolTx>> _getPoolTxList(
           if (totalValueToken1 != null) {
             swapValue = totalValueToken1;
           }
+
           dexPoolTxList.add(
             DexPoolTx(
               addressTx: transaction.address!.address,
@@ -205,8 +211,7 @@ Future<List<DexPoolTx>> _getPoolTxList(
               time: DateTime.fromMillisecondsSinceEpoch(
                 transaction.validationStamp!.timestamp! * 1000,
               ),
-              addressAccount: transaction.validationStamp!.ledgerOperations!
-                  .transactionMovements[0].to,
+              addressAccount: addressAccount,
               token1Amount: token1Amount,
               token2Amount: token2Amount,
               token1: token1,
