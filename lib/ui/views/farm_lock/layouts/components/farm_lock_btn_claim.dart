@@ -66,8 +66,8 @@ class FarmLockBtnClaim extends ConsumerWidget {
                           aedappfm.Iconsax.export_2,
                           color: enabled
                               ? Colors.white
-                                  .withOpacity(AppTextStyles.kOpacityText)
-                              : Colors.white.withOpacity(0.5),
+                                  .withValues(alpha: AppTextStyles.kOpacityText)
+                              : Colors.white.withValues(alpha: 0.5),
                           size: 16,
                         ),
                 ),
@@ -79,8 +79,9 @@ class FarmLockBtnClaim extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 10,
                     color: enabled
-                        ? Colors.white.withOpacity(AppTextStyles.kOpacityText)
-                        : Colors.white.withOpacity(0.5),
+                        ? Colors.white
+                            .withValues(alpha: AppTextStyles.kOpacityText)
+                        : Colors.white.withValues(alpha: 0.5),
                   ),
                 ),
               ],

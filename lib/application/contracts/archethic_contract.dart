@@ -15,8 +15,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 
-const blockchainTxVersion = 3;
-
 class ArchethicContract with aedappfm.TransactionMixin {
   const ArchethicContract({
     required this.apiService,
@@ -107,7 +105,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionPool = archethic.Transaction(
         type: 'token',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       )
           .setContent(tokenDefinition!)
@@ -139,7 +136,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionTransfer = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addUCOTransfer(poolGenesisAddress, archethic.toBigInt(feesToken));
 
@@ -192,7 +188,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionAdd = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         poolGenesisAddress,
@@ -304,7 +299,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionLiquidity = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         poolGenesisAddress,
@@ -356,7 +350,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionLiquidity = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         poolGenesisAddress,
@@ -417,7 +410,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionSwap = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         poolGenesisAddress,
@@ -453,7 +445,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       )
           .addTokenTransfer(
@@ -479,7 +470,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
@@ -502,7 +492,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       )
           .addTokenTransfer(
@@ -539,7 +528,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
@@ -566,7 +554,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
@@ -587,7 +574,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
@@ -610,7 +596,6 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,

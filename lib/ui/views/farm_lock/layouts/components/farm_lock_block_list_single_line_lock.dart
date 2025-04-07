@@ -69,7 +69,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                   gradient: LinearGradient(
                     colors: [
                       aedappfm.AppThemeBase.sheetBackgroundSecondary
-                          .withOpacity(0.4),
+                          .withValues(alpha: 0.4),
                       aedappfm.AppThemeBase.sheetBackgroundSecondary,
                     ],
                     stops: const [0, 1],
@@ -78,7 +78,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                     gradient: LinearGradient(
                       colors: [
                         aedappfm.AppThemeBase.sheetBackgroundSecondary
-                            .withOpacity(0.4),
+                            .withValues(alpha: 0.4),
                         aedappfm.AppThemeBase.sheetBackgroundSecondary,
                       ],
                       stops: const [0, 1],
@@ -636,7 +636,7 @@ class FarmLockBlockListSingleLineLock extends ConsumerWidget {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: 1,
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withValues(alpha: 0.3),
                         ),
                       ],
                     ),

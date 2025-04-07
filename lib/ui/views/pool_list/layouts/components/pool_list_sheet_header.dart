@@ -117,9 +117,29 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
   }
 
   Widget _getTabs() {
+    final _listTextTabToggle = <DataTab>[
+      DataTab(
+        title: AppLocalizations.of(context)!.poolListTabVerified,
+        icon: aedappfm.Iconsax.verify,
+      ),
+      DataTab(
+        title: AppLocalizations.of(context)!.poolListTabMyPools,
+        icon: aedappfm.Iconsax.receipt,
+      ),
+      DataTab(
+        title: AppLocalizations.of(context)!.poolListTabFavorites,
+        icon: aedappfm.Iconsax.star,
+      ),
+      DataTab(
+        title: AppLocalizations.of(context)!.poolListTabResults,
+        icon: aedappfm.Iconsax.search_zoom_in,
+      ),
+    ];
+
     return Padding(
       padding: const EdgeInsets.only(top: 1),
       child: FlutterToggleTab(
+        dataTabs: _listTextTabToggle,
         begin: Alignment.center,
         end: Alignment.center,
         width: aedappfm.Responsive.isDesktop(context) ||
@@ -127,8 +147,8 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
             ? 40
             : 95,
         unSelectedBackgroundColors: [
-          aedappfm.ArchethicThemeBase.purple500.withOpacity(0.5),
-          aedappfm.ArchethicThemeBase.purple500.withOpacity(0.5),
+          aedappfm.ArchethicThemeBase.purple500.withValues(alpha: 0.5),
+          aedappfm.ArchethicThemeBase.purple500.withValues(alpha: 0.5),
         ],
         borderRadius: 20,
         height: 30,
@@ -152,7 +172,7 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           fontWeight: FontWeight.w400,
         ),
         unSelectedTextStyle: TextStyle(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha: 0.5),
           fontSize: aedappfm.Responsive.fontSizeFromValue(
             context,
             desktopValue: 12,
@@ -161,18 +181,6 @@ class _PoolListSheetHeaderState extends ConsumerState<PoolListSheetHeader> {
           ),
           fontWeight: FontWeight.w400,
         ),
-        labels: [
-          AppLocalizations.of(context)!.poolListTabVerified,
-          AppLocalizations.of(context)!.poolListTabMyPools,
-          AppLocalizations.of(context)!.poolListTabFavorites,
-          AppLocalizations.of(context)!.poolListTabResults,
-        ],
-        icons: const [
-          aedappfm.Iconsax.verify,
-          aedappfm.Iconsax.receipt,
-          aedappfm.Iconsax.star,
-          aedappfm.Iconsax.search_zoom_in,
-        ],
         iconSize: 12,
         selectedLabelIndex: (index) async {
           context.go(

@@ -48,9 +48,9 @@ class BlockInfo extends ConsumerWidget {
                           ? LinearGradient(
                               colors: [
                                 aedappfm.AppThemeBase.sheetBackgroundTertiary
-                                    .withOpacity(0.3),
+                                    .withValues(alpha: 0.3),
                                 aedappfm.AppThemeBase.sheetBackgroundTertiary
-                                    .withOpacity(0.3),
+                                    .withValues(alpha: 0.3),
                               ],
                               stops: const [0, 1],
                             )
@@ -58,9 +58,9 @@ class BlockInfo extends ConsumerWidget {
                               ? LinearGradient(
                                   colors: [
                                     aedappfm.ArchethicThemeBase.raspberry500
-                                        .withOpacity(0.3),
+                                        .withValues(alpha: 0.3),
                                     aedappfm.ArchethicThemeBase.raspberry500
-                                        .withOpacity(0.3),
+                                        .withValues(alpha: 0.3),
                                   ],
                                   stops: const [0, 1],
                                 )
@@ -69,10 +69,10 @@ class BlockInfo extends ConsumerWidget {
                                       colors: [
                                         aedappfm.ArchethicThemeBase
                                             .paleTransparentBackground
-                                            .withOpacity(0.8),
+                                            .withValues(alpha: 0.8),
                                         aedappfm.ArchethicThemeBase
                                             .paleTransparentBackground
-                                            .withOpacity(0.8),
+                                            .withValues(alpha: 0.8),
                                       ],
                                       stops: const [0, 1],
                                     )
@@ -80,10 +80,10 @@ class BlockInfo extends ConsumerWidget {
                                       colors: [
                                         aedappfm.ArchethicThemeBase
                                             .systemPositive300
-                                            .withOpacity(0.3),
+                                            .withValues(alpha: 0.3),
                                         aedappfm.ArchethicThemeBase
                                             .systemPositive600
-                                            .withOpacity(0.3),
+                                            .withValues(alpha: 0.3),
                                       ],
                                       stops: const [0, 1],
                                     ),
@@ -92,9 +92,9 @@ class BlockInfo extends ConsumerWidget {
                             ? LinearGradient(
                                 colors: [
                                   aedappfm.AppThemeBase.sheetBorderTertiary
-                                      .withOpacity(0.4),
+                                      .withValues(alpha: 0.4),
                                   aedappfm.AppThemeBase.sheetBackgroundTertiary
-                                      .withOpacity(0.4),
+                                      .withValues(alpha: 0.4),
                                 ],
                                 stops: const [0, 1],
                               )
@@ -102,9 +102,9 @@ class BlockInfo extends ConsumerWidget {
                                 ? LinearGradient(
                                     colors: [
                                       aedappfm.ArchethicThemeBase.raspberry500
-                                          .withOpacity(0.3),
+                                          .withValues(alpha: 0.3),
                                       aedappfm.ArchethicThemeBase.raspberry500
-                                          .withOpacity(0.4),
+                                          .withValues(alpha: 0.4),
                                     ],
                                     stops: const [0, 1],
                                   )
@@ -113,10 +113,10 @@ class BlockInfo extends ConsumerWidget {
                                         colors: [
                                           aedappfm
                                               .AppThemeBase.sheetBorderTertiary
-                                              .withOpacity(0.4),
+                                              .withValues(alpha: 0.4),
                                           aedappfm.AppThemeBase
                                               .sheetBackgroundTertiary
-                                              .withOpacity(0.4),
+                                              .withValues(alpha: 0.4),
                                         ],
                                         stops: const [0, 1],
                                       )
@@ -124,10 +124,10 @@ class BlockInfo extends ConsumerWidget {
                                         colors: [
                                           aedappfm.ArchethicThemeBase
                                               .systemPositive100
-                                              .withOpacity(0.2),
+                                              .withValues(alpha: 0.2),
                                           aedappfm.ArchethicThemeBase
                                               .systemPositive300
-                                              .withOpacity(0.2),
+                                              .withValues(alpha: 0.2),
                                         ],
                                         stops: const [0, 1],
                                       ),

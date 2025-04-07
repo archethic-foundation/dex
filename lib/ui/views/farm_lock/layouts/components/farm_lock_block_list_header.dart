@@ -42,7 +42,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                   gradient: LinearGradient(
                     colors: [
                       aedappfm.AppThemeBase.sheetBackgroundTertiary
-                          .withOpacity(0.4),
+                          .withValues(alpha: 0.4),
                       aedappfm.AppThemeBase.sheetBackgroundTertiary,
                     ],
                     stops: const [0, 1],
@@ -51,7 +51,7 @@ class FarmLockBlockListHeader extends ConsumerWidget {
                     gradient: LinearGradient(
                       colors: [
                         aedappfm.AppThemeBase.sheetBorderTertiary
-                            .withOpacity(0.4),
+                            .withValues(alpha: 0.4),
                         aedappfm.AppThemeBase.sheetBorderTertiary,
                       ],
                       stops: const [0, 1],

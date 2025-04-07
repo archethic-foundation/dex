@@ -51,7 +51,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                   gradient: LinearGradient(
                     colors: [
                       aedappfm.AppThemeBase.sheetBackgroundSecondary
-                          .withOpacity(0.4),
+                          .withValues(alpha: 0.4),
                       aedappfm.AppThemeBase.sheetBackgroundSecondary,
                     ],
                     stops: const [0, 1],
@@ -60,7 +60,7 @@ class FarmLockBlockListSingleLineLegacy extends ConsumerWidget {
                     gradient: LinearGradient(
                       colors: [
                         aedappfm.AppThemeBase.sheetBackgroundSecondary
-                            .withOpacity(0.4),
+                            .withValues(alpha: 0.4),
                         aedappfm.AppThemeBase.sheetBackgroundSecondary,
                       ],
                       stops: const [0, 1],

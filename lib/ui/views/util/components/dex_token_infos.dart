@@ -24,7 +24,7 @@ class DexTokenInfos extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             aedappfm.ArchethicThemeBase.purple500,
-            aedappfm.ArchethicThemeBase.purple500.withOpacity(0.4),
+            aedappfm.ArchethicThemeBase.purple500.withValues(alpha: 0.4),
           ],
           stops: const [0, 1],
         ),
@@ -33,7 +33,7 @@ class DexTokenInfos extends StatelessWidget {
             colors: [
               aedappfm.ArchethicThemeBase.paleTransparentBackground,
               aedappfm.ArchethicThemeBase.paleTransparentBackground
-                  .withOpacity(0.4),
+                  .withValues(alpha: 0.4),
             ],
             stops: const [0, 1],
           ),

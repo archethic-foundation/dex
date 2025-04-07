@@ -54,14 +54,14 @@ class PoolAddFavoriteIcon extends ConsumerWidget {
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
-                    .withOpacity(1),
+                    .withValues(alpha: 1),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(20),
             ),
             elevation: 0,
             color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
-                .withOpacity(1),
+                .withValues(alpha: 1),
             child: const Padding(
               padding: EdgeInsets.only(
                 top: 5,
@@ -229,14 +229,14 @@ class PoolRemoveFavoriteIcon extends ConsumerWidget {
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
-                    .withOpacity(1),
+                    .withValues(alpha: 1),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(20),
             ),
             elevation: 0,
             color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
-                .withOpacity(1),
+                .withValues(alpha: 1),
             child: const Padding(
               padding: EdgeInsets.only(
                 top: 5,

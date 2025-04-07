@@ -29,10 +29,12 @@ class FarmLockLevelUpDurationButton extends ConsumerWidget {
         width: 120,
         height: 80,
         decoration: BoxDecoration(
-          color: farmLockLevelUp.farmLockLevelUpDuration ==
-                  farmLockLevelUpDuration
-              ? aedappfm.AppThemeBase.sheetBackgroundTertiary.withOpacity(0.9)
-              : aedappfm.AppThemeBase.sheetBackgroundTertiary.withOpacity(0.2),
+          color:
+              farmLockLevelUp.farmLockLevelUpDuration == farmLockLevelUpDuration
+                  ? aedappfm.AppThemeBase.sheetBackgroundTertiary
+                      .withValues(alpha: 0.9)
+                  : aedappfm.AppThemeBase.sheetBackgroundTertiary
+                      .withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: Theme.of(context).colorScheme.primaryContainer,

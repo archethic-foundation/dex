@@ -82,14 +82,14 @@ class FarmLockListItemState extends ConsumerState<FarmLockListItem> {
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
-                          .withOpacity(1),
+                          .withValues(alpha: 1),
                       width: 0.5,
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   elevation: 0,
                   color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
-                      .withOpacity(1),
+                      .withValues(alpha: 1),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       top: 7,
@@ -119,7 +119,7 @@ class FarmLockListItemState extends ConsumerState<FarmLockListItem> {
                       side: BorderSide(
                         color: aedappfm
                             .ArchethicThemeBase.brightPurpleHoverBorder
-                            .withOpacity(1),
+                            .withValues(alpha: 1),
                         width: 0.5,
                       ),
                       borderRadius: BorderRadius.circular(20),
@@ -127,7 +127,7 @@ class FarmLockListItemState extends ConsumerState<FarmLockListItem> {
                     elevation: 0,
                     color: aedappfm
                         .ArchethicThemeBase.brightPurpleHoverBackground
-                        .withOpacity(1),
+                        .withValues(alpha: 1),
                     child: const Padding(
                       padding: EdgeInsets.only(
                         top: 5,

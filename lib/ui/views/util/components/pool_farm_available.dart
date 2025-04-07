@@ -47,9 +47,9 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
                 gradient: LinearGradient(
                   colors: [
                     aedappfm.ArchethicThemeBase.systemPositive300
-                        .withOpacity(0.3),
+                        .withValues(alpha: 0.3),
                     aedappfm.ArchethicThemeBase.systemPositive600
-                        .withOpacity(0.3),
+                        .withValues(alpha: 0.3),
                   ],
                   stops: const [0, 1],
                 ),
@@ -57,9 +57,9 @@ class PoolFarmAvailableState extends State<PoolFarmAvailable> {
                   gradient: LinearGradient(
                     colors: [
                       aedappfm.ArchethicThemeBase.systemPositive100
-                          .withOpacity(0.2),
+                          .withValues(alpha: 0.2),
                       aedappfm.ArchethicThemeBase.systemPositive300
-                          .withOpacity(0.2),
+                          .withValues(alpha: 0.2),
                     ],
                     stops: const [0, 1],
                   ),

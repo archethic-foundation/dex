@@ -415,8 +415,8 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
 
     var estimateFees = 0.0;
     if (state.token1 != null && state.token1!.isUCO) {
-      final archethicOracleUCO =
-          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
+      final archethicOracleUCO = await ref
+          .read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.future);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }
@@ -435,8 +435,8 @@ class PoolAddFormNotifier extends _$PoolAddFormNotifier {
       }
     }
     if (state.token2 != null && state.token2!.isUCO) {
-      final archethicOracleUCO =
-          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
+      final archethicOracleUCO = await ref
+          .read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.future);
       if (archethicOracleUCO.usd > 0) {
         estimateFees = 0.5 / archethicOracleUCO.usd;
       }

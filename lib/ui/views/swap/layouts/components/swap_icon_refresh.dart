@@ -86,7 +86,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
-                    .withOpacity(1),
+                    .withValues(alpha: 1),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(20),
@@ -95,7 +95,7 @@ class _SwapTokenIconRefreshState extends ConsumerState<SwapTokenIconRefresh> {
             color: isRefreshSuccess != null && isRefreshSuccess == true
                 ? aedappfm.ArchethicThemeBase.systemPositive600
                 : aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
-                    .withOpacity(1),
+                    .withValues(alpha: 1),
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 5,

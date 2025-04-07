@@ -55,8 +55,8 @@ class PoolListSearchBarState extends ConsumerState<PoolListSearchBar> {
         ),
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).colorScheme.surface.withOpacity(1),
-            Theme.of(context).colorScheme.surface.withOpacity(0.3),
+            Theme.of(context).colorScheme.surface.withValues(alpha: 1),
+            Theme.of(context).colorScheme.surface.withValues(alpha: 0.3),
           ],
           stops: const [0, 1],
         ),

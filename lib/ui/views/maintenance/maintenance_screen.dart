@@ -14,7 +14,7 @@ class MaintenanceScreen extends ConsumerWidget {
     super.key,
   });
 
-  static const routerPage = '/maintenance';
+  static const routerPage = '/closed';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

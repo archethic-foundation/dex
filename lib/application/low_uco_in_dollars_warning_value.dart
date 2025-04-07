@@ -18,10 +18,11 @@ bool checkLowUCOInDollarsWarningValue(
       (Decimal.parse(balance.toString()) - Decimal.parse(amount.toString()))
           .toDouble();
 
-  final archethicOracleUCO =
-      ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
+  final archethicOracleUCO = ref
+      .watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO)
+      .valueOrNull;
 
-  if (archethicOracleUCO.usd == 0) {
+  if (archethicOracleUCO == null || archethicOracleUCO.usd == 0) {
     // 20 UCO by default if no Oracle
     return remainingBalanceInUCO > 20;
   }

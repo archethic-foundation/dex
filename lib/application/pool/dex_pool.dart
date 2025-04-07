@@ -15,6 +15,7 @@ import 'package:aedex/domain/repositories/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/dex_pool.repository.dart';
 import 'package:aedex/infrastructure/hive/favorite_pools.hive.dart';
 import 'package:aedex/infrastructure/pool_factory.repository.dart';
+// ignore: unused_import
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';

@@ -156,7 +156,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                       side: BorderSide(
                         color: aedappfm
                             .ArchethicThemeBase.brightPurpleHoverBorder
-                            .withOpacity(1),
+                            .withValues(alpha: 1),
                         width: 0.5,
                       ),
                       borderRadius: BorderRadius.circular(20),
@@ -164,7 +164,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                     elevation: 0,
                     color: aedappfm
                         .ArchethicThemeBase.brightPurpleHoverBackground
-                        .withOpacity(1),
+                        .withValues(alpha: 1),
                     child: const Padding(
                       padding: EdgeInsets.only(
                         top: 5,
@@ -189,14 +189,14 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
-                          .withOpacity(1),
+                          .withValues(alpha: 1),
                       width: 0.5,
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   elevation: 0,
                   color: aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
-                      .withOpacity(1),
+                      .withValues(alpha: 1),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       top: 9,
@@ -226,7 +226,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                       side: BorderSide(
                         color: aedappfm
                             .ArchethicThemeBase.brightPurpleHoverBorder
-                            .withOpacity(1),
+                            .withValues(alpha: 1),
                         width: 0.5,
                       ),
                       borderRadius: BorderRadius.circular(20),
@@ -234,7 +234,7 @@ class PoolListItemState extends ConsumerState<PoolListItem> {
                     elevation: 0,
                     color: aedappfm
                         .ArchethicThemeBase.brightPurpleHoverBackground
-                        .withOpacity(1),
+                        .withValues(alpha: 1),
                     child: const Padding(
                       padding: EdgeInsets.only(
                         top: 5,

@@ -72,7 +72,7 @@ class _FarmRefreshIconState extends ConsumerState<FarmRefreshIcon> {
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: aedappfm.ArchethicThemeBase.brightPurpleHoverBorder
-                    .withOpacity(1),
+                    .withValues(alpha: 1),
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(20),
@@ -81,7 +81,7 @@ class _FarmRefreshIconState extends ConsumerState<FarmRefreshIcon> {
             color: isRefreshSuccess != null && isRefreshSuccess == true
                 ? aedappfm.ArchethicThemeBase.systemPositive600
                 : aedappfm.ArchethicThemeBase.brightPurpleHoverBackground
-                    .withOpacity(1),
+                    .withValues(alpha: 1),
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 5,
