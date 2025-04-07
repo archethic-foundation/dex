@@ -5,8 +5,11 @@ import {
   getGenesisAddress,
   encryptSecret,
   getTokenAddress,
-  getServiceGenesisAddress
+  getServiceGenesisAddress,
+  sendTransactionWithoutFunding,
+  sendWithWallet
 } from "../utils.js"
+import { getProposeTransaction } from "@archethicjs/multisig-sdk"
 
 const command = "deploy_farm"
 const describe = "Deploy a farm for a lp token and a reward token"
@@ -56,6 +59,12 @@ const builder = {
     demandOption: false,
     type: "string"
   },
+  with_multisig: {
+    describe: "Determines if the master is using a multisig",
+    demandOption: false,
+    type: "boolean",
+    default: false
+  },
 }
 
 const handler = async function (argv) {
@@ -69,7 +78,10 @@ const handler = async function (argv) {
     process.exit(1)
   }
 
-  const archethic = new Archethic(env.endpoint)
+  const archethic = new Archethic(argv["with_multisig"] ? undefined : env.endpoint)
+  if (archethic.rpcWallet) {
+    archethic.rpcWallet.setOrigin({ name: "Archethic DEX CLI" });
+  }
   await archethic.connect()
 
   let keychain
@@ -121,7 +133,12 @@ const handler = async function (argv) {
 
   // Deploy pool
   console.log("Create farm contract")
-  await sendTransactionWithFunding(farmTx, keychain, archethic)
+  if (argv["without_funding"]) {
+    await sendTransactionWithoutFunding(farmTx, archethic)
+  }
+  else {
+    await sendTransactionWithFunding(farmTx, keychain, archethic)
+  }
 
   console.log("=======================")
   console.log("Send reward and add farm to router")
@@ -129,6 +146,33 @@ const handler = async function (argv) {
   const masterGenesisAddress = getServiceGenesisAddress(keychain, "Master")
   const index = await archethic.transaction.getTransactionIndex(masterGenesisAddress)
   console.log("Master genesis address:", masterGenesisAddress)
+
+  const addFarmArgs = [lpTokenAddress, startDate, endDate, rewardTokenAddress, Utils.uint8ArrayToHex(farmTx.address), farmType]
+
+  if (argv["with_multisig"]) {
+    let ucoTransfers = [], tokenTransfers = []
+    if (rewardTokenAddress == "UCO") {
+      ucoTransfers = [{ to: farmGenesisAddress, amount: Utils.toBigInt(rewardTokenAmount)}]
+    } else {
+      tokenTransfers = [{ to: farmGenesisAddress, amount: Utils.toBigInt(rewardTokenAmount), tokenAddress: rewardTokenAddress}]
+    }
+    const tx = getProposeTransaction(archethic, masterGenesisAddress, {
+      ucoTransfers: ucoTransfers,
+      tokenTransfers: tokenTransfers,
+      recipients: [
+        { address: routerAddress, action: "add_farm", args: [lpTokenAddress, startDate, endDate, rewardTokenAddress, Utils.uint8ArrayToHex(farmTx.address), farmType] }
+      ]
+    })
+
+    sendWithWallet(tx, archethic)
+      .then(() => {
+        console.log("Farm registration proposal submitted !")
+        process.exit(0)
+      })
+      .catch(() => process.exit(1))
+
+    return
+  }
 
   let tx = archethic.transaction.new()
 
@@ -139,22 +183,16 @@ const handler = async function (argv) {
   }
 
   tx.setType("transfer")
-    .addRecipient(routerAddress, "add_farm", [lpTokenAddress, startDate, endDate, rewardTokenAddress, Utils.uint8ArrayToHex(farmTx.address), farmType])
+    .addRecipient(routerAddress, "add_farm", addFarmArgs)
 
   tx = keychain.buildTransaction(tx, "Master", index).originSign(Utils.originPrivateKey)
 
-  tx.on("requiredConfirmation", (_confirmations) => {
-    console.log("Farm registration success !")
-    const address = Utils.uint8ArrayToHex(tx.address)
-    console.log("Address:", address)
-    console.log(env.endpoint + "/explorer/transaction/" + address)
-    process.exit(0)
-  }).on("error", (context, reason) => {
-    console.log("Error while sending transaction")
-    console.log("Contest:", context)
-    console.log("Reason:", reason)
-    process.exit(1)
-  }).send(50)
+  sendTransactionWithoutFunding(tx, archethic)
+      .then(() => {
+        console.log("Farm registration success !")
+        process.exit(0)
+      })
+      .catch(() => process.exit(1))
 }
 
 async function getFarmCode(archethic, lpTokenAddress, startDate, endDate, rewardToken, farmSeed, factoryAddress, farmType) {

@@ -1,23 +1,21 @@
 import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
-import { getServiceGenesisAddress, sendWithWallet } from "../utils.js"
-import { getProposeTransaction } from "@archethicjs/multisig-sdk"
+import {
+  getServiceGenesisAddress,
+} from "../utils.js"
 
-const command = "update_lp_fee"
-const describe = "Update the liquidity provider fee for a pool"
+import { getDeployTransaction } from "@archethicjs/multisig-sdk"
+
+const command = "deploy_multisig"
+const describe = "Deploy multisig for keychain master"
 const builder = {
-  pool_address: {
-    describe: "Address of the pool to update",
-    demandOption: true,
+  initial_voter: {
+    describe: "The initial voter address",
+    demandOption: true, // Required
     type: "string"
   },
-  fee: {
-    describe: "New amount for the fees (in percentage)",
-    demandOption: true,
-    type: "number"
-  },
   access_seed: {
-    describe: "the keychain access seed (default in env config)",
+    describe: "The Keychain access seed (default in env config)",
     demandOption: false,
     type: "string"
   },
@@ -25,13 +23,7 @@ const builder = {
     describe: "The environment config to use (default to local)",
     demandOption: false,
     type: "string"
-  },
-  with_multisig: {
-    describe: "Determines if the master is using a multisig",
-    demandOption: false,
-    type: "boolean",
-    default: false
-  },
+  }
 }
 
 const handler = async function(argv) {
@@ -45,10 +37,9 @@ const handler = async function(argv) {
     process.exit(1)
   }
 
-  const archethic = new Archethic(argv["with_multisig"] ? undefined : env.endpoint)
-  if (archethic.rpcWallet) {
-    archethic.rpcWallet.setOrigin({ name: "Archethic DEX CLI" });
-  }
+  const initialVoter = argv["initial_voter"]
+
+  const archethic = new Archethic(env.endpoint)
   await archethic.connect()
 
   let keychain
@@ -60,29 +51,19 @@ const handler = async function(argv) {
     process.exit(1)
   }
 
-  const poolAddress = argv["pool_address"]
-  const newFee = argv["fee"]
-
   const masterGenesisAddress = getServiceGenesisAddress(keychain, "Master")
+
+  const storageNoncePublicKey = await archethic.network.getStorageNoncePublicKey();
+
+  const res = keychain.ecEncryptServiceSeed("Master", [storageNoncePublicKey])
+  const { secret, authorizedPublicKeys: authorizedKeys } = res
   console.log("Master genesis address:", masterGenesisAddress)
   const index = await archethic.transaction.getTransactionIndex(masterGenesisAddress)
 
-  if (argv["with_multisig"]) {
-    const updateTx = getProposeTransaction(archethic, masterGenesisAddress, {
-      recipients: [
-        { address: poolAddress, action: "set_lp_fee", args: [newFee] }
-      ]
-    })
-    sendWithWallet(updateTx, archethic)
-      .then(() => process.exit(0))
-      .catch(() => process.exit(1))
-
-    return
-  }
-
-  let updateTx = archethic.transaction.new()
-    .setType("transfer")
-    .addRecipient(poolAddress, "set_lp_fee", [newFee])
+  let updateTx = getDeployTransaction(archethic, {
+    voters: [ initialVoter ],
+    confirmationThreshold: 1,
+  }, secret, authorizedKeys)
 
   updateTx = keychain.buildTransaction(updateTx, "Master", index).originSign(Utils.originPrivateKey)
 
@@ -99,6 +80,8 @@ const handler = async function(argv) {
     process.exit(1)
   }).send()
 }
+
+
 
 export default {
   command,
