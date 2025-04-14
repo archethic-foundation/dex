@@ -20,7 +20,9 @@ mixin _$FarmLockFormBalances {
   double get token2Balance => throw _privateConstructorUsedError;
   double get lpTokenBalance => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmLockFormBalances
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FarmLockFormBalancesCopyWith<FarmLockFormBalances> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$FarmLockFormBalancesCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FarmLockFormBalances
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -90,6 +94,8 @@ class __$$FarmLockFormBalancesImplCopyWithImpl<$Res>
       $Res Function(_$FarmLockFormBalancesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FarmLockFormBalances
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -155,7 +161,9 @@ class _$FarmLockFormBalancesImpl extends _FarmLockFormBalances {
   int get hashCode =>
       Object.hash(runtimeType, token1Balance, token2Balance, lpTokenBalance);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmLockFormBalances
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FarmLockFormBalancesImplCopyWith<_$FarmLockFormBalancesImpl>
@@ -177,8 +185,11 @@ abstract class _FarmLockFormBalances extends FarmLockFormBalances {
   double get token2Balance;
   @override
   double get lpTokenBalance;
+
+  /// Create a copy of FarmLockFormBalances
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FarmLockFormBalancesImplCopyWith<_$FarmLockFormBalancesImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -190,7 +201,9 @@ mixin _$FarmLockFormSummary {
   double get farmedTokensRewards => throw _privateConstructorUsedError;
   double get farmedTokensRewardsInFiat => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmLockFormSummary
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FarmLockFormSummaryCopyWith<FarmLockFormSummary> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -218,6 +231,8 @@ class _$FarmLockFormSummaryCopyWithImpl<$Res, $Val extends FarmLockFormSummary>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FarmLockFormSummary
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -270,6 +285,8 @@ class __$$FarmLockFormSummaryImplCopyWithImpl<$Res>
       $Res Function(_$FarmLockFormSummaryImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FarmLockFormSummary
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -352,7 +369,9 @@ class _$FarmLockFormSummaryImpl extends _FarmLockFormSummary {
       farmedTokensRewards,
       farmedTokensRewardsInFiat);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmLockFormSummary
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FarmLockFormSummaryImplCopyWith<_$FarmLockFormSummaryImpl> get copyWith =>
@@ -376,8 +395,11 @@ abstract class _FarmLockFormSummary extends FarmLockFormSummary {
   double get farmedTokensRewards;
   @override
   double get farmedTokensRewardsInFiat;
+
+  /// Create a copy of FarmLockFormSummary
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FarmLockFormSummaryImplCopyWith<_$FarmLockFormSummaryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

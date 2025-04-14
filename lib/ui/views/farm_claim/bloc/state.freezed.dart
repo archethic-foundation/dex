@@ -32,7 +32,9 @@ mixin _$FarmClaimFormState {
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   double? get rewardAmount => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmClaimFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FarmClaimFormStateCopyWith<FarmClaimFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -75,6 +77,8 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FarmClaimFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,6 +162,8 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     ) as $Val);
   }
 
+  /// Create a copy of FarmClaimFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get transactionClaimFarm {
@@ -170,6 +176,8 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     });
   }
 
+  /// Create a copy of FarmClaimFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -182,6 +190,8 @@ class _$FarmClaimFormStateCopyWithImpl<$Res, $Val extends FarmClaimFormState>
     });
   }
 
+  /// Create a copy of FarmClaimFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexTokenCopyWith<$Res>? get rewardToken {
@@ -236,6 +246,8 @@ class __$$FarmClaimFormStateImplCopyWithImpl<$Res>
       $Res Function(_$FarmClaimFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FarmClaimFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -438,7 +450,9 @@ class _$FarmClaimFormStateImpl extends _FarmClaimFormState {
       consentDateTime,
       rewardAmount);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmClaimFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FarmClaimFormStateImplCopyWith<_$FarmClaimFormStateImpl> get copyWith =>
@@ -495,8 +509,11 @@ abstract class _FarmClaimFormState extends FarmClaimFormState {
   DateTime? get consentDateTime;
   @override
   double? get rewardAmount;
+
+  /// Create a copy of FarmClaimFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FarmClaimFormStateImplCopyWith<_$FarmClaimFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

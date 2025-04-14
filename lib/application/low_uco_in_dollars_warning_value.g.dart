@@ -7,7 +7,7 @@ part of 'low_uco_in_dollars_warning_value.dart';
 // **************************************************************************
 
 String _$checkLowUCOInDollarsWarningValueHash() =>
-    r'13e0ceb6733d5efa81d2553f7840cc9a60f38bec';
+    r'b8e87c7dd6d71b9ea8917e97b1ba2a597e4f221d';
 
 /// Copied from Dart SDK
 class _SystemHash {

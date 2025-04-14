@@ -20,7 +20,9 @@ mixin _$FarmListFormState {
       throw _privateConstructorUsedError;
   String? get cancelToken => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmListFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FarmListFormStateCopyWith<FarmListFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$FarmListFormStateCopyWithImpl<$Res, $Val extends FarmListFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FarmListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -82,6 +86,8 @@ class __$$FarmListFormStateImplCopyWithImpl<$Res>
       $Res Function(_$FarmListFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FarmListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,7 +138,9 @@ class _$FarmListFormStateImpl extends _FarmListFormState {
   @override
   int get hashCode => Object.hash(runtimeType, farmsToDisplay, cancelToken);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmListFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FarmListFormStateImplCopyWith<_$FarmListFormStateImpl> get copyWith =>
@@ -150,8 +158,11 @@ abstract class _FarmListFormState extends FarmListFormState {
   AsyncValue<List<DexFarm>> get farmsToDisplay;
   @override
   String? get cancelToken;
+
+  /// Create a copy of FarmListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FarmListFormStateImplCopyWith<_$FarmListFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

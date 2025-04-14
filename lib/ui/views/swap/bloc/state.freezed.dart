@@ -50,7 +50,9 @@ mixin _$SwapFormState {
   DexPoolInfos? get poolInfos => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SwapFormStateCopyWith<SwapFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -113,6 +115,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -281,6 +285,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     ) as $Val);
   }
 
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexTokenCopyWith<$Res>? get tokenToSwap {
@@ -293,6 +299,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     });
   }
 
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexTokenCopyWith<$Res>? get tokenSwapped {
@@ -305,6 +313,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     });
   }
 
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -317,6 +327,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     });
   }
 
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get recoveryTransactionSwap {
@@ -329,6 +341,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     });
   }
 
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexPoolCopyWith<$Res>? get pool {
@@ -341,6 +355,8 @@ class _$SwapFormStateCopyWithImpl<$Res, $Val extends SwapFormState>
     });
   }
 
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexPoolInfosCopyWith<$Res>? get poolInfos {
@@ -418,6 +434,8 @@ class __$$SwapFormStateImplCopyWithImpl<$Res>
       _$SwapFormStateImpl _value, $Res Function(_$SwapFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -824,7 +842,9 @@ class _$SwapFormStateImpl extends _SwapFormState {
         consentDateTime
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SwapFormStateImplCopyWith<_$SwapFormStateImpl> get copyWith =>
@@ -931,8 +951,11 @@ abstract class _SwapFormState extends SwapFormState {
   DexPoolInfos? get poolInfos;
   @override
   DateTime? get consentDateTime;
+
+  /// Create a copy of SwapFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SwapFormStateImplCopyWith<_$SwapFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -36,7 +36,9 @@ mixin _$FarmWithdrawFormState {
   double? get depositedAmount => throw _privateConstructorUsedError;
   double? get rewardAmount => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FarmWithdrawFormStateCopyWith<FarmWithdrawFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -84,6 +86,8 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -182,6 +186,8 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexFarmCopyWith<$Res>? get dexFarmInfo {
@@ -194,6 +200,8 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get transactionWithdrawFarm {
@@ -206,6 +214,8 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -218,6 +228,8 @@ class _$FarmWithdrawFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexTokenCopyWith<$Res>? get rewardToken {
@@ -279,6 +291,8 @@ class __$$FarmWithdrawFormStateImplCopyWithImpl<$Res>
       $Res Function(_$FarmWithdrawFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -515,7 +529,9 @@ class _$FarmWithdrawFormStateImpl extends _FarmWithdrawFormState {
       depositedAmount,
       rewardAmount);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FarmWithdrawFormStateImplCopyWith<_$FarmWithdrawFormStateImpl>
@@ -581,8 +597,11 @@ abstract class _FarmWithdrawFormState extends FarmWithdrawFormState {
   double? get depositedAmount;
   @override
   double? get rewardAmount;
+
+  /// Create a copy of FarmWithdrawFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FarmWithdrawFormStateImplCopyWith<_$FarmWithdrawFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

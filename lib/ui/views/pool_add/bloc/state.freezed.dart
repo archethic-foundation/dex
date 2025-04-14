@@ -43,7 +43,9 @@ mixin _$PoolAddFormState {
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   PoolsListTab get poolsListTab => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PoolAddFormStateCopyWith<PoolAddFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -97,6 +99,8 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -222,6 +226,8 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     ) as $Val);
   }
 
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexTokenCopyWith<$Res>? get token1 {
@@ -234,6 +240,8 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     });
   }
 
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexTokenCopyWith<$Res>? get token2 {
@@ -246,6 +254,8 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     });
   }
 
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get recoveryTransactionAddPool {
@@ -259,6 +269,8 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     });
   }
 
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get recoveryTransactionAddPoolTransfer {
@@ -273,6 +285,8 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     });
   }
 
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get recoveryTransactionAddPoolLiquidity {
@@ -287,6 +301,8 @@ class _$PoolAddFormStateCopyWithImpl<$Res, $Val extends PoolAddFormState>
     });
   }
 
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -355,6 +371,8 @@ class __$$PoolAddFormStateImplCopyWithImpl<$Res>
       $Res Function(_$PoolAddFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -663,7 +681,9 @@ class _$PoolAddFormStateImpl extends _PoolAddFormState {
         poolsListTab
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PoolAddFormStateImplCopyWith<_$PoolAddFormStateImpl> get copyWith =>
@@ -744,8 +764,11 @@ abstract class _PoolAddFormState extends PoolAddFormState {
   DateTime? get consentDateTime;
   @override
   PoolsListTab get poolsListTab;
+
+  /// Create a copy of PoolAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PoolAddFormStateImplCopyWith<_$PoolAddFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
