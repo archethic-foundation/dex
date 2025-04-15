@@ -140,7 +140,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionTransfer = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addUCOTransfer(poolGenesisAddress, archethic.toBigInt(feesToken));
 
@@ -193,7 +194,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionAdd = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         poolGenesisAddress,
@@ -305,7 +307,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionLiquidity = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         poolGenesisAddress,
@@ -357,7 +360,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionLiquidity = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         poolGenesisAddress,
@@ -418,7 +422,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
 
       final transactionSwap = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         poolGenesisAddress,
@@ -454,7 +459,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       )
           .addTokenTransfer(
@@ -480,7 +486,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
@@ -503,7 +510,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       )
           .addTokenTransfer(
@@ -540,7 +548,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
@@ -567,7 +576,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
@@ -588,7 +598,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
@@ -611,7 +622,8 @@ class ArchethicContract with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(() async {
       final transaction = archethic.Transaction(
         type: 'transfer',
-        version: blockchainTxVersion,
+        // Interpreted SC // No WASM
+        version: 3,
         data: archethic.Transaction.initData(),
       ).addRecipient(
         farmGenesisAddress,
