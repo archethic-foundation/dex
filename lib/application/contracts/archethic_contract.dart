@@ -19,11 +19,9 @@ class ArchethicContract with aedappfm.TransactionMixin {
   const ArchethicContract({
     required this.apiService,
     required this.verifiedTokensRepository,
-    required this.blockchainTxVersion,
   });
   final archethic.ApiService apiService;
   final aedappfm.VerifiedTokensRepositoryInterface verifiedTokensRepository;
-  final int blockchainTxVersion;
 
   Future<aedappfm.Result<archethic.Transaction, aedappfm.Failure>> getAddPoolTx(
     String routerAddress,
