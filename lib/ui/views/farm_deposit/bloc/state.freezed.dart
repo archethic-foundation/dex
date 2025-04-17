@@ -30,7 +30,9 @@ mixin _$FarmDepositFormState {
   double? get finalAmount => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FarmDepositFormStateCopyWith<FarmDepositFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -72,6 +74,8 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FarmDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,6 +149,8 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of FarmDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexFarmCopyWith<$Res>? get dexFarmInfo {
@@ -157,6 +163,8 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of FarmDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get transactionDepositFarm {
@@ -169,6 +177,8 @@ class _$FarmDepositFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of FarmDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -221,6 +231,8 @@ class __$$FarmDepositFormStateImplCopyWithImpl<$Res>
       $Res Function(_$FarmDepositFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FarmDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -402,7 +414,9 @@ class _$FarmDepositFormStateImpl extends _FarmDepositFormState {
       finalAmount,
       consentDateTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FarmDepositFormStateImplCopyWith<_$FarmDepositFormStateImpl>
@@ -454,8 +468,11 @@ abstract class _FarmDepositFormState extends FarmDepositFormState {
   double? get finalAmount;
   @override
   DateTime? get consentDateTime;
+
+  /// Create a copy of FarmDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FarmDepositFormStateImplCopyWith<_$FarmDepositFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

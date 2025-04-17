@@ -49,7 +49,9 @@ mixin _$LiquidityAddFormState {
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   PoolsListTab get poolsListTab => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LiquidityAddFormStateCopyWith<LiquidityAddFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -111,6 +113,8 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -274,6 +278,8 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexTokenCopyWith<$Res>? get token1 {
@@ -286,6 +292,8 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexTokenCopyWith<$Res>? get token2 {
@@ -298,6 +306,8 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexPoolCopyWith<$Res>? get pool {
@@ -310,6 +320,8 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get transactionAddLiquidity {
@@ -322,6 +334,8 @@ class _$LiquidityAddFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -398,6 +412,8 @@ class __$$LiquidityAddFormStateImplCopyWithImpl<$Res>
       $Res Function(_$LiquidityAddFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -792,7 +808,9 @@ class _$LiquidityAddFormStateImpl extends _LiquidityAddFormState {
         poolsListTab
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LiquidityAddFormStateImplCopyWith<_$LiquidityAddFormStateImpl>
@@ -897,8 +915,11 @@ abstract class _LiquidityAddFormState extends LiquidityAddFormState {
   DateTime? get consentDateTime;
   @override
   PoolsListTab get poolsListTab;
+
+  /// Create a copy of LiquidityAddFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LiquidityAddFormStateImplCopyWith<_$LiquidityAddFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

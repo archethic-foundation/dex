@@ -19,7 +19,9 @@ mixin _$PoolListFormState {
   PoolsListTab get selectedTab => throw _privateConstructorUsedError;
   String get searchText => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PoolListFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PoolListFormStateCopyWith<PoolListFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$PoolListFormStateCopyWithImpl<$Res, $Val extends PoolListFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PoolListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$PoolListFormStateImplCopyWithImpl<$Res>
       $Res Function(_$PoolListFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PoolListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,7 +139,9 @@ class _$PoolListFormStateImpl extends _PoolListFormState {
   @override
   int get hashCode => Object.hash(runtimeType, selectedTab, searchText);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PoolListFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PoolListFormStateImplCopyWith<_$PoolListFormStateImpl> get copyWith =>
@@ -151,8 +159,11 @@ abstract class _PoolListFormState extends PoolListFormState {
   PoolsListTab get selectedTab;
   @override
   String get searchText;
+
+  /// Create a copy of PoolListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PoolListFormStateImplCopyWith<_$PoolListFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

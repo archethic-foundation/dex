@@ -39,7 +39,9 @@ mixin _$FarmLockDepositFormState {
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   PoolsListTab get poolsListTab => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FarmLockDepositFormStateCopyWith<FarmLockDepositFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -88,6 +90,8 @@ class _$FarmLockDepositFormStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -191,6 +195,8 @@ class _$FarmLockDepositFormStateCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexPoolCopyWith<$Res>? get pool {
@@ -203,6 +209,8 @@ class _$FarmLockDepositFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DexFarmLockCopyWith<$Res>? get farmLock {
@@ -215,6 +223,8 @@ class _$FarmLockDepositFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionCopyWith<$Res>? get transactionFarmLockDeposit {
@@ -228,6 +238,8 @@ class _$FarmLockDepositFormStateCopyWithImpl<$Res,
     });
   }
 
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -291,6 +303,8 @@ class __$$FarmLockDepositFormStateImplCopyWithImpl<$Res>
       $Res Function(_$FarmLockDepositFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -552,7 +566,9 @@ class _$FarmLockDepositFormStateImpl extends _FarmLockDepositFormState {
         poolsListTab
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FarmLockDepositFormStateImplCopyWith<_$FarmLockDepositFormStateImpl>
@@ -621,8 +637,11 @@ abstract class _FarmLockDepositFormState extends FarmLockDepositFormState {
   DateTime? get consentDateTime;
   @override
   PoolsListTab get poolsListTab;
+
+  /// Create a copy of FarmLockDepositFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FarmLockDepositFormStateImplCopyWith<_$FarmLockDepositFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

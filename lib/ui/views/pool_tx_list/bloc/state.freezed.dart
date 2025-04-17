@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PoolTxListFormState {
   List<DexPoolTx>? get result => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PoolTxListFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PoolTxListFormStateCopyWith<PoolTxListFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,6 +44,8 @@ class _$PoolTxListFormStateCopyWithImpl<$Res, $Val extends PoolTxListFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PoolTxListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -75,6 +79,8 @@ class __$$PoolTxListFormStateImplCopyWithImpl<$Res>
       $Res Function(_$PoolTxListFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PoolTxListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -123,7 +129,9 @@ class _$PoolTxListFormStateImpl extends _PoolTxListFormState {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_result));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PoolTxListFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PoolTxListFormStateImplCopyWith<_$PoolTxListFormStateImpl> get copyWith =>
@@ -138,8 +146,11 @@ abstract class _PoolTxListFormState extends PoolTxListFormState {
 
   @override
   List<DexPoolTx>? get result;
+
+  /// Create a copy of PoolTxListFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PoolTxListFormStateImplCopyWith<_$PoolTxListFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
