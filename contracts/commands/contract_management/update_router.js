@@ -1,6 +1,7 @@
 import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
-import { getServiceGenesisAddress, getRouterCode } from "../utils.js"
+import { getServiceGenesisAddress, getRouterCode, sendTransactionWithoutFunding, sendWithWallet } from "../utils.js"
+import { getProposeTransaction } from "@archethicjs/multisig-sdk"
 
 const command = "update_router"
 const describe = "Update the router"
@@ -14,6 +15,12 @@ const builder = {
     describe: "The environment config to use (default to local)",
     demandOption: false,
     type: "string"
+  },
+  with_multisig: {
+    describe: "Determines if the master is using a multisig",
+    demandOption: false,
+    type: "boolean",
+    default: false
   }
 }
 
@@ -28,7 +35,10 @@ const handler = async function(argv) {
     process.exit(1)
   }
 
-  const archethic = new Archethic(env.endpoint)
+  const archethic = new Archethic(argv["with_multisig"] ? undefined : env.endpoint)
+  if (archethic.rpcWallet) {
+    archethic.rpcWallet.setOrigin({ name: "Archethic DEX CLI" });
+  }
   await archethic.connect()
 
   let keychain
@@ -54,24 +64,28 @@ const handler = async function(argv) {
   console.log("Master genesis address:", masterGenesisAddress)
   const index = await archethic.transaction.getTransactionIndex(masterGenesisAddress)
 
+  if (argv["with_multisig"]) {
+    const updateTx = getProposeTransaction(archethic, masterGenesisAddress, {
+      recipients: [
+        { address: routerGenesisAddress, action: "update_code", args: [routerCode] }
+      ]
+    })
+    sendWithWallet(updateTx, archethic)
+      .then(() => process.exit(0))
+      .catch(() => process.exit(1))
+
+    return
+  }
+
   let updateTx = archethic.transaction.new()
     .setType("transfer")
     .addRecipient(routerGenesisAddress, "update_code", [routerCode])
 
   updateTx = keychain.buildTransaction(updateTx, "Master", index).originSign(Utils.originPrivateKey)
 
-  updateTx.on("fullConfirmation", async (_confirmations) => {
-    const txAddress = Utils.uint8ArrayToHex(updateTx.address)
-    console.log("Transaction validated !")
-    console.log("Address:", txAddress)
-    console.log(env.endpoint + "/explorer/transaction/" + txAddress)
-    process.exit(0)
-  }).on("error", (context, reason) => {
-    console.log("Error while sending transaction")
-    console.log("Contest:", context)
-    console.log("Reason:", reason)
-    process.exit(1)
-  }).send()
+  sendTransactionWithoutFunding(updateTx, archethic)
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1))
 }
 
 export default {

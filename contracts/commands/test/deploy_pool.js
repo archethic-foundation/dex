@@ -139,15 +139,15 @@ const handler = async function (argv) {
   const tx = archethic.transaction.new()
 
   if (token1.address == "UCO") {
-    tx.addUCOTransfer(poolGenesisAddress, Utils.toBigInt(token1.amount))
+    tx.addUCOTransfer(poolGenesisAddress, Utils.parseBigInt(token1.amount.toString()))
   } else {
-    tx.addTokenTransfer(poolGenesisAddress, Utils.toBigInt(token1.amount), token1.address)
+    tx.addTokenTransfer(poolGenesisAddress, Utils.parseBigInt(token1.amount.toString()), token1.address)
   }
 
   if (token2.address == "UCO") {
-    tx.addUCOTransfer(poolGenesisAddress, Utils.toBigInt(token2.amount))
+    tx.addUCOTransfer(poolGenesisAddress, Utils.parseBigInt(token2.amount.toString()))
   } else {
-    tx.addTokenTransfer(poolGenesisAddress, Utils.toBigInt(token2.amount), token2.address)
+    tx.addTokenTransfer(poolGenesisAddress, Utils.parseBigInt(token2.amount.toString()), token2.address)
   }
 
   tx.setType("transfer")

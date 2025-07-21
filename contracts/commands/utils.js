@@ -34,7 +34,31 @@ export function encryptSecret(secret, publicKey) {
   return { encryptedSecret, authorizedKeys }
 }
 
-export async function sendTransactionWithFunding(tx, keychain, archethic, fundSeedFrom = undefined) {
+export function sendTransactionWithoutFunding(tx, archethic) {
+  return new Promise((resolve, reject) => {
+    tx.on("fullConfirmation", async (_confirmations) => {
+      const txAddress = Utils.uint8ArrayToHex(tx.address)
+      console.log("Transaction validated !")
+      console.log("Address:", txAddress)
+      console.log(archethic.endpoint.nodeEndpoint + "/explorer/transaction/" + txAddress)
+      resolve()
+    }).on("error", (context, reason) => {
+      console.log("Error while sending transaction")
+      console.log("Contest:", context)
+      console.log("Reason:", reason)
+      reject()
+    }).send(CONFIRMATION_THRESHOLD)
+  })
+}
+
+export async function sendWithWallet(tx, archethic) {
+  const { transactionAddress } = await archethic.rpcWallet.sendTransaction(tx)
+  console.log("Transaction validated !")
+  console.log("Address:", transactionAddress)
+  console.log(archethic.endpoint.nodeEndpoint + "/explorer/transaction/" + transactionAddress)
+}
+
+export async function sendTransactionWithFunding(tx, keychain, archethic, fundSeedFrom = undefined, withWallet = false) {
   return new Promise(async (resolve, reject) => {
     let { fee } = await archethic.transaction.getTransactionFee(tx)
     fee = Math.trunc(fee * 1.01)
@@ -44,11 +68,16 @@ export async function sendTransactionWithFunding(tx, keychain, archethic, fundSe
       .setType("transfer")
       .addUCOTransfer(txPreviousAddress, fee)
 
+    console.log("Sending funds to previous transaction address ...")
+    console.log("=======================")
+
     let fundingGenesisAddress
     if (fundSeedFrom) {
       fundingGenesisAddress = getGenesisAddress(fundSeedFrom)
       const index = await archethic.transaction.getTransactionIndex(Crypto.deriveAddress(fundSeedFrom, 0))
       refillTx.build(fundSeedFrom, index).originSign(Utils.originPrivateKey)
+    } else if (withWallet) {
+      await sendWithWallet(refillTx, archethic)
     } else {
       fundingGenesisAddress = getServiceGenesisAddress(keychain, "Master")
       const masterIndex = await archethic.transaction.getTransactionIndex(keychain.deriveAddress("Master"))
@@ -68,18 +97,20 @@ export async function sendTransactionWithFunding(tx, keychain, archethic, fundSe
       reject()
     })
 
-    console.log("Sending funds to previous transaction address ...")
-    console.log("=======================")
-
-    refillTx.on("requiredConfirmation", async (_confirmations) => {
+    if (!withWallet) {
+      refillTx.on("requiredConfirmation", async (_confirmations) => {
+        tx.send(CONFIRMATION_THRESHOLD)
+      }).on("error", (context, reason) => {
+        console.log("Error while sending UCO fee transaction")
+        console.log("Funding genesis address:", fundingGenesisAddress)
+        console.log("Context:", context)
+        console.log("Reason:", reason)
+        reject()
+      }).send(CONFIRMATION_THRESHOLD)
+    }
+    else {
       tx.send(CONFIRMATION_THRESHOLD)
-    }).on("error", (context, reason) => {
-      console.log("Error while sending UCO fee transaction")
-      console.log("Funding genesis address:", fundingGenesisAddress)
-      console.log("Context:", context)
-      console.log("Reason:", reason)
-      reject()
-    }).send(CONFIRMATION_THRESHOLD)
+    }
   })
 }
 

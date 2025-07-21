@@ -1,6 +1,7 @@
 import Archethic, { Utils } from "@archethicjs/sdk"
 import config from "../../config.js"
-import { getServiceGenesisAddress } from "../utils.js"
+import { getServiceGenesisAddress, sendWithWallet } from "../utils.js"
+import { getProposeTransaction } from "@archethicjs/multisig-sdk"
 
 const command = "update_farm_dates"
 const describe = "Update the start and end date of a farm"
@@ -29,7 +30,13 @@ const builder = {
     describe: "The environment config to use (default to local)",
     demandOption: false,
     type: "string"
-  }
+  },
+  with_multisig: {
+    describe: "Determines if the master is using a multisig",
+    demandOption: false,
+    type: "boolean",
+    default: false
+  },
 }
 
 const handler = async function(argv) {
@@ -43,7 +50,10 @@ const handler = async function(argv) {
     process.exit(1)
   }
 
-  const archethic = new Archethic(env.endpoint)
+  const archethic = new Archethic(argv["with_multisig"] ? undefined : env.endpoint)
+  if (archethic.rpcWallet) {
+    archethic.rpcWallet.setOrigin({ name: "Archethic DEX CLI" });
+  }
   await archethic.connect()
 
   let keychain
@@ -62,6 +72,19 @@ const handler = async function(argv) {
   const masterGenesisAddress = getServiceGenesisAddress(keychain, "Master")
   console.log("Master genesis address:", masterGenesisAddress)
   const index = await archethic.transaction.getTransactionIndex(masterGenesisAddress)
+
+  if (argv["with_multisig"]) {
+    const updateTx = getProposeTransaction(archethic, masterGenesisAddress, {
+      recipients: [
+        { address: farmAddress, action: "update_dates", args: [startDate, endDate] }
+      ]
+    })
+    sendWithWallet(updateTx, archethic)
+      .then(() => process.exit(0))
+      .catch(() => process.exit(1))
+
+    return
+  }
 
   let updateTx = archethic.transaction.new()
     .setType("transfer")
